@@ -1,0 +1,7 @@
+__pycache__/
+.idea/
+node_modules/
+.svelte-kit/
+.env*
+*.db
+*.rdb

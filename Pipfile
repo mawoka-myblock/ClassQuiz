@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+python-socketio = "*"
+ormar = "==0.10.24"
+passlib = "*"
+python-jose = "*"
+alembic = "*"
+email-validator = "*"
+python-multipart = "*"
+pydantic = "*"
+redis = "==4.2.0rc1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
