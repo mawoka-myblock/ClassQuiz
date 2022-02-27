@@ -27,7 +27,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
     res = await User.objects.filter((User.email == user.email) | (User.username == user.username)).all()
 
     if len(res) != 0:
-        raise HTTPException(status_code=400, detail="User already exists")
+        raise HTTPException(status_code=409, detail="User already exists")
 
     user.password = get_password_hash(user.password)
     if len(user.username) == 32:
