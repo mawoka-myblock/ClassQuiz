@@ -5,6 +5,7 @@ from email_validator import validate_email, EmailNotValidError
 from classquiz.auth import *
 from fastapi.background import BackgroundTasks
 from classquiz.emails import send_mail
+from classquiz.config import redis
 from fastapi.responses import JSONResponse
 
 from classquiz.db.models import *
@@ -54,13 +55,15 @@ async def login_for_cookie_access_token(request: Request, response: Response,
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    rememberme_token = create_access_token(
+    await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
+
+    rememberme_jwt = create_access_token(
         data={"sub": user.email}, expires_delta=timedelta(days=360))
     response.set_cookie(key="access_token", value=f"Bearer {access_token}",
                         httponly=True, samesite='strict')
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="rememberme", value="")
-    response.set_cookie(key="rememberme_token", value=rememberme_token, httponly=True, samesite='strict')
+    response.set_cookie(key="rememberme_token", value=rememberme_jwt, httponly=True, samesite='strict')
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -88,3 +91,8 @@ async def logout(request: Request, response: Response):
     response.delete_cookie("expiry")
     response.delete_cookie("rememberme")
     response.delete_cookie("rememberme_token")
+
+
+@router.get("/check")
+async def check_token(user: User = Depends(get_current_user)):
+    return {"email": user.email}

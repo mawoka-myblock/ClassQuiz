@@ -1,15 +1,14 @@
-<!--<script context='module' lang='ts'>
-	export async function load({ session }) {
-		console.log(import.meta.env.VITE_BASE_ADDRESS);
+<script context='module' lang='ts'>
+	export async function load({ session, request }) {
 		if (session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/'
+				redirect: "/"
 			};
 		}
-		return {};
+		return {}
 	}
-</script>-->
+</script>
 
 <script lang='ts'>
 	//import { rememberme } from '$lib/utils/clientAuth';
