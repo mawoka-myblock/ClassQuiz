@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ session }) {
 		if (!session.authenticated) {
 			return {

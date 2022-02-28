@@ -9,7 +9,6 @@ declare namespace App {
 		authenticated: boolean;
 		token: string | null;
 		email: string | null;
-
 	}
 
 	// interface Stuff {}
@@ -34,4 +33,10 @@ export interface Question {
 export interface Answer {
 	right: boolean;
 	answer: string;
+}
+
+export interface Answer {
+	username: string;
+	answer: string;
+	right: boolean;
 }

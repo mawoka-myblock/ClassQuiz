@@ -2,7 +2,6 @@ import * as cookie from 'cookie';
 import fetch from 'node-fetch';
 import Redis from 'ioredis';
 
-
 const redis = new Redis(process.env.REDIS_URL);
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -31,12 +30,11 @@ export async function getSession(event) {
 		});
 		if (res.ok) {
 			const json = await res.json();
-			// @ts-ignore
+			//@ts-ignore
 			user_email = json.email;
 		} else {
 			user_email = null;
 		}
-
 	} else {
 		user_email = redis_res;
 	}
@@ -53,5 +51,4 @@ export async function getSession(event) {
 			email: user_email
 		};
 	}
-
 }

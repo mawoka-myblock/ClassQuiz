@@ -15,6 +15,7 @@ email-validator = "*"
 python-multipart = "*"
 pydantic = "*"
 redis = "==4.2.0rc1"
+aiohttp = "*"
 
 [dev-packages]
 

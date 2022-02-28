@@ -1,8 +1,8 @@
-<script lang='ts'>
+<script lang="ts">
 	import type { QuizData } from '../app';
 	import Title from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
-	import {socket} from '$lib/socket';
+	import { socket } from '$lib/socket';
 
 	interface GameMeta {
 		started: boolean;
@@ -17,7 +17,6 @@
 	};
 
 	let question_index = '';
-
 
 	let unique = {};
 
@@ -53,30 +52,24 @@
 	socket.on('start_game', (data) => {
 		gameMeta.started = true;
 	});
-
-	socket.on('set_question_number', (data) => {
-		restart();
-		question_index = data;
-	});
-
 </script>
 
 {#if !gameMeta.started}
-	<input bind:value={gameId} placeholder='GameID'>
-	<input bind:value={username} placeholder='Username'>
+	<input bind:value={gameId} placeholder="GameID" />
+	<input bind:value={username} placeholder="Username" />
 
 	<button on:click={connect}>Connect</button>
 
-	<br>
-	<input bind:value={message} placeholder='message'>
+	<br />
+	<input bind:value={message} placeholder="message" />
 	<button on:click={sendMessage}>Send Message</button>
-
+{:else if question_index === ''}
+	<Title bind:description={gameData.description} bind:title={gameData.title} />
 {:else}
-	{#if question_index === ""}
-		<Title bind:description={gameData.description} bind:title={gameData.title} />
-	{:else}
-		{#key unique}
-			<Question bind:question={gameData.questions[parseInt(question_index)]} bind:question_index/>
-		{/key}
-	{/if}
+	{#key unique}
+		<Question
+			bind:question={gameData.questions[parseInt(question_index)]}
+			bind:question_index
+		/>
+	{/key}
 {/if}

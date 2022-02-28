@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ url }) {
 		const token = url.searchParams.get('token');
 		return {
@@ -9,48 +9,84 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { socket } from '$lib/socket';
-
+	import JoinGame from '$lib/play/join.svelte';
+	import type { Answer, QuizData } from '../app';
+	import ShowTitle from '$lib/play/title.svelte';
+	import Question from '$lib/play/question.svelte';
+	import ShowResults from '$lib/play/show_results.svelte';
+	// Exports
 	export let game_pin: string;
-	let game_pin_valid = false;
-	console.log(game_pin);
 
+	// Types
+	interface GameMeta {
+		started: boolean;
+	}
 
-	const setUsername = (username: string) => {
-		console.log(username);
+	// Variables init
+	let question_index = '';
+	let unique = {};
+	let game_pin_valid: boolean;
+	let answer_results: Array<Answer>;
+	let gameData: QuizData;
+	let gameMeta: GameMeta = {
+		started: false
 	};
-	const setGamePin = (game_pin: string) => {
-		socket.emit()
-	};
 
-	$: console.log(game_pin.length);
+	// Functions
+	function restart() {
+		unique = {};
+	}
 
+	// Socket-events
+	socket.on('joined_game', (data) => {
+		console.log('joined_game', data);
+		gameData = JSON.parse(data);
+	});
+
+	socket.on('game_not_found', () => {
+		game_pin_valid = false;
+	});
+
+	socket.on('set_question_number', (data) => {
+		restart();
+		answer_results = undefined;
+		question_index = data;
+	});
+
+	socket.on('start_game', () => {
+		gameMeta.started = true;
+	});
+
+	socket.on('question_results', (data) => {
+		restart();
+		answer_results = JSON.parse(data);
+	});
+	// The rest
+
+	$: console.log(gameMeta.started, gameData !== undefined, question_index !== '');
 </script>
 
 <div>
-	{#if game_pin === "" || game_pin.length <= 7 || !game_pin_valid}
-		<div class='flex flex-col justify-center align-center w-screen h-screen'>
-			<form on:submit|preventDefault={setGamePin} class='flex-col flex justify-center align-center mx-auto'>
-				<h1 class='text-lg text-center'>Game Pin</h1>
-				<input class='border border-amber-800 self-center text-center' bind:value={game_pin} maxlength='8'>
-				<br>
-				<button class='bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded'
-						type='submit'>
-					Submit
-				</button>
-			</form>
-		</div>
-
-	{:else}
-		<div class='flex flex-col justify-center align-center w-screen h-screen'>
-			<form on:submit|preventDefault={setUsername} class='flex-col flex justify-center align-center mx-auto'>
-				<h1 class='text-lg text-center'>Username</h1>
-				<input class='border border-amber-800'>
-				<button class='bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded' type='submit'>
-					Submit
-				</button>
-			</form>
-		</div>
+	{#if !gameMeta.started && gameData === undefined}
+		<JoinGame {game_pin} />
+	{:else if gameData !== undefined && question_index === ''}
+		<ShowTitle bind:title={gameData.title} bind:description={gameData.description} />
+	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
+		{#key unique}
+			<Question
+				bind:question={gameData.questions[parseInt(question_index)]}
+				bind:question_index
+			/>
+		{/key}
+	{:else if gameMeta.started && answer_results !== undefined}
+		{#key unique}
+			<ShowResults
+				bind:results={answer_results}
+				bind:game_data={gameData}
+				bind:question_index
+			/>
+		{/key}
 	{/if}
 </div>

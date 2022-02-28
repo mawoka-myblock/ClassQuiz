@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import type { Question } from '../../app';
 	import { socket } from '$lib/socket';
 
@@ -11,13 +11,10 @@
 		throw new Error('question_index must be a string or number');
 	}
 
-
 	let timer_res = question.time;
 	let selected_answer: string;
 
-
 	// Stop the timer if the question is answered
-	let timer_interval;
 	const timer = (time: string) => {
 		let seconds = Number(time);
 		let timer_interval = setInterval(() => {
@@ -31,8 +28,7 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
-	console.log(selected_answer)
-
+	console.log(selected_answer);
 
 	timer(question.time);
 
@@ -44,33 +40,39 @@
 			answer: answer
 		});
 	};
-
 </script>
 
-<div class='flex flex-col justify-center w-screen h-1/6'>
-	<h1 class='text-6xl text-center'>
+<div class="flex flex-col justify-center w-screen h-1/6">
+	<h1 class="text-6xl text-center">
 		{question.question}
 	</h1>
-	<span class='text-center py-2 text-lg'>{timer_res}</span>
+	<span class="text-center py-2 text-lg">{timer_res}</span>
 </div>
-{#if timer_res !== "0"}
-	<div class='flex flex-wrap'>
+{#if timer_res !== '0'}
+	<div class="flex flex-wrap">
 		{#each question.answers as answer}
-			<button class='w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white' disabled={selected_answer !== undefined}
-					on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button>
+			<button
+				class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+				disabled={selected_answer !== undefined}
+				on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
+			>
 		{/each}
 	</div>
 {:else}
-	<div class='flex flex-wrap'>
+	<div class="flex flex-wrap">
 		{#each question.answers as answer}
 			{#if answer.right}
-				<button class='w-1/2 text-3xl bg-green-600 border border-white' disabled
-						class:opacity-30={answer.answer !== selected_answer}
-				>{answer.answer}</button>
-			{:else }
-				<button class='w-1/2 text-3xl bg-red-500 border border-white' disabled
-						class:opacity-30={answer.answer !== selected_answer}
-				>{answer.answer}</button>
+				<button
+					class="w-1/2 text-3xl bg-green-600 border border-white"
+					disabled
+					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
+				>
+			{:else}
+				<button
+					class="w-1/2 text-3xl bg-red-500 border border-white"
+					disabled
+					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
+				>
 			{/if}
 		{/each}
 	</div>
