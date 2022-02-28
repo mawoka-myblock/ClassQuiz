@@ -77,10 +77,9 @@ async def register_as_admin(sid, data):
 @sio.event
 async def get_question_results(sid, data):
     session = await sio.get_session(sid)
-    if session["admin"]:
-        redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
-        game_pin = session['game_pin']
-        await sio.emit("question_results", redis_res, room=game_pin)
+    redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
+    game_pin = session['game_pin']
+    await sio.emit("question_results", redis_res, room=game_pin)
 
 
 @sio.event
