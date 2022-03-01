@@ -65,7 +65,6 @@
 	});
 	// The rest
 
-	$: console.log(gameMeta.started, gameData !== undefined, question_index !== '');
 </script>
 
 <div>
