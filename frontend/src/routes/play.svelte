@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ url }) {
-		const token = url.searchParams.get('token');
+		const token = url.searchParams.get('pin');
 		return {
 			props: {
 				game_pin: token === null ? '' : token

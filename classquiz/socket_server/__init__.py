@@ -110,7 +110,7 @@ async def submit_answer(sid, data):
                             [{"username": session["username"], "answer": data["answer"], "right": answer_right}]))
     else:
         answers = json.loads(answers)
-        answers.append({session["username"]: data["answer"]})
+        answers.append({"username": session["username"], "answer": data["answer"], "right": answer_right})
         await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}", json.dumps(answers))
 
     # await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))

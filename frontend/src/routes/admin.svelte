@@ -1,12 +1,35 @@
-<script lang="ts">
+<script context='module' lang='ts'>
+	export async function load({ session, url }) {
+		if (!session.authenticated) {
+			return {
+				status: 302,
+				redirect: '/account/login'
+			};
+		}
+		const token = url.searchParams.get('token');
+		const pin = url.searchParams.get('pin');
+		return {
+			props: {
+				game_pin: pin === null ? '' : pin,
+				game_token: token === null ? '' : token
+			}
+		};
+	}
+</script>
+
+
+<script lang='ts'>
 	import type { QuizData } from '../app';
 
 	import { socket } from '$lib/socket';
 
-	let gameData = {
-		game_id: 'a7ddb6af-79ab-45e0-b996-6254c1ad9818',
-		game_pin: '66190765'
-	};
+	// let gameData = {
+	// 	game_id: 'a7ddb6af-79ab-45e0-b996-6254c1ad9818',
+	// 	game_pin: '66190765'
+	// };
+	export let game_pin: string;
+	export let game_token: string;
+	console.log(game_pin, game_token);
 	let success = false;
 	let players: Array<string> = [];
 	let errorMessage = '';
@@ -17,7 +40,10 @@
 
 	let shown_question_now: number;
 	const connect = () => {
-		socket.emit('register_as_admin', gameData);
+		socket.emit('register_as_admin', {
+			game_pin: game_pin,
+			game_id: game_token
+		});
 	};
 	socket.on('registered_as_admin', (data) => {
 		console.log('registered_as_admin', data['game']);
@@ -44,7 +70,7 @@
 
 	const get_question_results = () => {
 		socket.emit('get_question_results', {
-			game_id: gameData.game_id,
+			game_id: game_token,
 			question_number: shown_question_now
 		});
 	};
@@ -71,11 +97,11 @@
 </script>
 
 {#if !success}
-	<input placeholder="game id" bind:value={gameData.game_id} />
-	<input placeholder="game pin" bind:value={gameData.game_pin} />
+	<input placeholder='game id' bind:value={game_token} />
+	<input placeholder='game pin' bind:value={game_pin} />
 	<button on:click={connect}>Connect!</button>
 	{#if errorMessage !== ''}
-		<p class="text-red-700">{errorMessage}</p>
+		<p class='text-red-700'>{errorMessage}</p>
 	{/if}
 {:else if !game_started}
 	<ul>
@@ -93,7 +119,8 @@
 			on:click={() => {
 				socket.emit('start_game', '');
 				game_started = true;
-			}}>Start Game</button
+			}}>Start Game
+		</button
 		>
 	{/if}
 {:else}
