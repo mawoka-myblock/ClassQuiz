@@ -7,14 +7,15 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        redis: ""
+        redis: "{$REDIS}"
     depends_on:
       - redis
       - api
     environment:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:80
-
+    env_file:
+      - .env
   api:
     build:
       context: .
@@ -36,7 +37,8 @@ services:
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       SKIP_EMAIL_VERIFICATION: True
       HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
-
+    env_file:
+      - .env
   redis:
     image: redis:alpine
     restart: always
