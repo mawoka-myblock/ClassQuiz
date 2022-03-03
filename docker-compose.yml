@@ -58,7 +58,7 @@ services:
       - ./db:/var/lib/postgresql/data
   proxy:
     image: caddy:alpine
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./Caddyfile-docker:/etc/caddy/Caddyfile
     ports:
