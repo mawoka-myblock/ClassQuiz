@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context='module' lang='ts'>
 	export async function load({ url }) {
 		const token = url.searchParams.get('pin');
 		return {
@@ -9,13 +9,15 @@
 	}
 </script>
 
-<script lang="ts">
+<script lang='ts'>
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';
+	import { navbarVisible } from '$lib/stores';
+
 	// Exports
 	export let game_pin: string;
 
@@ -27,6 +29,7 @@
 	// Variables init
 	let question_index = '';
 	let unique = {};
+	navbarVisible.set(false);
 	let game_pin_valid: boolean;
 	let answer_results: Array<Answer>;
 	let gameData: QuizData;

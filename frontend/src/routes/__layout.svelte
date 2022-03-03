@@ -1,12 +1,18 @@
 <script>
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
+	import { navbarVisible } from '$lib/stores.ts';
 </script>
 
-<Navbar />
-<div class='pt-16 h-screen'>
-	<slot />
-</div>
+{#if $navbarVisible}
+	<Navbar />
+	<div class='pt-16 h-screen'>
+		<slot />
+	</div>
+{:else}
+	<slot></slot>
+{/if}
+
 <style lang='scss'>
   :global(body) {
     background: linear-gradient(to right, #009444, #39b54a, #8dc63f);
