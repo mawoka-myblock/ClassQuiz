@@ -8,10 +8,15 @@
 		}
 		const token = url.searchParams.get('token');
 		const pin = url.searchParams.get('pin');
+		let auto_connect = url.searchParams.get('connect') !== null;
+		if (token === null || pin === null) {
+			auto_connect = false;
+		}
 		return {
 			props: {
 				game_pin: pin === null ? '' : pin,
-				game_token: token === null ? '' : token
+				game_token: token === null ? '' : token,
+				auto_connect: auto_connect
 			}
 		};
 	}
@@ -28,6 +33,7 @@
 	// 	game_pin: '66190765'
 	// };
 	export let game_pin: string;
+	export let auto_connect: boolean;
 	export let game_token: string;
 	console.log(game_pin, game_token);
 	let success = false;
@@ -45,6 +51,9 @@
 			game_id: game_token
 		});
 	};
+	if (auto_connect) {
+		connect();
+	}
 	socket.on('registered_as_admin', (data) => {
 		console.log('registered_as_admin', data['game']);
 		quiz_data = JSON.parse(data['game']);
@@ -104,8 +113,11 @@
 		<p class='text-red-700'>{errorMessage}</p>
 	{/if}
 {:else if !game_started}
+	<img src='/api/v1/utils/qr/{quiz_data.game_pin}' class='block mx-auto w-1/6' />
+	<p class='text-3xl text-center'>Pin: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
+
 			{#each players as player}
 				<li>
 					<span>{player.username} </span>

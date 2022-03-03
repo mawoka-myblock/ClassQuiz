@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6667340defc4a3152bca65e1359586067a229573e833d055c86a6ef800e64c15"
+            "sha256": "dc7b78e9bce0cdb40c43f8d8bcdc80a2d4dc8d56c430808ea702ae8b0d6740fa"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -226,7 +226,7 @@
                 "sha256:081649da27ced5e75709a1ee542136eaba9842a0fe4c03da4fb0a3d3ed1f3c44",
                 "sha256:e79351e032d0b606b98d38a4b0e6e2275b31a5b85c873e587cc11b73aca026d6"
             ],
-            "markers": "python_version >= '3.6' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.6' and python_version < '4'",
             "version": "==2.2.0"
         },
         "ecdsa": {
@@ -783,6 +783,13 @@
             ],
             "version": "==6.0"
         },
+        "qrcode": {
+            "hashes": [
+                "sha256:375a6ff240ca9bd41adc070428b5dfc1dcfbb0f2507f1ac848f6cded38956578"
+            ],
+            "index": "pypi",
+            "version": "==7.3.1"
+        },
         "redis": {
             "hashes": [
                 "sha256:95ff6381bc15acbb330d24896601fb8c50468003c0f30c9503afda2907225d08",
@@ -796,7 +803,7 @@
                 "sha256:5c6bd9dc7a543b7fe4304a631f8a8a3b674e2bbfc49c2ae96200cdbe55df6b17",
                 "sha256:95c5d300c4e879ee69708c428ba566c59478fd653cc3a22243eeb8ed846950bb"
             ],
-            "markers": "python_version >= '3.6' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.6' and python_version < '4'",
             "version": "==4.8"
         },
         "setuptools": {

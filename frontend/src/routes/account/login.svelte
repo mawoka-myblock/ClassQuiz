@@ -3,7 +3,7 @@
 		if (session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/'
+				redirect: '/overview'
 			};
 		}
 		return {};
