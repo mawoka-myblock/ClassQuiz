@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, RedisDsn
+from pydantic import BaseSettings, RedisDsn, PostgresDsn
 import redis.asyncio as redis_lib
 
 
@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     root_address: str = "http://127.0.0.1:8000"
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
-    db_url: str = "sqlite:///classquiz.db"
+    db_url: str | PostgresDsn = "sqlite:///classquiz.db"
     hcaptcha_key: str
     mail_address: str
     mail_password: str

@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@felte/validator-yup': ^1.0.1
   '@sveltejs/adapter-auto': next
+  '@sveltejs/adapter-node': ^1.0.0-next.70
   '@sveltejs/kit': next
   '@types/luxon': ^2.0.9
   '@types/yup': ^0.29.13
@@ -34,6 +35,7 @@ specifiers:
 devDependencies:
   '@felte/validator-yup': 1.0.1_yup@0.32.11
   '@sveltejs/adapter-auto': 1.0.0-next.30
+  '@sveltejs/adapter-node': 1.0.0-next.70
   '@sveltejs/kit': 1.0.0-next.288_svelte@3.46.4
   '@types/luxon': 2.0.9
   '@types/yup': 0.29.13
@@ -206,6 +208,12 @@ packages:
     dependencies:
       '@iarna/toml': 2.2.5
       esbuild: 0.14.23
+      tiny-glob: 0.2.9
+    dev: true
+
+  /@sveltejs/adapter-node/1.0.0-next.70:
+    resolution: {integrity: sha512-9EtqSTxVOipESyPQH8uVdkl+iSqsq3oRKS3RZoE2vAG9I849MuTTxr1g9L4kALbXaklsYRztwhmrLpTdcSM4vA==}
+    dependencies:
       tiny-glob: 0.2.9
     dev: true
 

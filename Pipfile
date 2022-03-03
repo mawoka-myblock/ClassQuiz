@@ -5,9 +5,9 @@ name = "pypi"
 
 [packages]
 fastapi = "*"
-uvicorn = {extras = ["standard"], version = "*"}
+uvicorn = { extras = ["standard"], version = "*" }
 python-socketio = "*"
-ormar = "==0.10.24"
+ormar = { version = "==0.10.24", extras = ["sqlite", "postgresql"] }
 passlib = "*"
 python-jose = "*"
 alembic = "*"
@@ -16,6 +16,7 @@ python-multipart = "*"
 pydantic = "*"
 redis = "==4.2.0rc1"
 aiohttp = "*"
+gunicorn = { version = "*"}
 
 [dev-packages]
 
