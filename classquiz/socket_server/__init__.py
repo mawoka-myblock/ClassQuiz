@@ -43,7 +43,7 @@ async def join_game(sid, data):
         redis_res["players"].append({"username": data["username"], "sid": sid})
         await redis.set(f"game_session:{data['game_pin']}",
                         json.dumps({"admin": redis_res["admin"], "game_id": redis_res["game_id"],
-                                    "players": redis_res["players"], "answers": []}))
+                                    "players": redis_res["players"], "answers": []}), ex=18000)
         await sio.emit("player_joined", {"username": data["username"], "sid": sid}, room=redis_res["admin"])
         sio.enter_room(sid, data["game_pin"])  # TODO: make more secure
 
@@ -62,7 +62,7 @@ async def register_as_admin(sid, data):
     game_pin = data["game_pin"]
     game_id = data["game_id"]
     if (await redis.get(f"game_session:{game_pin}")) is None:
-        await redis.set(f"game_session:{game_pin}", json.dumps({"admin": sid, "game_id": game_id, "players": []}))
+        await redis.set(f"game_session:{game_pin}", json.dumps({"admin": sid, "game_id": game_id, "players": []}), ex=18000)
 
         await sio.emit("registered_as_admin", {"game_id": game_id, "game": await redis.get(f"game:{data['game_pin']}")},
                        room=sid)
@@ -107,11 +107,11 @@ async def submit_answer(sid, data):
     if answers is None:
         await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}",
                         json.dumps(
-                            [{"username": session["username"], "answer": data["answer"], "right": answer_right}]))
+                            [{"username": session["username"], "answer": data["answer"], "right": answer_right}]), ex=18000)
     else:
         answers = json.loads(answers)
         answers.append({"username": session["username"], "answer": data["answer"], "right": answer_right})
-        await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}", json.dumps(answers))
+        await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}", json.dumps(answers), ex=18000)
 
     # await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))
 
