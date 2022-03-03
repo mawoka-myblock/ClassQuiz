@@ -113,7 +113,7 @@
 		<p class='text-red-700'>{errorMessage}</p>
 	{/if}
 {:else if !game_started}
-	<img src='/api/v1/utils/qr/{quiz_data.game_pin}' class='block mx-auto w-1/6' />
+	<img alt='QR code to join the game' src='/api/v1/utils/qr/{quiz_data.game_pin}' class='block mx-auto w-1/6' />
 	<p class='text-3xl text-center'>Pin: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
