@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  frontend:
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        redis: ""
+    depends_on:
+      - redis
+      - api
+    environment:
+      REDIS_URL: redis://redis:6379/0?decode_responses=True
+      API_URL: http://api:80
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - redis
+
+    environment:
+      DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz"
+      MAIL_ADDRESS: "email@email@email.email"
+      MAIL_PASSWORD: "PASSWORT"
+      MAIL_USERNAME: "email@email@email.email"
+      MAIL_SERVER: "email@email@email.emai"
+      MAX_WORKERS: "5" # Very important
+      MAIL_PORT: "587"
+      SECRET_KEY: "mysecretkey"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      SKIP_EMAIL_VERIFICATION: True
+      HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
+
+  redis:
+    image: redis:alpine
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+
+  db:
+    image: postgres:alpine
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: "classquiz"
+      POSTGRES_DB: "classquiz"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+  proxy:
+    image: caddy:alpine
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile-docker:/etc/caddy/Caddyfile
+    ports:
+      - "8000:8080"
