@@ -1,18 +1,3 @@
-<!--<h1>Confirm your email-address</h1>
-<p>
-	Thank you for registering at ClassQuiz.
-	Please confirm your email-address by clicking on the link below.
-</p>
-
-<a href='/confirm/{{TEMPLATE}}' style='text-align: center; background: #2aff10' target='_blank'>Confirm your email</a>-->
-<style>
-    .link-hover {
-        background: linear-gradient(90deg, #009444, #39b54a, #8dc63f);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-decoration: none;
-    }
-</style>
 <div style='box-sizing: border-box;display: block;max-width: 600px;margin: 0 auto;padding: 10px'><span
 	style='color: transparent;height: 0;max-height: 0;max-width: 0;opacity: 0;overflow: hidden;mso-hide: all;visibility: hidden;width: 0'>Let's confirm your email address.</span>
 	<div style='box-sizing: border-box;width: 100%;margin-bottom: 30px;margin-top: 15px'>
@@ -63,7 +48,7 @@
 												<tr>
 													<td style="box-sizing: border-box;padding: 0;font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size: 16px;vertical-align: top;background-color: #348eda;border-radius: 2px;text-align: center;background-color: #348eda"
 														valign='top' align='center'><a
-														href='CONFIRM_URL'
+														href='{{ base_url }}/api/v1/users/verify/{{ token }}'
 														style='box-sizing: border-box;font-weight: 400;text-decoration: none;display: inline-block;margin: 0;color: #ffffff;background: linear-gradient(90deg, #009444, #39b54a, #8dc63f);border: solid 1px black;border-radius: 2px;font-size: 14px;padding: 12px 45px'
 														rel='external nofollow noopener noreferrer' target='_blank'
 														tabindex='-1'>Confirm Email Address</a></td>
@@ -83,20 +68,6 @@
 			</tbody>
 		</table>
 	</div>
-	<div style='box-sizing: border-box;clear: both;width: 100%'>
-		<table
-			style='box-sizing: border-box;width: 100%;border-spacing: 0;mso-table-rspace: 0pt;mso-table-lspace: 0pt;font-size: 12px;border-collapse: separate !important'
-			width='100%'>
-			<tbody>
-			<tr style='font-size: 12px'>
-				<td style="box-sizing: border-box;font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;vertical-align: top;font-size: 12px;text-align: center;padding: 20px 0"
-					valign='top' align='center'>
-					<p style="margin: 0;color: #294661;font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-weight: 300;font-size: 12px;margin-bottom: 5px">
-						&#128140; Send with love by <a href='https://mawoka.eu/?utm_source=ClassQuiz&utm_medium=Email'
-													   class='link-hover' target='_blank'>Mawoka</a>
-					</p></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
+	{% include 'footer.jinja2' %}
+
 </div>

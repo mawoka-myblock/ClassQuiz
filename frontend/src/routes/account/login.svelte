@@ -53,7 +53,7 @@
 		isSubmitting = true;
 		if (res.status === 200) {
 			responseData.data = loginData.password === '' ? 'magic' : 'password';
-		} else if (res.status === 404) {
+		} else if (res.status === 401) {
 			responseData.data = '404';
 		} else {
 			responseData.data = 'error';

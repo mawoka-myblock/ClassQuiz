@@ -6,7 +6,7 @@ from classquiz.auth import *
 from fastapi.background import BackgroundTasks
 from classquiz.emails import send_mail
 from classquiz.config import redis
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 from classquiz.db.models import *
 
@@ -96,3 +96,14 @@ async def logout(request: Request, response: Response):
 @router.get("/check")
 async def check_token(user: User = Depends(get_current_user)):
     return {"email": user.email}
+
+
+@router.get("/verify/{verify_key}")
+async def verify_user(verify_key: str):
+    user = await User.objects.filter(verify_key=verify_key).get_or_none()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.verified = True
+    user.verify_key = None
+    await user.update()
+    return RedirectResponse(url="/account/login?verified=true")
