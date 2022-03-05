@@ -14,6 +14,8 @@
 	import { createForm } from 'felte';
 	// import reporter from '@felte/reporter-tippy';
 	import { validateSchema } from '@felte/validator-yup';
+	import {navbarVisible} from '$lib/stores';
+	navbarVisible.set(true)
 	import * as yup from 'yup';
 
 	const registerSchema = yup.object({
@@ -67,13 +69,13 @@
 	};
 </script>
 
-<div class="flex items-center justify-center h-screen px-4">
+<div class="flex items-center justify-center h-full px-4">
 	<div>
 		<div
 			class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
 		>
 			<div class="px-6 py-4">
-				<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">ImNote</h2>
+				<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">ClassQuiz</h2>
 
 				<h3 class="mt-1 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
 					Nice to meet you!

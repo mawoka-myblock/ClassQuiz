@@ -91,6 +91,9 @@ async def logout(request: Request, response: Response):
     response.delete_cookie("expiry")
     response.delete_cookie("rememberme")
     response.delete_cookie("rememberme_token")
+    response.status_code = 302
+    response.headers["Location"] = "/"
+    return response
 
 
 @router.get("/check")

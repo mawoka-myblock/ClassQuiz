@@ -20,8 +20,7 @@
 
 	const getData = async (): Promise<Array<QuizData>> => {
 		const res = await fetch('/api/v1/quiz/list');
-		const data = await res.json();
-		return data;
+		return await res.json();
 	};
 
 	const formatDate = (date: string): string => {
@@ -48,11 +47,34 @@
 </script>
 
 {#await getData()}
-	<p>Loading...</p>
+	<svg class='h-8 w-8 animate-spin mx-auto my-20' viewBox='3 3 18 18'>
+		<path
+			class='fill-black'
+			d='M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z'
+		/>
+		<path
+			class='fill-blue-100'
+			d='M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z'
+		/>
+	</svg>
 
 {:then quizzes}
 
 	<div class='flex flex-col w-fit mx-auto'>
+		<!--		<button
+					class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-gray-50 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
+					Primary
+				</button>-->
+		<div class='w-full grid grid-cols-2 gap-2'>
+			<a href='/create'
+			   class='px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+			>Create
+			</a>
+			<a href='/api/v1/users/logout'
+			   class='px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+			>Logout
+			</a>
+		</div>
 		<div class='overflow-x-auto sm:-mx-8 lg:-mx-8'>
 			<div class='inline-block py-2 min-w-full sm:px-6 lg:px-8'>
 				<div class='overflow-hidden shadow-md sm:rounded-lg'>
