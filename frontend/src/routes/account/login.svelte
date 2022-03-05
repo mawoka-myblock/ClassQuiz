@@ -11,16 +11,8 @@
 </script>
 
 <script lang='ts'>
-	//import { rememberme } from '$lib/utils/clientAuth';
-
-	/*if (browser) {
-		rememberme().then((res) => {
-			if (res) {
-				window.location.reload();
-			}
-		});
-	}*/
 	import { navbarVisible } from '$lib/stores';
+	import { browser } from '$app/env';
 
 	navbarVisible.set(true);
 
@@ -41,6 +33,18 @@
 	$: emailEmpty = loginData.email === '';
 	$: passwordEmpty = loginData.password === '';
 	$: inputValid = !emailEmpty && !passwordEmpty;
+
+
+	const checkRememberMe = async () => {
+		const res = await fetch('/api/v1/users/token/rememberme');
+		if (res.status === 200) {
+			window.location.reload();
+		}
+	};
+	if (browser) {
+		checkRememberMe();
+
+	}
 
 	const login = async (): Promise<void> => {
 		if (emailEmpty || passwordEmpty) {

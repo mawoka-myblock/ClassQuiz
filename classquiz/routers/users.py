@@ -48,22 +48,20 @@ async def login_for_cookie_access_token(request: Request, response: Response,
             detail="Incorrect username or password",
         )
     session_key = os.urandom(32).hex()
-    # user_session = UserSession(user=user, session_key=session_key)
+    user_session = UserSession(user=user, session_key=session_key)
     # print(user_session, "HALLO!!!!")
-    # await user_session.save()
+    await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
     await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
 
-    rememberme_jwt = create_access_token(
-        data={"sub": user.email}, expires_delta=timedelta(days=360))
     response.set_cookie(key="access_token", value=f"Bearer {access_token}",
-                        httponly=True, samesite='strict')
+                        httponly=True, samesite='strict', max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="rememberme", value="")
-    response.set_cookie(key="rememberme_token", value=rememberme_jwt, httponly=True, samesite='strict')
+    response.set_cookie(key="rememberme_token", value=session_key, httponly=True, samesite='strict')
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -72,13 +70,17 @@ async def rememberme_token(request: Request, response: Response):
     rememberme_cookie = request.cookies.get("rememberme_token")
     if rememberme_cookie is None:
         raise HTTPException(status_code=400, detail="No rememberme cookie")
-    payload = jwt.decode(rememberme_cookie, settings.secret_key, algorithms=[ALGORITHM])
-    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    user_session: UserSession | None = await UserSession.objects.filter(session_key=rememberme_cookie).select_related(
+        UserSession.user).get_or_none()
+    if (user_session is None) or (user_session.user is None):
+        raise HTTPException(status_code=401, detail="No user session")
+
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
     access_token = create_access_token(
-        data={"sub": payload}, expires_delta=access_token_expires
+        data={"sub": user_session.user.email}, expires_delta=access_token_expires
     )
     response.set_cookie(key="access_token", value=f"Bearer {access_token}",
-                        httponly=True, samesite='strict')
+                        httponly=True, samesite='strict', max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
 
 
@@ -86,7 +88,7 @@ async def rememberme_token(request: Request, response: Response):
 async def logout(request: Request, response: Response):
     remember_token = request.cookies.get("rememberme_token")
     if remember_token is not None:
-        UserSession.objects.filter(session_key=remember_token).delete()
+        await UserSession.objects.filter(session_key=remember_token).delete()
     response.delete_cookie("access_token")
     response.delete_cookie("expiry")
     response.delete_cookie("rememberme")
