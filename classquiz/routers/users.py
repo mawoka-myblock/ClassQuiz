@@ -48,9 +48,10 @@ async def login_for_cookie_access_token(request: Request, response: Response,
             detail="Incorrect username or password",
         )
     session_key = os.urandom(32).hex()
-    user_session = UserSession(user=user, session_key=session_key)
-    # print(user_session, "HALLO!!!!")
+    user_session = UserSession(user=user, session_key=session_key, ip_address=request.client.host,
+                               user_agent=request.headers.get("User-Agent"))
     await user_session.save()
+    # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
@@ -74,7 +75,6 @@ async def rememberme_token(request: Request, response: Response):
         UserSession.user).get_or_none()
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
-
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
     access_token = create_access_token(
         data={"sub": user_session.user.email}, expires_delta=access_token_expires
@@ -82,6 +82,7 @@ async def rememberme_token(request: Request, response: Response):
     response.set_cookie(key="access_token", value=f"Bearer {access_token}",
                         httponly=True, samesite='strict', max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
+    await user_session.update(last_seen=datetime.now())
 
 
 @router.get("/logout")

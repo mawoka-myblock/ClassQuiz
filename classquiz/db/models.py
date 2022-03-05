@@ -32,6 +32,9 @@ class UserSession(ormar.Model):
     user: uuid.UUID = ormar.ForeignKey(User)
     session_key: str = ormar.String(unique=True, max_length=64)
     created_at: datetime = ormar.DateTime(default=datetime.now())
+    ip_address: str = ormar.String(max_length=100, nullable=True)
+    user_agent: str = ormar.String(max_length=255, nullable=True)
+    last_seen: datetime = ormar.DateTime(default=datetime.now())
 
     class Meta:
         tablename = 'user_sessions'
