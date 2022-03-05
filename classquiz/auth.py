@@ -3,7 +3,7 @@ from classquiz.db.models import *
 from typing import Union
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.context import CryptContext
+from passlib.hash import argon2
 from datetime import datetime, timedelta
 from classquiz.cache import get_cache
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -15,10 +15,10 @@ from fastapi import HTTPException
 from fastapi import status
 from typing import Optional
 from typing import Dict
-from starlette.status import HTTP_401_UNAUTHORIZED
 import pydantic
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = argon2
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 

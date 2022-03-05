@@ -18,6 +18,8 @@ redis = "==4.2.0rc1"
 aiohttp = "*"
 gunicorn = { version = "*"}
 qrcode = "*"
+jinja2 = "*"
+argon2-cffi = "*"
 
 [dev-packages]
 
