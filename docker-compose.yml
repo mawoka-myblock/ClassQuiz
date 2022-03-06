@@ -31,7 +31,7 @@ services:
       MAIL_PASSWORD: "PASSWORT"
       MAIL_USERNAME: "email@email@email.email"
       MAIL_SERVER: "email@email@email.emai"
-      MAX_WORKERS: "5" # Very important
+      MAX_WORKERS: "1" # Very important
       MAIL_PORT: "587"
       SECRET_KEY: "mysecretkey"
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
