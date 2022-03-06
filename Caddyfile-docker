@@ -1,6 +1,7 @@
 :8080 {
         reverse_proxy * http://frontend:3000
-        reverse_proxy /api* http://api:80
+        reverse_proxy /api/* http://api:80
         reverse_proxy /openapi.json http://api:80 # Only use if you need to serve the OpenAPI spec
         reverse_proxy /docs http://api:80 # Only use if you need to serve the Swagger UI
+        reverse_proxy /socket.io/* api:80
 }
