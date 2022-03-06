@@ -2,20 +2,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@fontsource/marck-script;
-
+@fontsource /marck-script;
 
 .marck-script {
-    font-family: 'Marck Script';
+	font-family: 'Marck Script';
 }
 
 .link-hover {
-    transition: all 0.3s;
+	transition: all 0.3s;
 }
 
 .link-hover:hover {
-    background: linear-gradient(90deg, #009444, #39b54a, #8dc63f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+	background: linear-gradient(90deg, #009444, #39b54a, #8dc63f);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
-

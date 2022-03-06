@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ session, url }) {
 		if (!session.authenticated) {
 			return {
@@ -22,8 +22,7 @@
 	}
 </script>
 
-
-<script lang='ts'>
+<script lang="ts">
 	import type { QuizData } from '../app';
 
 	import { socket } from '$lib/socket';
@@ -106,18 +105,21 @@
 </script>
 
 {#if !success}
-	<input placeholder='game id' bind:value={game_token} />
-	<input placeholder='game pin' bind:value={game_pin} />
+	<input placeholder="game id" bind:value={game_token} />
+	<input placeholder="game pin" bind:value={game_pin} />
 	<button on:click={connect}>Connect!</button>
 	{#if errorMessage !== ''}
-		<p class='text-red-700'>{errorMessage}</p>
+		<p class="text-red-700">{errorMessage}</p>
 	{/if}
 {:else if !game_started}
-	<img alt='QR code to join the game' src='/api/v1/utils/qr/{quiz_data.game_pin}' class='block mx-auto w-1/6' />
-	<p class='text-3xl text-center'>Pin: {quiz_data.game_pin}</p>
+	<img
+		alt="QR code to join the game"
+		src="/api/v1/utils/qr/{quiz_data.game_pin}"
+		class="block mx-auto w-1/6"
+	/>
+	<p class="text-3xl text-center">Pin: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
-
 			{#each players as player}
 				<li>
 					<span>{player.username} </span>
@@ -131,9 +133,9 @@
 			on:click={() => {
 				socket.emit('start_game', '');
 				game_started = true;
-			}}>Start Game
-		</button
-		>
+			}}
+			>Start Game
+		</button>
 	{/if}
 {:else}
 	<span>Time left: {timer_res}</span>

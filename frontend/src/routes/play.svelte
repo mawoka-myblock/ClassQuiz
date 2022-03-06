@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ url }) {
 		const token = url.searchParams.get('pin');
 		return {
@@ -9,7 +9,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
@@ -67,7 +67,6 @@
 		answer_results = JSON.parse(data);
 	});
 	// The rest
-
 </script>
 
 <div>
