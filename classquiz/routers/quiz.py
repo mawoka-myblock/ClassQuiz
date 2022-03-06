@@ -1,10 +1,10 @@
 import json
 import os
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from classquiz.config import redis
-import pydantic
 
 from classquiz.auth import get_current_user, get_current_user_optional
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
@@ -16,7 +16,7 @@ router = APIRouter()
 
 @router.post("/create")
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
-    quiz = Quiz(**quiz_input.dict(), user_id=user.id)
+    quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     return await quiz.save()
 
 
@@ -65,3 +65,23 @@ async def get_game_id(game_pin: str):
 @router.get("/list")
 async def get_quiz_list(user: User = Depends(get_current_user)):
     return await Quiz.objects.filter(user_id=user.id).all()
+
+
+@router.put("/update/{quiz_id}")
+async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(get_current_user)):
+    try:
+        quiz_id = uuid.UUID(quiz_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="badly formed quiz id")
+    quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
+    if quiz is None:
+        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+    else:
+        print(quiz_input)
+        print(quiz)
+        quiz.title = quiz_input.title
+        quiz.public = quiz_input.public
+        quiz.description = quiz_input.description
+        quiz.updated_at = datetime.now()
+        quiz.questions = quiz_input.dict()["questions"]
+        return await quiz.update()

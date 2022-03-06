@@ -149,7 +149,7 @@
 								<td
 									class='py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400'
 								>
-									<a href='/edit/{quiz.id}'>Edit</a>
+									<a href='/edit?quiz_id={quiz.id}'>Edit</a>
 								</td>
 								<td
 									class='py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400'
