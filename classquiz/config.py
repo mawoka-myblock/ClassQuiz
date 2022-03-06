@@ -1,5 +1,5 @@
-from pydantic import BaseSettings, RedisDsn, PostgresDsn
 import redis.asyncio as redis_lib
+from pydantic import BaseSettings, RedisDsn, PostgresDsn
 
 
 class Settings(BaseSettings):

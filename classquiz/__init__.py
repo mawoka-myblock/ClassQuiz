@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from classquiz.socket_server import sio
 from socketio import ASGIApp
 
-from classquiz.routers import users, quiz, utils
 from classquiz.db import database
+from classquiz.routers import users, quiz, utils
+from classquiz.socket_server import sio
 
 app = FastAPI()
 app.state.database = database

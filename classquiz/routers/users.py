@@ -1,14 +1,15 @@
 import os
 
-from fastapi import APIRouter, HTTPException, Response
 from email_validator import validate_email, EmailNotValidError
-from classquiz.auth import *
+from fastapi import APIRouter, Response
 from fastapi.background import BackgroundTasks
-from classquiz.emails import send_mail
-from classquiz.config import redis
 from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.security import OAuth2PasswordRequestForm
 
+from classquiz.auth import *
+from classquiz.config import redis
 from classquiz.db.models import *
+from classquiz.emails import send_mail
 
 router = APIRouter()
 

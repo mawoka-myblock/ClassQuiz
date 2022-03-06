@@ -1,11 +1,12 @@
-import socketio
 import json
-from classquiz.config import redis, settings
-from classquiz.db.models import GameSession, GameAnser1, GameAnser2, PlayGame
-import aiohttp
-from redis.commands.json.path import Path
 
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
+import aiohttp
+import socketio
+
+from classquiz.config import redis, settings
+from classquiz.db.models import GameSession, PlayGame
+
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 
 
 @sio.event
@@ -62,7 +63,8 @@ async def register_as_admin(sid, data):
     game_pin = data["game_pin"]
     game_id = data["game_id"]
     if (await redis.get(f"game_session:{game_pin}")) is None:
-        await redis.set(f"game_session:{game_pin}", json.dumps({"admin": sid, "game_id": game_id, "players": []}), ex=18000)
+        await redis.set(f"game_session:{game_pin}", json.dumps({"admin": sid, "game_id": game_id, "players": []}),
+                        ex=18000)
 
         await sio.emit("registered_as_admin", {"game_id": game_id, "game": await redis.get(f"game:{data['game_pin']}")},
                        room=sid)
@@ -107,7 +109,8 @@ async def submit_answer(sid, data):
     if answers is None:
         await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}",
                         json.dumps(
-                            [{"username": session["username"], "answer": data["answer"], "right": answer_right}]), ex=18000)
+                            [{"username": session["username"], "answer": data["answer"], "right": answer_right}]),
+                        ex=18000)
     else:
         answers = json.loads(answers)
         answers.append({"username": session["username"], "answer": data["answer"], "right": answer_right})

@@ -1,11 +1,12 @@
-from jinja2 import Environment, PackageLoader, select_autoescape
-from classquiz.db.models import User
-
-from email.mime.multipart import MIMEMultipart
-from classquiz.config import settings
-from email.mime.text import MIMEText
 import smtplib
 import ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from jinja2 import Environment, PackageLoader, select_autoescape
+
+from classquiz.config import settings
+from classquiz.db.models import User
 
 jinja = Environment(
     loader=PackageLoader('classquiz.emails', 'templates'),

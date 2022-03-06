@@ -1,9 +1,10 @@
 import uuid
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, Json
-from . import metadata, database
+
 import ormar
+from pydantic import BaseModel, Json
+
+from . import metadata, database
 
 
 class User(ormar.Model):

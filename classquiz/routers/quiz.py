@@ -1,15 +1,14 @@
 import json
-import os
+import uuid
 from datetime import datetime
+from random import randint
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from classquiz.config import redis
 
 from classquiz.auth import get_current_user, get_current_user_optional
+from classquiz.config import redis
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
-from random import randint
-import uuid
 
 router = APIRouter()
 

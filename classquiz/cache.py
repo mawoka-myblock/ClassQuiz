@@ -1,9 +1,11 @@
+import uuid
+from json import loads
+from typing import Union
+
+import ormar
+
 from classquiz.config import redis, settings
 from classquiz.db.models import User
-import ormar
-import uuid
-from typing import Union
-from json import loads, dumps
 
 
 async def cache_account(criteria: str, content: str) -> Union[User, None]:

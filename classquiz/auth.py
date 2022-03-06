@@ -1,21 +1,21 @@
+from datetime import timedelta
+from typing import Dict
+from typing import Optional
+from typing import Union
+
+from fastapi import Depends
+from fastapi import HTTPException
+from fastapi import Request
+from fastapi import status
+from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.security import OAuth2
+from fastapi.security.utils import get_authorization_scheme_param
+from jose import JWTError, jwt
+from passlib.hash import argon2
+
+from classquiz.cache import get_cache
 from classquiz.config import settings
 from classquiz.db.models import *
-from typing import Union
-from jose import JWTError, jwt
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.hash import argon2
-from datetime import datetime, timedelta
-from classquiz.cache import get_cache
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2
-from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
-from fastapi import Request
-from fastapi.security.utils import get_authorization_scheme_param
-from fastapi import HTTPException
-from fastapi import status
-from typing import Optional
-from typing import Dict
-import pydantic
 
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 pwd_context = argon2

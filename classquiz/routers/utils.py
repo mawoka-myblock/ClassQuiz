@@ -3,8 +3,9 @@ import io
 import qrcode
 import qrcode.image.svg
 from fastapi import APIRouter
-from classquiz.config import settings
 from fastapi.responses import Response
+
+from classquiz.config import settings
 
 router = APIRouter()
 
