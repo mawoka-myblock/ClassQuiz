@@ -85,7 +85,7 @@
 				</label>
 				<button
 					class="text-left"
-					type='button'
+					type="button"
 					on:click={() => {
 						data.questions[index_question].answers = [
 							...data.questions[index_question].answers,
@@ -99,7 +99,7 @@
 		{/each}
 		<button
 			class="text-left"
-			type='button'
+			type="button"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empty_question }];
 			}}
