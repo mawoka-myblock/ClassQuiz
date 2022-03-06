@@ -20,9 +20,9 @@
 
 	let unique = {};
 
-	function restart() {
-		unique = {}; // every {} is unique, {} === {} evaluates to false
-	}
+	// function restart() {
+	// 	unique = {}; // every {} is unique, {} === {} evaluates to false
+	// }
 
 	const connect = () => {
 		socket.emit('join_game', { game_pin: gameId, username: username });
@@ -49,7 +49,7 @@
 		console.log(data, 'message');
 	});
 
-	socket.on('start_game', (data) => {
+	socket.on('start_game', () => {
 		gameMeta.started = true;
 	});
 </script>

@@ -40,7 +40,7 @@
 	let errorMessage = '';
 	let game_started = false;
 	let quiz_data: QuizData;
-	let question_number: string = '0';
+	//let question_number = '0';
 	let question_results = null;
 
 	let shown_question_now: number;
@@ -64,7 +64,7 @@
 	socket.on('player_joined', (data) => {
 		players = [...players, data];
 	});
-	socket.on('already_registered_as_admin', (data) => {
+	socket.on('already_registered_as_admin', () => {
 		errorMessage = 'There is already an admin registered for this game.';
 	});
 	let timer_res: string;

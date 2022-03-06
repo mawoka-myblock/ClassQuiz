@@ -2,7 +2,6 @@
 	import { socket } from '$lib/socket';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/env';
-	import tippy from 'sveltejs-tippy';
 
 	export let game_pin: string;
 
