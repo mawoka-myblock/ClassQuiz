@@ -23,6 +23,9 @@
 </script>
 
 <script lang='ts'>
+	import { onMount } from 'svelte';
+	import Editor from '$lib/editor.svelte';
+
 	interface Data {
 		public: boolean;
 		title: string;
@@ -41,97 +44,113 @@
 		answer: string;
 	}
 
-	let empty_question: Question = {
-		question: '',
-		time: '20',
-		answers: [{
-			right: false,
-			answer: ''
-		}]
+	let responseData = {
+		open: false
 	};
 
-	let empty_answer: Answer = {
-		right: false,
-		answer: ''
-	};
 	let data: Data;
-	const from_localstorage = localStorage.getItem('create_game');
-	if (from_localstorage === null) {
-		data = {
-			description: '',
-			public: false,
-			title: '',
-			questions: [{ question: '', time: '20', answers: [{ right: false, answer: '' }] }]
-		};
-	} else {
-		data = JSON.parse(from_localstorage);
-	}
+	onMount(() => {
+		const from_localstorage = localStorage.getItem('create_game');
+		if (from_localstorage === null) {
+			data = {
+				description: '',
+				public: false,
+				title: '',
+				questions: [{ question: '', time: '20', answers: [{ right: false, answer: '' }] }]
+			};
+		} else {
+			data = JSON.parse(from_localstorage);
+		}
+	});
 
 
 	const submit = async () => {
 		const res = await fetch('/api/v1/quiz/create', {
 			method: 'POST',
-			body: JSON.stringify(data)
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		});
 		if (res.status === 401) {
 			localStorage.setItem('create_game', JSON.stringify(data));
 			window.location.href = '/account/login';
+		} else if (res.status === 200) {
+			responseData.open = true;
 		}
 	};
 
 </script>
+{#if data !== undefined}
+	<form on:submit|preventDefault={submit} class='grid grid-cols-1 gap-2'>
+		<Editor bind:data />
+	</form>
+{/if}
 
-<form on:submit|preventDefault={submit} class='grid grid-cols-1 gap-2'>
-	<label>
-		<input type='checkbox' bind:checked={data.public}>
-		Public?
-	</label>
-	<label>
-		<input type='text' placeholder='Title' bind:value={data.title} class='text-black' />
-		Title
-	</label>
-	<label>
-		<textarea placeholder='Description' bind:value={data.description} class='text-black'></textarea>
-		Description
-	</label>
-	{#each data.questions as question, index_question}
-		<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2'>
-			<h1 class='text-3xl'>Question {index_question + 1}</h1>
+<div
+	class='fixed z-10 inset-0 overflow-y-auto'
+	aria-labelledby='modal-title'
+	role='dialog'
+	aria-modal='true'
+	class:hidden={!responseData.open}
+>
+	<div
+		class='flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'
+	>
+		<div
+			class='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
+			aria-hidden='true'
+		/>
 
-			<label>
-				<input type='text' placeholder='Question' bind:value={question.question} class='text-black' />
-				Question
-			</label>
-			<label>
-				<input type='text' placeholder='20' bind:value={question.time} class='text-black' />
-				Time in seconds
-			</label>
-			{#each question.answers as answer, index_answer}
-				<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2'>
-					<h1 class='text-3xl'>Answer {index_answer + 1}</h1>
-					<p>Answer: {index_answer} Question: {index_question}</p>
-					<label>
-						<input type='text' placeholder='Answer'
-							   bind:value={data.questions[index_question].answers[index_answer].answer}
-							   class='text-black' />
-						Answer
-					</label>
-					<label>
-						<input type='checkbox' bind:checked={answer.right} class='text-black' />
-						Right?
-					</label>
-					<button class='text-left'
-							on:click={() => {data.questions[index_question].answers = [...data.questions[index_question].answers, empty_answer]}}>
-						Add new answer
-					</button>
+		<span class='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'
+		>&#8203;</span
+		>
+		<div
+			class='inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'
+		>
+			<div class='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
+				<div class='sm:flex sm:items-start'>
+					<div
+						class='mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10'
+					>
+						<!-- Heroicon name: outline/exclamation -->
+						<svg
+							class='w-6 h-6 text-green-600'
+							fill='none'
+							stroke='currentColor'
+							viewBox='0 0 24 24'
+							xmlns='http://www.w3.org/2000/svg'
+						>
+							<path
+								stroke-linecap='round'
+								stroke-linejoin='round'
+								stroke-width='2'
+								d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+							/>
+						</svg>
+					</div>
+					<div class='mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left'>
+						<h3 class='text-lg leading-6 font-medium text-gray-900' id='modal-title'>
+							Successfully created quiz!
+						</h3>
+						<div class='mt-2'>
+							<p class='text-sm text-gray-500'>
+								Created the quiz successfully!
+							</p>
+						</div>
+					</div>
 				</div>
-			{/each}
-			<button class='text-left' on:click={() => {data.questions = [...data.questions, empty_question]}}>Add new
-				question
-			</button>
-
+			</div>
+			<div class='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+				<button
+					type='button'
+					on:click={() => {
+						window.location.href = "/overview"
+					}}
+					class='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
+				>Close
+				</button>
+			</div>
 		</div>
-
-	{/each}
-	<button type='submit'>Create</button>
-</form>
+	</div>
+</div>
