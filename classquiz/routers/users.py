@@ -20,7 +20,7 @@ route_user = User.get_pydantic(
 @router.post("/create", response_model=User,
              response_model_include={"id": ..., "verified": ..., "email": ...})
 async def create_user(user: route_user, background_task: BackgroundTasks) -> User | JSONResponse:
-    user = User(**user.dict())
+    user = User(**user.dict(), id=uuid.uuid4())
     try:
         validate_email(user.email)
     except EmailNotValidError as e:
@@ -34,7 +34,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
     user.password = get_password_hash(user.password)
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
-    res = await user.save()
+    await user.save()
     background_task.add_task(send_mail, email=user.email)
     return user
 
@@ -50,7 +50,7 @@ async def login_for_cookie_access_token(request: Request, response: Response,
         )
     session_key = os.urandom(32).hex()
     user_session = UserSession(user=user, session_key=session_key, ip_address=request.client.host,
-                               user_agent=request.headers.get("User-Agent"))
+                               user_agent=request.headers.get("User-Agent"), id=uuid.uuid4())
     await user_session.save()
     # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
