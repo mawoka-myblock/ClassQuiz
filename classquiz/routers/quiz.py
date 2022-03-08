@@ -54,7 +54,7 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
 
 @router.get("/join/{game_pin}")
 async def get_game_id(game_pin: str):
-    redis_res = (await redis.get(f"game:{game_pin}")).decode()
+    redis_res = (await redis.search(f"game:{game_pin}")).decode()
     if redis_res is None:
         raise HTTPException(status_code=404, detail="game not found")
     else:
