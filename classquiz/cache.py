@@ -14,14 +14,14 @@ async def cache_account(criteria: str, content: str) -> Union[User, None]:
 
     if criteria == "email":
         try:
-            res = await User.objects.search()
+            res = await User.objects.get(email=content, verified=True)
         except ormar.exceptions.NoMatch:
             return None
         await insert_into_redis(res, content)
         return res
     elif criteria == "username":
         try:
-            res = await User.objects.search()
+            res = await User.objects.get(username=content, verified=True)
         except ormar.exceptions.NoMatch:
             return None
         await insert_into_redis(res, content)
@@ -29,7 +29,7 @@ async def cache_account(criteria: str, content: str) -> Union[User, None]:
     elif criteria == "id":
 
         try:
-            res = await User.objects.search()
+            res = await User.objects.get(id=uuid.UUID(content), verified=True)
         except ormar.exceptions.NoMatch:
             return None
         await insert_into_redis(res, content)
@@ -39,7 +39,7 @@ async def cache_account(criteria: str, content: str) -> Union[User, None]:
 
 
 async def get_from_redis(key: str) -> Union[None, User]:
-    user = await redis.search(key)
+    user = await redis.get(key)
     if user is None:
         return None
     else:
