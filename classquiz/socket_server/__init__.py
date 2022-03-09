@@ -9,9 +9,9 @@ from classquiz.db.models import GameSession, PlayGame
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 
 
-@sio.event
-async def connect(sid, environ, lol):
-    print(sid, "connected")
+# @sio.event
+# async def connect(sid, environ, lol):
+#     print(sid, "connected")
 
 
 # sio.enter_room(sid, lol)
@@ -40,7 +40,7 @@ async def join_game(sid, data):
         await sio.emit("joined_game", redis_res, room=sid)
         redis_res = (await redis.search(f"game_session:{data['game_pin']}"))
         redis_res = json.loads(redis_res)
-        print(redis_res)
+        # print(redis_res)
         redis_res["players"].append({"username": data["username"], "sid": sid})
         await redis.set(f"game_session:{data['game_pin']}",
                         json.dumps({"admin": redis_res["admin"], "game_id": redis_res["game_id"],
@@ -51,9 +51,9 @@ async def join_game(sid, data):
 
 @sio.event
 async def start_game(sid, data):
-    print(sid, data, "START_GAME")
+    # print(sid, data, "START_GAME")
     session = await sio.get_session(sid)
-    print(session)
+    # print(session)
     if session["admin"]:
         await sio.emit("start_game", room=session["game_pin"])
 
@@ -100,7 +100,7 @@ async def submit_answer(sid, data):
     redis_res = await redis.search(f"game_session:{session['game_pin']}")
     game_session = GameSession(**json.loads(redis_res))
     game_data = PlayGame(**json.loads(await redis.search(f"game:{session['game_pin']}")))
-    print(game_session)
+    # print(game_session)
     answer_right = False
     for answer in game_data.questions[int(data["question_index"])].answers:
         if answer.answer == data["answer"] and answer.right:
@@ -144,7 +144,7 @@ async def get_game_data(sid, data):
     game_data = await redis.search(f"game:{game_pin}")
     if game_data is not None:
         await sio.emit("game_data", json.loads(game_data), room=game_pin)
-    print(sid, data, "GET_GAME_DATA")
+    # print(sid, data, "GET_GAME_DATA")
 
 #
 # @sio.event

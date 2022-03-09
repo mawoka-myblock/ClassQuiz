@@ -77,8 +77,8 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
-        print(quiz_input)
-        print(quiz)
+        # print(quiz_input)
+        # print(quiz)
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
