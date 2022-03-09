@@ -42,6 +42,13 @@
 		const data = await res.json();
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
+
+	const deleteQuiz = async (to_delete: string) => {
+		const res = await fetch(`/api/v1/quiz/delete/${to_delete}`, {
+			method: 'DELETE'
+		});
+		window.location.reload()
+	}
 </script>
 
 {#await getData()}
@@ -113,6 +120,12 @@
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
+									Delete
+								</th>
+								<th
+									scope="col"
+									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+								>
 									Public
 								</th>
 							</tr>
@@ -152,6 +165,18 @@
 										class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 									>
 										<a href="/edit?quiz_id={quiz.id}">Edit</a>
+									</td>
+									<td
+										class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+									>
+										<button
+											on:click={() => {
+												deleteQuiz(quiz.id);
+											}}
+											class="border border-green-600"
+										>
+											Delete
+										</button>
 									</td>
 									<td
 										class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
