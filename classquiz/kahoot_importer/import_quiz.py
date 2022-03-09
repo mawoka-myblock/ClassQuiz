@@ -11,6 +11,7 @@ from classquiz.kahoot_importer.get import get as get_quiz
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     """
     Imports a quiz from Kahoot.
+    :param user: The user object
     :param quiz_id: The ID of the quiz to import.
     :return: True if the import was successful, False otherwise.
     """

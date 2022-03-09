@@ -15,7 +15,7 @@
 		<p class="text-xl pt-4">
 			ClassQuiz is a quiz-platform that allows you to create and manage quizzes.
 			<br />
-			Other than that, there are no features.
+			The main feature is a KAHOOT!-import function that allows you to import quizzes from KAHOOT!-quizzes.
 		</p>
 	</div>
 </section>
