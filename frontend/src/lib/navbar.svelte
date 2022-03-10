@@ -91,5 +91,11 @@
 				href="https://github.com/mawoka-myblock/classquiz">GitHub</a
 			>
 		</li>
+		<li class="py-2">
+			<a
+				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+				href="/docs">Docs</a
+			>
+		</li>
 	</ul>
 </nav>
