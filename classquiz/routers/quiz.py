@@ -29,7 +29,7 @@ async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current
     if user is None:
         quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
     else:
-        quiz = await Quiz.objects.get_or_none(id=quiz_id, public=False, user_id=user.id)
+        quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
@@ -90,6 +90,7 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
 @router.post("/import/{quiz_id}")
 async def import_quiz_route(quiz_id: str, user: User = Depends(get_current_user)):
     return await import_quiz(quiz_id, user)
+
 
 @router.delete("/delete/{quiz_id}")
 async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
