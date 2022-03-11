@@ -23,7 +23,7 @@
 
 		<!-- Our open/close buttons -->
 		<!-- Open menu -->
-		<button class="lg:hidden" id="open-menu" on:click={toggleMenu} class:hidden={!openMenu}>
+		<button class="lg:hidden" id="open-menu" on:click={toggleMenu} class:hidden={!openMenu} aria-label='Open navbar'>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="24"
@@ -42,7 +42,7 @@
 		</button>
 
 		<!-- Close menu -->
-		<button class="hidden" id="close-menu" class:hidden={!closeMenu} on:click={toggleMenu} aria-label='Toggle navbar'>
+		<button class="hidden" id="close-menu" class:hidden={!closeMenu} on:click={toggleMenu} aria-label='Close navbar'>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="14"
