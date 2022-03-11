@@ -42,7 +42,7 @@
 		</button>
 
 		<!-- Close menu -->
-		<button class="hidden" id="close-menu" class:hidden={!closeMenu} on:click={toggleMenu}>
+		<button class="hidden" id="close-menu" class:hidden={!closeMenu} on:click={toggleMenu} aria-label='Toggle navbar'>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="14"
