@@ -5,6 +5,7 @@ FROM node:16 as builder
 # ENV API_URL=http://api:80
 ENV API_URL=https://mawoka.eu
 ENV REDIS_URL=$REDIS
+ENV VITE_SENTRY=https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641
 # change working directory
 WORKDIR /usr/src/app
 
