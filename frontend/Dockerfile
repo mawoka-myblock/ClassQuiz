@@ -3,7 +3,7 @@
 FROM node:16 as builder
 # ENV API_URL=http://api:80
 ENV API_URL=https://mawoka.eu
-ENV REDIS_URL=rediss://:3e49f55793714c518f6bf7aa2970f7e5@gusc1-romantic-civet-31589.upstash.io:31589
+ENV REDIS_URL=CHANGE_ME
 ENV VITE_HCAPTCHA=ee81b2a1-acf3-4d20-b2a4-a7ea94c7eba5
 ENV VITE_SENTRY=https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641
 # change working directory

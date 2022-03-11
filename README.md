@@ -13,12 +13,7 @@ If you want to use it in real-life,
 please contact me on [my website](https://mawoka.eu/contact?utm_medium=Github&utm_source=Readme).
 ## Self-Host
 
-1. Clone this repo: `git clone https://github.com/mawoka-myblock/ClassQuiz.git`
-2. Edit `frontend/Dockerfile` and set in line 7 (`REDIS_URL=`) to a valid redis-dsn.
-   I use [Upstash](https://upstash.com/) for that.
-3. Customize the `docker-compose.yml` to your needs
-4. Build the docker-images: `docker compose build`
-5. Lastly, start it: `docker compose up -d`
+Please see https://classquiz.mawoka.eu/docs/self-host
 
 ### Things to know about the structure
 1. Everything depends on Redis (API and frontend).
