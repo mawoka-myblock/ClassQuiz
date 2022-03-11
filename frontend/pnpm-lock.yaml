@@ -19,6 +19,7 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^3.2.1
   felte: ^1.0.1
+  highlight.js: ^11.4.0
   ioredis: ^4.28.5
   js-cookie: ^3.0.1
   luxon: ^2.3.1
@@ -57,6 +58,7 @@ devDependencies:
   eslint-config-prettier: 8.4.0_eslint@7.32.0
   eslint-plugin-svelte3: 3.4.1_eslint@7.32.0+svelte@3.46.4
   felte: 1.0.1_svelte@3.46.4
+  highlight.js: 11.4.0
   ioredis: 4.28.5
   js-cookie: 3.0.1
   luxon: 2.3.1
@@ -1448,6 +1450,11 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+    dev: true
+
+  /highlight.js/11.4.0:
+    resolution: {integrity: sha512-nawlpCBCSASs7EdvZOYOYVkJpGmAOKMYZgZtUqSRqodZE0GRVcFKwo1RcpeOemqh9hyttTdd5wDBwHkuSyUfnA==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /ignore/4.0.6:

@@ -10,6 +10,9 @@
 		<li>
 			<a href='/docs/import-from-kahoot'>Import from Kahoot</a>
 		</li>
+		<li>
+			<a href='/docs/self-host'>Self-hosting</a>
+		</li>
 	</ul>
 
 </article>
