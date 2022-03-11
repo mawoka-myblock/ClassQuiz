@@ -3,6 +3,11 @@
 	navbarVisible.set(true);
 </script>
 
+<svelte:head>
+	<title>ClassQuiz - Home</title>
+	<meta name="description" content="ClassQuiz is a quiz app like KAHOOT! for students, which is open source and free to use.">
+</svelte:head>
+
 <section>
 	<div class="pt-12 text-center">
 		<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>

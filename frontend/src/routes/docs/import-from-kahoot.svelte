@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>ClassQuiz/docs - Import from Kahoot</title>
+	<meta name=description content='How to import quizzes from KAHOOT! into ClassQuiz, the open-source quiz-application,  easily'>
+</svelte:head>
 <article
 	class='prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-pink text-yellow-50 px-4'
 >

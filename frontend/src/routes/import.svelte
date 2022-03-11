@@ -13,7 +13,9 @@
 		};
 	}
 </script>
-
+<svelte:head>
+	<title>ClassQuiz - Import</title>
+</svelte:head>
 <script lang='ts'>
 	let url_input = '';
 

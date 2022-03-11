@@ -14,6 +14,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>ClassQuiz - Overview</title>
+</svelte:head>
+
 <script lang='ts'>
 	import type { QuizData } from '../app';
 	import { DateTime } from 'luxon';

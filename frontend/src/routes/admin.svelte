@@ -21,7 +21,9 @@
 		};
 	}
 </script>
-
+<svelte:head>
+	<title>ClassQuiz - Host</title>
+</svelte:head>
 <script lang="ts">
 	import type { QuizData } from '../app';
 

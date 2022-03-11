@@ -21,7 +21,9 @@
 		};
 	}
 </script>
-
+<svelte:head>
+	<title>ClassQuiz - Create</title>
+</svelte:head>
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Editor from '$lib/editor.svelte';

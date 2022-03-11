@@ -68,7 +68,9 @@
 	});
 	// The rest
 </script>
-
+<svelte:head>
+	<title>ClassQuiz - Play</title>
+</svelte:head>
 <div>
 	{#if !gameMeta.started && gameData === undefined}
 		<JoinGame {game_pin} />
