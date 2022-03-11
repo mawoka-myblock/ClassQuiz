@@ -6,16 +6,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        redis: "{$REDIS}"
     depends_on:
       - redis
       - api
     environment:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:80
-    env_file:
-      - .env
   api:
     build:
       context: .
@@ -37,8 +33,6 @@ services:
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       SKIP_EMAIL_VERIFICATION: True
       HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
-    env_file:
-      - .env
   redis:
     image: redis:alpine
     restart: always
@@ -57,7 +51,7 @@ services:
       POSTGRES_PASSWORD: "classquiz"
       POSTGRES_DB: "classquiz"
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - data:/var/lib/postgresql/data
   proxy:
     image: caddy:alpine
     restart: always
@@ -65,3 +59,5 @@ services:
       - ./Caddyfile-docker:/etc/caddy/Caddyfile
     ports:
       - "8000:8080"
+volumes:
+  data:
