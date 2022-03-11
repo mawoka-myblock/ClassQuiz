@@ -18,7 +18,7 @@
 		"@sentry/browser": "^6.18.2",
 		"@sentry/tracing": "^6.18.2",
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-node": "^1.0.0-next.70",
+		"@sveltejs/adapter-node": "^1.0.0-next.71",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/typography": "^0.5.0-alpha.3",
 		"@types/luxon": "^2.0.9",

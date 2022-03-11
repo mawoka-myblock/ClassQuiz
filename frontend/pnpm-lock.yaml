@@ -6,7 +6,7 @@ specifiers:
   '@sentry/browser': ^6.18.2
   '@sentry/tracing': ^6.18.2
   '@sveltejs/adapter-auto': next
-  '@sveltejs/adapter-node': ^1.0.0-next.70
+  '@sveltejs/adapter-node': ^1.0.0-next.71
   '@sveltejs/kit': next
   '@tailwindcss/typography': ^0.5.0-alpha.3
   '@types/luxon': ^2.0.9
@@ -45,7 +45,7 @@ devDependencies:
   '@sentry/browser': 6.18.2
   '@sentry/tracing': 6.18.2
   '@sveltejs/adapter-auto': 1.0.0-next.31
-  '@sveltejs/adapter-node': 1.0.0-next.70
+  '@sveltejs/adapter-node': 1.0.0-next.71
   '@sveltejs/kit': 1.0.0-next.295_sass@1.49.9+svelte@3.46.4
   '@tailwindcss/typography': 0.5.0-alpha.3_tailwindcss@3.0.23
   '@types/luxon': 2.0.9
@@ -296,8 +296,8 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /@sveltejs/adapter-node/1.0.0-next.70:
-    resolution: {integrity: sha512-9EtqSTxVOipESyPQH8uVdkl+iSqsq3oRKS3RZoE2vAG9I849MuTTxr1g9L4kALbXaklsYRztwhmrLpTdcSM4vA==}
+  /@sveltejs/adapter-node/1.0.0-next.71:
+    resolution: {integrity: sha512-ELSQBSyk0IHMRi5Zct95jP+lTUJ0VQ/d7DxPMQTaDYVexpehDBOV6bXDzSNBl9boIIfEv77VD3lA7kgtuJnGdg==}
     dependencies:
       tiny-glob: 0.2.9
     dev: true
