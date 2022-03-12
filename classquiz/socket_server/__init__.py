@@ -9,19 +9,6 @@ from classquiz.db.models import GameSession, PlayGame
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 
 
-# @sio.event
-# async def connect(sid, environ, lol):
-#     print(sid, "connected")
-
-
-# sio.enter_room(sid, lol)
-# print(lol)
-# print(environ["asgi.scope"]["headers"])
-# print(environ)
-# async with sio.session(sid) as session:
-#    session['username'] = "username"
-
-
 @sio.event
 async def join_game(sid, data):
     async with aiohttp.ClientSession() as session:
@@ -120,24 +107,6 @@ async def submit_answer(sid, data):
     # await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))
 
 
-# @sio.event
-# async def admin_game(sid, data):
-#     redis_res = await redis.get(f"game:{data['game_pin']}")
-#     if redis_res is None:
-#         await sio.emit("game_not_found", room=sid)
-#     else:
-#
-#         await sio.emit("joined_game", data, room=data['game_pin'])
-
-
-# @sio.event
-# async def start_game(sid, data):
-#     game_pin = (await sio.get_session(sid))['game_pin']
-#     session = await sio.get_session(sid)
-#     if session['admin']:
-#         await sio.emit("start_game", data, room=game_pin)
-
-
 @sio.event
 async def get_game_data(sid, data):
     game_pin = (await sio.get_session(sid))['game_pin']
@@ -145,14 +114,3 @@ async def get_game_data(sid, data):
     if game_data is not None:
         await sio.emit("game_data", json.loads(game_data), room=game_pin)
     # print(sid, data, "GET_GAME_DATA")
-
-#
-# @sio.event
-# async def message(sid, data):
-#     game_pin = (await sio.get_session(sid))['game_pin']
-#     await sio.emit("message", data, room=game_pin)
-#
-#
-# @sio.on('*')
-# async def catch_all(event, sid, data):
-#     print(event, sid, data)

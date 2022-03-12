@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from uuid import UUID
 from typing import List, Any, Optional
-from enum import Enum
 
 
 class _CoverMetadata(BaseModel):
