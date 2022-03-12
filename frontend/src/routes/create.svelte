@@ -21,9 +21,7 @@
 		};
 	}
 </script>
-<svelte:head>
-	<title>ClassQuiz - Create</title>
-</svelte:head>
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Editor from '$lib/editor.svelte';
@@ -81,6 +79,10 @@
 		}
 	};
 </script>
+
+<svelte:head>
+	<title>ClassQuiz - Create</title>
+</svelte:head>
 
 {#if data !== undefined}
 	<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">

@@ -68,6 +68,7 @@
 	});
 	// The rest
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Play</title>
 </svelte:head>

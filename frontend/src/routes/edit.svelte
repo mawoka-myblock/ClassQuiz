@@ -70,6 +70,7 @@
 		}
 	};
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Edit</title>
 </svelte:head>

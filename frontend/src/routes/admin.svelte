@@ -21,9 +21,7 @@
 		};
 	}
 </script>
-<svelte:head>
-	<title>ClassQuiz - Host</title>
-</svelte:head>
+
 <script lang="ts">
 	import type { QuizData } from '../app';
 
@@ -105,6 +103,10 @@
 		}, 1000);
 	};
 </script>
+
+<svelte:head>
+	<title>ClassQuiz - Host</title>
+</svelte:head>
 
 {#if !success}
 	<input placeholder="game id" bind:value={game_token} />

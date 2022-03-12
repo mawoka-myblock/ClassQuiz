@@ -66,6 +66,7 @@
 		isSubmitting = false;
 	};
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Login</title>
 </svelte:head>

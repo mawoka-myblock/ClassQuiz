@@ -68,6 +68,7 @@
 		data: ''
 	};
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Register</title>
 </svelte:head>

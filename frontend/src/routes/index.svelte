@@ -5,7 +5,10 @@
 
 <svelte:head>
 	<title>ClassQuiz - Home</title>
-	<meta name="description" content="ClassQuiz is a quiz app like KAHOOT! for students, which is open source and free to use.">
+	<meta
+		name="description"
+		content="ClassQuiz is a quiz app like KAHOOT! for students, which is open source and free to use."
+	/>
 </svelte:head>
 
 <section>
