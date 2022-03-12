@@ -5,7 +5,7 @@ from classquiz.db import database
 from classquiz.routers import users, quiz, utils
 from classquiz.socket_server import sio
 
-app = FastAPI()
+app = FastAPI(redoc_url="", docs_url="/api/docs")
 app.state.database = database
 
 
