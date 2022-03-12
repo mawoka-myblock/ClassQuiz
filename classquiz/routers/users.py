@@ -9,7 +9,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from classquiz.auth import *
 from classquiz.config import redis
 from classquiz.db.models import *
-from classquiz.emails import send_mail
+from classquiz.emails import send_register_email
 
 router = APIRouter()
 
@@ -35,7 +35,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()
-    background_task.add_task(send_mail, email=user.email)
+    background_task.add_task(send_register_email, email=user.email)
     return user
 
 

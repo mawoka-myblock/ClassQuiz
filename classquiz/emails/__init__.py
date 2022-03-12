@@ -29,7 +29,7 @@ def _sendMail(template: str, to: str, subject: str):
     server.sendmail(settings.mail_address, to, msg.as_string())
 
 
-async def send_mail(email: str):
+async def send_register_email(email: str):
     user = await User.objects.get_or_none(email=email, verified=False)
     if user is None:
         raise ValueError('User not found')
