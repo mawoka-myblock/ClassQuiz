@@ -9,7 +9,7 @@ from . import metadata, database
 
 class User(ormar.Model):
     """
-    The user model
+    The user model in the database
     """
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
     email: str = ormar.String(unique=True, max_length=100)
@@ -27,7 +27,7 @@ class User(ormar.Model):
 
 class UserSession(ormar.Model):
     """
-    The user session model
+    The user session model for user-sessions
     """
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
     user: uuid.UUID = ormar.ForeignKey(User)
@@ -78,15 +78,24 @@ class Quiz(ormar.Model):
 
 
 class Token(BaseModel):
+    """
+    For JWT
+    """
     access_token: str
     token_type: str
 
 
 class TokenData(BaseModel):
+    """
+    For JWT
+    """
     email: str | None = None
 
 
 class PlayGame(BaseModel):
+    """
+    For JWT
+    """
     quiz_id: uuid.UUID | str
     description: str
     title: str

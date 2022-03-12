@@ -31,14 +31,14 @@ async def join_game(sid, data):
             if not resp_data["success"]:
                 print("CAPTCHA FAILED")
                 return
-    redis_res = await redis.search(f"game:{data['game_pin']}")
+    redis_res = await redis.get(f"game:{data['game_pin']}")
     if redis_res is None:
         await sio.emit("game_not_found", room=sid)
     else:
         session = {'game_pin': data["game_pin"], "username": data["username"], "admin": False}
         await sio.save_session(sid, session)
         await sio.emit("joined_game", redis_res, room=sid)
-        redis_res = (await redis.search(f"game_session:{data['game_pin']}"))
+        redis_res = (await redis.get(f"game_session:{data['game_pin']}"))
         redis_res = json.loads(redis_res)
         # print(redis_res)
         redis_res["players"].append({"username": data["username"], "sid": sid})
@@ -62,11 +62,11 @@ async def start_game(sid, data):
 async def register_as_admin(sid, data):
     game_pin = data["game_pin"]
     game_id = data["game_id"]
-    if (await redis.search(f"game_session:{game_pin}")) is None:
+    if (await redis.get(f"game_session:{game_pin}")) is None:
         await redis.set(f"game_session:{game_pin}", json.dumps({"admin": sid, "game_id": game_id, "players": []}),
                         ex=18000)
 
-        await sio.emit("registered_as_admin", {"game_id": game_id, "game": await redis.search(
+        await sio.emit("registered_as_admin", {"game_id": game_id, "game": await redis.get(
             f"game:{data['game_pin']}")},
                        room=sid)
         async with sio.session(sid) as session:
@@ -81,7 +81,7 @@ async def register_as_admin(sid, data):
 async def get_question_results(sid, data):
     session = await sio.get_session(sid)
     if session["admin"]:
-        redis_res = await redis.search(f"game_session:{session['game_pin']}:{data['question_number']}")
+        redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
         game_pin = session['game_pin']
         await sio.emit("question_results", redis_res, room=game_pin)
 
@@ -97,16 +97,16 @@ async def set_question_number(sid, data):
 @sio.event
 async def submit_answer(sid, data):
     session = await sio.get_session(sid)
-    redis_res = await redis.search(f"game_session:{session['game_pin']}")
+    redis_res = await redis.get(f"game_session:{session['game_pin']}")
     game_session = GameSession(**json.loads(redis_res))
-    game_data = PlayGame(**json.loads(await redis.search(f"game:{session['game_pin']}")))
+    game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     # print(game_session)
     answer_right = False
     for answer in game_data.questions[int(data["question_index"])].answers:
         if answer.answer == data["answer"] and answer.right:
             answer_right = True
             break
-    answers = await redis.search(f"game_session:{session['game_pin']}:{data['question_index']}")
+    answers = await redis.get(f"game_session:{session['game_pin']}:{data['question_index']}")
     if answers is None:
         await redis.set(f"game_session:{session['game_pin']}:{data['question_index']}",
                         json.dumps(
@@ -141,7 +141,7 @@ async def submit_answer(sid, data):
 @sio.event
 async def get_game_data(sid, data):
     game_pin = (await sio.get_session(sid))['game_pin']
-    game_data = await redis.search(f"game:{game_pin}")
+    game_data = await redis.get(f"game:{game_pin}")
     if game_data is not None:
         await sio.emit("game_data", json.loads(game_data), room=game_pin)
     # print(sid, data, "GET_GAME_DATA")
