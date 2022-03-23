@@ -36,6 +36,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()
     background_task.add_task(send_register_email, email=user.email)
+    await redis.delete("global_user_count")
     return user
 
 

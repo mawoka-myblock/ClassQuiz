@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from socketio import ASGIApp
 
 from classquiz.db import database
-from classquiz.routers import users, quiz, utils
+from classquiz.routers import users, quiz, utils, stats
 from classquiz.socket_server import sio
 
 app = FastAPI(redoc_url="", docs_url="/api/docs")
@@ -26,4 +26,5 @@ async def shutdown() -> None:
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users")
 app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz")
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils")
+app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats")
 app.mount("/", ASGIApp(sio))

@@ -17,6 +17,7 @@ router = APIRouter()
 @router.post("/create")
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
+    await redis.delete("global_quiz_count")
     return await quiz.save()
 
 
