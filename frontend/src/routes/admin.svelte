@@ -118,7 +118,7 @@
 {:else if !game_started}
 	<img
 		alt="QR code to join the game"
-		src="/api/v1/utils/qr/{quiz_data.game_pin}"
+		src="/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr"
 		class="block mx-auto w-1/6"
 	/>
 	<p class="text-3xl text-center">Pin: {quiz_data.game_pin}</p>
