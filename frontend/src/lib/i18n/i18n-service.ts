@@ -33,7 +33,7 @@ export class I18nService {
 				escapeValue: false
 			},
 			detection: {
-				order: ['querystring', 'navigator'],
+				order: ['browser', 'querystring', 'navigator', 'localStorage', 'htmlTag'],
 				lookupQuerystring: 'lng'
 			}
 		});
