@@ -15,8 +15,8 @@
 			href="https://create.kahoot.it/discover"
 			rel="nofollow"
 			target="_blank">create.kahoot.it/discover</a
-		>, find the quiz you want to import, click on it and copy the URL into your clipboard.
-		Then go to
+		>, find the quiz you want to import, click on it and copy the URL into your clipboard. Then
+		go to
 		<a href="https://classquiz.mawoka.eu/import" rel="nofollow" target="_blank"
 			>classquiz.mawoka.eu/import</a
 		> and paste the url into the text field.

@@ -16,6 +16,9 @@
 
 <script lang="ts">
 	import Editor from '$lib/editor.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	let responseData = {
 		open: false,
@@ -88,7 +91,7 @@
 {:then lol}
 	{#if data !== undefined}
 		<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-			<Editor bind:data submit_button_text={'Save'} />
+			<Editor bind:data submit_button_text={$t('edit_page.save')} />
 		</form>
 	{/if}
 {:catch err}
@@ -141,10 +144,12 @@
 					</div>
 					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 						<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-							Successfully updated quiz!
+							{$t('edit_page.success_update_title')}
 						</h3>
 						<div class="mt-2">
-							<p class="text-sm text-gray-500">Updated the quiz successfully!</p>
+							<p class="text-sm text-gray-500">
+								{$t('edit_page.success_update_body')}
+							</p>
 						</div>
 					</div>
 				</div>
@@ -156,7 +161,7 @@
 						window.location.href = '/overview';
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-					>Close
+					>{$t('edit_page.close')}
 				</button>
 			</div>
 		</div>

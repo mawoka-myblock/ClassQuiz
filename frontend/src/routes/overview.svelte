@@ -17,6 +17,8 @@
 <script lang="ts">
 	import type { QuizData } from '../app';
 	import { DateTime } from 'luxon';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	const getData = async (): Promise<Array<QuizData>> => {
 		const res = await fetch('/api/v1/quiz/list');
@@ -76,17 +78,17 @@
 			<a
 				href="/create"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>Create
+				>{$t('overview_page.create')}
 			</a>
 			<a
 				href="/import"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>Import
+				>{$t('overview_page.import')}
 			</a>
 			<a
 				href="/api/v1/users/logout"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>Logout
+				>{$t('overview_page.logout')}
 			</a>
 		</div>
 		<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
@@ -99,43 +101,43 @@
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Title
+									{$t('overview_page.title')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Created at
+									{$t('overview_page.created_at')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Question count
+									{$t('overview_page.question_count')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Play
+									{$t('overview_page.play')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Edit
+									{$t('overview_page.edit')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Delete
+									{$t('overview_page.delete')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									Public
+									{$t('overview_page.public')}
 								</th>
 							</tr>
 						</thead>
@@ -167,7 +169,7 @@
 											}}
 											class="border border-green-600"
 										>
-											Start
+											{$t('overview_page.start')}
 										</button>
 									</td>
 									<td
@@ -184,7 +186,7 @@
 											}}
 											class="border border-green-600"
 										>
-											Delete
+											{$t('overview_page.delete')}
 										</button>
 									</td>
 									<td

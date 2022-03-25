@@ -1,0 +1,75 @@
+{
+	"index_page": {
+		"slogan": "The open-source quiz-platform!",
+		"meta": {
+			"description": "ClassQuiz is a quiz app like KAHOOT! for students, which is open source and free to use",
+			"title": "Home"
+		},
+		"stats": "Stats",
+		"features": "Features",
+		"features_description": {
+			"1": "ClassQuiz is a quiz-platform that allows you to create and manage quizzes.",
+			"2": "The main feature is a KAHOOT!-import function that allows you to import quizzes from KAHOOT!-quizzes."
+		}
+	},
+	"overview_page": {
+		"create": "Create",
+		"import": "Import",
+		"logout": "Logout",
+		"title": "Title",
+		"created_at": "Created at",
+		"question_count": "Question count",
+		"play": "Play",
+		"edit": "Edit",
+		"delete": "Delete",
+		"public": "Public",
+		"start": "Start"
+	},
+	"edit_page": {
+		"save": "Save",
+		"success_update_title": "Successfully updated quiz!",
+		"success_update_body": "Updated the quiz successfully!",
+		"close": "Close"
+	},
+	"create_page": {
+		"success": {
+			"title": "Successfully created quiz!",
+			"body": "Created the quiz successfully!"
+		},
+		"close": "Close"
+	},
+	"register_page": {
+		"greeting": "Nice to meet you!",
+		"create_account": "Create account",
+		"email": "Email",
+		"username": "Username",
+		"password": "Password",
+		"forgot_password?": "Forgot password?",
+		"register": "Register",
+		"already_have_account?": "Already have an account?",
+		"login": "Login"
+	},
+	"login_page": {
+		"welcome_back": "Welcome back!",
+		"login_or_create_account": "Login or create an account",
+		"already_have_account": "Don't have an account?",
+		"modal": {
+			"success": {
+				"success_check_mail": "Login Succeded! Check your mailbox!",
+				"success": "Login Succeded!",
+				"description": {
+					"success_check_mail": "Please check your mailbox, since you should have received a mail, with a link you can click to login.",
+					"success": "You've successfully logged in!"
+				}
+			},
+			"error": {
+				"wrong_creds": "Wrong email or password!",
+				"unexpected": "Unexpected error!",
+				"description": {
+					"wrong_creds": "Please make sure that your password and your email are correct!",
+					"unexpected": "There was the good old unexpected error!"
+				}
+			}
+		}
+	}
+}

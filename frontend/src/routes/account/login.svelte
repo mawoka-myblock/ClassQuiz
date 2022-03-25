@@ -13,6 +13,9 @@
 <script lang="ts">
 	import { navbarVisible } from '$lib/stores';
 	import { browser } from '$app/env';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	navbarVisible.set(true);
 
@@ -84,11 +87,11 @@
 				</h2>
 
 				<h3 class="mt-1 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
-					Welcome Back
+					{$t('login_page.welcome_back')}
 				</h3>
 
 				<p class="mt-1 text-center text-gray-500 dark:text-gray-400">
-					Login or create account
+					{$t('login_page.login_or_create_account')}
 				</p>
 
 				<form on:submit|preventDefault={login}>
@@ -101,13 +104,13 @@
 									name="email"
 									type="email"
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Email"
+									placeholder={$t('register_page.email')}
 								/>
 								<label
 									for="email"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-700 dark:text-white bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Email
+									{$t('register_page.email')}
 								</label>
 							</div>
 						</div>
@@ -119,13 +122,13 @@
 									type="password"
 									bind:value={loginData.password}
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Password"
+									placeholder={$t('register_page.password')}
 								/>
 								<label
 									for="password"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Password
+									{$t('register_page.password')}
 								</label>
 							</div>
 						</div>
@@ -134,7 +137,7 @@
 							<a
 								href="/account/reset-password"
 								class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"
-								>Forgot Password?</a
+								>{$t('register_page.forgot_password?')}</a
 							>
 
 							<button
@@ -157,7 +160,7 @@
 										/>
 									</svg>
 								{:else}
-									Login
+									{$t('register_page.login')}
 								{/if}
 							</button>
 						</div>
@@ -169,13 +172,13 @@
 				class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700"
 			>
 				<span class="text-sm text-gray-600 dark:text-gray-200"
-					>Don't have an account?
+					>{$t('login_page.already_have_account')}
 				</span>
 
 				<a
 					href="/account/register"
 					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
-					>Register</a
+					>{$t('register_page.register')}</a
 				>
 			</div>
 		</div>
@@ -267,13 +270,13 @@
 					<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
 						<h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
 							{#if responseData.data === 'magic'}
-								Login Succeded! Check your mailbox!
+								{$t('login_page.modal.success.success_check_mail')}
 							{:else if responseData.data === 'password'}
-								Login Succeded!
+								{$t('login_page.modal.success.success')}
 							{:else if responseData.data === '404'}
-								Wrong email or password!
+								{$t('login_page.modal.error.wrong_creds')}
 							{:else if responseData.data === 'error'}
-								unexpected error!
+								{$t('login_page.modal.error.unexpected')}
 							{:else}
 								You stupid Mawoka!
 							{/if}
@@ -281,14 +284,13 @@
 						<div class="mt-2">
 							<p class="text-sm text-gray-500">
 								{#if responseData.data === 'magic'}
-									Please check your mailbox, since you should have received a
-									Mail, with a link you can click to login.
+									{$t('login_page.modal.success.description.success_check_mail')}
 								{:else if responseData.data === 'password'}
-									You've successfully logged in!
+									{$t('login_page.modal.success.description.success')}
 								{:else if responseData.data === '404'}
-									Please make sure that your password and your email are correct!
+									{$t('login_page.modal.error.description.wrong_creds')}
 								{:else if responseData.data === 'error'}
-									There was the good old unexpected error!
+									{$t('login_page.modal.error.description.unexpected')}
 								{:else}
 									You stupid Mawoka!
 								{/if}
@@ -307,7 +309,7 @@
 						}
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-					>Close
+					>{$t('create_page.close')}
 				</button>
 			</div>
 		</div>

@@ -4,6 +4,8 @@
 	import { navbarVisible } from '$lib/stores.ts';
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
+	import { initLocalizationContext } from '$lib/i18n';
+	initLocalizationContext();
 
 	if (import.meta.env.VITE_SENTRY !== null) {
 		Sentry.init({

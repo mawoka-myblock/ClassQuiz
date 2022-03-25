@@ -12,9 +12,13 @@
 
 <script lang="ts">
 	import { createForm } from 'felte';
-	// import reporter from '@felte/reporter-tippy';
+	import { getLocalization } from '$lib/i18n';
 	import { validateSchema } from '@felte/validator-yup';
 	import { navbarVisible } from '$lib/stores';
+
+	const { t } = getLocalization();
+	// import reporter from '@felte/reporter-tippy';
+
 	navbarVisible.set(true);
 	import * as yup from 'yup';
 
@@ -83,10 +87,12 @@
 				</h2>
 
 				<h3 class="mt-1 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
-					Nice to meet you!
+					{$t('register_page.greeting')}
 				</h3>
 
-				<p class="mt-1 text-center text-gray-500 dark:text-gray-400">Create account</p>
+				<p class="mt-1 text-center text-gray-500 dark:text-gray-400">
+					{$t('register_page.create_account')}
+				</p>
 
 				<form use:form>
 					<div class="w-full mt-4">
@@ -97,7 +103,7 @@
 									name="email"
 									type="email"
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Email"
+									placeholder={$t('register_page.email')}
 									class:ring-red-700={$errors.email !== null}
 									class:ring-green-600={$touched.email === true &&
 										$errors.email === null}
@@ -106,7 +112,7 @@
 									for="email"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-700 dark:text-white bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Email
+									{$t('register_page.email')}
 								</label>
 							</div>
 						</div>
@@ -117,7 +123,7 @@
 									name="username"
 									type="text"
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Username"
+									placeholder={$t('register_page.username')}
 									class:ring-red-700={$errors.username !== null}
 									class:ring-green-600={$touched.username === true &&
 										$errors.username === null}
@@ -126,7 +132,7 @@
 									for="username"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-700 dark:text-white bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Username
+									{$t('register_page.username')}
 								</label>
 							</div>
 						</div>
@@ -140,13 +146,13 @@
 									class:ring-green-600={$touched.password1 === true &&
 										$errors.password1 === null}
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Password"
+									placeholder={$t('register_page.password')}
 								/>
 								<label
 									for="password1"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Password
+									{$t('register_page.password')}
 								</label>
 							</div>
 						</div>
@@ -157,7 +163,7 @@
 									name="password2"
 									type="password"
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Password"
+									placeholder={$t('register_page.password')}
 									class:ring-red-700={$errors.password2 !== null}
 									class:ring-green-600={$touched.password2 === true &&
 										$errors.password2 === null}
@@ -166,7 +172,7 @@
 									for="password2"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									Password
+									{$t('register_page.password')}
 								</label>
 							</div>
 						</div>
@@ -175,7 +181,7 @@
 							<a
 								href="/account/reset-password"
 								class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"
-								>Forgot Password?</a
+								>{$t('register_page.forgot_password?')}</a
 							>
 
 							<button
@@ -197,7 +203,7 @@
 										/>
 									</svg>
 								{:else}
-									Register
+									{$t('register_page.register')}
 								{/if}
 							</button>
 						</div>
@@ -209,13 +215,13 @@
 				class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700"
 			>
 				<span class="text-sm text-gray-600 dark:text-gray-200"
-					>Already have an account?
+					>{$t('register_page.already_have_account?')}
 				</span>
 
 				<a
 					href="/account/login"
 					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
-					>Login</a
+					>{$t('register_page.login')}</a
 				>
 			</div>
 		</div>
