@@ -21,6 +21,7 @@ specifiers:
     felte: ^1.0.1
     highlight.js: ^11.4.0
     i18next: ^21.6.14
+    i18next-browser-languagedetector: ^6.1.4
     i18next-scanner: ^3.1.0
     ioredis: ^4.28.5
     js-cookie: ^3.0.1
@@ -64,6 +65,7 @@ devDependencies:
     eslint-plugin-svelte3: 3.4.1_eslint@7.32.0+svelte@3.46.4
     felte: 1.0.1_svelte@3.46.4
     highlight.js: 11.4.0
+    i18next-browser-languagedetector: 6.1.4
     i18next-scanner: 3.1.0
     ioredis: 4.28.5
     js-cookie: 3.0.1
@@ -2277,6 +2279,15 @@ packages:
                 integrity: sha512-nawlpCBCSASs7EdvZOYOYVkJpGmAOKMYZgZtUqSRqodZE0GRVcFKwo1RcpeOemqh9hyttTdd5wDBwHkuSyUfnA==
             }
         engines: { node: '>=12.0.0' }
+        dev: true
+
+    /i18next-browser-languagedetector/6.1.4:
+        resolution:
+            {
+                integrity: sha512-wukWnFeU7rKIWT66VU5i8I+3Zc4wReGcuDK2+kuFhtoxBRGWGdvYI9UQmqNL/yQH1KogWwh+xGEaIPH8V/i2Zg==
+            }
+        dependencies:
+            '@babel/runtime': 7.17.2
         dev: true
 
     /i18next-scanner/3.1.0:

@@ -1,75 +1,75 @@
 {
-    "index_page": {
-        "meta": {
-            "title": "Home",
-            "description": "ClassQuiz ist eine Quiz-App wie KAHOOT! für Schüler*innen, welche open-source und kostenlos ist"
-        },
-        "stats": "Statistiken",
-        "features": "Features",
-        "features_description": {
-            "1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
-            "2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
-        },
-        "slogan": "Die open-source Quiz-Platform!"
-    },
-    "overview_page": {
-        "create": "Erstellen",
-        "import": "Importieren",
-        "logout": "Ausloggen",
-        "title": "Titel",
-        "created_at": "Erstellt am",
-        "question_count": "Fragenanzahl",
-        "play": "Spielen",
-        "edit": "Bearbeiten",
-        "delete": "Löschen",
-        "public": "Öffentlich",
-        "start": "Starten"
-    },
-    "edit_page": {
-        "save": "Speichern",
-        "success_update_title": "Quiz erfolgreich aktualisiert!",
-        "success_update_body": "Das Quiz wurde erfolgreich aktualisiert!",
-        "close": "Schließen"
-    },
-    "create_page": {
-        "success": {
-            "title": "Quiz erfolgreich erstellt!",
-            "body": "Das Quiz wurde erfolgreich erstellt!"
-        },
-        "close": "Schließen"
-    },
-    "register_page": {
-        "greeting": "Schön, dich zu sehen!",
-        "create_account": "Account erstellen",
-        "email": "Email",
-        "username": "Nutzername",
-        "password": "Passwort",
-        "forgot_password?": "Passwort vergessen?",
-        "register": "Registrieren",
-        "already_have_account?": "Hast du schon einen Account?",
-        "login": "Login"
-    },
-    "login_page": {
-        "welcome_back": "Willkommen zurück!",
-        "login_or_create_account": "Einloggen oder Account erstellen",
-        "already_have_account": "Noch kein Account?",
-        "modal": {
-            "success": {
-                "success_check_mail": "Login erfolgreich! Guck in deine Mailbox!",
-                "success": "Login erfolgreich!",
-                "description": {
-                    "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
-                    "success": "Du hast dich erfolgreich angemeldet!"
-                }
-            },
-            "error": {
-                "wrong_creds": "Falsche Email oder falsches Passwort!",
-                "unexpected": "Unerwarteter Fehler!",
-                "description": {
-                    "wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine Email richtig sind!",
-                    "unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
-                }
-            }
-        }
-    }
+	"index_page": {
+		"meta": {
+			"title": "Home",
+			"description": "ClassQuiz ist eine Quiz-App wie KAHOOT! für Schüler*innen, welche open-source und kostenlos ist"
+		},
+		"stats": "Statistiken",
+		"features": "Features",
+		"features_description": {
+			"1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
+			"2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
+		},
+		"slogan": "Die open-source Quiz-Platform!"
+	},
+	"overview_page": {
+		"create": "Erstellen",
+		"import": "Importieren",
+		"logout": "Ausloggen",
+		"title": "Titel",
+		"created_at": "Erstellt am",
+		"question_count": "Fragenanzahl",
+		"play": "Spielen",
+		"edit": "Bearbeiten",
+		"delete": "Löschen",
+		"public": "Öffentlich",
+		"start": "Starten"
+	},
+	"edit_page": {
+		"save": "Speichern",
+		"success_update_title": "Quiz erfolgreich aktualisiert!",
+		"success_update_body": "Das Quiz wurde erfolgreich aktualisiert!",
+		"close": "Schließen"
+	},
+	"create_page": {
+		"success": {
+			"title": "Quiz erfolgreich erstellt!",
+			"body": "Das Quiz wurde erfolgreich erstellt!"
+		},
+		"close": "Schließen"
+	},
+	"register_page": {
+		"greeting": "Schön, dich zu sehen!",
+		"create_account": "Account erstellen",
+		"email": "Email",
+		"username": "Nutzername",
+		"password": "Passwort",
+		"forgot_password?": "Passwort vergessen?",
+		"register": "Registrieren",
+		"already_have_account?": "Hast du schon einen Account?",
+		"login": "Login"
+	},
+	"login_page": {
+		"welcome_back": "Willkommen zurück!",
+		"login_or_create_account": "Einloggen oder Account erstellen",
+		"already_have_account": "Noch kein Account?",
+		"modal": {
+			"success": {
+				"success_check_mail": "Login erfolgreich! Guck in deine Mailbox!",
+				"success": "Login erfolgreich!",
+				"description": {
+					"success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
+					"success": "Du hast dich erfolgreich angemeldet!"
+				}
+			},
+			"error": {
+				"wrong_creds": "Falsche Email oder falsches Passwort!",
+				"unexpected": "Unerwarteter Fehler!",
+				"description": {
+					"wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine Email richtig sind!",
+					"unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
+				}
+			}
+		}
+	}
 }

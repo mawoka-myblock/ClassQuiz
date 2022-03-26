@@ -4,19 +4,9 @@
 	import { navbarVisible } from '$lib/stores.ts';
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
-	import { initLocalizationContext, getLocalization } from '$lib/i18n';
-	import { browser } from '$app/env';
+	import { initLocalizationContext } from '$lib/i18n';
 
 	initLocalizationContext();
-
-	if (browser) {
-		if (localStorage.getItem('language') === null) {
-			localStorage.setItem('language', 'en');
-		} else {
-			const { currentLanguage } = getLocalization();
-			currentLanguage.set(localStorage.getItem('language'));
-		}
-	}
 
 	if (import.meta.env.VITE_SENTRY !== null) {
 		Sentry.init({
