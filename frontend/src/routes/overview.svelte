@@ -78,17 +78,17 @@
 			<a
 				href="/create"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>{$t('overview_page.create')}
+				>{$t('words.create')}
 			</a>
 			<a
 				href="/import"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>{$t('overview_page.import')}
+				>{$t('words.import')}
 			</a>
 			<a
 				href="/api/v1/users/logout"
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-				>{$t('overview_page.logout')}
+				>{$t('words.logout')}
 			</a>
 		</div>
 		<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
@@ -101,7 +101,7 @@
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									{$t('overview_page.title')}
+									{$t('words.title')}
 								</th>
 								<th
 									scope="col"
@@ -119,25 +119,25 @@
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									{$t('overview_page.play')}
+									{$t('words.play')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									{$t('overview_page.edit')}
+									{$t('words.edit')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									{$t('overview_page.delete')}
+									{$t('words.delete')}
 								</th>
 								<th
 									scope="col"
 									class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 								>
-									{$t('overview_page.public')}
+									{$t('words.public')}
 								</th>
 							</tr>
 						</thead>
@@ -169,7 +169,7 @@
 											}}
 											class="border border-green-600"
 										>
-											{$t('overview_page.start')}
+											{$t('words.start')}
 										</button>
 									</td>
 									<td
@@ -186,7 +186,7 @@
 											}}
 											class="border border-green-600"
 										>
-											{$t('overview_page.delete')}
+											{$t('words.delete')}
 										</button>
 									</td>
 									<td

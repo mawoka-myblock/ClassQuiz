@@ -26,6 +26,9 @@
 	import type { QuizData } from '../app';
 
 	import { socket } from '$lib/socket';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	// let gameData = {
 	// 	game_id: 'a7ddb6af-79ab-45e0-b996-6254c1ad9818',
@@ -34,7 +37,6 @@
 	export let game_pin: string;
 	export let auto_connect: boolean;
 	export let game_token: string;
-	console.log(game_pin, game_token);
 	let success = false;
 	let players: Array<string> = [];
 	let errorMessage = '';
@@ -65,7 +67,7 @@
 		players = [...players, data];
 	});
 	socket.on('already_registered_as_admin', () => {
-		errorMessage = 'There is already an admin registered for this game.';
+		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
 	let timer_res: string;
 	const set_question_number = (q_number: number) => {
@@ -111,7 +113,7 @@
 {#if !success}
 	<input placeholder="game id" bind:value={game_token} />
 	<input placeholder="game pin" bind:value={game_pin} />
-	<button on:click={connect}>Connect!</button>
+	<button on:click={connect}>{$t('words.connect')}!</button>
 	{#if errorMessage !== ''}
 		<p class="text-red-700">{errorMessage}</p>
 	{/if}
@@ -121,13 +123,13 @@
 		src="/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr"
 		class="block mx-auto w-1/6"
 	/>
-	<p class="text-3xl text-center">Pin: {quiz_data.game_pin}</p>
+	<p class="text-3xl text-center">{$t('words.pin')}: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
 			{#each players as player}
 				<li>
 					<span>{player.username} </span>
-					<button>Kick</button>
+					<button>{$t('words.kick')}</button>
 				</li>
 			{/each}
 		{/if}
@@ -138,14 +140,14 @@
 				socket.emit('start_game', '');
 				game_started = true;
 			}}
-			>Start Game
+			>{$t('admin_page.start_game')}
 		</button>
 	{/if}
 {:else}
-	<span>Time left: {timer_res}</span>
+	<span>{$t('admin_page.time_left')}: {timer_res}</span>
 	<br />
 	{#if timer_res === '0'}
-		<button on:click={get_question_results}>Get results</button>
+		<button on:click={get_question_results}>{$t('admin_page.get_results')}</button>
 		<br />
 		{#if question_results !== null}
 			<br />

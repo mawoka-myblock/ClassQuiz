@@ -15,6 +15,9 @@
 </script>
 
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 	let url_input = '';
 
 	let url_valid = false;
@@ -77,16 +80,16 @@
 		>
 			<div class="px-6 py-4">
 				<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">
-					ClassQuiz
+					{$t('words.import')}
 				</h2>
 
-				<h3 class="mt-1 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
-					Welcome Back
-				</h3>
+				<!--				<h3 class="mt-1 text-xl font-medium text-center text-gray-600 dark:text-gray-200">
+									Welcome Back
+								</h3>-->
 
-				<p class="mt-1 text-center text-gray-500 dark:text-gray-400">
-					Login or create account
-				</p>
+				<!--				<p class="mt-1 text-center text-gray-500 dark:text-gray-400">
+									Login or create account
+								</p>-->
 
 				<form on:submit|preventDefault={submit}>
 					<div class="w-full mt-4">
@@ -106,7 +109,7 @@
 									for="url"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-700 dark:text-white bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									URL
+									{$t('words.url')}
 								</label>
 							</div>
 						</div>
@@ -134,7 +137,7 @@
 										/>
 									</svg>
 								{:else}
-									Submit
+									{$t('words.submit')}
 								{/if}
 							</button>
 						</div>
@@ -144,12 +147,14 @@
 			<div
 				class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700"
 			>
-				<span class="text-sm text-gray-600 dark:text-gray-200">Need help? </span>
+				<span class="text-sm text-gray-600 dark:text-gray-200"
+					>{$t('import_page.need_help')}</span
+				>
 
 				<a
 					href="/docs/import-from-kahoot"
 					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
-					>Visit the docs</a
+					>{$t('import_page.visit_docs')}</a
 				>
 			</div>
 		</div>

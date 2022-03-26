@@ -1,5 +1,8 @@
 <script>
 	import '@fontsource/marck-script/index.css';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	let openMenu = true;
 	let closeMenu = false;
@@ -82,19 +85,19 @@
 		<li class="py-2">
 			<a
 				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/play">Play</a
+				href="/play">{$t('words.play')}</a
 			>
 		</li>
 		<li class="py-2">
 			<a
 				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/account/register">Register</a
+				href="/account/register">{$t('words.register')}</a
 			>
 		</li>
 		<li class="py-2">
 			<a
 				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/account/login">Login</a
+				href="/account/login">{$t('words.login')}</a
 			>
 		</li>
 		<li class="py-2">
@@ -106,7 +109,7 @@
 		<li class="py-2">
 			<a
 				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/docs">Docs</a
+				href="/docs">{$t('words.docs')}</a
 			>
 		</li>
 	</ul>

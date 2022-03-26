@@ -4,8 +4,6 @@
 			"title": "Home",
 			"description": "ClassQuiz ist eine Quiz-App wie KAHOOT! für Schüler*innen, welche open-source und kostenlos ist"
 		},
-		"stats": "Statistiken",
-		"features": "Features",
 		"features_description": {
 			"1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
 			"2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
@@ -13,41 +11,24 @@
 		"slogan": "Die open-source Quiz-Platform!"
 	},
 	"overview_page": {
-		"create": "Erstellen",
-		"import": "Importieren",
-		"logout": "Ausloggen",
-		"title": "Titel",
 		"created_at": "Erstellt am",
-		"question_count": "Fragenanzahl",
-		"play": "Spielen",
-		"edit": "Bearbeiten",
-		"delete": "Löschen",
-		"public": "Öffentlich",
-		"start": "Starten"
+		"question_count": "Fragenanzahl"
 	},
 	"edit_page": {
-		"save": "Speichern",
 		"success_update_title": "Quiz erfolgreich aktualisiert!",
-		"success_update_body": "Das Quiz wurde erfolgreich aktualisiert!",
-		"close": "Schließen"
+		"success_update_body": "Das Quiz wurde erfolgreich aktualisiert!"
 	},
 	"create_page": {
 		"success": {
 			"title": "Quiz erfolgreich erstellt!",
 			"body": "Das Quiz wurde erfolgreich erstellt!"
-		},
-		"close": "Schließen"
+		}
 	},
 	"register_page": {
 		"greeting": "Schön, dich zu sehen!",
 		"create_account": "Account erstellen",
-		"email": "Email",
-		"username": "Nutzername",
-		"password": "Passwort",
 		"forgot_password?": "Passwort vergessen?",
-		"register": "Registrieren",
-		"already_have_account?": "Hast du schon einen Account?",
-		"login": "Login"
+		"already_have_account?": "Hast du schon einen Account?"
 	},
 	"login_page": {
 		"welcome_back": "Willkommen zurück!",
@@ -71,5 +52,53 @@
 				}
 			}
 		}
+	},
+	"words": {
+		"question": "",
+		"answer": "",
+		"stats": "",
+		"features": "",
+		"import": "",
+		"url": "",
+		"submit": "",
+		"create": "",
+		"logout": "",
+		"title": "",
+		"play": "",
+		"edit": "",
+		"delete": "",
+		"public": "",
+		"start": "",
+		"connect": "",
+		"pin": "",
+		"kick": "",
+		"register": "",
+		"login": "",
+		"docs": "",
+		"close": "",
+		"save": ""
+	},
+	"editor": {
+		"time_in_seconds": "",
+		"right_or_true?": "",
+		"add_new_answer": "",
+		"add_new_question": ""
+	},
+	"import": {
+		"need_help": "",
+		"visit_docs": ""
+	},
+	"admin": {
+		"already_registered_as_admin": ""
+	},
+	"admin_page": {
+		"already_registered_as_admin": "",
+		"start_game": "",
+		"time_left": "",
+		"get_results": ""
+	},
+	"import_page": {
+		"need_help": "",
+		"visit_docs": ""
 	}
 }

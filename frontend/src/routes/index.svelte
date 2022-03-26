@@ -31,7 +31,7 @@
 
 <section id="stats">
 	<div class="text-center pt-48 snap-y">
-		<h1 class="sm:text-6xl text-4xl">{$t('index_page.stats')}</h1>
+		<h1 class="sm:text-6xl text-4xl">{$t('words.stats')}</h1>
 		<p class="text-xl pt-4">
 			{#await getStats() then stats}
 				There are already <span class="underline">{stats.user_count}</span> users and <!-- TODO: Add translation -->
@@ -42,7 +42,7 @@
 </section>
 <section id="features">
 	<div class="text-center pt-24 snap-y">
-		<h1 class="sm:text-6xl text-4xl">{$t('index_page.features')}</h1>
+		<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
 		<p class="text-xl pt-4">
 			{$t('index_page.features_description.1')}
 			<br />

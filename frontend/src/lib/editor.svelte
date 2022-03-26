@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
+
 	interface Data {
 		public: boolean;
 		title: string;
@@ -51,37 +55,37 @@
 </label>
 {#each data.questions as question, index_question}
 	<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-		<h1 class="text-3xl">Question {index_question + 1}</h1>
+		<h1 class="text-3xl">{$t('words.question')} {index_question + 1}</h1>
 
 		<label>
 			<input
 				type="text"
-				placeholder="Question"
+				placeholder={$t('words.question')}
 				bind:value={question.question}
 				class="text-black"
 			/>
-			Question
+			{$t('words.question')}
 		</label>
 		<label>
 			<input type="text" placeholder="20" bind:value={question.time} class="text-black" />
-			Time in seconds
+			{$t('editor.time_in_seconds')}
 		</label>
 		{#each question.answers as answer, index_answer}
 			<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-				<h1 class="text-3xl">Answer {index_answer + 1}</h1>
-				<p>Answer: {index_answer} Question: {index_question}</p>
+				<h1 class="text-3xl">{$t('words.answer')} {index_answer + 1}</h1>
+				<p>{$t('words.answer')}: {index_answer} {$t('words.question')}: {index_question}</p>
 				<label>
 					<input
 						type="text"
-						placeholder="Answer"
+						placeholder={$t('words.answer')}
 						bind:value={data.questions[index_question].answers[index_answer].answer}
 						class="text-black"
 					/>
-					Answer
+					{$t('words.answer')}
 				</label>
 				<label>
 					<input type="checkbox" bind:checked={answer.right} class="text-black" />
-					Right?
+					{$t('editor.right_or_true?')}?
 				</label>
 				<button
 					class="text-left"
@@ -93,7 +97,7 @@
 						];
 					}}
 				>
-					Add new answer
+					{$t('editor.add_new_answer')}
 				</button>
 			</div>
 		{/each}
@@ -104,7 +108,7 @@
 				data.questions = [...data.questions, { ...empty_question }];
 			}}
 		>
-			Add new question
+			{$t('editor.add_new_question')}
 		</button>
 	</div>
 {/each}
