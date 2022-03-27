@@ -59,7 +59,7 @@
         "stats": "Statistiken",
         "features": "Features",
         "import": "Importieren",
-        "url": "",
+        "url": "URL",
         "submit": "Abschicken",
         "create": "Erstellen",
         "logout": "Abmelden",
@@ -70,7 +70,7 @@
         "public": "Öffentlich",
         "start": "Start",
         "connect": "Verbinden",
-        "pin": "",
+        "pin": "PIN",
         "kick": "Kicken",
         "register": "Registrieren",
         "login": "Anmelden",
@@ -78,7 +78,8 @@
         "close": "Schließen",
         "save": "Speichern",
         "username": "Nutzername",
-        "password": "Passwort"
+        "password": "Passwort",
+        "email": "Email"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
