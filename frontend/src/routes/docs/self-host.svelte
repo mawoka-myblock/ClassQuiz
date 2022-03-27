@@ -38,8 +38,8 @@
 			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
 		></pre>
 	<p>
-		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you Sentry want,
-		a valid Sentry-DSN.
+		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you want Sentry,
+		set a valid Sentry-DSN.
 	</p>
 	<p>
 		You must set a valid hCaptcha-Sitekey in the <code>frontend/Dockerfile</code>.
