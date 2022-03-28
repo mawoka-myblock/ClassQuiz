@@ -104,13 +104,13 @@
 									name="email"
 									type="email"
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder={$t('register_page.email')}
+									placeholder={$t('words.email')}
 								/>
 								<label
 									for="email"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-700 dark:text-white bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									{$t('register_page.email')}
+									{$t('words.email')}
 								</label>
 							</div>
 						</div>
@@ -122,13 +122,13 @@
 									type="password"
 									bind:value={loginData.password}
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder={$t('register_page.password')}
+									placeholder={$t('words.password')}
 								/>
 								<label
 									for="password"
 									class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
 								>
-									{$t('register_page.password')}
+									{$t('words.password')}
 								</label>
 							</div>
 						</div>
@@ -160,7 +160,7 @@
 										/>
 									</svg>
 								{:else}
-									{$t('register_page.login')}
+									{$t('words.login')}
 								{/if}
 							</button>
 						</div>
@@ -178,7 +178,7 @@
 				<a
 					href="/account/register"
 					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
-					>{$t('register_page.register')}</a
+					>{$t('words.register')}</a
 				>
 			</div>
 		</div>
@@ -309,7 +309,7 @@
 						}
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-					>{$t('create_page.close')}
+					>{$t('words.close')}
 				</button>
 			</div>
 		</div>
