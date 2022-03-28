@@ -179,7 +179,7 @@
 										<td
 											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 										>
-											<a href="/edit?quiz_id={quiz.id}">{$t('words.edit')}</a>
+											<a href="/edit?quiz_id={quiz.id}" class="border border-yellow-600">{$t('words.edit')}</a>
 										</td>
 										<td
 											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
@@ -188,7 +188,7 @@
 												on:click={() => {
 													deleteQuiz(quiz.id);
 												}}
-												class="border border-green-600"
+												class="border border-red-600"
 											>
 												{$t('words.delete')}
 											</button>
