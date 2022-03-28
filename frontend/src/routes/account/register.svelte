@@ -15,6 +15,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { validateSchema } from '@felte/validator-yup';
 	import { navbarVisible } from '$lib/stores';
+	import Footer from '$lib/footer.svelte';
 
 	const { t } = getLocalization();
 	// import reporter from '@felte/reporter-tippy';
@@ -227,7 +228,7 @@
 		</div>
 	</div>
 </div>
-
+<Footer />
 <div
 	class="fixed z-10 inset-0 overflow-y-auto"
 	aria-labelledby="modal-title"

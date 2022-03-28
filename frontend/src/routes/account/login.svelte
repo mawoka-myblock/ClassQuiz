@@ -14,6 +14,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import { browser } from '$app/env';
 	import { getLocalization } from '$lib/i18n';
+	import Footer from '$lib/footer.svelte';
 
 	const { t } = getLocalization();
 
@@ -73,7 +74,6 @@
 <svelte:head>
 	<title>ClassQuiz - Login</title>
 </svelte:head>
-
 <div class="flex items-center justify-center h-full px-4">
 	<div>
 		<span class="p-4" />
@@ -184,7 +184,7 @@
 		</div>
 	</div>
 </div>
-
+<Footer />
 <div
 	class="fixed z-10 inset-0 overflow-y-auto"
 	aria-labelledby="modal-title"
