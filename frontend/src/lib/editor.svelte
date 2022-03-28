@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -41,75 +41,104 @@
 	};
 </script>
 
-<label>
-	<input type="checkbox" bind:checked={data.public} />
-	Public?
+<label class='pl-2'>
+	<input type='checkbox' class='w-fit' bind:checked={data.public} />
+	{$t('words.public')}?
 </label>
-<label>
-	<input type="text" placeholder="Title" bind:value={data.title} class="text-black" />
-	Title
+<label class='pl-2'>
+	{$t('words.title')}:
+	<input type='text' placeholder={$t('words.title')} bind:value={data.title}
+		   class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black' />
+
 </label>
-<label>
-	<textarea placeholder="Description" bind:value={data.description} class="text-black" />
-	Description
+<label class='pl-2'>
+	{$t('words.description')}:
+	<textarea placeholder={$t('words.description')} bind:value={data.description} class='text-black w-3/5' />
+
 </label>
 {#each data.questions as question, index_question}
-	<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-		<h1 class="text-3xl">{$t('words.question')} {index_question + 1}</h1>
+	<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2'>
+		<h1 class='text-3xl m-1'>{$t('words.question')} {index_question + 1}</h1>
 
-		<label>
+		<label class='m-1'>
+			{$t('words.question')}:
 			<input
-				type="text"
+				type='text'
 				placeholder={$t('words.question')}
 				bind:value={question.question}
-				class="text-black"
+				class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black'
 			/>
-			{$t('words.question')}
+
 		</label>
-		<label>
-			<input type="text" placeholder="20" bind:value={question.time} class="text-black" />
-			{$t('editor.time_in_seconds')}
+		<label class='m-1'>
+			{$t('editor.time_in_seconds')}:
+			<input type='text' placeholder='20' bind:value={question.time}
+				   class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black' />
+
 		</label>
 		{#each question.answers as answer, index_answer}
-			<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-				<h1 class="text-3xl">{$t('words.answer')} {index_answer + 1}</h1>
-				<p>{$t('words.answer')}: {index_answer} {$t('words.question')}: {index_question}</p>
-				<label>
+			<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1'>
+				<h1 class='text-3xl m-1'>{$t('words.answer')} {index_answer + 1}</h1>
+				<p class='m-1'>{$t('words.answer')}: {index_answer + 1} {$t('words.question')}: {index_question + 1}</p>
+				<label class=' m-1'>
+					{$t('words.answer')}:
 					<input
-						type="text"
+						type='text'
 						placeholder={$t('words.answer')}
 						bind:value={data.questions[index_question].answers[index_answer].answer}
-						class="text-black"
+						class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black'
 					/>
-					{$t('words.answer')}
+
 				</label>
-				<label>
-					<input type="checkbox" bind:checked={answer.right} class="text-black" />
-					{$t('editor.right_or_true?')}?
+				<label class='m-1'>
+					<input type='checkbox' bind:checked={answer.right} class='text-black' />
+					{$t('editor.right_or_true?')}
 				</label>
+
+
 				<button
-					class="text-left"
-					type="button"
+					class='text-left border-yellow-500 border-2 w-fit m-1'
+					type='button'
 					on:click={() => {
+						data.questions[index_question].answers.splice(index_answer, 1);
+						data.questions[index_question].answers = data.questions[index_question].answers
+					}}
+				>
+					{$t('editor.delete_answer')}
+				</button>
+			</div>
+		{/each}
+		<button
+			class='text-left border-green-500 border-2 w-fit m-1'
+			type='button'
+			on:click={() => {
 						data.questions[index_question].answers = [
 							...data.questions[index_question].answers,
 							{ ...empty_answer }
 						];
 					}}
-				>
-					{$t('editor.add_new_answer')}
-				</button>
-			</div>
-		{/each}
+		>
+			{$t('editor.add_new_answer')}
+		</button>
 		<button
-			class="text-left"
-			type="button"
+			class='text-left border-red-500 border-2 w-fit m-1'
+			type='button'
 			on:click={() => {
-				data.questions = [...data.questions, { ...empty_question }];
+				data.questions.splice(index_question, 1);
+				data.questions = data.questions
 			}}
 		>
-			{$t('editor.add_new_question')}
+			{$t('editor.delete_question')}
 		</button>
 	</div>
 {/each}
-<button type="submit">{submit_button_text}</button>
+<button
+	class='text-left'
+	type='button'
+	on:click={() => {
+				data.questions = [...data.questions, { ...empty_question }];
+			}}
+>
+	{$t('editor.add_new_question')}
+</button>
+<button type='submit' class='text-xl'>{submit_button_text}</button>
