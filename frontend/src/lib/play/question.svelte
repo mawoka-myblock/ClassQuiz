@@ -48,6 +48,9 @@
 	</h1>
 	<span class="text-center py-2 text-lg">{timer_res}</span>
 </div>
+<div>
+	<img src='{question.image}' class="w-full h-full object-cover" alt='Question image'>
+</div>
 {#if timer_res !== '0'}
 	<div class="flex flex-wrap">
 		{#each question.answers as answer}

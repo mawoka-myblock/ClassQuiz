@@ -52,6 +52,7 @@ class QuizQuestion(BaseModel):
     question: str
     time: str  # in Secs
     answers: list[QuizAnswer]
+    image: str | None = None
 
 
 class QuizInput(BaseModel):

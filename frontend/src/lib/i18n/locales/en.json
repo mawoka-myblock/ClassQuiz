@@ -80,7 +80,8 @@
         "docs": "Docs",
         "close": "Close",
         "save": "Save",
-        "description": "Description"
+        "description": "Description",
+        "image": "Image"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",

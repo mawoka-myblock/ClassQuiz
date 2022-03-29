@@ -13,6 +13,7 @@
 	interface Question {
 		question: string;
 		time: string;
+		image?: string;
 		answers: Answer[];
 	}
 
@@ -21,12 +22,15 @@
 		answer: string;
 	}
 
+
 	export let data: Data;
 	export let submit_button_text = 'Create';
+	let imgur_links_valid = false;
 
 	const empty_question: Question = {
 		question: '',
 		time: '20',
+		image: '',
 		answers: [
 			{
 				right: false,
@@ -34,6 +38,21 @@
 			}
 		]
 	};
+
+	const checkIfAllQuestionImagesComplyWithRegex = (questions: Array<Question>) => {
+		let NoteverythingValid = false;
+		const regex = /^https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif)$/;
+		for (let i = 0; i < questions.length; i++) {
+			const question = questions[i];
+			if (question.image && !regex.test(question.image)) {
+				console.log('not valid');
+				NoteverythingValid = true;
+			}
+		}
+		return NoteverythingValid;
+	};
+
+	$: imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
 
 	const empty_answer: Answer = {
 		right: false,
@@ -67,6 +86,17 @@
 				placeholder={$t('words.question')}
 				bind:value={question.question}
 				class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black'
+			/>
+
+		</label>
+		<label class='m-1'>
+			{$t('words.image')}:
+			<input
+				type='text'
+				placeholder='https://i.imgur.com/kSPCidY.png'
+				bind:value={question.image}
+				class='text-black w-3/5 bg-inherit border-dotted border-b-2 border-black'
+
 			/>
 
 		</label>
@@ -141,4 +171,10 @@
 >
 	{$t('editor.add_new_question')}
 </button>
-<button type='submit' class='text-xl'>{submit_button_text}</button>
+{#if imgur_links_valid}
+	<p class='text-blue-600 text-xl text-center w-fit mx-auto'>
+		Not all links are imgur-links! <!-- TODO: Add translation -->
+	</p>
+{/if}
+<button type='submit' class='text-xl disabled:cursor-not-allowed disabled:border disabled:border-red-500 w-fit mx-auto'
+		disabled={imgur_links_valid}>{submit_button_text}</button>

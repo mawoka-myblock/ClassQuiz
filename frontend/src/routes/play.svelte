@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context='module' lang='ts'>
 	export async function load({ url }) {
 		const token = url.searchParams.get('pin');
 		return {
@@ -9,7 +9,7 @@
 	}
 </script>
 
-<script lang="ts">
+<script lang='ts'>
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
@@ -71,6 +71,13 @@
 
 <svelte:head>
 	<title>ClassQuiz - Play</title>
+	{#if gameData !== undefined}
+		{#each gameData.questions as question}
+			{#if question.image !== undefined}
+				<link rel='preload' as='image' href={question.image} />
+			{/if}
+		{/each}
+	{/if}
 </svelte:head>
 <div>
 	{#if !gameMeta.started && gameData === undefined}

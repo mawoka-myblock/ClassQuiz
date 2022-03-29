@@ -6,6 +6,7 @@ from random import randint
 from classquiz.kahoot_importer.import_quiz import import_quiz
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
+import re
 
 from classquiz.auth import get_current_user, get_current_user_optional
 from classquiz.config import redis
@@ -16,6 +17,11 @@ router = APIRouter()
 
 @router.post("/create")
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
+    imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
+    for question in quiz_input.questions:
+        if question.image is not None:
+            if not re.match(imgur_regex, question.image):
+                raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
     return await quiz.save()

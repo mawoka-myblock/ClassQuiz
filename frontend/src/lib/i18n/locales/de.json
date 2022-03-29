@@ -80,7 +80,8 @@
         "username": "Nutzername",
         "password": "Passwort",
         "email": "Email",
-        "description": "Beschreibung"
+        "description": "Beschreibung",
+        "image": "Bild"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",

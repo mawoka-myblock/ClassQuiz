@@ -27,6 +27,7 @@ export interface QuizData {
 export interface Question {
 	time: string;
 	question: string;
+	image?: string;
 	answers: Answer[];
 }
 
