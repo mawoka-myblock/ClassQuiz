@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import type { Question } from '../../app';
 	import { socket } from '$lib/socket';
 
@@ -42,39 +42,39 @@
 	};
 </script>
 
-<div class='flex flex-col justify-center w-screen h-1/6'>
-	<h1 class='text-6xl text-center'>
+<div class="flex flex-col justify-center w-screen h-1/6">
+	<h1 class="text-6xl text-center">
 		{question.question}
 	</h1>
-	<span class='text-center py-2 text-lg'>{timer_res}</span>
+	<span class="text-center py-2 text-lg">{timer_res}</span>
 </div>
 {#if question.image !== null}
 	<div>
-		<img src='{question.image}' class='w-full h-full object-cover' alt='Question image'>
+		<img src={question.image} class="w-full h-full object-cover" alt="Question image" />
 	</div>
 {/if}
 {#if timer_res !== '0'}
-	<div class='flex flex-wrap'>
+	<div class="flex flex-wrap">
 		{#each question.answers as answer}
 			<button
-				class='w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white'
+				class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
 				disabled={selected_answer !== undefined}
 				on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
 			>
 		{/each}
 	</div>
 {:else}
-	<div class='flex flex-wrap'>
+	<div class="flex flex-wrap">
 		{#each question.answers as answer}
 			{#if answer.right}
 				<button
-					class='w-1/2 text-3xl bg-green-600 border border-white'
+					class="w-1/2 text-3xl bg-green-600 border border-white"
 					disabled
 					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
 				>
 			{:else}
 				<button
-					class='w-1/2 text-3xl bg-red-500 border border-white'
+					class="w-1/2 text-3xl bg-red-500 border border-white"
 					disabled
 					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
 				>

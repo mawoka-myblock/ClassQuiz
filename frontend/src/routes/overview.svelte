@@ -43,6 +43,7 @@
 			throw new Error('Failed to start game');
 		}
 		const data = await res.json();
+		plausible('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 
@@ -179,7 +180,11 @@
 										<td
 											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 										>
-											<a href="/edit?quiz_id={quiz.id}" class="border border-yellow-600">{$t('words.edit')}</a>
+											<a
+												href="/edit?quiz_id={quiz.id}"
+												class="border border-yellow-600"
+												>{$t('words.edit')}</a
+											>
 										</td>
 										<td
 											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"

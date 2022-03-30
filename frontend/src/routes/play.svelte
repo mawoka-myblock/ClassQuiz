@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ url }) {
 		const token = url.searchParams.get('pin');
 		return {
@@ -9,7 +9,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
@@ -46,6 +46,7 @@
 	socket.on('joined_game', (data) => {
 		console.log('joined_game', data);
 		gameData = JSON.parse(data);
+		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
 	});
 
 	socket.on('game_not_found', () => {
@@ -74,7 +75,7 @@
 	{#if gameData !== undefined}
 		{#each gameData.questions as question}
 			{#if question.image !== undefined}
-				<link rel='preload' as='image' href={question.image} />
+				<link rel="preload" as="image" href={question.image} />
 			{/if}
 		{/each}
 	{/if}
