@@ -8,6 +8,8 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from classquiz.config import settings
 from classquiz.db.models import User
 
+settings = settings()
+
 jinja = Environment(
     loader=PackageLoader('classquiz.emails', 'templates'),
     autoescape=select_autoescape(['html', 'xml']),

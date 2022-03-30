@@ -124,7 +124,7 @@
 							>
 								{#if is_loading}
 									<svg
-										class="h-4 w-4 animate-spin mx-auto my-20"
+										class="h-4 w-4 animate-spin mx-auto"
 										viewBox="3 3 18 18"
 									>
 										<path

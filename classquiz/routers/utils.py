@@ -6,6 +6,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from classquiz.config import settings
+settings = settings()
 
 router = APIRouter()
 

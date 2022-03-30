@@ -16,6 +16,7 @@ from passlib.hash import argon2
 from classquiz.cache import get_cache
 from classquiz.config import settings
 from classquiz.db.models import *
+settings = settings()
 
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 pwd_context = argon2

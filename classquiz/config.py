@@ -1,4 +1,5 @@
 import redis.asyncio as redis_lib
+from functools import lru_cache
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
 
 
@@ -17,13 +18,19 @@ class Settings(BaseSettings):
     mail_server: str
     mail_port: int
     secret_key: str
+    imgur_client_id: str = "b13fefc8bb1db87"
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
+    sentry_dsn: str | None = "https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641"
 
     class Config:
         env_file = ".env"
         env_file_encoding = 'utf-8'
 
 
-settings = Settings()
-redis: redis_lib.client.Redis = redis_lib.Redis().from_url(settings.redis)
+@lru_cache()
+def settings() -> Settings:
+    return Settings()
+
+
+redis: redis_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)

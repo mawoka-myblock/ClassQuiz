@@ -25,8 +25,7 @@
 	<h2>Limitations</h2>
 	<ul>
 		<li>Videos don't get imported</li>
-		<li>Pictures don't get imported</li>
-		<li>Metadata doesn't get imported</li>
+		<li>Metadata doesn't get imported (Stuff like create-date, cover-image, etc.)</li>
 		<li>Point-multipliers don't get imported</li>
 	</ul>
 </article>

@@ -14,12 +14,13 @@ alembic = "*"
 email-validator = "*"
 python-multipart = "*"
 pydantic = "*"
-redis = "==4.2.0rc1"
+redis = "*"
 aiohttp = "*"
 gunicorn = { version = "*"}
 qrcode = "*"
 jinja2 = "*"
 argon2-cffi = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 

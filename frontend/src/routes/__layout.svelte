@@ -12,6 +12,7 @@
 		Sentry.init({
 			dsn: import.meta.env.VITE_SENTRY,
 			integrations: [new BrowserTracing()],
+			
 
 			// Set tracesSampleRate to 1.0 to capture 100%
 			// of transactions for performance monitoring.
