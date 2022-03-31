@@ -7,6 +7,7 @@ from classquiz.config import redis, settings
 from classquiz.db.models import GameSession, PlayGame
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
+settings = settings()
 
 
 @sio.event
