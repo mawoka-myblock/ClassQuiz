@@ -27,7 +27,7 @@ async def get_quiz_count() -> int:
 async def get_user_count() -> int:
     redis_res = await redis.get("global_user_count")
     if redis_res is None:
-        quiz_res = await User.objects.count()
+        quiz_res = await User.objects.filter(verified=True).count()
         await redis.set("global_user_count", quiz_res, ex=3600)
         return quiz_res
     else:
@@ -45,7 +45,7 @@ async def get_combined_count() -> CombinedOutput:
     quiz_count = None
     redis_res = await redis.get("global_user_count")
     if redis_res is None:
-        quiz_res = await User.objects.count()
+        quiz_res = await User.objects.filter(verified=True).count()
         await redis.set("global_user_count", quiz_res, ex=3600)
         user_count = quiz_res
     else:
