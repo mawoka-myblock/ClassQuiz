@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -62,82 +62,82 @@
 	};
 </script>
 
-<label class="pl-2">
-	<input type="checkbox" class="w-fit" bind:checked={data.public} />
-	{$t('words.public')}?
+<label class='pl-2 w-2/6 flex gap-2 flex-row'>
+	<input type='checkbox' class='w-fit' bind:checked={data.public} />
+	<span class='w-fit'>{$t('words.public')}?</span>
 </label>
-<label class="pl-2">
-	{$t('words.title')}:
+<label class='pl-2 flex flex-row gap-2 w-3/5'>
+	<span class='w-fit'>{$t('words.title')}:</span>
 	<input
-		type="text"
+		type='text'
 		placeholder={$t('words.title')}
 		bind:value={data.title}
-		class="text-black w-3/5 bg-inherit border-dotted border-b-2 border-black"
+		class='text-black bg-inherit border-dotted border-b-2 border-black w-full'
 	/>
 </label>
-<label class="pl-2">
+<label class='pl-2 flex flex-row gap-2 w-3/5'>
 	{$t('words.description')}:
 	<textarea
 		placeholder={$t('words.description')}
 		bind:value={data.description}
-		class="text-black w-3/5"
+		class='text-black w-full'
 	/>
 </label>
 {#each data.questions as question, index_question}
-	<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-		<h1 class="text-3xl m-1">{$t('words.question')} {index_question + 1}</h1>
+	<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2'>
+		<h1 class='text-3xl m-1'>{$t('words.question')} {index_question + 1}</h1>
 
-		<label class="m-1">
+		<label class='m-1 flex flex-row gap-2 w-3/5'>
 			{$t('words.question')}:
 			<input
-				type="text"
+				type='text'
 				placeholder={$t('words.question')}
 				bind:value={question.question}
-				class="text-black w-3/5 bg-inherit border-dotted border-b-2 border-black"
+				class='text-black w-full bg-inherit border-dotted border-b-2 border-black'
 			/>
 		</label>
-		<label class="m-1">
+		<label class='m-1 flex flex-row gap-2 w-3/5'>
 			{$t('words.image')}:
 			<input
-				type="text"
-				placeholder="https://i.imgur.com/kSPCidY.png"
+				type='text'
+				placeholder='https://i.imgur.com/kSPCidY.png'
 				bind:value={question.image}
-				class="text-black w-3/5 bg-inherit border-dotted border-b-2 border-black"
+				class='text-black w-full bg-inherit border-dotted border-b-2 border-black'
 			/>
 		</label>
-		<label class="m-1">
+		<label class='m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap'>
 			{$t('editor.time_in_seconds')}:
 			<input
-				type="text"
-				placeholder="20"
+				type='text'
+				placeholder='20'
 				bind:value={question.time}
-				class="text-black w-3/5 bg-inherit border-dotted border-b-2 border-black"
+				class='text-black w-full bg-inherit border-dotted border-b-2 border-black'
 			/>
 		</label>
 		{#each question.answers as answer, index_answer}
-			<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1">
-				<h1 class="text-3xl m-1">{$t('words.answer')} {index_answer + 1}</h1>
-				<p class="m-1">
+			<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1'>
+				<h1 class='text-3xl m-1'>{$t('words.answer')} {index_answer + 1}</h1>
+				<p class='m-1'>
 					{$t('words.answer')}: {index_answer + 1}
 					{$t('words.question')}: {index_question + 1}
 				</p>
-				<label class=" m-1">
+				<label class='m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap'>
 					{$t('words.answer')}:
 					<input
-						type="text"
+						type='text'
 						placeholder={$t('words.answer')}
 						bind:value={data.questions[index_question].answers[index_answer].answer}
-						class="text-black w-3/5 bg-inherit border-dotted border-b-2 border-black"
+						class='text-black w-full bg-inherit border-dotted border-b-2 border-black'
 					/>
 				</label>
-				<label class="m-1">
-					<input type="checkbox" bind:checked={answer.right} class="text-black" />
-					{$t('editor.right_or_true?')}
+				<label class='m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap'>
+					<input type='checkbox' bind:checked={answer.right} class='text-black w-fit' />
+					<span class='w-fit'>{$t('editor.right_or_true?')}</span>
 				</label>
 
 				<button
-					class="text-left border-yellow-500 border-2 w-fit m-1"
-					type="button"
+					class='text-left border-yellow-500 border-2 w-fit m-1'
+					type='button'
 					on:click={() => {
 						data.questions[index_question].answers.splice(index_answer, 1);
 						data.questions[index_question].answers =
@@ -149,8 +149,8 @@
 			</div>
 		{/each}
 		<button
-			class="text-left border-green-500 border-2 w-fit m-1"
-			type="button"
+			class='text-left border-green-500 border-2 w-fit m-1'
+			type='button'
 			on:click={() => {
 				data.questions[index_question].answers = [
 					...data.questions[index_question].answers,
@@ -161,8 +161,8 @@
 			{$t('editor.add_new_answer')}
 		</button>
 		<button
-			class="text-left border-red-500 border-2 w-fit m-1"
-			type="button"
+			class='text-left border-red-500 border-2 w-fit m-1'
+			type='button'
 			on:click={() => {
 				data.questions.splice(index_question, 1);
 				data.questions = data.questions;
@@ -173,8 +173,8 @@
 	</div>
 {/each}
 <button
-	class="text-left"
-	type="button"
+	class='text-left'
+	type='button'
 	on:click={() => {
 		data.questions = [...data.questions, { ...empty_question }];
 	}}
@@ -182,12 +182,12 @@
 	{$t('editor.add_new_question')}
 </button>
 {#if imgur_links_valid}
-	<p class="text-blue-600 text-xl text-center w-fit mx-auto">
+	<p class='text-blue-600 text-xl text-center w-fit mx-auto'>
 		Not all links are imgur-links! <!-- TODO: Add translation -->
 	</p>
 {/if}
 <button
-	type="submit"
-	class="text-xl disabled:cursor-not-allowed disabled:border disabled:border-red-500 w-fit mx-auto"
+	type='submit'
+	class='text-xl disabled:cursor-not-allowed disabled:border disabled:border-red-500 w-fit mx-auto'
 	disabled={imgur_links_valid}>{submit_button_text}</button
 >
