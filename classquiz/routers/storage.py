@@ -18,4 +18,5 @@ async def download_file(file_name: str):
     def iter_file():
         yield from download
 
-    return StreamingResponse(iter_file(), media_type='image/*')
+    return StreamingResponse(iter_file(), media_type='image/*',
+                             headers={"Cache-Control": "public, immutable, max-age=31536000"})
