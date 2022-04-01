@@ -1,7 +1,9 @@
 # ClassQuiz
 
 ClassQuiz is a quiz-application like KAHOOT!, but open-source which is very important if it is a product for educational
-purposes. You can create quizzes and play them remotely with other people. It is mainly made for teachers, who create a
+purposes.
+You can create quizzes and play them remotely with other people.
+It is mainly made for teachers, who create a
 quiz, so students can compete with their knowledge against each other.
 
 ## Try it
@@ -20,7 +22,7 @@ See https://classquiz.mawoka.eu/docs/develop
 
 ## Docs
 
-The docs are https://classquiz.mawoka.eu/docs on the website
+The docs are online at https://classquiz.mawoka.eu/docs
 
 ### Things to know about the structure
 
