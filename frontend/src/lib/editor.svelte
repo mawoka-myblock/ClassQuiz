@@ -40,11 +40,14 @@
 
 	const checkIfAllQuestionImagesComplyWithRegex = (questions: Array<Question>) => {
 		let NoteverythingValid = false;
-		const regex = /^https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif)$/;
+		// const regex = /^https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif)$/;
+		// const local_regex = /^http(|s):\/\/\w*(|:)\d*\/api\/v1\/storage\/download\/.{36}--.{36}$/g;
+		const main_regex =
+			/^(http(|s):\/\/\w*(|:)\d*\/api\/v1\/storage\/download\/.{36}--.{36}|https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif))$/;
 		for (let i = 0; i < questions.length; i++) {
 			const question = questions[i];
-			if (question.image && !regex.test(question.image)) {
-				console.log('not valid');
+
+			if (question.image && !main_regex.test(question.image)) {
 				NoteverythingValid = true;
 			}
 		}

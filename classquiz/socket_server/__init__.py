@@ -13,12 +13,16 @@ settings = settings()
 @sio.event
 async def join_game(sid, data):
     async with aiohttp.ClientSession() as session:
-        async with session.post("https://hcaptcha.com/siteverify",
-                                data={"response": data["captcha"], "secret": settings.hcaptcha_key}) as resp:
-            resp_data = await resp.json()
-            if not resp_data["success"]:
-                print("CAPTCHA FAILED")
-                return
+        try:
+            async with session.post("https://hcaptcha.com/siteverify",
+                                    data={"response": data["captcha"], "secret": settings.hcaptcha_key}) as resp:
+                resp_data = await resp.json()
+                if not resp_data["success"]:
+                    print("CAPTCHA FAILED")
+                    return
+        except KeyError as e:
+            print("CAPTCHA FAILED")
+            return
     redis_res = await redis.get(f"game:{data['game_pin']}")
     if redis_res is None:
         await sio.emit("game_not_found", room=sid)

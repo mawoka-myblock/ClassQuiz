@@ -4,7 +4,7 @@ from socketio import ASGIApp
 
 from classquiz.db import database
 from classquiz.config import settings
-from classquiz.routers import users, quiz, utils, stats
+from classquiz.routers import users, quiz, utils, stats, storage
 from classquiz.socket_server import sio
 from sentry_sdk.integrations.redis import RedisIntegration
 
@@ -50,4 +50,5 @@ app.include_router(users.router, tags=["users"], prefix="/api/v1/users")
 app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz")
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils")
 app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats")
+app.include_router(storage.router, tags=["storage"], prefix="/api/v1/storage")
 app.mount("/", ASGIApp(sio))

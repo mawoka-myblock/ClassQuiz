@@ -18,10 +18,16 @@ class Settings(BaseSettings):
     mail_server: str
     mail_port: int
     secret_key: str
-    imgur_client_id: str = "b13fefc8bb1db87"
+    imgur_client_id: str = "27aa1687703ddb9"
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
     sentry_dsn: str | None = "https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641"
+
+    # storage_backend
+    storage_backend: str | None = "deta"
+    # if storage_backend == "deta":
+    deta_project_key: str
+    deta_project_id: str
 
     class Config:
         env_file = ".env"

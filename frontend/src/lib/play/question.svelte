@@ -50,7 +50,11 @@
 </div>
 {#if question.image !== null}
 	<div>
-		<img src={question.image} class="w-full h-full object-cover" alt="Question image" />
+		<img
+			src={question.image}
+			class="h-2/5 object-cover mx-auto mb-8"
+			alt="Content for Question"
+		/>
 	</div>
 {/if}
 {#if timer_res !== '0'}
