@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang='ts'>
 	import { onMount } from 'svelte';
 	import '$lib/hljs.css';
 
@@ -11,32 +11,37 @@
 <svelte:head>
 	<title>ClassQuiz/docs - Self-Host</title>
 	<meta
-		name="description"
-		content="How to self-host ClassQuiz, the open-source quiz-application"
+		name='description'
+		content='How to self-host ClassQuiz, the open-source quiz-application'
 	/>
 </svelte:head>
 <article
-	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-pink text-yellow-50 px-4"
+	class='prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-pink text-yellow-50 px-4'
 >
 	<h1>Self-Hosting</h1>
 	<p>Since ClassQuiz is open-source, it can also be self-hosted.</p>
 
+
+	<h2>Warning</h2>
+	<p>This "warning" is just temporary, because you need a <a href='https://deta.sh'>Deta</a> account (which is free)
+		to store and serve the images getting imported with the kahoot-import function. I am planning to add more backends like s3 or the local file system. Untill then, Deta is needed. </p>
+
 	<h2>Requirements</h2>
 	<ul>
-		<li><a href="https://docker.com">Docker</a></li>
-		<li><a href="https://git-scm.com/">Git</a></li>
+		<li><a href='https://docker.com'>Docker</a></li>
+		<li><a href='https://git-scm.com/'>Git</a></li>
 		<li>
-			A <a href="https://redis.com">Redis</a>-Server (I recommend
-			<a href="https://upstash.com">Upstash</a>)
+			A <a href='https://redis.com'>Redis</a>-Server (I recommend
+			<a href='https://upstash.com'>Upstash</a>)
 		</li>
 	</ul>
 
 	<h2>Installation</h2>
 	<p>At first, clone the repo:</p>
 
-	<pre><code class="language-bash"
-			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
-		></pre>
+	<pre><code class='language-bash'
+	>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
+	></pre>
 	<p>
 		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you want Sentry,
 		set a valid Sentry-DSN.
@@ -50,8 +55,8 @@
 		Before you can start your stack, you have to set some environment-variables in your
 		<code>docker-compose.yml</code>.
 	</p>
-	<pre><code class="language-yaml"
-			>version: "3"
+	<pre><code class='language-yaml'
+	>version: "3"
 
 services:
   frontend:
@@ -119,5 +124,5 @@ volumes:
   data:
 	</code></pre>
 	<p>Now build and deploy:</p>
-	<pre><code class="language-bash">docker compose build && docker compose up -d</code></pre>
+	<pre><code class='language-bash'>docker compose build && docker compose up -d</code></pre>
 </article>
