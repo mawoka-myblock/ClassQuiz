@@ -22,10 +22,6 @@
 	<p>Since ClassQuiz is open-source, it can also be self-hosted.</p>
 
 
-	<h2>Warning</h2>
-	<p>This "warning" is just temporary, because you need a <a href='https://deta.sh'>Deta</a> account (which is free)
-		to store and serve the images getting imported with the kahoot-import function. I am planning to add more backends like s3 or the local file system. Untill then, Deta is needed. </p>
-
 	<h2>Requirements</h2>
 	<ul>
 		<li><a href='https://docker.com'>Docker</a></li>
@@ -51,6 +47,21 @@
 	</p>
 
 	<h2>Configuration</h2>
+	<h3>Storage Provider</h3>
+	<p>
+		You'll have to set up a storage provider for some pictures (these getting imported from KAHOOT!). For now, you
+		can use <a href='https://deta.sh'>Deta</a> or the local filesystem. Please note that I would <b>NOT</b> use it
+		because of these funny path-things. I tried to prevent these attacks, but i really wouldn't trust it.
+		You'll have to set the <code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or <code>local</code>.
+	</p>
+	<h4>If you chose Deta...</h4>
+	<p>
+		...you'll also have to set the <code>DETA_PROJECT_KEY</code> and the <code>DETA_PROJECT_ID</code>.
+	</p>
+	<h4>If you chose the local filesystem...</h4>
+	<p>
+		...you'll have to set the <code>STORAGE_PATH</code> enviromnent variable. The path must be absolute (so start with a <code>/</code>).
+	</p>
 	<p>
 		Before you can start your stack, you have to set some environment-variables in your
 		<code>docker-compose.yml</code>.
@@ -92,6 +103,14 @@ services:
       SECRET_KEY: "ghfvfgjgvjgvbh" # openssl rand -hex 32
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       HCAPTCHA_KEY: "" # Private hCaptcha key for verification
+	  STORAGE_BACKEND: "deta" # MUST BE EITHER "deta" OR "local"
+
+	  # If STORAGE_BACKEND is "deta"
+	  DETA_PROJECT_KEY: "YOUR_DETA_PROJECT_KEY"
+	  DETA_PROJECT_ID: "YOUR_DETA_PROJECT_ID"
+
+	  # If STORAGE_BACKEND is "local"
+	  STORAGE_PATH: "/var/storage"
   redis:
     image: redis:alpine
     restart: always

@@ -26,8 +26,11 @@ class Settings(BaseSettings):
     # storage_backend
     storage_backend: str | None = "deta"
     # if storage_backend == "deta":
-    deta_project_key: str
-    deta_project_id: str
+    deta_project_key: str | None
+    deta_project_id: str | None
+
+    # if storage_backend == "local":
+    storage_path: str | None
 
     class Config:
         env_file = ".env"

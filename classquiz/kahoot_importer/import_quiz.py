@@ -66,7 +66,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_questions: list[dict] = []
     quiz_id = uuid.uuid4()
     storage = Storage(backend=settings.storage_backend, deta_key=settings.deta_project_key,
-                      deta_id=settings.deta_project_id)
+                      deta_id=settings.deta_project_id, storage_path=settings.storage_path)
 
     for q in quiz.kahoot.questions:
         answers: list[QuizAnswer] = []

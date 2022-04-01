@@ -21,6 +21,7 @@ qrcode = "*"
 jinja2 = "*"
 argon2-cffi = "*"
 sentry-sdk = "*"
+aiofiles = "*"
 
 [dev-packages]
 
