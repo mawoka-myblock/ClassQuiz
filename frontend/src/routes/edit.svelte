@@ -1,5 +1,11 @@
 <script lang="ts" context="module">
-	export async function load({ url }) {
+	export async function load({ url, session }) {
+		if (!session.authenticated) {
+			return {
+				status: 302,
+				redirect: '/account/login'
+			};
+		}
 		const quiz_id = url.searchParams.get('quiz_id');
 		if (quiz_id === null) {
 			return {
