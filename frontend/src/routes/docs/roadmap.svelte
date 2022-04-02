@@ -18,7 +18,6 @@
 				<li>Session-management</li>
 			</ul>
 		</li>
-		<li>Images</li>
 		<li>(Better) Admin-screen styling</li>
 		<li>(Better) Edit/Create-screen styling</li>
 		<li>Public quiz-discovery</li>
