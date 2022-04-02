@@ -63,7 +63,6 @@
 			Cookies.set('reload', String(parseInt(cookie) + 1), { expires: expireIn60Sec });
 		}
 		window.location.reload();
-
 	};
 
 	const checkRememberMe = async () => {
