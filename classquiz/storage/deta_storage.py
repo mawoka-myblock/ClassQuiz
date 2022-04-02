@@ -41,3 +41,11 @@ class DetaStorage:
                     return None
                 else:
                     raise Exception("Upload failed")
+
+    async def delete(self, file_name: [str]) -> None:
+        async with ClientSession(headers=self.headers) as session:
+            async with session.delete(f"{self.deta_url}/files/delete", data={"names": file_name}) as response:
+                if response.status == 200:
+                    return None
+                else:
+                    raise Exception("Delete failed")

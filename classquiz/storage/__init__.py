@@ -14,7 +14,7 @@ class Storage:
         if backend == "deta":
             if deta_key is None or deta_id is None:
                 raise ValueError("deta_key and deta_id must be provided")
-        if backend == "local":
+        elif backend == "local":
             if storage_path is None:
                 raise ValueError("storage_path must be provided")
         else:
