@@ -8,7 +8,7 @@ class Storage:
         self.backend = backend
         self.deta_key = deta_key
         self.deta_id = deta_id
-        self.deta_base_url = f"https://drive.deta.sh/v1/{deta_id}/classquiz"
+        self.deta_base_url = f"https://drive.deta.sh/v1/{deta_id}/classquiz1"
         self.deta_instance = DetaStorage(deta_base_url=self.deta_base_url, deta_key=self.deta_key, deta_id=self.deta_id)
         self.local_instance = LocalStorage(base_path=storage_path)
         if backend == "deta":
@@ -32,3 +32,9 @@ class Storage:
             return await self.deta_instance.upload(file=file_data, file_name=file_name)
         elif self.backend == "local":
             return await self.local_instance.write_file(file_name=file_name, data=file_data)
+
+    async def delete(self, file_names: [str]) -> None:
+        if self.backend == "deta":
+            return await self.deta_instance.delete(file_names=file_names)
+        elif self.backend == "local":
+            return await self.local_instance.delete_file(file_names=file_names)

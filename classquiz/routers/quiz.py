@@ -9,8 +9,9 @@ from fastapi.responses import JSONResponse
 import re
 
 from classquiz.auth import get_current_user, get_current_user_optional
-from classquiz.config import redis, settings
+from classquiz.config import redis, settings, storage
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
+
 settings = settings()
 
 router = APIRouter()
@@ -108,7 +109,17 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
     quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
+
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
-    else:
-        return await quiz.delete()
+    pics_to_delete = []
+    pic_name_regex = re.compile("^.*/(.{36}--.{36})$")
+    for question in quiz.questions:
+        try:
+            if question["image"] is not None:
+                if not str(question["image"]).startswith("https://i.imgur.com/"):
+                    pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
+        except KeyError:
+            pass
+    await storage.delete(pics_to_delete)
+    return await quiz.delete()

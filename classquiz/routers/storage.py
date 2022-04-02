@@ -1,8 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
-from classquiz.config import settings
+from classquiz.config import settings, storage
 import re
-from classquiz.storage import Storage
 
 settings = settings()
 
@@ -13,8 +12,6 @@ file_regex = r"^[a-z0-9]{8}-[a-z0-9-]{27}--[a-z0-9-]{36}$"
 
 @router.get('/download/{file_name}')
 async def download_file(file_name: str):
-    storage = Storage(backend=settings.storage_backend, deta_key=settings.deta_project_key,
-                      deta_id=settings.deta_project_id, storage_path=settings.storage_path)
     if not re.match(file_regex, file_name):
         raise HTTPException(status_code=400, detail="Invalid file name")
 

@@ -1,8 +1,5 @@
-from classquiz.config import settings
 from aiohttp import ClientSession
 from io import BytesIO
-
-settings = settings()
 
 
 class DetaStorage:
@@ -42,9 +39,9 @@ class DetaStorage:
                 else:
                     raise Exception("Upload failed")
 
-    async def delete(self, file_name: [str]) -> None:
+    async def delete(self, file_names: [str]) -> None:
         async with ClientSession(headers=self.headers) as session:
-            async with session.delete(f"{self.deta_url}/files/delete", data={"names": file_name}) as response:
+            async with session.delete(f"{self.deta_url}/files", json={"names": file_names}) as response:
                 if response.status == 200:
                     return None
                 else:

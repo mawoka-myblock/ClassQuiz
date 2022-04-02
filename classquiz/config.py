@@ -1,6 +1,7 @@
 import redis.asyncio as redis_lib
 from functools import lru_cache
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
+from classquiz.storage import Storage
 
 
 class Settings(BaseSettings):
@@ -43,3 +44,5 @@ def settings() -> Settings:
 
 
 redis: redis_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
+storage: Storage = Storage(backend=settings().storage_backend, deta_key=settings().deta_project_key,
+                           deta_id=settings().deta_project_id, storage_path=settings().storage_path)

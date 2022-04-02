@@ -6,8 +6,7 @@ from aiohttp import ClientSession, FormData
 import html
 from classquiz.db.models import Quiz, QuizAnswer, QuizQuestion, User
 from classquiz.kahoot_importer.get import get as get_quiz
-from classquiz.config import settings
-from classquiz.storage import Storage
+from classquiz.config import settings, storage
 
 settings = settings()
 
@@ -65,8 +64,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         return "quiz not found"
     quiz_questions: list[dict] = []
     quiz_id = uuid.uuid4()
-    storage = Storage(backend=settings.storage_backend, deta_key=settings.deta_project_key,
-                      deta_id=settings.deta_project_id, storage_path=settings.storage_path)
+
 
     for q in quiz.kahoot.questions:
         answers: list[QuizAnswer] = []
