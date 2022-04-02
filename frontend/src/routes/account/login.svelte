@@ -41,7 +41,7 @@
 
 	const reloadWindow = () => {
 		const expireIn60Sec = new Date(new Date().getTime() + 60 * 1000);
-		if (Cookies.get('reload') === null) {
+		if (Cookies.get('reload') === undefined) {
 			Cookies.set('reload', '1', { expires: expireIn60Sec });
 		} else {
 			const cookie: string = Cookies.get('reload');
