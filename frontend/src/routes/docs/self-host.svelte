@@ -60,8 +60,9 @@
 	<p>
 		You'll have to set up a storage provider for some pictures (these getting imported from
 		KAHOOT!). For now, you can use <a href="https://deta.sh">Deta</a> or the local filesystem.
-		Please note that I would <b>NOT</b> use the local file system because of these funny path-things. I tried to
-		prevent these attacks, but i really wouldn't trust it. You'll have to set the
+		Please note that I would <b>NOT</b> use the local file system because of these funny
+		path-things. I tried to prevent these attacks, but i really wouldn't trust it. You'll have
+		to set the
 		<code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or
 		<code>local</code>.
 	</p>
