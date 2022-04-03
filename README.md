@@ -1,9 +1,31 @@
-# ClassQuiz
+<a href="https://github.com/mawoka-myblock/ClassQuiz/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mawoka-myblock/classquiz?style=for-the-badge"></a>
+<a href="https://github.com/mawoka-myblock/ClassQuiz/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/mawoka-myblock/classquiz?color=green&style=for-the-badge"></a>
+<a href="https://github.com/mawoka-myblock/ClassQuiz/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/mawoka-myblock/classquiz?style=for-the-badge"></a>
+<a href="https://github.com/mawoka-myblock/ClassQuiz/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc"><img alt="GitHub issues" src="https://img.shields.io/github/issues/mawoka-myblock/classquiz?style=for-the-badge"></a>
+<a href="https://github.com/mawoka-myblock/ClassQuiz/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/mawoka-myblock/classquiz?style=for-the-badge"></a>
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/mawoka-myblock/classquiz?style=for-the-badge">
+
+<div align='center'>
+    <h2 align='center'>ClassQuiz</h2>
+    <img src='logo.png' alt='ClassQuiz Logo'>
+    <p align='center'>
+        The open-source quiz-platform!
+        <br/>
+        <a href='https://classquiz.mawoka.eu/'><strong>Visit the website »</strong></a>
+        <br />
+        <br />
+        <a href='https://classquiz.mawoka.eu/docs'>Docs</a>
+        ·
+        <a href='https://classquiz.mawoka.eu/account/register'>Register</a>
+        ·
+        <a href='https://classquiz.mawoka.eu/docs/self-host'>Self-Hosting</a>
+    </p>
+</div>
+
+## About ClassQuiz
 
 ClassQuiz is a quiz-application like KAHOOT!, but open-source which is very important if it is a product for educational
-purposes.
-You can create quizzes and play them remotely with other people.
-It is mainly made for teachers, who create a
+purposes. You can create quizzes and play them remotely with other people. It is mainly made for teachers, who create a
 quiz, so students can compete with their knowledge against each other.
 
 ## Try it
