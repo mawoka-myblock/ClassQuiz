@@ -7,7 +7,7 @@
 
 <div align='center'>
     <h2 align='center'>ClassQuiz</h2>
-    <img src='logo.png' alt='ClassQuiz Logo'>
+    <img src='logo.png' alt='ClassQuiz Logo' height='100px' width='100px'>
     <p align='center'>
         The open-source quiz-platform!
         <br/>
