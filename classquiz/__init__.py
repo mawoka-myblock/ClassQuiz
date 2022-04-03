@@ -41,9 +41,6 @@ async def shutdown() -> None:
         await database_.disconnect()
 
 
-@app.get("/")
-async def root():
-    return {"message": sio}
 
 
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users")

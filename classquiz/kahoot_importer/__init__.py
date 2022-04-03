@@ -4,12 +4,12 @@ from typing import List, Any, Optional
 
 
 class _CoverMetadata(BaseModel):
-    id: UUID
+    id: UUID | None
     resources: str | None
 
 
 class _CreatorAvatar(BaseModel):
-    url: str
+    url: str | None
     id: UUID | None
     type: str | None
     bitmojiAvatarId: str | None
