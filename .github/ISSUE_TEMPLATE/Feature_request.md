@@ -1,6 +1,6 @@
 ---
 name: Feature request creation disabled
-about: Make a clear demand for improve ClassQuizz 💪
+about: Make a clear demand for improve ClassQuiz 💪
 
 ---
 
@@ -14,5 +14,5 @@ If applicable, add screenshots to help explain your feature.
 **Additional context**
 Add any other context about the problem here.
 
-Thanks for contributing to Decidim!
+Thanks for contributing to ClassQuiz!
 
