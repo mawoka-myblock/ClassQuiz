@@ -24,6 +24,5 @@
 
 ### :camera: Screenshots
 *Please add screenshots of the changes you're proposing*
-![Description](URL)
 
 :hearts: Thank you!
