@@ -145,7 +145,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!-- Product 1 -->
 								{#each quizzes as quiz}
 									<tr
 										class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
