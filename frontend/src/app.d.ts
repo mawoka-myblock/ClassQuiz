@@ -36,9 +36,9 @@ export interface Answer {
 	answer: string;
 }
 
-// TODO WTF
-export interface Answer {
-	username: string;
-	answer: string;
-	right: boolean;
-}
+// TODO Keep an eye on this shit
+// export interface Answer {
+// 	username: string;
+// 	answer: string;
+// 	right: boolean;
+// }
