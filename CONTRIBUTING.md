@@ -20,5 +20,6 @@ an issue here on GitHub.
 
 ## Want to translate?
 
-Go to [Weblate](https://translate.mawoka.eu/projects/classquiz/frontend/). If the language isn't available, please open
+Go to [Weblate](https://translate.mawoka.eu/projects/classquiz/frontend/).
+If the language isn't available, please open
 an issue here, so I'll be able to add it.

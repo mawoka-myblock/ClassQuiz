@@ -38,11 +38,14 @@ async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current
         raise HTTPException(status_code=400, detail="badly formed quiz id")
     if user is None:
         quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
-        # TODO: User can't be none
     else:
         quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
-        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+        public_quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+        if public_quiz is None:
+            return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+        else:
+            return public_quiz
     else:
         return quiz
 
