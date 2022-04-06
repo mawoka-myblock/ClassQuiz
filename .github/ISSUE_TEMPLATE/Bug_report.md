@@ -29,7 +29,8 @@ If applicable, add the error stacktrace to help explain your problem.
  - Device OS [e.g. iOS8.1, Windows 10]:
  - Browser [e.g. Chrome, Firefox, Safari]:
  - ~~Classquiz Version [e.g. 0.10]:~~  :warning:** No versioning for now** :warning:
- - Classquiz installation [e.g. classquiz.mawoka.eu] : 
+ - Classquiz installation [e.g. classquiz.mawoka.eu]:
+ - Commit SHA [e.g : ed35c5c69019e7cd6331ea438519f53b8bce70cf]: 
 
 **Additional context**
 Add any other context about the problem here.
