@@ -125,5 +125,6 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
                     pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
         except KeyError:
             pass
-    await storage.delete(pics_to_delete)
+    if len(pics_to_delete) != 0:
+        await storage.delete(pics_to_delete)
     return await quiz.delete()
