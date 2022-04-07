@@ -56,11 +56,11 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/api/v1/users/token/cookie")
 
 
-def verify_password(plain_password, hashed_password):
+def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password):
+def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
