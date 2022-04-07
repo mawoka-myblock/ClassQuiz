@@ -16,6 +16,7 @@ from passlib.hash import argon2
 from classquiz.cache import get_cache
 from classquiz.config import settings
 from classquiz.db.models import *
+
 settings = settings()
 
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -96,12 +97,14 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
@@ -132,11 +135,6 @@ async def get_current_user_optional(token: str = Depends(oauth2_scheme)) -> User
 
 
 async def check_token(token: str = Depends(oauth2_scheme)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
