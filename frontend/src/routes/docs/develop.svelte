@@ -13,6 +13,11 @@
 	<h2>Requirements</h2>
 	<h4>Backend</h4>
 	<ul>
+		<li>
+			<a href="https://www.python.org/">Python</a><br /><i
+				>I just plan to support the most recent version of Python.</i
+			><br /><i>At least Python 3.10</i>
+		</li>
 		<li><a href="https://caddyserver.com/">Caddy</a></li>
 		<li><a href="https://pipenv.pypa.io/en/latest/">Pipenv</a></li>
 		<li><a href="https://redis.io/">Redis</a></li>
