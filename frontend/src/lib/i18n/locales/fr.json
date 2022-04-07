@@ -49,7 +49,8 @@
         "close": "Fermer",
         "save": "Enregistrer",
         "description": "Description",
-        "image": "Image"
+        "image": "Image",
+        "title": "titre"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -87,7 +88,8 @@
         "add_new_question": "Ajouter une autre question",
         "add_new_answer": "Ajouter une autre réponse",
         "delete_question": "Supprimer la question",
-        "delete_answer": "Supprimer la réponse"
+        "delete_answer": "Supprimer la réponse",
+        "right_or_true?": "Vrai?"
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
