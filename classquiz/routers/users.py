@@ -8,6 +8,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from classquiz.auth import *
 from classquiz.config import redis
+from classquiz.cache import clear_cache_for_account
 from classquiz.db.models import *
 from classquiz.emails import send_register_email
 
@@ -115,3 +116,18 @@ async def verify_user(verify_key: str):
     user.verify_key = None
     await user.update()
     return RedirectResponse(url="/account/login?verified=true")
+
+
+@router.put("/password/update")
+async def change_password(password_data: UpdatePassword, response: Response, user: User = Depends(get_current_user)):
+    if not verify_password(password_data.old_password, user.password):
+        raise HTTPException(status_code=400, detail="Incorrect password")
+    user.password = get_password_hash(password_data.new_password)
+    await user.update()
+    await clear_cache_for_account(user)
+    await UserSession.objects.filter(user=user).delete()
+    response.delete_cookie("access_token")
+    response.delete_cookie("expiry")
+    response.delete_cookie("rememberme")
+    response.delete_cookie("rememberme_token")
+    return {"message": "Password updated successfully"}

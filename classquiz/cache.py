@@ -39,6 +39,12 @@ async def cache_account(criteria: str, content: str) -> Union[User, None]:
         return None
 
 
+async def clear_cache_for_account(user: User):
+    await redis.delete(user.email)
+    await redis.delete(user.username)
+    await redis.delete(str(user.id))
+
+
 async def get_from_redis(key: str) -> Union[None, User]:
     user = await redis.get(key)
     if user is None:

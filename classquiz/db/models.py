@@ -127,3 +127,8 @@ class GameSession(BaseModel):
     game_id: str
     players: list[GamePlayer | None]
     answers: list[GameAnser1 | None]
+
+
+class UpdatePassword(BaseModel):
+    old_password: str
+    new_password: str
