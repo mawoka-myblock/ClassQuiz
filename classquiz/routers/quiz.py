@@ -56,7 +56,7 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
-    quiz = await Quiz.objects.get_or_none(id=quiz_id, public=False, user_id=user.id)
+    quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
