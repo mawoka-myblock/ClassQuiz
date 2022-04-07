@@ -131,3 +131,14 @@ async def change_password(password_data: UpdatePassword, response: Response, use
     response.delete_cookie("rememberme")
     response.delete_cookie("rememberme_token")
     return {"message": "Password updated successfully"}
+
+
+@router.delete("/signout-everywhere")
+async def signout_everywhere(response: Response, user: User = Depends(get_current_user)):
+    await UserSession.objects.filter(user=user).delete()
+    await clear_cache_for_account(user)
+    response.delete_cookie("access_token")
+    response.delete_cookie("expiry")
+    response.delete_cookie("rememberme")
+    response.delete_cookie("rememberme_token")
+    return {"message": "Signout everywhere"}
