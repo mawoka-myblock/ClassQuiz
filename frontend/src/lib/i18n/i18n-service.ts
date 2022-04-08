@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import translations from './translations';
 import en from './locales/en.json';
 import de from './locales/de.json';
+import fr from './locales/fr.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import type { i18n, Resource } from 'i18next';
@@ -9,6 +10,7 @@ import type { i18n, Resource } from 'i18next';
 export class I18nService {
 	// expose i18next
 	i18n: i18n;
+
 	constructor() {
 		this.i18n = i18next;
 		this.initialize();
@@ -38,22 +40,14 @@ export class I18nService {
 			// 	lookupQuerystring: 'lng'
 			// }
 			detection: {
-				order: [
-					'querystring',
-					'cookie',
-					'localStorage',
-					'sessionStorage',
-					'navigator',
-					'htmlTag',
-					'path',
-					'subdomain'
-				],
+				order: ['querystring', 'cookie', 'localStorage', 'navigator'],
 				lookupQuerystring: 'lng',
 				lookupLocalStorage: 'language'
 			}
 		});
 		this.i18n.addResourceBundle('en', 'translation', en);
 		this.i18n.addResourceBundle('de', 'translation', de);
+		this.i18n.addResourceBundle('fr', 'translation', fr);
 	}
 
 	changeLanguage(language: string) {
