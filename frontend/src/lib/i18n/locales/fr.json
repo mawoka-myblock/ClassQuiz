@@ -1,104 +1,109 @@
 {
-	"login_page": {
-		"modal": {
-			"success": {
-				"description": {
-					"success": "Vous vous êtes connecté avec succès !",
-					"success_check_mail": "Veuillez vérifier votre boîte mail, vous avez normalement reçu un mail avec un lien pour vous connecter."
-				},
-				"success": "Connexion réussie !",
-				"success_check_mail": "Connexion réussie ! Vérifiez votre boîte mail !"
-			},
-			"error": {
-				"wrong_creds": "Mot de passe ou email non-correct !",
-				"description": {
-					"wrong_creds": "Assurez-vous que votre mot de passe et votre email sont corrects !",
-					"unexpected": "Une bonne vieille erreur inattendue s'est produite !"
-				},
-				"unexpected": "Erreur inattendue !"
-			}
-		},
-		"welcome_back": "Bon retour parmi nous !",
-		"login_or_create_account": "Se connecter ou créer un compte",
-		"already_have_account": "Pas encore de compte ?"
-	},
-	"words": {
-		"question": "Question",
-		"answer": "Réponse",
-		"stats": "Statistiques",
-		"features": "Fonctionnalités",
-		"login": "Connexion",
-		"email": "Email",
-		"username": "Pseudo",
-		"password": "Mot de passe",
-		"play": "Jouer",
-		"edit": "Modifier",
-		"delete": "Supprimer",
-		"public": "Public",
-		"start": "Commencer",
-		"create": "Créer",
-		"import": "Importer",
-		"logout": "Se déconnecter",
-		"url": "URL",
-		"submit": "Valider",
-		"connect": "Connexion",
-		"pin": "PIN",
-		"kick": "Éjecter",
-		"register": "Enregistrer",
-		"docs": "Documentation",
-		"close": "Fermer",
-		"save": "Enregistrer",
-		"description": "Description",
-		"image": "Image",
-		"title": "titre"
-	},
-	"index_page": {
-		"slogan": "La plateforme de quiz open-source !",
-		"meta": {
-			"description": "ClassQuiz est une application de quiz comme KAHOOT! pour les étudiants, libre et open-source",
-			"title": "Accueil"
-		},
-		"features_description": {
-			"1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des questionnaires.",
-			"2": "La fonctionnalité principale est la fonction d'import de quiz KAHOOT, vou permettant de créer des quiz directement depuis KAHOOT!."
-		}
-	},
-	"overview_page": {
-		"created_at": "Crée le",
-		"question_count": "Nombre de question"
-	},
-	"edit_page": {
-		"success_update_title": "Quiz mis à jour avec succès !",
-		"success_update_body": "Quiz mis à jour avec succès !"
-	},
-	"create_page": {
-		"success": {
-			"body": "Quiz créé avec succès !",
-			"title": "Quiz créé avec succès !"
-		}
-	},
-	"register_page": {
-		"greeting": "Ravi de vous connaître !",
-		"create_account": "Créer un compte",
-		"forgot_password?": "Mot de passe oublié ?",
-		"already_have_account?": "Vous avez déjà un compte ?"
-	},
-	"editor": {
-		"time_in_seconds": "Temps en seconde",
-		"add_new_question": "Ajouter une autre question",
-		"add_new_answer": "Ajouter une autre réponse",
-		"delete_question": "Supprimer la question",
-		"delete_answer": "Supprimer la réponse",
-		"right_or_true?": "Vrai?"
-	},
-	"import_page": {
-		"need_help": "Besoin d'aide ?",
-		"visit_docs": "Voir la documentation"
-	},
-	"admin_page": {
-		"already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
-		"start_game": "Commencer le jeu",
-		"time_left": "Temps restant",
-		"get_results": "Obtenir les résultats"
-	}
+    "login_page": {
+        "modal": {
+            "success": {
+                "description": {
+                    "success": "Vous vous êtes connecté avec succès !",
+                    "success_check_mail": "Veuillez vérifier votre boîte mail, vous avez normalement reçu un mail avec un lien pour vous connecter."
+                },
+                "success": "Connexion réussie !",
+                "success_check_mail": "Connexion réussie ! Vérifiez votre boîte mail !"
+            },
+            "error": {
+                "wrong_creds": "Mot de passe ou email non-correct !",
+                "description": {
+                    "wrong_creds": "Assurez-vous que votre mot de passe et votre email sont corrects !",
+                    "unexpected": "Une bonne vieille erreur inattendue s'est produite !"
+                },
+                "unexpected": "Erreur inattendue !"
+            }
+        },
+        "welcome_back": "Bon retour parmi nous !",
+        "login_or_create_account": "Se connecter ou créer un compte",
+        "already_have_account": "Pas encore de compte ?"
+    },
+    "words": {
+        "question": "Question",
+        "answer": "Réponse",
+        "stats": "Statistiques",
+        "features": "Fonctionnalités",
+        "login": "Connexion",
+        "email": "Email",
+        "username": "Pseudo",
+        "password": "Mot de passe",
+        "play": "Jouer",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "public": "Public",
+        "start": "Commencer",
+        "create": "Créer",
+        "import": "Importer",
+        "logout": "Se déconnecter",
+        "url": "URL",
+        "submit": "Valider",
+        "connect": "Connexion",
+        "pin": "PIN",
+        "kick": "Éjecter",
+        "register": "Enregistrer",
+        "docs": "Documentation",
+        "close": "Fermer",
+        "save": "Enregistrer",
+        "description": "Description",
+        "image": "Image",
+        "title": "titre",
+        "settings": "Paramètres",
+        "repeat_password": ""
+    },
+    "index_page": {
+        "slogan": "La plateforme de quiz open-source !",
+        "meta": {
+            "description": "ClassQuiz est une application de quiz comme KAHOOT! pour les étudiants, libre et open-source",
+            "title": "Accueil"
+        },
+        "features_description": {
+            "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des questionnaires.",
+            "2": "La fonctionnalité principale est la fonction d'import de quiz KAHOOT, vou permettant de créer des quiz directement depuis KAHOOT!."
+        }
+    },
+    "overview_page": {
+        "created_at": "Crée le",
+        "question_count": "Nombre de question"
+    },
+    "edit_page": {
+        "success_update_title": "Quiz mis à jour avec succès !",
+        "success_update_body": "Quiz mis à jour avec succès !"
+    },
+    "create_page": {
+        "success": {
+            "body": "Quiz créé avec succès !",
+            "title": "Quiz créé avec succès !"
+        }
+    },
+    "register_page": {
+        "greeting": "Ravi de vous connaître !",
+        "create_account": "Créer un compte",
+        "forgot_password?": "Mot de passe oublié ?",
+        "already_have_account?": "Vous avez déjà un compte ?"
+    },
+    "editor": {
+        "time_in_seconds": "Temps en seconde",
+        "add_new_question": "Ajouter une autre question",
+        "add_new_answer": "Ajouter une autre réponse",
+        "delete_question": "Supprimer la question",
+        "delete_answer": "Supprimer la réponse",
+        "right_or_true?": "Vrai?"
+    },
+    "import_page": {
+        "need_help": "Besoin d'aide ?",
+        "visit_docs": "Voir la documentation"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
+        "start_game": "Commencer le jeu",
+        "time_left": "Temps restant",
+        "get_results": "Obtenir les résultats"
+    },
+    "password_reset_page": {
+        "reset_password": ""
+    }
 }

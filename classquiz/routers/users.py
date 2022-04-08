@@ -10,12 +10,17 @@ from classquiz.auth import *
 from classquiz.config import redis
 from classquiz.cache import clear_cache_for_account
 from classquiz.db.models import *
-from classquiz.emails import send_register_email
+from classquiz.emails import send_register_email, send_forgotten_password_email
 
 router = APIRouter()
 
 route_user = User.get_pydantic(
     exclude={"id": ..., "verified": ..., "verify_key": ..., "created_at": ..., "usersessions": ...})
+
+
+async def _sign_out_everywhere(user: User) -> None:
+    await UserSession.objects.filter(user=user).delete()
+    await clear_cache_for_account(user)
 
 
 @router.post("/create", response_model=User,
@@ -135,8 +140,7 @@ async def change_password(password_data: UpdatePassword, response: Response, use
 
 @router.delete("/signout-everywhere")
 async def signout_everywhere(response: Response, user: User = Depends(get_current_user)):
-    await UserSession.objects.filter(user=user).delete()
-    await clear_cache_for_account(user)
+    await _sign_out_everywhere(user)
     response.delete_cookie("access_token")
     response.delete_cookie("expiry")
     response.delete_cookie("rememberme")
@@ -147,3 +151,39 @@ async def signout_everywhere(response: Response, user: User = Depends(get_curren
 @router.get("/me", response_model_exclude={"password", "verify_key", "usersessions"})
 async def get_me(user: User = Depends(get_current_user)):
     return user.dict(exclude={"password", "verify_key", "usersessions"})
+
+
+class ForgotPassword(BaseModel):
+    email: str
+
+
+@router.post("/forgot-password")
+async def forgotten_password(forgot_password: ForgotPassword):
+    user = await User.objects.filter(email=forgot_password.email, verified=True).get_or_none()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    await send_forgotten_password_email(user.email)
+    return {"message": "Password reset email sent"}
+
+
+class ResetPassword(BaseModel):
+    password: str
+    token: str
+
+
+@router.post("/reset-password")
+async def reset_password_with_token(reset_password: ResetPassword, response: Response):
+    redis_res = await redis.get(f"reset_passwd:{reset_password.token}")
+    if redis_res is None:
+        raise HTTPException(status_code=400, detail="Invalid token")
+    user = await User.objects.filter(id=uuid.UUID(redis_res)).get_or_none()
+    if user is None:
+        raise HTTPException(status_code=400, detail="Invalid token")
+    user.password = get_password_hash(reset_password.password)
+    await user.update()
+    await _sign_out_everywhere(user)
+    response.delete_cookie("access_token")
+    response.delete_cookie("expiry")
+    response.delete_cookie("rememberme")
+    response.delete_cookie("rememberme_token")
+    return {"message": "Password updated successfully"}

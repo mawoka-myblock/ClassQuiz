@@ -1,3 +1,4 @@
+import os
 import smtplib
 import ssl
 from email.mime.multipart import MIMEMultipart
@@ -5,7 +6,7 @@ from email.mime.text import MIMEText
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from classquiz.config import settings
+from classquiz.config import settings, redis
 from classquiz.db.models import User
 
 settings = settings()
@@ -41,3 +42,18 @@ async def send_register_email(email: str):
         token=user.verify_key
     )
     _sendMail(template=template, to=email, subject='Verify your email')
+
+
+async def send_forgotten_password_email(email: str):
+    user = await User.objects.get_or_none(email=email)
+    if user is None:
+        raise ValueError('User not found')
+    template = jinja.get_template('forgotten_password.jinja2')
+    token = os.urandom(32).hex()
+    template = await template.render_async(
+        base_url=settings.root_address,
+        token=token
+    )
+    await redis.set(f"reset_passwd:{token}", str(user.id), ex=3600)
+    _sendMail(template=template, to=email, subject='Reset your password')
+    pass

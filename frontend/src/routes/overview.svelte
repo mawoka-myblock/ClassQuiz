@@ -77,7 +77,7 @@
 					class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-gray-50 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
 					Primary
 				</button>-->
-			<div class="w-full grid grid-cols-3 gap-2">
+			<div class="w-full grid grid-cols-4 gap-2">
 				<a
 					href="/create"
 					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
@@ -92,6 +92,10 @@
 					href="/api/v1/users/logout"
 					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 					>{$t('words.logout')}
+				</a>
+				<a href='/account/settings' class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+					{$t('words.settings')}
+
 				</a>
 			</div>
 			<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">

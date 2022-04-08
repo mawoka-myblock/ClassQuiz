@@ -1,111 +1,116 @@
 {
-	"index_page": {
-		"meta": {
-			"title": "Home",
-			"description": "ClassQuiz ist eine Quiz-App wie KAHOOT! für Schüler*innen, welche open-source und kostenlos ist"
-		},
-		"features_description": {
-			"1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
-			"2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
-		},
-		"slogan": "Die open-source Quiz-Platform!"
-	},
-	"overview_page": {
-		"created_at": "Erstellt am",
-		"question_count": "Fragenanzahl"
-	},
-	"edit_page": {
-		"success_update_title": "Quiz erfolgreich aktualisiert!",
-		"success_update_body": "Das Quiz wurde erfolgreich aktualisiert!"
-	},
-	"create_page": {
-		"success": {
-			"title": "Quiz erfolgreich erstellt!",
-			"body": "Das Quiz wurde erfolgreich erstellt!"
-		}
-	},
-	"register_page": {
-		"greeting": "Schön, dich zu sehen!",
-		"create_account": "Account erstellen",
-		"forgot_password?": "Passwort vergessen?",
-		"already_have_account?": "Hast du schon einen Account?"
-	},
-	"login_page": {
-		"welcome_back": "Willkommen zurück!",
-		"login_or_create_account": "Einloggen oder Account erstellen",
-		"already_have_account": "Noch kein Account?",
-		"modal": {
-			"success": {
-				"success_check_mail": "Login erfolgreich! Guck in deine Mailbox!",
-				"success": "Login erfolgreich!",
-				"description": {
-					"success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
-					"success": "Du hast dich erfolgreich angemeldet!"
-				}
-			},
-			"error": {
-				"wrong_creds": "Falsche Email oder falsches Passwort!",
-				"unexpected": "Unerwarteter Fehler!",
-				"description": {
-					"wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine Email richtig sind!",
-					"unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
-				}
-			}
-		}
-	},
-	"words": {
-		"question": "Frage",
-		"answer": "Antwort",
-		"stats": "Statistiken",
-		"features": "Features",
-		"import": "Importieren",
-		"url": "URL",
-		"submit": "Abschicken",
-		"create": "Erstellen",
-		"logout": "Abmelden",
-		"title": "Titel",
-		"play": "Spielen",
-		"edit": "Bearbeiten",
-		"delete": "Löschen",
-		"public": "Öffentlich",
-		"start": "Start",
-		"connect": "Verbinden",
-		"pin": "PIN",
-		"kick": "Kicken",
-		"register": "Registrieren",
-		"login": "Anmelden",
-		"docs": "Dokumentation",
-		"close": "Schließen",
-		"save": "Speichern",
-		"username": "Nutzername",
-		"password": "Passwort",
-		"email": "Email",
-		"description": "Beschreibung",
-		"image": "Bild"
-	},
-	"editor": {
-		"time_in_seconds": "Zeit in Sekunden",
-		"right_or_true?": "Richtig?",
-		"add_new_answer": "Neue Antwort hinzufügen",
-		"add_new_question": "Neue Frage hinzufügen",
-		"delete_question": "Frage löschen",
-		"delete_answer": "Antwort löschen"
-	},
-	"import": {
-		"need_help": "",
-		"visit_docs": ""
-	},
-	"admin": {
-		"already_registered_as_admin": ""
-	},
-	"admin_page": {
-		"already_registered_as_admin": "Ein Admin wurde schon für dieses Spiel registriert.",
-		"start_game": "Spiel starten",
-		"time_left": "Zeit übrig",
-		"get_results": "Ergebnisse abfragen"
-	},
-	"import_page": {
-		"need_help": "Brauchst du Hilfe?",
-		"visit_docs": "Besuche die Dokumentation"
-	}
+    "index_page": {
+        "meta": {
+            "title": "Home",
+            "description": "ClassQuiz ist eine Quiz-App wie KAHOOT! für Schüler*innen, welche open-source und kostenlos ist"
+        },
+        "features_description": {
+            "1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
+            "2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
+        },
+        "slogan": "Die open-source Quiz-Platform!"
+    },
+    "overview_page": {
+        "created_at": "Erstellt am",
+        "question_count": "Fragenanzahl"
+    },
+    "edit_page": {
+        "success_update_title": "Quiz erfolgreich aktualisiert!",
+        "success_update_body": "Das Quiz wurde erfolgreich aktualisiert!"
+    },
+    "create_page": {
+        "success": {
+            "title": "Quiz erfolgreich erstellt!",
+            "body": "Das Quiz wurde erfolgreich erstellt!"
+        }
+    },
+    "register_page": {
+        "greeting": "Schön, dich zu sehen!",
+        "create_account": "Account erstellen",
+        "forgot_password?": "Passwort vergessen?",
+        "already_have_account?": "Hast du schon einen Account?"
+    },
+    "login_page": {
+        "welcome_back": "Willkommen zurück!",
+        "login_or_create_account": "Einloggen oder Account erstellen",
+        "already_have_account": "Noch kein Account?",
+        "modal": {
+            "success": {
+                "success_check_mail": "Login erfolgreich! Guck in deine Mailbox!",
+                "success": "Login erfolgreich!",
+                "description": {
+                    "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
+                    "success": "Du hast dich erfolgreich angemeldet!"
+                }
+            },
+            "error": {
+                "wrong_creds": "Falsche Email oder falsches Passwort!",
+                "unexpected": "Unerwarteter Fehler!",
+                "description": {
+                    "wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine Email richtig sind!",
+                    "unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
+                }
+            }
+        }
+    },
+    "words": {
+        "question": "Frage",
+        "answer": "Antwort",
+        "stats": "Statistiken",
+        "features": "Features",
+        "import": "Importieren",
+        "url": "URL",
+        "submit": "Abschicken",
+        "create": "Erstellen",
+        "logout": "Abmelden",
+        "title": "Titel",
+        "play": "Spielen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "public": "Öffentlich",
+        "start": "Start",
+        "connect": "Verbinden",
+        "pin": "PIN",
+        "kick": "Kicken",
+        "register": "Registrieren",
+        "login": "Anmelden",
+        "docs": "Dokumentation",
+        "close": "Schließen",
+        "save": "Speichern",
+        "username": "Nutzername",
+        "password": "Passwort",
+        "email": "Email",
+        "description": "Beschreibung",
+        "image": "Bild",
+        "settings": "Einstellungen",
+        "repeat_password": "Passwort wiederholen"
+    },
+    "editor": {
+        "time_in_seconds": "Zeit in Sekunden",
+        "right_or_true?": "Richtig?",
+        "add_new_answer": "Neue Antwort hinzufügen",
+        "add_new_question": "Neue Frage hinzufügen",
+        "delete_question": "Frage löschen",
+        "delete_answer": "Antwort löschen"
+    },
+    "import": {
+        "need_help": "",
+        "visit_docs": ""
+    },
+    "admin": {
+        "already_registered_as_admin": ""
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Ein Admin wurde schon für dieses Spiel registriert.",
+        "start_game": "Spiel starten",
+        "time_left": "Zeit übrig",
+        "get_results": "Ergebnisse abfragen"
+    },
+    "import_page": {
+        "need_help": "Brauchst du Hilfe?",
+        "visit_docs": "Besuche die Dokumentation"
+    },
+    "password_reset_page": {
+        "reset_password": "Passwort zurücksetzen"
+    }
 }
