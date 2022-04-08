@@ -3,6 +3,8 @@ import uuid
 from datetime import datetime
 from random import randint
 
+from pydantic import ValidationError
+
 from classquiz.kahoot_importer.import_quiz import import_quiz
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
@@ -103,7 +105,10 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
 
 @router.post("/import/{quiz_id}")
 async def import_quiz_route(quiz_id: str, user: User = Depends(get_current_user)):
-    return await import_quiz(quiz_id, user)
+    try:
+        return await import_quiz(quiz_id, user)
+    except ValidationError:
+        raise HTTPException(status_code=400, detail="THis quiz in't (yet) supported")
 
 
 @router.delete("/delete/{quiz_id}")

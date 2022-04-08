@@ -43,6 +43,8 @@
 
 		if (res.status === 200) {
 			window.location.href = '/overview';
+		} else if (res.status === 400) {
+			alert("This quiz isn't (yet) supported!");
 		} else {
 			alert('Error importing quiz');
 		}

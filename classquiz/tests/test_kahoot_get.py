@@ -61,5 +61,4 @@ async def test_get():
     rounds = 0
     for i in quiz_list:
         rounds = rounds + 1
-        print(f"Got {rounds} from {len(quiz_list)}")
         await get(i)

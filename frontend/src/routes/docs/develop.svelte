@@ -25,7 +25,7 @@
 
 	<h4>Frontend</h4>
 	<ul>
-		<li><a href="https://pnpm.io/">pNpM</a></li>
+		<li><a href="https://pnpm.io/">pnpm</a></li>
 	</ul>
 
 	<h2>Setup</h2>
