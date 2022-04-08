@@ -142,3 +142,8 @@ async def signout_everywhere(response: Response, user: User = Depends(get_curren
     response.delete_cookie("rememberme")
     response.delete_cookie("rememberme_token")
     return {"message": "Signout everywhere"}
+
+
+@router.get("/me", response_model_exclude={"password", "verify_key", "usersessions"})
+async def get_me(user: User = Depends(get_current_user)):
+    return user.dict(exclude={"password", "verify_key", "usersessions"})
