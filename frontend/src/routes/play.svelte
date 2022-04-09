@@ -1,5 +1,6 @@
-<script context="module" lang="ts">
+<script context='module' lang='ts'>
 	import { signedIn } from '$lib/stores';
+
 	export async function load({ url, session }) {
 		if (session.authenticated) {
 			signedIn.set(true);
@@ -13,7 +14,7 @@
 	}
 </script>
 
-<script lang="ts">
+<script lang='ts'>
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
@@ -31,7 +32,7 @@
 	}
 
 	// Variables init
-	let question_index = '';
+	let question_index: string = '';
 	let unique = {};
 	navbarVisible.set(false);
 	let game_pin_valid: boolean;
@@ -79,7 +80,7 @@
 	{#if gameData !== undefined}
 		{#each gameData.questions as question}
 			{#if question.image !== undefined}
-				<link rel="preload" as="image" href={question.image} />
+				<link rel='preload' as='image' href={question.image} />
 			{/if}
 		{/each}
 	{/if}
