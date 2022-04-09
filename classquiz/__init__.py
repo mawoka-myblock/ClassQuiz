@@ -41,8 +41,6 @@ async def shutdown() -> None:
         await database_.disconnect()
 
 
-
-
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users")
 app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz")
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils")
