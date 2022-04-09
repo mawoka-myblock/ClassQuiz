@@ -110,18 +110,21 @@
 				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
 					<label
 						>Old Password:<input
+							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.oldPassword}
 						/></label
 					>
 					<label
 						>New Password:<input
+							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.newPassword}
 						/></label
 					>
 					<label
 						>New Password again:<input
+							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.newPasswordConfirm}
 						/></label
