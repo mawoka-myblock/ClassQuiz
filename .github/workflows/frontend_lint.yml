@@ -6,6 +6,8 @@ name: "[CI] Frontend / Lint"
 on:
   push:
     branches: [ master ]
+    paths:
+      - "frontend/**"
   pull_request:
 
 jobs:
