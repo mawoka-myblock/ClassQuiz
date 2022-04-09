@@ -26,9 +26,12 @@ jobs:
           python-version: "3.10"
           cache: 'pipenv'
       - run: pipenv install --dev
-      - run: echo ${{ secrets.DOTENV }} | base64 --decode > .env
-      - run: set -o allexport; source .env; set +o allexport
-      - name: Prepare test environment
+      - name: Prepare tests
+        run: | 
+        echo ${{ secrets.DOTENV }} | base64 --decode > .env
+        set -o allexport; source .env; set +o allexport
+        mkdir /tmp/storage/
+      - name: Run tests
         run: |
           pipenv run coverage run -m pytest --asyncio-mode=strict classquiz/tests
           pipenv run coverage xml
