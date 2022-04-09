@@ -52,8 +52,8 @@
         "image": "Image",
         "title": "titre",
         "settings": "Paramètres",
-        "repeat_password": "",
-        "overview": ""
+        "repeat_password": "Répéter le mot de passe",
+        "overview": "Vue d'ensemble"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -105,6 +105,6 @@
         "get_results": "Obtenir les résultats"
     },
     "password_reset_page": {
-        "reset_password": ""
+        "reset_password": "Réinitialiser le mot de passe"
     }
 }
