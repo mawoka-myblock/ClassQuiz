@@ -1,12 +1,13 @@
+import html
 import json
 import uuid
 from datetime import datetime
 
-from aiohttp import ClientSession, FormData
-import html
+from aiohttp import ClientSession
+
+from classquiz.config import settings, storage
 from classquiz.db.models import Quiz, QuizAnswer, QuizQuestion, User
 from classquiz.kahoot_importer.get import get as get_quiz
-from classquiz.config import settings, storage
 
 settings = settings()
 
@@ -52,6 +53,7 @@ async def _download_image(url: str) -> bytes:
 #             data = await resp.json()
 #             return data["data"]["id"]
 
+
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     """
     Imports a quiz from Kahoot.
@@ -65,21 +67,33 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_questions: list[dict] = []
     quiz_id = uuid.uuid4()
 
-
     for q in quiz.kahoot.questions:
         answers: list[QuizAnswer] = []
         image = None
         if q.image is not None and q.image != "":
             image_bytes = await _download_image(q.image)
-            image_name= f"{quiz_id}--{uuid.uuid4()}"
+            image_name = f"{quiz_id}--{uuid.uuid4()}"
             image = await storage.upload(file_name=image_name, file_data=image_bytes)
             image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
             # image = q.image
         for a in q.choices:
             answers.append((QuizAnswer(right=a.correct, answer=html.unescape(a.answer))))
         quiz_questions.append(
-            QuizQuestion(question=q.question, answers=answers, time=str(q.time / 1000), image=image).dict())
-    quiz_data = Quiz(id=quiz_id, public=False, title=quiz.kahoot.title, description=quiz.kahoot.description,
-                     created_at=datetime.now(), updated_at=datetime.now(), user_id=user.id,
-                     questions=json.dumps(quiz_questions))
+            QuizQuestion(
+                question=q.question,
+                answers=answers,
+                time=str(q.time / 1000),
+                image=image,
+            ).dict()
+        )
+    quiz_data = Quiz(
+        id=quiz_id,
+        public=False,
+        title=quiz.kahoot.title,
+        description=quiz.kahoot.description,
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+        user_id=user.id,
+        questions=json.dumps(quiz_questions),
+    )
     return await quiz_data.save()

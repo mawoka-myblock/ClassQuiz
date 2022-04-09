@@ -3,10 +3,11 @@
 
 	export let results: Array<Answer>;
 	export let game_data: QuizData;
-	export let question_index: number;
+	export let question_index: string;
 	let data_store = {};
 
-	const question = game_data.questions[question_index].answers;
+
+	const question = game_data.questions[parseInt(question_index)].answers;
 	for (let i = 0; i < question.length; i++) {
 		console.log(question[i].answer, 'HI!!!');
 		data_store[question[i].answer] = 0;
@@ -56,7 +57,7 @@
 						</thead>
 						<tbody>
 							<!-- Product 1 -->
-							{#each game_data.questions[question_index].answers as answer}
+							{#each game_data.questions[parseInt(question_index)].answers as answer}
 								<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 									<td
 										class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"

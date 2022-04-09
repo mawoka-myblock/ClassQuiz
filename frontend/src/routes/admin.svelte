@@ -27,6 +27,9 @@
 
 	import { socket } from '$lib/socket';
 	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(false);
 
 	const { t } = getLocalization();
 
@@ -38,7 +41,10 @@
 	export let auto_connect: boolean;
 	export let game_token: string;
 	let success = false;
-	let players: Array<string> = [];
+	interface Player {
+		username: string
+	}
+	let players: Array<Player> = [];
 	let errorMessage = '';
 	let game_started = false;
 	let quiz_data: QuizData;

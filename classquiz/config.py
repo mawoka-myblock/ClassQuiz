@@ -1,6 +1,8 @@
-import redis.asyncio as redis_lib
 from functools import lru_cache
+
+import redis.asyncio as redis_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
+
 from classquiz.storage import Storage
 
 
@@ -8,6 +10,7 @@ class Settings(BaseSettings):
     """
     Settings class for the shop app.
     """
+
     root_address: str = "http://127.0.0.1:8000"
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
@@ -34,7 +37,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
-        env_file_encoding = 'utf-8'
+        env_file_encoding = "utf-8"
 
 
 @lru_cache()
@@ -43,5 +46,9 @@ def settings() -> Settings:
 
 
 redis: redis_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
-storage: Storage = Storage(backend=settings().storage_backend, deta_key=settings().deta_project_key,
-                           deta_id=settings().deta_project_id, storage_path=settings().storage_path)
+storage: Storage = Storage(
+    backend=settings().storage_backend,
+    deta_key=settings().deta_project_key,
+    deta_id=settings().deta_project_id,
+    storage_path=settings().storage_path,
+)

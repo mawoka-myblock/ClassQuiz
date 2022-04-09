@@ -1,6 +1,7 @@
-from pydantic import BaseModel
-from uuid import UUID
 from typing import List, Any, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class _CoverMetadata(BaseModel):

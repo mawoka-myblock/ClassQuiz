@@ -1,10 +1,15 @@
 <script context="module" lang="ts">
+	import { signedIn } from '$lib/stores';
+
 	export async function load({ session, url }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
+		}
+		if (session.authenticated) {
+			signedIn.set(true);
 		}
 		const token = url.searchParams.get('token');
 		const pin = url.searchParams.get('pin');
@@ -26,6 +31,9 @@
 	import { onMount } from 'svelte';
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(true);
 
 	const { t } = getLocalization();
 

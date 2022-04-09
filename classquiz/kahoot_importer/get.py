@@ -1,6 +1,6 @@
 from aiohttp import ClientSession
-
 from pydantic import BaseModel
+
 from classquiz.kahoot_importer import _Card, _Kahoot
 
 

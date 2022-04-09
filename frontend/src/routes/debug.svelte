@@ -3,6 +3,9 @@
 	import Title from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import { socket } from '$lib/socket';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(true);
 
 	interface GameMeta {
 		started: boolean;

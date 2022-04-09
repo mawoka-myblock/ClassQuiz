@@ -1,21 +1,38 @@
 import os
 
 from email_validator import validate_email, EmailNotValidError
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
+from datetime import timedelta, datetime
 from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
-from classquiz.auth import *
-from classquiz.config import redis
+from classquiz.auth import (
+    get_password_hash,
+    verify_password,
+    authenticate_user,
+    create_access_token,
+    get_current_user,
+)
 from classquiz.cache import clear_cache_for_account
-from classquiz.db.models import *
+from classquiz.config import redis, settings
+import uuid
+from pydantic import BaseModel
+from classquiz.db.models import User, UserSession, UpdatePassword, Token
 from classquiz.emails import send_register_email, send_forgotten_password_email
 
+settings = settings()
 router = APIRouter()
 
 route_user = User.get_pydantic(
-    exclude={"id": ..., "verified": ..., "verify_key": ..., "created_at": ..., "usersessions": ...})
+    exclude={
+        "id": ...,
+        "verified": ...,
+        "verify_key": ...,
+        "created_at": ...,
+        "usersessions": ...,
+    }
+)
 
 
 async def _sign_out_everywhere(user: User) -> None:
@@ -23,8 +40,11 @@ async def _sign_out_everywhere(user: User) -> None:
     await clear_cache_for_account(user)
 
 
-@router.post("/create", response_model=User,
-             response_model_include={"id": ..., "verified": ..., "email": ...})
+@router.post(
+    "/create",
+    response_model=User,
+    response_model_include={"id": ..., "verified": ..., "email": ...},
+)
 async def create_user(user: route_user, background_task: BackgroundTasks) -> User | JSONResponse:
     user = User(**user.dict(), id=uuid.uuid4())
     try:
@@ -47,8 +67,11 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
 
 
 @router.post("/token/cookie", response_model=Token)
-async def login_for_cookie_access_token(request: Request, response: Response,
-                                        form_data: OAuth2PasswordRequestForm = Depends()):
+async def login_for_cookie_access_token(
+    request: Request,
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
+):
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -56,21 +79,29 @@ async def login_for_cookie_access_token(request: Request, response: Response,
             detail="Incorrect username or password",
         )
     session_key = os.urandom(32).hex()
-    user_session = UserSession(user=user, session_key=session_key, ip_address=request.client.host,
-                               user_agent=request.headers.get("User-Agent"), id=uuid.uuid4())
+    user_session = UserSession(
+        user=user,
+        session_key=session_key,
+        ip_address=request.client.host,
+        user_agent=request.headers.get("User-Agent"),
+        id=uuid.uuid4(),
+    )
     await user_session.save()
     # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
 
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}",
-                        httponly=True, samesite='strict', max_age=settings.access_token_expire_minutes * 60)
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {access_token}",
+        httponly=True,
+        samesite="strict",
+        max_age=settings.access_token_expire_minutes * 60,
+    )
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="rememberme", value="")
-    response.set_cookie(key="rememberme_token", value=session_key, httponly=True, samesite='strict')
+    response.set_cookie(key="rememberme_token", value=session_key, httponly=True, samesite="strict")
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -79,16 +110,20 @@ async def rememberme_token(request: Request, response: Response):
     rememberme_cookie = request.cookies.get("rememberme_token")
     if rememberme_cookie is None:
         raise HTTPException(status_code=400, detail="No rememberme cookie")
-    user_session: UserSession | None = await UserSession.objects.filter(session_key=rememberme_cookie).select_related(
-        UserSession.user).get_or_none()
+    user_session: UserSession | None = (
+        await UserSession.objects.filter(session_key=rememberme_cookie).select_related(UserSession.user).get_or_none()
+    )
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
-    access_token = create_access_token(
-        data={"sub": user_session.user.email}, expires_delta=access_token_expires
+    access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {access_token}",
+        httponly=True,
+        samesite="strict",
+        max_age=settings.access_token_expire_minutes * 60,
     )
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}",
-                        httponly=True, samesite='strict', max_age=settings.access_token_expire_minutes * 60)
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
     await user_session.update(last_seen=datetime.now())
 
@@ -124,7 +159,11 @@ async def verify_user(verify_key: str):
 
 
 @router.put("/password/update")
-async def change_password(password_data: UpdatePassword, response: Response, user: User = Depends(get_current_user)):
+async def change_password(
+    password_data: UpdatePassword,
+    response: Response,
+    user: User = Depends(get_current_user),
+):
     if not verify_password(password_data.old_password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
     user.password = get_password_hash(password_data.new_password)

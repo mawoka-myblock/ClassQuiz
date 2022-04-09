@@ -1,18 +1,17 @@
 import json
+import re
 import uuid
 from datetime import datetime
 from random import randint
 
-from pydantic import ValidationError
-
-from classquiz.kahoot_importer.import_quiz import import_quiz
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-import re
+from pydantic import ValidationError
 
 from classquiz.auth import get_current_user, get_current_user_optional
 from classquiz.config import redis, settings, storage
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
+from classquiz.kahoot_importer.import_quiz import import_quiz
 
 settings = settings()
 
@@ -63,8 +62,14 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
         game_pin = randint(10000000, 99999999)
-        game = PlayGame(quiz_id=quiz_id, game_pin=str(game_pin), questions=quiz.questions, game_id=uuid.uuid4(),
-                        title=quiz.title, description=quiz.description)
+        game = PlayGame(
+            quiz_id=quiz_id,
+            game_pin=str(game_pin),
+            questions=quiz.questions,
+            game_id=uuid.uuid4(),
+            title=quiz.title,
+            description=quiz.description,
+        )
         await redis.set(f"game:{str(game.game_pin)}", (game.json()), ex=18000)
         return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
 

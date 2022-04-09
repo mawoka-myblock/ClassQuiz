@@ -13,7 +13,7 @@
 		execute: async (_a, _b) => ({ response: '' }),
 		render: (_a, _b) => {}
 	};
-	let hcaptchaWidgetID;
+	let hcaptchaWidgetID: any;
 
 	onMount(() => {
 		if (browser) {
@@ -41,7 +41,7 @@
 		if (username.length <= 3) {
 			return;
 		}
-		let captcha_resp;
+		let captcha_resp: string;
 		try {
 			const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
 				async: true

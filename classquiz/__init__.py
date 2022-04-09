@@ -1,12 +1,12 @@
-from fastapi import FastAPI, Request
 import sentry_sdk
+from fastapi import FastAPI, Request
+from sentry_sdk.integrations.redis import RedisIntegration
 from socketio import ASGIApp
 
-from classquiz.db import database
 from classquiz.config import settings
+from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage
 from classquiz.socket_server import sio
-from sentry_sdk.integrations.redis import RedisIntegration
 
 settings = settings()
 if settings.sentry_dsn:
@@ -39,8 +39,6 @@ async def shutdown() -> None:
     database_ = app.state.database
     if database_.is_connected:
         await database_.disconnect()
-
-
 
 
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users")

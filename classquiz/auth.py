@@ -15,7 +15,8 @@ from passlib.hash import argon2
 
 from classquiz.cache import get_cache
 from classquiz.config import settings
-from classquiz.db.models import *
+from datetime import datetime
+from classquiz.db.models import User, TokenData
 
 settings = settings()
 
@@ -27,11 +28,11 @@ ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 class OAuth2PasswordBearerWithCookie(OAuth2):
     def __init__(
-            self,
-            tokenUrl: str,
-            scheme_name: Optional[str] = None,
-            scopes: Optional[Dict[str, str]] = None,
-            auto_error: bool = True,
+        self,
+        tokenUrl: str,
+        scheme_name: Optional[str] = None,
+        scopes: Optional[Dict[str, str]] = None,
+        auto_error: bool = True,
     ):
         if not scopes:
             scopes = {}

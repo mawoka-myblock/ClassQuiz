@@ -6,6 +6,7 @@ import ormar
 
 from classquiz.config import redis, settings
 from classquiz.db.models import User
+
 settings = settings()
 
 

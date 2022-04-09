@@ -1,13 +1,8 @@
-import os
+from fastapi import APIRouter
 
-from fastapi import APIRouter, Response
-from fastapi.background import BackgroundTasks
-from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel
-from classquiz.auth import *
 from classquiz.config import redis
-from classquiz.db.models import *
+from pydantic import BaseModel
+from classquiz.db.models import Quiz, User
 
 router = APIRouter()
 

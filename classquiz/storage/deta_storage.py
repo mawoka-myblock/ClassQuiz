@@ -1,5 +1,6 @@
-from aiohttp import ClientSession
 from io import BytesIO
+
+from aiohttp import ClientSession
 
 
 class DetaStorage:
