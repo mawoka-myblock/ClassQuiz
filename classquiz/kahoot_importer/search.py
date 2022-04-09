@@ -1,15 +1,16 @@
-from uuid import UUID
-from typing import List, Any, Optional
-from aiohttp import ClientSession
-from classquiz.kahoot_importer import _Entity
+from typing import List
 
+from aiohttp import ClientSession
 from pydantic import BaseModel
 
+from classquiz.kahoot_importer import _Entity
 
+
+# noqa : E501
 class _Response(BaseModel):
     entities: List[_Entity]
     totalHits: int
-    cursor: int
+    cursor: int | None
     pageTimestamp: int
 
 
@@ -26,7 +27,7 @@ async def search(query: str | None, limit: int | None = 9, cursor: int | None = 
     """
     async with ClientSession() as session:
         async with session.get(
-                f"https://create.kahoot.it/rest/kahoots/?query={query}&limit={limit}&cursor={cursor}&searchCluster={search_cluster}&includeExtendedCounters=false&inventoryItemId={inventory_item_id}"
+                f"https://create.kahoot.it/rest/kahoots/?query={query}&limit={limit}&cursor={cursor}&searchCluster={search_cluster}&includeExtendedCounters=false&inventoryItemId={inventory_item_id}" # noqa : E501
 
         ) as response:
             # print(

@@ -1,6 +1,8 @@
-import redis.asyncio as redis_lib
 from functools import lru_cache
+
+import redis.asyncio as redis_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
+
 from classquiz.storage import Storage
 
 

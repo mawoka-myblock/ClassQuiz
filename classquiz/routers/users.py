@@ -1,17 +1,20 @@
 import os
 
 from email_validator import validate_email, EmailNotValidError
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
+from datetime import timedelta, datetime
 from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
-from classquiz.auth import *
-from classquiz.config import redis
+from classquiz.auth import get_password_hash, verify_password, authenticate_user, create_access_token, get_current_user
 from classquiz.cache import clear_cache_for_account
-from classquiz.db.models import *
+from classquiz.config import redis, settings
+import uuid
+from pydantic import BaseModel
+from classquiz.db.models import User, UserSession, UpdatePassword, Token
 from classquiz.emails import send_register_email, send_forgotten_password_email
-
+settings = settings()
 router = APIRouter()
 
 route_user = User.get_pydantic(

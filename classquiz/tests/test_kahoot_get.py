@@ -1,5 +1,6 @@
-from classquiz.kahoot_importer.get import get
 import pytest
+
+from classquiz.kahoot_importer.get import get
 
 
 @pytest.mark.asyncio

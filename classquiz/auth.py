@@ -15,7 +15,8 @@ from passlib.hash import argon2
 
 from classquiz.cache import get_cache
 from classquiz.config import settings
-from classquiz.db.models import *
+from datetime import datetime
+from classquiz.db.models import User, TokenData
 
 settings = settings()
 

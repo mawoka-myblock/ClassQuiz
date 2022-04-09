@@ -1,4 +1,5 @@
 import pytest
+
 from classquiz.config import settings
 from classquiz.storage import Storage
 

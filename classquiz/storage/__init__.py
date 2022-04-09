@@ -1,7 +1,8 @@
-from .deta_storage import DetaStorage
-from .local_storage import LocalStorage
 from io import BytesIO
 from typing import Optional
+
+from .deta_storage import DetaStorage
+from .local_storage import LocalStorage
 
 
 class Storage:

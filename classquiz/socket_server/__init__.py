@@ -4,7 +4,7 @@ import aiohttp
 import socketio
 
 from classquiz.config import redis, settings
-from classquiz.db.models import GameSession, PlayGame
+from classquiz.db.models import PlayGame
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
@@ -20,7 +20,7 @@ async def join_game(sid, data):
                 if not resp_data["success"]:
                     print("CAPTCHA FAILED")
                     return
-        except KeyError as e:
+        except KeyError:
             print("CAPTCHA FAILED")
             return
     redis_res = await redis.get(f"game:{data['game_pin']}")
@@ -89,8 +89,8 @@ async def set_question_number(sid, data):
 @sio.event
 async def submit_answer(sid, data):
     session = await sio.get_session(sid)
-    redis_res = await redis.get(f"game_session:{session['game_pin']}")
-    game_session = GameSession(**json.loads(redis_res))
+    # redis_res = await redis.get(f"game_session:{session['game_pin']}")
+    # game_session = GameSession(**json.loads(redis_res))
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     # print(game_session)
     answer_right = False

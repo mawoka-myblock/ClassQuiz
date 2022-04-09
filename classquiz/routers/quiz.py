@@ -1,18 +1,17 @@
 import json
+import re
 import uuid
 from datetime import datetime
 from random import randint
 
-from pydantic import ValidationError
-
-from classquiz.kahoot_importer.import_quiz import import_quiz
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-import re
+from pydantic import ValidationError
 
 from classquiz.auth import get_current_user, get_current_user_optional
 from classquiz.config import redis, settings, storage
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
+from classquiz.kahoot_importer.import_quiz import import_quiz
 
 settings = settings()
 

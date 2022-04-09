@@ -1,12 +1,12 @@
-from fastapi import FastAPI, Request
 import sentry_sdk
+from fastapi import FastAPI, Request
+from sentry_sdk.integrations.redis import RedisIntegration
 from socketio import ASGIApp
 
-from classquiz.db import database
 from classquiz.config import settings
+from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage
 from classquiz.socket_server import sio
-from sentry_sdk.integrations.redis import RedisIntegration
 
 settings = settings()
 if settings.sentry_dsn:

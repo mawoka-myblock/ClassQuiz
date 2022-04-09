@@ -1,7 +1,9 @@
+import re
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
+
 from classquiz.config import settings, storage
-import re
 
 settings = settings()
 
