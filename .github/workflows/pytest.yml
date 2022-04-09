@@ -1,0 +1,43 @@
+# .github/workflows/app.yaml
+name: PyTest
+on:
+  push:
+    paths:
+      - "classquiz/tests/**"
+      - "classquiz/kahoot_importer/**"
+      - "classquiz/storage/**"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install pipenv
+        run: pipx install pipenv
+
+      # Setup Python (faster than using Python container)
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+          cache: 'pipenv'
+      - run: pipenv install
+      - name: Prepare test environment
+        continue-on-error: true
+        run: |
+          pipenv run coverage run -m pytest --asyncio-mode=strict classquiz/tests
+          pipenv run coverage xml
+      - name: Report results to DeepSource
+        run: |
+          # Install deepsource CLI
+               curl https://deepsource.io/cli | sh
+          
+          # From the root directory, run the report coverage command
+               ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
