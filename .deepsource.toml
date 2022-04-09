@@ -3,6 +3,7 @@ version = 1
 [[analyzers]]
 name = "python"
 enabled = true
+test_patterns = ["classquiz/tests/**", "test_*.py"]
 
   [analyzers.meta]
   runtime_version = "3.x.x"
@@ -14,3 +15,4 @@ enabled = true
 [[analyzers]]
 name = "test-coverage"
 enabled = true
+
