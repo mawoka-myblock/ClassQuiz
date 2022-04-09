@@ -1,5 +1,5 @@
 ---
-name: Feature request creation disabled
+name: Feature request
 about: Make a clear demand for improve ClassQuiz 💪
 
 ---

@@ -19,7 +19,6 @@ class Settings(BaseSettings):
     mail_server: str
     mail_port: int
     secret_key: str
-    imgur_client_id: str = "27aa1687703ddb9"
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
     sentry_dsn: str | None = "https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641"
