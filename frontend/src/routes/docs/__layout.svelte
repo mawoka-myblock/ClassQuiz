@@ -1,5 +1,8 @@
 <script lang="ts">
 	import Footer from '$lib/footer.svelte';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(true);
 </script>
 
 <div class="min-h-screen flex flex-col">

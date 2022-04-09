@@ -26,6 +26,9 @@
 	import { onMount } from 'svelte';
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(true);
 
 	const { t } = getLocalization();
 

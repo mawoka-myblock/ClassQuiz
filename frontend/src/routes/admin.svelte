@@ -27,6 +27,9 @@
 
 	import { socket } from '$lib/socket';
 	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(false);
 
 	const { t } = getLocalization();
 

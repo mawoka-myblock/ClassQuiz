@@ -19,6 +19,9 @@
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
+	import { navbarVisible } from '$lib/stores';
+
+	navbarVisible.set(true);
 	const { t } = getLocalization();
 
 	const getData = async (): Promise<Array<QuizData>> => {
@@ -93,9 +96,11 @@
 					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 					>{$t('words.logout')}
 				</a>
-				<a href='/account/settings' class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50">
+				<a
+					href="/account/settings"
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				>
 					{$t('words.settings')}
-
 				</a>
 			</div>
 			<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
