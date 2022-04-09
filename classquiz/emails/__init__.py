@@ -12,17 +12,18 @@ from classquiz.db.models import User
 settings = settings()
 
 jinja = Environment(
-    loader=PackageLoader('classquiz.emails', 'templates'),
-    autoescape=select_autoescape(['html', 'xml']),
-    enable_async=True)
+    loader=PackageLoader("classquiz.emails", "templates"),
+    autoescape=select_autoescape(["html", "xml"]),
+    enable_async=True,
+)
 
 
 def _sendMail(template: str, to: str, subject: str):
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = subject
-    msg['From'] = settings.mail_address
-    msg['To'] = to
-    msg.attach(MIMEText(template, 'html'))
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = settings.mail_address
+    msg["To"] = to
+    msg.attach(MIMEText(template, "html"))
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     server = smtplib.SMTP(host=settings.mail_server, port=settings.mail_port)
     server.ehlo()
@@ -35,25 +36,19 @@ def _sendMail(template: str, to: str, subject: str):
 async def send_register_email(email: str):
     user = await User.objects.get_or_none(email=email, verified=False)
     if user is None:
-        raise ValueError('User not found')
-    template = jinja.get_template('register.jinja2')
-    template = await template.render_async(
-        base_url=settings.root_address,
-        token=user.verify_key
-    )
-    _sendMail(template=template, to=email, subject='Verify your email')
+        raise ValueError("User not found")
+    template = jinja.get_template("register.jinja2")
+    template = await template.render_async(base_url=settings.root_address, token=user.verify_key)
+    _sendMail(template=template, to=email, subject="Verify your email")
 
 
 async def send_forgotten_password_email(email: str):
     user = await User.objects.get_or_none(email=email)
     if user is None:
-        raise ValueError('User not found')
-    template = jinja.get_template('forgotten_password.jinja2')
+        raise ValueError("User not found")
+    template = jinja.get_template("forgotten_password.jinja2")
     token = os.urandom(32).hex()
-    template = await template.render_async(
-        base_url=settings.root_address,
-        token=token
-    )
+    template = await template.render_async(base_url=settings.root_address, token=token)
     await redis.set(f"reset_passwd:{token}", str(user.id), ex=3600)
-    _sendMail(template=template, to=email, subject='Reset your password')
+    _sendMail(template=template, to=email, subject="Reset your password")
     pass

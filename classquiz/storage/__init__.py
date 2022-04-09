@@ -6,7 +6,13 @@ from .local_storage import LocalStorage
 
 
 class Storage:
-    def __init__(self, backend: str, deta_key: Optional[str], deta_id: Optional[str], storage_path: Optional[str]):
+    def __init__(
+        self,
+        backend: str,
+        deta_key: Optional[str],
+        deta_id: Optional[str],
+        storage_path: Optional[str],
+    ):
         self.backend = backend
         self.deta_key: str | None = deta_key
         self.deta_id: str | None = deta_id
@@ -15,8 +21,11 @@ class Storage:
             if deta_key is None or deta_id is None:
                 raise ValueError("deta_key and deta_id must be provided")
             else:
-                self.deta_instance = DetaStorage(deta_base_url=self.deta_base_url, deta_key=self.deta_key,
-                                                 deta_id=self.deta_id)
+                self.deta_instance = DetaStorage(
+                    deta_base_url=self.deta_base_url,
+                    deta_key=self.deta_key,
+                    deta_id=self.deta_id,
+                )
 
         elif backend == "local":
             if storage_path is None:
@@ -29,8 +38,7 @@ class Storage:
 
     async def download(self, file_name: str) -> BytesIO | None:
         if self.backend == "deta":
-            return await self.deta_instance.download(
-                file_name)
+            return await self.deta_instance.download(file_name)
         elif self.backend == "local":
             return await self.local_instance.get_file(file_name)
 

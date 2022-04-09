@@ -10,11 +10,14 @@ file_contents = b"hello world"
 
 def test_storage_init():
     with pytest.raises(NotImplementedError):
-        Storage(backend="asdsad", deta_key=settings.deta_project_key,
-                deta_id=settings.deta_project_id, storage_path=settings.storage_path)
+        Storage(
+            backend="asdsad",
+            deta_key=settings.deta_project_key,
+            deta_id=settings.deta_project_id,
+            storage_path=settings.storage_path,
+        )
     with pytest.raises(ValueError):
-        Storage(backend="deta", deta_key=None,
-                deta_id=None, storage_path=None)
+        Storage(backend="deta", deta_key=None, deta_id=None, storage_path=None)
     with pytest.raises(ValueError):
         Storage(backend="local", storage_path=None, deta_key=None, deta_id=None)
 
@@ -34,8 +37,12 @@ async def storage_tester(storage: Storage):
 
 @pytest.mark.asyncio
 async def test_deta():
-    storage: Storage = Storage(backend="deta", deta_key=settings.deta_project_key,
-                               deta_id=settings.deta_project_id, storage_path=settings.storage_path)
+    storage: Storage = Storage(
+        backend="deta",
+        deta_key=settings.deta_project_key,
+        deta_id=settings.deta_project_id,
+        storage_path=settings.storage_path,
+    )
     await storage_tester(storage)
 
 

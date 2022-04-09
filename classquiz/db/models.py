@@ -11,6 +11,7 @@ class User(ormar.Model):
     """
     The user model in the database
     """
+
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
     email: str = ormar.String(unique=True, max_length=100)
     username: str = ormar.String(unique=True, max_length=100)
@@ -20,7 +21,7 @@ class User(ormar.Model):
     created_at: datetime = ormar.DateTime(default=datetime.now())
 
     class Meta:
-        tablename = 'users'
+        tablename = "users"
         metadata = metadata
         database = database
 
@@ -29,6 +30,7 @@ class UserSession(ormar.Model):
     """
     The user session model for user-sessions
     """
+
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
     user: uuid.UUID = ormar.ForeignKey(User)
     session_key: str = ormar.String(unique=True, max_length=64)
@@ -38,7 +40,7 @@ class UserSession(ormar.Model):
     last_seen: datetime = ormar.DateTime(default=datetime.now())
 
     class Meta:
-        tablename = 'user_sessions'
+        tablename = "user_sessions"
         metadata = metadata
         database = database
 
@@ -73,7 +75,7 @@ class Quiz(ormar.Model):
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
 
     class Meta:
-        tablename = 'quiz'
+        tablename = "quiz"
         metadata = metadata
         database = database
 
@@ -82,6 +84,7 @@ class Token(BaseModel):
     """
     For JWT
     """
+
     access_token: str
     token_type: str
 
@@ -90,6 +93,7 @@ class TokenData(BaseModel):
     """
     For JWT
     """
+
     email: str | None = None
 
 
@@ -97,6 +101,7 @@ class PlayGame(BaseModel):
     """
     For JWT
     """
+
     quiz_id: uuid.UUID | str
     description: str
     title: str
