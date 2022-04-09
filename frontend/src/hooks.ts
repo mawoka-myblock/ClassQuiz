@@ -25,12 +25,12 @@ export async function getSession(event) {
 	if (redis_res === null) {
 		const res = await fetch(`${process.env.API_URL}/api/v1/users/check`, {
 			headers: {
-				Cookie: `access_token=Bearer ${event.locals.token}`
+				Cookie: `access_token=Bearer ${event.locals.token}` // skipcq: JS-0378
 			}
 		});
 		if (res.ok) {
 			const json = await res.json();
-			//@ts-ignore
+			//@ts-ignore // skipcq: JS-0295
 			user_email = json.email;
 		} else {
 			user_email = null;

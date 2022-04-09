@@ -42,7 +42,7 @@ async def join_game(sid, data):
 
 
 @sio.event
-async def start_game(sid, data):
+async def start_game(sid, _data):
     # print(sid, data, "START_GAME")
     session = await sio.get_session(sid)
     # print(session)
@@ -113,7 +113,7 @@ async def submit_answer(sid, data):
 
 
 @sio.event
-async def get_game_data(sid, data):
+async def get_game_data(sid, _data):
     game_pin = (await sio.get_session(sid))['game_pin']
     game_data = await redis.get(f"game:{game_pin}")
     if game_data is not None:
