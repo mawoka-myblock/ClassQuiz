@@ -1,6 +1,7 @@
 <script>
 	import '@fontsource/marck-script/index.css';
 	import { getLocalization } from '$lib/i18n';
+	import { signedIn } from '$lib/stores';
 
 	const { t } = getLocalization();
 
@@ -17,15 +18,11 @@
 <nav
 	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-sm bg-white/60 shadow-md z-50 top-0"
 >
-	<!-- Our logo and button -->
 	<section class="w-full lg:w-max flex justify-between">
-		<!-- Logo -->
 		<a href="/" class="font-black tracking-tight text-xl text-black marck-script link-hover"
 			>ClassQuiz</a
 		>
 
-		<!-- Our open/close buttons -->
-		<!-- Open menu -->
 		<button
 			class="lg:hidden"
 			id="open-menu"
@@ -76,41 +73,73 @@
 		</button>
 	</section>
 
-	<!-- Our list of items -->
 	<ul
 		id="menu-items"
 		class="lg:flex w-full flex-col lg:flex-row lg:pl-6"
 		class:hidden={!menuItems}
 	>
-		<li class="py-2">
-			<a
-				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/play">{$t('words.play')}</a
-			>
-		</li>
-		<li class="py-2">
-			<a
-				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/account/register">{$t('words.register')}</a
-			>
-		</li>
-		<li class="py-2">
-			<a
-				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/account/login">{$t('words.login')}</a
-			>
-		</li>
-		<li class="py-2">
-			<a
-				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="https://github.com/mawoka-myblock/classquiz">GitHub</a
-			>
-		</li>
-		<li class="py-2">
-			<a
-				class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-				href="/docs">{$t('words.docs')}</a
-			>
-		</li>
+		{#if $signedIn}
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/play">{$t('words.play')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/overview">{$t('words.overview')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="https://github.com/mawoka-myblock/classquiz">GitHub</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/api/v1/users/logout">{$t('words.logout')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/docs">{$t('words.docs')}</a
+				>
+			</li>
+		{:else}
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/play">{$t('words.play')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/account/register">{$t('words.register')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/account/login">{$t('words.login')}</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="https://github.com/mawoka-myblock/classquiz">GitHub</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/docs">{$t('words.docs')}</a
+				>
+			</li>
+		{/if}
 	</ul>
 </nav>

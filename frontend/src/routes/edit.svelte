@@ -1,10 +1,15 @@
 <script lang="ts" context="module">
+	import { signedIn } from '$lib/stores';
 	export async function load({ url, session }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
+		}
+
+		if (session.authenticated) {
+			signedIn.set(true);
 		}
 		const quiz_id = url.searchParams.get('quiz_id');
 		if (quiz_id === null) {

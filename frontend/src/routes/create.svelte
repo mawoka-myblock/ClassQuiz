@@ -1,10 +1,15 @@
 <script context="module" lang="ts">
+	import { signedIn } from '$lib/stores';
+
 	export async function load({ session, url }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
+		}
+		if (session.authenticated) {
+			signedIn.set(true);
 		}
 		const token = url.searchParams.get('token');
 		const pin = url.searchParams.get('pin');

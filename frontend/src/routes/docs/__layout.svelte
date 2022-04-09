@@ -1,3 +1,14 @@
+<script lang="ts" context="module">
+	import { signedIn } from '$lib/stores';
+
+	export async function load({ session }) {
+		if (session.authenticated) {
+			signedIn.set(true);
+		}
+		return {};
+	}
+</script>
+
 <script lang="ts">
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible } from '$lib/stores';

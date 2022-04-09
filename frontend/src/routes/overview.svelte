@@ -19,8 +19,9 @@
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible, signedIn } from '$lib/stores';
 
+	signedIn.set(true);
 	navbarVisible.set(true);
 	const { t } = getLocalization();
 

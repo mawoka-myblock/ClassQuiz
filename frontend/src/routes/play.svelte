@@ -1,5 +1,9 @@
 <script context="module" lang="ts">
-	export async function load({ url }) {
+	import { signedIn } from '$lib/stores';
+	export async function load({ url, session }) {
+		if (session.authenticated) {
+			signedIn.set(true);
+		}
 		const token = url.searchParams.get('pin');
 		return {
 			props: {

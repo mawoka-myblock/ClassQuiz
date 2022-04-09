@@ -1,10 +1,15 @@
 <script context="module" lang="ts">
+	import { signedIn } from '$lib/stores';
 	export async function load({ session }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
+		} else {
+			if (session.authenticated) {
+				signedIn.set(true);
+			}
 		}
 		return {
 			props: {
