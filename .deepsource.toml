@@ -1,9 +1,10 @@
 version = 1
+test_patterns = ["classquiz/tests/**", "test_*.py"]
+
 
 [[analyzers]]
 name = "python"
 enabled = true
-test_patterns = ["classquiz/tests/**", "test_*.py"]
 
   [analyzers.meta]
   runtime_version = "3.x.x"
