@@ -26,7 +26,7 @@ jobs:
           python-version: "3.10"
           cache: 'pipenv'
       - run: pipenv install --dev
-      - run: echo ${{ secrets.DEEPSOURCE_DSN }} > .env
+      - run: echo ${{ secrets.DOTENV }} > .env
       - name: Prepare test environment
         run: |
           pipenv run coverage run -m pytest --asyncio-mode=strict classquiz/tests
