@@ -17,3 +17,6 @@ enabled = true
 name = "test-coverage"
 enabled = true
 
+[[transformers]]
+name = "black"
+enabled = true
