@@ -15,8 +15,8 @@ async def join_game(sid, data):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
-                "https://hcaptcha.com/siteverify",
-                data={"response": data["captcha"], "secret": settings.hcaptcha_key},
+                    "https://hcaptcha.com/siteverify",
+                    data={"response": data["captcha"], "secret": settings.hcaptcha_key},
             ) as resp:
                 resp_data = await resp.json()
                 if not resp_data["success"]:
@@ -156,9 +156,18 @@ async def submit_answer(sid, data):
 
 
 @sio.event
-async def get_game_data(sid, _data):
-    game_pin = (await sio.get_session(sid))["game_pin"]
-    game_data = await redis.get(f"game:{game_pin}")
-    if game_data is not None:
-        await sio.emit("game_data", json.loads(game_data), room=game_pin)
-    # print(sid, data, "GET_GAME_DATA")
+async def get_final_results(sid, _data):
+    session = await sio.get_session(sid)
+    print(session)
+    game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
+    results = {}
+    if not session["admin"]:
+        return
+    for i in range(len(game_data.questions)):
+        redis_res = await redis.get(f"game_session:{session['game_pin']}:{i}")
+        print(redis_res)
+        if redis_res is None:
+            break
+        else:
+            results[str(i)] = json.loads(redis_res)
+    await sio.emit("final_results", results, room=session['game_pin'])

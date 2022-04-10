@@ -46,7 +46,8 @@
 			const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
 				async: true
 			});
-			captcha_resp = response;
+			captcha_resp = response
+			captcha_resp = '';
 		} catch (e) {
 			if (import.meta.env.VITE_SENTRY !== null) {
 				Sentry.captureException(e);

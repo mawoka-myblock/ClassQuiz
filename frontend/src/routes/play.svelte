@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	import { signedIn } from '$lib/stores';
 
 	export async function load({ url, session }) {
@@ -14,7 +14,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '../app';
@@ -22,6 +22,7 @@
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
+	import ShowEndScreen from '$lib/play/end.svelte';
 
 	// Exports
 	export let game_pin: string;
@@ -31,8 +32,16 @@
 		started: boolean;
 	}
 
+	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
+
+	interface PlayerAnswer {
+		username: string;
+		answer: string;
+		right: string;
+	}
+
 	// Variables init
-	let question_index: string = '';
+	let question_index = '';
 	let unique = {};
 	navbarVisible.set(false);
 	let game_pin_valid: boolean;
@@ -72,7 +81,12 @@
 		restart();
 		answer_results = JSON.parse(data);
 	});
+
+	socket.on('final_results', (data) => {
+		final_results = data;
+	});
 	// The rest
+	console.log(final_results, JSON.stringify(final_results) !== JSON.stringify([null]));
 </script>
 
 <svelte:head>
@@ -80,7 +94,7 @@
 	{#if gameData !== undefined}
 		{#each gameData.questions as question}
 			{#if question.image !== undefined}
-				<link rel='preload' as='image' href={question.image} />
+				<link rel="preload" as="image" href={question.image} />
 			{/if}
 		{/each}
 	{/if}
@@ -88,6 +102,8 @@
 <div>
 	{#if !gameMeta.started && gameData === undefined}
 		<JoinGame {game_pin} />
+	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
+		<ShowEndScreen bind:final_results bind:quiz_data={gameData} />
 	{:else if gameData !== undefined && question_index === ''}
 		<ShowTitle bind:title={gameData.title} bind:description={gameData.description} />
 	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}

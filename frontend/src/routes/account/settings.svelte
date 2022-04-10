@@ -28,9 +28,9 @@
 	}
 
 	interface ChangePasswordData {
-		oldPassword: string,
-		newPassword: string,
-		newPasswordConfirm: string
+		oldPassword: string;
+		newPassword: string;
+		newPasswordConfirm: string;
 	}
 
 	let changePasswordData: ChangePasswordData = {
@@ -107,32 +107,32 @@
 				/>
 			</div>
 			<div>
-				<h1 class='text-slate-100 text-4xl font-bold my-2'>{user.username}</h1>
-				<p class='text-slate-100 text-lg mb-6 md:max-w-lg'>
+				<h1 class="text-slate-100 text-4xl font-bold my-2">{user.username}</h1>
+				<p class="text-slate-100 text-lg mb-6 md:max-w-lg">
 					{$t('words.email')}: {user.email}
 				</p>
 				<!-- TODO: Add translation -->
-				<form class='flex flex-col md:flex-row' on:submit|preventDefault={changePassword}>
+				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
 					<label
-					>Old Password:<input
-						type='password'
-						class='m-2 text-black'
-						bind:value={changePasswordData.oldPassword}
-					/></label
+						>Old Password:<input
+							type="password"
+							class="m-2 text-black"
+							bind:value={changePasswordData.oldPassword}
+						/></label
 					>
 					<label
-					>New Password:<input
-						type='password'
-						class='m-2 text-black'
-						bind:value={changePasswordData.newPassword}
-					/></label
+						>New Password:<input
+							type="password"
+							class="m-2 text-black"
+							bind:value={changePasswordData.newPassword}
+						/></label
 					>
 					<label
-					>New Password again:<input
-						type='password'
-						class='m-2 text-black'
-						bind:value={changePasswordData.newPasswordConfirm}
-					/></label
+						>New Password again:<input
+							type="password"
+							class="m-2 text-black"
+							bind:value={changePasswordData.newPasswordConfirm}
+						/></label
 					>
 					<button
 						class="border-2 px-2 py-1 rounded-md border-black text-slate-100 hover:bg-amber-700 hover:text-indigo-100 transition duration-75 disabled:cursor-not-allowed disabled:opacity-50"

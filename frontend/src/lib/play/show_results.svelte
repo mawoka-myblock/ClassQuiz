@@ -6,7 +6,6 @@
 	export let question_index: string;
 	let data_store = {};
 
-
 	const question = game_data.questions[parseInt(question_index)].answers;
 	for (let i = 0; i < question.length; i++) {
 		console.log(question[i].answer, 'HI!!!');

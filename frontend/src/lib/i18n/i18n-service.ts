@@ -24,7 +24,7 @@ export class I18nService {
 	}
 
 	// Initializing i18n
-	initialize(): void  {
+	initialize(): void {
 		this.i18n.use(LanguageDetector).init({
 			// lng: INITIAL_LANGUAGE,
 			fallbackLng: 'en',
@@ -50,7 +50,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('fr', 'translation', fr);
 	}
 
-	changeLanguage(language: string): void  {
+	changeLanguage(language: string): void {
 		this.i18n.changeLanguage(language);
 	}
 }

@@ -9,7 +9,7 @@
 	initLocalizationContext();
 
 	if (import.meta.env.VITE_SENTRY !== undefined) {
-		console.log(import.meta.env.VITE_SENTRY)
+		console.log(import.meta.env.VITE_SENTRY);
 		Sentry.init({
 			dsn: String(import.meta.env.VITE_SENTRY),
 			integrations: [new BrowserTracing()],

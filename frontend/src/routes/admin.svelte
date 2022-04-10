@@ -41,15 +41,24 @@
 	export let auto_connect: boolean;
 	export let game_token: string;
 	let success = false;
+
 	interface Player {
-		username: string
+		username: string;
 	}
+
+	interface PlayerAnswer {
+		username: string;
+		answer: string;
+		right: string;
+	}
+
 	let players: Array<Player> = [];
 	let errorMessage = '';
 	let game_started = false;
 	let quiz_data: QuizData;
 	//let question_number = '0';
 	let question_results = null;
+	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
 
 	let shown_question_now: number;
 	const connect = () => {
@@ -91,10 +100,53 @@
 		});
 	};
 
+	const getWinnersSorted = () => {
+		let winners = {};
+		let q_count = quiz_data.questions.length;
+		for (let i = 0; i < q_count; i++) {
+			let q_res = final_results[i];
+			if (q_res === null) {
+				continue;
+			}
+			for (let j = 0; j < q_res.length; j++) {
+				let res = q_res[j];
+				if (res['right']) {
+					if (winners[res['username']] === undefined) {
+						winners[res['username']] = 0;
+					}
+					winners[res['username']] += 1;
+				}
+			}
+		}
+
+		function sortObjectbyValue(obj) {
+			const asc = false;
+			const ret = {};
+			Object.keys(obj)
+				.sort((a, b) => obj[asc ? a : b] - obj[asc ? b : a])
+				.forEach((s) => (ret[s] = obj[s]));
+			return ret;
+		}
+
+		return sortObjectbyValue(winners);
+	};
+
 	socket.on('question_results', (data) => {
 		data = JSON.parse(data);
 		console.log(data);
 		question_results = data;
+	});
+
+	const get_final_results = () => {
+		socket.emit('get_final_results', {});
+	};
+
+	socket.on('final_results', (data) => {
+		// data = JSON.parse(data);
+		console.log(data);
+		final_results = data;
+
+		console.log(getWinnersSorted());
 	});
 
 	const timer = (time: string) => {
@@ -173,4 +225,5 @@
 		>
 		<br />
 	{/each}
+	<button on:click={get_final_results}>Get final results</button>
 {/if}

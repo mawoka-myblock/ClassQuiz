@@ -10,7 +10,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { getLocalization } from '../../lib/i18n';
 
 	const { t } = getLocalization();
@@ -20,7 +20,7 @@
 		password1: string;
 		password2: string;
 	}
-	let passwordData: PasswordData  = {
+	let passwordData: PasswordData = {
 		password1: '',
 		password2: ''
 	};
@@ -55,7 +55,7 @@
 	};
 </script>
 
-<div class='flex items-center justify-center h-full px-4'>
+<div class="flex items-center justify-center h-full px-4">
 	<div>
 		<div
 			class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
@@ -126,7 +126,7 @@
 								type="submit"
 							>
 								{#if isSubmitting}
-									<svg class='h-4 w-4 animate-spin mx-auto' viewBox='3 3 18 18'>
+									<svg class="h-4 w-4 animate-spin mx-auto" viewBox="3 3 18 18">
 										<path
 											class="fill-black"
 											d="M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
