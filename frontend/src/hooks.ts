@@ -30,6 +30,7 @@ export async function getSession(event) {
 		});
 		if (res.ok) {
 			const json = await res.json();
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			//@ts-ignore // skipcq: JS-0295
 			user_email = json.email;
 		} else {

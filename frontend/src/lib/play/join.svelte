@@ -10,10 +10,11 @@
 	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
 
 	let hcaptcha = {
-		execute: async (_a, _b) => ({ response: '' }),
-		render: (_a, _b) => {}
+		execute: async (_a, _b) => ({ response: '' }), // eslint-disable-line @typescript-eslint/no-unused-vars
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		render: (_a, _b) => {} // eslint-disable-line @typescript-eslint/no-unused-vars
 	};
-	let hcaptchaWidgetID: any;
+	let hcaptchaWidgetID;
 
 	onMount(() => {
 		if (browser) {
@@ -32,6 +33,7 @@
 		if (browser) {
 			hcaptcha = {
 				execute: async () => ({ response: '' }),
+				// eslint-disable-next-line @typescript-eslint/no-empty-function
 				render: () => {}
 			};
 		}
@@ -73,10 +75,7 @@
 
 {#if game_pin === '' || game_pin.length <= 7}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form
-			on:submit|preventDefault={() => {}}
-			class="flex-col flex justify-center align-center mx-auto"
-		>
+		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">Game Pin</h1>
 			<input
 				class="border border-amber-800 self-center text-center text-black"

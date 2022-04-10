@@ -60,6 +60,7 @@
 	socket.on('joined_game', (data) => {
 		console.log('joined_game', data);
 		gameData = JSON.parse(data);
+		// eslint-disable-next-line no-undef
 		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
 	});
 
@@ -86,7 +87,6 @@
 		final_results = data;
 	});
 	// The rest
-	console.log(final_results, JSON.stringify(final_results) !== JSON.stringify([null]));
 </script>
 
 <svelte:head>
