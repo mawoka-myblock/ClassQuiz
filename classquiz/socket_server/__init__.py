@@ -15,8 +15,8 @@ async def join_game(sid, data):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
-                    "https://hcaptcha.com/siteverify",
-                    data={"response": data["captcha"], "secret": settings.hcaptcha_key},
+                "https://hcaptcha.com/siteverify",
+                data={"response": data["captcha"], "secret": settings.hcaptcha_key},
             ) as resp:
                 resp_data = await resp.json()
                 if not resp_data["success"]:
@@ -170,4 +170,4 @@ async def get_final_results(sid, _data):
             break
         else:
             results[str(i)] = json.loads(redis_res)
-    await sio.emit("final_results", results, room=session['game_pin'])
+    await sio.emit("final_results", results, room=session["game_pin"])
