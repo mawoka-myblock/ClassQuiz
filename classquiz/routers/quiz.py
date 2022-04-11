@@ -26,7 +26,7 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
-        if question.image is not None or question.image != "":
+        if question.image is not None:
             if not re.match(imgur_regex, question.image) or not re.match(server_regex, question.image):
                 raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
