@@ -56,6 +56,11 @@
 		unique = {};
 	}
 
+	const confirmUnload = () => {
+		event.preventDefault();
+		event.returnValue = '';
+	};
+
 	// Socket-events
 	socket.on('joined_game', (data) => {
 		console.log('joined_game', data);
@@ -89,6 +94,7 @@
 	// The rest
 </script>
 
+<svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
 	{#if gameData !== undefined}

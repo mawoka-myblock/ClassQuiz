@@ -162,7 +162,13 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
+	const confirmUnload = () => {
+		event.preventDefault();
+		event.returnValue = '';
+	};
 </script>
+
+<svelte:window on:beforeunload={confirmUnload} />
 
 <svelte:head>
 	<title>ClassQuiz - Host</title>

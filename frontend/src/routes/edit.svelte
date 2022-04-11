@@ -82,11 +82,19 @@
 		} else if (res.status === 404) {
 			throw new Error('Quiz not found');
 		} else if (res.status === 200) {
+			localStorage.removeItem('edit_game');
 			responseData.data = '200';
 			responseData.open = true;
 		}
 	};
+	const confirmUnload = () => {
+		event.preventDefault();
+		event.returnValue = '';
+		localStorage.setItem('edit_game', JSON.stringify(data));
+	};
 </script>
+
+<svelte:window on:beforeunload={confirmUnload} />
 
 <svelte:head>
 	<title>ClassQuiz - Edit</title>

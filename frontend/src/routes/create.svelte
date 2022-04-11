@@ -86,10 +86,18 @@
 			localStorage.setItem('create_game', JSON.stringify(data));
 			window.location.href = '/account/login';
 		} else if (res.status === 200) {
+			localStorage.removeItem('create_game');
 			responseData.open = true;
 		}
 	};
+	const confirmUnload = () => {
+		event.preventDefault();
+		event.returnValue = '';
+		localStorage.setItem('create_game', JSON.stringify(data));
+	};
 </script>
+
+<svelte:window on:beforeunload={confirmUnload} />
 
 <svelte:head>
 	<title>ClassQuiz - Create</title>
