@@ -14,6 +14,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 
+	import LandingPromo from '$lib/landing-promo.svelte';
 	const { t } = getLocalization();
 
 	navbarVisible.set(true);
@@ -53,6 +54,10 @@
 				{/await}
 			</p>
 		</div>
+	</section>
+
+	<section>
+		<LandingPromo />
 	</section>
 	<section id="features">
 		<div class="text-center pt-24 snap-y">

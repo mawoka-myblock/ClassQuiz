@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	import { signedIn } from '$lib/stores';
+
 	export async function load({ url, session }) {
 		if (!session.authenticated) {
 			return {
@@ -29,6 +30,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
+	import { onMount } from 'svelte';
 
 	navbarVisible.set(true);
 
@@ -60,6 +62,19 @@
 	export let quiz_id: string;
 	let data: Data;
 
+	onMount(() => {
+		const from_localstorage = localStorage.getItem('edit_game');
+		if (from_localstorage === null) {
+			data = {
+				description: '',
+				public: false,
+				title: '',
+				questions: [{ question: '', time: '20', answers: [{ right: false, answer: '' }] }]
+			};
+		} else {
+			data = JSON.parse(from_localstorage);
+		}
+	});
 	const get_quiz = async (): Promise<void> => {
 		const response = await fetch(`/api/v1/quiz/get/${quiz_id}`);
 		if (response.status === 404) {
@@ -78,7 +93,8 @@
 			}
 		});
 		if (res.status === 401) {
-			throw new Error('Unauthorized');
+			localStorage.setItem('edit_game', JSON.stringify(data));
+			window.location.href = '/account/login';
 		} else if (res.status === 404) {
 			throw new Error('Quiz not found');
 		} else if (res.status === 200) {

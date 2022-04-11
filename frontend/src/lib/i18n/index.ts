@@ -9,7 +9,7 @@ export const initLocalizationContext = () => {
 	const i18n = new I18nService();
 	const tranlator = new I18NextTranslationService(i18n);
 
-	// Setting the Svelte context
+	// skipcq: JS-0357
 	setLocalization({
 		t: tranlator.translate,
 		currentLanguage: tranlator.locale
