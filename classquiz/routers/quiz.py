@@ -24,7 +24,8 @@ router = APIRouter()
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
 
     for question in quiz_input.questions:
-        if question.image is not "":
+        print(question.image)
+        if question.image is not None:
             if not re.match(imgur_regex, question.image) or not re.match(server_regex, question.image):
                 raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
@@ -92,7 +93,7 @@ async def get_quiz_list(user: User = Depends(get_current_user)):
 @router.put("/update/{quiz_id}")
 async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(get_current_user)):
     for question in quiz_input.questions:
-        if question.image is not "":
+        if question.image is not None:
             if not re.match(imgur_regex, question.image) or not re.match(server_regex, question.image):
                 raise HTTPException(status_code=400, detail="image url is not valid")
     try:
