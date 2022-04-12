@@ -14,6 +14,8 @@
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 
+	import LandingPromo from '$lib/landing/landing-promo.svelte';
+
 	const { t } = getLocalization();
 
 	navbarVisible.set(true);
@@ -54,8 +56,24 @@
 			</p>
 		</div>
 	</section>
-	<section id="features">
-		<div class="text-center pt-24 snap-y">
+
+	<section class="py-8">
+		<h1 class="sm:text-6xl text-4xl text-center">Screenshots</h1>
+		<div>
+			<LandingPromo />
+		</div>
+	</section>
+
+	<!--
+	<section>
+		<h1 class='sm:text-6xl text-4xl text-center'>Testimonials</h1>
+		{#await import('$lib/landing/testimonials.svelte') then testimonials}
+			<svelte:component this={testimonials.default} />
+		{/await}
+	</section>
+	-->
+	<section id="features" class='mt-8'>
+		<div class="text-center snap-y">
 			<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
 			<p class="text-xl pt-4">
 				{$t('index_page.features_description.1')}

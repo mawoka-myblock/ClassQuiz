@@ -39,7 +39,7 @@
 		background-size: cover;
 		/*background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
 		/*background: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%); */
-		color: beige;
+		color: black;
 
 		// background-size: 400% 400%;
 

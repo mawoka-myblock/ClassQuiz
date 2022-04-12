@@ -40,6 +40,7 @@ specifiers:
     svelte-check: ^2.2.6
     svelte-preprocess: ^4.10.1
     sveltejs-tippy: ^3.0.0
+    swiper: ^8.1.0
     tailwindcss: ^3.0.12
     tslib: ^2.3.1
     typescript: ~4.5.4
@@ -87,6 +88,7 @@ devDependencies:
     svelte-check: 2.4.5_bb21b93d557fc716a6ae071c4dce10e1
     svelte-preprocess: 4.10.4_c54fd0a3479054b5002c3dc2e70c9c9a
     sveltejs-tippy: 3.0.0
+    swiper: 8.1.0
     tailwindcss: 3.0.23_autoprefixer@10.4.2
     tslib: 2.3.1
     typescript: 4.5.5
@@ -1376,6 +1378,15 @@ packages:
         engines: { node: '>=6.0.0' }
         dependencies:
             esutils: 2.0.3
+        dev: true
+
+    /dom7/4.0.4:
+        resolution:
+            {
+                integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==
+            }
+        dependencies:
+            ssr-window: 4.0.2
         dev: true
 
     /duplexify/3.7.1:
@@ -3639,6 +3650,13 @@ packages:
         resolution: { integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw= }
         dev: true
 
+    /ssr-window/4.0.2:
+        resolution:
+            {
+                integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
+            }
+        dev: true
+
     /standard-as-callback/2.1.0:
         resolution:
             {
@@ -3854,6 +3872,18 @@ packages:
             }
         dependencies:
             tippy.js: 6.0.3
+        dev: true
+
+    /swiper/8.1.0:
+        resolution:
+            {
+                integrity: sha512-Py2vuk7Nb3xlZMB2e201DQkjslTb6Uaju6wvr4BB7VjWrouSZegA0QjbxDVheJOsbKMUV092iDL3kymPBbuVzw==
+            }
+        engines: { node: '>= 4.7.0' }
+        requiresBuild: true
+        dependencies:
+            dom7: 4.0.4
+            ssr-window: 4.0.2
         dev: true
 
     /table/6.8.0:

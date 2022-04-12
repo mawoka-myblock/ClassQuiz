@@ -17,6 +17,9 @@ const config = {
 			precompress: true
 		}),
 		vite: {
+			optimizeDeps: {
+				include: ['swiper']
+			},
 			build: {
 				sourcemap: true
 			}
