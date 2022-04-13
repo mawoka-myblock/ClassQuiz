@@ -19,14 +19,19 @@
 		<div class="h-fit">
 			<!--			<h1 class='text-5xl marck-script text-center pt-4'>Teacher</h1>-->
 
-			<div class="grid grid-cols-2 grow pt-4 transition ease-in-out">
+			<div class="grid lg:grid-cols-2 grow pt-4 transition ease-in-out">
 				<h1 class="text-center text-3xl marck-script">1: Create or Import</h1>
-				<h1 class="text-center text-3xl marck-script">2: See all your quizzes</h1>
+				<h1 class="text-center text-3xl marck-script hidden lg:block">
+					2: See all your quizzes
+				</h1>
 				<!--				<h1 class='text-center text-3xl marck-script'>3: See how many were right or wrong</h1>-->
 
 				<div class="flex justify-center">
 					<img src={ImportSelectMockup} class="w-4/6 align-top" alt="Select answer" />
 				</div>
+				<h1 class="text-center text-3xl marck-script lg:hidden block">
+					2: See all your quizzes
+				</h1>
 				<div class="flex justify-center">
 					<img
 						src={OverviewMockup}
@@ -46,16 +51,21 @@
 	{:else}
 		<div class="h-fit">
 			<!--			<h1 class='text-5xl marck-script text-center pt-4'>Student</h1>-->
-			<div class="grid grid-cols-3 grow pt-4 transition ease-in-out">
+			<div class="grid lg:grid-cols-3 grow pt-4 transition ease-in-out">
 				<h1 class="text-center text-3xl marck-script">1: Answer</h1>
-				<h1 class="text-center text-3xl marck-script">2: See what was right or wrong</h1>
-				<h1 class="text-center text-3xl marck-script">
+				<h1 class="text-center text-3xl marck-script lg:block hidden">
+					2: See what was right or wrong
+				</h1>
+				<h1 class="text-center text-3xl marck-script lg:block hidden">
 					3: See how many were right or wrong
 				</h1>
 
 				<div class="flex justify-center">
 					<img src={SelectMockup} class="w-4/6 align-top" alt="Select answer" />
 				</div>
+				<h1 class="text-center text-3xl marck-script lg:hidden block">
+					3: See how many were right or wrong
+				</h1>
 				<div class="flex justify-center">
 					<img
 						src={SolutionMockup}
@@ -63,6 +73,9 @@
 						alt="See right and wrong solutions"
 					/>
 				</div>
+				<h1 class="text-center text-3xl marck-script lg:hidden block">
+					3: See how many were right or wrong
+				</h1>
 				<div class="flex justify-center">
 					<img
 						src={ResultsMockup}
