@@ -72,7 +72,7 @@
 		{/await}
 	</section>
 	-->
-	<section id="features" class='mt-8'>
+	<section id="features" class="mt-8">
 		<div class="text-center snap-y">
 			<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
 			<p class="text-xl pt-4">
