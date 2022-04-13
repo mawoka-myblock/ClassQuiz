@@ -57,7 +57,7 @@
 				if (import.meta.env.VITE_SENTRY !== null) {
 					Sentry.captureException(new Error('Reload loop'));
 				}
-				fetch('/api/v1/users/logout');
+				fetch('/api/v1/users/logout').then();
 				Cookies.remove('reload');
 			}
 			Cookies.set('reload', String(parseInt(cookie) + 1), { expires: expireIn60Sec });
