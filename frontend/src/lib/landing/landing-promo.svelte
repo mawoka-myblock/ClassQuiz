@@ -67,22 +67,23 @@
 					3: See how many were right or wrong
 				</h1>
 				<div class="flex justify-center">
-				<div class="flex justify-center">
-					<img
-						src={SolutionMockup}
-						class="w-4/6 align-top"
-						alt="See right and wrong solutions"
-					/>
-				</div>
-				<h1 class="text-center text-3xl marck-script lg:hidden block">
-					3: See how many were right or wrong
-				</h1>
-				<div class="flex justify-center">
-					<img
-						src={ResultsMockup}
-						class="w-4/6 align-top"
-						alt="See results in comparison with other players"
-					/>
+					<div class="flex justify-center">
+						<img
+							src={SolutionMockup}
+							class="w-4/6 align-top"
+							alt="See right and wrong solutions"
+						/>
+					</div>
+					<h1 class="text-center text-3xl marck-script lg:hidden block">
+						3: See how many were right or wrong
+					</h1>
+					<div class="flex justify-center">
+						<img
+							src={ResultsMockup}
+							class="w-4/6 align-top"
+							alt="See results in comparison with other players"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
