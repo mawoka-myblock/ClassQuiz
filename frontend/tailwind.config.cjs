@@ -11,9 +11,10 @@ const config = {
 			typography: (theme) => ({
 				DEFAULT: {
 					css: {
-						color: theme('colors.yellow.50'),
+						// color: theme('colors.yellow.50'),
 						textDecoration: 'none',
-						a: {
+						textColor: '#000',
+						/*a: {
 							color: theme('colors.blue.200')
 						},
 						blockquote: {
@@ -36,7 +37,7 @@ const config = {
 						},
 						strong: {
 							color: theme('colors.yellow.50')
-						},
+						},*/
 						'code::before': {
 							content: '""',
 							'padding-left': '0.25rem'

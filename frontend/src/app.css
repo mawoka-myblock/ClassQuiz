@@ -2,7 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@fontsource /marck-script;
+/*@fontsource/marck-script;*/
 
 .marck-script {
 	font-family: 'Marck Script';
