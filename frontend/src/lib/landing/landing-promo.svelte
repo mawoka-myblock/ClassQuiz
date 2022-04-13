@@ -67,6 +67,7 @@
 					3: See how many were right or wrong
 				</h1>
 				<div class="flex justify-center">
+				<div class="flex justify-center">
 					<img
 						src={SolutionMockup}
 						class="w-4/6 align-top"
@@ -115,7 +116,7 @@
 					on:click={() => {
 						teacherTab = false;
 					}}
-					>Studen's site
+					>Student's site
 				</button>
 			</div>
 		</div>
