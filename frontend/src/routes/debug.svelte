@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { QuizData } from '../app';
+	import type { QuizData } from '$lib/quiz_types';
 	import Title from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import { socket } from '$lib/socket';

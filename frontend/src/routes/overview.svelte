@@ -15,7 +15,7 @@
 </script>
 
 <script lang="ts">
-	import type { Question } from '../app';
+	import type { Question } from '$lib/quiz_types';
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';

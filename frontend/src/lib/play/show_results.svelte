@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Answer, QuizData } from '../../app';
+	import type { Answer, QuizData } from '$lib/quiz_types';
 
 	export let results: Array<Answer>;
 	export let game_data: QuizData;

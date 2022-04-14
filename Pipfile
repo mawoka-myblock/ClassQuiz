@@ -22,6 +22,7 @@ jinja2 = "*"
 argon2-cffi = "*"
 sentry-sdk = "*"
 aiofiles = "*"
+meilisearch = "*"
 
 [dev-packages]
 coverage = "*"
@@ -32,3 +33,6 @@ black = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+format = "black ."

@@ -21,6 +21,8 @@
 		<li><a href="https://caddyserver.com/">Caddy</a></li>
 		<li><a href="https://pipenv.pypa.io/en/latest/">Pipenv</a></li>
 		<li><a href="https://redis.io/">Redis</a></li>
+		<li><a href="https://meilisearch.com">Meilisearch</a></li>
+		<li><a href="https://caddyserver.com"><i>(Optional) Caddy</i></a></li>
 	</ul>
 
 	<h4>Frontend</h4>
@@ -60,8 +62,6 @@
 				</li>
 			</ul>
 		</li>
-		hcaptcha_key: str mail_address: str mail_password: str mail_username: str mail_server: str mail_port:
-		int secret_key: str
 		<li>
 			Set your config up in your .env-file. What you have to set up can you see in the
 			<code>classquiz/config.py</code>-file. The things you have to set are the following:
@@ -73,6 +73,7 @@
 				<li><code>mail_server</code></li>
 				<li><code>mail_port</code></li>
 				<li><code>secret_key</code></li>
+				<li><code>meilisearch_url</code></li>
 			</ul>
 		</li>
 		<li>
@@ -91,6 +92,7 @@
 	</ul>
 
 	<h2>BEFORE you submit a Pull-Request</h2>
+	<p>Please use <a href="https://gitmoji.dev">Gitmoji</a> for your commits.</p>
 	<h4>Frontend</h4>
 	<p>Please format and lint your code with</p>
 	<pre><code>pnpm run format && pnpm run lint</code></pre>

@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Optional
 
 import ormar
 from pydantic import BaseModel, Json
@@ -32,7 +33,7 @@ class UserSession(ormar.Model):
     """
 
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
-    user: uuid.UUID = ormar.ForeignKey(User)
+    user: Optional[User] = ormar.ForeignKey(User)
     session_key: str = ormar.String(unique=True, max_length=64)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     ip_address: str = ormar.String(max_length=100, nullable=True)
@@ -71,7 +72,7 @@ class Quiz(ormar.Model):
     description: str = ormar.String(max_length=300, nullable=True)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     updated_at: datetime = ormar.DateTime(default=datetime.now())
-    user_id: uuid.UUID = ormar.UUID(foreign_key=User.id)
+    user_id: uuid.UUID = ormar.ForeignKey(User)
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
 
     class Meta:
