@@ -23,6 +23,7 @@ argon2-cffi = "*"
 sentry-sdk = "*"
 aiofiles = "*"
 meilisearch = "*"
+bleach = "*"
 
 [dev-packages]
 coverage = "*"

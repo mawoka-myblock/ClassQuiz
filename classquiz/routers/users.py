@@ -17,6 +17,7 @@ from classquiz.auth import (
 from classquiz.cache import clear_cache_for_account
 from classquiz.config import redis, settings
 import uuid
+import bleach
 from pydantic import BaseModel
 from classquiz.db.models import User, UserSession, UpdatePassword, Token
 from classquiz.emails import send_register_email, send_forgotten_password_email
@@ -58,6 +59,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
         raise HTTPException(status_code=409, detail="User already exists")
 
     user.password = get_password_hash(user.password)
+    user.username = bleach.clean(user.username, tags=[], strip=True)
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()

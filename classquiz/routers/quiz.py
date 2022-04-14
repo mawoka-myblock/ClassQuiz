@@ -7,6 +7,7 @@ from classquiz.helpers import get_meili_data
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
+import bleach
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
@@ -22,6 +23,8 @@ router = APIRouter()
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
     server_regex = rf"^{settings.root_address}/api/v1/storage/download/.{36}--.{36}$"
+    quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
+    quiz_input.description = bleach.clean(quiz_input.description, tags=[], strip=True)
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
@@ -127,6 +130,8 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     else:
         # print(quiz_input)
         # print(quiz)
+        quiz_input.description = bleach.clean(quiz_input.description, tags=[], strip=True)
+        quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
         if quiz.public and not quiz_input.public:
             print("removing from meilisearch")
