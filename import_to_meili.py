@@ -1,6 +1,5 @@
 import meilisearch
 from classquiz.db.models import Quiz, User
-from pprint import pprint
 from classquiz.config import settings
 from asyncio import run
 
