@@ -3,7 +3,7 @@ import re
 import uuid
 from datetime import datetime
 from random import randint
-
+from classquiz.helpers import get_meili_data
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
@@ -32,12 +32,7 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
     await redis.delete("global_quiz_count")
     meilisearch.index(settings.meilisearch_index).add_documents(
         [
-            {
-                "id": str(quiz.id),
-                "title": quiz.title,
-                "description": quiz.description,
-                "user": (await User.objects.filter(id=quiz.user_id).first()).username,
-            }
+            await get_meili_data(quiz)
         ]
     )
     return await quiz.save()
@@ -138,12 +133,7 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         # print(quiz)
         meilisearch.index(settings.meilisearch_index).update_documents(
             [
-                {
-                    "id": str(quiz.id),
-                    "title": quiz_input.title,
-                    "description": quiz_input.description,
-                    "user": (await User.objects.filter(id=quiz.user_id).first()).username,
-                }
+                await get_meili_data(quiz)
             ]
         )
         if quiz.public and not quiz_input.public:
@@ -152,12 +142,7 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         if not quiz.public and quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents(
                 [
-                    {
-                        "id": str(quiz.id),
-                        "title": quiz_input.title,
-                        "description": quiz_input.description,
-                        "user": (await User.objects.filter(id=quiz.user_id).first()).username,
-                    }
+                    await get_meili_data(quiz)
                 ]
             )
         quiz.title = quiz_input.title

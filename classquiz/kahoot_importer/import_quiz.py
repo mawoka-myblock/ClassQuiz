@@ -8,6 +8,7 @@ from aiohttp import ClientSession
 from classquiz.config import settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizAnswer, QuizQuestion, User
 from classquiz.kahoot_importer.get import get as get_quiz
+from classquiz.helpers import get_meili_data
 
 settings = settings()
 
@@ -98,12 +99,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     )
     meilisearch.index(settings.meilisearch_index).add_documents(
         [
-            {
-                "id": str(quiz_data.id),
-                "title": quiz_data.title,
-                "description": quiz_data.description,
-                "user": (await User.objects.filter(id=quiz_data.user_id).first()).username,
-            }
+            await get_meili_data(quiz_data)
         ]
     )
     return await quiz_data.save()
