@@ -136,21 +136,36 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     else:
         # print(quiz_input)
         # print(quiz)
+        meilisearch.index(settings.meilisearch_index).update_documents(
+            [
+                {
+                    "id": str(quiz.id),
+                    "title": quiz_input.title,
+                    "description": quiz_input.description,
+                    "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+                }
+            ]
+        )
+        if quiz.public and not quiz_input.public:
+            print("removing from meilisearch")
+            meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
+        if not quiz.public and quiz_input.public:
+            meilisearch.index(settings.meilisearch_index).add_documents(
+                [
+                    {
+                        "id": str(quiz.id),
+                        "title": quiz_input.title,
+                        "description": quiz_input.description,
+                        "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+                    }
+                ]
+            )
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
         quiz.questions = quiz_input.dict()["questions"]
-        meilisearch.index(settings.meilisearch_index).update_documents(
-            [
-                {
-                    "id": str(quiz.id),
-                    "title": quiz.title,
-                    "description": quiz.description,
-                    "user": (await User.objects.filter(id=quiz.user_id).first()).username,
-                }
-            ]
-        )
+
         return await quiz.update()
 
 
