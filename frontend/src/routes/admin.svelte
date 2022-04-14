@@ -205,15 +205,15 @@
 			{/each}
 		{/if}
 	</ul>
-	<!--{#if players.length > 0}-->
-	<button
-		on:click={() => {
-			socket.emit('start_game', '');
-			game_started = true;
-		}}
-		>{$t('admin_page.start_game')}
-	</button>
-	<!--{/if}-->
+	{#if players.length > 0}
+		<button
+			on:click={() => {
+				socket.emit('start_game', '');
+				game_started = true;
+			}}
+			>{$t('admin_page.start_game')}
+		</button>
+	{/if}
 {:else}
 	{#if timer_res === undefined}
 		<span>Select a question to start!</span>

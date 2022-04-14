@@ -1,5 +1,4 @@
-<script lang='ts' context='module'>
-
+<script lang="ts" context="module">
 	export async function load({ params, fetch, session }) {
 		const { quiz_id } = params;
 		const res = await fetch(`/api/v1/quiz/get/public/${quiz_id}`);
@@ -23,7 +22,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	import CollapsSection from '$lib/collapsible.svelte';
 	import { createTippy } from 'svelte-tippy';
@@ -63,7 +62,6 @@
 		questions: Question[];
 	}
 
-
 	const startGame = async (id: string): Promise<void> => {
 		console.log('start game', id);
 		const res = await fetch(`/api/v1/quiz/start/${id}`, {
@@ -80,77 +78,82 @@
 		plausible('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
-
-
 </script>
 
-
 <div>
-	<h1 class='text-4xl text-center'>{quiz.title}</h1>
-	<div class='text-center'>
+	<h1 class="text-4xl text-center">{quiz.title}</h1>
+	<div class="text-center">
 		<p>{quiz.description}</p>
 	</div>
 
-	<div class='flex justify-center m-8'>
+	<div class="flex justify-center m-8">
 		{#if logged_in}
 			<button
-				class='px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 				on:click={() => {
-			startGame(quiz.id);
-		}}>
+					startGame(quiz.id);
+				}}
+			>
 				{$t('words.start')}
 			</button>
-		{:else }
+		{:else}
 			<button
-				class='px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50'
-				use:tippy={{content: "You need to be logged in to start a game"}}>
-
+				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
+				use:tippy={{ content: 'You need to be logged in to start a game' }}
+			>
 				{$t('words.start')}
 			</button>
 		{/if}
 	</div>
 	{#each quiz.questions as question, index_question}
-		<div class='px-4 py-1'>
+		<div class="px-4 py-1">
 			<CollapsSection headerText={question.question}>
-				<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2'>
-					<h1 class='text-3xl m-1'>{$t('words.question')} {index_question + 1}</h1>
+				<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
+					<h1 class="text-3xl m-1">{$t('words.question')} {index_question + 1}</h1>
 
-<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->
-						<p
-							class='text-black w-full bg-inherit'
-						>{$t('words.question')}: {question.question}</p>
-<!--					</label>-->
+					<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->
+					<p class="text-black w-full bg-inherit">
+						{$t('words.question')}: {question.question}
+					</p>
+					<!--					</label>-->
 					{#if question.image}
-						<label class='m-1 flex flex-row gap-2 w-3/5'>
+						<span>
 							{$t('words.image')}:
-							<img src='{question.image}' alt='Not provided'>
-						</label>
+							<img class="pl-8" src={question.image} alt="Not provided" />
+						</span>
 					{/if}
-					<label class='m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap'>
+					<span class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
 						{$t('editor.time_in_seconds')}:
 						<p>{question.time}</p>
-					</label>
+					</span>
 					{#each question.answers as answer, index_answer}
-						<div class='ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1'>
-							<h1 class='text-3xl m-1'>{$t('words.answer')} {index_answer + 1}</h1>
-							<p class='m-1'>
+						<div
+							class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1"
+						>
+							<h1 class="text-3xl m-1">{$t('words.answer')} {index_answer + 1}</h1>
+							<p class="m-1">
 								{$t('words.answer')}: {index_answer + 1}
 								{$t('words.question')}: {index_question + 1}
 							</p>
-							<p>{$t('words.answer')}
-								: {quiz.questions[index_question].answers[index_answer].answer}</p>
-							<label class='m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap'>
-								<input type='checkbox' bind:checked={answer.right} class='text-black w-fit'
-									   disabled />
-								<span class='w-fit'>{$t('editor.right_or_true?')}</span>
+							<p>
+								{$t('words.answer')}
+								: {quiz.questions[index_question].answers[index_answer].answer}
+							</p>
+							<label
+								class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap"
+							>
+								<input
+									type="checkbox"
+									bind:checked={answer.right}
+									class="text-black w-fit"
+									disabled
+								/>
+								<span class="w-fit">{$t('editor.right_or_true?')}</span>
 							</label>
-
 						</div>
 					{/each}
 				</div>
 			</CollapsSection>
 		</div>
 	{/each}
-
 </div>
-
