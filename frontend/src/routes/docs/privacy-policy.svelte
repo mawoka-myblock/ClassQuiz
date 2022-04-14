@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>ClassQuiz/docs - Self-Host</title>
+	<title>ClassQuiz/docs - Privacy policy</title>
 	<meta
 		name="description"
 		content="How to self-host ClassQuiz, the open-source quiz-application"
