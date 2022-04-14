@@ -7,9 +7,7 @@
 			},
 			body: JSON.stringify({
 				q: '*',
-				sort: [
-					"created_at:desc"
-				]
+				sort: ['created_at:desc']
 			})
 		});
 		return await response.json();
