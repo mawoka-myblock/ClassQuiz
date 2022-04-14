@@ -68,7 +68,7 @@ async def search_get(
     q: str,
     offset: int = 0,
     limit: int = 20,
-    filter: str | None = None,
+    filter: str | None = None,  # skipcq: PYL-W0622
     cropLength: int = 200,
     matches: bool = False,
     attributesToHighlight: Optional[str] = "*",
