@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from classquiz.auth import get_current_user, get_current_user_optional
+from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz

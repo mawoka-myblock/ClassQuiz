@@ -1,20 +1,9 @@
-import json
-import re
-import uuid
-from datetime import datetime
-from random import randint
-
 import pydantic
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
-from pydantic import ValidationError
+from fastapi import APIRouter
 
-from classquiz.auth import get_current_user, get_current_user_optional
-from classquiz.config import redis, settings, storage, meilisearch
+from classquiz.config import settings, meilisearch
 from uuid import UUID
 from typing import Optional, List
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame
-from classquiz.kahoot_importer.import_quiz import import_quiz
 
 settings = settings()
 
@@ -90,7 +79,7 @@ async def search_get(
         {
             "offset": offset,
             "limit": limit,
-            "filter": filter,
+            "filter": filter,  # skipcq: PYL-W0622
             "cropLength": cropLength,
             "matches": matches,
             "attributesToHighlight": [attributesToHighlight],
