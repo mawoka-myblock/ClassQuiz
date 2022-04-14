@@ -1,4 +1,4 @@
-<script context='module' lang='ts'>
+<script context="module" lang="ts">
 	export async function load({ session, url }) {
 		if (!session.authenticated) {
 			return {
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<script lang='ts'>
+<script lang="ts">
 	import type { QuizData } from '../app';
 
 	import { socket } from '$lib/socket';
@@ -40,7 +40,6 @@
 	export let game_pin: string;
 	export let auto_connect: boolean;
 	export let game_token: string;
-
 
 	interface Player {
 		username: string;
@@ -140,7 +139,7 @@
 		try {
 			data = JSON.parse(data);
 		} catch (e) {
-			console.log("Failed to parse question results");
+			console.log('Failed to parse question results');
 			return;
 		}
 		question_results = data;
@@ -183,19 +182,19 @@
 </svelte:head>
 
 {#if !success}
-	<input placeholder='game id' bind:value={game_token} />
-	<input placeholder='game pin' bind:value={game_pin} />
+	<input placeholder="game id" bind:value={game_token} />
+	<input placeholder="game pin" bind:value={game_pin} />
 	<button on:click={connect}>{$t('words.connect')}!</button>
 	{#if errorMessage !== ''}
-		<p class='text-red-700'>{errorMessage}</p>
+		<p class="text-red-700">{errorMessage}</p>
 	{/if}
 {:else if !game_started}
 	<img
-		alt='QR code to join the game'
-		src='/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr'
-		class='block mx-auto w-1/6'
+		alt="QR code to join the game"
+		src="/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr"
+		class="block mx-auto w-1/6"
 	/>
-	<p class='text-3xl text-center'>{$t('words.pin')}: {quiz_data.game_pin}</p>
+	<p class="text-3xl text-center">{$t('words.pin')}: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
 			{#each players as player}
@@ -209,10 +208,10 @@
 	<!--{#if players.length > 0}-->
 	<button
 		on:click={() => {
-				socket.emit('start_game', '');
-				game_started = true;
-			}}
-	>{$t('admin_page.start_game')}
+			socket.emit('start_game', '');
+			game_started = true;
+		}}
+		>{$t('admin_page.start_game')}
 	</button>
 	<!--{/if}-->
 {:else}
@@ -243,12 +242,13 @@
 		>
 		<br />
 	{/each}-->
-	<button disabled={!(timer_res === undefined || timer_res === '0')}
-			on:click={() => {
-				set_question_number(selected_question+1);
-			}}>{selected_question + 1}: {quiz_data.questions[selected_question + 1].question}</button
+	<button
+		disabled={!(timer_res === undefined || timer_res === '0')}
+		on:click={() => {
+			set_question_number(selected_question + 1);
+		}}>{selected_question + 1}: {quiz_data.questions[selected_question + 1].question}</button
 	>
-	<br>
+	<br />
 	{#if selected_question === quiz_data.questions.length}
 		<button on:click={get_final_results}>Get final results</button>
 	{/if}
