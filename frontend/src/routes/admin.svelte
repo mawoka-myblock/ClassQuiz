@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script context='module' lang='ts'>
 	export async function load({ session, url }) {
 		if (!session.authenticated) {
 			return {
@@ -22,7 +22,7 @@
 	}
 </script>
 
-<script lang="ts">
+<script lang='ts'>
 	import type { QuizData } from '../app';
 
 	import { socket } from '$lib/socket';
@@ -40,7 +40,7 @@
 	export let game_pin: string;
 	export let auto_connect: boolean;
 	export let game_token: string;
-	let success = false;
+
 
 	interface Player {
 		username: string;
@@ -59,6 +59,11 @@
 	//let question_number = '0';
 	let question_results = null;
 	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
+	let success = false;
+	let selected_question = -1;
+	let timer_res: string;
+
+	$: console.log(timer_res);
 
 	let shown_question_now: number;
 	const connect = () => {
@@ -84,12 +89,12 @@
 	socket.on('already_registered_as_admin', () => {
 		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
-	let timer_res: string;
 	const set_question_number = (q_number: number) => {
 		question_results = null;
 		socket.emit('set_question_number', q_number.toString());
 		shown_question_now = q_number;
 		timer_res = quiz_data.questions[q_number].time;
+		selected_question += 1;
 		timer(timer_res);
 	};
 
@@ -132,8 +137,12 @@
 	};
 
 	socket.on('question_results', (data) => {
-		data = JSON.parse(data);
-		console.log(data);
+		try {
+			data = JSON.parse(data);
+		} catch (e) {
+			console.log("Failed to parse question results");
+			return;
+		}
 		question_results = data;
 	});
 
@@ -169,25 +178,24 @@
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
-
 <svelte:head>
 	<title>ClassQuiz - Host</title>
 </svelte:head>
 
 {#if !success}
-	<input placeholder="game id" bind:value={game_token} />
-	<input placeholder="game pin" bind:value={game_pin} />
+	<input placeholder='game id' bind:value={game_token} />
+	<input placeholder='game pin' bind:value={game_pin} />
 	<button on:click={connect}>{$t('words.connect')}!</button>
 	{#if errorMessage !== ''}
-		<p class="text-red-700">{errorMessage}</p>
+		<p class='text-red-700'>{errorMessage}</p>
 	{/if}
 {:else if !game_started}
 	<img
-		alt="QR code to join the game"
-		src="/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr"
-		class="block mx-auto w-1/6"
+		alt='QR code to join the game'
+		src='/api/v1/utils/qr/{quiz_data.game_pin}?ref=qr'
+		class='block mx-auto w-1/6'
 	/>
-	<p class="text-3xl text-center">{$t('words.pin')}: {quiz_data.game_pin}</p>
+	<p class='text-3xl text-center'>{$t('words.pin')}: {quiz_data.game_pin}</p>
 	<ul>
 		{#if players.length > 0}
 			{#each players as player}
@@ -198,17 +206,21 @@
 			{/each}
 		{/if}
 	</ul>
-	{#if players.length > 0}
-		<button
-			on:click={() => {
+	<!--{#if players.length > 0}-->
+	<button
+		on:click={() => {
 				socket.emit('start_game', '');
 				game_started = true;
 			}}
-			>{$t('admin_page.start_game')}
-		</button>
-	{/if}
+	>{$t('admin_page.start_game')}
+	</button>
+	<!--{/if}-->
 {:else}
-	<span>{$t('admin_page.time_left')}: {timer_res}</span>
+	{#if timer_res === undefined}
+		<span>Select a question to start!</span>
+	{:else}
+		<span>{$t('admin_page.time_left')}: {timer_res}</span>
+	{/if}
 	<br />
 	{#if timer_res === '0'}
 		<button on:click={get_question_results}>{$t('admin_page.get_results')}</button>
@@ -223,13 +235,21 @@
 		{/if}
 	{/if}
 	<br />
-	{#each quiz_data.questions as { question }, index}
+	<!--{#each quiz_data.questions as { question }, index}
 		<button
 			on:click={() => {
 				set_question_number(index);
 			}}>{index}: {question}</button
 		>
 		<br />
-	{/each}
-	<button on:click={get_final_results}>Get final results</button>
+	{/each}-->
+	<button disabled={!(timer_res === undefined || timer_res === '0')}
+			on:click={() => {
+				set_question_number(selected_question+1);
+			}}>{selected_question + 1}: {quiz_data.questions[selected_question + 1].question}</button
+	>
+	<br>
+	{#if selected_question === quiz_data.questions.length}
+		<button on:click={get_final_results}>Get final results</button>
+	{/if}
 {/if}

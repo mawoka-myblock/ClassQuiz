@@ -125,7 +125,9 @@ async def rememberme_token(request: Request, response: Response):
         max_age=settings.access_token_expire_minutes * 60,
     )
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
+    response.status_code = 200
     await user_session.update(last_seen=datetime.now())
+    return response
 
 
 @router.get("/logout")
