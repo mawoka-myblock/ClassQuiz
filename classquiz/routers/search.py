@@ -26,7 +26,7 @@ class Hit(pydantic.BaseModel):
     title: str
     description: str
     user: str
-    formatted: Optional['Hit'] = pydantic.Field(None, alias='_formatted')
+    formatted: Optional["Hit"] = pydantic.Field(None, alias="_formatted")
 
 
 class SearchResponse(pydantic.BaseModel):
@@ -46,7 +46,7 @@ class SearchData(pydantic.BaseModel):
     filter: Optional[str] = None
     facetsDistribution: Optional[list[str]] = None
     attributesToRetrieve: Optional[list[str]] = ["*"]
-    attributesToCrop: Optional[list[str]]= None
+    attributesToCrop: Optional[list[str]] = None
     cropLength: Optional[int] = 200
     attributesToHighlight: Optional[list[str]] = None
     matches: Optional[bool] = False
@@ -56,31 +56,44 @@ class SearchData(pydantic.BaseModel):
 @router.post("/", response_model=SearchResponse)
 async def search(data: SearchData):
     index = meilisearch.get_index(settings.meilisearch_index)
-    query = index.search(data.q, {
-        "offset": data.offset,
-        "limit": data.limit,
-        "filter": data.filter,
-        "cropLength": data.cropLength,
-        "matches": data.matches,
-        "facetsDistribution": data.facetsDistribution,
-        "attributesToRetrieve": data.attributesToRetrieve,
-        "attributesToCrop": data.attributesToCrop,
-        "sort": data.sort,
-        "attributesToHighlight": data.attributesToHighlight
-    })
+    query = index.search(
+        data.q,
+        {
+            "offset": data.offset,
+            "limit": data.limit,
+            "filter": data.filter,
+            "cropLength": data.cropLength,
+            "matches": data.matches,
+            "facetsDistribution": data.facetsDistribution,
+            "attributesToRetrieve": data.attributesToRetrieve,
+            "attributesToCrop": data.attributesToCrop,
+            "sort": data.sort,
+            "attributesToHighlight": data.attributesToHighlight,
+        },
+    )
     return SearchResponse(**query)
 
 
 @router.get("/", response_model=SearchResponse)
-async def search_get(q: str, offset: int = 0, limit: int = 20, filter: str | None = None,
-                     cropLength: int = 200, matches: bool = False, attributesToHighlight: Optional[str] = "*"):
+async def search_get(
+    q: str,
+    offset: int = 0,
+    limit: int = 20,
+    filter: str | None = None,
+    cropLength: int = 200,
+    matches: bool = False,
+    attributesToHighlight: Optional[str] = "*",
+):
     index = meilisearch.get_index(settings.meilisearch_index)
-    query = index.search(q, {
-        "offset": offset,
-        "limit": limit,
-        "filter": filter,
-        "cropLength": cropLength,
-        "matches": matches,
-        "attributesToHighlight": [attributesToHighlight]
-    })
+    query = index.search(
+        q,
+        {
+            "offset": offset,
+            "limit": limit,
+            "filter": filter,
+            "cropLength": cropLength,
+            "matches": matches,
+            "attributesToHighlight": [attributesToHighlight],
+        },
+    )
     return SearchResponse(**query)
