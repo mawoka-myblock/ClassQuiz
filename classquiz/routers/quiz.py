@@ -9,12 +9,11 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from classquiz.auth import get_current_user, get_current_user_optional
-from classquiz.config import redis, settings, storage
+from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz
 
 settings = settings()
-
 
 router = APIRouter()
 
@@ -31,6 +30,12 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
                 raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
+    meilisearch.index(settings.meilisearch_index).add_documents([{
+        "id": str(quiz.id),
+        "title": quiz.title,
+        "description": quiz.description,
+        "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+    }])
     return await quiz.save()
 
 
@@ -117,6 +122,12 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
         quiz.questions = quiz_input.dict()["questions"]
+        meilisearch.index(settings.meilisearch_index).update_documents([{
+            "id": str(quiz.id),
+            "title": quiz.title,
+            "description": quiz.description,
+            "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+        }])
         return await quiz.update()
 
 
@@ -149,4 +160,5 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
             pass
     if len(pics_to_delete) != 0:
         await storage.delete(pics_to_delete)
+    meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
     return await quiz.delete()

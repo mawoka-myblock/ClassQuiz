@@ -22,6 +22,7 @@ jinja2 = "*"
 argon2-cffi = "*"
 sentry-sdk = "*"
 aiofiles = "*"
+meilisearch = "*"
 
 [dev-packages]
 coverage = "*"

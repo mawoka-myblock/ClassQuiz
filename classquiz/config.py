@@ -2,6 +2,7 @@ from functools import lru_cache
 
 import redis.asyncio as redis_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
+import meilisearch as MeiliSearch
 
 from classquiz.storage import Storage
 
@@ -25,6 +26,8 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
     sentry_dsn: str | None = "https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641"
+    meilisearch_url: str
+    meilisearch_index: str = "classquiz"
 
     # storage_backend
     storage_backend: str | None = "deta"
@@ -52,3 +55,5 @@ storage: Storage = Storage(
     deta_id=settings().deta_project_id,
     storage_path=settings().storage_path,
 )
+
+meilisearch = MeiliSearch.Client(settings().meilisearch_url)
