@@ -1,4 +1,5 @@
 import meilisearch
+from classquiz.db import database
 from classquiz.db.models import Quiz, User
 from classquiz.config import settings
 from asyncio import run
@@ -7,6 +8,8 @@ settings = settings()
 
 
 async def __main__():
+    if not database.is_connected:
+        await database.connect()
     meili_data = []
     questions = await Quiz.objects.filter(public=True).all()
     for question in questions:
