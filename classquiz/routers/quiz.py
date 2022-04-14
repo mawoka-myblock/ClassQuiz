@@ -30,11 +30,7 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
                 raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
-    meilisearch.index(settings.meilisearch_index).add_documents(
-        [
-            await get_meili_data(quiz)
-        ]
-    )
+    meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
     return await quiz.save()
 
 
@@ -131,20 +127,12 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     else:
         # print(quiz_input)
         # print(quiz)
-        meilisearch.index(settings.meilisearch_index).update_documents(
-            [
-                await get_meili_data(quiz)
-            ]
-        )
+        meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
         if quiz.public and not quiz_input.public:
             print("removing from meilisearch")
             meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
         if not quiz.public and quiz_input.public:
-            meilisearch.index(settings.meilisearch_index).add_documents(
-                [
-                    await get_meili_data(quiz)
-                ]
-            )
+            meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description

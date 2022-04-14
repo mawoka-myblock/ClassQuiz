@@ -97,9 +97,5 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         user_id=user.id,
         questions=json.dumps(quiz_questions),
     )
-    meilisearch.index(settings.meilisearch_index).add_documents(
-        [
-            await get_meili_data(quiz_data)
-        ]
-    )
+    meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
     return await quiz_data.save()
