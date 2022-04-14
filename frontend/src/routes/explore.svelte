@@ -1,6 +1,6 @@
 <script lang='ts'>
 	const getData = async () => {
-		const response = await fetch('/api/v1/search/search?q=*');
+		const response = await fetch('/api/v1/search/?q=*');
 		return await response.json();
 	};
 </script>

@@ -53,7 +53,7 @@ class SearchData(pydantic.BaseModel):
     sort: Optional[list[str]] = None
 
 
-@router.post("/search", response_model=SearchResponse)
+@router.post("/", response_model=SearchResponse)
 async def search(data: SearchData):
     index = meilisearch.get_index(settings.meilisearch_index)
     query = index.search(data.q, {
@@ -68,10 +68,10 @@ async def search(data: SearchData):
         "sort": data.sort,
         "attributesToHighlight": data.attributesToHighlight
     })
-    return query.serialize()
+    return SearchResponse(**query)
 
 
-@router.get("/search", response_model=SearchResponse)
+@router.get("/", response_model=SearchResponse)
 async def search_get(q: str, offset: int = 0, limit: int = 20, filter: str | None = None,
                      cropLength: int = 200, matches: bool = False, attributesToHighlight: Optional[str] = "*"):
     index = meilisearch.get_index(settings.meilisearch_index)
