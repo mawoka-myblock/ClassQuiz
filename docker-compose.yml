@@ -33,7 +33,7 @@ services:
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       SKIP_EMAIL_VERIFICATION: True
       HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
-      MEILISEARCH_URL: "http://meilisearch:87700"
+      MEILISEARCH_URL: "http://meilisearch:7700"
   redis:
     image: redis:alpine
     restart: always
