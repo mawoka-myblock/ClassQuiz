@@ -17,7 +17,7 @@
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
-	import type { Answer, QuizData } from '../app';
+	import type { Answer, QuizData } from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';

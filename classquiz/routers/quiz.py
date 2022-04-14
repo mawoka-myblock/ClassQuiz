@@ -40,7 +40,7 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
 
 
 @router.get("/get/{quiz_id}")
-async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current_user_optional)):
+async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current_user)):
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
@@ -59,6 +59,19 @@ async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current
         return quiz
 
 
+@router.get("/get/public/{quiz_id}", response_model=Quiz)
+async def get_public_quiz(quiz_id: str):
+    try:
+        quiz_id = uuid.UUID(quiz_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="badly formed quiz id")
+    quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+    if quiz is None:
+        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+    else:
+        return quiz
+
+
 @router.post("/start/{quiz_id}")
 async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     try:
@@ -67,7 +80,9 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         raise HTTPException(status_code=400, detail="badly formed quiz id")
     quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
-        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+        quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+        if quiz is None:
+            return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
         game_pin = randint(10000000, 99999999)
         game = PlayGame(

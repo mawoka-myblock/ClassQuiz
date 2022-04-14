@@ -23,7 +23,7 @@
 </script>
 
 <script lang="ts">
-	import type { QuizData } from '../app';
+	import type { QuizData } from '$lib/quiz_types';
 
 	import { socket } from '$lib/socket';
 	import { getLocalization } from '$lib/i18n';
