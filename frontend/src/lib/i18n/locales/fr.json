@@ -53,7 +53,8 @@
 		"title": "titre",
 		"settings": "Paramètres",
 		"repeat_password": "Répéter le mot de passe",
-		"overview": "Vue d'ensemble"
+		"overview": "Vue d'ensemble",
+		"report": ""
 	},
 	"index_page": {
 		"slogan": "La plateforme de quiz open-source !",

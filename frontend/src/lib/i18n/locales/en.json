@@ -84,7 +84,8 @@
 		"image": "Image",
 		"settings": "Settings",
 		"repeat_password": "Repeat password",
-		"overview": "Overview"
+		"overview": "Overview",
+		"report": "Report"
 	},
 	"editor": {
 		"time_in_seconds": "Time in seconds",

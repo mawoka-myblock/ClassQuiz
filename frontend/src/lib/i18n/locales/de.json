@@ -84,7 +84,8 @@
 		"image": "Bild",
 		"settings": "Einstellungen",
 		"repeat_password": "Passwort wiederholen",
-		"overview": "Übersicht"
+		"overview": "Übersicht",
+		"report": "Melden"
 	},
 	"editor": {
 		"time_in_seconds": "Zeit in Sekunden",
