@@ -69,29 +69,46 @@
 </div>
 
 {#if resp_data}
-	<div class="grid grid-cols-3">
-		{#each resp_data.hits as quiz}
-			<div class="flex justify-center">
-				<a href="/view/{quiz.id}" class="h-max w-fit">
-					<div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
-						<!--			<div class='flex justify-center md:justify-end -mt-16'>
-										<img class='w-20 h-20 object-cover rounded-full border-2 border-indigo-500'
-											 src='https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'>
-									</div>-->
-						<div>
-							<h2 class="text-gray-800 text-3xl font-semibold">
-								{@html quiz._formatted.title}
-							</h2>
-							<p class="mt-2 text-gray-600">{@html quiz._formatted.description}</p>
+	{#if resp_data.hits.length !== 0}
+		<div class="grid grid-cols-3">
+			{#each resp_data.hits as quiz}
+				<div class="flex justify-center">
+					<a href="/view/{quiz.id}" class="h-max w-fit">
+						<div class="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+							<!--			<div class='flex justify-center md:justify-end -mt-16'>
+											<img class='w-20 h-20 object-cover rounded-full border-2 border-indigo-500'
+												 src='https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'>
+										</div>-->
+							<div>
+								<h2 class="text-gray-800 text-3xl font-semibold">
+									{@html quiz._formatted.title}
+								</h2>
+								<p class="mt-2 text-gray-600">
+									{@html quiz._formatted.description}
+								</p>
+							</div>
+							<div class="flex mt-4">
+								<span>Made by {@html quiz._formatted.user}</span>
+							</div>
 						</div>
-						<div class="flex mt-4">
-							<span>Made by {@html quiz._formatted.user}</span>
-						</div>
-					</div>
-				</a>
-			</div>
-		{/each}
-	</div>
+					</a>
+				</div>
+			{/each}
+		</div>
+	{:else}
+		<div class="flex justify-center">
+			<h1 class="text-4xl">There is nothing here...</h1>
+		</div>
+		<div class="flex justify-center">
+			<p>
+				Not finding what you are looking for? Search on <a
+					class="underline"
+					href="https://create.kahoot.it/discover">KAHOOT!</a
+				>
+				and <a href="/import" class="underline">Import</a> it!
+			</p>
+		</div>
+	{/if}
 {/if}
 
 <style lang="scss">
