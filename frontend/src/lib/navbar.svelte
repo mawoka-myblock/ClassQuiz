@@ -94,19 +94,20 @@
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="https://github.com/mawoka-myblock/classquiz">GitHub</a
+					href="/explore">Explore</a
 				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/search">Search</a
+				>
+				<!--TODO: Add translation -->
 			</li>
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
 					href="/api/v1/users/logout">{$t('words.logout')}</a
-				>
-			</li>
-			<li class="py-2">
-				<a
-					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/docs">{$t('words.docs')}</a
 				>
 			</li>
 		{:else}
@@ -122,11 +123,25 @@
 					href="/account/register">{$t('words.register')}</a
 				>
 			</li>
+
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
 					href="/account/login">{$t('words.login')}</a
 				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/explore">Explore</a
+				>
+			</li>
+			<li class="py-2">
+				<a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/search">Search</a
+				>
+				<!--TODO: Add translation -->
 			</li>
 			<li class="py-2">
 				<a

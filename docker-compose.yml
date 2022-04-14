@@ -60,5 +60,13 @@ services:
       - ./Caddyfile-docker:/etc/caddy/Caddyfile
     ports:
       - "8000:8080"
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    restart: always
+    environment:
+      MEILI_NO_ANALYTICS: true
+    volumes:
+      - meilisearch-data:/data.ms
 volumes:
   data:
+  meilisearch-data:

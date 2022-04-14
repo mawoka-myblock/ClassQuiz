@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Question } from '../../app';
+	import type { Question } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
 
 	export let question: Question;

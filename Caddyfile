@@ -5,6 +5,7 @@
     reverse_proxy /openapi.json localhost:8000
     reverse_proxy /socket.io* localhost:8000
     reverse_proxy /socket.io/* localhost:8000
+    reverse_proxy /ms http://localhost:7700
 
 
 }

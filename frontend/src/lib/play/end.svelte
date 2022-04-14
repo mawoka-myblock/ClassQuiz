@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { QuizData } from '../../app';
+	import type { QuizData } from '$lib/quiz_types';
 
 	export let quiz_data: QuizData;
 	export let final_results: Array<null> | Array<Array<PlayerAnswer>>;

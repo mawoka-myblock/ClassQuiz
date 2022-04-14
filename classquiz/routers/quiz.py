@@ -8,13 +8,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from classquiz.auth import get_current_user, get_current_user_optional
-from classquiz.config import redis, settings, storage
+from classquiz.auth import get_current_user
+from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz
 
 settings = settings()
-
 
 router = APIRouter()
 
@@ -31,11 +30,21 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
                 raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
+    meilisearch.index(settings.meilisearch_index).add_documents(
+        [
+            {
+                "id": str(quiz.id),
+                "title": quiz.title,
+                "description": quiz.description,
+                "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+            }
+        ]
+    )
     return await quiz.save()
 
 
 @router.get("/get/{quiz_id}")
-async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current_user_optional)):
+async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current_user)):
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
@@ -54,6 +63,19 @@ async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current
         return quiz
 
 
+@router.get("/get/public/{quiz_id}", response_model=Quiz)
+async def get_public_quiz(quiz_id: str):
+    try:
+        quiz_id = uuid.UUID(quiz_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="badly formed quiz id")
+    quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+    if quiz is None:
+        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+    else:
+        return quiz
+
+
 @router.post("/start/{quiz_id}")
 async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     try:
@@ -62,7 +84,9 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         raise HTTPException(status_code=400, detail="badly formed quiz id")
     quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
-        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+        quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+        if quiz is None:
+            return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
         game_pin = randint(10000000, 99999999)
         game = PlayGame(
@@ -112,11 +136,36 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     else:
         # print(quiz_input)
         # print(quiz)
+        meilisearch.index(settings.meilisearch_index).update_documents(
+            [
+                {
+                    "id": str(quiz.id),
+                    "title": quiz_input.title,
+                    "description": quiz_input.description,
+                    "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+                }
+            ]
+        )
+        if quiz.public and not quiz_input.public:
+            print("removing from meilisearch")
+            meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
+        if not quiz.public and quiz_input.public:
+            meilisearch.index(settings.meilisearch_index).add_documents(
+                [
+                    {
+                        "id": str(quiz.id),
+                        "title": quiz_input.title,
+                        "description": quiz_input.description,
+                        "user": (await User.objects.filter(id=quiz.user_id).first()).username,
+                    }
+                ]
+            )
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
         quiz.questions = quiz_input.dict()["questions"]
+
         return await quiz.update()
 
 
@@ -149,4 +198,5 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
             pass
     if len(pics_to_delete) != 0:
         await storage.delete(pics_to_delete)
+    meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
     return await quiz.delete()
