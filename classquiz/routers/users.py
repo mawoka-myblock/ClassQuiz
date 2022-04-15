@@ -80,14 +80,21 @@ async def login_for_cookie_access_token(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
         )
+
+    remote_ip = None
+    if request.headers.get("X-Forwarded-For") is None:
+        remote_ip = request.client.host
+    else:
+        remote_ip = request.headers.get("X-Forwarded-For")
     session_key = os.urandom(32).hex()
     user_session = UserSession(
         user=user,
         session_key=session_key,
-        ip_address=request.client.host,
+        ip_address=remote_ip,
         user_agent=request.headers.get("User-Agent"),
         id=uuid.uuid4(),
     )
+    print(request.headers)
     await user_session.save()
     # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
