@@ -120,7 +120,6 @@
 		const res = await fetch(`/api/v1/utils/ip-lookup/${session_ip}`);
 		if (res.status === 200) {
 			locationData = await res.json();
-			console.log(locationData.lat, locationData.lon);
 			showMap = true;
 		}
 	};

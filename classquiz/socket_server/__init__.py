@@ -21,10 +21,11 @@ async def join_game(sid, data):
             ) as resp:
                 resp_data = await resp.json()
                 if not resp_data["success"]:
-                    print("CAPTCHA FAILED")
+                    print("CAPTCHA FAILED", resp_data)
                     return
         except KeyError:
-            print("CAPTCHA FAILED")
+            print("CAPTCHA FAILED", "KeyError")
+
             return
     redis_res = await redis.get(f"game:{data['game_pin']}")
     if redis_res is None:
