@@ -1,9 +1,8 @@
 import meilisearch
 from classquiz.db import database
-from classquiz.db.models import Quiz, User
+from classquiz.db.models import Quiz
 from classquiz.helpers import get_meili_data
 from classquiz.config import settings
-from datetime import datetime
 from asyncio import run
 
 settings = settings()
