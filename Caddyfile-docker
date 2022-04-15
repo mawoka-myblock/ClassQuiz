@@ -2,13 +2,6 @@
 	reverse_proxy * http://frontend:3000
 	reverse_proxy /api/* http://api:80
 	reverse_proxy /openapi.json http://api:80 # Only use if you need to serve the OpenAPI spec
-	rewrite /socket.io /socket.io/
-	handle /socket.io/* {
-		uri strip_prefix /path
-		rewrite * /socket.io{path}
-		reverse_proxy api:80 {
-			header_up Host {host}
-			header_up X-Real-IP {remote}
-		}
-	}
+	reverse_proxy /socket.io/* api:80
+
 }

@@ -6,7 +6,7 @@ import socketio
 from classquiz.config import redis, settings
 from classquiz.db.models import PlayGame
 
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=["https://classquiz.mawoka.eu"])
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
 
 

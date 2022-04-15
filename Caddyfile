@@ -3,14 +3,5 @@
 	reverse_proxy /api* localhost:8000
 	reverse_proxy /rapidoc* localhost:8000
 	reverse_proxy /openapi.json localhost:8000
-	rewrite /socket.io /socket.io/
-	handle /socket.io/* {
-		uri strip_prefix /path
-		rewrite * /socket.io{path}
-		reverse_proxy localhost:8000 {
-			header_up Host {host}
-			header_up X-Real-IP {remote}
-		}
-	}
-	reverse_proxy /ms http://localhost:7700
+	reverse_proxy /socket.io* localhost:8000
 }
