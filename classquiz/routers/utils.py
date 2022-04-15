@@ -2,10 +2,16 @@ import io
 
 import qrcode
 import qrcode.image.svg
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import Response
+from pydantic import BaseModel, Field, ValidationError
+from fastapi.responses import JSONResponse
 
+from classquiz.auth import get_current_user
 from classquiz.config import settings
+from aiohttp import ClientSession
+
+from classquiz.db.models import User
 
 settings = settings()
 
@@ -23,3 +29,31 @@ async def get_qr(quiz_pin: str):
     qr.make(fit=True)
     qr.make_image(fill_color="black", back_color="white").save(buf, "SVG")
     return Response(content=buf.getvalue(), media_type="image/svg+xml")
+
+
+class IpResponse(BaseModel):
+    status: str
+    country: str
+    countryCode: str
+    region: str
+    regionName: str
+    city: str
+    zip: str
+    lat: float
+    lon: float
+    timezone: str
+    isp: str
+    org: str
+    as_attr: str = Field(alias="as")
+    query: str
+
+
+@router.get("/ip-lookup/{ip}", response_model=IpResponse)
+async def get_ip_data(ip: str, _: User = Depends(get_current_user)):
+    async with ClientSession() as session:
+        async with session.get(f"http://ip-api.com/json/{ip}") as response:
+            data = await response.json()
+            try:
+                return IpResponse(**data)
+            except ValidationError:
+                return JSONResponse(status_code=response.status, content=data)

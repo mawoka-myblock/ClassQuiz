@@ -252,3 +252,9 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
         raise HTTPException(status_code=400, detail="Invalid session id")
     await UserSession.objects.filter(user=user, id=session_id).delete()
     return {"message": "Session deleted"}
+
+
+@router.get("/session", response_model=UserSession, response_model_exclude={"user", "session_key"})
+async def get_session(user: User = Depends(get_current_user)):
+    session = await UserSession.objects.filter(user=user).first()
+    return session

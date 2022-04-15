@@ -30,6 +30,7 @@
 	</p>
 
 	<h2>Requirements</h2>
+	<h3>Software</h3>
 	<ul>
 		<li><a href="https://docker.com">Docker</a></li>
 		<li><a href="https://git-scm.com/">Git</a></li>
@@ -37,6 +38,16 @@
 			A <a href="https://redis.com">Redis</a>-Server (I recommend
 			<a href="https://upstash.com">Upstash</a>)
 		</li>
+	</ul>
+	<h3>3rd-Parties</h3>
+	<h4>Required</h4>
+	<ul>
+		<li><a href="https://hcaptcha.com">hCaptcha (Captcha)</a></li>
+		<li><a href="https://www.mapbox.com/">Mapbox (Maps)</a></li>
+	</ul>
+	<h4>Optional</h4>
+	<ul>
+		<li><a href="https://sentry.io">Sentry (Error-Logging)</a></li>
 	</ul>
 
 	<h2>Installation</h2>
@@ -52,6 +63,15 @@
 	<p>
 		You must set a valid hCaptcha-Sitekey in the <code>frontend/Dockerfile</code>.
 	</p>
+	<p>
+		You'll also have to provide a valid <code>VITE_MAPBOX_ACCESS_TOKEN</code> in
+		<code>frontend/Dockerfile</code>. The provided token only works on the following urls:
+	</p>
+	<ul>
+		<li><code>classquiz.mawoka.eu</code></li>
+		<li><code>classquiz.de</code></li>
+		<li><code><b>test.com</b></code></li>
+	</ul>
 
 	<h2>Configuration</h2>
 	<h3>Storage Provider</h3>
@@ -113,6 +133,7 @@ services:
       MAIL_PORT: "587" # SMTP-Port
       REDIS: "redis://redis:6379/0?decode_responses=True" # decode_response is important!
       SECRET_KEY: "ghfvfgjgvjgvbh" # openssl rand -hex 32
+	  MEILISEARCH_URL: "http://meilisearch:7700"
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       HCAPTCHA_KEY: "" # Private hCaptcha key for verification
 	  STORAGE_BACKEND: "deta" # MUST BE EITHER "deta" OR "local"
@@ -151,9 +172,20 @@ services:
     ports:
       - "8000:8080" # Adjust the 8000 to your needs
 
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    restart: always
+    environment:
+      MEILI_NO_ANALYTICS: true
+    volumes:
+      - meilisearch-data:/data.ms
 volumes:
   data:
+  meilisearch-data:
 	</code></pre>
 	<p>Now build and deploy:</p>
-	<pre><code class="language-bash">docker compose build && docker compose up -d</code></pre>
+	<pre><code>docker compose build && docker compose up -d</code></pre>
+	<p>You'll have to create an index in Meilisearch with the following command:</p>
+	<pre><code>docker compose exec api python3 import_to_meili.py</code></pre>
+	<p><b>Enjoy! ❤️</b></p>
 </article>

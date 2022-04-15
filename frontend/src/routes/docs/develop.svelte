@@ -23,6 +23,7 @@
 		<li><a href="https://redis.io/">Redis</a></li>
 		<li><a href="https://meilisearch.com">Meilisearch</a></li>
 		<li><a href="https://caddyserver.com"><i>(Optional) Caddy</i></a></li>
+		<li>Linux</li>
 	</ul>
 
 	<h4>Frontend</h4>
@@ -61,6 +62,11 @@
 					<pre><code>redis-server</code></pre>
 				</li>
 			</ul>
+		</li>
+		<li>
+			Add the following line to your <code>/etc/hosts</code>-file, so you can visit ClassQuiz
+			via <code>test.com</code> (Required for the Captcha and Mapbox)
+			<pre><code>127.0.0.1 test.com</code></pre>
 		</li>
 		<li>
 			Set your config up in your .env-file. What you have to set up can you see in the

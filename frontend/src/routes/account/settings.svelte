@@ -3,7 +3,7 @@
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login'
+				redirect: '/account/login?returnTo=/account/settings'
 			};
 		}
 		return {
@@ -16,8 +16,13 @@
 
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
+	import { DateTime } from 'luxon';
+	import { UAParser } from 'ua-parser-js';
+	import Spinner from '$lib/Spinner.svelte';
 
 	const { t } = getLocalization();
+
+	let showMap = false;
 
 	interface UserAccount {
 		id: string;
@@ -38,6 +43,9 @@
 		newPassword: '',
 		newPasswordConfirm: ''
 	};
+
+	let locationData;
+	let this_session;
 
 	let passwordChangeDataValid = false;
 	const checkPasswords = (data: ChangePasswordData): void => {
@@ -83,19 +91,52 @@
 			window.location.replace('/account/login');
 		}
 	};
+	const formatDate = (date: string): string => {
+		const dt = DateTime.fromISO(date);
+		return dt.toLocaleString(DateTime.DATETIME_MED);
+	};
+
+	const getSessions = async () => {
+		const res = await fetch('/api/v1/users/sessions/list');
+		if (res.status === 200) {
+			const res2 = await fetch('/api/v1/users/session');
+			if (res2.status === 200) {
+				this_session = await res2.json();
+			}
+			return await res.json();
+		} else {
+			window.location.replace('/account/login?returnTo=/account/settings');
+		}
+		return await res.json();
+	};
+
+	const getFormattedUserAgent = (userAgent: string): string => {
+		const parser = new UAParser(userAgent);
+		const result = parser.getResult();
+		return `${result.browser.name} ${result.browser.version} (${result.os.name})`;
+	};
+
+	const checkLocation = async (session_ip: string) => {
+		const res = await fetch(`/api/v1/utils/ip-lookup/${session_ip}`);
+		if (res.status === 200) {
+			locationData = await res.json();
+			console.log(locationData.lat, locationData.lon);
+			showMap = true;
+		}
+	};
+
+	const deleteSession = async (session_id: string) => {
+		const res = await fetch(`/api/v1/users/sessions/${session_id}`, {
+			method: 'DELETE'
+		});
+		if (res.status === 200) {
+			window.location.reload();
+		}
+	};
 </script>
 
 {#await getUser()}
-	<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
-		<path
-			class="fill-black"
-			d="M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
-		/>
-		<path
-			class="fill-blue-100"
-			d="M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z"
-		/>
-	</svg>
+	<Spinner />
 {:then user}
 	<div class="w-full">
 		<div class="sm:flex space-x-7 md:items-start items-center">
@@ -146,3 +187,120 @@
 		</div>
 	</div>
 {/await}
+{#await getSessions()}
+	<Spinner />
+{:then sessions}
+	<table class="min-w-full">
+		<thead class="bg-gray-50 dark:bg-gray-700">
+			<tr>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					{$t('overview_page.created_at')}
+				</th>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					Last seen
+				</th>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					Browser
+				</th>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					Check location
+				</th>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					Delete this session
+				</th>
+				<th
+					scope="col"
+					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
+				>
+					This session?
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each sessions as session}
+				<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						{formatDate(session.created_at)}
+					</td>
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						{formatDate(session.last_seen)}
+					</td>
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						{getFormattedUserAgent(session.user_agent)}
+					</td>
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						<button
+							on:click={() => {
+								checkLocation(session.ip_address);
+							}}>View</button
+						>
+					</td>
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						<button
+							on:click={() => {
+								deleteSession(session.id);
+							}}>Delete</button
+						>
+					</td>
+					<td
+						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+					>
+						{#if session.id === this_session.id}
+							✅
+						{:else}
+							❌
+						{/if}
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+{/await}
+
+<div class="w-5/6 h-5/6 z-20 absolute top-10 pt-16 left-28" class:hidden={!showMap}>
+	{#if showMap}
+		{#await import('$lib/Map.svelte')}
+			<Spinner />
+		{:then c}
+			<button
+				on:click={() => {
+					showMap = false;
+				}}
+				class="bg-black text-white rounded-t-lg px-1">Close</button
+			>
+			<div class="w-full h-full">
+				<svelte:component
+					this={c.default}
+					lat={locationData.lat}
+					lng={locationData.lon}
+					markerText={'Somewhere here was this session registered.'}
+				/>
+			</div>
+		{/await}
+	{/if}
+</div>

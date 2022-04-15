@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+    '@beyonk/svelte-mapbox': ^8.1.4
     '@felte/validator-yup': ^1.0.3
     '@fontsource/marck-script': ^4.5.5
     '@sentry/browser': ^6.19.6
@@ -12,6 +13,7 @@ specifiers:
     '@types/cookie': ^0.4.1
     '@types/js-cookie': ^3.0.1
     '@types/luxon': ^2.3.1
+    '@types/ua-parser-js': ^0.7.36
     '@types/yup': ^0.29.13
     '@typescript-eslint/eslint-plugin': ^5.19.0
     '@typescript-eslint/parser': ^5.19.0
@@ -27,7 +29,9 @@ specifiers:
     i18next-browser-languagedetector: ^6.1.4
     ioredis: ^5.0.4
     js-cookie: ^3.0.1
+    leaflet: ^1.7.1
     luxon: ^2.3.1
+    mapbox-gl: ^2.8.1
     node-fetch: ^3.2.3
     postcss: ^8.4.12
     postcss-load-config: ^3.1.4
@@ -37,6 +41,7 @@ specifiers:
     socket.io-client: ^4.4.1
     svelte: ^3.47.0
     svelte-check: ^2.6.0
+    svelte-leafletjs: ^0.8.2
     svelte-preprocess: ^4.10.5
     svelte-tippy: ^1.3.2
     swiper: ^8.1.0
@@ -44,12 +49,15 @@ specifiers:
     tippy.js: ^6.3.7
     tslib: ^2.3.1
     typescript: ~4.6
+    ua-parser-js: ^1.0.2
+    vite-plugin-iso-import: ^0.1.3
     yup: ^0.32.11
 
 dependencies:
     i18next: 21.6.16
 
 devDependencies:
+    '@beyonk/svelte-mapbox': 8.1.4
     '@felte/validator-yup': 1.0.3_yup@0.32.11
     '@fontsource/marck-script': 4.5.5
     '@sentry/browser': 6.19.6
@@ -61,6 +69,7 @@ devDependencies:
     '@types/cookie': 0.4.1
     '@types/js-cookie': 3.0.1
     '@types/luxon': 2.3.1
+    '@types/ua-parser-js': 0.7.36
     '@types/yup': 0.29.13
     '@typescript-eslint/eslint-plugin': 5.19.0_f34adc8488d2e4f014fe61432d70cbf2
     '@typescript-eslint/parser': 5.19.0_eslint@8.13.0+typescript@4.6.3
@@ -75,7 +84,9 @@ devDependencies:
     i18next-browser-languagedetector: 6.1.4
     ioredis: 5.0.4
     js-cookie: 3.0.1
+    leaflet: 1.7.1
     luxon: 2.3.1
+    mapbox-gl: 2.8.1
     node-fetch: 3.2.3
     postcss: 8.4.12
     postcss-load-config: 3.1.4_postcss@8.4.12
@@ -85,6 +96,7 @@ devDependencies:
     socket.io-client: 4.4.1
     svelte: 3.47.0
     svelte-check: 2.6.0_1b6d41eb44819e98e49be8cacdc96c52
+    svelte-leafletjs: 0.8.2
     svelte-preprocess: 4.10.5_f6bc70e70cf1a2fde5bc22fd7000ea23
     svelte-tippy: 1.3.2
     swiper: 8.1.0
@@ -92,6 +104,8 @@ devDependencies:
     tippy.js: 6.3.7
     tslib: 2.3.1
     typescript: 4.6.3
+    ua-parser-js: 1.0.2
+    vite-plugin-iso-import: 0.1.3
     yup: 0.32.11
 
 packages:
@@ -103,6 +117,13 @@ packages:
         engines: { node: '>=6.9.0' }
         dependencies:
             regenerator-runtime: 0.13.9
+
+    /@beyonk/svelte-mapbox/8.1.4:
+        resolution:
+            {
+                integrity: sha512-H7c5i+iWReb3try5Vk2rIeIXJ6BqmO3eb8OeBntrdKAiKEA0ye7n5t4C13Ne4vvMrfqqzyHuV6kGsM0y/g+lJg==
+            }
+        dev: true
 
     /@eslint/eslintrc/1.2.1:
         resolution:
@@ -195,6 +216,68 @@ packages:
             {
                 integrity: sha512-fsR4P/ROllzf/7lXYyElUJCheWdTJVJvOTps8v9IWKFATxR61ANOlnoPqhH099xYLrJGpc2ZQ28B3rMeUt5VQg==
             }
+        dev: true
+
+    /@mapbox/geojson-rewind/0.5.1:
+        resolution:
+            {
+                integrity: sha512-eL7fMmfTBKjrb+VFHXCGv9Ot0zc3C0U+CwXo1IrP+EPwDczLoXv34Tgq3y+2mPSFNVUXgU42ILWJTC7145KPTA==
+            }
+        hasBin: true
+        dependencies:
+            get-stream: 6.0.1
+            minimist: 1.2.6
+        dev: true
+
+    /@mapbox/geojson-types/1.0.2:
+        resolution:
+            {
+                integrity: sha512-e9EBqHHv3EORHrSfbR9DqecPNn+AmuAoQxV6aL8Xu30bJMJR1o8PZLZzpk1Wq7/NfCbuhmakHTPYRhoqLsXRnw==
+            }
+        dev: true
+
+    /@mapbox/jsonlint-lines-primitives/2.0.2:
+        resolution: { integrity: sha1-zlblOfg1UrWNENZy6k1vya3HsjQ= }
+        engines: { node: '>= 0.6' }
+        dev: true
+
+    /@mapbox/mapbox-gl-supported/2.0.1:
+        resolution:
+            {
+                integrity: sha512-HP6XvfNIzfoMVfyGjBckjiAOQK9WfX0ywdLubuPMPv+Vqf5fj0uCbgBQYpiqcWZT6cbyyRnTSXDheT1ugvF6UQ==
+            }
+        dev: true
+
+    /@mapbox/point-geometry/0.1.0:
+        resolution: { integrity: sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI= }
+        dev: true
+
+    /@mapbox/tiny-sdf/2.0.5:
+        resolution:
+            {
+                integrity: sha512-OhXt2lS//WpLdkqrzo/KwB7SRD8AiNTFFzuo9n14IBupzIMa67yGItcK7I2W9D8Ghpa4T04Sw9FWsKCJG50Bxw==
+            }
+        dev: true
+
+    /@mapbox/unitbezier/0.0.0:
+        resolution: { integrity: sha1-FWUb1VOme4WB+zmIEMmK2Go0Uk4= }
+        dev: true
+
+    /@mapbox/vector-tile/1.3.1:
+        resolution:
+            {
+                integrity: sha512-MCEddb8u44/xfQ3oD+Srl/tNcQoqTw3goGk2oLsrFxOTc3dUp+kAnby3PvAeeBYSMSjSPD1nd1AJA6W49WnoUw==
+            }
+        dependencies:
+            '@mapbox/point-geometry': 0.1.0
+        dev: true
+
+    /@mapbox/whoots-js/3.1.0:
+        resolution:
+            {
+                integrity: sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
+            }
+        engines: { node: '>=6.0.0' }
         dev: true
 
     /@nodelib/fs.scandir/2.1.5:
@@ -521,6 +604,13 @@ packages:
             '@types/node': 17.0.23
         dev: true
 
+    /@types/ua-parser-js/0.7.36:
+        resolution:
+            {
+                integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==
+            }
+        dev: true
+
     /@types/yup/0.29.13:
         resolution:
             {
@@ -808,6 +898,17 @@ packages:
             postcss-value-parser: 4.2.0
         dev: true
 
+    /axios/0.25.0:
+        resolution:
+            {
+                integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
+            }
+        dependencies:
+            follow-redirects: 1.14.9
+        transitivePeerDependencies:
+            - debug
+        dev: true
+
     /backo2/1.0.2:
         resolution: { integrity: sha1-MasayLEpNjRj41s+u2n038+6eUc= }
         dev: true
@@ -1042,6 +1143,10 @@ packages:
         engines: { node: '>= 6' }
         dev: true
 
+    /csscolorparser/1.0.3:
+        resolution: { integrity: sha1-s085HupNqPPpgjHizNjfnAQfFxs= }
+        dev: true
+
     /cssesc/3.0.0:
         resolution:
             {
@@ -1274,6 +1379,13 @@ packages:
             domhandler: 4.3.1
         dev: true
 
+    /earcut/2.2.3:
+        resolution:
+            {
+                integrity: sha512-iRDI1QeCQIhMCZk48DRDMVgQSSBDmbzzNhnxIo+pwx3swkfjMh6vh0nWLq1NdvGHLKH6wIrAM3vQWeTj6qeoug==
+            }
+        dev: true
+
     /electron-to-chromium/1.4.107:
         resolution:
             {
@@ -1316,6 +1428,13 @@ packages:
         resolution:
             {
                 integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
+            }
+        dev: true
+
+    /es-module-lexer/0.9.3:
+        resolution:
+            {
+                integrity: sha512-1HQ2M2sPtxwnvOvT1ZClHyQDiggdNjURWpY2we6aMKCQiUVxTmVs2UYPLIrD84sS+kMdUwfBSylbJPwNnBrnHQ==
             }
         dev: true
 
@@ -1900,6 +2019,19 @@ packages:
             }
         dev: true
 
+    /follow-redirects/1.14.9:
+        resolution:
+            {
+                integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
+            }
+        engines: { node: '>=4.0' }
+        peerDependencies:
+            debug: '*'
+        peerDependenciesMeta:
+            debug:
+                optional: true
+        dev: true
+
     /formdata-polyfill/4.0.10:
         resolution:
             {
@@ -1941,6 +2073,28 @@ packages:
 
     /functional-red-black-tree/1.0.1:
         resolution: { integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc= }
+        dev: true
+
+    /geojson-vt/3.2.1:
+        resolution:
+            {
+                integrity: sha512-EvGQQi/zPrDA6zr6BnJD/YhwAkBP8nnJ9emh3EnHQKVMfg/MRVtPbMYdgVy/IaEmn4UfagD2a6fafPDL5hbtwg==
+            }
+        dev: true
+
+    /get-stream/6.0.1:
+        resolution:
+            {
+                integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
+            }
+        engines: { node: '>=10' }
+        dev: true
+
+    /gl-matrix/3.4.3:
+        resolution:
+            {
+                integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==
+            }
         dev: true
 
     /glob-parent/5.1.2:
@@ -2023,6 +2177,13 @@ packages:
             }
         dev: true
 
+    /grid-index/1.1.0:
+        resolution:
+            {
+                integrity: sha512-HZRwumpOGUrHyxO5bqKZL0B0GlUpwtCAzZ42sgxUPniu33R1LSFH5yrIcBCHjkctCAh3mtWKcKd9J4vDDdeVHA==
+            }
+        dev: true
+
     /has-cors/1.1.0:
         resolution: { integrity: sha1-XkdHk/fqmEPRu5nCPu9J/xJv/zk= }
         dev: true
@@ -2070,6 +2231,13 @@ packages:
         dependencies:
             '@babel/runtime': 7.17.9
         dev: false
+
+    /ieee754/1.2.1:
+        resolution:
+            {
+                integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+            }
+        dev: true
 
     /ignore/5.2.0:
         resolution:
@@ -2211,12 +2379,26 @@ packages:
         resolution: { integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE= }
         dev: true
 
+    /kdbush/3.0.0:
+        resolution:
+            {
+                integrity: sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
+            }
+        dev: true
+
     /kleur/4.1.4:
         resolution:
             {
                 integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==
             }
         engines: { node: '>=6' }
+        dev: true
+
+    /leaflet/1.7.1:
+        resolution:
+            {
+                integrity: sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
+            }
         dev: true
 
     /levn/0.4.1:
@@ -2320,6 +2502,37 @@ packages:
             sourcemap-codec: 1.4.8
         dev: true
 
+    /mapbox-gl/2.8.1:
+        resolution:
+            {
+                integrity: sha512-AmttsfvuWonyuOu7HcwM6Ok738A0yVYx5h3tjCAFrAsivY8SiCvF/stK2CXhSw2/6/BbZ3qe/S03J7GvisNskA==
+            }
+        dependencies:
+            '@mapbox/geojson-rewind': 0.5.1
+            '@mapbox/geojson-types': 1.0.2
+            '@mapbox/jsonlint-lines-primitives': 2.0.2
+            '@mapbox/mapbox-gl-supported': 2.0.1
+            '@mapbox/point-geometry': 0.1.0
+            '@mapbox/tiny-sdf': 2.0.5
+            '@mapbox/unitbezier': 0.0.0
+            '@mapbox/vector-tile': 1.3.1
+            '@mapbox/whoots-js': 3.1.0
+            csscolorparser: 1.0.3
+            earcut: 2.2.3
+            geojson-vt: 3.2.1
+            gl-matrix: 3.4.3
+            grid-index: 1.1.0
+            minimist: 1.2.6
+            murmurhash-js: 1.0.0
+            pbf: 3.2.1
+            potpack: 1.0.2
+            quickselect: 2.0.0
+            rw: 1.3.3
+            supercluster: 7.1.5
+            tinyqueue: 2.0.3
+            vt-pbf: 3.1.3
+        dev: true
+
     /mdn-data/2.0.14:
         resolution:
             {
@@ -2401,6 +2614,10 @@ packages:
             {
                 integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
             }
+        dev: true
+
+    /murmurhash-js/1.0.0:
+        resolution: { integrity: sha1-sGJ44h/Gw3+lMTcysEEry2rhX1E= }
         dev: true
 
     /nanoclone/0.2.1:
@@ -2559,6 +2776,17 @@ packages:
                 integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
             }
         engines: { node: '>=8' }
+        dev: true
+
+    /pbf/3.2.1:
+        resolution:
+            {
+                integrity: sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==
+            }
+        hasBin: true
+        dependencies:
+            ieee754: 1.2.1
+            resolve-protobuf-schema: 2.1.0
         dev: true
 
     /picocolors/1.0.0:
@@ -3014,6 +3242,13 @@ packages:
             source-map-js: 1.0.2
         dev: true
 
+    /potpack/1.0.2:
+        resolution:
+            {
+                integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==
+            }
+        dev: true
+
     /prelude-ls/1.2.1:
         resolution:
             {
@@ -3051,6 +3286,13 @@ packages:
             }
         dev: true
 
+    /protocol-buffers-schema/3.6.0:
+        resolution:
+            {
+                integrity: sha512-TdDRD+/QNdrCGCE7v8340QyuXd4kIWIgapsE2+n/SaGiSSbomYl4TjHlvIoCWRpE7wFt02EpB35VVA2ImcBVqw==
+            }
+        dev: true
+
     /punycode/2.1.1:
         resolution:
             {
@@ -3072,6 +3314,13 @@ packages:
                 integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
             }
         engines: { node: '>=10' }
+        dev: true
+
+    /quickselect/2.0.0:
+        resolution:
+            {
+                integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
+            }
         dev: true
 
     /readdirp/3.6.0:
@@ -3124,6 +3373,15 @@ packages:
                 integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
             }
         engines: { node: '>=4' }
+        dev: true
+
+    /resolve-protobuf-schema/2.1.0:
+        resolution:
+            {
+                integrity: sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ==
+            }
+        dependencies:
+            protocol-buffers-schema: 3.6.0
         dev: true
 
     /resolve/1.22.0:
@@ -3184,6 +3442,10 @@ packages:
             }
         dependencies:
             queue-microtask: 1.2.3
+        dev: true
+
+    /rw/1.3.3:
+        resolution: { integrity: sha1-P4Yt+pGrdmsUiF700BEkv9oHT7Q= }
         dev: true
 
     /sade/1.8.1:
@@ -3391,6 +3653,15 @@ packages:
             postcss-selector-parser: 6.0.10
         dev: true
 
+    /supercluster/7.1.5:
+        resolution:
+            {
+                integrity: sha512-EulshI3pGUM66o6ZdH3ReiFcvHpM3vAigyK+vcxdjpJyEbIIrtbmBdY23mGgnI24uXiGFvrGq9Gkum/8U7vJWg==
+            }
+        dependencies:
+            kdbush: 3.0.0
+        dev: true
+
     /supports-color/7.2.0:
         resolution:
             {
@@ -3450,6 +3721,18 @@ packages:
             svelte: '>=3.19.0'
         dependencies:
             svelte: 3.47.0
+        dev: true
+
+    /svelte-leafletjs/0.8.2:
+        resolution:
+            {
+                integrity: sha512-TCywmwL2Dis28xKJacT6vC7OT0+tt40fbHLaavS8r9uItJOWrOM89qyeXrIMP/QbcJI/8OLfNrm6NuE3C0s8Ow==
+            }
+        dependencies:
+            axios: 0.25.0
+            leaflet: 1.7.1
+        transitivePeerDependencies:
+            - debug
         dev: true
 
     /svelte-preprocess/4.10.5_f6bc70e70cf1a2fde5bc22fd7000ea23:
@@ -3602,6 +3885,13 @@ packages:
             globrex: 0.1.2
         dev: true
 
+    /tinyqueue/2.0.3:
+        resolution:
+            {
+                integrity: sha512-ppJZNDuKGgxzkHihX8v9v9G5f+18gzaTfrukGrq6ueg0lmH4nqVnA2IPG0AEH3jKEk2GRJCUhDoqpoiw3PHLBA==
+            }
+        dev: true
+
     /tippy.js/6.3.7:
         resolution:
             {
@@ -3679,6 +3969,13 @@ packages:
         hasBin: true
         dev: true
 
+    /ua-parser-js/1.0.2:
+        resolution:
+            {
+                integrity: sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
+            }
+        dev: true
+
     /uri-js/4.4.1:
         resolution:
             {
@@ -3697,6 +3994,16 @@ packages:
             {
                 integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
             }
+        dev: true
+
+    /vite-plugin-iso-import/0.1.3:
+        resolution:
+            {
+                integrity: sha512-gMReA6eqfdSKMhNml0B8lT8VGHOY2FxLmq8rIJWStfuoLQItRzHKb2ntB+zNn8VWWeMe5/jtthfSxrzpgjhCMQ==
+            }
+        dependencies:
+            es-module-lexer: 0.9.3
+            magic-string: 0.25.9
         dev: true
 
     /vite/2.9.2_sass@1.50.0:
@@ -3725,6 +4032,17 @@ packages:
             sass: 1.50.0
         optionalDependencies:
             fsevents: 2.3.2
+        dev: true
+
+    /vt-pbf/3.1.3:
+        resolution:
+            {
+                integrity: sha512-2LzDFzt0mZKZ9IpVF2r69G9bXaP2Q2sArJCmcCgvfTdCCZzSyz4aCLoQyUilu37Ll56tCblIZrXFIjNUpGIlmA==
+            }
+        dependencies:
+            '@mapbox/point-geometry': 0.1.0
+            '@mapbox/vector-tile': 1.3.1
+            pbf: 3.2.1
         dev: true
 
     /web-streams-polyfill/3.2.1:
