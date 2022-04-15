@@ -17,6 +17,8 @@
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/env';
+	import GdprBanner from '@beyonk/gdpr-cookie-consent-banner';
+	import '@beyonk/gdpr-cookie-consent-banner/dist/style.css'; // import optional styles
 
 	if (browser) {
 		pathname.set(window.location.pathname);
@@ -40,6 +42,7 @@
 {#if $navbarVisible}
 	<Navbar />
 	<div class="pt-16 h-screen">
+		<div class="z-40" />
 		<slot />
 	</div>
 {:else}
