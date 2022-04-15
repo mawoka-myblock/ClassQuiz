@@ -103,7 +103,8 @@
 			<p>
 				Not finding what you are looking for? Search on <a
 					class="underline"
-					href="https://create.kahoot.it/discover">KAHOOT!</a
+					href="https://create.kahoot.it/search?query={search_term}&tags=test&filter=filter%3D1"
+					target="_blank">KAHOOT!</a
 				>
 				and <a href="/import" class="underline">Import</a> it!
 			</p>
