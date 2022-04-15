@@ -24,7 +24,7 @@ sentry-sdk = "*"
 aiofiles = "*"
 meilisearch = "*"
 bleach = "*"
-bidict = "==0.21.4"
+bidict = "*"
 
 [dev-packages]
 coverage = "*"
