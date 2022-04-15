@@ -69,7 +69,7 @@
 </script>
 
 <svelte:head>
-	<script src="https://js.hcaptcha.com/1/api.js?render=explicit" async defer></script>
+	<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </svelte:head>
 
 {#if game_pin === '' || game_pin.length <= 7}
