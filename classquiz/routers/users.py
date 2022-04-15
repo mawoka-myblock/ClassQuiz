@@ -83,7 +83,8 @@ async def login_for_cookie_access_token(
 
     remote_ip = None
     if request.headers.get("X-Forwarded-For") is None:
-        remote_ip = request.client.host
+        if ", " in request.client.host:
+            remote_ip = request.client.host.split(", ")[0]
     else:
         remote_ip = request.headers.get("X-Forwarded-For")
     session_key = os.urandom(32).hex()
