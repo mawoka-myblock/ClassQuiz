@@ -117,7 +117,6 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
             question.image = None
         if question.image is not None:
             if not bool(re.match(server_regex, question.image)) and not bool(re.match(imgur_regex, question.image)):
-                print("not valid", question.image)
                 raise HTTPException(status_code=400, detail="image url is not valid")
     try:
         quiz_id = uuid.UUID(quiz_id)
@@ -133,7 +132,6 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
         if quiz.public and not quiz_input.public:
-            print("removing from meilisearch")
             meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
         if not quiz.public and quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])

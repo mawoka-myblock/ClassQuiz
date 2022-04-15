@@ -94,7 +94,6 @@ async def login_for_cookie_access_token(
         user_agent=request.headers.get("User-Agent"),
         id=uuid.uuid4(),
     )
-    print(request.headers)
     await user_session.save()
     # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
@@ -237,3 +236,19 @@ async def reset_password_with_token(reset_password: ResetPassword, response: Res
     response.delete_cookie("rememberme")
     response.delete_cookie("rememberme_token")
     return {"message": "Password updated successfully"}
+
+
+@router.get("/sessions/list", response_model=list[UserSession], response_model_exclude={"user", "session_key"})
+async def list_sessions(user: User = Depends(get_current_user)):
+    sessions = await UserSession.objects.filter(user=user).all()
+    return [session.dict() for session in sessions]
+
+
+@router.delete("/sessions/{session_id}")
+async def delete_session(session_id: str, user: User = Depends(get_current_user)):
+    try:
+        session_id = uuid.UUID(session_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid session id")
+    await UserSession.objects.filter(user=user, id=session_id).delete()
+    return {"message": "Session deleted"}
