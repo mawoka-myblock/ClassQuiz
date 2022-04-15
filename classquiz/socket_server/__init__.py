@@ -12,7 +12,6 @@ settings = settings()
 
 @sio.event
 async def join_game(sid, data):
-    print(sid, data, "JOIN_GAME")
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
@@ -21,10 +20,10 @@ async def join_game(sid, data):
             ) as resp:
                 resp_data = await resp.json()
                 if not resp_data["success"]:
-                    print("CAPTCHA FAILED", resp_data)
+                    print("CAPTCHA FAILED")
                     return
         except KeyError:
-            print("CAPTCHA FAILED", "KeyError")
+            print("CAPTCHA FAILED")
 
             return
     redis_res = await redis.get(f"game:{data['game_pin']}")

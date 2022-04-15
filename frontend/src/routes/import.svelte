@@ -40,7 +40,6 @@
 		}
 		is_loading = true;
 		const regex_res = kahoot_regex.exec(url_input);
-		console.log(regex_res);
 		console.log(url_valid, url_input);
 		const res = await fetch(`/api/v1/quiz/import/${regex_res[1]}`, {
 			method: 'POST',
