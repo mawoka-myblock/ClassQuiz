@@ -6,12 +6,13 @@ import socketio
 from classquiz.config import redis, settings
 from classquiz.db.models import PlayGame
 
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=["https://classquiz.mawoka.eu"])
 settings = settings()
 
 
 @sio.event
 async def join_game(sid, data):
+    print(sid, data, "JOIN_GAME")
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
