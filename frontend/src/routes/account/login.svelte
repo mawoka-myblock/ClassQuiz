@@ -5,7 +5,6 @@
 			url.searchParams.get('returnTo') !== null
 				? url.searchParams.get('returnTo')
 				: '/overview';
-		console.log(returnTo);
 		if (session.authenticated) {
 			return {
 				status: 302,
