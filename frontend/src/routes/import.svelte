@@ -4,7 +4,7 @@
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login'
+				redirect: '/account/login?returnTo=/import'
 			};
 		} else {
 			if (session.authenticated) {

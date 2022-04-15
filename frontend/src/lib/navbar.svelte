@@ -1,7 +1,7 @@
 <script>
 	import '@fontsource/marck-script/index.css';
 	import { getLocalization } from '$lib/i18n';
-	import { signedIn } from '$lib/stores';
+	import { signedIn, pathname } from '$lib/stores';
 
 	const { t } = getLocalization();
 
@@ -127,7 +127,7 @@
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/account/login">{$t('words.login')}</a
+					href="/account/login?returnTo={$pathname}">{$t('words.login')}</a
 				>
 			</li>
 			<li class="py-2">

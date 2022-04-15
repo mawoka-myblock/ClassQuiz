@@ -1,3 +1,13 @@
+<script context='module' lang='ts'>
+	import { signedIn } from '$lib/stores';
+
+	export async function load({ url, session }) {
+		if (session.authenticated) {
+			signedIn.set(true);
+		}
+		return {};
+	}
+</script>
 <script lang="ts">
 	const getData = async () => {
 		const response = await fetch('/api/v1/search/', {
