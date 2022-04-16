@@ -38,3 +38,4 @@ python_version = "3.10"
 
 [scripts]
 format = "black ."
+lint = "flake8 classquiz"

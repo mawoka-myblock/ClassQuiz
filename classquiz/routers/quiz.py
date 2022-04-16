@@ -28,9 +28,12 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
-        if question.image is not None:
-            if not re.match(imgur_regex, question.image) and not re.match(server_regex, question.image):
-                raise HTTPException(status_code=400, detail="image url is not valid")
+        if (
+            question.image is not None
+            and not re.match(imgur_regex, question.image)
+            and not re.match(server_regex, question.image)
+        ):
+            raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
@@ -115,9 +118,12 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
-        if question.image is not None:
-            if not bool(re.match(server_regex, question.image)) and not bool(re.match(imgur_regex, question.image)):
-                raise HTTPException(status_code=400, detail="image url is not valid")
+        if (
+            question.image is not None
+            and not bool(re.match(server_regex, question.image))
+            and not bool(re.match(imgur_regex, question.image))
+        ):
+            raise HTTPException(status_code=400, detail="image url is not valid")
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
@@ -166,9 +172,8 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     pic_name_regex = re.compile("^.*/(.{36}--.{36})$")
     for question in quiz.questions:
         try:
-            if question["image"] is not None:
-                if not str(question["image"]).startswith("https://i.imgur.com/"):
-                    pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
+            if question["image"] is not None and not str(question["image"]).startswith("https://i.imgur.com/"):
+                pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
         except KeyError:
             pass
     if len(pics_to_delete) != 0:
