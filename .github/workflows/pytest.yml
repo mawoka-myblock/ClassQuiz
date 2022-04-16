@@ -31,7 +31,7 @@ jobs:
           chmod +x run_tests.sh
       - name: Run tests
         run: |
-          ./run_tests.sh
+          ./run_tests.sh a
           pipenv run coverage xml
       - name: Report results to DeepSource
         run: |
