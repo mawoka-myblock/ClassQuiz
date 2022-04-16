@@ -25,7 +25,7 @@ jobs:
           cache: 'pipenv'
       - run: pipenv install --dev
       - name: Prepare tests
-        run: | 
+        run: |
           echo ${{ secrets.DOTENV }} | base64 --decode > .env
           set -o allexport; source .env; set +o allexport
           mkdir /tmp/storage/
@@ -45,3 +45,8 @@ jobs:
 
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage.xml
