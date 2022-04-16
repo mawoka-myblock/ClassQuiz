@@ -205,11 +205,11 @@ class ForgotPassword(BaseModel):
 
 
 @router.post("/forgot-password")
-async def forgotten_password(forgot_password: ForgotPassword):
+async def forgotten_password(forgot_password: ForgotPassword, background_task: BackgroundTasks):
     user = await User.objects.filter(email=forgot_password.email, verified=True).get_or_none()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    await send_forgotten_password_email(user.email)
+    background_task.add_task(send_forgotten_password_email, email=user.email)
     return {"message": "Password reset email sent"}
 
 

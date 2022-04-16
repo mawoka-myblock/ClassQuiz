@@ -1,9 +1,11 @@
+import uuid
 from typing import Generator
 
 import pytest
+from redis import Redis
 from fastapi.testclient import TestClient
 from classquiz.db import database, models
-
+from classquiz.config import settings
 
 from classquiz import app
 
@@ -194,3 +196,45 @@ async def test_list_sessions(test_client):
     resp = test_client.get("/api/v1/users/sessions/list", cookies={"access_token": token})
     assert resp.status_code == 200
     assert len(resp.json()) >= 1
+
+
+@pytest.mark.asyncio
+async def test_reset_password_with_token(test_client):
+    resp = test_client.post(
+        "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+    )
+    token = resp.cookies["access_token"]
+    me = test_client.get("/api/v1/users/me", cookies={"access_token": token}).json()
+    redis = Redis().from_url(settings().redis)
+    redis.set("reset_passwd:_1token_", str(me["id"]))
+    redis.set("reset_passwd:_2token_", str(uuid.uuid4()))
+    # test wtith wrong token
+    resp = test_client.post("/api/v1/users/reset-password", json={"token": "doesnt_exist", "password": "new_password"})
+    assert resp.status_code == 400
+    resp = test_client.post("/api/v1/users/reset-password", json={"token": "_2token_", "password": "new_password"})
+    assert resp.status_code == 400
+    resp = test_client.post("/api/v1/users/reset-password", json={"token": "_1token_", "password": "new_password"})
+    assert resp.status_code == 200
+    resp = test_client.post(
+        "/api/v1/users/token/cookie", data={"username": test_user_email, "password": "new_password"}
+    )
+    token = resp.cookies["access_token"]
+    test_client.put(
+        "/api/v1/users/password/update",
+        json={"new_password": test_user_password, "old_password": "new_password"},
+        cookies={"access_token": f"Bearer {token}"},
+    )
+
+
+@pytest.mark.asyncio
+async def test_forgotten_password(test_client):
+    resp = test_client.post("/api/v1/users/forgot-password", json={"email": test_user_email})
+    assert resp.status_code == 200
+    resp = test_client.post("/api/v1/users/forgot-password", json={"email": "ddassad@dsa.ads"})
+    assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_signout_everywhere(test_client):
+    resp = test_client.delete("/api/v1/users/signout-everywhere")
+    assert resp.status_code == 200

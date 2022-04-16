@@ -6,7 +6,6 @@ from classquiz.kahoot_importer.search import search
 @pytest.mark.asyncio
 async def test_search():
     res = await search(query="Python", limit=100)
-    print(res)
     assert len(res.entities) == 100
     await search(query="Test Quiz", limit=100)
     await search(query="Biologie", limit=100)

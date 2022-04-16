@@ -12,5 +12,4 @@ test_url = (
 @pytest.mark.asyncio
 async def test_download_image():
     image = await _download_image(test_url)
-    print(image)
     assert image == ddg_robots_txt
