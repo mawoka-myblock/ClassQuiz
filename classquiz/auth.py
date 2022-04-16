@@ -20,7 +20,6 @@ from classquiz.db.models import User, TokenData
 
 settings = settings()
 
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 pwd_context = argon2
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes

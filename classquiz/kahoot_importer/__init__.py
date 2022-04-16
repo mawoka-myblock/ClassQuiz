@@ -98,10 +98,6 @@ class _Crop(BaseModel):
     circular: bool
 
 
-# class _Language(Enum):
-#     EN_US = "en-US"
-
-
 class _LanguageInfo(BaseModel):
     language: str
     lastUpdatedOn: int

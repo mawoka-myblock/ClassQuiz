@@ -39,7 +39,6 @@ async def join_game(sid, data):
         await sio.emit("joined_game", redis_res, room=sid)
         redis_res = await redis.get(f"game_session:{data['game_pin']}")
         redis_res = json.loads(redis_res)
-        # print(redis_res)
         redis_res["players"].append({"username": data["username"], "sid": sid})
         await redis.set(
             f"game_session:{data['game_pin']}",
@@ -63,9 +62,7 @@ async def join_game(sid, data):
 
 @sio.event
 async def start_game(sid, _data):
-    # print(sid, data, "START_GAME")
     session = await sio.get_session(sid)
-    # print(session)
     if session["admin"]:
         await sio.emit("start_game", room=session["game_pin"])
 
@@ -114,10 +111,7 @@ async def set_question_number(sid, data):
 @sio.event
 async def submit_answer(sid, data):
     session = await sio.get_session(sid)
-    # redis_res = await redis.get(f"game_session:{session['game_pin']}")
-    # game_session = GameSession(**json.loads(redis_res))
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
-    # print(game_session)
     answer_right = False
     for answer in game_data.questions[int(data["question_index"])].answers:
         if answer.answer == data["answer"] and answer.right:

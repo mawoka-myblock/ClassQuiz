@@ -19,42 +19,6 @@ async def _download_image(url: str) -> bytes:
             return await resp.read()
 
 
-# async def _upload_to_imgur(image: bytes, album_id: str | None) -> str:
-#     """
-#     Uploads an image to Imgur.
-#     :param image: The image to upload.
-#     :return: The URL of the image on Imgur.
-#     """
-#
-#     formdata = FormData()
-#     formdata.add_field('image', image, filename='image.png')
-#     if album_id:
-#         formdata.add_field('album', album_id)
-#     async with ClientSession(headers={"Authorization": f"Client-ID {settings.imgur_client_id}"}) as session:
-#         print(settings.imgur_client_id)
-#         async with session.post("https://api.imgur.com/3/image", data=image) as resp:
-#             data = await resp.json()
-#             print(resp.headers)
-#             try:
-#                 return data["data"]["link"]
-#             except KeyError:
-#                 raise Exception(data)
-#
-#
-# async def _generate_imgur_album(quiz_id: str) -> str:
-#     # """
-#     # Generates an album on Imgur.
-#     # :param quiz_id: The ID of the quiz.
-#     # :return: The URL of the album on Imgur.
-#     # """
-#     formdata = FormData()
-#     formdata.add_field('title', quiz_id)
-#     async with ClientSession(headers={"Authorization": f"Client-ID {settings.imgur_client_id}"}) as session:
-#         async with session.post("https://api.imgur.com/3/album", data={"title": "Quiz: " + quiz_id}, ) as resp:
-#             data = await resp.json()
-#             return data["data"]["id"]
-
-
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     """
     Imports a quiz from Kahoot.
@@ -76,7 +40,6 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
             image_name = f"{quiz_id}--{uuid.uuid4()}"
             image = await storage.upload(file_name=image_name, file_data=image_bytes)
             image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
-            # image = q.image
         for a in q.choices:
             answers.append((QuizAnswer(right=a.correct, answer=html.unescape(a.answer))))
         quiz_questions.append(
