@@ -132,8 +132,6 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
-        # print(quiz_input)
-        # print(quiz)
         quiz_input.description = bleach.clean(quiz_input.description, tags=[], strip=True)
         quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
