@@ -43,6 +43,7 @@
 
 	let email = '';
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Reset your Password</title>
 </svelte:head>

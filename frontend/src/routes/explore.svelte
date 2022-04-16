@@ -24,6 +24,7 @@
 		return await response.json();
 	};
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Explore</title>
 </svelte:head>

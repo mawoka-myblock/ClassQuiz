@@ -36,6 +36,7 @@
 		}
 	};
 </script>
+
 <svelte:head>
 	<title>ClassQuiz - Search</title>
 </svelte:head>
