@@ -37,7 +37,7 @@
 		/>
 	</svg>
 {:then quizzes}
-	<div class="grid grid-cols-3">
+	<div class="grid lg:grid-cols-3 grid-cols-1">
 		{#each quizzes.hits as quiz}
 			<div class="flex justify-center">
 				<a href="/view/{quiz.id}" class="h-max w-fit">

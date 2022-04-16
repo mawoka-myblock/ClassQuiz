@@ -15,8 +15,8 @@ I like it and would use it for my house parties next time!`,
 	];
 </script>
 
-<div class="grid grid-cols-3">
-	<div class="col-start-2">
+<div class="lg:grid lg:grid-cols-3">
+	<div class="lg:col-start-2">
 		<Swiper
 			centeredSlides={true}
 			modules={[Autoplay]}
