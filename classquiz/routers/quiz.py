@@ -153,7 +153,7 @@ async def import_quiz_route(quiz_id: str, user: User = Depends(get_current_user)
     try:
         return await import_quiz(quiz_id, user)
     except ValidationError:
-        raise HTTPException(status_code=400, detail="THis quiz in't (yet) supported")
+        raise HTTPException(status_code=400, detail="This quiz isn't (yet) supported")
 
 
 @router.delete("/delete/{quiz_id}")

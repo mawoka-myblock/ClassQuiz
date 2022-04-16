@@ -6,7 +6,7 @@ from classquiz import app
 
 class ValueStorage:
     quiz_id = None
-    value2 = None
+    imported_quizzes = [None]
 
 
 example_quiz = {

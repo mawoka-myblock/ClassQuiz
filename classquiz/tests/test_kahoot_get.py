@@ -116,3 +116,5 @@ async def test_get():
     for i in quiz_list:
         rounds = rounds + 1
         await get(i)
+    lol = await get("f183e091-a863-44ec-a1b7-c70eb92e3f6a")
+    assert lol is None

@@ -17,5 +17,7 @@ async def get(game_id: str) -> _Response | None:
             return _Response(**await response.json())
         elif response.status == 404:
             return None
+        elif response.status == 400:
+            return None
         else:
             raise Exception(f"Unexpected response status: {response.status}")
