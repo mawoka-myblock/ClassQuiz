@@ -26,13 +26,7 @@ settings = settings()
 router = APIRouter()
 
 route_user = User.get_pydantic(
-    exclude={
-        "id": ...,
-        "verified": ...,
-        "verify_key": ...,
-        "created_at": ...,
-        "usersessions": ...,
-    }
+    exclude={"id": ..., "verified": ..., "verify_key": ..., "created_at": ..., "usersessions": ..., "quizs": ...}
 )
 
 
@@ -242,7 +236,7 @@ async def reset_password_with_token(reset_password: ResetPassword, response: Res
     return {"message": "Password updated successfully"}
 
 
-@router.get("/sessions/list", response_model=list[UserSession], response_model_exclude={"user", "session_key"})
+@router.get("/sessions/list", response_model=list[UserSession], response_model_exclude={"user", "session_key", "quizs"})
 async def list_sessions(user: User = Depends(get_current_user)):
     sessions = await UserSession.objects.filter(user=user).all()
     return [session.dict() for session in sessions]
@@ -258,7 +252,9 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
     return {"message": "Session deleted"}
 
 
-@router.get("/session", response_model=UserSession, response_model_exclude={"user", "session_key"})
+@router.get(
+    "/session", response_model=UserSession, response_model_exclude={"user": ..., "session_key": ..., "quizs": ...}
+)
 async def get_session(user: User = Depends(get_current_user)):
     session = await UserSession.objects.filter(user=user).first()
     return session

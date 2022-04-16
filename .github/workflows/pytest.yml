@@ -3,9 +3,7 @@ name: PyTest
 on:
   push:
     paths:
-      - "classquiz/tests/**"
-      - "classquiz/kahoot_importer/**"
-      - "classquiz/storage/**"
+      - "classquiz/**"
   workflow_dispatch:
 
 jobs:

@@ -18,5 +18,4 @@ async def test_search():
     await search(query="Internet", limit=100)
     await search(query="Windows", limit=100)
     res2 = await search(query="Python", limit=100)
-    res2_ids = [str(e.card.uuid) for e in res2.entities]
-    print(res2_ids)
+    [str(e.card.uuid) for e in res2.entities]
