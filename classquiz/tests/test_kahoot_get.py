@@ -3,6 +3,7 @@ import pytest
 from classquiz.kahoot_importer.get import get
 
 
+@pytest.mark.order("last")
 @pytest.mark.asyncio
 async def test_get():
     await get("1f95eb0b-fcf4-4db2-879b-5418ef75116b")

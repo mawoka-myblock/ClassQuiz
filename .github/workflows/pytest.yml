@@ -26,14 +26,10 @@ jobs:
       - run: pipenv install --dev
       - name: Prepare tests
         run: |
-          echo ${{ secrets.DOTENV }} | base64 --decode > .env
-          set -o allexport; source .env; set +o allexport
-          mkdir /tmp/storage/
-          pipenv run python init_db.py
-          docker run --rm -d -p 6379:6379 --name test_redis redis:alpine
+          chmod +x run_tests.sh
       - name: Run tests
         run: |
-          pipenv run coverage run -m pytest --asyncio-mode=strict classquiz/tests
+          ./run_tests.sh
           pipenv run coverage xml
       - name: Report results to DeepSource
         run: |

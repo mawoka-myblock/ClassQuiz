@@ -32,6 +32,8 @@ pytest = "*"
 pytest-asyncio = "*"
 flake8 = "*"
 black = "*"
+pytest-dependency = "*"
+pytest-order = "*"
 
 [requires]
 python_version = "3.10"
