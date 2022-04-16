@@ -26,7 +26,7 @@ jobs:
       - run: pipenv install --dev
       - name: Prepare tests
         run: |
-          chmod +x run_tests.sh
+          chmod +x run_tests.sh a
       - name: Run tests
         run: |
           ./run_tests.sh
