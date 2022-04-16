@@ -299,10 +299,10 @@ class TestQuiz:
         token = resp.cookies["access_token"]
         resp = test_client.get(f"/api/v1/quiz/get/{ValueStorage.quiz_id}", cookies={"access_token": token})
         assert resp.status_code == 200
-        resp = test_client.get(f"/api/v1/quiz/get/dasdsadsadsadsadsa", cookies={"access_token": token})
+        resp = test_client.get("/api/v1/quiz/get/dasdsadsadsadsadsa", cookies={"access_token": token})
         assert resp.status_code == 400
         resp = test_client.get(
-            f"/api/v1/quiz/get/847c64d3-39f9-4bb7-8f13-fae913f67858", cookies={"access_token": token}
+            "/api/v1/quiz/get/847c64d3-39f9-4bb7-8f13-fae913f67858", cookies={"access_token": token}
         )
         assert resp.status_code == 404
 
