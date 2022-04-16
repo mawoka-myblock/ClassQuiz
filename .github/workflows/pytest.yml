@@ -26,6 +26,8 @@ jobs:
       - run: pipenv install --dev
       - name: Prepare tests
         run: |
+          echo ${{ secrets.DOTENV }} | base64 --decode > .env
+          set -o allexport; source .env; set +o allexport
           chmod +x run_tests.sh
       - name: Run tests
         run: |
