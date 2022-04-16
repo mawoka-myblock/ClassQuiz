@@ -2,16 +2,10 @@ import uuid
 
 import pytest
 from redis import Redis
-from classquiz.db import database, models
+from classquiz.db import models
 from classquiz.config import settings
 from classquiz.tests import test_user_email, test_user_password
 from classquiz.tests import test_client, example_quiz, ValueStorage
-
-
-@pytest.fixture(scope="module")
-def start_db():
-    if not database.is_connected:
-        database.connect()
 
 
 class TestUsers:
@@ -251,7 +245,7 @@ class TestStats:
     async def test_get_quiz_count(self, test_client):
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
-        for i in range(2):
+        for _ in range(2):
             resp = test_client.get("/api/v1/stats/quizzes")
             assert resp.status_code == 200
             assert resp.text == str(0)
@@ -260,7 +254,7 @@ class TestStats:
     async def test_get_user_count(self, test_client):
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
-        for i in range(2):
+        for _ in range(2):
             resp = test_client.get("/api/v1/stats/users")
             assert resp.status_code == 200
             assert resp.text == str(1)
@@ -269,7 +263,7 @@ class TestStats:
     async def test_get_combined_count(self, test_client):
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
-        for i in range(2):
+        for _ in range(2):
             resp = test_client.get("/api/v1/stats/combined")
             assert resp.status_code == 200
             assert resp.json()["quiz_count"] == 0
@@ -322,14 +316,19 @@ class TestQuiz:
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
         token = resp.cookies["access_token"]
-        resp = test_client.put(f"/api/v1/quiz/update/{ValueStorage.quiz_id}", json=example_quiz,
-                               cookies={"access_token": token})
+        resp = test_client.put(
+            f"/api/v1/quiz/update/{ValueStorage.quiz_id}", json=example_quiz, cookies={"access_token": token}
+        )
         assert resp.status_code == 200
-        resp = test_client.put(f"/api/v1/quiz/update/f183e091-a863-44ec-a1b7-c70eb92e3f6a", json=example_quiz,
-                               cookies={"access_token": token})
+        resp = test_client.put(
+            "/api/v1/quiz/update/f183e091-a863-44ec-a1b7-c70eb92e3f6a",
+            json=example_quiz,
+            cookies={"access_token": token},
+        )
         assert resp.status_code == 404
-        resp = test_client.put(f"/api/v1/quiz/update/saddsaasddsadsa", json=example_quiz,
-                               cookies={"access_token": token})
+        resp = test_client.put(
+            "/api/v1/quiz/update/saddsaasddsadsa", json=example_quiz, cookies={"access_token": token}
+        )
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
@@ -340,11 +339,11 @@ class TestQuiz:
         token = resp.cookies["access_token"]
         resp = test_client.get(f"/api/v1/quiz/get/{ValueStorage.quiz_id}", cookies={"access_token": token})
         assert resp.status_code == 200
-        resp = test_client.get(f"/api/v1/quiz/get/public/f183e091-a863-44ec-a1b7-c70eb92e3f6a",
-                               cookies={"access_token": token})
+        resp = test_client.get(
+            "/api/v1/quiz/get/public/f183e091-a863-44ec-a1b7-c70eb92e3f6a", cookies={"access_token": token}
+        )
         assert resp.status_code == 404
-        resp = test_client.get(f"/api/v1/quiz/get/public/dadasdas92e3f6a",
-                               cookies={"access_token": token})
+        resp = test_client.get("/api/v1/quiz/get/public/dadasdas92e3f6a", cookies={"access_token": token})
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
@@ -353,10 +352,10 @@ class TestQuiz:
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
         token = resp.cookies["access_token"]
-        resp = test_client.post(f"/api/v1/quiz/import/1f95eb0b-fcf4-4db2-879b-5418ef75116b",
-                                cookies={"access_token": token})
+        resp = test_client.post(
+            "/api/v1/quiz/import/1f95eb0b-fcf4-4db2-879b-5418ef75116b", cookies={"access_token": token}
+        )
         assert resp.status_code == 200
         ValueStorage.imported_quizzes.append(resp.json()["id"])
-        resp = test_client.post(f"/api/v1/quiz/import/1f95eb0bdassdadasdas",
-                                cookies={"access_token": token})
+        resp = test_client.post("/api/v1/quiz/import/1f95eb0bdassdadasdas", cookies={"access_token": token})
         assert resp.text == '"quiz not found"'
