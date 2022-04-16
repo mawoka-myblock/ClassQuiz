@@ -14,9 +14,8 @@ settings = settings()
 
 
 async def _download_image(url: str) -> bytes:
-    async with ClientSession() as session:
-        async with session.get(url) as resp:
-            return await resp.read()
+    async with ClientSession() as session, session.get(url) as resp:
+        return await resp.read()
 
 
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
