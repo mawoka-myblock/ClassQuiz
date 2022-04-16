@@ -24,6 +24,9 @@
 		return await response.json();
 	};
 </script>
+<svelte:head>
+	<title>ClassQuiz - Explore</title>
+</svelte:head>
 
 {#await getData()}
 	<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">

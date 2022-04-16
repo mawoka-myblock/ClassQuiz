@@ -36,6 +36,9 @@
 		}
 	};
 </script>
+<svelte:head>
+	<title>ClassQuiz - Search</title>
+</svelte:head>
 
 <div>
 	<div class="flex justify-center">

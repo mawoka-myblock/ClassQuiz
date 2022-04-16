@@ -5,7 +5,7 @@
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login?returnTO=/create'
+				redirect: '/account/login?returnTo=/create'
 			};
 		}
 		if (session.authenticated) {

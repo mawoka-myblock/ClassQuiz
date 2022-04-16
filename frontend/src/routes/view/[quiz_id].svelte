@@ -79,6 +79,9 @@
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 </script>
+<svelte:head>
+	<title>ClassQuiz - View {quiz.title}</title>
+</svelte:head>
 
 <div>
 	<h1 class="text-4xl text-center">{quiz.title}</h1>

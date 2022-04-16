@@ -54,6 +54,9 @@
 		isSubmitting = false;
 	};
 </script>
+<svelte:head>
+	<title>ClassQuiz - Reset your Password</title>
+</svelte:head>
 
 <div class="flex items-center justify-center h-full px-4">
 	<div>

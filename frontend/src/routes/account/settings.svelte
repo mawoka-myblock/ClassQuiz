@@ -133,6 +133,9 @@
 		}
 	};
 </script>
+<svelte:head>
+	<title>ClassQuiz - Settings</title>
+</svelte:head>
 
 {#await getUser()}
 	<Spinner />
