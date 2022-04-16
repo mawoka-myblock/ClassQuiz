@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@beyonk/svelte-mapbox": "^8.1.4",
+		"@felte/reporter-tippy": "^1.0.7",
 		"@felte/validator-yup": "^1.0.5",
 		"@fontsource/marck-script": "^4.5.5",
 		"@sentry/browser": "^6.19.6",

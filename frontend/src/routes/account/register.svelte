@@ -16,16 +16,17 @@
 	import { validateSchema } from '@felte/validator-yup';
 	import { navbarVisible } from '$lib/stores';
 	import Footer from '$lib/footer.svelte';
+	import 'tippy.js/dist/tippy.css';
 
 	const { t } = getLocalization();
-	// import reporter from '@felte/reporter-tippy';
+	import reporter from '@felte/reporter-tippy';
 
 	navbarVisible.set(true);
 	import * as yup from 'yup';
 
 	const registerSchema = yup.object({
-		email: yup.string().email().required(),
-		password1: yup.string().required().min(8, 'must be at least 8 characters long'),
+		email: yup.string().email('Email must be valid!').required(),
+		password1: yup.string().required().min(8, 'Password must be at least 8 characters long!'),
 		password2: yup
 			.string()
 			.required()
@@ -36,14 +37,15 @@
 		username: yup
 			.string()
 			.required()
-			.min(3, 'must be at least 3 characters long')
-			.max(20, 'must be at most 20 characters long')
+			.min(3, 'Username must be at least 3 characters long')
+			.max(20, 'Username must be at most 20 characters long')
 	});
 
 	const { form, errors, touched, isValid, isSubmitting } = createForm<
 		yup.InferType<typeof registerSchema>
 	>({
 		validate: validateSchema(registerSchema),
+		extend: [reporter()],
 		onSubmit: async (values) => {
 			const res = await fetch('/api/v1/users/create', {
 				method: 'post',

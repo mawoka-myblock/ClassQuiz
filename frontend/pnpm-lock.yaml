@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
     '@beyonk/svelte-mapbox': ^8.1.4
+    '@felte/reporter-tippy': ^1.0.7
     '@felte/validator-yup': ^1.0.5
     '@fontsource/marck-script': ^4.5.5
     '@sentry/browser': ^6.19.6
@@ -56,6 +57,7 @@ dependencies:
 
 devDependencies:
     '@beyonk/svelte-mapbox': 8.1.4
+    '@felte/reporter-tippy': 1.0.7_tippy.js@6.3.7
     '@felte/validator-yup': 1.0.5_yup@0.32.11
     '@fontsource/marck-script': 4.5.5
     '@sentry/browser': 6.19.6
@@ -157,6 +159,19 @@ packages:
         engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
         dependencies:
             '@felte/common': 1.0.4
+        dev: true
+
+    /@felte/reporter-tippy/1.0.7_tippy.js@6.3.7:
+        resolution:
+            {
+                integrity: sha512-bllgUIYyhpnqXwIYLCWYlGKmX3OfyUTAOSl3ebgGoKh0LjfJw+MT1ZVWWpXdGeO4Q7UwMl2BCJK47N+vj0z0IA==
+            }
+        engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
+        peerDependencies:
+            tippy.js: ^6.0.0
+        dependencies:
+            '@felte/common': 1.0.4
+            tippy.js: 6.3.7
         dev: true
 
     /@felte/validator-yup/1.0.5_yup@0.32.11:
