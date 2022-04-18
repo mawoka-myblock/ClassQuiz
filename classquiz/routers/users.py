@@ -19,7 +19,7 @@ from classquiz.config import redis, settings
 import uuid
 import bleach
 from pydantic import BaseModel
-from classquiz.db.models import User, UserSession, UpdatePassword, Token
+from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz
 from classquiz.emails import send_register_email, send_forgotten_password_email
 
 settings = settings()
@@ -64,9 +64,9 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
 
 @router.post("/token/cookie", response_model=Token)
 async def login_for_cookie_access_token(
-    request: Request,
-    response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
+        request: Request,
+        response: Response,
+        form_data: OAuth2PasswordRequestForm = Depends(),
 ):
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -168,9 +168,9 @@ async def verify_user(verify_key: str):
 
 @router.put("/password/update")
 async def change_password(
-    password_data: UpdatePassword,
-    response: Response,
-    user: User = Depends(get_current_user),
+        password_data: UpdatePassword,
+        response: Response,
+        user: User = Depends(get_current_user),
 ):
     if not verify_password(password_data.old_password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
@@ -258,3 +258,16 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
 async def get_session(user: User = Depends(get_current_user)):
     session = await UserSession.objects.filter(user=user).first()
     return session
+
+
+class DeleteUserInput(BaseModel):
+    password: str
+
+
+@router.delete("/me")
+async def delete_user_account(input_data: DeleteUserInput, user: User = Depends(get_current_user)):
+    if not verify_password(input_data.password, user.password):
+        raise HTTPException(status_code=400, detail="Incorrect password")
+    await UserSession.objects.filter(user=user).delete()
+    await Quiz.objects.filter(user=user).delete()
+    await user.delete()
