@@ -4,7 +4,7 @@ from classquiz.kahoot_importer.search import search
 
 
 @pytest.mark.asyncio
-@pytest.mark.order("last")
+@pytest.mark.order(-2)
 async def test_search():
     res = await search(query="Python", limit=100)
     assert len(res.entities) == 100

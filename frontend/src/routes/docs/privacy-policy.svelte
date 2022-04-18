@@ -45,13 +45,13 @@
 				<td> On my server, by Netcup, in Germany.</td>
 			</tr>
 			<tr>
-				<td> The data you enter (quizzes, email, username)</td>
+				<td> The data the user enters (quizzes, email, username)</td>
 				<td> Self-explaining</td>
 				<td> Maximum of 30 days after you've deleted your account</td>
 				<td> On my server, by Netcup, in Germany.</td>
 			</tr>
 			<tr>
-				<td>Your hashed password</td>
+				<td>The hashed password of the user</td>
 				<td>Self-explaining</td>
 				<td>Maximum of 30 days after you've deleted your account</td>
 				<td>On my server, by Netcup, in Germany.</td>

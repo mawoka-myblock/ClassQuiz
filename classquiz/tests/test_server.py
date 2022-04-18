@@ -359,3 +359,16 @@ class TestQuiz:
         ValueStorage.imported_quizzes.append(resp.json()["id"])
         resp = test_client.post("/api/v1/quiz/import/1f95eb0bdassdadasdas", cookies={"access_token": token})
         assert resp.text == '"quiz not found"'
+
+
+class TestDeleteUser:
+    @pytest.mark.asyncio
+    async def test_delete_user(self, test_client):
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+        resp = test_client.delete(
+            "/api/v1/users/me", cookies={"access_token": token}, json={"password": test_user_password}
+        )
+        assert resp.status_code == 200
