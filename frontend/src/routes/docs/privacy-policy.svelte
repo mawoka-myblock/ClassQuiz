@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import '$lib/hljs.css';
 
@@ -11,51 +11,51 @@
 <svelte:head>
 	<title>ClassQuiz/docs - Privacy policy</title>
 	<meta
-		name='description'
-		content='How to self-host ClassQuiz, the open-source quiz-application'
+		name="description"
+		content="How to self-host ClassQuiz, the open-source quiz-application"
 	/>
 </svelte:head>
 
-<article class='prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-gray px-4'>
+<article class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-gray px-4">
 	<h1>Privacy Policy</h1>
 
 	<h2>What gets stored for how long and why</h2>
 	<table>
 		<thead>
-		<tr>
-			<th>What?</th>
-			<th>Why?</th>
-			<th>How long?</th>
-			<th>Where?</th>
-		</tr>
+			<tr>
+				<th>What?</th>
+				<th>Why?</th>
+				<th>How long?</th>
+				<th>Where?</th>
+			</tr>
 		</thead>
 		<tbody>
-		<tr>
-			<td> Your IP-Address</td>
-			<td>
-				<ul>
-					<li>
-						I store them because I am too lazy to configure them to be not stored.
-					</li>
-					<li>To prevent abuse</li>
-					<li>To provide user-sessions</li>
-				</ul>
-			</td>
-			<td> For a very long time</td>
-			<td> On my server, by Netcup, in Germany.</td>
-		</tr>
-		<tr>
-			<td> The data you enter (quizzes, email, username)</td>
-			<td> Self-explaining</td>
-			<td> Maximum of 30 days after you've deleted your account</td>
-			<td> On my server, by Netcup, in Germany.</td>
-		</tr>
-		<tr>
-			<td>Your hashed password</td>
-			<td>Self-explaining</td>
-			<td>Maximum of 30 days after you've deleted your account</td>
-			<td>On my server, by Netcup, in Germany.</td>
-		</tr>
+			<tr>
+				<td> Your IP-Address</td>
+				<td>
+					<ul>
+						<li>
+							I store them because I am too lazy to configure them to be not stored.
+						</li>
+						<li>To prevent abuse</li>
+						<li>To provide user-sessions</li>
+					</ul>
+				</td>
+				<td> For a very long time</td>
+				<td> On my server, by Netcup, in Germany.</td>
+			</tr>
+			<tr>
+				<td> The data you enter (quizzes, email, username)</td>
+				<td> Self-explaining</td>
+				<td> Maximum of 30 days after you've deleted your account</td>
+				<td> On my server, by Netcup, in Germany.</td>
+			</tr>
+			<tr>
+				<td>Your hashed password</td>
+				<td>Self-explaining</td>
+				<td>Maximum of 30 days after you've deleted your account</td>
+				<td>On my server, by Netcup, in Germany.</td>
+			</tr>
 		</tbody>
 	</table>
 
@@ -67,8 +67,8 @@
 
 	<h2>Third-parties</h2>
 	<p>
-		This site uses <a href='https://sentry.io/'>Sentry</a> to log errors. An opt-out is not
+		This site uses <a href="https://sentry.io/">Sentry</a> to log errors. An opt-out is not
 		available at the moment. This website also uses
-		<a href='https://plausible.io/'>Plausible</a> to log usage-data.
+		<a href="https://plausible.io/">Plausible</a> to log usage-data.
 	</p>
 </article>
