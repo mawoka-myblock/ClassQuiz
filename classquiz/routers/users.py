@@ -64,9 +64,9 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
 
 @router.post("/token/cookie", response_model=Token)
 async def login_for_cookie_access_token(
-        request: Request,
-        response: Response,
-        form_data: OAuth2PasswordRequestForm = Depends(),
+    request: Request,
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
 ):
     user = await authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -168,9 +168,9 @@ async def verify_user(verify_key: str):
 
 @router.put("/password/update")
 async def change_password(
-        password_data: UpdatePassword,
-        response: Response,
-        user: User = Depends(get_current_user),
+    password_data: UpdatePassword,
+    response: Response,
+    user: User = Depends(get_current_user),
 ):
     if not verify_password(password_data.old_password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
