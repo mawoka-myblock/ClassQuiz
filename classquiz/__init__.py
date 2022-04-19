@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request
 from sentry_sdk.integrations.redis import RedisIntegration
 from socketio import ASGIApp
 
-from classquiz.config import settings
+from classquiz.config import settings, meilisearch
 from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage, search
 from classquiz.socket_server import sio
@@ -32,6 +32,7 @@ async def startup() -> None:
     database_ = app.state.database
     if not database_.is_connected:
         await database_.connect()
+    meilisearch.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
 
 
 @app.on_event("shutdown")

@@ -15,7 +15,7 @@ async def __main__():
     quizzes = await Quiz.objects.filter(public=True).all()
     for quiz in quizzes:
         meili_data.append(await get_meili_data(quiz))
-    print(meili_data)
+    print(len(meili_data))
     client = meilisearch.Client(settings.meilisearch_url)
     client.index(settings.meilisearch_index).add_documents(meili_data)
     client.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
