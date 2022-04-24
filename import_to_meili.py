@@ -17,6 +17,8 @@ async def __main__():
         meili_data.append(await get_meili_data(quiz))
     print(len(meili_data))
     client = meilisearch.Client(settings.meilisearch_url)
+    client.delete_index(settings.meilisearch_index)
+    client.create_index(settings.meilisearch_index)
     client.index(settings.meilisearch_index).add_documents(meili_data)
     client.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
 
