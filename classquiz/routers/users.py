@@ -6,6 +6,7 @@ from datetime import timedelta, datetime
 from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
+import html
 
 from classquiz.auth import (
     get_password_hash,
@@ -53,7 +54,7 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
         raise HTTPException(status_code=409, detail="User already exists")
 
     user.password = get_password_hash(user.password)
-    user.username = bleach.clean(user.username, tags=[], strip=True)
+    user.username = html.unescape(bleach.clean(user.username, tags=[], strip=True))
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()

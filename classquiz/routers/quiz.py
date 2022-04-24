@@ -13,6 +13,7 @@ from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz
+import html
 
 settings = settings()
 
@@ -23,8 +24,8 @@ router = APIRouter()
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
     server_regex = rf"^{settings.root_address}/api/v1/storage/download/.{36}--.{36}$"
-    quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
-    quiz_input.description = bleach.clean(quiz_input.description, tags=[], strip=True)
+    quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
+    quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
@@ -132,8 +133,8 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
-        quiz_input.description = bleach.clean(quiz_input.description, tags=[], strip=True)
-        quiz_input.title = bleach.clean(quiz_input.title, tags=[], strip=True)
+        quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
+        quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
         if quiz.public and not quiz_input.public:
             meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
