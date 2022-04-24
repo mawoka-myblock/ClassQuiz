@@ -3,13 +3,13 @@ run_tests() {
 }
 
 stop() {
-  rm classquiz.db
   docker container stop test_redis
   docker container stop test_meili
 }
 
 init() {
   mkdir /tmp/storage
+  rm classquiz.db
   docker run --rm -d -p 6379:6379 --name test_redis redis:alpine
   docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:latest
   pipenv run python3 init_db.py
