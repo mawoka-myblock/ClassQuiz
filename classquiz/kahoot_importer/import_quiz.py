@@ -30,6 +30,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         return "quiz not found"
     quiz_questions: list[dict] = []
     quiz_id = uuid.uuid4()
+    meilisearch.delete_index(settings.meilisearch_index)
+    meilisearch.create_index(settings.meilisearch_index)
 
     for q in quiz.kahoot.questions:
         answers: list[QuizAnswer] = []

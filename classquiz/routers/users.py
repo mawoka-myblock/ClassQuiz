@@ -16,11 +16,11 @@ from classquiz.auth import (
     get_current_user,
 )
 from classquiz.cache import clear_cache_for_account
-from classquiz.config import redis, settings
+from classquiz.config import redis, settings, meilisearch
 import uuid
 import bleach
 from pydantic import BaseModel
-from classquiz.db.models import User, UserSession, UpdatePassword, Token
+from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz
 from classquiz.emails import send_register_email, send_forgotten_password_email
 
 settings = settings()
@@ -259,3 +259,24 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
 async def get_session(user: User = Depends(get_current_user)):
     session = await UserSession.objects.filter(user=user).first()
     return session
+
+
+class DeleteUserInput(BaseModel):
+    password: str
+
+
+@router.delete("/me")
+async def delete_user_account(input_data: DeleteUserInput, user: User = Depends(get_current_user)):
+    if not verify_password(input_data.password, user.password):
+        raise HTTPException(status_code=400, detail="Incorrect password")
+    user = await User.objects.filter(id=user.id).get_or_none()
+    await UserSession.objects.filter(user=user).delete()
+    quizzes = await Quiz.objects.filter(user_id=user).all()
+    quizzes_to_delete = []
+    for quiz in quizzes:
+        if quiz.is_public:
+            quizzes_to_delete.append(quiz.id)
+    if len(quizzes_to_delete) > 0:
+        meilisearch.index(settings.meilisearch_index).delete_documents(quizzes_to_delete)
+    await User.objects.filter(id=user.id).delete()
+    await user.delete()

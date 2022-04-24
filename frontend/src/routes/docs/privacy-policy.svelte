@@ -31,29 +31,26 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td> Your IP-Address </td>
+				<td> The IP-Address of the user</td>
 				<td>
 					<ul>
-						<li>
-							I store them because I am too lazy to configure them to be not stored.
-						</li>
 						<li>To prevent abuse</li>
 						<li>To provide user-sessions</li>
 					</ul>
 				</td>
-				<td> For a very long time </td>
-				<td> On my server, by Netcup, in Germany. </td>
+				<td> For a very long time</td>
+				<td> On the developers server, by Netcup, in Germany.</td>
 			</tr>
 			<tr>
-				<td> The data you enter (quizzes, email, username) </td>
-				<td> Self-explaining </td>
-				<td> Untill you delete your account </td>
-				<td> On my server, by Netcup, in Germany. </td>
+				<td> The data the user enters (quizzes, email, username)</td>
+				<td> Self-explaining</td>
+				<td> Maximum of 30 days after you've deleted your account</td>
+				<td> On the developers server, by Netcup, in Germany.</td>
 			</tr>
 			<tr>
-				<td>Your hashed password</td>
+				<td>The <b>hashed</b> password of the user</td>
 				<td>Self-explaining</td>
-				<td>Untill you delete your account</td>
+				<td>Maximum of 30 days after you've deleted your account</td>
 				<td>On my server, by Netcup, in Germany.</td>
 			</tr>
 		</tbody>

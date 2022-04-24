@@ -37,7 +37,8 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
             raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
-    meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
+    if quiz_input.public:
+        meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
     return await quiz.save()
 
 

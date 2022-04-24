@@ -14,14 +14,14 @@
     <p align='center'>
         The open-source quiz-platform!
         <br/>
-        <a href='https://classquiz.mawoka.eu/'><strong>Visit the website »</strong></a>
+        <a href='https://classquiz.de/'><strong>Visit the website »</strong></a>
         <br />
         <br />
-        <a href='https://classquiz.mawoka.eu/docs'>Docs</a>
+        <a href='https://classquiz.de/docs'>Docs</a>
         ·
-        <a href='https://classquiz.mawoka.eu/account/register'>Register</a>
+        <a href='https://classquiz.de/account/register'>Register</a>
         ·
-        <a href='https://classquiz.mawoka.eu/docs/self-host'>Self-Hosting</a>
+        <a href='https://classquiz.de/docs/self-host'>Self-Hosting</a>
     </p>
 </div>
 
@@ -33,21 +33,21 @@ quiz, so students can compete with their knowledge against each other.
 
 ## Try it
 
-There is a hosted version at [ClassQuiz.Mawoka.eu](https://classquiz.mawoka.eu?utm_medium=Github&utm_source=Readme). The
+There is a hosted version at [classquiz.de](https://classquiz.de?utm_medium=Github&utm_source=Readme). The
 server is located in Karlsruhe, Germany and hosted by [netcup](https://mawoka.eu/redir?token=2), so expect some latency
 depending on your location.
 
 ## Self-Host
 
-Please see https://classquiz.mawoka.eu/docs/self-host
+Please see https://classquiz.de/docs/self-host
 
 ## Development
 
-See https://classquiz.mawoka.eu/docs/develop
+See https://classquiz.de/docs/develop
 
 ## Docs
 
-The docs are online at https://classquiz.mawoka.eu/docs
+The docs are online at https://classquiz.de/docs
 
 ### Things to know about the structure
 
