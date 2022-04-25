@@ -55,7 +55,8 @@
 			// }
 		});
 		if (res.status !== 200) {
-			throw new Error('Failed to start game');
+			alert('Failed to start game!');
+			console.error(`Failed to start game, ${await res.text()}`);
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
