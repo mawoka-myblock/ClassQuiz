@@ -118,3 +118,4 @@ async def test_get():
         await get(i)
     lol = await get("f183e091-a863-44ec-a1b7-c70eb92e3f6a")
     assert lol is None
+    assert await get("8c523af2-6fbf-4940-a5fa-6b6130546892") is None
