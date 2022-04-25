@@ -1,3 +1,4 @@
+import json
 import uuid
 
 import pytest
@@ -82,8 +83,8 @@ class TestUsers:
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        rememberme_cookie = resp.cookies["rememberme_token"]
-        resp = test_client.get("/api/v1/users/token/rememberme", cookies={"rememberme_token": rememberme_cookie})
+        rememberme_token = resp.cookies["rememberme_token"]
+        resp = test_client.get("/api/v1/users/token/rememberme", cookies={"rememberme_token": rememberme_token})
         assert resp.cookies["access_token"] is not None
         assert resp.status_code == 200
         resp = test_client.get(
@@ -96,15 +97,15 @@ class TestUsers:
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        rememberme_cookie = resp.cookies["rememberme_token"]
+        rememberme_token = resp.cookies["rememberme_token"]
         access_token = resp.cookies["access_token"]
         resp = test_client.get("/api/v1/users/me", cookies={"access_token": access_token})
         assert resp.status_code == 200
         resp = test_client.get(
-            "/api/v1/users/logout", cookies={"rememberme_cookie": rememberme_cookie}, allow_redirects=False
+            "/api/v1/users/logout", cookies={"rememberme_token": rememberme_token}, allow_redirects=False
         )
         assert resp.status_code == 302
-        resp = test_client.get("/api/v1/users/me", cookies={"rememberme_cookie": rememberme_cookie})
+        resp = test_client.get("/api/v1/users/me", cookies={"rememberme_token": rememberme_token})
         assert resp.status_code == 401
 
     @pytest.mark.asyncio
@@ -138,8 +139,8 @@ class TestUsers:
         resp1 = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        rememberme_cookie = resp1.cookies["rememberme_token"]
-        response = test_client.get("/api/v1/users/me", cookies={"rememberme_cookie": rememberme_cookie})
+        rememberme_token = resp1.cookies["rememberme_token"]
+        response = test_client.get("/api/v1/users/me", cookies={"rememberme_token": rememberme_token})
         assert response.status_code == 200
 
     @pytest.mark.asyncio
@@ -147,8 +148,8 @@ class TestUsers:
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        token = resp.cookies["access_token"]
-        resp = test_client.get("/api/v1/users/session", cookies={"access_token": token})
+        token = resp.cookies["rememberme_token"]
+        resp = test_client.get("/api/v1/users/session", cookies={"rememberme_token": token})
         assert resp.status_code == 200
         assert resp.json()["ip_address"] == "testclient"
 
@@ -157,12 +158,12 @@ class TestUsers:
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        token = resp.cookies["access_token"]
-        resp = test_client.get("/api/v1/users/session", cookies={"access_token": token})
+        token = resp.cookies["rememberme_token"]
+        resp = test_client.get("/api/v1/users/session", cookies={"rememberme_token": token})
         session_id = resp.json()["id"]
-        resp = test_client.delete("/api/v1/users/sessions/" + str(session_id), cookies={"access_token": token})
+        resp = test_client.delete("/api/v1/users/sessions/" + str(session_id), cookies={"rememberme_token": token})
         assert resp.status_code == 200
-        resp = test_client.delete("/api/v1/users/sessions/asdsadasdasdsad", cookies={"access_token": token})
+        resp = test_client.delete("/api/v1/users/sessions/asdsadasdasdsad", cookies={"rememberme_token": token})
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
@@ -170,8 +171,8 @@ class TestUsers:
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
-        token = resp.cookies["access_token"]
-        resp = test_client.get("/api/v1/users/sessions/list", cookies={"access_token": token})
+        token = resp.cookies["rememberme_token"]
+        resp = test_client.get("/api/v1/users/sessions/list", cookies={"rememberme_token": token})
         assert resp.status_code == 200
         assert len(resp.json()) >= 1
 
@@ -368,7 +369,6 @@ class TestDeleteUser:
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
         token = resp.cookies["access_token"]
-        resp = test_client.delete(
-            "/api/v1/users/me", cookies={"access_token": token}, json={"password": test_user_password}
-        )
+        data = {"password": test_user_password}
+        resp = test_client.delete("/api/v1/users/me", cookies={"access_token": token}, json=data)
         assert resp.status_code == 200

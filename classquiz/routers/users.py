@@ -1,5 +1,6 @@
 import os
 
+import ormar
 from email_validator import validate_email, EmailNotValidError
 from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
 from datetime import timedelta, datetime
@@ -114,11 +115,11 @@ async def login_for_cookie_access_token(
 
 @router.get("/token/rememberme")
 async def rememberme_token(request: Request, response: Response):
-    rememberme_cookie = request.cookies.get("rememberme_token")
-    if rememberme_cookie is None:
+    rememberme_token = request.cookies.get("rememberme_token")
+    if rememberme_token is None:
         raise HTTPException(status_code=400, detail="No rememberme cookie")
     user_session: UserSession | None = (
-        await UserSession.objects.filter(session_key=rememberme_cookie).select_related(UserSession.user).get_or_none()
+        await UserSession.objects.filter(session_key=rememberme_token).select_related(UserSession.user).get_or_none()
     )
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
@@ -256,12 +257,14 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
 @router.get(
     "/session", response_model=UserSession, response_model_exclude={"user": ..., "session_key": ..., "quizs": ...}
 )
-async def get_session(user: User = Depends(get_current_user)):
-    session = await UserSession.objects.filter(user=user).get_or_none()
-    if session is None:
-        raise HTTPException(status_code=404, detail="Session not found")
-    else:
+async def get_session(request: Request, user: User = Depends(get_current_user)):
+    try:
+        session = await UserSession.objects.filter(
+            user=user, session_key=request.cookies.get("rememberme_token")
+        ).first()
         return session
+    except ormar.NoMatch:
+        raise HTTPException(status_code=404, detail="Session not found")
 
 
 class DeleteUserInput(BaseModel):
@@ -277,9 +280,10 @@ async def delete_user_account(input_data: DeleteUserInput, user: User = Depends(
     quizzes = await Quiz.objects.filter(user_id=user).all()
     quizzes_to_delete = []
     for quiz in quizzes:
-        if quiz.is_public:
-            quizzes_to_delete.append(quiz.id)
+        if quiz.public:
+            quizzes_to_delete.append(str(quiz.id))
     if len(quizzes_to_delete) > 0:
         meilisearch.index(settings.meilisearch_index).delete_documents(quizzes_to_delete)
+    await Quiz.objects.filter(user_id=user).delete()
     await User.objects.filter(id=user.id).delete()
     await user.delete()
