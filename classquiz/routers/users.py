@@ -115,11 +115,13 @@ async def login_for_cookie_access_token(
 
 @router.get("/token/rememberme")
 async def rememberme_token(request: Request, response: Response):
-    rememberme_token = request.cookies.get("rememberme_token")
-    if rememberme_token is None:
+    rememberme_token_lol = request.cookies.get("rememberme_token")
+    if rememberme_token_lol is None:
         raise HTTPException(status_code=400, detail="No rememberme cookie")
     user_session: UserSession | None = (
-        await UserSession.objects.filter(session_key=rememberme_token).select_related(UserSession.user).get_or_none()
+        await UserSession.objects.filter(session_key=rememberme_token_lol)
+        .select_related(UserSession.user)
+        .get_or_none()
     )
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
