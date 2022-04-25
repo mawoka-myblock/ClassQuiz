@@ -257,8 +257,11 @@ async def delete_session(session_id: str, user: User = Depends(get_current_user)
     "/session", response_model=UserSession, response_model_exclude={"user": ..., "session_key": ..., "quizs": ...}
 )
 async def get_session(user: User = Depends(get_current_user)):
-    session = await UserSession.objects.filter(user=user).first()
-    return session
+    session = await UserSession.objects.filter(user=user).get_or_none()
+    if session is None:
+        raise HTTPException(status_code=404, detail="Session not found")
+    else:
+        return session
 
 
 class DeleteUserInput(BaseModel):
