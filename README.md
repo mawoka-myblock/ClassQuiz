@@ -33,9 +33,9 @@ quiz, so students can compete with their knowledge against each other.
 
 ## Try it
 
-There is a hosted version at [classquiz.de](https://classquiz.de?utm_medium=Github&utm_source=Readme). The
-server is located in Karlsruhe, Germany and hosted by [netcup](https://mawoka.eu/redir?token=2), so expect some latency
-depending on your location.
+There is a hosted version at [classquiz.de](https://classquiz.de?utm_medium=Github&utm_source=Readme). The server is
+located in Karlsruhe, Germany and hosted by [netcup](https://mawoka.eu/redir?token=2), so expect some latency depending
+on your location.
 
 ## Self-Host
 
@@ -44,6 +44,13 @@ Please see https://classquiz.de/docs/self-host
 ## Development
 
 See https://classquiz.de/docs/develop
+
+## Translation
+
+ClassQuiz uses a Weblate-instace hosted by Mawoka.
+<a href="https://translate.mawoka.eu/engage/classquiz/">
+<img src="https://translate.mawoka.eu/widgets/classquiz/-/frontend/multi-auto.svg" alt="Übersetzungsstatus" />
+</a>
 
 ## Docs
 
