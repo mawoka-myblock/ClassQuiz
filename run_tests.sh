@@ -9,7 +9,6 @@ stop() {
 
 init() {
   mkdir /tmp/storage
-  rm classquiz.db
   docker run --rm -d -p 6379:6379 --name test_redis redis:alpine
   docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:latest
   pipenv run python3 init_db.py
@@ -19,6 +18,7 @@ case $1 in
 +) init ;;
 -) stop ;;
 a)
+  rm classquiz.db
   init
   run_tests
   stop

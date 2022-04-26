@@ -23,7 +23,7 @@ router = APIRouter()
 @router.post("/create")
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
-    server_regex = rf"^{settings.root_address}/api/v1/storage/download/.{36}--.{36}$"
+    server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{36}--.{36}$"
     quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
     quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
     for question in quiz_input.questions:
@@ -116,7 +116,7 @@ async def get_quiz_list(user: User = Depends(get_current_user)):
 @router.put("/update/{quiz_id}")
 async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
-    server_regex = rf"^{settings.root_address}/api/v1/storage/download/.{{36}}--.{{36}}$"
+    server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"
     for question in quiz_input.questions:
         if question.image == "":
             question.image = None
