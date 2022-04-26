@@ -40,7 +40,6 @@
 		}
 		is_loading = true;
 		const regex_res = kahoot_regex.exec(url_input);
-		console.log(url_valid, url_input);
 		const res = await fetch(`/api/v1/quiz/import/${regex_res[1]}`, {
 			method: 'POST',
 			headers: {
@@ -128,7 +127,7 @@
 
 							<button
 								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-								disabled={!url_valid}
+								disabled={!url_valid || is_loading}
 								type="submit"
 							>
 								{#if is_loading}
