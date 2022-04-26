@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 	let search_term = '';
 	let resp_data = null;
 
@@ -51,7 +53,7 @@
 				<input
 					type="search"
 					class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-					placeholder="Enter at least 3 characters..."
+					placeholder={$t('search_page.at_least_3_characters')}
 					aria-label="Search"
 					aria-describedby="button-addon2"
 					bind:value={search_term}
@@ -103,7 +105,9 @@
 								</p>
 							</div>
 							<div class="flex mt-4">
-								<span>Made by {@html quiz._formatted.user}</span>
+								<span
+									>{$t('explore_page.made_by')} {@html quiz._formatted.user}</span
+								>
 							</div>
 						</div>
 					</a>

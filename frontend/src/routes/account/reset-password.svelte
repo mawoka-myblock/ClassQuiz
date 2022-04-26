@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-	import { getLocalization } from '../../lib/i18n';
+	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
 
 	navbarVisible.set(true);
@@ -19,7 +19,6 @@
 	const { t } = getLocalization();
 
 	let isSubmitting = false;
-	// TODO: Add translation
 
 	const submit = async () => {
 		isSubmitting = true;

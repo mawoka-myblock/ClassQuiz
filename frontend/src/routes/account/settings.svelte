@@ -155,24 +155,23 @@
 				<p class="text-slate-100 text-lg mb-6 md:max-w-lg">
 					{$t('words.email')}: {user.email}
 				</p>
-				<!-- TODO: Add translation -->
 				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
 					<label
-						>Old Password:<input
+						>{$t('settings_page.old_password')}:<input
 							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.oldPassword}
 						/></label
 					>
 					<label
-						>New Password:<input
+						>{$t('settings_page.new_password')}:<input
 							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.newPassword}
 						/></label
 					>
 					<label
-						>New Password again:<input
+						>{$t('settings_page.repeat_password')}:<input
 							type="password"
 							class="m-2 text-black"
 							bind:value={changePasswordData.newPasswordConfirm}
@@ -183,7 +182,7 @@
 						disabled={!passwordChangeDataValid}
 						type="submit"
 					>
-						Change Password!
+						{$t('settings_page.change_password_submit')}
 					</button>
 				</form>
 			</div>
@@ -206,31 +205,31 @@
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					Last seen
+					{$t('settings_page.last_seen')}
 				</th>
 				<th
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					Browser
+					{$t('words.browser')}
 				</th>
 				<th
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					Check location
+					{$t('settings_page.check_location')}
 				</th>
 				<th
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					Delete this session
+					{$t('settings_page.delete_this_session')}
 				</th>
 				<th
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					This session?
+					{$t('settings_page.this_session?')}
 				</th>
 			</tr>
 		</thead>
@@ -258,7 +257,7 @@
 						<button
 							on:click={() => {
 								checkLocation(session.ip_address);
-							}}>View</button
+							}}>{$t('words.view')}</button
 						>
 					</td>
 					<td
@@ -267,7 +266,7 @@
 						<button
 							on:click={() => {
 								deleteSession(session.id);
-							}}>Delete</button
+							}}>{$t('words.delete')}</button
 						>
 					</td>
 					<td
@@ -294,7 +293,7 @@
 				on:click={() => {
 					showMap = false;
 				}}
-				class="bg-black text-white rounded-t-lg px-1">Close</button
+				class="bg-black text-white rounded-t-lg px-1">{$t('words.close')}</button
 			>
 			<div class="w-full h-full">
 				<svelte:component

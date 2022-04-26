@@ -183,7 +183,7 @@
 </button>
 {#if imgur_links_valid}
 	<p class="text-blue-600 text-xl text-center w-fit mx-auto">
-		Not all links are imgur-links! <!-- TODO: Add translation -->
+		{$t('editor.not_all_links_imgur_links')}
 	</p>
 {/if}
 <button

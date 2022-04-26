@@ -94,15 +94,14 @@
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/explore">Explore</a
+					href="/explore">{$t('words.explore')}</a
 				>
 			</li>
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/search">Search</a
+					href="/search">{$t('words.search')}</a
 				>
-				<!--TODO: Add translation -->
 			</li>
 			<li class="py-2">
 				<a
@@ -133,15 +132,14 @@
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/explore">Explore</a
+					href="/explore">{$t('words.explore')}</a
 				>
 			</li>
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/search">Search</a
+					href="/search">{$t('words.search')}</a
 				>
-				<!--TODO: Add translation -->
 			</li>
 			<li class="py-2">
 				<a

@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 	const getData = async () => {
 		const response = await fetch('/api/v1/search/', {
 			method: 'POST',
@@ -55,7 +57,7 @@
 							<p class="mt-2 text-gray-600">{quiz.description}</p>
 						</div>
 						<div class="flex mt-4">
-							<span>Made by {quiz.user}</span>
+							<span>{$t('explore_page.made_by')} {quiz.user}</span>
 						</div>
 					</div>
 				</a>

@@ -85,7 +85,13 @@
 		"settings": "Settings",
 		"repeat_password": "Repeat password",
 		"overview": "Overview",
-		"report": "Report"
+		"report": "Report",
+		"explore": "Explore",
+		"search": "Search",
+		"screenshot": "Screenshot",
+		"screenshot_plural": "Screenshots",
+		"browser": "Browser",
+		"view": "View"
 	},
 	"editor": {
 		"time_in_seconds": "Time in seconds",
@@ -93,7 +99,8 @@
 		"add_new_answer": "Add new answer",
 		"add_new_question": "Add new question",
 		"delete_question": "Delete question",
-		"delete_answer": "Delete answer"
+		"delete_answer": "Delete answer",
+		"not_all_links_imgur_links": "Not all links are Imgur-links!"
 	},
 	"import_page": {
 		"need_help": "Need help?",
@@ -107,5 +114,21 @@
 	},
 	"password_reset_page": {
 		"reset_password": "Reset password"
+	},
+	"settings_page": {
+		"old_password": "Old password",
+		"new_password": "New password",
+		"repeat_password": "Repeat password",
+		"change_password_submit": "Change password!",
+		"last_seen": "Last seen",
+		"check_location": "Check location",
+		"delete_this_session": "Delete this session",
+		"this_session?": "This session?"
+	},
+	"explore_page": {
+		"made_by": "Made by"
+	},
+	"search_page": {
+		"at_least_3_characters": "Enter at least 3 characters..."
 	}
 }
