@@ -40,7 +40,7 @@
                 "success": "Login erfolgreich!",
                 "description": {
                     "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
-                    "success": "Du hast dich erfolgreich angemeldet!"
+                    "success": "Anmeldung erfolgreich!"
                 }
             },
             "error": {
