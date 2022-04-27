@@ -99,7 +99,6 @@ async def login_for_cookie_access_token(
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
-
     response.set_cookie(
         key="access_token",
         value=f"Bearer {access_token}",
@@ -108,8 +107,10 @@ async def login_for_cookie_access_token(
         max_age=settings.access_token_expire_minutes * 60,
     )
     response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
-    response.set_cookie(key="rememberme", value="")
-    response.set_cookie(key="rememberme_token", value=session_key, httponly=True, samesite="strict")
+    response.set_cookie(key="rememberme", value="", max_age=60 * 60 * 24 * 365)
+    response.set_cookie(
+        key="rememberme_token", value=session_key, httponly=True, samesite="strict", max_age=60 * 60 * 24 * 365
+    )
     return {"access_token": access_token, "token_type": "bearer"}
 
 
