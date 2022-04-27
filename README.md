@@ -48,6 +48,8 @@ See https://classquiz.de/docs/develop
 ## Translation
 
 ClassQuiz uses a Weblate-instace hosted by Mawoka.
+
+
 <a href="https://translate.mawoka.eu/engage/classquiz/">
 <img src="https://translate.mawoka.eu/widgets/classquiz/-/frontend/multi-auto.svg" alt="Übersetzungsstatus" />
 </a>
