@@ -30,6 +30,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
+	import { dataSchema } from '$lib/jupSchemas';
 
 	navbarVisible.set(true);
 
@@ -72,6 +73,9 @@
 		}
 	};
 	const submit = async () => {
+		if (!(await dataSchema.isValid(data))) {
+			return;
+		}
 		const res = await fetch(`/api/v1/quiz/update/${quiz_id}`, {
 			method: 'PUT',
 			body: JSON.stringify(data),

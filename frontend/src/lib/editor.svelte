@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
+	import * as yup from 'yup';
+	import { dataSchema } from '$lib/jupSchemas';
 
 	const { t } = getLocalization();
+
+	let schemaInvalid = false;
+	let yupErrorMessage = '';
 
 	interface Data {
 		public: boolean;
@@ -38,6 +43,18 @@
 		]
 	};
 
+	const validateInput = async (data: Data) => {
+		try {
+			await dataSchema.validate(data, { abortEarly: false });
+			schemaInvalid = false;
+			yupErrorMessage = '';
+		} catch (err) {
+			schemaInvalid = true;
+			yupErrorMessage = err.errors[0];
+		}
+	};
+	$: validateInput(data);
+
 	const checkIfAllQuestionImagesComplyWithRegex = (questions: Array<Question>) => {
 		let NoteverythingValid = false;
 		// const regex = /^https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif)$/;
@@ -73,6 +90,9 @@
 		placeholder={$t('words.title')}
 		bind:value={data.title}
 		class="text-black bg-inherit border-dotted border-b-2 border-black w-full"
+		class:border-red-600={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
+		class:border-solid={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
+		class:border-2={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
 	/>
 </label>
 <label class="pl-2 flex flex-row gap-2 w-3/5">
@@ -81,6 +101,9 @@
 		placeholder={$t('words.description')}
 		bind:value={data.description}
 		class="text-black w-full"
+		class:border-red-600={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
+		class:border-solid={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
+		class:border-2={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
 	/>
 </label>
 {#each data.questions as question, index_question}
@@ -94,6 +117,15 @@
 				placeholder={$t('words.question')}
 				bind:value={question.question}
 				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class:border-red-600={!yup
+					.reach(dataSchema, 'questions[].question')
+					.isValidSync(question.question)}
+				class:border-solid={!yup
+					.reach(dataSchema, 'questions[].question')
+					.isValidSync(question.question)}
+				class:border-2={!yup
+					.reach(dataSchema, 'questions[].question')
+					.isValidSync(question.question)}
 			/>
 		</label>
 		<label class="m-1 flex flex-row gap-2 w-3/5">
@@ -103,6 +135,15 @@
 				placeholder="https://i.imgur.com/kSPCidY.png"
 				bind:value={question.image}
 				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class:border-red-600={!yup
+					.reach(dataSchema, 'questions[].image')
+					.isValidSync(question.image)}
+				class:border-solid={!yup
+					.reach(dataSchema, 'questions[].image')
+					.isValidSync(question.image)}
+				class:border-2={!yup
+					.reach(dataSchema, 'questions[].image')
+					.isValidSync(question.image)}
 			/>
 		</label>
 		<label class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
@@ -112,6 +153,15 @@
 				placeholder="20"
 				bind:value={question.time}
 				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class:border-red-600={!yup
+					.reach(dataSchema, 'questions[].time')
+					.isValidSync(question.time)}
+				class:border-solid={!yup
+					.reach(dataSchema, 'questions[].time')
+					.isValidSync(question.time)}
+				class:border-2={!yup
+					.reach(dataSchema, 'questions[].time')
+					.isValidSync(question.time)}
 			/>
 		</label>
 		{#each question.answers as answer, index_answer}
@@ -128,6 +178,21 @@
 						placeholder={$t('words.answer')}
 						bind:value={data.questions[index_question].answers[index_answer].answer}
 						class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+						class:border-red-600={!yup
+							.reach(dataSchema, 'questions[].answers[].answer')
+							.isValidSync(
+								data.questions[index_question].answers[index_answer].answer
+							)}
+						class:border-solid={!yup
+							.reach(dataSchema, 'questions[].answers[].answer')
+							.isValidSync(
+								data.questions[index_question].answers[index_answer].answer
+							)}
+						class:border-2={!yup
+							.reach(dataSchema, 'questions[].answers[].answer')
+							.isValidSync(
+								data.questions[index_question].answers[index_answer].answer
+							)}
 					/>
 				</label>
 				<label class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap">
@@ -186,8 +251,13 @@
 		{$t('editor.not_all_links_imgur_links')}
 	</p>
 {/if}
+{#if schemaInvalid}
+	<p class="text-blue-600 text-xl text-center w-fit mx-auto">
+		{yupErrorMessage}
+	</p>
+{/if}
 <button
 	type="submit"
 	class="text-xl disabled:cursor-not-allowed disabled:border disabled:border-red-500 w-fit mx-auto"
-	disabled={imgur_links_valid}>{submit_button_text}</button
+	disabled={imgur_links_valid || schemaInvalid}>{submit_button_text}</button
 >
