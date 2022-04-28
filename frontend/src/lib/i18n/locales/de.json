@@ -40,7 +40,7 @@
                 "success": "Login erfolgreich!",
                 "description": {
                     "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
-                    "success": "Du hast dich erfolgreich angemeldet!"
+                    "success": "Anmeldung erfolgreich!"
                 }
             },
             "error": {
@@ -113,7 +113,9 @@
         "already_registered_as_admin": "Ein Admin wurde schon für dieses Spiel registriert.",
         "start_game": "Spiel starten",
         "time_left": "Zeit übrig",
-        "get_results": "Ergebnisse abfragen"
+        "get_results": "Ergebnisse abfragen",
+        "get_results_and_stop_time": "Ergebnisse abrufen und Zeit stoppen",
+        "get_final_results": "Finale Ergebnisse abrufen"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
