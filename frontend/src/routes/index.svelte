@@ -49,7 +49,10 @@
 			<h1 class="sm:text-6xl text-4xl">{$t('words.stats')}</h1>
 			<p class="text-xl pt-4">
 				{#await getStats() then stats}
-					{$t('index_page.stats', { user_count: stats.user_count, quiz_count: stats.quiz_count })}
+					{$t('index_page.stats', {
+						user_count: stats.user_count,
+						quiz_count: stats.quiz_count
+					})}
 				{/await}
 			</p>
 		</div>

@@ -240,8 +240,8 @@
 			{:else}
 				<p>
 					<!-- TODO: Add translation -->
-					Looks like you don't have any quizzes. Wanna change that? Click the
-					"Create"-button, or import a quiz from KAHOOT!
+					Looks like you don't have any quizzes. Wanna change that? Click the "Create"-button,
+					or import a quiz from KAHOOT!
 				</p>
 			{/if}
 		</div>
