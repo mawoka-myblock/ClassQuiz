@@ -30,11 +30,11 @@ export class I18nService {
 			fallbackLng: 'en',
 			debug: false,
 			defaultNS: 'translation',
-			fallbackNS: 'common',
 			resources: translations as Resource,
 			interpolation: {
 				escapeValue: false
 			},
+			returnEmptyString: false,
 			// detection: {
 			// 	order: ['browser', 'querystring', 'navigator', 'localStorage', 'htmlTag'],
 			// 	lookupQuerystring: 'lng'
