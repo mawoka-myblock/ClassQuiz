@@ -8,7 +8,8 @@
         "features_description": {
             "1": "ClassQuiz is a quiz-platform that allows you to create and manage quizzes.",
             "2": "The main feature is a KAHOOT!-import function that allows you to import quizzes from KAHOOT!-quizzes."
-        }
+        },
+        "stats": "There are already {{user_count}} users and {{quiz_count}} quizzes on ClassQuiz."
     },
     "overview_page": {
         "created_at": "Created at",
