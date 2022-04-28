@@ -102,6 +102,7 @@
 			game_id: game_token,
 			question_number: shown_question_now
 		});
+		timer_res = '0';
 	};
 
 	const getWinnersSorted = () => {
@@ -174,6 +175,17 @@
 		event.preventDefault();
 		event.returnValue = '';
 	};
+
+	const get_question_title = (q_number: number): string => {
+		if (q_number - 1 === quiz_data.questions.length) {
+			return;
+		}
+		try {
+			return quiz_data.questions[q_number].question;
+		} catch (e) {
+			return '';
+		}
+	};
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
@@ -222,9 +234,10 @@
 	{/if}
 	<br />
 	{#if timer_res === '0'}
-		<button on:click={get_question_results}>{$t('admin_page.get_results')}</button>
-		<br />
-		{#if question_results !== null}
+		{#if question_results === null}
+			<button on:click={get_question_results}>{$t('admin_page.get_results')}</button>
+			<br />
+		{:else}
 			<br />
 			<ul>
 				{#each question_results as result}
@@ -232,6 +245,9 @@
 				{/each}
 			</ul>
 		{/if}
+	{:else if timer_res !== undefined}
+		<button on:click={get_question_results}>{$t('admin_page.get_results_and_stop_time')}</button
+		>
 	{/if}
 	<br />
 	<!--{#each quiz_data.questions as { question }, index}
@@ -242,14 +258,20 @@
 		>
 		<br />
 	{/each}-->
-	<button
-		disabled={!(timer_res === undefined || timer_res === '0')}
-		on:click={() => {
-			set_question_number(selected_question + 1);
-		}}>{selected_question + 1}: {quiz_data.questions[selected_question + 1].question}</button
-	>
-	<br />
-	{#if selected_question === quiz_data.questions.length}
-		<button on:click={get_final_results}>Get final results</button>
+	{#if get_question_title(selected_question + 1) !== ''}
+		<button
+			disabled={!(timer_res === undefined || timer_res === '0')}
+			on:click={() => {
+				set_question_number(selected_question + 1);
+			}}>{selected_question + 1}: {get_question_title(selected_question + 1)}</button
+		>
+		<br />
+	{:else}
+		<button on:click={get_final_results}>{$t('admin_page.get_final_results')}</button>
 	{/if}
+{/if}
+{#if JSON.stringify(final_results) !== JSON.stringify([null])}
+	{#await import('$lib/play/end.svelte') then c}
+		<svelte:component this={c.default} bind:final_results bind:quiz_data />
+	{/await}
 {/if}

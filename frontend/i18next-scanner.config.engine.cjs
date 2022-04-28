@@ -10,7 +10,7 @@ module.exports = {
 		trans: false,
 
 		// Create and update files `en.json`, `fr.json`, `es.json`
-		lngs: ['en', 'de', 'fr'],
+		lngs: ['en'],
 
 		ns: [
 			// The namespace I use

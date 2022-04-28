@@ -57,7 +57,7 @@ async def join_game(sid, data):
             {"username": data["username"], "sid": sid},
             room=redis_res["admin"],
         )
-        sio.enter_room(sid, data["game_pin"])  # TODO: make more secure
+        sio.enter_room(sid, data["game_pin"])
 
 
 @sio.event

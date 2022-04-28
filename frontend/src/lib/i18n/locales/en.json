@@ -110,7 +110,9 @@
         "already_registered_as_admin": "There is already an admin registered for this game.",
         "start_game": "Start game",
         "time_left": "Time left",
-        "get_results": "Get results"
+        "get_results": "Get results",
+        "get_results_and_stop_time": "Get results and stop time",
+        "get_final_results": "Get final results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"

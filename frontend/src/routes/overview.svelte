@@ -117,125 +117,132 @@
 					{$t('words.settings')}
 				</a>
 			</div>
-			<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
-				<div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
-					<div class="overflow-hidden shadow-md sm:rounded-lg">
-						<table class="min-w-full">
-							<thead class="bg-gray-50 dark:bg-gray-700">
-								<tr>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('words.title')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('overview_page.created_at')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('overview_page.question_count')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('words.play')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('words.edit')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('words.delete')}
-									</th>
-									<th
-										scope="col"
-										class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-									>
-										{$t('words.public')}
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each quizzes as quiz}
-									<tr
-										class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-									>
-										<td
-											class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+			{#if quizzes.length !== 0}
+				<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
+					<div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
+						<div class="overflow-hidden shadow-md sm:rounded-lg">
+							<table class="min-w-full">
+								<thead class="bg-gray-50 dark:bg-gray-700">
+									<tr>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											{quiz.title}
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('words.title')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											{formatDate(quiz.created_at)}
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('overview_page.created_at')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											{quiz.questions.length}
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('overview_page.question_count')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											<button
-												on:click={() => {
-													startGame(quiz.id);
-												}}
-												class="border border-green-600"
-											>
-												{$t('words.start')}
-											</button>
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('words.play')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											<a
-												href="/edit?quiz_id={quiz.id}"
-												class="border border-yellow-600"
-												>{$t('words.edit')}</a
-											>
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('words.edit')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											<button
-												on:click={() => {
-													deleteQuiz(quiz.id);
-												}}
-												class="border border-red-600"
-											>
-												{$t('words.delete')}
-											</button>
-										</td>
-										<td
-											class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											{$t('words.delete')}
+										</th>
+										<th
+											scope="col"
+											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 										>
-											{#if quiz.public}
-												✅
-											{:else}
-												❌
-											{/if}
-										</td>
+											{$t('words.public')}
+										</th>
 									</tr>
-								{/each}
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									{#each quizzes as quiz}
+										<tr
+											class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+										>
+											<td
+												class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+											>
+												{quiz.title}
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												{formatDate(quiz.created_at)}
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												{quiz.questions.length}
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												<button
+													on:click={() => {
+														startGame(quiz.id);
+													}}
+													class="border border-green-600"
+												>
+													{$t('words.start')}
+												</button>
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												<a
+													href="/edit?quiz_id={quiz.id}"
+													class="border border-yellow-600"
+													>{$t('words.edit')}</a
+												>
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												<button
+													on:click={() => {
+														deleteQuiz(quiz.id);
+													}}
+													class="border border-red-600"
+												>
+													{$t('words.delete')}
+												</button>
+											</td>
+											<td
+												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
+											>
+												{#if quiz.public}
+													✅
+												{:else}
+													❌
+												{/if}
+											</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
+			{:else}
+				<p>
+					Looks like you don't have any quizzes. Wanna change that? Click the
+					"Create"-button, or import a quiz from KAHOOT!
+				</p>
+			{/if}
 		</div>
 	{:catch err}
 		<p>{err}</p>
