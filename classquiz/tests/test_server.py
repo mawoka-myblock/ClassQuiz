@@ -8,6 +8,17 @@ from classquiz.tests import test_user_email, test_user_password
 from classquiz.tests import test_client, example_quiz, ValueStorage
 
 
+# @pytest.fixture
+# async def startup_and_shutdown_server():
+#     """Start server as test fixture and tear down after test"""
+#     print("starting up")
+#     server = UvicornTestServer()
+#     await server.up()
+#     print("Server up")
+#     yield
+#     await server.down()
+
+
 class TestUsers:
     @pytest.mark.asyncio
     async def test_create_test_user(self, test_client):
@@ -330,21 +341,14 @@ class TestQuiz:
             "/api/v1/quiz/update/saddsaasddsadsa", json=example_quiz, cookies={"access_token": token}
         )
         assert resp.status_code == 400
-
-    @pytest.mark.asyncio
-    async def test_get_public_quiz(self, test_client):
-        resp = test_client.post(
-            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        example_quiz["public"] = False
+        test_client.put(
+            f"/api/v1/quiz/update/{ValueStorage.quiz_id}", json=example_quiz, cookies={"access_token": token}
         )
-        token = resp.cookies["access_token"]
-        resp = test_client.get(f"/api/v1/quiz/get/{ValueStorage.quiz_id}", cookies={"access_token": token})
-        assert resp.status_code == 200
-        resp = test_client.get(
-            "/api/v1/quiz/get/public/f183e091-a863-44ec-a1b7-c70eb92e3f6a", cookies={"access_token": token}
+        example_quiz["public"] = True
+        test_client.put(
+            f"/api/v1/quiz/update/{ValueStorage.quiz_id}", json=example_quiz, cookies={"access_token": token}
         )
-        assert resp.status_code == 404
-        resp = test_client.get("/api/v1/quiz/get/public/dadasdas92e3f6a", cookies={"access_token": token})
-        assert resp.status_code == 400
 
     @pytest.mark.asyncio
     async def test_import_quiz(self, test_client):
@@ -360,8 +364,101 @@ class TestQuiz:
         resp = test_client.post("/api/v1/quiz/import/1f95eb0bdassdadasdas", cookies={"access_token": token})
         assert resp.text == '"quiz not found"'
 
+    @pytest.mark.asyncio
+    async def test_get_public_quiz(self, test_client):
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+        resp = test_client.get(f"/api/v1/quiz/get/public/{ValueStorage.imported_quizzes[0]}")
+        assert resp.status_code == 200
+        resp = test_client.get(
+            "/api/v1/quiz/get/public/f183e091-a863-44ec-a1b7-c70eb92e3f6a", cookies={"access_token": token}
+        )
+        assert resp.status_code == 404
+        resp = test_client.get("/api/v1/quiz/get/public/dadasdas92e3f6a", cookies={"access_token": token})
+        assert resp.status_code == 400
 
-class TestDeleteUser:
+    @pytest.mark.asyncio
+    async def test_search_get(self, test_client):
+        resp = test_client.get("/api/v1/search/?q=*")
+        assert resp.status_code == 200
+        assert len(resp.json()["hits"]) > 0
+
+    @pytest.mark.asyncio
+    async def test_search_post(self, test_client):
+        resp = test_client.post("/api/v1/search/", json={"q": "*"})
+        assert resp.status_code == 200
+        assert len(resp.json()["hits"]) > 0
+
+    @pytest.mark.asyncio
+    async def test_image_cdn(self, test_client):
+        resp = test_client.get(f"/api/v1/quiz/get/public/{ValueStorage.imported_quizzes[0]}")
+        assert resp.status_code == 200
+        quiz = resp.json()
+        image_url = quiz["questions"][0]["image"]
+        resp = test_client.get(image_url)
+        assert resp.status_code == 200
+        resp = test_client.get(f"{image_url}sadgvsadgvhsad")
+        assert resp.status_code == 400
+
+
+class TestPlayQuiz:
+    @pytest.mark.asyncio
+    async def test_start_quiz(self, test_client):
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+        resp = test_client.post(
+            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400e36417c", cookies={"access_token": token}
+        )
+        assert resp.status_code == 404
+        resp = test_client.post(
+            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400sdadsasadsadasddsae36417c", cookies={"access_token": token}
+        )
+        assert resp.status_code == 400
+        resp = test_client.post(f"/api/v1/quiz/start/{ValueStorage.quiz_id}", cookies={"access_token": token})
+        ValueStorage.game_pin = resp.json()["game_pin"]
+        ValueStorage.game_id = resp.json()["game_id"]
+
+    # @pytest.mark.asyncio
+    # async def test_actual_play(self, startup_and_shutdown_server):
+    #     admin_client = socketio.AsyncClient()
+    #     player1_client = socketio.AsyncClient()
+    #     player2_client = socketio.AsyncClient()
+    #     future = asyncio.get_running_loop().create_future()
+    #     time.sleep(1)
+    #     await admin_client.connect(f'http://localhost:{PORT}', socketio_path='/socket.io/')
+    #     await player1_client.connect(f'http://localhost:{PORT}', socketio_path="/socket.io")
+    #     await player2_client.connect(f'http://localhost:{PORT}', socketio_path="/socket.io")
+    #
+    #     await admin_client.disconnect()
+    #     await player1_client.disconnect()
+    #     await player2_client.disconnect()
+
+
+class TestDeleteStuff:
+    @pytest.mark.asyncio
+    async def test_delete_quiz(self, test_client):
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+        resp = test_client.delete(
+            f"/api/v1/quiz/delete/{ValueStorage.imported_quizzes[0]}", cookies={"access_token": token}
+        )
+        assert resp.status_code == 200
+        resp = test_client.delete(
+            "/api/v1/quiz/delete/be582c77-da03-4271-929c-5d582056eb78", cookies={"access_token": token}
+        )
+        assert resp.status_code == 404
+
+        resp = test_client.delete(
+            "/api/v1/quiz/delete/be582c77-da03-sdaasdadsasddas4271-929c-5d582056eb78", cookies={"access_token": token}
+        )
+        assert resp.status_code == 400
+
     @pytest.mark.asyncio
     async def test_delete_user(self, test_client):
         resp = test_client.post(
