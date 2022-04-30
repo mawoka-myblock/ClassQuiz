@@ -13,6 +13,8 @@
 	import { navbarVisible } from '$lib/stores';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
+	import WebPOpenGraph from '$lib/assets/landing/opengraph-home.webp';
+	import JpgOpenGraph from '$lib/assets/landing/opengraph-home.jpg';
 
 	import LandingPromo from '$lib/landing/landing-promo.svelte';
 
@@ -34,6 +36,30 @@
 <svelte:head>
 	<title>ClassQuiz - {$t('index_page.meta.title')}</title>
 	<meta name="description" content={$t('index_page.meta.description')} />
+	<title>ClassQuiz - Home</title>
+	<meta
+		name="description"
+		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
+	/>
+
+	<meta property="og:url" content="https://classquiz.de/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="ClassQuiz - {$t('index_page.meta.title')}" />
+	<meta
+		property="og:description"
+		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
+	/>
+	<meta property="og:image" content={JpgOpenGraph} />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="classquiz.de" />
+	<meta property="twitter:url" content="https://classquiz.de/" />
+	<meta name="twitter:title" content="ClassQuiz - {$t('index_page.meta.title')}" />
+	<meta
+		name="twitter:description"
+		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
+	/>
+	<meta name="twitter:image" content={WebPOpenGraph} />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">

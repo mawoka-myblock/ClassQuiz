@@ -21,12 +21,8 @@
 
 	<h2>Warning</h2>
 	<p>
-		Since ClassQuiz is in pretty early development, breaking changes come and go! Please check
-		these docs again before updating your instance. I may also add more dependencies like <a
-			href="https://typesense.org/">Typesense</a
-		>
-		ore something similar in the future, but I'll always provide a
-		<code>docker-compose.yml</code> file, so the self-hosting process is still easy.
+		Although some versions are already released, <b>I</b> would recommend to run the latest
+		commit (where checks pass) from the <b>master</b>-branch.
 	</p>
 
 	<h2>Requirements</h2>
@@ -79,7 +75,7 @@
 		You'll have to set up a storage provider for some pictures (these getting imported from
 		KAHOOT!). For now, you can use <a href="https://deta.sh">Deta</a> or the local filesystem.
 		Please note that I would <b>NOT</b> use the local file system because of these funny
-		path-things. I tried to prevent these attacks, but i really wouldn't trust it. You'll have
+		path-things. I tried to prevent these attacks, but I really wouldn't trust it. You'll have
 		to set the
 		<code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or
 		<code>local</code>.
@@ -187,5 +183,6 @@ volumes:
 	<pre><code>docker compose build && docker compose up -d</code></pre>
 	<p>You'll have to create an index in Meilisearch with the following command:</p>
 	<pre><code>docker compose exec api python3 import_to_meili.py</code></pre>
+	<p>Note: I would recommend to add the command from above to your crontab so it runs daily.</p>
 	<p><b>Enjoy! ❤️</b></p>
 </article>
