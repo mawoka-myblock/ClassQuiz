@@ -64,12 +64,16 @@
 
 	const startGame = async (id: string): Promise<void> => {
 		console.log('start game', id);
-		const res = await fetch(`/api/v1/quiz/start/${id}`, {
-			method: 'POST'
-			// headers: {
-			// 	'Content-Type': 'application/json'
-			// }
-		});
+		let res;
+		if (window.confirm('Do you want to enable the captcha for players?')) {
+			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=True`, {
+				method: 'POST'
+			});
+		} else {
+			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=False`, {
+				method: 'POST'
+			});
+		}
 		if (res.status !== 200) {
 			throw new Error('Failed to start game');
 		}

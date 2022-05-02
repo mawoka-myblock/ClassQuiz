@@ -6,7 +6,7 @@ from random import randint
 from classquiz.helpers import get_meili_data
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import ValidationError
+from pydantic import ValidationError, BaseModel
 import bleach
 
 from classquiz.auth import get_current_user
@@ -76,7 +76,7 @@ async def get_public_quiz(quiz_id: str):
 
 
 @router.post("/start/{quiz_id}")
-async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
+async def start_quiz(quiz_id: str, captcha_enabled: bool = True, user: User = Depends(get_current_user)):
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
@@ -94,9 +94,22 @@ async def start_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         game_id=uuid.uuid4(),
         title=quiz.title,
         description=quiz.description,
+        captcha_enabled=captcha_enabled,
     )
     await redis.set(f"game:{str(game.game_pin)}", (game.json()), ex=18000)
     return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
+
+
+class CheckIfCaptchaEnabledResponse(BaseModel):
+    enabled: bool
+
+
+@router.get("/play/check_captcha/{game_pin}", response_model=CheckIfCaptchaEnabledResponse)
+async def check_if_captcha_enabled(game_pin: str):
+    game = await redis.get(f"game:{game_pin}")
+    if game is None:
+        return JSONResponse(status_code=404, content={"detail": "game not found"})
+    return CheckIfCaptchaEnabledResponse(**{"enabled": json.loads(game)["captcha_enabled"]})
 
 
 @router.get("/join/{game_pin}")

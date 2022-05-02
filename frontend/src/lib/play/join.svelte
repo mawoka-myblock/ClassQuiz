@@ -44,17 +44,22 @@
 			return;
 		}
 		let captcha_resp: string;
-		try {
-			const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
-				async: true
-			});
-			captcha_resp = response;
-		} catch (e) {
-			if (import.meta.env.VITE_SENTRY !== null) {
-				Sentry.captureException(e);
+		const captcha_enabled = (
+			await (await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`)).json()
+		).enabled;
+		if (captcha_enabled) {
+			try {
+				const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
+					async: true
+				});
+				captcha_resp = response;
+			} catch (e) {
+				if (import.meta.env.VITE_SENTRY !== null) {
+					Sentry.captureException(e);
+				}
+				alert('Captcha failed, reloading the page probably helps!');
+				window.location.reload();
 			}
-			alert('Captcha failed, reloading the page probably helps!');
-			window.location.reload();
 		}
 		socket.emit('join_game', {
 			username: username,

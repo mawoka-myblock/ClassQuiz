@@ -99,10 +99,6 @@ class TokenData(BaseModel):
 
 
 class PlayGame(BaseModel):
-    """
-    For JWT
-    """
-
     quiz_id: uuid.UUID | str
     description: str
     title: str
@@ -110,6 +106,7 @@ class PlayGame(BaseModel):
     game_id: uuid.UUID
     game_pin: str
     started: bool = False
+    captcha_enabled: bool = False
 
 
 class GamePlayer(BaseModel):
