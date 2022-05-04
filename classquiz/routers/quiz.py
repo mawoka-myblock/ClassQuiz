@@ -111,7 +111,7 @@ async def check_if_captcha_enabled(game_pin: str):
         return JSONResponse(status_code=404, content={"detail": "game not found"})
     try:
         return CheckIfCaptchaEnabledResponse(**{"enabled": json.loads(game)["captcha_enabled"]})
-    except KeyError or TypeError:
+    except (KeyError, TypeError):
         return CheckIfCaptchaEnabledResponse(**{"enabled": True})
 
 
