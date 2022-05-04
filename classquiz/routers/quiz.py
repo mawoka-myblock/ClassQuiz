@@ -109,7 +109,10 @@ async def check_if_captcha_enabled(game_pin: str):
     game = await redis.get(f"game:{game_pin}")
     if game is None:
         return JSONResponse(status_code=404, content={"detail": "game not found"})
-    return CheckIfCaptchaEnabledResponse(**{"enabled": json.loads(game)["captcha_enabled"]})
+    try:
+        return CheckIfCaptchaEnabledResponse(**{"enabled": json.loads(game)["captcha_enabled"]})
+    except KeyError or TypeError:
+        return CheckIfCaptchaEnabledResponse(**{"enabled": True})
 
 
 @router.get("/join/{game_pin}")
