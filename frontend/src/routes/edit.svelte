@@ -30,7 +30,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
-	import { dataSchema } from '$lib/jupSchemas';
+	import { dataSchema } from '$lib/yupSchemas';
 
 	navbarVisible.set(true);
 

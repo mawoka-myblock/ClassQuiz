@@ -5,7 +5,9 @@
 		content="The roadmap for ClassQuiz, the open-source quiz-application"
 	/>
 </svelte:head>
-<article class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4">
+<article
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
+>
 	<h1>Roadmap</h1>
 
 	<ul>

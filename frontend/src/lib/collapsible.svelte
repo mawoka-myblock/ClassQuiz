@@ -4,28 +4,27 @@
 	let expanded = false;
 </script>
 
-<div class="collapsible">
-	<h3>
-		<button aria-expanded={expanded} on:click={() => (expanded = !expanded)}
+<div>
+	<h3 class="bg-white dark:bg-slate-800 m-0">
+		<button
+			aria-expanded={expanded}
+			on:click={() => (expanded = !expanded)}
+			class="bg-white dark:bg-slate-800 flex justify-between w-full border-none m-0 p-2"
 			>{headerText}
-			<svg viewBox="0 0 20 20" fill="none">
+			<svg viewBox="0 0 20 20" fill="none" class="my-auto">
 				<path class="vert" d="M10 1V19" stroke="black" stroke-width="2" />
 				<path d="M1 10L19 10" stroke="black" stroke-width="2" />
 			</svg>
 		</button>
 	</h3>
 
-	<div class="contents" class:hidden={!expanded}>
+	<div class="border-b-1 border-gray-500" class:hidden={!expanded}>
 		<slot />
 	</div>
 </div>
 
 <style>
-	.collapsible {
-		border-bottom: 1px solid var(--gray-light, #eee);
-	}
-
-	h3 {
+	/*	h3 {
 		margin: 0;
 	}
 
@@ -38,6 +37,8 @@
 		border: none;
 		margin: 0;
 		padding: 1em 0.5em;
+	}*/
+	button {
 	}
 
 	button[aria-expanded='true'] {

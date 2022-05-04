@@ -16,7 +16,9 @@
 	/>
 </svelte:head>
 
-<article class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-gray px-4">
+<article
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
+>
 	<h1>Privacy Policy</h1>
 
 	<h2>What gets stored for how long and why</h2>

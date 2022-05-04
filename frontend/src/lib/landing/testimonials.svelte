@@ -32,13 +32,15 @@ I like it and would use it for my house parties next time!`,
 						<div class="max-w-3xl p-4 text-gray-800 rounded-lg text-white">
 							<div class="mb-2">
 								<div class="h-3 text-3xl text-left text-indigo-600">“</div>
-								<p class="px-4 text-center text-gray-800 font-medium">
+								<p
+									class="px-4 text-center text-gray-800 font-medium dark:text-gray-300"
+								>
 									{@html testi.quote}
 								</p>
 								<div class="h-3 text-3xl text-right text-indigo-600">”</div>
 								<div class="text-center">
 									<h5 class="font-bold text-indigo-600">{testi.name}</h5>
-									<a class="text-sm text-gray-600" href={testi.source}>Source</a>
+									<a class="text-sm text-gray-500" href={testi.source}>Source</a>
 								</div>
 							</div>
 						</div>

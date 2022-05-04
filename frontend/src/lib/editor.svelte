@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	import * as yup from 'yup';
-	import { dataSchema } from '$lib/jupSchemas';
+	import { dataSchema } from '$lib/yupSchemas';
 
 	const { t } = getLocalization();
 
@@ -89,7 +89,7 @@
 		type="text"
 		placeholder={$t('words.title')}
 		bind:value={data.title}
-		class="text-black bg-inherit border-dotted border-b-2 border-black w-full"
+		class="text-black bg-inherit border-dotted border-b-2 border-black w-full dark:text-gray-200"
 		class:border-red-600={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
 		class:border-solid={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
 		class:border-2={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
@@ -100,7 +100,7 @@
 	<textarea
 		placeholder={$t('words.description')}
 		bind:value={data.description}
-		class="text-black w-full"
+		class="text-black w-full dark:text-gray-200 dark:bg-gray-800 rounded-lg p-1"
 		class:border-red-600={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
 		class:border-solid={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
 		class:border-2={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
@@ -116,7 +116,7 @@
 				type="text"
 				placeholder={$t('words.question')}
 				bind:value={question.question}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
 				class:border-red-600={!yup
 					.reach(dataSchema, 'questions[].question')
 					.isValidSync(question.question)}
@@ -134,7 +134,7 @@
 				type="text"
 				placeholder="https://i.imgur.com/kSPCidY.png"
 				bind:value={question.image}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
 				class:border-red-600={!yup
 					.reach(dataSchema, 'questions[].image')
 					.isValidSync(question.image)}
@@ -152,7 +152,7 @@
 				type="text"
 				placeholder="20"
 				bind:value={question.time}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
 				class:border-red-600={!yup
 					.reach(dataSchema, 'questions[].time')
 					.isValidSync(question.time)}
@@ -177,7 +177,7 @@
 						type="text"
 						placeholder={$t('words.answer')}
 						bind:value={data.questions[index_question].answers[index_answer].answer}
-						class="text-black w-full bg-inherit border-dotted border-b-2 border-black"
+						class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
 						class:border-red-600={!yup
 							.reach(dataSchema, 'questions[].answers[].answer')
 							.isValidSync(
@@ -196,7 +196,11 @@
 					/>
 				</label>
 				<label class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap">
-					<input type="checkbox" bind:checked={answer.right} class="text-black w-fit" />
+					<input
+						type="checkbox"
+						bind:checked={answer.right}
+						class="text-black w-fit dark:text-gray-200"
+					/>
 					<span class="w-fit">{$t('editor.right_or_true?')}</span>
 				</label>
 

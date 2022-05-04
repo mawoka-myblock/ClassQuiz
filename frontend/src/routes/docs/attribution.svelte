@@ -3,7 +3,7 @@
 	<meta name="description" content="People who helped make with ClassQuiz." />
 </svelte:head>
 <article
-	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate text-yellow-50 px-4"
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
 >
 	<h1>People</h1>
 	<h2>Contributors</h2>

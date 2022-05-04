@@ -5,7 +5,9 @@
 		content="How to import quizzes from KAHOOT! into ClassQuiz, the open-source quiz-application,  easily"
 	/>
 </svelte:head>
-<article class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4">
+<article
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
+>
 	<h1>Import Quizzes from Kahoot into ClassQuiz</h1>
 
 	<p>

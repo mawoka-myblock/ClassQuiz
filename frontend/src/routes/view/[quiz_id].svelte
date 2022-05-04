@@ -125,7 +125,7 @@
 					<h1 class="text-3xl m-1">{$t('words.question')} {index_question + 1}</h1>
 
 					<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->
-					<p class="text-black w-full bg-inherit">
+					<p class="text-black w-full bg-inherit text-black dark:text-gray-200">
 						{$t('words.question')}: {question.question}
 					</p>
 					<!--					</label>-->
