@@ -63,27 +63,23 @@
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">
-	<section>
+	<section class="pb-40">
 		<div class="pt-12 text-center">
 			<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>
 			<p class="text-xl mt-4">{$t('index_page.slogan')}</p>
 		</div>
 	</section>
 
-	<section id="stats">
-		<div class="text-center pt-48 snap-y">
-			<h1 class="sm:text-6xl text-4xl">{$t('words.stats')}</h1>
+	<section id="features" class="mt-8">
+		<div class="text-center snap-y">
+			<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
 			<p class="text-xl pt-4">
-				{#await getStats() then stats}
-					{$t('index_page.stats', {
-						user_count: stats.user_count,
-						quiz_count: stats.quiz_count
-					})}
-				{/await}
+				{$t('index_page.features_description.1')}
+				<br />
+				{$t('index_page.features_description.2')}
 			</p>
 		</div>
 	</section>
-
 	<section class="py-8">
 		<h1 class="sm:text-6xl text-4xl text-center">{$t('words.screenshot', { count: 2 })}</h1>
 		<div>
@@ -97,13 +93,17 @@
 			<svelte:component this={testimonials.default} />
 		{/await}
 	</section>
-	<section id="features" class="mt-8">
-		<div class="text-center snap-y">
-			<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
+
+	<section id="stats">
+		<div class="text-center pb-20 pt-10 snap-y">
+			<h1 class="sm:text-6xl text-4xl">{$t('words.stats')}</h1>
 			<p class="text-xl pt-4">
-				{$t('index_page.features_description.1')}
-				<br />
-				{$t('index_page.features_description.2')}
+				{#await getStats() then stats}
+					{$t('index_page.stats', {
+						user_count: stats.user_count,
+						quiz_count: stats.quiz_count
+					})}
+				{/await}
 			</p>
 		</div>
 	</section>

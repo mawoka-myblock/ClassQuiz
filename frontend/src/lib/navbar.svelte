@@ -5,6 +5,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
 	import 'tippy.js/dist/tippy.css';
+	import { browser } from '$app/env';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -22,6 +23,13 @@
 		closeMenu = !closeMenu;
 		menuItems = !menuItems;
 	};
+	let darkMode = false;
+	if (browser) {
+		darkMode =
+			localStorage.theme === 'dark' ||
+			(!('theme' in localStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches);
+	}
 
 	const switchDarkMode = (on: boolean): void => {
 		if (on) {
@@ -34,7 +42,7 @@
 </script>
 
 <nav
-	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-sm bg-white/60 shadow-md z-50 top-0"
+	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-50 top-0"
 >
 	<section class="w-full lg:w-max flex justify-between">
 		<a href="/" class="font-black tracking-tight text-xl text-black marck-script link-hover"
@@ -173,52 +181,55 @@
 			</li>
 		{/if}
 	</ul>
-	<div class="justify-self-end h-full flex justify-center items-center">
-		<button
-			class="dark:visible invisible"
-			on:click={() => {
-				switchDarkMode(false);
-			}}
-			use:tippy={{ content: 'Switch light mode on' }}
-		>
-			<!-- Heroicons: sun -->
-			<svg
-				class="w-6 h-6"
-				fill="none"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
+	<div
+		class="justify-self-end h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
+	>
+		{#if darkMode}
+			<button
+				on:click={() => {
+					switchDarkMode(false);
+				}}
+				use:tippy={{ content: 'Switch light mode on' }}
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-				/>
-			</svg>
-		</button>
-		<button
-			class="dark:invisible visible"
-			on:click={() => {
-				switchDarkMode(true);
-			}}
-			use:tippy={{ content: 'Switch dark mode on' }}
-		>
-			<!-- Heroicons: moon -->
-			<svg
-				class="w-6 h-6"
-				fill="none"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
+				<!-- Heroicons: sun -->
+				<svg
+					class="w-6 h-6"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+					/>
+				</svg>
+			</button>
+		{:else}
+			<button
+				on:click={() => {
+					switchDarkMode(true);
+				}}
+				use:tippy={{ content: 'Switch dark mode on' }}
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-				/>
-			</svg>
-		</button>
+				<!-- Heroicons: moon -->
+				<svg
+					class="w-6 h-6"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+					/>
+				</svg>
+			</button>
+		{/if}
 	</div>
 </nav>
