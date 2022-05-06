@@ -64,7 +64,7 @@
 					<img src={SelectMockup} class="w-4/6 align-top" alt="Select answer" />
 				</div>
 				<h1 class="text-center text-3xl marck-script lg:hidden block">
-					3: See how many were right or wrong
+					2: See what was right or wrong
 				</h1>
 				<div class="flex justify-center">
 					<img
