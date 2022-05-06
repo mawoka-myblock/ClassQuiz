@@ -5,8 +5,7 @@ from redis import Redis
 from classquiz.db import models
 from classquiz.config import settings
 from classquiz.tests import test_user_email, test_user_password
-from classquiz.tests import test_client, example_quiz, ValueStorage
-from classquiz.auth import get_user_from_username, get_user_from_id
+from classquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
 
 
 # @pytest.fixture
@@ -22,7 +21,7 @@ from classquiz.auth import get_user_from_username, get_user_from_id
 
 class TestUsers:
     @pytest.mark.asyncio
-    async def test_create_test_user(self, test_client):
+    async def test_create_test_user(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/create",
             json={"email": test_user_email, "password": test_user_password, "username": "mawoka"},
@@ -51,7 +50,7 @@ class TestUsers:
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
-    async def test_verify_email(self, test_client):
+    async def test_verify_email(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -66,7 +65,7 @@ class TestUsers:
         assert resp.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_check(self, test_client):
+    async def test_check(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -77,7 +76,7 @@ class TestUsers:
         assert resp.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_me(self, test_client):
+    async def test_me(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -90,7 +89,7 @@ class TestUsers:
         assert data["username"] == "mawoka"
 
     @pytest.mark.asyncio
-    async def test_rememberme(self, test_client):
+    async def test_rememberme(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -104,7 +103,7 @@ class TestUsers:
         assert resp.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_logout(self, test_client):
+    async def test_logout(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -120,7 +119,7 @@ class TestUsers:
         assert resp.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_password_update(self, test_client):
+    async def test_password_update(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -155,7 +154,7 @@ class TestUsers:
         assert response.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_get_session(self, test_client):
+    async def test_get_session(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -165,7 +164,7 @@ class TestUsers:
         assert resp.json()["ip_address"] == "testclient"
 
     @pytest.mark.asyncio
-    async def test_delete_session(self, test_client):
+    async def test_delete_session(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -178,7 +177,7 @@ class TestUsers:
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
-    async def test_list_sessions(self, test_client):
+    async def test_list_sessions(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -188,14 +187,14 @@ class TestUsers:
         assert len(resp.json()) >= 1
 
     @pytest.mark.asyncio
-    async def test_forgotten_password(self, test_client):
+    async def test_forgotten_password(self, test_client):  # noqa : F811
         resp = test_client.post("/api/v1/users/forgot-password", json={"email": test_user_email})
         assert resp.status_code == 200
         resp = test_client.post("/api/v1/users/forgot-password", json={"email": "ddassad@dsa.ads"})
         assert resp.status_code == 404
 
     @pytest.mark.asyncio
-    async def test_reset_password_with_token(self, test_client):
+    async def test_reset_password_with_token(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -225,7 +224,7 @@ class TestUsers:
         redis.flushdb()
 
     @pytest.mark.asyncio
-    async def test_signout_everywhere(self, test_client):
+    async def test_signout_everywhere(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -236,7 +235,7 @@ class TestUsers:
 
 class TestUtils:
     @pytest.mark.asyncio
-    async def test_get_ip_data(self, test_client):
+    async def test_get_ip_data(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -246,7 +245,7 @@ class TestUtils:
         assert resp.json()["query"] == "1.1.1.1"
 
     @pytest.mark.asyncio
-    async def test_get_qr(self, test_client):
+    async def test_get_qr(self, test_client):  # noqa : F811
         resp = test_client.get("/api/v1/utils/qr/12345678")
         assert resp.status_code == 200
         assert resp.headers["Content-Type"] == "image/svg+xml"
@@ -254,7 +253,7 @@ class TestUtils:
 
 class TestStats:
     @pytest.mark.asyncio
-    async def test_get_quiz_count(self, test_client):
+    async def test_get_quiz_count(self, test_client):  # noqa : F811
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
         for _ in range(2):
@@ -263,7 +262,7 @@ class TestStats:
             assert resp.text == str(0)
 
     @pytest.mark.asyncio
-    async def test_get_user_count(self, test_client):
+    async def test_get_user_count(self, test_client):  # noqa : F811
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
         for _ in range(2):
@@ -272,7 +271,7 @@ class TestStats:
             assert resp.text == str(1)
 
     @pytest.mark.asyncio
-    async def test_get_combined_count(self, test_client):
+    async def test_get_combined_count(self, test_client):  # noqa : F811
         redis = Redis().from_url(settings().redis)
         redis.flushdb()
         for _ in range(2):
@@ -284,7 +283,7 @@ class TestStats:
 
 class TestQuiz:
     @pytest.mark.asyncio
-    async def test_create_quiz(self, test_client):
+    async def test_create_quiz(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -298,7 +297,7 @@ class TestQuiz:
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
-    async def test_get_quiz_from_id(self, test_client):
+    async def test_get_quiz_from_id(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -311,7 +310,7 @@ class TestQuiz:
         assert resp.status_code == 404
 
     @pytest.mark.asyncio
-    async def test_list_quizzes(self, test_client):
+    async def test_list_quizzes(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -321,7 +320,7 @@ class TestQuiz:
         assert resp.json()[0]["id"] == ValueStorage.quiz_id
 
     @pytest.mark.asyncio
-    async def test_update_quiz(self, test_client):
+    async def test_update_quiz(self, test_client):  # noqa : F811
         example_quiz["public"] = True
         example_quiz["questions"][1]["image"] = "https://i.imgur.com/sSNSy77.png"
         resp = test_client.post(
@@ -352,7 +351,7 @@ class TestQuiz:
         )
 
     @pytest.mark.asyncio
-    async def test_import_quiz(self, test_client):
+    async def test_import_quiz(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -366,7 +365,7 @@ class TestQuiz:
         assert resp.text == '"quiz not found"'
 
     @pytest.mark.asyncio
-    async def test_get_public_quiz(self, test_client):
+    async def test_get_public_quiz(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -381,19 +380,19 @@ class TestQuiz:
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
-    async def test_search_get(self, test_client):
+    async def test_search_get(self, test_client):  # noqa : F811
         resp = test_client.get("/api/v1/search/?q=*")
         assert resp.status_code == 200
         assert len(resp.json()["hits"]) > 0
 
     @pytest.mark.asyncio
-    async def test_search_post(self, test_client):
+    async def test_search_post(self, test_client):  # noqa : F811
         resp = test_client.post("/api/v1/search/", json={"q": "*"})
         assert resp.status_code == 200
         assert len(resp.json()["hits"]) > 0
 
     @pytest.mark.asyncio
-    async def test_image_cdn(self, test_client):
+    async def test_image_cdn(self, test_client):  # noqa : F811
         resp = test_client.get(f"/api/v1/quiz/get/public/{ValueStorage.imported_quizzes[0]}")
         assert resp.status_code == 200
         quiz = resp.json()
@@ -406,7 +405,7 @@ class TestQuiz:
 
 class TestPlayQuiz:
     @pytest.mark.asyncio
-    async def test_start_quiz(self, test_client):
+    async def test_start_quiz(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -424,7 +423,7 @@ class TestPlayQuiz:
         ValueStorage.game_id = resp.json()["game_id"]
 
     @pytest.mark.asyncio
-    async def test_check_captcha_enabled(self, test_client):
+    async def test_check_captcha_enabled(self, test_client):  # noqa : F811
         res = test_client.get(f"/api/v1/quiz/play/check_captcha/{ValueStorage.game_pin}")
         assert res.status_code == 200
         assert res.json()["enabled"] is True
@@ -433,11 +432,11 @@ class TestPlayQuiz:
         assert res.status_code == 404
 
     @pytest.mark.asyncio
-    async def test_join_game_route(self, test_client):
+    async def test_join_game_route(self, test_client):  # noqa : F811
         res = test_client.get(f"/api/v1/quiz/join/{ValueStorage.game_pin}")
         assert res.status_code == 200
         assert res.text == f'"{ValueStorage.game_id}"'
-        res = test_client.get(f"/api/v1/quiz/join/dsadasdasdas")
+        res = test_client.get("/api/v1/quiz/join/dsadasdasdas")
         assert res.status_code == 404
 
 
@@ -461,7 +460,7 @@ class TestCache:
 
 class TestDeleteStuff:
     @pytest.mark.asyncio
-    async def test_delete_quiz(self, test_client):
+    async def test_delete_quiz(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
@@ -481,7 +480,7 @@ class TestDeleteStuff:
         assert resp.status_code == 400
 
     @pytest.mark.asyncio
-    async def test_delete_user(self, test_client):
+    async def test_delete_user(self, test_client):  # noqa : F811
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
