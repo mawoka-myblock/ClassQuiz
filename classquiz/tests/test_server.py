@@ -6,6 +6,7 @@ from classquiz.db import models
 from classquiz.config import settings
 from classquiz.tests import test_user_email, test_user_password
 from classquiz.tests import test_client, example_quiz, ValueStorage
+from classquiz.auth import get_user_from_username, get_user_from_id
 
 
 # @pytest.fixture
@@ -422,20 +423,40 @@ class TestPlayQuiz:
         ValueStorage.game_pin = resp.json()["game_pin"]
         ValueStorage.game_id = resp.json()["game_id"]
 
-    # @pytest.mark.asyncio
-    # async def test_actual_play(self, startup_and_shutdown_server):
-    #     admin_client = socketio.AsyncClient()
-    #     player1_client = socketio.AsyncClient()
-    #     player2_client = socketio.AsyncClient()
-    #     future = asyncio.get_running_loop().create_future()
-    #     time.sleep(1)
-    #     await admin_client.connect(f'http://localhost:{PORT}', socketio_path='/socket.io/')
-    #     await player1_client.connect(f'http://localhost:{PORT}', socketio_path="/socket.io")
-    #     await player2_client.connect(f'http://localhost:{PORT}', socketio_path="/socket.io")
-    #
-    #     await admin_client.disconnect()
-    #     await player1_client.disconnect()
-    #     await player2_client.disconnect()
+    @pytest.mark.asyncio
+    async def test_check_captcha_enabled(self, test_client):
+        res = test_client.get(f"/api/v1/quiz/play/check_captcha/{ValueStorage.game_pin}")
+        assert res.status_code == 200
+        assert res.json()["enabled"] is True
+
+        res = test_client.get("/api/v1/quiz/play/check_captcha/dsadsadas")
+        assert res.status_code == 404
+
+    @pytest.mark.asyncio
+    async def test_join_game_route(self, test_client):
+        res = test_client.get(f"/api/v1/quiz/join/{ValueStorage.game_pin}")
+        assert res.status_code == 200
+        assert res.text == f'"{ValueStorage.game_id}"'
+        res = test_client.get(f"/api/v1/quiz/join/dsadasdasdas")
+        assert res.status_code == 404
+
+
+"""
+class TestCache:
+    @pytest.mark.asyncio
+    async def test_cache_get_by_username(self, test_client):
+        user = await get_user_from_username("mawoka")
+        user = await get_user_from_username("mawoka")
+
+    @pytest.mark.asyncio
+    async def test_cache_get_by_id(self, test_client):
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+        resp = test_client.get("/api/v1/users/me", cookies={"access_token": token})
+        user = await get_user_from_id(resp.json()["id"])
+"""
 
 
 class TestDeleteStuff:

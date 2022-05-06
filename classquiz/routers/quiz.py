@@ -115,9 +115,9 @@ async def check_if_captcha_enabled(game_pin: str):
         return CheckIfCaptchaEnabledResponse(**{"enabled": True})
 
 
-@router.get("/join/{game_pin}")
+@router.get("/join/{game_pin}", deprecated=True)
 async def get_game_id(game_pin: str):
-    redis_res = (await redis.get(f"game:{game_pin}")).decode()
+    redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None:
         raise HTTPException(status_code=404, detail="game not found")
     else:
