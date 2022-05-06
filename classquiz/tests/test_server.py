@@ -440,6 +440,7 @@ class TestPlayQuiz:
         assert res.status_code == 404
 
 
+# skipcq: PYL-W0105
 """
 class TestCache:
     @pytest.mark.asyncio
