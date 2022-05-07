@@ -26,7 +26,7 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, with_images: bool
     worksheet.write(0, 3, "Correct answers")
     worksheet.write(0, 4, "Correct answers")
     worksheet.write(0, 5, "Wrong answers")
-    for i in range(len(quiz_results)):
+    for i, _ in enumerate(quiz_results):
         question = quiz.questions[i]
         answer_data = quiz_results[str(i)]
         worksheet.write(i + 1, 0, question["question"])
