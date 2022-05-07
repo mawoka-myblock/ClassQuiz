@@ -11,7 +11,7 @@ settings = settings()
 
 
 @sio.event
-async def join_game(sid, data):
+async def join_game(sid: str, data: dict):
     async with aiohttp.ClientSession() as session:
         redis_res = await redis.get(f"game:{data['game_pin']}")
         try:
@@ -65,14 +65,14 @@ async def join_game(sid, data):
 
 
 @sio.event
-async def start_game(sid, _data):
+async def start_game(sid: str, _data: dict):
     session = await sio.get_session(sid)
     if session["admin"]:
         await sio.emit("start_game", room=session["game_pin"])
 
 
 @sio.event
-async def register_as_admin(sid, data):
+async def register_as_admin(sid: str, data: dict):
     game_pin = data["game_pin"]
     game_id = data["game_id"]
     if (await redis.get(f"game_session:{game_pin}")) is None:
@@ -96,7 +96,7 @@ async def register_as_admin(sid, data):
 
 
 @sio.event
-async def get_question_results(sid, data):
+async def get_question_results(sid: str, data: dict):
     session = await sio.get_session(sid)
     if session["admin"]:
         redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
@@ -113,7 +113,7 @@ async def set_question_number(sid, data):
 
 
 @sio.event
-async def submit_answer(sid, data):
+async def submit_answer(sid: str, data: dict):
     session = await sio.get_session(sid)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     answer_right = False
@@ -155,7 +155,7 @@ async def submit_answer(sid, data):
 
 
 @sio.event
-async def get_final_results(sid, _data):
+async def get_final_results(sid: str, _data: dict):
     session = await sio.get_session(sid)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     results = {}
