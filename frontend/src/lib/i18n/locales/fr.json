@@ -100,7 +100,7 @@
         "delete_question": "Supprimer la question",
         "delete_answer": "Supprimer la réponse",
         "right_or_true?": "Vrai?",
-        "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur!"
+        "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur !"
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
@@ -110,7 +110,9 @@
         "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
         "start_game": "Commencer le jeu",
         "time_left": "Temps restant",
-        "get_results": "Obtenir les résultats"
+        "get_results": "Obtenir les résultats",
+        "get_results_and_stop_time": "Obtenir les résultats et arrêter le chrono",
+        "get_final_results": "Obtenir les résultats finaux"
     },
     "password_reset_page": {
         "reset_password": "Réinitialiser le mot de passe"
@@ -119,7 +121,7 @@
         "old_password": "Ancien mot de passe",
         "new_password": "Nouveau mot de passe",
         "repeat_password": "Répéter le mot de passe",
-        "change_password_submit": "Changer le mot de passe!",
+        "change_password_submit": "Changer le mot de passe !",
         "last_seen": "Dernière consultation",
         "check_location": "Vérifier la localisation",
         "delete_this_session": "Supprimer cette session",
