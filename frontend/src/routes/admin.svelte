@@ -61,6 +61,8 @@
 	let success = false;
 	let selected_question = -1;
 	let timer_res: string;
+	let dataexport_download_a;
+	let warnToLeave = true;
 
 	$: console.log(timer_res);
 
@@ -145,6 +147,12 @@
 		}
 		question_results = data;
 	});
+	socket.on('export_token', (data) => {
+		warnToLeave = false;
+		dataexport_download_a.href = `/api/v1/quiz/export_data/${data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;
+		dataexport_download_a.click();
+		warnToLeave = true;
+	});
 
 	const get_final_results = () => {
 		socket.emit('get_final_results', {});
@@ -172,8 +180,10 @@
 		}, 1000);
 	};
 	const confirmUnload = () => {
-		event.preventDefault();
-		event.returnValue = '';
+		if (warnToLeave) {
+			event.preventDefault();
+			event.returnValue = '';
+		}
 	};
 
 	const get_question_title = (q_number: number): string => {
@@ -185,6 +195,9 @@
 		} catch (e) {
 			return '';
 		}
+	};
+	const request_answer_export = async () => {
+		await socket.emit('get_export_token');
 	};
 </script>
 
@@ -271,7 +284,14 @@
 	{/if}
 {/if}
 {#if JSON.stringify(final_results) !== JSON.stringify([null])}
+	<button on:click={request_answer_export}>{$t('admin_page.export_results')}</button>
 	{#await import('$lib/play/end.svelte') then c}
 		<svelte:component this={c.default} bind:final_results bind:quiz_data />
 	{/await}
 {/if}
+<a
+	on:click|preventDefault={request_answer_export}
+	href="#"
+	bind:this={dataexport_download_a}
+	class="absolute -top-3/4 -left-3/4 opacity-0">Download</a
+>

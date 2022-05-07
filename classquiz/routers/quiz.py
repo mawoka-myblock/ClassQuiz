@@ -3,9 +3,9 @@ import re
 import uuid
 from datetime import datetime
 from random import randint
-from classquiz.helpers import get_meili_data
+from classquiz.helpers import get_meili_data, generate_spreadsheet
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
 import bleach
 
@@ -196,3 +196,29 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
         await storage.delete(pics_to_delete)
     meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
     return await quiz.delete()
+
+
+@router.get("/export_data/{export_token}", response_class=StreamingResponse)
+async def export_quiz_answers(export_token: str, game_pin: str):
+    data = await redis.get(f"export_token:{export_token}")
+    if data is None:
+        raise HTTPException(status_code=404, detail="export token not found")
+    data = json.loads(data)
+    game_data = PlayGame(**json.loads(await redis.get(f"game:{game_pin}")))
+    print(data)
+    quiz = await Quiz.objects.get_or_none(id=game_data.quiz_id)
+    print(quiz)
+    if quiz is None:
+        raise HTTPException(status_code=404, detail="quiz not found")
+    spreadsheet = await generate_spreadsheet(quiz=quiz, quiz_results=data)
+    print(len(spreadsheet.getvalue()))
+
+    def iter_file():
+        yield from spreadsheet
+
+    await redis.delete(f"export_token:{export_token}")
+    return StreamingResponse(
+        iter_file(),
+        media_type="application/vnd.ms-excel",
+        headers={"Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title}.xlsx"},
+    )

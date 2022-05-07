@@ -113,7 +113,8 @@
         "time_left": "Time left",
         "get_results": "Get results",
         "get_results_and_stop_time": "Get results and stop time",
-        "get_final_results": "Get final results"
+        "get_final_results": "Get final results",
+        "export_results": "Export results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"

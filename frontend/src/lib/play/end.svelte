@@ -66,9 +66,8 @@
 		{#if winners_arr.length >= 3}
 			<div>
 				<p class="text-xl text-center">
-					3nd Place: <span class="underline">{winners_arr[3]}</span><span
-						>With {winners[winners_arr[3]]}</span
-					>
+					3rd Place: <span class="underline">{winners_arr[2]}</span>
+					<span>with {winners[winners_arr[2]]} out of {quiz_data.questions.length}</span>
 				</p>
 			</div>
 		{/if}

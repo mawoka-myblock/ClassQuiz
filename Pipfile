@@ -25,6 +25,8 @@ aiofiles = "*"
 meilisearch = "*"
 bleach = "*"
 bidict = "*"
+xlsxwriter = "*"
+pillow = "*"
 
 [dev-packages]
 coverage = "*"

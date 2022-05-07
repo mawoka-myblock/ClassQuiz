@@ -1,4 +1,5 @@
 import json
+import os
 
 import aiohttp
 import socketio
@@ -8,6 +9,17 @@ from classquiz.db.models import PlayGame
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
+
+
+async def generate_final_results(game_data: PlayGame, game_pin: str) -> dict:
+    results = {}
+    for i in range(len(game_data.questions)):
+        redis_res = await redis.get(f"game_session:{game_pin}:{i}")
+        if redis_res is None:
+            break
+        else:
+            results[str(i)] = json.loads(redis_res)
+    return results
 
 
 @sio.event
@@ -156,15 +168,24 @@ async def submit_answer(sid: str, data: dict):
 
 @sio.event
 async def get_final_results(sid: str, _data: dict):
-    session = await sio.get_session(sid)
+    session: dict = await sio.get_session(sid)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     results = {}
     if not session["admin"]:
         return
-    for i in range(len(game_data.questions)):
-        redis_res = await redis.get(f"game_session:{session['game_pin']}:{i}")
-        if redis_res is None:
-            break
-        else:
-            results[str(i)] = json.loads(redis_res)
+    results = await generate_final_results(game_data, session["game_pin"])
     await sio.emit("final_results", results, room=session["game_pin"])
+
+
+@sio.event
+async def get_export_token(sid):
+    session = await sio.get_session(sid)
+    print("generating export token")
+    if not session["admin"]:
+        return
+    game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
+    results = await generate_final_results(game_data, session["game_pin"])
+    token = os.urandom(32).hex()
+    await redis.set(f"export_token:{token}", json.dumps(results))
+    print("generated export token", token)
+    await sio.emit("export_token", token, room=sid)
