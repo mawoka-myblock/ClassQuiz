@@ -8,7 +8,8 @@
             "1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
             "2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
         },
-        "slogan": "Die open-source Quiz-Platform!"
+        "slogan": "Die open-source Quiz-Platform!",
+        "stats": "Es gibt jetzt schon {{user_count}} Benutzer und {{quiz_count}} Qzuiizes auf ClassQuiz."
     },
     "overview_page": {
         "created_at": "Erstellt am",
@@ -115,7 +116,8 @@
         "time_left": "Zeit übrig",
         "get_results": "Ergebnisse abfragen",
         "get_results_and_stop_time": "Ergebnisse abrufen und Zeit stoppen",
-        "get_final_results": "Finale Ergebnisse abrufen"
+        "get_final_results": "Finale Ergebnisse abrufen",
+        "export_results": "Ergebnisse exportieren"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
