@@ -205,13 +205,10 @@ async def export_quiz_answers(export_token: str, game_pin: str):
         raise HTTPException(status_code=404, detail="export token not found")
     data = json.loads(data)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{game_pin}")))
-    print(data)
     quiz = await Quiz.objects.get_or_none(id=game_data.quiz_id)
-    print(quiz)
     if quiz is None:
         raise HTTPException(status_code=404, detail="quiz not found")
     spreadsheet = await generate_spreadsheet(quiz=quiz, quiz_results=data)
-    print(len(spreadsheet.getvalue()))
 
     def iter_file():
         yield from spreadsheet

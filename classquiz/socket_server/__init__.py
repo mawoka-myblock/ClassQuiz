@@ -180,12 +180,10 @@ async def get_final_results(sid: str, _data: dict):
 @sio.event
 async def get_export_token(sid):
     session = await sio.get_session(sid)
-    print("generating export token")
     if not session["admin"]:
         return
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     results = await generate_final_results(game_data, session["game_pin"])
     token = os.urandom(32).hex()
     await redis.set(f"export_token:{token}", json.dumps(results))
-    print("generated export token", token)
     await sio.emit("export_token", token, room=sid)
