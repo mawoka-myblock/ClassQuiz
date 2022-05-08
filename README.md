@@ -28,7 +28,9 @@
 ## About ClassQuiz
 
 ClassQuiz is a quiz-application like KAHOOT!, but open-source which is very important if it is a product for educational
-purposes. You can create quizzes and play them remotely with other people. It is mainly made for teachers, who create a
+purposes.
+You can create quizzes and play them remotely with other people.
+It is mainly made for teachers, who create a
 quiz, so students can compete with their knowledge against each other.
 
 ## Try it
@@ -36,6 +38,11 @@ quiz, so students can compete with their knowledge against each other.
 There is a hosted version at [classquiz.de](https://classquiz.de?utm_medium=Github&utm_source=Readme). The server is
 located in Karlsruhe, Germany and hosted by [netcup](https://mawoka.eu/redir?token=2), so expect some latency depending
 on your location.
+
+## Donating
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K3CK3ES)
+
+<a href="https://liberapay.com/Mawoka/donate"><img src="https://img.shields.io/liberapay/goal/Mawoka.svg?logo=liberapay"></a>
 
 ## Self-Host
 
