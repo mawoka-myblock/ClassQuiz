@@ -1,13 +1,82 @@
 {
     "index_page": {
-        "slogan": "Açık kaynak quiz platformu!"
+        "slogan": "Açık kaynak quiz platformu!",
+        "features_description": {
+            "1": "ClassQuiz quiz oluşturmanıza ve yönetmenize olanak sağlayan bir quiz platformudur.",
+            "2": "Ana özelliği KAHOOT! quizlerinden quizleri içe aktarmanıza olanak tanıyan bir KAHOOT!-içe aktarma fonksiyonudur."
+        },
+        "meta": {
+            "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için KAHOOT!'a benzer bir quiz uygulamasıdır",
+            "title": "Ana Sayfa"
+        },
+        "stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır."
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
-        "login_or_create_account": "Giriş yap veya bir hesap oluştur"
+        "login_or_create_account": "Giriş yap veya bir hesap oluştur",
+        "modal": {
+            "success": {
+                "description": {
+                    "success": "Başarıyla giriş yapıldı!",
+                    "success_check_mail": "Giriş yapmak için tıklayabileceğiniz bir bağlantı içeren bir e-posta almış olmanız gerektiğinden, lütfen posta kutunuzu kontrol edin."
+                },
+                "success": "Giriş Başarılı!",
+                "success_check_mail": "Giriş Başarılı! Posta kutunuzu kontrol edin!"
+            },
+            "error": {
+                "unexpected": "Beklenmedik hata!",
+                "wrong_creds": "Yanlış e-posta veya şifre!",
+                "description": {
+                    "unexpected": "Burada güvenilir beklenmedik hata vardı!",
+                    "wrong_creds": "Lütfen şifrenizin ve e-postanızın doğru olduğundan emin olun!"
+                }
+            }
+        },
+        "welcome_back": "Tekrar hoş geldiniz!"
     },
     "words": {
         "answer": "Cevap",
-        "question": "Soru"
+        "question": "Soru",
+        "browser": "Tarayıcı",
+        "login": "Giriş Yap",
+        "email": "E-posta",
+        "username": "Kullanıcı adı",
+        "password": "Şifre",
+        "title": "Başlık",
+        "url": "URL",
+        "submit": "Gönder",
+        "connect": "Bağlan",
+        "pin": "PIN",
+        "register": "Kaydol",
+        "edit": "Düzenle",
+        "delete": "Sil",
+        "public": "Herkese açık",
+        "start": "Başlat",
+        "create": "Oluştur",
+        "import": "İçe Aktar",
+        "logout": "Çıkış Yap",
+        "stats": "İstatistikler",
+        "features": "Özellikler",
+        "play": "Oyna"
+    },
+    "register_page": {
+        "create_account": "Hesap oluştur",
+        "forgot_password?": "Şifreni mi unuttun?",
+        "already_have_account?": "Halihazırda bir hesabın var mı?",
+        "greeting": "Tanıştığımıza memnun oldum!"
+    },
+    "create_page": {
+        "success": {
+            "title": "Başarıyla quiz oluşturuldu!",
+            "body": "Quiz başarıyla oluşturuldu!"
+        }
+    },
+    "edit_page": {
+        "success_update_body": "Quiz başarıyla güncellendi!",
+        "success_update_title": "Başarıyla quiz güncellendi!"
+    },
+    "overview_page": {
+        "question_count": "Soru sayısı",
+        "created_at": "Oluşturulduğu tarih:"
     }
 }
