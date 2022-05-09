@@ -1,1 +1,13 @@
-{}
+{
+    "index_page": {
+        "slogan": "Açık kaynak quiz platformu!"
+    },
+    "login_page": {
+        "already_have_account": "Bir hesabınız yok mu?",
+        "login_or_create_account": "Giriş yap veya bir hesap oluştur"
+    },
+    "words": {
+        "answer": "Cevap",
+        "question": "Soru"
+    }
+}
