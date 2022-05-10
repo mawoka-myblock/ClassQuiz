@@ -57,7 +57,22 @@
         "logout": "Çıkış Yap",
         "stats": "İstatistikler",
         "features": "Özellikler",
-        "play": "Oyna"
+        "play": "Oyna",
+        "kick": "Çıkar",
+        "docs": "Dokümanlar",
+        "close": "Kapat",
+        "save": "Kaydet",
+        "description": "Açıklama",
+        "view": "Gör",
+        "overview": "Özet",
+        "explore": "Keşfet",
+        "search": "Ara",
+        "screenshot": "Ekran Görüntüsü",
+        "screenshot_plural": "Ekran Görüntüleri",
+        "image": "Resim",
+        "settings": "Ayarlar",
+        "repeat_password": "Şifreyi tekrarla",
+        "report": "Bildir"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -78,5 +93,46 @@
     "overview_page": {
         "question_count": "Soru sayısı",
         "created_at": "Oluşturulduğu tarih:"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Bu oyun için halihazırda kaydolmuş bir yönetici var.",
+        "get_results": "Sonuçları al",
+        "get_results_and_stop_time": "Sonuçları al ve zamanı durdur",
+        "get_final_results": "Son sonuçları al",
+        "start_game": "Oyunu başlat",
+        "time_left": "Kalan süre",
+        "export_results": "Sonuçları dışa aktar"
+    },
+    "editor": {
+        "time_in_seconds": "Saniye cinsinden zaman",
+        "right_or_true?": "Doğru mu?",
+        "not_all_links_imgur_links": "Bağlantıların hepsi Imgur bağlantıları değil!",
+        "delete_question": "Soruyu sil",
+        "delete_answer": "Cevabı sil",
+        "add_new_answer": "Yeni cevap ekle",
+        "add_new_question": "Yeni soru ekle"
+    },
+    "import_page": {
+        "visit_docs": "Dokümantasyonu ziyaret edin",
+        "need_help": "Yardıma mı ihtiyacınız var?"
+    },
+    "password_reset_page": {
+        "reset_password": "Şifreyi sıfırla"
+    },
+    "settings_page": {
+        "new_password": "Yeni şifre",
+        "this_session?": "Bu oturum mu?",
+        "check_location": "Konumu kontrol et",
+        "repeat_password": "Şifreyi tekrarla",
+        "change_password_submit": "Şifreyi değiştir!",
+        "last_seen": "Son görüldüğü tarih",
+        "delete_this_session": "Bu oturumu sil",
+        "old_password": "Eski şifre"
+    },
+    "explore_page": {
+        "made_by": "Oluşturan:"
+    },
+    "search_page": {
+        "at_least_3_characters": "En az 3 karakter gir..."
     }
 }
