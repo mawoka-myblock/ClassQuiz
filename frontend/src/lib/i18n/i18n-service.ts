@@ -3,6 +3,7 @@ import translations from './translations';
 import en from './locales/en.json';
 import de from './locales/de.json';
 import fr from './locales/fr.json';
+import tr from './locales/tr.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import type { i18n, Resource } from 'i18next';
@@ -48,6 +49,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('en', 'translation', en);
 		this.i18n.addResourceBundle('de', 'translation', de);
 		this.i18n.addResourceBundle('fr', 'translation', fr);
+		this.i18n.addResourceBundle('tr', 'translation', tr);
 	}
 
 	changeLanguage(language: string): void {
