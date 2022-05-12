@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
-    sentry_dsn: str | None = "https://4981de1f72f24fd7b5e21b8913b93a02@o661934.ingest.sentry.io/6254641"
+    sentry_dsn: str | None
     meilisearch_url: str
     meilisearch_index: str = "classquiz"
 
