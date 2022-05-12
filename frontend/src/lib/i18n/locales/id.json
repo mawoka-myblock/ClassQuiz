@@ -1,1 +1,69 @@
-{}
+{
+    "index_page": {
+        "meta": {
+            "title": "Beranda"
+        },
+        "features_description": {
+            "2": "Fitur utamanya adalah fungsi impor KAHOOT! yang memungkinkan kamu untuk mengimpor kuis dari kuis KAHOOT!.",
+            "1": "ClassQuiz adalah platform kuis yang memungkinkan kamu untuk membuat dan mengelola kuis."
+        },
+        "slogan": "Platform kuis sumber-terbuka!",
+        "stats": "Sudah ada {{user_count}} pengguna dan {{quiz_count}} kuis di ClassQuiz."
+    },
+    "overview_page": {
+        "question_count": "Jumlah pertanyaan"
+    },
+    "edit_page": {
+        "success_update_title": "Berhasil memperbarui kuis!",
+        "success_update_body": "Kuis berhasil diperbarui!"
+    },
+    "create_page": {
+        "success": {
+            "title": "Berhasil membuat kuis!",
+            "body": "Kuis berhasil dibuat!"
+        }
+    },
+    "register_page": {
+        "greeting": "Senang bertemu denganmu!",
+        "create_account": "Buat akun",
+        "forgot_password?": "Lupa kata sandi?",
+        "already_have_account?": "Sudah punya akun?"
+    },
+    "login_page": {
+        "welcome_back": "Selamat datang kembali!",
+        "already_have_account": "Tidak punya akun?",
+        "modal": {
+            "success": {
+                "success": "Berhasil Masuk!",
+                "description": {
+                    "success": "Berhasil masuk!"
+                }
+            },
+            "error": {
+                "wrong_creds": "Surel atau kata sandi tidak tepat!",
+                "unexpected": "Kesalahan tak terduga!",
+                "description": {
+                    "wrong_creds": "Harap pastikan kata sandimu dan surelmu benar!"
+                }
+            }
+        },
+        "login_or_create_account": "Masuk atau buat akun"
+    },
+    "words": {
+        "question": "Pertanyaan",
+        "answer": "Jawaban",
+        "login": "Masuk",
+        "email": "Surel",
+        "username": "Nama pengguna",
+        "password": "Kata sandi",
+        "edit": "Sunting",
+        "delete": "Hapus",
+        "public": "Publik",
+        "start": "Mulai",
+        "create": "Buat",
+        "import": "Impor",
+        "logout": "Keluar",
+        "title": "Judul",
+        "url": "URL"
+    }
+}
