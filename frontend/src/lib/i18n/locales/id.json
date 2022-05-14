@@ -64,6 +64,47 @@
         "import": "Impor",
         "logout": "Keluar",
         "title": "Judul",
-        "url": "URL"
+        "url": "URL",
+        "image": "Gambar",
+        "settings": "Pengaturan",
+        "repeat_password": "Ulangi kata sandi",
+        "explore": "Jelajahi",
+        "search": "Cari",
+        "browser": "Peramban",
+        "view": "Lihat",
+        "pin": "PIN",
+        "kick": "Tendang",
+        "register": "Daftar",
+        "save": "Simpan",
+        "docs": "Dokumentasi",
+        "close": "Tutup",
+        "description": "Keterangan"
+    },
+    "editor": {
+        "right_or_true?": "Benar?",
+        "add_new_answer": "Tambahkan jawaban",
+        "add_new_question": "Tambahkan pertanyaan",
+        "delete_question": "Hapus pertanyaan",
+        "delete_answer": "Hapus jawaban",
+        "time_in_seconds": "Waktu dalam detik"
+    },
+    "import_page": {
+        "need_help": "Butuh bantuan?",
+        "visit_docs": "Lihat dokumentasi"
+    },
+    "admin_page": {
+        "start_game": "Mulai permainan",
+        "get_results": "Terima hasil",
+        "get_results_and_stop_time": "Terima hasil dan hentikan waktu",
+        "get_final_results": "Terima hasil akhir",
+        "export_results": "Ekspor hasil",
+        "time_left": "Waktu tersisa"
+    },
+    "settings_page": {
+        "old_password": "Kata sandi lama",
+        "new_password": "Kata sandi baru",
+        "change_password_submit": "Ubah kata sandi!",
+        "last_seen": "Terakhir terlihat",
+        "repeat_password": "Ulangi kata sandi"
     }
 }
