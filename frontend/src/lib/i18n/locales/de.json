@@ -9,7 +9,7 @@
             "2": "Das Hauptfeature ist die KAHOOT!-Importfunktion, mit der man Quizzes von KAHOOT! importieren kann."
         },
         "slogan": "Die open-source Quiz-Platform!",
-        "stats": "Es gibt jetzt schon {{user_count}} Benutzer und {{quiz_count}} Qzuiizes auf ClassQuiz."
+        "stats": "Es gibt jetzt schon {{user_count}} Benutzer und {{quiz_count}} Quizzes auf ClassQuiz."
     },
     "overview_page": {
         "created_at": "Erstellt am",
