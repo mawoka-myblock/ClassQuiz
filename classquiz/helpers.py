@@ -15,7 +15,7 @@ async def get_meili_data(quiz: Quiz) -> dict:
     }
 
 
-async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, with_images: bool = True) -> BytesIO:
+async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
     storage = BytesIO()
     workbook = xlsxwriter.Workbook(storage, {"in_memory": True})
     worksheet = workbook.add_worksheet()
