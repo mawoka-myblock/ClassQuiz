@@ -34,7 +34,6 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
 
         try:
             async with ClientSession() as session, session.get(question["image"]) as response:
-                print("OK!!!!")
                 img_data = BytesIO(await response.read())
                 worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
                 image = Image.open(img_data)

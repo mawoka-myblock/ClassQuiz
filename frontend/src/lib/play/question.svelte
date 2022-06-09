@@ -28,7 +28,6 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
-	console.log(selected_answer);
 
 	timer(question.time);
 

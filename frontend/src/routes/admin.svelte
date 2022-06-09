@@ -64,8 +64,6 @@
 	let dataexport_download_a;
 	let warnToLeave = true;
 
-	$: console.log(timer_res);
-
 	let shown_question_now: number;
 	const connect = () => {
 		socket.emit('register_as_admin', {
@@ -77,11 +75,8 @@
 		connect();
 	}
 	socket.on('registered_as_admin', (data) => {
-		console.log('registered_as_admin', data['game']);
 		quiz_data = JSON.parse(data['game']);
 		console.log(quiz_data);
-		console.log(quiz_data.questions[0].question);
-		console.log(quiz_data.questions);
 		success = true;
 	});
 	socket.on('player_joined', (data) => {
@@ -160,7 +155,6 @@
 
 	socket.on('final_results', (data) => {
 		// data = JSON.parse(data);
-		console.log(data);
 		final_results = data;
 
 		console.log(getWinnersSorted());

@@ -63,7 +63,6 @@
 	}
 
 	const startGame = async (id: string): Promise<void> => {
-		console.log('start game', id);
 		let res;
 		if (window.confirm('Do you want to enable the captcha for players?')) {
 			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=True`, {

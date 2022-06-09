@@ -8,13 +8,10 @@
 
 	const question = game_data.questions[parseInt(question_index)].answers;
 	for (let i = 0; i < question.length; i++) {
-		console.log(question[i].answer, 'HI!!!');
 		data_store[question[i].answer] = 0;
 	}
-	console.log(data_store);
 
 	for (let i = 0; i < results.length; i++) {
-		console.log(results[i].answer);
 		data_store[results[i].answer] += 1;
 	}
 
