@@ -31,13 +31,17 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, with_images: bool
         answer_data = quiz_results[str(i)]
         worksheet.write(i + 1, 0, question["question"])
         worksheet.write(i + 1, 1, question["time"])
-        if with_images and question["image"] != "" or question["image"] is not None:
+
+        try:
             async with ClientSession() as session, session.get(question["image"]) as response:
+                print("OK!!!!")
                 img_data = BytesIO(await response.read())
                 worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
                 image = Image.open(img_data)
                 worksheet.set_row(i + 1, image.height)
                 worksheet.set_column(2, 2, image.width)
+        except TypeError:
+            pass
         answer_amount = len(answer_data)
         correct_answers = 0
         wrong_answers = 0
