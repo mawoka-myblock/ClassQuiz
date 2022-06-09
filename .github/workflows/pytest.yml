@@ -37,7 +37,7 @@ jobs:
         run: |
           # Install deepsource CLI
                curl https://deepsource.io/cli | sh
-          
+
           # From the root directory, run the report coverage command
                ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
 

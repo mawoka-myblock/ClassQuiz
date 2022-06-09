@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import '$lib/hljs.css';
 
@@ -11,12 +11,12 @@
 <svelte:head>
 	<title>ClassQuiz/docs - Self-Host</title>
 	<meta
-		name='description'
-		content='How to self-host ClassQuiz, the open-source quiz-application'
+		name="description"
+		content="How to self-host ClassQuiz, the open-source quiz-application"
 	/>
 </svelte:head>
 <article
-	class='prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert'
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
 >
 	<h1>Self-Hosting</h1>
 	<p>Since ClassQuiz is open-source, it can also be self-hosted.</p>
@@ -30,35 +30,35 @@
 	<h2>Requirements</h2>
 	<h3>Software</h3>
 	<ul>
-		<li><a href='https://docker.com'>Docker</a></li>
-		<li><a href='https://git-scm.com/'>Git</a></li>
+		<li><a href="https://docker.com">Docker</a></li>
+		<li><a href="https://git-scm.com/">Git</a></li>
 		<li>
-			A <a href='https://redis.com'>Redis</a>-Server
+			A <a href="https://redis.com">Redis</a>-Server
 		</li>
 	</ul>
 	<h3>3rd-Parties</h3>
 	<h4>Required</h4>
 	<ul>
-		<li><a href='https://hcaptcha.com'>hCaptcha (Captcha)</a></li>
-		<li><a href='https://www.mapbox.com/'>Mapbox (Maps)</a></li>
+		<li><a href="https://hcaptcha.com">hCaptcha (Captcha)</a></li>
+		<li><a href="https://www.mapbox.com/">Mapbox (Maps)</a></li>
 	</ul>
 	<h4>Optional</h4>
 	<ul>
-		<li><a href='https://sentry.io'>Sentry (Error-Logging)</a></li>
+		<li><a href="https://sentry.io">Sentry (Error-Logging)</a></li>
 	</ul>
 
 	<h2>Installation</h2>
 	<p>At first, clone the repo:</p>
 
-	<pre><code class='language-bash'
-	>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
-	></pre>
+	<pre><code class="language-bash"
+			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
+		></pre>
 	<p>
 		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you want Sentry,
-		set a valid Sentry-DSN. Note: The problem is that the frontend-container tries to connect to Redis during the
-		build-process. For that, you'll need to provide an available Redis-Instance. For that, I would recommend
-		Upstash, because you get a free Redis-Instance which is available over the internet. This instance won't be used
-		at runtime.
+		set a valid Sentry-DSN. Note: The problem is that the frontend-container tries to connect to
+		Redis during the build-process. For that, you'll need to provide an available Redis-Instance.
+		For that, I would recommend Upstash, because you get a free Redis-Instance which is available
+		over the internet. This instance won't be used at runtime.
 	</p>
 	<p>
 		You must set a valid hCaptcha-Sitekey in the <code>frontend/Dockerfile</code>.
@@ -77,11 +77,10 @@
 	<h3>Storage Provider</h3>
 	<p>
 		You'll have to set up a storage provider for some pictures (these getting imported from
-		KAHOOT!). For now, you can use <a href='https://deta.sh'>Deta</a> or the local filesystem.
-		Please note that I would <b>NOT</b> use the local file system because of <a
-		href='https://wiki.owasp.org/index.php/Path_Traversal'>Path Traversals</a>. I tried to prevent these attacks,
-		but I really wouldn't trust it. You'll have
-		to set the
+		KAHOOT!). For now, you can use <a href="https://deta.sh">Deta</a> or the local filesystem.
+		Please note that I would <b>NOT</b> use the local file system because of
+		<a href="https://wiki.owasp.org/index.php/Path_Traversal">Path Traversals</a>. I tried to
+		prevent these attacks, but I really wouldn't trust it. You'll have to set the
 		<code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or
 		<code>local</code>.
 	</p>
@@ -99,8 +98,8 @@
 		Before you can start your stack, you have to set some environment-variables in your
 		<code>docker-compose.yml</code>.
 	</p>
-	<pre><code class='language-yaml'
-	>version: "3"
+	<pre><code class="language-yaml"
+			>version: "3"
 
 services:
   frontend:
@@ -184,7 +183,10 @@ volumes:
   data:
   meilisearch-data:
 	</code></pre>
-	<p>Run the following command to generate and set the secret up automatically</p><pre><code class='language-bash'>sed -i "s/TOP_SECRET/$(openssl rand -hex 32)/g" docker-compose.yml</code></pre>
+	<p>Run the following command to generate and set the secret up automatically</p>
+	<pre><code class="language-bash"
+			>sed -i "s/TOP_SECRET/$(openssl rand -hex 32)/g" docker-compose.yml</code
+		></pre>
 	<p>Now build and deploy:</p>
 	<pre><code>docker compose build && docker compose up -d</code></pre>
 	<p>You'll have to create an index in Meilisearch with the following command:</p>

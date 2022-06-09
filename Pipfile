@@ -36,6 +36,7 @@ flake8 = "*"
 black = "*"
 pytest-dependency = "*"
 pytest-order = "*"
+pre-commit = "*"
 
 [requires]
 python_version = "3.10"

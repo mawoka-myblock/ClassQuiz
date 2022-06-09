@@ -12,4 +12,3 @@ A clear and concise description of the improvement you're asking for.
 Add any other context about the problem here.
 
 Thanks for contributing to ClassQuiz!
-

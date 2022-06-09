@@ -15,4 +15,3 @@ If applicable, add screenshots to help explain your feature.
 Add any other context about the problem here.
 
 Thanks for contributing to ClassQuiz!
-
