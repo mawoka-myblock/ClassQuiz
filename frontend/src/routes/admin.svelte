@@ -142,7 +142,7 @@
 		try {
 			data = JSON.parse(data);
 		} catch (e) {
-			console.log('Failed to parse question results');
+			console.error('Failed to parse question results');
 			return;
 		}
 		question_results = data;
@@ -232,6 +232,7 @@
 	</ul>
 	{#if players.length > 0}
 		<button
+			id="startGame"
 			on:click={() => {
 				socket.emit('start_game', '');
 				game_started = true;
@@ -248,7 +249,9 @@
 	<br />
 	{#if timer_res === '0'}
 		{#if question_results === null}
-			<button on:click={get_question_results}>{$t('admin_page.get_results')}</button>
+			<button on:click={get_question_results} id="GetQuestionResults"
+				>{$t('admin_page.get_results')}</button
+			>
 			<br />
 		{:else}
 			<br />
@@ -259,7 +262,8 @@
 			</ul>
 		{/if}
 	{:else if timer_res !== undefined}
-		<button on:click={get_question_results}>{$t('admin_page.get_results_and_stop_time')}</button
+		<button on:click={get_question_results} id="GetQuestionResultsAndStopTime"
+			>{$t('admin_page.get_results_and_stop_time')}</button
 		>
 	{/if}
 	<br />
@@ -274,6 +278,7 @@
 	{#if get_question_title(selected_question + 1) !== ''}
 		<button
 			disabled={!(timer_res === undefined || timer_res === '0')}
+			id="SetQuestionNumber"
 			on:click={() => {
 				set_question_number(selected_question + 1);
 			}}>{selected_question + 1}: {get_question_title(selected_question + 1)}</button
