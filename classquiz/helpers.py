@@ -59,7 +59,7 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
         ws.write(0, 0, "Answer")
         ws.write(0, 1, "Correct")
         ws.write(0, 2, "Username")
-        for j in range(len(answer_data)):
+        for j, _ in enumerate(answer_data):
             ws.write(j + 1, 0, answer_data[j]["answer"])
             if answer_data[j]["right"]:
                 ws.write(j + 1, 1, "True")
