@@ -62,6 +62,7 @@
 		if (res.status !== 200) {
 			alert('Failed to start game!');
 			console.error(`Failed to start game, ${await res.text()}`);
+			window.location.replace('/account/login?returnTo=/overview');
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
