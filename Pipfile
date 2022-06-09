@@ -26,7 +26,7 @@ meilisearch = "*"
 bleach = "*"
 bidict = "*"
 xlsxwriter = "*"
-pillow = "*"
+pillow = ">=9.1.1"
 
 [dev-packages]
 coverage = "*"
