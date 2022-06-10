@@ -55,17 +55,15 @@
 		></pre>
 	<p>
 		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you want Sentry,
-		set a valid Sentry-DSN. Note: The problem is that the frontend-container tries to connect to
-		Redis during the build-process. For that, you'll need to provide an available Redis-Instance.
-		For that, I would recommend Upstash, because you get a free Redis-Instance which is available
-		over the internet. This instance won't be used at runtime.
+		set a valid Sentry-DSN.
 	</p>
 	<p>
 		You must set a valid hCaptcha-Sitekey in the <code>frontend/Dockerfile</code>.
 	</p>
 	<p>
 		You'll also have to provide a valid <code>VITE_MAPBOX_ACCESS_TOKEN</code> in
-		<code>frontend/Dockerfile</code>. The provided token only works on the following urls:
+		<code>frontend/Dockerfile</code>, if you don't run ClassQuiz under one of the following
+		domains:
 	</p>
 	<ul>
 		<li><code>classquiz.mawoka.eu</code></li>
@@ -80,7 +78,8 @@
 		KAHOOT!). For now, you can use <a href="https://deta.sh">Deta</a> or the local filesystem.
 		Please note that I would <b>NOT</b> use the local file system because of
 		<a href="https://wiki.owasp.org/index.php/Path_Traversal">Path Traversals</a>. I tried to
-		prevent these attacks, but I really wouldn't trust it. You'll have to set the
+		prevent these attacks, but I really wouldn't trust it, because it's a regex! You'll have to
+		set the
 		<code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or
 		<code>local</code>.
 	</p>
