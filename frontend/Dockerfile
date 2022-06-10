@@ -3,7 +3,7 @@
 FROM node:17.8-bullseye as builder
 # ENV API_URL=http://api:80
 ENV API_URL=https://mawoka.eu
-#ENV REDIS_URL=rediss://red-cahmuvjru51oehk07dgg:WTYwEKUavJmUamj0OgB7QqACKMKNXrDY@frankfurt-redis.render.com:6379
+#Ah, I've noticed that!!!
 ENV REDIS_URL=redis://localhost:6379
 ENV VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWF3b2thIiwiYSI6ImNsMjBob3d4ZjBhcGszYnE0bWp4aXB1ZW4ifQ.IByxV1qeIuEWpHCWsuB88A
 # This Mapbox-token is restricted to the following urls: classquiz.de, classquiz.mawoka.eu, test.com
