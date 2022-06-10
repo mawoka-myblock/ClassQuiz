@@ -60,6 +60,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         updated_at=datetime.now(),
         user_id=user.id,
         questions=json.dumps(quiz_questions),
+        imported_from_kahoot=True,
     )
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
     return await quiz_data.save()

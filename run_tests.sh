@@ -11,7 +11,7 @@ init() {
   mkdir /tmp/storage
   docker run --rm -d -p 6379:6379 --name test_redis redis:alpine
   docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:latest
-  pipenv run python3 init_db.py
+  pipenv run alembic upgrade head
 }
 
 case $1 in

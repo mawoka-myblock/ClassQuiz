@@ -1,1 +1,1 @@
-python3 init_db.py
+alembic upgrade head

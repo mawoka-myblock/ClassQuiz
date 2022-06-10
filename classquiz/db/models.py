@@ -74,6 +74,7 @@ class Quiz(ormar.Model):
     updated_at: datetime = ormar.DateTime(default=datetime.now())
     user_id: uuid.UUID = ormar.ForeignKey(User)
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
+    imported_from_kahoot: Optional[bool] = ormar.Boolean(default=False, nullable=True)
 
     class Meta:
         tablename = "quiz"

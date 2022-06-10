@@ -1,6 +1,8 @@
 FROM python:3.10-slim
 COPY classquiz/ /app/classquiz/
 COPY import_to_meili.py /app/import_to_meili.py
+COPY alembic.ini /app/
+COPY migrations/ /app/migrations/
 COPY init_db.py /app/
 COPY *start.sh /app/
 COPY gunicorn_conf.py /app/
