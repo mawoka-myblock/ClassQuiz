@@ -66,8 +66,8 @@
 
 	<h2>Third-parties</h2>
 	<p>
-		This site uses <a href="https://sentry.io/">Sentry</a> to log errors. An opt-out is not
-		available at the moment. This website also uses
+		This site uses a self-hosted GlitchTip (sentry) instance for error-logging. An opt-out is
+		not available at the moment. This website also uses
 		<a href="https://plausible.io/">Plausible</a> to log usage-data.
 	</p>
 </article>
