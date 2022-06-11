@@ -45,6 +45,12 @@
 	<h4>Optional</h4>
 	<ul>
 		<li><a href="https://sentry.io">Sentry (Error-Logging)</a></li>
+		<li>
+			<a href="https://console.cloud.google.com/apis/dashboard"
+				>Google-Credentials (Sign-In)</a
+			>
+		</li>
+		<li><a href="https://github.com/settings/developers">GitHub-Credentials (Sign-In)</a></li>
 	</ul>
 
 	<h2>Installation</h2>
@@ -53,22 +59,19 @@
 	<pre><code class="language-bash"
 			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
 		></pre>
-	<p>
-		Now, set a <b>VALID</b> Redis-URI in <code>frontend/Dockerfile</code> and, if you want Sentry,
-		set a valid Sentry-DSN.
-	</p>
-	<p>
-		You must set a valid hCaptcha-Sitekey in the <code>frontend/Dockerfile</code>.
-	</p>
-	<p>
-		You'll also have to provide a valid <code>VITE_MAPBOX_ACCESS_TOKEN</code> in
-		<code>frontend/Dockerfile</code>, if you don't run ClassQuiz under one of the following
-		domains:
-	</p>
+	<p>Now, you'll configure your frontend. You'll have to change the following:</p>
 	<ul>
-		<li><code>classquiz.mawoka.eu</code></li>
-		<li><code>classquiz.de</code></li>
-		<li><code><b>test.com</b></code></li>
+		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
+		<li><code>VITE_HCAPTCHA</code>: The hCaptcha-Siteky for captchas</li>
+		<li><code>VITE_SENTRY</code>: A Sentry-DSb for Sentry (optional)</li>
+		<li>
+			<code>VITE_GOOGLE_AUTH_ENABLED</code>: Set it to <code>true</code>, if Google-Auth is
+			set up. Otherwise, leave it unset.
+		</li>
+		<li>
+			<code>VITE_GITHUB_AUTH_ENABLED</code>: Set it to <code>true</code>, if GitHub-Auth is
+			set up. Otherwise, leave it unset.
+		</li>
 	</ul>
 
 	<h2>Configuration</h2>
@@ -97,6 +100,37 @@
 		Before you can start your stack, you have to set some environment-variables in your
 		<code>docker-compose.yml</code>.
 	</p>
+	<h3>GitHub/Google-Auth</h3>
+	<p>
+		This step is purely optional, but it will enable users to log in using their
+		Google/GitHub-accounts.
+	</p>
+	<h4>Google</h4>
+	<p>
+		First, go to <a href="https://console.cloud.google.com/apis/dashboard"
+			>console.cloud.google.com/apis/dashboard</a
+		> and create a new project and select it. Then, go to the "OAuth consent screen" and set it up.
+		Next, go to the "Credentials"-tab and click on "Create Credentials" and create a new "OAuth Client
+		ID". This ID should be from the application-type "Web application". Afterwards, add a new "Authorised
+		JavaScript origin", which is just the base-domain (with https) of your ClassQuiz-installation.
+		Then, add a new "Authorised redirect URI". This URI will have the following scheme:
+	</p>
+	<pre><code>https://[BASE_URL]/api/v1/users/oauth/google/auth</code></pre>
+	<p>You're done! Not the client-secret and the client-id down, you'll need it later.</p>
+
+	<h4>GitHub</h4>
+	<p>
+		First, go to <a href="https://github.com/settings/developers"
+			>github.com/settings/developers</a
+		> and create a "new OAuth App". The "Authorization callback URL" has the following schema:
+	</p>
+	<pre><code>https://[BASE_URL]/api/v1/users/oauth/github/auth</code></pre>
+	<p>
+		That's it. Click on "Register application" and generate a new client secret and save it for
+		later, together with your client-id.
+	</p>
+
+	<h3>Docker-Compose File</h3>
 	<pre><code class="language-yaml"
 			>version: "3"
 
@@ -110,8 +144,8 @@ services:
       - redis
       - api
     environment:
-	  REDIS_URL: redis://redis:6379/0?decode_responses=True # For runtime
-      API_URL: http://api:80 # For runtime
+	  REDIS_URL: redis://redis:6379/0?decode_responses=True # don't change
+      API_URL: http://api:80 # don't change
   api:
     build:
       context: .
@@ -122,19 +156,19 @@ services:
       - redis
 
     environment:
-      ROOT_ADDRESS: "https://classquiz.mawoka.eu" # Base-URL
-      DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz"
-      MAIL_ADDRESS: "classquiz@mawoka.eu" # Email-Address
-      MAIL_PASSWORD: "MAIL_PASSWORD" # Email-Password
-      MAIL_USERNAME: "classquiz@mawoka.eu" # Email-Username
-      MAIL_SERVER: "smtp.gmail.com" # SMTP-Server
+      ROOT_ADDRESS: "https://classquiz.mawoka.eu" # Base-URL (change it)
+      DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # don't change
+      MAIL_ADDRESS: "classquiz@mawoka.eu" # Email-Address (change it)
+      MAIL_PASSWORD: "MAIL_PASSWORD" # Email-Password (change it)
+      MAIL_USERNAME: "classquiz@mawoka.eu" # Email-Username (change it)
+      MAIL_SERVER: "smtp.gmail.com" # SMTP-Server (change it)
+	  MAIL_PORT: "587" # SMTP-Port
       MAX_WORKERS: "1" # Very important and don't change it!
-      MAIL_PORT: "587" # SMTP-Port
-      REDIS: "redis://redis:6379/0?decode_responses=True" # decode_response is important!
+      REDIS: "redis://redis:6379/0?decode_responses=True" # don't change
       SECRET_KEY: "TOP_SECRET" # openssl rand -hex 32
-	  MEILISEARCH_URL: "http://meilisearch:7700"
-      ACCESS_TOKEN_EXPIRE_MINUTES: 30
-      HCAPTCHA_KEY: "" # Private hCaptcha key for verification
+	  MEILISEARCH_URL: "http://meilisearch:7700" # don't change
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30 # don't change
+      HCAPTCHA_KEY: "" # Private hCaptcha key for verification (change it)
 	  STORAGE_BACKEND: "deta" # MUST BE EITHER "deta" OR "local"
 
 	  # If STORAGE_BACKEND is "deta"
@@ -143,6 +177,16 @@ services:
 
 	  # If STORAGE_BACKEND is "local"
 	  STORAGE_PATH: "/var/storage"
+
+	  # GOOGLE_AUTH
+      GOOGLE_CLIENT_ID: # Your Google-Client ID, or leave it unset if you don't want it.
+      GOOGLE_CLIENT_SECRET: # Your Google-Client Secret, or leave it unset if you don't want it.
+
+	  # GITHUB_AUTH
+	  GITHUB_CLIENT_ID: # Your GitHub-Client ID, or leave it unset if you don't want it.
+      GITHUB_CLIENT_SECRET: # Your GitHub-Client Secret, or leave it unset if you don't want it.
+
+
   redis:
     image: redis:alpine
     restart: always
