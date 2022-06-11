@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
 
-from authlib.integrations.starlette_client import OAuth
 from classquiz.db.models import User, UserAuthTypes
-from pydantic import BaseModel, ValidationError
-from classquiz.auth import check_token, credentials_exception
+from pydantic import BaseModel
+from classquiz.auth import check_token
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from datetime import datetime
 from classquiz.oauth.init_oauth import init_oauth

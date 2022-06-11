@@ -3,7 +3,6 @@ import os
 import ormar
 from email_validator import validate_email, EmailNotValidError
 from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
-from datetime import timedelta, datetime
 from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
@@ -15,7 +14,6 @@ from classquiz.auth import (
     get_password_hash,
     verify_password,
     authenticate_user,
-    create_access_token,
     get_current_user,
 )
 from classquiz.cache import clear_cache_for_account
@@ -44,7 +42,7 @@ router.include_router(oauth.router, tags=["users", "oauth"], prefix="/oauth")
 
 @router.post(
     "/create",
-    # response_model=User,
+    response_model=User,
     response_model_include={"id": ..., "verified": ..., "email": ...},
 )
 async def create_user(user: route_user, background_task: BackgroundTasks) -> User | JSONResponse:

@@ -2,7 +2,6 @@ import uuid
 
 import pytest
 from redis import Redis
-from classquiz.db import models
 from classquiz.config import settings
 from classquiz.tests import test_user_email, test_user_password
 from classquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
