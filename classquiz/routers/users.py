@@ -8,6 +8,8 @@ from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 import html
+from classquiz import oauth
+from classquiz.oauth.authenticate_user import rememberme_check, log_user_in
 
 from classquiz.auth import (
     get_password_hash,
@@ -37,9 +39,12 @@ async def _sign_out_everywhere(user: User) -> None:
     await clear_cache_for_account(user)
 
 
+router.include_router(oauth.router, tags=["users", "oauth"], prefix="/oauth")
+
+
 @router.post(
     "/create",
-    response_model=User,
+    # response_model=User,
     response_model_include={"id": ..., "verified": ..., "email": ...},
 )
 async def create_user(user: route_user, background_task: BackgroundTasks) -> User | JSONResponse:
@@ -77,41 +82,7 @@ async def login_for_cookie_access_token(
             detail="Incorrect username or password",
         )
 
-    remote_ip = None
-    if request.headers.get("X-Forwarded-For") is None:
-        remote_ip = request.client.host
-
-    else:
-        if "," in request.headers.get("X-Forwarded-For"):
-            remote_ip = request.headers.get("X-Forwarded-For").split(", ")[0]
-        else:
-            remote_ip = request.headers.get("X-Forwarded-For")
-    session_key = os.urandom(32).hex()
-    user_session = UserSession(
-        user=user,
-        session_key=session_key,
-        ip_address=remote_ip,
-        user_agent=request.headers.get("User-Agent"),
-        id=uuid.uuid4(),
-    )
-    await user_session.save()
-    # await user_session.save()
-    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
-    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
-    await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
-    response.set_cookie(
-        key="access_token",
-        value=f"Bearer {access_token}",
-        httponly=True,
-        samesite="strict",
-        max_age=settings.access_token_expire_minutes * 60,
-    )
-    response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
-    response.set_cookie(key="rememberme", value="", max_age=60 * 60 * 24 * 365)
-    response.set_cookie(
-        key="rememberme_token", value=session_key, httponly=True, samesite="strict", max_age=60 * 60 * 24 * 365
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return await log_user_in(response=response, request=request, user=user)
 
 
 @router.get("/token/rememberme")
@@ -119,26 +90,7 @@ async def rememberme_token(request: Request, response: Response):
     rememberme_token_lol = request.cookies.get("rememberme_token")
     if rememberme_token_lol is None:
         raise HTTPException(status_code=400, detail="No rememberme cookie")
-    user_session: UserSession | None = (
-        await UserSession.objects.filter(session_key=rememberme_token_lol)
-        .select_related(UserSession.user)
-        .get_or_none()
-    )
-    if (user_session is None) or (user_session.user is None):
-        raise HTTPException(status_code=401, detail="No user session")
-    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
-    access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
-    response.set_cookie(
-        key="access_token",
-        value=f"Bearer {access_token}",
-        httponly=True,
-        samesite="strict",
-        max_age=settings.access_token_expire_minutes * 60,
-    )
-    response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
-    response.status_code = 200
-    await user_session.update(last_seen=datetime.now())
-    return response
+    return await rememberme_check(rememberme_token=rememberme_token_lol, response=response)
 
 
 @router.get("/logout")

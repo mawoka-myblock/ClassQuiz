@@ -2,6 +2,7 @@ import sentry_sdk
 from fastapi import FastAPI, Request
 from sentry_sdk.integrations.redis import RedisIntegration
 from socketio import ASGIApp
+from starlette.middleware.sessions import SessionMiddleware
 
 from classquiz.config import settings, meilisearch
 from classquiz.db import database
@@ -42,6 +43,7 @@ async def shutdown() -> None:
         await database_.disconnect()
 
 
+app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users")
 app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz")
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils")

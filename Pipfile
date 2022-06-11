@@ -27,6 +27,9 @@ bleach = "*"
 bidict = "*"
 xlsxwriter = "*"
 pillow = ">=9.1.1"
+authlib = "*"
+httpx = "*"
+itsdangerous = "*"
 
 [dev-packages]
 coverage = "*"

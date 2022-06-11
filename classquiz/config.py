@@ -3,6 +3,7 @@ from functools import lru_cache
 import redis.asyncio as redis_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
 import meilisearch as MeiliSearch
+from typing import Optional
 
 from classquiz.storage import Storage
 
@@ -28,6 +29,10 @@ class Settings(BaseSettings):
     sentry_dsn: str | None
     meilisearch_url: str
     meilisearch_index: str = "classquiz"
+    google_client_id: Optional[str]
+    google_client_secret: Optional[str]
+    github_client_id: Optional[str]
+    github_client_secret: Optional[str]
 
     # storage_backend
     storage_backend: str | None = "deta"

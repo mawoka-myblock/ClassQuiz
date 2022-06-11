@@ -4,8 +4,14 @@ from typing import Optional
 
 import ormar
 from pydantic import BaseModel, Json
-
+from enum import Enum
 from . import metadata, database
+
+
+class UserAuthTypes(Enum):
+    LOCAL = "LOCAL"
+    GOOGLE = "GOOGLE"
+    GITHUB = "GITHUB"
 
 
 class User(ormar.Model):
@@ -16,15 +22,20 @@ class User(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
     email: str = ormar.String(unique=True, max_length=100)
     username: str = ormar.String(unique=True, max_length=100)
-    password: str = ormar.String(unique=True, max_length=100)
+    password: Optional[str] = ormar.String(max_length=100, nullable=True)
     verified: bool = ormar.Boolean(default=False)
     verify_key: str = ormar.String(unique=True, max_length=100, nullable=True)
     created_at: datetime = ormar.DateTime(default=datetime.now())
+    auth_type: UserAuthTypes = ormar.Enum(enum_class=UserAuthTypes, default=UserAuthTypes.LOCAL)
+    google_uid: Optional[str] = ormar.String(unique=True, max_length=255, nullable=True)
 
     class Meta:
         tablename = "users"
         metadata = metadata
         database = database
+
+    class Config:
+        use_enum_values = True
 
 
 class UserSession(ormar.Model):
