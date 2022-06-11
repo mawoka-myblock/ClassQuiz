@@ -7,22 +7,11 @@ from pydantic import BaseModel, ValidationError
 from classquiz.auth import check_token, credentials_exception
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from datetime import datetime
+from classquiz.oauth.init_oauth import init_oauth
 
 settings = settings()
 
 router = APIRouter()
-oauth = OAuth()
-oauth.register(
-    name="github",
-    client_kwargs={"scope": "read:user user:email"},
-    access_token_url="https://github.com/login/oauth/access_token",
-    access_token_params=None,
-    authorize_url="https://github.com/login/oauth/authorize",
-    authorize_params=None,
-    api_base_url="https://api.github.com/",
-    client_id=settings.github_client_id,
-    client_secret=settings.github_client_secret,
-)
 
 
 class Plan(BaseModel):
@@ -78,6 +67,7 @@ class GitHubOauthResponse(BaseModel):
 async def github_login(req: Request):
     if settings.github_client_id is None or settings.github_client_secret is None:
         raise HTTPException(status_code=501, detail="GitHub-Login isn't available on this server")
+    oauth = init_oauth()
     return await oauth.github.authorize_redirect(req, f"{settings.root_address}/api/v1/users/oauth/github/auth")
 
 
@@ -87,7 +77,6 @@ async def auth(request: Request, response: Response):
         raise HTTPException(status_code=501, detail="GitHub-Login isn't available on this server")
     access_token = request.cookies.get("access_token")
     rememberme_token = request.cookies.get("rememberme_token")
-    print(access_token, rememberme_token)
     if access_token is not None:
         try:
             data = await check_token(access_token)
@@ -97,6 +86,7 @@ async def auth(request: Request, response: Response):
             pass
     if rememberme_token is not None:
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
+    oauth = init_oauth()
     try:
         token = await oauth.github.authorize_access_token(request)
     except:
@@ -120,4 +110,7 @@ async def auth(request: Request, response: Response):
         email=user_data.email, username=user_data.login, auth_type=UserAuthTypes.GITHUB, verified=True
     )
 
-    return await log_user_in(user=user, request=request, response=response)
+    await log_user_in(user=user, request=request, response=response)
+    response.headers.append("Location", "/account/login")
+    response.status_code = 302
+    return response

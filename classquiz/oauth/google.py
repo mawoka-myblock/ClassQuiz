@@ -1,23 +1,15 @@
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
 
-from authlib.integrations.starlette_client import OAuth
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel, ValidationError
 from classquiz.auth import check_token, credentials_exception
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
+from classquiz.oauth.init_oauth import init_oauth
 
 settings = settings()
 
 router = APIRouter()
-oauth = OAuth()
-oauth.register(
-    name="github",
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_kwargs={"scope": "openid email profile"},
-    client_id=settings.google_client_id,
-    client_secret=settings.google_client_secret,
-)
 
 
 class Userinfo(BaseModel):
@@ -51,6 +43,8 @@ class OauthGoogleResponse(BaseModel):
 async def google_login(req: Request):
     if settings.google_client_secret is None or settings.google_client_id is None:
         raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
+    oauth = init_oauth()
+
     return await oauth.google.authorize_redirect(req, f"{settings.root_address}/api/v1/users/oauth/google/auth")
 
 
@@ -60,7 +54,6 @@ async def auth(request: Request, response: Response):
         raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
     access_token = request.cookies.get("access_token")
     rememberme_token = request.cookies.get("rememberme_token")
-    print(rememberme_token, access_token)
     if access_token is not None:
         try:
             data = await check_token(access_token)
@@ -70,6 +63,7 @@ async def auth(request: Request, response: Response):
             pass
     if rememberme_token is not None:
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
+    oauth = init_oauth()
 
     try:
         user_data = await oauth.google.authorize_access_token(request)
@@ -97,4 +91,7 @@ async def auth(request: Request, response: Response):
         email=user_data.email, google_uid=user_data.sub, auth_type=UserAuthTypes.GOOGLE, verified=True
     )
 
-    return await log_user_in(user=user, request=request, response=response)
+    await log_user_in(user=user, request=request, response=response)
+    response.headers.append("Location", "/account/login")
+    response.status_code = 302
+    return response
