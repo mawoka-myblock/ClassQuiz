@@ -41,7 +41,8 @@
 			.max(20, 'Username must be at most 20 characters long'),
 		privacy_accept: yup
 			.boolean()
-			.oneOf([true], 'You must accept the privacy policy to register!')
+			.oneOf([true], 'You must accept the privacy policy to register!'),
+		tos_accept: yup.boolean().oneOf([true], 'You must accept the terms of service to register!')
 	});
 
 	const { form, errors, touched, isValid, isSubmitting } = createForm<
@@ -193,6 +194,20 @@
 							<label class="text-sm text-gray-600 dark:text-gray-200">
 								I've read the <a href="/docs/privacy-policy" class="underline"
 									>Privacy policy</a
+								>.
+							</label>
+						</div>
+						<div
+							class="ring-1 ring-gray-500 focus:outline-none rounded-lg m-4 py-2"
+							class:ring-red-700={$errors.tos_accept !== null}
+							class:ring-green-600={$touched.tos_accept === true &&
+								$errors.tos_accept === null}
+						>
+							<!--						<div class='flex items-center justify-between mt-4 w-full'>-->
+							<input type="checkbox" name="tos_accept" class="ml-3" />
+							<label class="text-sm text-gray-600 dark:text-gray-200">
+								I agree to the <a href="/docs/tos" class="underline"
+									>Terms of Service</a
 								>.
 							</label>
 						</div>
