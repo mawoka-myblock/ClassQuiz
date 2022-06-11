@@ -13,9 +13,9 @@ enabled = true
 name = "javascript"
 enabled = true
 
-[[analyzers]]
-name = "test-coverage"
-enabled = false
+#[[analyzers]]
+#name = "test-coverage"
+#enabled = false
 
 [[transformers]]
 name = "black"
