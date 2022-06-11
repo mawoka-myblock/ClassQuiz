@@ -6,7 +6,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from classquiz.config import settings, meilisearch
 from classquiz.db import database
-from classquiz.routers import users, quiz, utils, stats, storage, search
+from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes
 from classquiz.socket_server import sio
 
 settings = settings()
@@ -50,4 +50,5 @@ app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils")
 app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats")
 app.include_router(storage.router, tags=["storage"], prefix="/api/v1/storage")
 app.include_router(search.router, tags=["search"], prefix="/api/v1/search")
+app.include_router(testing_routes.router, tags=["internal", "testing"], prefix="/api/v1/internal/testing")
 app.mount("/", ASGIApp(sio))

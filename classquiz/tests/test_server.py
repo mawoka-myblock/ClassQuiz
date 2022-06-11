@@ -55,10 +55,10 @@ class TestUsers:
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
         assert resp.status_code == 401
-        user = await models.User.objects.filter(email=test_user_email).get()
+        user = test_client.get(f"/api/v1/internal/testing/user/{test_user_email}?secret_key={settings().secret_key}")
         assert (test_client.get("/api/v1/users/verify/dasadsasdadsasdsaddassad")).status_code == 404
 
-        test_client.get(f"/api/v1/users/verify/{user.verify_key}")
+        test_client.get(f"/api/v1/users/verify/{user.json()['verify_key']}")
         resp = test_client.post(
             "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
         )
