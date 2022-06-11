@@ -10,7 +10,6 @@ settings = settings()
 
 
 async def log_user_in(user: User, request: Request, response: Response):
-    print(user)
     if user is None:
         raise HTTPException(status_code=401, detail="User not matched!")
     remote_ip = None
