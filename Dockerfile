@@ -2,8 +2,8 @@ FROM python:3.10-slim
 
 
 COPY Pipfile* /app/
-RUN pip install pipenv && pipenv install --system
 WORKDIR /app/
+RUN pip install pipenv && pipenv install --system
 
 COPY classquiz/ /app/classquiz/
 COPY import_to_meili.py /app/import_to_meili.py
