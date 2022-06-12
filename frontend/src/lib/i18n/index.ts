@@ -8,7 +8,7 @@ export type I18nContext = {
 	t: Readable<TType>;
 	currentLanguage: Writable<string>;
 };
-
+const CONTEXT_KEY = 't';
 export const setLocalization = (context: I18nContext) => {
 	return setContext<I18nContext>(CONTEXT_KEY, context);
 };
@@ -33,4 +33,3 @@ export const initLocalizationContext = () => {
 		i18n
 	};
 };
-const CONTEXT_KEY = 't';
