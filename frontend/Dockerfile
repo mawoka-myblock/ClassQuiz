@@ -33,7 +33,7 @@ RUN nohup bash -c "redis-server &" && sleep 4 && pnpm run build
 
 ### Serve Step
 # pull the Node.js Docker image
-FROM node:17.8-bullseye-slim
+FROM node:18.2.0-bullseye-slim
 
 # change working directory
 WORKDIR /app
