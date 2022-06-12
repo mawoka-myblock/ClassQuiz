@@ -3,7 +3,7 @@ from classquiz.config import settings
 
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel
-from classquiz.auth import check_token
+from classquiz.auth import check_token, credentials_exception
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from datetime import datetime
 from classquiz.oauth.init_oauth import init_oauth
@@ -81,15 +81,15 @@ async def auth(request: Request, response: Response):
             data = await check_token(access_token)
             if data is not None:
                 return
-        except:
+        except HTTPException:
             pass
     if rememberme_token is not None:
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
     oauth = init_oauth()
-    try:
-        token = await oauth.github.authorize_access_token(request)
-    except:
-        raise HTTPException(status_code=401, detail="OAuth didn't work!")
+    # try:
+    token = await oauth.github.authorize_access_token(request)
+    # except:
+    #     raise HTTPException(status_code=401, detail="OAuth didn't work!")
     resp = await oauth.github.get("user", token=token)
     user_data = GitHubOauthResponse(**resp.json())
     user_in_db = await User.objects.get_or_none(email=user_data.email)

@@ -3,7 +3,7 @@ from classquiz.config import settings
 
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel, ValidationError
-from classquiz.auth import check_token
+from classquiz.auth import check_token, credentials_exception
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from classquiz.oauth.init_oauth import init_oauth
 
@@ -59,16 +59,13 @@ async def auth(request: Request, response: Response):
             data = await check_token(access_token)
             if data is not None:
                 return
-        except:
+        except HTTPException:
             pass
     if rememberme_token is not None:
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
     oauth = init_oauth()
 
-    try:
-        user_data = await oauth.google.authorize_access_token(request)
-    except:
-        raise HTTPException(status_code=401, detail="OAuth didn't work!")
+    user_data = await oauth.google.authorize_access_token(request)
     try:
         user_data = OauthGoogleResponse(**user_data).userinfo
     except (TypeError, ValidationError):
