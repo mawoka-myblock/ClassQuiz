@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.11.0b1-slim-buster
 COPY classquiz/ /app/classquiz/
 COPY import_to_meili.py /app/import_to_meili.py
 COPY alembic.ini /app/
