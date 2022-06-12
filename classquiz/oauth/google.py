@@ -3,7 +3,7 @@ from classquiz.config import settings
 
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel, ValidationError
-from classquiz.auth import check_token, credentials_exception
+from classquiz.auth import check_token
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from classquiz.oauth.init_oauth import init_oauth
 
