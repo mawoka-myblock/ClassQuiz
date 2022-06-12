@@ -1,8 +1,13 @@
+import asyncio
+
 from classquiz.db.models import Quiz, User
 import xlsxwriter
 from aiohttp import ClientSession
 from io import BytesIO
 from PIL import Image
+from classquiz.config import meilisearch, settings
+
+settings = settings()
 
 
 async def get_meili_data(quiz: Quiz) -> dict:
@@ -69,3 +74,31 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
     workbook.close()
     storage.seek(0)
     return storage
+
+
+async def meilisearch_init():
+    indexes = meilisearch.get_indexes()
+    classquiz_index_found = False
+    # +++ Check if the index does not exist and creates it
+    for index in indexes:
+        if index.uid == settings.meilisearch_index:
+            classquiz_index_found = True
+    if not classquiz_index_found:
+        print("Creating MeiliSearch Index")
+        meilisearch.create_index(settings.meilisearch_index)
+        await asyncio.sleep(1)
+    # --- END
+    # +++ Check if count of docs in meilisearch is equal the count in the database +++
+    quiz_count = await Quiz.objects.filter(public=True).count()
+    if meilisearch.index(settings.meilisearch_index).get_stats()["numberOfDocuments"] != quiz_count:
+        print("MeiliSearch and Database got out of sync, syncthing them")
+        meilisearch.delete_index(settings.meilisearch_index)
+        meilisearch.create_index(settings.meilisearch_index)
+        quizzes = await Quiz.objects.filter(public=True).all()
+        meili_data = []
+        for quiz in quizzes:
+            meili_data.append(await get_meili_data(quiz))
+        meilisearch.index(settings.meilisearch_index).add_documents(meili_data)
+    # --- END ---
+    meilisearch.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
+    print("Finished MeiliSearch synchronisation")

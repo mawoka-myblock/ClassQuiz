@@ -8,6 +8,7 @@ from classquiz.config import settings, meilisearch
 from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes
 from classquiz.socket_server import sio
+from classquiz.helpers import meilisearch_init
 
 settings = settings()
 if settings.sentry_dsn:
@@ -33,7 +34,7 @@ async def startup() -> None:
     database_ = app.state.database
     if not database_.is_connected:
         await database_.connect()
-    meilisearch.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
+    await meilisearch_init()
 
 
 @app.on_event("shutdown")
