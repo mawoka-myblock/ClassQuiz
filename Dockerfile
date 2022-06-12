@@ -3,7 +3,7 @@ FROM python:3.10-slim
 
 COPY Pipfile* /app/
 RUN pip install pipenv && pipenv install --system
-
+WORKDIR /app/
 
 COPY classquiz/ /app/classquiz/
 COPY import_to_meili.py /app/import_to_meili.py
@@ -14,7 +14,6 @@ COPY *start.sh /app/
 COPY gunicorn_conf.py /app/
 
 
-WORKDIR /app/
 EXPOSE 80
 ENV PYTHONPATH=/app
 RUN chmod +x start.sh
