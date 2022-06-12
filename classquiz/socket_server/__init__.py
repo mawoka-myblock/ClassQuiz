@@ -202,7 +202,7 @@ async def submit_answer(sid: str, data: dict):
         answers.__root__.append(_AnswerData(username=session["username"], answer=data.answer, right=answer_right))
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
-            json.dumps(answers),
+            answers.json(),
             ex=18000,
         )
 
