@@ -4,7 +4,7 @@ from sentry_sdk.integrations.redis import RedisIntegration
 from socketio import ASGIApp
 from starlette.middleware.sessions import SessionMiddleware
 
-from classquiz.config import settings, meilisearch
+from classquiz.config import settings
 from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes
 from classquiz.socket_server import sio
