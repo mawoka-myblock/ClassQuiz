@@ -4,6 +4,11 @@ import type { TType } from './translation-service';
 import type { Readable, Writable } from 'svelte/store';
 import { getContext, setContext } from 'svelte';
 
+export type I18nContext = {
+	t: Readable<TType>;
+	currentLanguage: Writable<string>;
+};
+
 export const setLocalization = (context: I18nContext) => {
 	return setContext<I18nContext>(CONTEXT_KEY, context);
 };
@@ -29,8 +34,3 @@ export const initLocalizationContext = () => {
 	};
 };
 const CONTEXT_KEY = 't';
-
-export type I18nContext = {
-	t: Readable<TType>;
-	currentLanguage: Writable<string>;
-};
