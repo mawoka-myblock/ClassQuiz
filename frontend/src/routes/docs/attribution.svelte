@@ -15,10 +15,26 @@
 	</ul>
 	<h2>Helpers</h2>
 	<p>People who helped through issues (at least 2), tips, etc</p>
-	<p />
 	<ul>
 		<li>
 			<a href="https://github.com/adeekshith">Deekshith</a>
+		</li>
+	</ul>
+	<h2>Translators</h2>
+	<p>
+		People who translated ClassQuiz on <a href="https://translate.mawoka.eu/engage/classquiz/"
+			>Weblate</a
+		> or directly.
+	</p>
+	<ul>
+		<li>
+			<a href="https://github.com/liimee">liimee</a> (Indonesian)
+		</li>
+		<li>
+			<a href="https://github.com/Dynnammo">Dynnammo</a> (French)
+		</li>
+		<li>
+			<a href="https://github.com/ahmetlii">Ahmet</a> (Turkish)
 		</li>
 	</ul>
 
