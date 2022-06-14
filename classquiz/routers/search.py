@@ -3,7 +3,9 @@ from fastapi import APIRouter
 
 from classquiz.config import settings, meilisearch
 from uuid import UUID
-from typing import Optional, List
+from typing import Optional, List, Any
+from meilisearch.errors import MeiliSearchApiError
+from classquiz.helpers import meilisearch_init
 
 settings = settings()
 
@@ -42,10 +44,19 @@ class SearchData(pydantic.BaseModel):
     sort: Optional[list[str]] = None
 
 
+async def _perform_search(query: str, params: dict) -> dict[str, Any]:
+    try:
+        index = meilisearch.get_index(settings.meilisearch_index)
+        return index.search(query, params)
+    except MeiliSearchApiError:
+        await meilisearch_init()
+        index = meilisearch.get_index(settings.meilisearch_index)
+        return index.search(query, params)
+
+
 @router.post("/", response_model=SearchResponse)
 async def search(data: SearchData):
-    index = meilisearch.get_index(settings.meilisearch_index)
-    query = index.search(
+    query = await _perform_search(
         data.q,
         {
             "offset": data.offset,
@@ -73,8 +84,7 @@ async def search_get(
     matches: bool = False,
     attributesToHighlight: Optional[str] = "*",
 ):
-    index = meilisearch.get_index(settings.meilisearch_index)
-    query = index.search(
+    query = await _perform_search(
         q,
         {
             "offset": offset,
