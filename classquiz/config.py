@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     root_address: str = "http://127.0.0.1:8000"
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
-    db_url: str | PostgresDsn = "sqlite:///classquiz.db"
+    db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
     hcaptcha_key: str
     mail_address: str
     mail_password: str
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
     sentry_dsn: str | None
-    meilisearch_url: str
+    meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_index: str = "classquiz"
     google_client_id: Optional[str]
     google_client_secret: Optional[str]
