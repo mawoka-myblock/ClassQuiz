@@ -7,7 +7,7 @@ name = "pypi"
 fastapi = "*"
 uvicorn = { extras = ["standard"], version = "*" }
 python-socketio = "*"
-ormar = { version = "*", extras = ["sqlite"] }
+ormar = { version = "*", extras = ["postgresql"] }
 passlib = "*"
 python-jose = "*"
 alembic = "*"
