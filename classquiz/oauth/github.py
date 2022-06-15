@@ -1,3 +1,4 @@
+import authlib.integrations.base_client
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
 
@@ -86,7 +87,10 @@ async def auth(request: Request, response: Response):
     if rememberme_token is not None:
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
     oauth = init_oauth()
-    token = await oauth.github.authorize_access_token(request)
+    try:
+        token = await oauth.github.authorize_access_token(request)
+    except authlib.integrations.base_client.OAuthError:
+        raise HTTPException(status_code=401, detail="The OAuth didn't work! :(")
     resp = await oauth.github.get("user", token=token)
     user_data = GitHubOauthResponse(**resp.json())
     user_in_db = await User.objects.get_or_none(email=user_data.email)
