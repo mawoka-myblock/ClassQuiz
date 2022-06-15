@@ -1,3 +1,5 @@
+from typing import Optional
+
 import authlib.integrations.base_client
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
@@ -24,43 +26,43 @@ class Plan(BaseModel):
 class GitHubOauthResponse(BaseModel):
     login: str
     id: int
-    node_id: str
-    avatar_url: str
-    gravatar_id: str
-    url: str
-    html_url: str
-    followers_url: str
-    following_url: str
-    gists_url: str
-    starred_url: str
-    subscriptions_url: str
-    organizations_url: str
-    repos_url: str
-    events_url: str
-    received_events_url: str
-    type: str
-    site_admin: bool
-    name: str
-    company: None
-    blog: str
-    location: str
+    node_id: Optional[str]
+    avatar_url: Optional[str]
+    gravatar_id: Optional[str]
+    url: Optional[str]
+    html_url: Optional[str]
+    followers_url: Optional[str]
+    following_url: Optional[str]
+    gists_url: Optional[str]
+    starred_url: Optional[str]
+    subscriptions_url: Optional[str]
+    organizations_url: Optional[str]
+    repos_url: Optional[str]
+    events_url: Optional[str]
+    received_events_url: Optional[str]
+    type: Optional[str]
+    site_admin: Optional[str]
+    name: Optional[str]
+    company: Optional[str]
+    blog: Optional[str]
+    location: Optional[str]
     email: str
-    hireable: None
-    bio: str
-    twitter_username: str
-    public_repos: int
-    public_gists: int
-    followers: int
-    following: int
+    hireable: Optional[bool]
+    bio: Optional[str]
+    twitter_username: Optional[str]
+    public_repos: Optional[int]
+    public_gists: Optional[int]
+    followers: Optional[int]
+    following: Optional[int]
     created_at: datetime
     updated_at: datetime
-    private_gists: int
-    total_private_repos: int
-    owned_private_repos: int
-    disk_usage: int
-    collaborators: int
-    two_factor_authentication: bool
-    plan: Plan
+    private_gists: Optional[int]
+    total_private_repos: Optional[int]
+    owned_private_repos: Optional[int]
+    disk_usage: Optional[int]
+    collaborators: Optional[int]
+    two_factor_authentication: Optional[bool]
+    plan: Optional[Plan]
 
 
 @router.get("/login")
