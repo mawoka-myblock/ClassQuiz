@@ -44,9 +44,21 @@
 			return;
 		}
 		let captcha_resp: string;
-		const captcha_enabled = (
-			await (await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`)).json()
-		).enabled;
+		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
+		let captcha_enabled;
+		if (res.status === 200) {
+			captcha_enabled = (await res.json()).enabled;
+		}
+		if (res.status === 404) {
+			alert('Game not found');
+			game_pin = '';
+			return;
+		}
+		if (res.status !== 200) {
+			alert('Unknown error!');
+			return;
+		}
+
 		if (captcha_enabled) {
 			try {
 				const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
