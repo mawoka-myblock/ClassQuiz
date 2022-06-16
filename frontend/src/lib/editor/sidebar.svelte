@@ -45,9 +45,10 @@
 
 <div class="h-screen border-r-2 pt-6 px-6 overflow-scroll">
 	<div
-		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500"
+		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
 		bind:this={propertyCard}
 		class:bg-green-300={selected_question === -1}
+		class:dark:bg-green-500={selected_question === -1}
 		on:click={() => setSelectedQuestion(-1)}
 	>
 		<div
@@ -59,7 +60,7 @@
 		>
 			<input
 				type="text"
-				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold"
+				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold dark:text-black"
 				bind:value={data.title}
 			/>
 		</div>
@@ -72,10 +73,10 @@
 		>
 			<textarea
 				bind:value={data.description}
-				class="bg-transparent resize-none w-full rounded text-sm"
+				class="bg-transparent resize-none w-full rounded text-sm dark:text-black"
 			/>
 		</div>
-		<div class="w-full flex justify-center">
+		<div class="w-full flex justify-center dark:text-black">
 			<button
 				type="button"
 				on:click={() => {
@@ -121,8 +122,13 @@
 	</div>
 	{#each data.questions as question, index}
 		<div
-			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500"
+			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
 			class:bg-green-300={index === selected_question}
+			class:dark:bg-green-500={index === selected_question}
+			on:contextmenu|preventDefault={() => {
+				data.questions.splice(index, 1);
+				data.questions = data.questions;
+			}}
 			on:click={() => {
 				setSelectedQuestion(index);
 			}}
@@ -133,7 +139,7 @@
 				class="m-1 border border-gray-500 rounded-lg p-0.5"
 			>
 				<h1
-					class="whitespace-nowrap truncate text-center rounded-lg"
+					class="whitespace-nowrap truncate text-center rounded-lg dark:text-black"
 					class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
 						question.question
 					)}
@@ -184,7 +190,7 @@
 	>
 		<button
 			type="button"
-			class="h-full flex justify-center w-full"
+			class="h-full flex justify-center w-full dark:text-black"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empty_question }];
 			}}

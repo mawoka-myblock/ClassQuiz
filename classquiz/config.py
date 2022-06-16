@@ -1,6 +1,7 @@
 from functools import lru_cache
 
-import redis.asyncio as redis_lib
+from redis import asyncio as redis_lib
+import redis as redis_base_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn
 import meilisearch as MeiliSearch
 from typing import Optional
@@ -53,7 +54,7 @@ def settings() -> Settings:
     return Settings()
 
 
-redis: redis_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
+redis: redis_base_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
 storage: Storage = Storage(
     backend=settings().storage_backend,
     deta_key=settings().deta_project_key,

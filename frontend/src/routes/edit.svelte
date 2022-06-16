@@ -122,7 +122,7 @@
 {:then _}
 	{#if data !== undefined}
 		<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-			<Editor bind:data submit_button_text={$t('words.save')} />
+			<Editor bind:data submit_button_text={$t('words.save')} bind:quiz_id />
 		</form>
 	{/if}
 {:catch err}

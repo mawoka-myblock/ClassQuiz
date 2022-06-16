@@ -50,6 +50,7 @@
 
 	let data: Data;
 	let confirm_to_leave = true;
+	let quiz_id = null;
 	onMount(() => {
 		const from_localstorage = localStorage.getItem('create_game');
 		if (from_localstorage === null) {
@@ -100,7 +101,7 @@
 
 {#if data !== undefined}
 	<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-		<Editor bind:data />
+		<Editor bind:data bind:quiz_id />
 	</form>
 {/if}
 
