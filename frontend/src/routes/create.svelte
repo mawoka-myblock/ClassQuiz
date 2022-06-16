@@ -11,6 +11,7 @@
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
+		return {}
 	}
 </script>
 
