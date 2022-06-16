@@ -59,7 +59,7 @@
 		>
 			<input
 				type="text"
-				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded"
+				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold"
 				bind:value={data.title}
 			/>
 		</div>
@@ -130,7 +130,12 @@
 				use:tippy={{ content: question.question === '' ? 'No title' : question.question }}
 				class="m-1 border border-gray-500 rounded-lg p-0.5"
 			>
-				<h1 class="whitespace-nowrap truncate text-center">
+				<h1
+					class="whitespace-nowrap truncate text-center rounded-lg"
+					class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
+						question.question
+					)}
+				>
 					{#if question.question === ''}
 						<span class="italic text-gray-500">No title...</span>
 					{:else}
@@ -157,7 +162,16 @@
 						class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center"
 						class:bg-green-500={answer.right}
 						class:bg-red-500={!answer.right}
-						use:tippy={{ content: answer.answer }}>{answer.answer}</span
+						class:bg-yellow-500={!reach(
+							dataSchema,
+							'questions[].answers[].answer'
+						).isValidSync(answer.answer)}
+						use:tippy={{ content: answer.answer === '' ? 'Empty...' : answer.answer }}
+						>{#if answer.answer === ''}
+							<i>Empty...</i>
+						{:else}
+							{answer.answer}
+						{/if}</span
 					>
 				{/each}
 			</div>
