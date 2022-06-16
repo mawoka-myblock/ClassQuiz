@@ -2,17 +2,18 @@
 	import { signedIn } from '$lib/stores';
 
 	export async function load({ url, session }) {
+		const quiz_id = url.searchParams.get('quiz_id');
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login?returnTo=/edit'
+				redirect: `/account/login?returnTo=/edit?quiz_id=${quiz_id}`
 			};
 		}
 
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
-		const quiz_id = url.searchParams.get('quiz_id');
+
 		if (quiz_id === null) {
 			return {
 				status: 404

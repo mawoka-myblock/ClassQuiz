@@ -72,7 +72,11 @@
 	<div class="col-span-5 flex flex-col">
 		<div class="h-10 w-full bg-white mb-10 flex align-middle justify-center rounded-br-lg">
 			{#if schemaInvalid}
-				<p class="text-center w-full text-red-600 h-full">{yupErrorMessage}</p>
+				<p class="text-center w-full text-red-600 h-full mt-0.5 font-semibold">
+					{yupErrorMessage}
+				</p>
+			{:else}
+				<p class="text-center w-full text-black h-full align-bottom mt-0.5">{data.title}</p>
 			{/if}
 			<button
 				class="pr-2 align-middle bg-purple-400 pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
