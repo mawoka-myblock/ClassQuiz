@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { signedIn } from '$lib/stores';
 
-	export async function load({ session, url }) {
+	export async function load({ session }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
@@ -11,19 +11,6 @@
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
-		const token = url.searchParams.get('token');
-		const pin = url.searchParams.get('pin');
-		let auto_connect = url.searchParams.get('connect') !== null;
-		if (token === null || pin === null) {
-			auto_connect = false;
-		}
-		return {
-			props: {
-				game_pin: pin === null ? '' : pin,
-				game_token: token === null ? '' : token,
-				auto_connect: auto_connect
-			}
-		};
 	}
 </script>
 
