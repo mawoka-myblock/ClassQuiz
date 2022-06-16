@@ -11,6 +11,7 @@
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
+		return {};
 	}
 </script>
 
@@ -21,7 +22,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import { dataSchema } from '$lib/yupSchemas';
 
-	navbarVisible.set(true);
+	navbarVisible.set(false);
 
 	const { t } = getLocalization();
 
