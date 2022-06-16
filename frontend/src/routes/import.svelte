@@ -21,7 +21,7 @@
 
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible, alertModal } from '$lib/stores';
 
 	navbarVisible.set(true);
 
@@ -50,9 +50,17 @@
 		if (res.status === 200) {
 			window.location.href = '/overview';
 		} else if (res.status === 400) {
-			alert("This quiz isn't (yet) supported!");
+			alertModal.set({
+				open: true,
+				title: 'Import failed',
+				body: "This quiz isn't (yet) supported!"
+			});
 		} else {
-			alert('Error importing quiz');
+			alertModal.set({
+				open: true,
+				title: 'Import failed',
+				body: 'Unknown error while importing the quiz!'
+			});
 		}
 		is_loading = false;
 	};

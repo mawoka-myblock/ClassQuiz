@@ -3,6 +3,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/env';
 	import * as Sentry from '@sentry/browser';
+	import { alertModal } from '../stores';
 
 	export let game_pin: string;
 
@@ -50,12 +51,20 @@
 			captcha_enabled = (await res.json()).enabled;
 		}
 		if (res.status === 404) {
-			alert('Game not found');
+			alertModal.set({
+				open: true,
+				title: 'Game not found',
+				body: 'The game pin you entered seems invalid.'
+			});
 			game_pin = '';
 			return;
 		}
 		if (res.status !== 200) {
-			alert('Unknown error!');
+			alertModal.set({
+				open: true,
+				body: `Unknown error with response-code ${res.status}`,
+				title: 'Unknown Error'
+			});
 			return;
 		}
 
@@ -69,8 +78,16 @@
 				if (import.meta.env.VITE_SENTRY !== null) {
 					Sentry.captureException(e);
 				}
-				alert('Captcha failed, reloading the page probably helps!');
-				window.location.reload();
+				alertModal.set({
+					open: true,
+					body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
+					title: 'Captcha failed'
+				});
+				alertModal.subscribe((data) => {
+					if (!data.open) {
+						window.location.reload();
+					}
+				});
 			}
 		}
 		socket.emit('join_game', {

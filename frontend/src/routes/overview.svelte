@@ -19,7 +19,7 @@
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { navbarVisible, signedIn } from '$lib/stores';
+	import { alertModal, navbarVisible, signedIn } from '$lib/stores';
 
 	interface QuizData {
 		id: string;
@@ -60,9 +60,14 @@
 		}
 
 		if (res.status !== 200) {
-			alert('Failed to start game!');
-			console.error(`Failed to start game, ${await res.text()}`);
-			window.location.replace('/account/login?returnTo=/overview');
+			alertModal.set({
+				open: true,
+				title: 'Start failed',
+				body: `Failed to start game, ${await res.text()}`
+			});
+			alertModal.subscribe((_) => {
+				window.location.replace('/account/login?returnTo=/overview');
+			});
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef

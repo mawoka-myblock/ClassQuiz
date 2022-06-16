@@ -12,11 +12,12 @@
 <script>
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
-	import { navbarVisible, pathname } from '$lib/stores';
+	import { navbarVisible, pathname, alertModal } from '$lib/stores';
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/env';
+	import Alert from '$lib/modals/alert.svelte';
 
 	if (browser) {
 		pathname.set(window.location.pathname);
@@ -63,6 +64,17 @@
 	</div>
 {:else}
 	<slot />
+{/if}
+{#if $alertModal.open}
+	<div
+		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 flex items-center justify-center content-center"
+	>
+		<Alert
+			bind:title={$alertModal.title}
+			bind:body={$alertModal.body}
+			bind:open={$alertModal.open}
+		/>
+	</div>
 {/if}
 
 <style lang="scss">

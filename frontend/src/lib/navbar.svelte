@@ -42,7 +42,7 @@
 </script>
 
 <nav
-	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-50 top-0"
+	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-30 top-0"
 >
 	<section class="w-full lg:w-max flex justify-between">
 		<a href="/" class="font-black tracking-tight text-xl text-black marck-script link-hover"
