@@ -20,6 +20,13 @@ export interface Answer {
 	answer: string;
 }
 
+export interface EditorData {
+	public: boolean;
+	title: string;
+	description: string;
+	questions: Question[];
+}
+
 // TODO Keep an eye on this shit
 // export interface Answer {
 // 	username: string;

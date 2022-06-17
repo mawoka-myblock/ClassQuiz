@@ -2,17 +2,18 @@
 	import { signedIn } from '$lib/stores';
 
 	export async function load({ url, session }) {
+		const quiz_id = url.searchParams.get('quiz_id');
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login?returnTo=/edit'
+				redirect: `/account/login?returnTo=/edit?quiz_id=${quiz_id}`
 			};
 		}
 
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
-		const quiz_id = url.searchParams.get('quiz_id');
+
 		if (quiz_id === null) {
 			return {
 				status: 404
@@ -32,7 +33,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import { dataSchema } from '$lib/yupSchemas';
 
-	navbarVisible.set(true);
+	navbarVisible.set(false);
 
 	const { t } = getLocalization();
 
@@ -72,38 +73,8 @@
 			return;
 		}
 	};
-	const submit = async () => {
-		if (!(await dataSchema.isValid(data))) {
-			return;
-		}
-		const res = await fetch(`/api/v1/quiz/update/${quiz_id}`, {
-			method: 'PUT',
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		if (res.status === 401) {
-			throw new Error('Unauthorized');
-		} else if (res.status === 404) {
-			throw new Error('Quiz not found');
-		} else if (res.status === 200) {
-			localStorage.removeItem('edit_game');
-			responseData.data = '200';
-			responseData.open = true;
-		}
-	};
-	const confirmUnload = () => {
-		if (!confirm_to_leave) {
-			return;
-		}
-		event.preventDefault();
-		event.returnValue = '';
-		localStorage.setItem('edit_game', JSON.stringify(data));
-	};
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Edit</title>
 </svelte:head>
@@ -120,9 +91,7 @@
 	</svg>
 {:then _}
 	{#if data !== undefined}
-		<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-			<Editor bind:data submit_button_text={$t('words.save')} />
-		</form>
+		<Editor bind:data submit_button_text={$t('words.save')} bind:quiz_id />
 	{/if}
 {:catch err}
 	<div class="text-center">

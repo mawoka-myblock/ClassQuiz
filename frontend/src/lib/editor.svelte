@@ -2,33 +2,21 @@
 	import { getLocalization } from '$lib/i18n';
 	import * as yup from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
+	import type { EditorData, Question, Answer } from './quiz_types';
+	import Sidebar from '$lib/editor/sidebar.svelte';
+	import SettingsCard from '$lib/editor/settings-card.svelte';
+	import QuizCard from '$lib/editor/card.svelte';
+	import Spinner from './Spinner.svelte';
 
 	const { t } = getLocalization();
 
 	let schemaInvalid = false;
 	let yupErrorMessage = '';
 
-	interface Data {
-		public: boolean;
-		title: string;
-		description: string;
-		questions: Question[];
-	}
-
-	interface Question {
-		question: string;
-		time: string;
-		image?: string;
-		answers: Answer[];
-	}
-
-	interface Answer {
-		right: boolean;
-		answer: string;
-	}
-
-	export let data: Data;
+	export let data: EditorData;
 	export let submit_button_text = 'Create';
+	export let quiz_id: string | null;
+	let selected_question = -1;
 	let imgur_links_valid = false;
 
 	const empty_question: Question = {
@@ -43,7 +31,7 @@
 		]
 	};
 
-	const validateInput = async (data: Data) => {
+	const validateInput = async (data: EditorData) => {
 		try {
 			await dataSchema.validate(data, { abortEarly: false });
 			schemaInvalid = false;
@@ -77,191 +65,112 @@
 		right: false,
 		answer: ''
 	};
+	let edit_id;
+	let confirm_to_leave = true;
+
+	const getEditID = async () => {
+		let res;
+		if (quiz_id === null) {
+			res = await fetch(`/api/v1/editor/start?edit=false`, {
+				method: 'POST'
+			});
+		} else {
+			res = await fetch(`/api/v1/editor/start?edit=true&quiz_id=${quiz_id}`, {
+				method: 'POST'
+			});
+		}
+		if (res.status === 200) {
+			const json = await res.json();
+			edit_id = json.token;
+			console.log(edit_id, json);
+		} else {
+			alert('Error!');
+		}
+	};
+
+	const confirmUnload = (event) => {
+		console.log(confirm_to_leave);
+		if (!confirm_to_leave) {
+			return;
+		}
+		event.preventDefault();
+		event.returnValue = 'Are you sure you want to leave?';
+		localStorage.setItem('edit_game', JSON.stringify(data));
+		return 'unload';
+	};
+	const saveQuiz = async () => {
+		if (schemaInvalid) {
+			return;
+		}
+		const res = await fetch(`/api/v1/editor/finish?edit_id=${edit_id}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		if (res.ok) {
+			console.log('Hier');
+			confirm_to_leave = false;
+			console.log(confirm_to_leave);
+			window.location.href = '/overview';
+		} else {
+			alert('Error');
+		}
+	};
 </script>
 
-<label class="pl-2 w-2/6 flex gap-2 flex-row">
-	<input type="checkbox" class="w-fit" bind:checked={data.public} />
-	<span class="w-fit">{$t('words.public')}?</span>
-</label>
-<label class="pl-2 flex flex-row gap-2 w-3/5">
-	<span class="w-fit">{$t('words.title')}:</span>
-	<input
-		type="text"
-		placeholder={$t('words.title')}
-		bind:value={data.title}
-		class="text-black bg-inherit border-dotted border-b-2 border-black w-full dark:text-gray-200"
-		class:border-red-600={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
-		class:border-solid={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
-		class:border-2={!yup.reach(dataSchema, 'title').isValidSync(data.title)}
-	/>
-</label>
-<label class="pl-2 flex flex-row gap-2 w-3/5">
-	{$t('words.description')}:
-	<textarea
-		placeholder={$t('words.description')}
-		bind:value={data.description}
-		class="text-black w-full dark:text-gray-200 dark:bg-gray-800 rounded-lg p-1"
-		class:border-red-600={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
-		class:border-solid={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
-		class:border-2={!yup.reach(dataSchema, 'description').isValidSync(data.description)}
-	/>
-</label>
-{#each data.questions as question, index_question}
-	<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-		<h1 class="text-3xl m-1">{$t('words.question')} {index_question + 1}</h1>
-
-		<label class="m-1 flex flex-row gap-2 w-3/5">
-			{$t('words.question')}:
-			<input
-				type="text"
-				placeholder={$t('words.question')}
-				bind:value={question.question}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
-				class:border-red-600={!yup
-					.reach(dataSchema, 'questions[].question')
-					.isValidSync(question.question)}
-				class:border-solid={!yup
-					.reach(dataSchema, 'questions[].question')
-					.isValidSync(question.question)}
-				class:border-2={!yup
-					.reach(dataSchema, 'questions[].question')
-					.isValidSync(question.question)}
-			/>
-		</label>
-		<label class="m-1 flex flex-row gap-2 w-3/5">
-			{$t('words.image')}:
-			<input
-				type="text"
-				placeholder="https://i.imgur.com/kSPCidY.png"
-				bind:value={question.image}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
-				class:border-red-600={!yup
-					.reach(dataSchema, 'questions[].image')
-					.isValidSync(question.image)}
-				class:border-solid={!yup
-					.reach(dataSchema, 'questions[].image')
-					.isValidSync(question.image)}
-				class:border-2={!yup
-					.reach(dataSchema, 'questions[].image')
-					.isValidSync(question.image)}
-			/>
-		</label>
-		<label class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
-			{$t('editor.time_in_seconds')}:
-			<input
-				type="text"
-				placeholder="20"
-				bind:value={question.time}
-				class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
-				class:border-red-600={!yup
-					.reach(dataSchema, 'questions[].time')
-					.isValidSync(question.time)}
-				class:border-solid={!yup
-					.reach(dataSchema, 'questions[].time')
-					.isValidSync(question.time)}
-				class:border-2={!yup
-					.reach(dataSchema, 'questions[].time')
-					.isValidSync(question.time)}
-			/>
-		</label>
-		{#each question.answers as answer, index_answer}
-			<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1">
-				<h1 class="text-3xl m-1">{$t('words.answer')} {index_answer + 1}</h1>
-				<p class="m-1">
-					{$t('words.answer')}: {index_answer + 1}
-					{$t('words.question')}: {index_question + 1}
-				</p>
-				<label class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
-					{$t('words.answer')}:
-					<input
-						type="text"
-						placeholder={$t('words.answer')}
-						bind:value={data.questions[index_question].answers[index_answer].answer}
-						class="text-black w-full bg-inherit border-dotted border-b-2 border-black dark:text-gray-200"
-						class:border-red-600={!yup
-							.reach(dataSchema, 'questions[].answers[].answer')
-							.isValidSync(
-								data.questions[index_question].answers[index_answer].answer
-							)}
-						class:border-solid={!yup
-							.reach(dataSchema, 'questions[].answers[].answer')
-							.isValidSync(
-								data.questions[index_question].answers[index_answer].answer
-							)}
-						class:border-2={!yup
-							.reach(dataSchema, 'questions[].answers[].answer')
-							.isValidSync(
-								data.questions[index_question].answers[index_answer].answer
-							)}
-					/>
-				</label>
-				<label class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap">
-					<input
-						type="checkbox"
-						bind:checked={answer.right}
-						class="text-black w-fit dark:text-gray-200"
-					/>
-					<span class="w-fit">{$t('editor.right_or_true?')}</span>
-				</label>
-
-				<button
-					class="text-left border-yellow-500 border-2 w-fit m-1"
-					type="button"
-					on:click={() => {
-						data.questions[index_question].answers.splice(index_answer, 1);
-						data.questions[index_question].answers =
-							data.questions[index_question].answers;
-					}}
-				>
-					{$t('editor.delete_answer')}
-				</button>
+<svelte:window on:beforeunload={confirmUnload} />
+{#await getEditID()}
+	<Spinner />
+{:then _}
+	<form on:submit|preventDefault={saveQuiz}>
+		<div class="grid grid-cols-6 h-screen w-screen">
+			<div>
+				<Sidebar bind:data bind:selected_question />
 			</div>
-		{/each}
-		<button
-			class="text-left border-green-500 border-2 w-fit m-1"
-			type="button"
-			on:click={() => {
-				data.questions[index_question].answers = [
-					...data.questions[index_question].answers,
-					{ ...empty_answer }
-				];
-			}}
-		>
-			{$t('editor.add_new_answer')}
-		</button>
-		<button
-			class="text-left border-red-500 border-2 w-fit m-1"
-			type="button"
-			on:click={() => {
-				data.questions.splice(index_question, 1);
-				data.questions = data.questions;
-			}}
-		>
-			{$t('editor.delete_question')}
-		</button>
-	</div>
-{/each}
-<button
-	class="text-left"
-	type="button"
-	on:click={() => {
-		data.questions = [...data.questions, { ...empty_question }];
-	}}
->
-	{$t('editor.add_new_question')}
-</button>
-{#if imgur_links_valid}
-	<p class="text-blue-600 text-xl text-center w-fit mx-auto">
-		{$t('editor.not_all_links_imgur_links')}
-	</p>
-{/if}
-{#if schemaInvalid}
-	<p class="text-blue-600 text-xl text-center w-fit mx-auto">
-		{yupErrorMessage}
-	</p>
-{/if}
-<button
-	type="submit"
-	class="text-xl disabled:cursor-not-allowed disabled:border disabled:border-red-500 w-fit mx-auto"
-	disabled={imgur_links_valid || schemaInvalid}>{submit_button_text}</button
->
+			<div class="col-span-5 flex flex-col">
+				<div
+					class="h-10 w-full bg-white mb-10 flex align-middle justify-center rounded-br-lg"
+				>
+					{#if schemaInvalid}
+						<p class="text-center w-full text-red-600 h-full mt-0.5 font-semibold">
+							{yupErrorMessage}
+						</p>
+					{:else}
+						<p class="text-center w-full text-black h-full align-bottom mt-0.5">
+							{data.title}
+						</p>
+					{/if}
+					<button
+						class="pr-2 align-middle bg-purple-400 pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
+						disabled={schemaInvalid}
+					>
+						<span>Save</span>
+						<svg
+							class="w-6 h-6 inline-block"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+							/>
+						</svg>
+					</button>
+				</div>
+				<div class="w-full h-full">
+					{#if selected_question === -1}
+						<SettingsCard bind:data />
+					{:else}
+						<QuizCard bind:data bind:selected_question bind:edit_id />
+					{/if}
+				</div>
+			</div>
+		</div>
+	</form>
+{/await}

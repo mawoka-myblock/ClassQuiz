@@ -1,4 +1,5 @@
 from io import BytesIO
+from classquiz.storage.errors import DeletionFailedError, SavingFailedError, DownloadingFailedError
 
 from aiohttp import ClientSession
 
@@ -26,7 +27,7 @@ class DetaStorage:
             elif response.status == 404:
                 return None
             else:
-                raise Exception("Download failed")
+                raise DownloadingFailedError
 
     async def upload(self, file: bytes, file_name: str) -> None:
         """
@@ -40,7 +41,7 @@ class DetaStorage:
             if response.status == 201:
                 return None
             else:
-                raise Exception("Upload failed")
+                raise SavingFailedError
 
     async def delete(self, file_names: [str]) -> None:
         async with ClientSession(headers=self.headers) as session, session.delete(
@@ -49,4 +50,4 @@ class DetaStorage:
             if response.status == 200:
                 return None
             else:
-                raise Exception("Delete failed")
+                raise DeletionFailedError

@@ -11,7 +11,7 @@
 		if (session.authenticated) {
 			signedIn.set(true);
 		}
-		return {}
+		return {};
 	}
 </script>
 
@@ -22,7 +22,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import { dataSchema } from '$lib/yupSchemas';
 
-	navbarVisible.set(true);
+	navbarVisible.set(false);
 
 	const { t } = getLocalization();
 
@@ -50,6 +50,7 @@
 
 	let data: Data;
 	let confirm_to_leave = true;
+	let quiz_id = null;
 	onMount(() => {
 		const from_localstorage = localStorage.getItem('create_game');
 		if (from_localstorage === null) {
@@ -63,45 +64,14 @@
 			data = JSON.parse(from_localstorage);
 		}
 	});
-
-	const submit = async () => {
-		if (!(await dataSchema.isValid(data))) {
-			return;
-		}
-		const res = await fetch('/api/v1/quiz/create', {
-			method: 'POST',
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		if (res.status === 401) {
-			localStorage.setItem('create_game', JSON.stringify(data));
-			window.location.href = '/account/login';
-		} else if (res.status === 200) {
-			localStorage.removeItem('create_game');
-			responseData.open = true;
-		}
-	};
-	const confirmUnload = () => {
-		if (!confirm_to_leave) {
-			return;
-		}
-		event.preventDefault();
-		event.returnValue = '';
-		localStorage.setItem('create_game', JSON.stringify(data));
-	};
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Create</title>
 </svelte:head>
 
 {#if data !== undefined}
-	<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-		<Editor bind:data />
-	</form>
+	<Editor bind:data bind:quiz_id />
 {/if}
 
 <div

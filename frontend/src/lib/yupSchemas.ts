@@ -9,14 +9,14 @@ export const dataSchema = yup.object({
 		.max(300, 'The title has to be shorter than 300 characters'),
 	description: yup
 		.string()
-		.required()
-		.min(3, 'The title has to be longer than 3 characters')
-		.max(300, 'The title has to be shorter than 300 characters'),
+		.required('The description is required!')
+		.min(3, 'The description has to be longer than 3 characters')
+		.max(500, 'The description has to be shorter than 500 characters'),
 	questions: yup
 		.array()
 		.of(
 			yup.object({
-				question: yup.string().required('A question is required').max(299),
+				question: yup.string().required('A question-title is required').max(299),
 				time: yup.number().required().positive('The time has to be positive'),
 				image: yup
 					.string()

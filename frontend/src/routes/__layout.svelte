@@ -82,6 +82,7 @@
 		// height: 100%;
 		// width: 100%;
 
+		// bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f]
 		background: linear-gradient(to right, #009444, #39b54a, #8dc63f) repeat-y;
 		background-size: cover;
 		/*background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
