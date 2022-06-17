@@ -96,11 +96,13 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     def mark_image_for_deletion(new: str | None, index: int, old_quiz: Quiz | None):
         if old_quiz is None:
             return
-        print(new, old_quiz.questions[index]["image"])
-        if new == old_quiz.questions[index]["image"]:
-            return
-        else:
-            images_to_delete.append(old_quiz.questions[index]["image"])
+        try:
+            if new == old_quiz.questions[index]["image"]:
+                return
+            else:
+                images_to_delete.append(old_quiz.questions[index]["image"])
+        except IndexError:
+            pass
 
     for i, question in enumerate(quiz_input.questions):
         image = question.image

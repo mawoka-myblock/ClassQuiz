@@ -9,16 +9,25 @@
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
-
-	let question = data.questions[selected_question];
-	$: question = data.questions[selected_question];
 	const empty_answer: Answer = {
 		right: false,
 		answer: ''
 	};
-	console.log(question.image);
 	let uppyOpen = false;
-	$: console.log(uppyOpen);
+
+	const correctTimeInput = (_) => {
+		let time = data.questions[selected_question].time;
+		if (time === null || time === undefined) {
+			data.questions[selected_question].time = '';
+			time = '';
+		}
+		if (data.questions[selected_question].time > 3) {
+			data.questions[selected_question].time = data.questions[selected_question].time
+				.toString()
+				.slice(0, 3);
+		}
+	};
+	$: correctTimeInput(data.questions[selected_question].time);
 </script>
 
 <div class="w-full h-full pb-20 px-20">
@@ -40,22 +49,22 @@
 			<div class="flex justify-center pt-10 w-full">
 				<input
 					type="text"
-					bind:value={question.question}
+					bind:value={data.questions[selected_question].question}
 					placeholder="No title..."
 					class="p-3 rounded-lg border-gray-500 border text-center w-2/3 text-lg font-semibold placeholder:italic placeholder:font-normal dark:bg-gray-500"
 					class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
-						question.question
+						data.questions[selected_question].question
 					)}
 				/>
 			</div>
-			{#if question.image != undefined && question.image !== ''}
+			{#if data.questions[selected_question].image != undefined && data.questions[selected_question].image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
 					<img
-						src={question.image}
+						src={data.questions[selected_question].image}
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
 						on:contextmenu|preventDefault={() => {
-							question.image = '';
+							data.questions[selected_question].image = '';
 						}}
 					/>
 				</div>
@@ -73,12 +82,39 @@
 				{/await}
 			{/if}
 			<div class="flex justify-center pt-10 w-full">
+				<div>
+					<svg
+						class="w-8 h-8 inline-block"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<input
+						type="number"
+						max="999"
+						min="1"
+						class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1"
+						bind:value={data.questions[selected_question].time}
+					/>
+				</div>
+			</div>
+
+			<div class="flex justify-center pt-10 w-full">
 				<div class="grid grid-cols-2 gap-4 w-full px-10">
-					{#each question.answers as answer, index}
+					{#each data.questions[selected_question].answers as answer, index}
 						<div
 							on:contextmenu|preventDefault={() => {
-								question.answers.splice(index, 1);
-								question.answers = question.answers;
+								data.questions[selected_question].answers.splice(index, 1);
+								data.questions[selected_question].answers =
+									data.questions[selected_question].answers;
 							}}
 							out:fade={{ duration: 150 }}
 							class="p-4 rounded-lg flex justify-center w-full transition"
@@ -99,6 +135,7 @@
 								type="button"
 								on:click={() => {
 									answer.right = !answer.right;
+									console.log(answer.right);
 								}}
 							>
 								{#if answer.right}
@@ -135,13 +172,16 @@
 							</button>
 						</div>
 					{/each}
-					{#if question.answers.length < 4}
+					{#if data.questions[selected_question].answers.length < 4}
 						<button
 							class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
 							type="button"
 							in:fade={{ duration: 150 }}
 							on:click={() => {
-								question.answers = [...question.answers, { empty_answer }];
+								data.questions[selected_question].answers = [
+									...data.questions[selected_question].answers,
+									{ ...empty_answer }
+								];
 							}}
 						>
 							<span class="italic text-center">Add an answer</span>
