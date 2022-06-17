@@ -3,7 +3,7 @@ from typing import Optional
 import authlib.integrations.base_client
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
-
+from fastapi.responses import RedirectResponse
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel
 from classquiz.auth import check_token
@@ -26,6 +26,7 @@ class Plan(BaseModel):
 class GitHubOauthResponse(BaseModel):
     login: str
     id: int
+    email: Optional[str]
     node_id: Optional[str]
     avatar_url: Optional[str]
     gravatar_id: Optional[str]
@@ -46,7 +47,6 @@ class GitHubOauthResponse(BaseModel):
     company: Optional[str]
     blog: Optional[str]
     location: Optional[str]
-    email: str
     hireable: Optional[bool]
     bio: Optional[str]
     twitter_username: Optional[str]
@@ -92,9 +92,11 @@ async def auth(request: Request, response: Response):
     try:
         token = await oauth.github.authorize_access_token(request)
     except authlib.integrations.base_client.OAuthError:
-        raise HTTPException(status_code=401, detail="The OAuth didn't work! :(")
+        return RedirectResponse("/account/oauth-error")
     resp = await oauth.github.get("user", token=token)
     user_data = GitHubOauthResponse(**resp.json())
+    if user_data.email is None:
+        return RedirectResponse("/account/oauth-error?error=email")
     user_in_db = await User.objects.get_or_none(email=user_data.email)
     if user_in_db is None:
         # REGISTER USER
