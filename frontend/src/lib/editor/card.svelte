@@ -4,6 +4,7 @@
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
+	import { fade } from 'svelte/transition';
 
 	export let data: EditorData;
 	export let selected_question: number;
@@ -49,7 +50,14 @@
 			</div>
 			{#if question.image != undefined && question.image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
-					<img src={question.image} alt="not available" class="max-h-72 h-auto w-auto" />
+					<img
+						src={question.image}
+						alt="not available"
+						class="max-h-72 h-auto w-auto"
+						on:contextmenu|preventDefault={() => {
+							question.image = '';
+						}}
+					/>
 				</div>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
@@ -60,6 +68,7 @@
 						bind:modalOpen={uppyOpen}
 						bind:edit_id
 						bind:data
+						bind:selected_question
 					/>
 				{/await}
 			{/if}
@@ -71,7 +80,8 @@
 								question.answers.splice(index, 1);
 								question.answers = question.answers;
 							}}
-							class="p-4 rounded-lg flex justify-center w-full"
+							out:fade={{ duration: 150 }}
+							class="p-4 rounded-lg flex justify-center w-full transition"
 							class:bg-red-500={!answer.right}
 							class:bg-green-500={answer.right}
 							class:bg-yellow-500={!reach(
@@ -127,8 +137,9 @@
 					{/each}
 					{#if question.answers.length < 4}
 						<button
-							class="p-4 rounded-lg bg-transparent border-gray-500 border-2"
+							class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
 							type="button"
+							in:fade={{ duration: 150 }}
 							on:click={() => {
 								question.answers = [...question.answers, { empty_answer }];
 							}}
@@ -142,6 +153,3 @@
 		</div>
 	</div>
 </div>
-{#if uppyOpen}
-	<span class="fixed w-screen h-screen bg-opacity-60 z-10">1</span>
-{/if}

@@ -73,38 +73,8 @@
 			return;
 		}
 	};
-	const submit = async () => {
-		if (!(await dataSchema.isValid(data))) {
-			return;
-		}
-		const res = await fetch(`/api/v1/quiz/update/${quiz_id}`, {
-			method: 'PUT',
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		if (res.status === 401) {
-			throw new Error('Unauthorized');
-		} else if (res.status === 404) {
-			throw new Error('Quiz not found');
-		} else if (res.status === 200) {
-			localStorage.removeItem('edit_game');
-			responseData.data = '200';
-			responseData.open = true;
-		}
-	};
-	const confirmUnload = () => {
-		if (!confirm_to_leave) {
-			return;
-		}
-		event.preventDefault();
-		event.returnValue = '';
-		localStorage.setItem('edit_game', JSON.stringify(data));
-	};
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Edit</title>
 </svelte:head>
@@ -121,9 +91,7 @@
 	</svg>
 {:then _}
 	{#if data !== undefined}
-		<form on:submit|preventDefault={submit} class="grid grid-cols-1 gap-2">
-			<Editor bind:data submit_button_text={$t('words.save')} bind:quiz_id />
-		</form>
+		<Editor bind:data submit_button_text={$t('words.save')} bind:quiz_id />
 	{/if}
 {:catch err}
 	<div class="text-center">

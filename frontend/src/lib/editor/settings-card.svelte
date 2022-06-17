@@ -34,13 +34,13 @@
 					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500"
 				/>
 			</div>
-			<div class="pt-10">
+			<div class="pt-10 w-full flex justify-center">
 				<button
 					type="button"
 					on:click={() => {
 						data.public = !data.public;
 					}}
-					class="text-center w-full"
+					class="text-center w-fit"
 				>
 					{#if data.public}
 						<svg

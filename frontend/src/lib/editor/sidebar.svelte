@@ -60,7 +60,8 @@
 		>
 			<input
 				type="text"
-				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold dark:text-black"
+				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold dark:text-white"
+				class:dark:text-black={selected_question === -1}
 				bind:value={data.title}
 			/>
 		</div>
@@ -73,10 +74,14 @@
 		>
 			<textarea
 				bind:value={data.description}
-				class="bg-transparent resize-none w-full rounded text-sm dark:text-black"
+				class="bg-transparent resize-none w-full rounded text-sm dark:text-white"
+				class:dark:text-black={selected_question === -1}
 			/>
 		</div>
-		<div class="w-full flex justify-center dark:text-black">
+		<div
+			class="w-full flex justify-center dark:text-white"
+			class:dark:text-black={selected_question === -1}
+		>
 			<button
 				type="button"
 				on:click={() => {
@@ -126,8 +131,10 @@
 			class:bg-green-300={index === selected_question}
 			class:dark:bg-green-500={index === selected_question}
 			on:contextmenu|preventDefault={() => {
-				data.questions.splice(index, 1);
-				data.questions = data.questions;
+				if (confirm('Do you really want to delete this Question?')) {
+					data.questions.splice(index, 1);
+					data.questions = data.questions;
+				}
 			}}
 			on:click={() => {
 				setSelectedQuestion(index);
@@ -139,10 +146,11 @@
 				class="m-1 border border-gray-500 rounded-lg p-0.5"
 			>
 				<h1
-					class="whitespace-nowrap truncate text-center rounded-lg dark:text-black"
+					class="whitespace-nowrap truncate text-center rounded-lg dark:text-white transition"
 					class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
 						question.question
 					)}
+					class:dark:text-black={index === selected_question}
 				>
 					{#if question.question === ''}
 						<span class="italic text-gray-500">No title...</span>
@@ -152,7 +160,7 @@
 				</h1>
 			</div>
 			{#if question.image}
-				<div class="flex justify-center align-middle">
+				<div class="flex justify-center align-middle pb-0.5">
 					<img
 						src={question.image}
 						class="h-10 border rounded-lg"
