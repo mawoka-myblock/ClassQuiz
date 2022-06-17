@@ -20,7 +20,7 @@ settings = settings()
 router = APIRouter()
 
 
-@router.post("/create")
+@router.post("/create", deprecated=True)
 async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
     server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{36}--.{36}$"
@@ -129,7 +129,7 @@ async def get_quiz_list(user: User = Depends(get_current_user)):
     return await Quiz.objects.filter(user_id=user.id).all()
 
 
-@router.put("/update/{quiz_id}")
+@router.put("/update/{quiz_id}", deprecated=True)
 async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(get_current_user)):
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
     server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"
