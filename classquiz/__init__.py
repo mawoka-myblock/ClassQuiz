@@ -14,7 +14,6 @@ settings = settings()
 if settings.sentry_dsn:
     sentry_sdk.init(dsn=settings.sentry_dsn, integrations=[RedisIntegration()])
 app = FastAPI(redoc_url="", docs_url="/api/docs")
-# app = FastAPI(redoc_url="", docs_url="")
 app.state.database = database
 
 

@@ -6,8 +6,7 @@ from typing import Optional
 
 import asyncpg.exceptions
 import bleach
-import pydantic
-from fastapi import APIRouter, File, Form, UploadFile, HTTPException, BackgroundTasks, Depends
+from fastapi import APIRouter, File, UploadFile, HTTPException, Depends
 from pydantic import BaseModel
 
 from classquiz.config import settings, redis, storage, meilisearch
@@ -45,9 +44,8 @@ async def delete_images_for_edit_id(edit_id: str):
 
 @router.post("/start", response_model=InitEditorResponse)
 async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = Depends(get_current_user)):
-    if edit and quiz_id is not None:
-        if await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id) is None:
-            raise HTTPException(status_code=404, detail="Quiz not found")
+    if edit and quiz_id is not None and await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id) is None:
+        raise HTTPException(status_code=404, detail="Quiz not found")
     if not edit and quiz_id is not None:
         raise HTTPException(status_code=400, detail="You can't choose the id for your quiz")
     if edit and quiz_id is None:
