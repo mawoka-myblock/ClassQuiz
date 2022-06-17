@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { EditorData, Answer } from '$lib/quiz_types';
-	import CheckerBg from '$lib/editor/checker-bg.svg';
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';

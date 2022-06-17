@@ -132,6 +132,7 @@
 			class:dark:bg-green-500={index === selected_question}
 			on:contextmenu|preventDefault={() => {
 				if (confirm('Do you really want to delete this Question?')) {
+					selected_question = selected_question - 1;
 					data.questions.splice(index, 1);
 					data.questions = data.questions;
 				}
