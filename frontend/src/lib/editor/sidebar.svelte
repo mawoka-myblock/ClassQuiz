@@ -45,7 +45,7 @@
 
 <div class="h-screen border-r-2 pt-6 px-6 overflow-scroll">
 	<div
-		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
+		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
 		bind:this={propertyCard}
 		class:bg-green-300={selected_question === -1}
 		class:dark:bg-green-500={selected_question === -1}
@@ -53,7 +53,7 @@
 	>
 		<div
 			use:tippy={{ content: data.title === '' ? "It's empty!" : data.title }}
-			class="m-1 border border-gray-500 rounded-lg p-0.5"
+			class="m-1 border border-gray-500 rounded-lg p-0.5 transition"
 			class:border-red-600={!reach(dataSchema, 'title').isValidSync(data.title)}
 			class:border-solid={!reach(dataSchema, 'title').isValidSync(data.title)}
 			class:border-2={!reach(dataSchema, 'title').isValidSync(data.title)}
@@ -67,7 +67,7 @@
 		</div>
 		<div
 			use:tippy={{ content: data.description === '' ? "It's empty!" : data.description }}
-			class="m-1 border border-gray-500 rounded-lg p-0.5"
+			class="m-1 border border-gray-500 rounded-lg p-0.5 transition"
 			class:border-red-600={!reach(dataSchema, 'description').isValidSync(data.description)}
 			class:border-solid={!reach(dataSchema, 'description').isValidSync(data.description)}
 			class:border-2={!reach(dataSchema, 'description').isValidSync(data.description)}
@@ -127,7 +127,7 @@
 	</div>
 	{#each data.questions as question, index}
 		<div
-			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
+			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
 			class:bg-green-300={index === selected_question}
 			class:dark:bg-green-500={index === selected_question}
 			on:contextmenu|preventDefault={() => {
