@@ -4,6 +4,7 @@ import en from './locales/en.json';
 import de from './locales/de.json';
 import fr from './locales/fr.json';
 import tr from './locales/tr.json';
+import id from './locales/id.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import type { i18n, Resource } from 'i18next';
@@ -28,6 +29,7 @@ export class I18nService {
 	initialize(): void {
 		this.i18n.use(LanguageDetector).init({
 			// lng: INITIAL_LANGUAGE,
+			compatibilityJSON: 'v3',
 			fallbackLng: 'en',
 			debug: false,
 			defaultNS: 'translation',
@@ -36,6 +38,7 @@ export class I18nService {
 				escapeValue: false
 			},
 			returnEmptyString: false,
+			simplifyPluralSuffix: true,
 			// detection: {
 			// 	order: ['browser', 'querystring', 'navigator', 'localStorage', 'htmlTag'],
 			// 	lookupQuerystring: 'lng'
@@ -50,6 +53,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('de', 'translation', de);
 		this.i18n.addResourceBundle('fr', 'translation', fr);
 		this.i18n.addResourceBundle('tr', 'translation', tr);
+		this.i18n.addResourceBundle('id', 'translation', id);
 	}
 
 	changeLanguage(language: string): void {
