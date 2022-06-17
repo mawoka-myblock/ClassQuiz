@@ -40,7 +40,7 @@ async def delete_images_for_edit_id(edit_id: str):
     res = await redis.lrange(f"edit_session:{edit_id}:images", 0, -1)
     if len(res) != 0:
         for image_id in res:
-            await storage.delete(image_id)
+            await storage.delete([image_id])
 
 
 @router.post("/start", response_model=InitEditorResponse)
@@ -136,9 +136,12 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         for image in images_to_delete:
             if image is not None:
                 try:
-                    await storage.delete(re.search(extract_file_name_re, image).group(1))
+                    await storage.delete([re.search(extract_file_name_re, image).group(1)])
                 except DeletionFailedError:
                     pass
+        await redis.srem("edit_sessions", edit_id)
+        await redis.delete(f"edit_session:{edit_id}")
+        await redis.delete(f"edit_session:{edit_id}:images")
         return await quiz.update()
     else:
         quiz = Quiz(**quiz_input.dict(), user_id=session_data.user_id, id=session_data.quiz_id)
@@ -146,6 +149,9 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         if quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         try:
+            await redis.srem("edit_sessions", edit_id)
+            await redis.delete(f"edit_session:{edit_id}")
+            await redis.delete(f"edit_session:{edit_id}:images")
             return await quiz.save()
         except asyncpg.exceptions.UniqueViolationError:
             raise HTTPException(status_code=400, detail="The quiz already exists")
