@@ -30,6 +30,7 @@ pillow = ">=9.1.1"
 authlib = "*"
 httpx = "*"
 itsdangerous = "*"
+puremagic = "*"
 
 [dev-packages]
 coverage = "*"

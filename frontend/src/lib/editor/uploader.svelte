@@ -20,7 +20,9 @@
 	export let edit_id: string;
 	export let data: EditorData;
 	export let selected_question: number;
+	export let pow_data;
 
+	console.log(pow_data);
 	const uppy = new Uppy()
 		.use(DropTarget, {
 			target: document.body
@@ -34,7 +36,7 @@
 			quality: 0.6
 		})
 		.use(XHRUpload, {
-			endpoint: `/api/v1/editor/image?edit_id=${edit_id}`
+			endpoint: `/api/v1/editor/image?edit_id=${edit_id}&pow_data=${pow_data}`
 		});
 	const props = { inline: true };
 	let image_id;
@@ -42,6 +44,7 @@
 		image_id = response.body.id;
 	});
 	uppy.on('complete', (res) => {
+		console.log(pow_data);
 		data.questions[
 			selected_question
 		].image = `${window.location.origin}/api/v1/storage/download/${image_id}`;

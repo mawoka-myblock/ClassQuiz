@@ -53,7 +53,6 @@ async def create_user(user: route_user, background_task: BackgroundTasks) -> Use
         raise HTTPException(status_code=400, detail=str(e))
     user.verify_key = str(os.urandom(16).hex())
     res = await User.objects.filter((User.email == user.email) | (User.username == user.username)).all()
-
     if len(res) != 0:
         raise HTTPException(status_code=409, detail="User already exists")
 
@@ -162,9 +161,8 @@ class ForgotPassword(BaseModel):
 @router.post("/forgot-password")
 async def forgotten_password(forgot_password: ForgotPassword, background_task: BackgroundTasks):
     user = await User.objects.filter(email=forgot_password.email, verified=True).get_or_none()
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    background_task.add_task(send_forgotten_password_email, email=user.email)
+    if user is not None:
+        background_task.add_task(send_forgotten_password_email, email=user.email)
     return {"message": "Password reset email sent"}
 
 

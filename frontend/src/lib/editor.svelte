@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import * as yup from 'yup';
+	import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData, Question, Answer } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';
 	import SettingsCard from '$lib/editor/settings-card.svelte';
 	import QuizCard from '$lib/editor/card.svelte';
 	import Spinner from './Spinner.svelte';
+	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
 
@@ -67,6 +68,7 @@
 	};
 	let edit_id;
 	let confirm_to_leave = true;
+	let pow_data;
 
 	const getEditID = async () => {
 		let res;
@@ -82,7 +84,7 @@
 		if (res.status === 200) {
 			const json = await res.json();
 			edit_id = json.token;
-			console.log(edit_id, json);
+			setPOWdata();
 		} else {
 			alert('Error!');
 		}
@@ -110,13 +112,19 @@
 			body: JSON.stringify(data)
 		});
 		if (res.ok) {
-			console.log('Hier');
 			confirm_to_leave = false;
 			console.log(confirm_to_leave);
 			window.location.href = '/overview';
 		} else {
 			alert('Error');
 		}
+	};
+	const setPOWdata = async () => {
+		const res = await fetch(`/api/v1/editor/pow?edit_id=${edit_id}`);
+		const data = (await res.json()).data;
+		console.log(data);
+		pow_data = await mint(data);
+		console.log(pow_data);
 	};
 </script>
 
@@ -167,7 +175,7 @@
 					{#if selected_question === -1}
 						<SettingsCard bind:data />
 					{:else}
-						<QuizCard bind:data bind:selected_question bind:edit_id />
+						<QuizCard bind:data bind:selected_question bind:edit_id bind:pow_data />
 					{/if}
 				</div>
 			</div>

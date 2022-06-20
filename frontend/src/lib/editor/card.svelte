@@ -8,6 +8,7 @@
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
+	export let pow_data;
 	const empty_answer: Answer = {
 		right: false,
 		answer: ''
@@ -67,6 +68,8 @@
 						}}
 					/>
 				</div>
+			{:else if pow_data === undefined}
+				<Spinner />
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner />
@@ -77,6 +80,7 @@
 						bind:edit_id
 						bind:data
 						bind:selected_question
+						bind:pow_data
 					/>
 				{/await}
 			{/if}

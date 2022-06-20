@@ -11,17 +11,20 @@ from pydantic import BaseModel
 
 from classquiz.config import settings, redis, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User
+import puremagic
 from classquiz.auth import get_current_user
 import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data
+from classquiz.helpers import get_meili_data, check_hashcash
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()
 
 router = APIRouter()
+
+allowed_image_extensions = [".gif", ".jpg", ".jpeg", ".png", ".svg", ".webp"]
 
 
 class InitEditorResponse(BaseModel):
@@ -60,21 +63,44 @@ async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = D
     return InitEditorResponse(token=edit_id)
 
 
+class GetPowData(BaseModel):
+    data: str
+
+
+@router.get("/pow", response_model=GetPowData)
+async def get_pow_data(edit_id: str):
+    session_data = await redis.get(f"edit_session:{edit_id}")
+    if session_data is None:
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
+    random_str = os.urandom(8).hex()
+    await redis.set(f"edit_session:{edit_id}:pow", random_str, ex=3800)
+    return GetPowData(data=random_str)
+
+
 class UploadImageReturn(BaseModel):
     id: str
 
 
 @router.post("/image", response_model=UploadImageReturn)
-async def upload_image(edit_id: str, file: UploadFile = File()):
+async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
+    print(pow_data)
     session_data = await redis.get(f"edit_session:{edit_id}")
+    pow_data_server = await redis.get(f"edit_session:{edit_id}:pow")
+    if pow_data_server is None:
+        print("1")
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
+    if not check_hashcash(pow_data, pow_data_server):
+        print("2")
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
+    file_bytes = await file.read()
+    lol = puremagic.magic_string(file_bytes)
+    print(lol)
     session_data = EditSessionData.parse_raw(session_data)
     file_name = f"{session_data.quiz_id}--{uuid.uuid4()}"
-    print("Uploading...")
-    await storage.upload(file_name=file_name, file_data=await file.read())
-    print("Finished Upload")
-    await redis.lpush(f"edit_session:{edit_id}:images", file_name)
+    # await storage.upload(file_name=file_name, file_data=file_bytes)
+    # await redis.lpush(f"edit_session:{edit_id}:images", file_name)
     return UploadImageReturn(id=file_name)
 
 

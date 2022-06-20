@@ -20,6 +20,7 @@
 
 	import LandingPromo from '$lib/landing/landing-promo.svelte';
 	import { onMount } from 'svelte';
+	import { mint } from '$lib/hashcash';
 
 	const { t } = getLocalization();
 

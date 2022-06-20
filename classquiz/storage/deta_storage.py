@@ -41,6 +41,7 @@ class DetaStorage:
             if response.status == 201:
                 return None
             else:
+                print(response.status, await response.json())
                 raise SavingFailedError
 
     async def delete(self, file_names: [str]) -> None:
