@@ -6,6 +6,8 @@ from aiohttp import ClientSession
 from io import BytesIO
 from PIL import Image
 from classquiz.config import meilisearch, settings
+from classquiz.helpers.hashcash import check as hc_check
+from datetime import datetime
 
 settings = settings()
 
@@ -17,6 +19,7 @@ async def get_meili_data(quiz: Quiz) -> dict:
         "description": quiz.description,
         "user": (await User.objects.filter(id=quiz.user_id).first()).username,
         "created_at": int(quiz.created_at.timestamp()),
+        "imported_from_kahoot": quiz.imported_from_kahoot,
     }
 
 
@@ -102,3 +105,32 @@ async def meilisearch_init():
     # --- END ---
     meilisearch.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
     print("Finished MeiliSearch synchronisation")
+
+
+def check_hashcash(data: str, input_data: str) -> bool:
+    """
+    It checks that the hashcash is valid, and if it is, it returns True
+
+    :param data: The hashcash string
+    :type data: str
+    :param input_data: The claim, the data the server provided
+    :type input_data: str
+    :return: A boolean value.
+    """
+    print(data, input_data, hc_check(data))
+
+    if not hc_check(data):
+        return False
+    try:
+        version, claim, date, res, ext, rand, counter = data.split(":")
+    except ValueError:
+        return False
+    try:
+        assert version == "1"
+        assert claim == "19"
+        assert res == input_data
+        assert ext == ""
+        return True
+    except AssertionError as e:
+        print(e, "hilo")
+        return False
