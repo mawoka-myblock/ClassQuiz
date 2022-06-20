@@ -43,7 +43,7 @@
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;
 	});
-	uppy.on('complete', (res) => {
+	uppy.on('complete', (_) => {
 		console.log(pow_data);
 		data.questions[
 			selected_question

@@ -10,8 +10,6 @@
 </script>
 
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
-	const { t } = getLocalization();
 	import SearchCard from '$lib/search-card.svelte';
 	const getData = async () => {
 		const response = await fetch('/api/v1/search/', {

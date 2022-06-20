@@ -117,7 +117,6 @@ def check_hashcash(data: str, input_data: str) -> bool:
     :type input_data: str
     :return: A boolean value.
     """
-    print(data, input_data, hc_check(data))
 
     if not hc_check(data):
         return False
@@ -132,5 +131,4 @@ def check_hashcash(data: str, input_data: str) -> bool:
         assert ext == ""
         return True
     except AssertionError as e:
-        print(e, "hilo")
         return False

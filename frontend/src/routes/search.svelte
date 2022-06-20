@@ -12,7 +12,6 @@
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	const { t } = getLocalization();
-	import { page } from '$app/stores';
 	import SearchCard from '$lib/search-card.svelte';
 	import { createQueryParamsStore } from '$lib/stores';
 	const search_term = createQueryParamsStore('q');

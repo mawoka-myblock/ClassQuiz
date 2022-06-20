@@ -10,7 +10,7 @@ import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 
 const URLSearchParamsToObject = (params: URLSearchParams) => {
-	let obj = {};
+	const obj = {};
 	params.forEach((v: string, k: string) => {
 		obj[k] = v;
 	});

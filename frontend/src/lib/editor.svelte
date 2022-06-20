@@ -1,36 +1,19 @@
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
 	import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
-	import type { EditorData, Question, Answer } from './quiz_types';
+	import type { EditorData, Question } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';
 	import SettingsCard from '$lib/editor/settings-card.svelte';
 	import QuizCard from '$lib/editor/card.svelte';
 	import Spinner from './Spinner.svelte';
-	import { onMount } from 'svelte';
-
-	const { t } = getLocalization();
 
 	let schemaInvalid = false;
 	let yupErrorMessage = '';
 
 	export let data: EditorData;
-	export let submit_button_text = 'Create';
 	export let quiz_id: string | null;
 	let selected_question = -1;
 	let imgur_links_valid = false;
-
-	const empty_question: Question = {
-		question: '',
-		time: '20',
-		image: '',
-		answers: [
-			{
-				right: false,
-				answer: ''
-			}
-		]
-	};
 
 	const validateInput = async (data: EditorData) => {
 		try {
@@ -61,11 +44,6 @@
 	};
 
 	$: imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
-
-	const empty_answer: Answer = {
-		right: false,
-		answer: ''
-	};
 	let edit_id;
 	let confirm_to_leave = true;
 	let pow_data;

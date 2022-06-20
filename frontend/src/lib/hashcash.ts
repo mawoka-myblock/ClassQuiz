@@ -29,7 +29,6 @@ export const mint = async (
 	const zeros = '0'.repeat(hex_digits);
 	const salt = gen_salt(saltchars);
 	const challenge = `${ver}:${bits}:${ts}:${resource}:${ext}:${salt}`;
-	let digest: string;
 	let counter = 0;
 	let result: string;
 	while (true) {

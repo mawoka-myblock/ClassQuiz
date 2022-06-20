@@ -20,7 +20,6 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
-	import { dataSchema } from '$lib/yupSchemas';
 
 	navbarVisible.set(false);
 
@@ -49,7 +48,6 @@
 	};
 
 	let data: Data;
-	let confirm_to_leave = true;
 	let quiz_id = null;
 	onMount(() => {
 		const from_localstorage = localStorage.getItem('create_game');
@@ -130,7 +128,6 @@
 				<button
 					type="button"
 					on:click={() => {
-						confirm_to_leave = false;
 						window.location.href = '/overview';
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
