@@ -190,7 +190,7 @@ class TestUsers:
         resp = test_client.post("/api/v1/users/forgot-password", json={"email": test_user_email})
         assert resp.status_code == 200
         resp = test_client.post("/api/v1/users/forgot-password", json={"email": "ddassad@dsa.ads"})
-        assert resp.status_code == 404
+        assert resp.status_code == 200
 
     @pytest.mark.asyncio
     async def test_reset_password_with_token(self, test_client):  # noqa : F811
