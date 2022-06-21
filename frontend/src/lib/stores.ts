@@ -24,6 +24,7 @@ export const createQueryParamsStore = (key: string) => {
 	});
 
 	return {
+		// eslint-disable-next-line @typescript-eslint/ban-types
 		subscribe: (cb: Function) => {
 			return page.subscribe((p) => {
 				cb(p.url.searchParams.get(key));

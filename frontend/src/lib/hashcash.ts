@@ -13,7 +13,7 @@ const gen_salt = (l: number): string => {
 export const mint = async (
 	resource: string,
 	bits = 19,
-	now = null,
+	// now = null,
 	ext = '',
 	saltchars = 8,
 	stamp_seconds = false
@@ -31,6 +31,7 @@ export const mint = async (
 	const challenge = `${ver}:${bits}:${ts}:${resource}:${ext}:${salt}`;
 	let counter = 0;
 	let result: string;
+	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		const data = new TextEncoder().encode(`${challenge}:${counter.toString(16)}`);
 		const hashBuffer = await crypto.subtle.digest('SHA-1', data);

@@ -2,6 +2,7 @@ import type { I18nService } from './i18n-service';
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 
+// eslint-disable-next-line no-unused-vars
 export type TType = (text: string, replacements?: Record<string, unknown>) => string;
 
 export interface TranslationService {
@@ -32,6 +33,7 @@ export class I18NextTranslationService implements TranslationService {
 			set(newLocale);
 		};
 
+		// eslint-disable-next-line no-unused-vars
 		const updateLocale = (updater: (value: string) => string) => {
 			update((currentValue) => {
 				const nextLocale = updater(currentValue);

@@ -15,6 +15,7 @@
 	};
 	let uppyOpen = false;
 
+	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 	const correctTimeInput = (_) => {
 		let time = data.questions[selected_question].time;
 		if (time === null || time === undefined) {
