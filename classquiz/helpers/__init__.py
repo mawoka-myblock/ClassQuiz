@@ -1,4 +1,5 @@
 import asyncio
+from typing import Optional
 
 from classquiz.db.models import Quiz, User
 import xlsxwriter
@@ -107,10 +108,11 @@ async def meilisearch_init():
     print("Finished MeiliSearch synchronisation")
 
 
-def check_hashcash(data: str, input_data: str) -> bool:
+def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -> bool:
     """
     It checks that the hashcash is valid, and if it is, it returns True
 
+    :param claim_in: The claim the data should have (bytes)
     :param data: The hashcash string
     :type data: str
     :param input_data: The claim, the data the server provided
@@ -126,7 +128,7 @@ def check_hashcash(data: str, input_data: str) -> bool:
         return False
     try:
         assert version == "1"
-        assert claim == "19"
+        assert claim == claim_in
         assert res == input_data
         assert ext == ""
         return True

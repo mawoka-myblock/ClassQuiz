@@ -79,6 +79,7 @@ async def get_pow_data(edit_id: str):
 
 class UploadImageReturn(BaseModel):
     id: str
+    pow_data: str
 
 
 @router.post("/image", response_model=UploadImageReturn)
@@ -86,22 +87,28 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
     print(pow_data)
     session_data = await redis.get(f"edit_session:{edit_id}")
     pow_data_server = await redis.get(f"edit_session:{edit_id}:pow")
+    uploaded_images = await redis.llen(f"edit_session:{edit_id}:images")
     if pow_data_server is None:
-        print("1")
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if not check_hashcash(pow_data, pow_data_server):
-        print("2")
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
+
+    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "19"):
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
+    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "17"):
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
+
     file_bytes = await file.read()
-    lol = puremagic.magic_string(file_bytes)
-    print(lol)
+    pm_data = puremagic.magic_string(file_bytes)[0]
+    if pm_data.extension not in allowed_image_extensions:
+        raise HTTPException(status_code=400, detail="Image-type now allowed!")
     session_data = EditSessionData.parse_raw(session_data)
     file_name = f"{session_data.quiz_id}--{uuid.uuid4()}"
-    # await storage.upload(file_name=file_name, file_data=file_bytes)
-    # await redis.lpush(f"edit_session:{edit_id}:images", file_name)
-    return UploadImageReturn(id=file_name)
+    # await storage.upload(file_name=file_name, file_data=file_bytes) TODO: UNCOMMENT!!!!
+    await redis.lpush(f"edit_session:{edit_id}:images", file_name)
+    random_str = os.urandom(8).hex()
+    await redis.set(f"edit_session:{edit_id}:pow", random_str, ex=3800)
+    return UploadImageReturn(id=file_name, pow_data=random_str)
 
 
 @router.post("/finish")
