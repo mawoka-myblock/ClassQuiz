@@ -5,6 +5,15 @@
 	import Spinner from '../Spinner.svelte';
 	import { fade } from 'svelte/transition';
 	import { mint } from '$lib/hashcash';
+	import { createTippy } from 'svelte-tippy';
+	import 'tippy.js/animations/perspective-subtle.css';
+	import 'tippy.js/dist/tippy.css';
+
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle',
+		placement: 'top'
+	});
 
 	export let data: EditorData;
 	export let selected_question: number;
@@ -87,7 +96,14 @@
 					/>
 				</div>
 			{:else if pow_data === undefined}
-				<Spinner />
+				<a
+					href="/docs/pow"
+					target="_blank"
+					use:tippy={{ content: "Click to learn why it's loading so long." }}
+					class="cursor-help"
+				>
+					<Spinner />
+				</a>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner />
