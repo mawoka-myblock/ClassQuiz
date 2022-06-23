@@ -4,16 +4,34 @@
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
 	import { fade } from 'svelte/transition';
+	import { mint } from '$lib/hashcash';
 
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
 	export let pow_data;
+	let pow_salt: string;
 	const empty_answer: Answer = {
 		right: false,
 		answer: ''
 	};
 	let uppyOpen = false;
+
+	const computePOW = async (salt: string) => {
+		console.log('Called!');
+		if (pow_salt === undefined) {
+			return;
+		}
+		console.log('Computing POW');
+		pow_data = await mint(salt, 17, '', 8, false);
+		pow_salt = undefined;
+		return;
+	};
+
+	$: {
+		pow_salt;
+		computePOW(pow_salt);
+	}
 
 	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 	const correctTimeInput = (_) => {
@@ -82,6 +100,7 @@
 						bind:data
 						bind:selected_question
 						bind:pow_data
+						bind:pow_salt
 					/>
 				{/await}
 			{/if}

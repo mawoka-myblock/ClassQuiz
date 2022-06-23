@@ -21,6 +21,7 @@
 	export let data: EditorData;
 	export let selected_question: number;
 	export let pow_data;
+	export let pow_salt: string;
 
 	console.log(pow_data);
 	const uppy = new Uppy()
@@ -42,6 +43,9 @@
 	let image_id;
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;
+		pow_salt = response.body.pow_data;
+		console.log(pow_salt, response.body);
+		pow_data = undefined;
 	});
 	uppy.on('complete', (_) => {
 		console.log(pow_data);
