@@ -39,7 +39,14 @@
 		.use(XHRUpload, {
 			endpoint: `/api/v1/editor/image?edit_id=${edit_id}&pow_data=${pow_data}`
 		});
-	const props = { inline: true };
+	const props = {
+		inline: true,
+		restrictions: {
+			maxFileSize: 2000,
+			maxNumberOfFiles: 1,
+			allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
+		}
+	};
 	let image_id;
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;

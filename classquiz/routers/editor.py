@@ -97,8 +97,9 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "17"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
-
     file_bytes = await file.read()
+    if len(file_bytes) < 2000:
+        raise HTTPException(status_code=400, detail="File too large")
     pm_data = puremagic.magic_string(file_bytes)[0]
     if pm_data.extension not in allowed_image_extensions:
         raise HTTPException(status_code=400, detail="Image-type now allowed!")
