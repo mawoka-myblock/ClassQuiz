@@ -104,7 +104,7 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
         raise HTTPException(status_code=400, detail="Image-type now allowed!")
     session_data = EditSessionData.parse_raw(session_data)
     file_name = f"{session_data.quiz_id}--{uuid.uuid4()}"
-    # await storage.upload(file_name=file_name, file_data=file_bytes) TODO: UNCOMMENT!!!!
+    await storage.upload(file_name=file_name, file_data=file_bytes)
     await redis.lpush(f"edit_session:{edit_id}:images", file_name)
     random_str = os.urandom(8).hex()
     await redis.set(f"edit_session:{edit_id}:pow", random_str, ex=3800)

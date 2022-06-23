@@ -18,7 +18,6 @@
 	let uppyOpen = false;
 
 	const computePOW = async (salt: string) => {
-		console.log('Called!');
 		if (pow_salt === undefined) {
 			return;
 		}

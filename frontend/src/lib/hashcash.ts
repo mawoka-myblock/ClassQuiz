@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import * as Sentry from '@sentry/browser';
 
 const gen_salt = (l: number): string => {
 	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -31,6 +32,7 @@ export const mint = async (
 	const challenge = `${ver}:${bits}:${ts}:${resource}:${ext}:${salt}`;
 	let counter = 0;
 	let result: string;
+	const t0 = performance.now();
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
 		const data = new TextEncoder().encode(`${challenge}:${counter.toString(16)}`);
@@ -43,5 +45,16 @@ export const mint = async (
 		}
 		counter += 1;
 	}
+	const t1 = performance.now();
+	const transaction = Sentry.startTransaction({ name: 'calculatedHasCash' });
+	const span = transaction.startChild({
+		op: 'hashcash',
+		data: {
+			milliseconds_taken: t0 - t1,
+			bits: bits
+		}
+	});
+	span.finish();
+	transaction.finish();
 	return `${challenge}:${result}`;
 };
