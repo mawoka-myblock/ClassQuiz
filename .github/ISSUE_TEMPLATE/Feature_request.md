@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Make a clear demand for improve ClassQuiz 💪
+about: Make a clear demand for improving ClassQuiz 💪
 
 ---
 
