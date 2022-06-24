@@ -33,7 +33,6 @@ Notice that '_mint()' behaves deterministically, finding the same suffix
 every time it is passed the same arguments.  'mint()' incorporates a random
 salt in stamps (as per the hashcash v.1 protocol).
 """
-import sys
 from string import ascii_letters
 from math import ceil, floor
 import hashlib
@@ -97,7 +96,7 @@ def _mint(challenge, bits):
     hex_digits = int(ceil(bits / 4.0))
     zeros = "0" * hex_digits
     while 1:
-        digest = hashlib.sha1((challenge + hex(counter)[2:]).encode()).hexdigest()
+        digest = hashlib.sha1((challenge + hex(counter)[2:]).encode(), usedforsecurity=False).hexdigest()
         if digest[:hex_digits] == zeros:
             tries[0] = counter
             return hex(counter)[2:]
@@ -123,7 +122,7 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
     """
     if stamp.startswith("0:"):  # Version 0
         try:
-            date, res, suffix = stamp[2:].split(":")
+            date, res, _suffix = stamp[2:].split(":")
         except ValueError:
             return False
         if resource is not None and resource != res:
@@ -138,10 +137,10 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return True
         else:
             hex_digits = int(floor(bits / 4))
-            return hashlib.sha1((stamp).encode()).hexdigest().startswith("0" * hex_digits)
+            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
     elif stamp.startswith("1:"):  # Version 1
         try:
-            claim, date, res, ext, rand, counter = stamp[2:].split(":")
+            claim, date, res, _ext, _rand, _counter = stamp[2:].split(":")
         except ValueError:
             return False
         if resource is not None and resource != res:
@@ -156,7 +155,7 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return False
         else:
             hex_digits = int(floor(int(claim) / 4))
-            return hashlib.sha1((stamp).encode()).hexdigest().startswith("0" * hex_digits)
+            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
     else:  # Unknown ver or generalized hashcash
         if type(bits) is not int:
             return True
@@ -164,4 +163,4 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return False
         else:
             hex_digits = int(floor(bits / 4))
-            return hashlib.sha1((stamp).encode()).hexdigest().startswith("0" * hex_digits)
+            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)

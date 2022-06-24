@@ -8,7 +8,6 @@ from io import BytesIO
 from PIL import Image
 from classquiz.config import meilisearch, settings
 from classquiz.helpers.hashcash import check as hc_check
-from datetime import datetime
 
 settings = settings()
 
@@ -123,7 +122,7 @@ def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -
     if not hc_check(data):
         return False
     try:
-        version, claim, date, res, ext, rand, counter = data.split(":")
+        version, claim, _date, res, ext, _rand, _counter = data.split(":")
     except ValueError:
         return False
     try:
@@ -132,5 +131,5 @@ def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -
         assert res == input_data
         assert ext == ""
         return True
-    except AssertionError as e:
+    except AssertionError:
         return False
