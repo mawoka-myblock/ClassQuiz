@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 
 ---
-⚠️ The main ClassQuizz instance at (https://classquizz.mawoka.eu/) uses Sentry as a bug detection software, so please disable your AdBlocker if you want to ease the debug process ⚠️
+⚠️ The main ClassQuizz instance at (https://classquiz.de) uses Sentry as a bug detection software, so please disable your AdBlocker if you want to ease the debug process ⚠️
 
 **Describe the bug**
 A clear and concise description of what the bug is.
