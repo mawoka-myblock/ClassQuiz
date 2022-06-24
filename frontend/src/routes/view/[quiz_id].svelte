@@ -28,6 +28,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
 	import 'tippy.js/dist/tippy.css';
+	import { plausible } from '$lib/stores';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -79,7 +80,7 @@
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
-		plausible('Started Game', { props: { quiz_id: id } });
+		plausible.trackEvent('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 </script>

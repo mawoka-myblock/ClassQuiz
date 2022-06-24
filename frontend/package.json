@@ -52,7 +52,7 @@
 		"js-cookie": "^3.0.1",
 		"luxon": "^2.4.0",
 		"mapbox-gl": "^2.8.2",
-		"node-fetch": "^3.2.6",
+		"plausible-tracker": "^0.3.8",
 		"postcss": "^8.4.14",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^2.6.2",

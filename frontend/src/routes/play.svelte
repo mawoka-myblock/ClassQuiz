@@ -21,7 +21,7 @@
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible, plausible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
 
 	// Exports
@@ -66,7 +66,7 @@
 		console.log('joined_game', data);
 		gameData = JSON.parse(data);
 		// eslint-disable-next-line no-undef
-		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
+		plausible.trackEvent('Joined Game', { props: { quiz_id: gameData.quiz_id } });
 	});
 
 	socket.on('game_not_found', () => {

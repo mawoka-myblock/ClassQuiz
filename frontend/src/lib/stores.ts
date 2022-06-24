@@ -8,6 +8,7 @@ export const alertModal = writable({ open: false, title: '', body: '' });
 
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
+import Plausible from 'plausible-tracker';
 
 const URLSearchParamsToObject = (params: URLSearchParams) => {
 	const obj = {};
@@ -41,3 +42,9 @@ export const createQueryParamsStore = (key: string) => {
 		}
 	};
 };
+
+export const plausible = Plausible({
+	domain: 'classquiz.mawoka.eu',
+	apiHost: 'https://sugar.mawoka.eu.org',
+	trackLocalhost: true
+});

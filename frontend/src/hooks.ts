@@ -1,5 +1,4 @@
 import * as cookie from 'cookie';
-import fetch from 'node-fetch';
 import Redis from 'ioredis';
 
 const redis = new Redis(process.env.REDIS_URL);

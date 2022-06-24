@@ -19,7 +19,7 @@
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { alertModal, navbarVisible, signedIn } from '$lib/stores';
+	import { alertModal, navbarVisible, signedIn, plausible } from '$lib/stores';
 
 	interface QuizData {
 		id: string;
@@ -71,7 +71,7 @@
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
-		plausible('Started Game', { props: { quiz_id: id } });
+		plausible.trackEvent('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 
