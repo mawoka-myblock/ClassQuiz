@@ -13,7 +13,8 @@
     },
     "overview_page": {
         "created_at": "Erstellt am",
-        "question_count": "Fragenanzahl"
+        "question_count": "Fragenanzahl",
+        "no_quizzes": "Es scheint so, als hättest du noch keine Quiz erstellt. Klicke auf den \"Erstellen\"-Knopf um ein Quiz zu erstellen oder importiere eins von Kahoot!"
     },
     "edit_page": {
         "success_update_title": "Quiz erfolgreich aktualisiert!",
@@ -92,7 +93,8 @@
         "screenshot": "Bildschirmaufnahme",
         "screenshot_plural": "Bildschirmaufnahmen",
         "browser": "Browser",
-        "view": "Angucken"
+        "view": "Angucken",
+        "correct": "Richtig"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -117,7 +119,9 @@
         "get_results": "Ergebnisse abfragen",
         "get_results_and_stop_time": "Ergebnisse abrufen und Zeit stoppen",
         "get_final_results": "Finale Ergebnisse abrufen",
-        "export_results": "Ergebnisse exportieren"
+        "export_results": "Ergebnisse exportieren",
+        "show_next_question": "Zeige die nächste Frage",
+        "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
@@ -141,5 +145,12 @@
     },
     "search_page": {
         "at_least_3_characters": "Gib mindestens 3 Zeichen ein..."
+    },
+    "play_page": {
+        "3rd place": "3. Platz",
+        "end_sentence": "Das war's! Das war das Quiz.",
+        "1st_place": "1. Platz",
+        "2nd_place": "2. Platz",
+        "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}"
     }
 }

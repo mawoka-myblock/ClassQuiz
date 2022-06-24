@@ -1,0 +1,138 @@
+{
+    "words": {
+        "pin": "PIN",
+        "question": "Qüestió",
+        "answer": "Resposta",
+        "stats": "Estadístiques",
+        "email": "Adreça electrònica",
+        "username": "Nom d'usuari",
+        "password": "Contrasenya",
+        "edit": "Edita",
+        "delete": "Esborra",
+        "start": "Comença",
+        "create": "Crea",
+        "import": "Importa",
+        "logout": "Tanca la sessió",
+        "title": "Títol",
+        "url": "URL",
+        "connect": "Connecta",
+        "close": "Tanca",
+        "save": "Desa",
+        "description": "Descripció",
+        "image": "Imatge",
+        "settings": "Paràmetres",
+        "explore": "Explora",
+        "search": "Cerca",
+        "screenshot": "Captura de pantalla",
+        "screenshot_plural": "Captures de pantalla",
+        "features": "Funcionalitats",
+        "login": "Inicia sessió",
+        "public": "Publica",
+        "submit": "Envia",
+        "kick": "Expulsa",
+        "register": "Registra",
+        "docs": "Documentació",
+        "report": "Informa",
+        "browser": "Navegador",
+        "view": "Visualització",
+        "overview": "Resum",
+        "play": "Joc",
+        "repeat_password": "Repetiu la contrasenya"
+    },
+    "login_page": {
+        "already_have_account": "No teniu cap compte?",
+        "welcome_back": "Ben tornat!",
+        "modal": {
+            "success": {
+                "success": "Heu iniciat sessió amb èxit!",
+                "description": {
+                    "success": "Heu iniciat sessió correctament!",
+                    "success_check_mail": "Reviseu la bústia de correu electrònic, hauríeu hagut de rebre un correu, amb un enllaç que podeu clicar per a iniciar sessió."
+                },
+                "success_check_mail": "Heu iniciat sessió correctament! Verifiqueu la bústia de correu!"
+            },
+            "error": {
+                "description": {
+                    "wrong_creds": "Assegureu que la contrasenya i adreça electrònica són correctes!",
+                    "unexpected": "S'ha produït el vell i bo error inesperat!"
+                },
+                "wrong_creds": "Adreça o contrasenya incorrecta!",
+                "unexpected": "Error no esperat!"
+            }
+        },
+        "login_or_create_account": "Inicia sessió o crea un compte"
+    },
+    "admin_page": {
+        "get_results_and_stop_time": "Obtén els resultats i atura el temps",
+        "start_game": "Comença el joc",
+        "time_left": "Temps romanent",
+        "export_results": "Exporta els resultats",
+        "already_registered_as_admin": "Ja hi ha un administrador registrat per a aquest joc.",
+        "get_results": "Obtén els resultats",
+        "get_final_results": "Obtén els resultats finals"
+    },
+    "index_page": {
+        "meta": {
+            "title": "Inici",
+            "description": "ClassQuiz és una aplicació de preguntes i respostes com KAHOOT! per a estudiants, que és de codi obert i d'ús gratuït"
+        },
+        "features_description": {
+            "1": "ClassQuiz és una plataforma de preguntes i respostes que us permet crear i gestionar qüestionaris.",
+            "2": "La principal característica és una funció d'importació de KAHOOT! que us permet d'importar qüestionaris de KAHOOT!"
+        },
+        "stats": "Ja hi ha {{user_count}} usuaris i {{quiz_count}} qüestionaris a ClassQuiz.",
+        "slogan": "La plataforma de preguntes i respostes de codi obert!"
+    },
+    "overview_page": {
+        "question_count": "Nombre de preguntes",
+        "created_at": "Creat el"
+    },
+    "register_page": {
+        "create_account": "Crea un compte",
+        "forgot_password?": "Heu oblidat la contrasenya?",
+        "already_have_account?": "Ja teniu un compte?",
+        "greeting": "Molt de gust!"
+    },
+    "editor": {
+        "time_in_seconds": "Temps en segons",
+        "add_new_question": "Afegeix una qüestió",
+        "add_new_answer": "Afegeix una resposta",
+        "delete_question": "Esborra la qüestió",
+        "right_or_true?": "Correcte?",
+        "not_all_links_imgur_links": "No tots els enllaços són enllaços a Imgur!",
+        "delete_answer": "Esborra la resposta"
+    },
+    "import_page": {
+        "need_help": "Us cal ajuda?",
+        "visit_docs": "Visiteu la documentació"
+    },
+    "edit_page": {
+        "success_update_title": "El qüestionari s'ha actualitzat correctament!",
+        "success_update_body": "El qüestionari s'ha actualitzat correctament!"
+    },
+    "create_page": {
+        "success": {
+            "title": "El qüestionari s'ha creat correctament!",
+            "body": "El qüestionari s'ha creat correctament!"
+        }
+    },
+    "password_reset_page": {
+        "reset_password": "Restableix la contrasenya"
+    },
+    "settings_page": {
+        "old_password": "Contrasenya antiga",
+        "new_password": "Contrasenya nova",
+        "repeat_password": "Repetiu la contrasenya",
+        "change_password_submit": "Canvia la contrasenya!",
+        "delete_this_session": "Esborra aquesta sessió",
+        "this_session?": "Aquesta sessió?",
+        "check_location": "Verifica la ubicació",
+        "last_seen": "Última consulta"
+    },
+    "explore_page": {
+        "made_by": "Fet per"
+    },
+    "search_page": {
+        "at_least_3_characters": "Introduïu almenys 3 caràcters..."
+    }
+}
