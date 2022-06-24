@@ -13,7 +13,8 @@
     },
     "overview_page": {
         "created_at": "Created at",
-        "question_count": "Question count"
+        "question_count": "Question count",
+        "no_quizzes": "Looks like you don't have any quizzes. Wanna change that? Click the \"Create\"-button, or import a quiz from KAHOOT!"
     },
     "edit_page": {
         "success_update_title": "Successfully updated quiz!",
@@ -92,7 +93,11 @@
         "screenshot": "Screenshot",
         "screenshot_plural": "Screenshots",
         "browser": "Browser",
-        "view": "View"
+        "view": "View",
+        "correct": "Correct",
+        "result": "",
+        "result_plural": "",
+        "count": ""
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -114,7 +119,9 @@
         "get_results": "Get results",
         "get_results_and_stop_time": "Get results and stop time",
         "get_final_results": "Get final results",
-        "export_results": "Export results"
+        "export_results": "Export results",
+        "show_next_question": "Show next question",
+        "start_by_showing_first_question": "Start by showing the first question!"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -134,5 +141,12 @@
     },
     "search_page": {
         "at_least_3_characters": "Enter at least 3 characters..."
+    },
+    "play_page": {
+        "end_sentence": "That's it! This was the quiz.",
+        "1st_place": "1st Place",
+        "2nd_place": "2nd Place",
+        "3rd place": "3rd Place",
+        "with_out_of": "with {{correct_questions}} out of {{total_question_count}}"
     }
 }

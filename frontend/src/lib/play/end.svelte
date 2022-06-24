@@ -1,5 +1,8 @@
 <script lang="ts">
 	import type { QuizData } from '$lib/quiz_types';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	export let quiz_data: QuizData;
 	export let final_results: Array<null> | Array<Array<PlayerAnswer>>;
@@ -46,19 +49,19 @@
 </script>
 
 <div>
-	<h1 class="mx-auto text-center text-6xl mt-8">That's it! This was the quiz.</h1>
+	<h1 class="mx-auto text-center text-6xl mt-8">{$t('play_page.end_sentence')}</h1>
 
 	<div class="flex mx-auto w-fit flex-col pt-8 gap-2">
 		<div>
 			<p class="text-3xl text-center">
-				1st Place: <span class="underline">{winners_arr[0]}</span>
+				{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0]}</span>
 				<span>with {winners[winners_arr[0]]} out of {quiz_data.questions.length}</span>
 			</p>
 		</div>
 		{#if winners_arr.length >= 2}
 			<div>
 				<p class="text-2xl text-center">
-					2nd Place: <span class="underline">{winners_arr[1]}</span>
+					{$t('play_page.2nd_place')}: <span class="underline">{winners_arr[1]}</span>
 					<span>with {winners[winners_arr[1]]} out of {quiz_data.questions.length}</span>
 				</p>
 			</div>
@@ -66,8 +69,13 @@
 		{#if winners_arr.length >= 3}
 			<div>
 				<p class="text-xl text-center">
-					3rd Place: <span class="underline">{winners_arr[2]}</span>
-					<span>with {winners[winners_arr[2]]} out of {quiz_data.questions.length}</span>
+					{$t('play_page.3rd place')}: <span class="underline">{winners_arr[2]}</span>
+					<span>
+						{$t('play_page.with_out_of', {
+							correct_questions: winners[winners_arr[2]],
+							total_question_count: quiz_data.questions.length
+						})}
+					</span>
 				</p>
 			</div>
 		{/if}

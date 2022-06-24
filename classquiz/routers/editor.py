@@ -154,13 +154,12 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
             mark_image_for_deletion(question.image, i, old_quiz_data)
         else:
             raise HTTPException(status_code=400, detail="Image URL(s) aren't valid!")
-    print(images_to_delete)
     if session_data.edit:
         quiz = old_quiz_data
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
-        if quiz.public and not quiz_input.public:
+        if not quiz_input.public:
             meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
-        if not quiz.public and quiz_input.public:
+        else:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public

@@ -28,7 +28,6 @@
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
 	import 'tippy.js/dist/tippy.css';
-	import { plausible } from '$lib/stores';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -80,7 +79,7 @@
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
-		plausible.trackEvent('Started Game', { props: { quiz_id: id } });
+		plausible('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 </script>
@@ -159,6 +158,7 @@
 		{:else}
 			<button
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
+				disabled
 				use:tippy={{ content: 'You need to be logged in to start a game' }}
 			>
 				{$t('words.start')}

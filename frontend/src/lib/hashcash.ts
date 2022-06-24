@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { plausible } from '$lib/stores';
 
 const gen_salt = (l: number): string => {
 	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -47,6 +46,7 @@ export const mint = async (
 		counter += 1;
 	}
 	const t2 = performance.now();
-	plausible.trackEvent('Hashcash', { props: { ms_taken: t2 - t1 } });
+	// eslint-disable-next-line no-undef
+	plausible('Hashcash', { props: { ms_taken: t2 - t1 } });
 	return `${challenge}:${result}`;
 };

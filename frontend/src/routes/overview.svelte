@@ -19,7 +19,7 @@
 	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { alertModal, navbarVisible, signedIn, plausible } from '$lib/stores';
+	import { alertModal, navbarVisible, signedIn } from '$lib/stores';
 
 	interface QuizData {
 		id: string;
@@ -71,7 +71,7 @@
 		}
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
-		plausible.trackEvent('Started Game', { props: { quiz_id: id } });
+		plausible('Started Game', { props: { quiz_id: id } });
 		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 
@@ -250,9 +250,7 @@
 				</div>
 			{:else}
 				<p>
-					<!-- TODO: Add translation -->
-					Looks like you don't have any quizzes. Wanna change that? Click the "Create"-button,
-					or import a quiz from KAHOOT!
+					{$t('overview_page.no_quizzes')}
 				</p>
 			{/if}
 		</div>

@@ -18,7 +18,6 @@
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/env';
 	import Alert from '$lib/modals/alert.svelte';
-	import { plausible } from '$lib/stores';
 
 	/*	afterNavigate(() => {
 		if (browser) {
@@ -33,8 +32,6 @@
 	});*/
 
 	if (browser) {
-		plausible.enableAutoPageviews();
-		plausible.enableAutoOutboundTracking();
 		pathname.set(window.location.pathname);
 		if (
 			localStorage.theme === 'dark' ||
