@@ -125,11 +125,5 @@ def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -
         version, claim, _date, res, ext, _rand, _counter = data.split(":")
     except ValueError:
         return False
-    try:
-        assert version == "1"
-        assert claim == claim_in
-        assert res == input_data
-        assert ext == ""
-        return True
-    except AssertionError:
-        return False
+    some_error = [version == "1", claim == claim_in, res == input_data, ext == ""]
+    return all(el is True for el in some_error)

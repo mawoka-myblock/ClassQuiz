@@ -96,7 +96,9 @@ def _mint(challenge, bits):
     hex_digits = int(ceil(bits / 4.0))
     zeros = "0" * hex_digits
     while 1:
-        digest = hashlib.sha1((challenge + hex(counter)[2:]).encode(), usedforsecurity=False).hexdigest()
+        digest = hashlib.sha1(
+            (challenge + hex(counter)[2:]).encode(), usedforsecurity=False
+        ).hexdigest()  # skipcq: PYL-E1123,  PTC-W1003
         if digest[:hex_digits] == zeros:
             tries[0] = counter
             return hex(counter)[2:]
@@ -137,7 +139,9 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return True
         else:
             hex_digits = int(floor(bits / 4))
-            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            return (
+                hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            )  # skipcq: PYL-E1123,  PTC-W1003
     elif stamp.startswith("1:"):  # Version 1
         try:
             claim, date, res, _ext, _rand, _counter = stamp[2:].split(":")
@@ -155,7 +159,9 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return False
         else:
             hex_digits = int(floor(int(claim) / 4))
-            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            return (
+                hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            )  # skipcq: PYL-E1123,  PTC-W1003
     else:  # Unknown ver or generalized hashcash
         if type(bits) is not int:
             return True
@@ -163,4 +169,6 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
             return False
         else:
             hex_digits = int(floor(bits / 4))
-            return hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            return (
+                hashlib.sha1((stamp).encode(), usedforsecurity=False).hexdigest().startswith("0" * hex_digits)
+            )  # skipcq: PYL-E1123,  PTC-W1003
