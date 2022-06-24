@@ -36,6 +36,9 @@
 		<li>
 			<a href="https://github.com/ahmetlii">Ahmet</a> (Turkish)
 		</li>
+		<li>
+			<a href="https://github.com/jmontane">Joan Montané</a> (Catalan)
+		</li>
 	</ul>
 
 	<p><i>...Maybe you?</i></p>
