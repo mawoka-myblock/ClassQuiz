@@ -7,6 +7,7 @@
 [![DeepSource](https://deepsource.io/gh/mawoka-myblock/ClassQuiz.svg/?label=active+issues&show_trend=true&token=5-2Na9HN-2CXcGkHjah_Rk09&style=for-the-badge)](https://deepsource.io/gh/mawoka-myblock/ClassQuiz/)
 <img alt="Snky badge" src="https://img.shields.io/badge/Snyk-Check-success?style=for-the-badge">
 [![codecov](https://codecov.io/gh/mawoka-myblock/ClassQuiz/branch/master/graph/badge.svg?token=7CHK2A0AMO)](https://codecov.io/gh/mawoka-myblock/ClassQuiz)
+<img src="https://tokei.rs/b1/github/mawoka-myblock/ClassQuiz?category=lines" alt="Code-Line count">
 
 <div align='center'>
     <h2 align='center'>ClassQuiz</h2>
