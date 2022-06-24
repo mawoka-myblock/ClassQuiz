@@ -140,8 +140,8 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
         else:
             hex_digits = int(floor(bits / 4))
             return (
-                hashlib.sha1((stamp).encode(), usedforsecurity=False)
-                .hexdigest()  # skipcq: PYL-E1123,  PTC-W1003
+                hashlib.sha1((stamp).encode(), usedforsecurity=False)  # skipcq: PYL-E1123,  PTC-W1003
+                .hexdigest()
                 .startswith("0" * hex_digits)
             )
     elif stamp.startswith("1:"):  # Version 1
@@ -162,8 +162,8 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
         else:
             hex_digits = int(floor(int(claim) / 4))
             return (
-                hashlib.sha1((stamp).encode(), usedforsecurity=False)
-                .hexdigest()  # skipcq: PYL-E1123,  PTC-W1003
+                hashlib.sha1((stamp).encode(), usedforsecurity=False)  # skipcq: PYL-E1123,  PTC-W1003
+                .hexdigest()
                 .startswith("0" * hex_digits)
             )  # skipcq: PYL-E1123,  PTC-W1003
     else:  # Unknown ver or generalized hashcash
@@ -174,7 +174,7 @@ def check(stamp, resource=None, bits=None, check_expiration=None, ds_callback=No
         else:
             hex_digits = int(floor(bits / 4))
             return (
-                hashlib.sha1((stamp).encode(), usedforsecurity=False)
-                .hexdigest()  # skipcq: PYL-E1123,  PTC-W1003
+                hashlib.sha1((stamp).encode(), usedforsecurity=False)  # skipcq: PYL-E1123,  PTC-W1003
+                .hexdigest()
                 .startswith("0" * hex_digits)
             )  # skipcq: PYL-E1123,  PTC-W1003
