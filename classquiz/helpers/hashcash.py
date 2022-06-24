@@ -96,7 +96,7 @@ def _mint(challenge, bits):
     hex_digits = int(ceil(bits / 4.0))
     zeros = "0" * hex_digits
     while 1:
-        digest = hashlib.sha1(
+        digest = hashlib.sha1(  # skipcq: PYL-E1123,  PTC-W1003
             (challenge + hex(counter)[2:]).encode(), usedforsecurity=False  # skipcq: PYL-E1123,  PTC-W1003
         ).hexdigest()
         if digest[:hex_digits] == zeros:
