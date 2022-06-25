@@ -25,7 +25,7 @@
 							{quiz.title}
 						{/if}
 					</h2>
-					<span class="inline-block text-right w-full">
+					<span class="inline-block ml-auto">
 						<ImportedOrNot imported={quiz.imported_from_kahoot} />
 					</span>
 				</div>
