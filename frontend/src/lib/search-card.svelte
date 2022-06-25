@@ -4,6 +4,7 @@
 	const { t } = getLocalization();
 	export let quiz;
 	export let enable_html = false;
+	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 </script>
 
 <div class="flex justify-center">
@@ -14,14 +15,23 @@
 								 src='https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'>
 						</div>-->
 			<div>
-				<h2 class="text-gray-800 dark:text-gray-200 text-3xl font-semibold">
-					{#if enable_html}
-						{@html quiz.title}
-					{:else}
-						{quiz.title}
-					{/if}
-				</h2>
-				<p class="mt-2 text-gray-600 dark:text-gray-300">
+				<div class="flex w-full items-center">
+					<h2
+						class="text-gray-800 dark:text-gray-200 text-3xl font-semibold truncate pr-2"
+					>
+						{#if enable_html}
+							{@html quiz.title}
+						{:else}
+							{quiz.title}
+						{/if}
+					</h2>
+					<span class="inline-block text-right w-full">
+						<ImportedOrNot imported={quiz.imported_from_kahoot} />
+					</span>
+				</div>
+				<p
+					class="mt-2 text-gray-600 dark:text-gray-300 break-all overflow-hidden text-ellipsis max-h-[4.5rem] block"
+				>
 					{#if enable_html} {@html quiz.description}{:else}{quiz.description} {/if}
 				</p>
 			</div>
