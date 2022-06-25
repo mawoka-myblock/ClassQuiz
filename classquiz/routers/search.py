@@ -17,7 +17,7 @@ class Hit(pydantic.BaseModel):
     title: str
     description: str
     user: str
-    imported_from_kahoot: bool
+    imported_from_kahoot: Optional[bool]
     formatted: Optional["Hit"] = pydantic.Field(None, alias="_formatted")
 
 
