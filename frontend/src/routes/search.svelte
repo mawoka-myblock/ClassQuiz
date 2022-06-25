@@ -89,7 +89,7 @@
 	{#if resp_data.hits.length !== 0}
 		<div class="grid lg:grid-cols-3 grid-cols-1">
 			{#each resp_data.hits as quiz}
-				<SearchCard {quiz} />
+				<SearchCard quiz={quiz._formatted} enable_html={true} />
 			{/each}
 		</div>
 	{:else}
@@ -108,15 +108,3 @@
 		</div>
 	{/if}
 {/if}
-
-<style lang="scss">
-	/* eslint-disable-next-line css-unused-selector */
-	mark {
-		background-color: #ff0;
-		border-radius: 0.2em;
-		color: #000;
-		font-style: normal;
-		font-weight: bold;
-		padding: 0 0.2em;
-	}
-</style>

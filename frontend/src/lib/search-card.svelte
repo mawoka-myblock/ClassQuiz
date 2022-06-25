@@ -3,6 +3,7 @@
 
 	const { t } = getLocalization();
 	export let quiz;
+	export let enable_html = false;
 </script>
 
 <div class="flex justify-center">
@@ -14,12 +15,21 @@
 						</div>-->
 			<div>
 				<h2 class="text-gray-800 dark:text-gray-200 text-3xl font-semibold">
-					{quiz.title}
+					{#if enable_html}
+						{@html quiz.title}
+					{:else}
+						{quiz.title}
+					{/if}
 				</h2>
-				<p class="mt-2 text-gray-600 dark:text-gray-300">{quiz.description}</p>
+				<p class="mt-2 text-gray-600 dark:text-gray-300">
+					{#if enable_html} {@html quiz.description}{:else}{quiz.description} {/if}
+				</p>
 			</div>
 			<div class="flex mt-4">
-				<span>{$t('explore_page.made_by')} {quiz.user}</span>
+				<span
+					>{$t('explore_page.made_by')}
+					{#if enable_html}{@html quiz.user}{:else}{quiz.user}{/if}</span
+				>
 			</div>
 		</div>
 	</a>
