@@ -85,6 +85,8 @@
 				{$t('index_page.features_description.1')}
 				<br />
 				{$t('index_page.features_description.2')}
+				<br />
+				{$t('index_page.features_description.3')}
 			</p>
 		</div>
 	</section>
