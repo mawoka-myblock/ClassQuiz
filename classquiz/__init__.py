@@ -45,8 +45,8 @@ async def shutdown() -> None:
 
 
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
-app.include_router(users.router, tags=["users"], prefix="/api/v1/users", include_in_schema=False)
-app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz", include_in_schema=False)
+app.include_router(users.router, tags=["users"], prefix="/api/v1/users", include_in_schema=True)
+app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz", include_in_schema=True)
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils", include_in_schema=True)
 app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats", include_in_schema=True)
 app.include_router(storage.router, tags=["storage"], prefix="/api/v1/storage", include_in_schema=True)
