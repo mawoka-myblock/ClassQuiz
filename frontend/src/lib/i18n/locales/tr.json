@@ -9,7 +9,11 @@
             "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için KAHOOT!'a benzer bir quiz uygulamasıdır",
             "title": "Ana Sayfa"
         },
-        "stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır."
+        "stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır.",
+        "create_or_import": "Oluştur veya İçe Aktar",
+        "see_all_quizzes": "Tüm quizlerinizi görün",
+        "teachers_site": "Öğretmen sitesi",
+        "students_site": "Öğrenci sitesi"
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
@@ -134,5 +138,8 @@
     },
     "search_page": {
         "at_least_3_characters": "En az 3 karakter gir..."
+    },
+    "play_page": {
+        "with_out_of": "{{total_question_count}} üzerinden {{correct_questions}} ile"
     }
 }
