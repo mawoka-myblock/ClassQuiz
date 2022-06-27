@@ -232,8 +232,6 @@ volumes:
 		></pre>
 	<p>Now build and deploy:</p>
 	<pre><code>docker compose build && docker compose up -d</code></pre>
-	<p>You'll have to create an index in Meilisearch with the following command:</p>
-	<pre><code>docker compose exec api python3 import_to_meili.py</code></pre>
-	<p>Note: I would recommend to add the command from above to your crontab so it runs daily.</p>
+	<p><b>ClassQuiz needs HTTPS/SSL to work properly!</b></p>
 	<p><b>Enjoy! ❤️</b></p>
 </article>
