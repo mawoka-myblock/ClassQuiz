@@ -8,7 +8,7 @@ ENV REDIS_URL=redis://localhost:6379
 ENV VITE_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWF3b2thIiwiYSI6ImNsMjBob3d4ZjBhcGszYnE0bWp4aXB1ZW4ifQ.IByxV1qeIuEWpHCWsuB88A
 # This Mapbox-token is restricted to the following urls: classquiz.de, classquiz.mawoka.eu, test.com
 ENV VITE_HCAPTCHA=ee81b2a1-acf3-4d20-b2a4-a7ea94c7eba5
-ENV VITE_SENTRY=https://75cb4ef1be624d8f81bbaf864b722f8a@glitch.mawoka.eu/2
+# ENV VITE_SENTRY=https://75cb4ef1be624d8f81bbaf864b722f8a@glitch.mawoka.eu/2
 ENV VITE_GOOGLE_AUTH_ENABLED=true
 ENV VITE_GITHUB_AUTH_ENABLED=true
 # change working directory
