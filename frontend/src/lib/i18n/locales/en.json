@@ -144,7 +144,8 @@
         "this_session?": "This session?"
     },
     "explore_page": {
-        "made_by": "Made by"
+        "made_by": "Made by",
+        "imported_by": "Imported by"
     },
     "search_page": {
         "at_least_3_characters": "Enter at least 3 characters..."

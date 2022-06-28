@@ -37,7 +37,11 @@
 			</div>
 			<div class="flex mt-4">
 				<span
-					>{$t('explore_page.made_by')}
+					>{#if quiz.imported_from_kahoot === true}
+						{$t('explore_page.imported_by')}
+					{:else}
+						{$t('explore_page.made_by')}
+					{/if}
 					{#if enable_html}{@html quiz.user}{:else}{quiz.user}{/if}</span
 				>
 			</div>
