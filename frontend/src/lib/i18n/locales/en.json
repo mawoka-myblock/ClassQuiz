@@ -102,9 +102,9 @@
         "browser": "Browser",
         "view": "View",
         "correct": "Correct",
-        "result": "",
-        "result_plural": "",
-        "count": ""
+        "result": "Result",
+        "result_plural": "Results",
+        "count": "Count"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
