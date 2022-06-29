@@ -3,7 +3,8 @@
         "slogan": "Açık kaynak quiz platformu!",
         "features_description": {
             "1": "ClassQuiz quiz oluşturmanıza ve yönetmenize olanak sağlayan bir quiz platformudur.",
-            "2": "Ana özelliği KAHOOT! quizlerinden quizleri içe aktarmanıza olanak tanıyan bir KAHOOT!-içe aktarma fonksiyonudur."
+            "2": "Ana özelliği KAHOOT! quizlerinden quizleri içe aktarmanıza olanak tanıyan bir KAHOOT!-içe aktarma fonksiyonudur.",
+            "3": "Kullanımı kolay editör, quiz sonuçlarını Excel dosyası olarak dışarıya aktaran fonksiyonuyla önemlidir."
         },
         "meta": {
             "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için KAHOOT!'a benzer bir quiz uygulamasıdır",
@@ -13,7 +14,9 @@
         "create_or_import": "Oluştur veya İçe Aktar",
         "see_all_quizzes": "Tüm quizlerinizi görün",
         "teachers_site": "Öğretmen sitesi",
-        "students_site": "Öğrenci sitesi"
+        "students_site": "Öğrenci sitesi",
+        "see_what_true_and_false": "Neyin doğru veya yanlış olduğunu gör",
+        "see_how_many_true_and_false": "Kaç tanesinin doğru veya yanlış olduğunu gör"
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
@@ -76,7 +79,11 @@
         "image": "Resim",
         "settings": "Ayarlar",
         "repeat_password": "Şifreyi tekrarla",
-        "report": "Bildir"
+        "report": "Bildir",
+        "correct": "Doğru",
+        "result": "Sonuç",
+        "result_plural": "Sonuçlar",
+        "count": "Sayı"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -96,7 +103,8 @@
     },
     "overview_page": {
         "question_count": "Soru sayısı",
-        "created_at": "Oluşturulduğu tarih:"
+        "created_at": "Oluşturulduğu tarih:",
+        "no_quizzes": "Görünüşe göre hiçbir quiziniz yok. Bu durumu değiştirmek mi istiyorsunuz? \"Oluştur\" düğmesine tıklayın veya KAHOOT!'tan bir quizi içe aktarın!"
     },
     "admin_page": {
         "already_registered_as_admin": "Bu oyun için halihazırda kaydolmuş bir yönetici var.",
@@ -105,7 +113,9 @@
         "get_final_results": "Son sonuçları al",
         "start_game": "Oyunu başlat",
         "time_left": "Kalan süre",
-        "export_results": "Sonuçları dışa aktar"
+        "export_results": "Sonuçları dışa aktar",
+        "show_next_question": "Bir sonraki soruyu göster",
+        "start_by_showing_first_question": "İlk soruyu göstererek başla!"
     },
     "editor": {
         "time_in_seconds": "Saniye cinsinden zaman",
@@ -134,12 +144,17 @@
         "old_password": "Eski şifre"
     },
     "explore_page": {
-        "made_by": "Oluşturan:"
+        "made_by": "Oluşturan:",
+        "imported_by": "İçeri aktaran kullanıcı:"
     },
     "search_page": {
         "at_least_3_characters": "En az 3 karakter gir..."
     },
     "play_page": {
-        "with_out_of": "{{total_question_count}} üzerinden {{correct_questions}} ile"
+        "with_out_of": "{{total_question_count}} üzerinden {{correct_questions}} ile",
+        "end_sentence": "Hepsi bu kadar! Quiz buydu.",
+        "1st_place": "1. Sıra",
+        "2nd_place": "2. Sıra",
+        "3rd place": "3. Sıra"
     }
 }
