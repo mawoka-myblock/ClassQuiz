@@ -12,6 +12,7 @@ export interface Question {
 	time: string;
 	question: string;
 	image?: string;
+	image_seed?: string;
 	answers: Answer[];
 }
 

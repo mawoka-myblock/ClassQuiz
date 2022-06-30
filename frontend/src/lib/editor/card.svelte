@@ -19,12 +19,26 @@
 	export let selected_question: number;
 	export let edit_id: string;
 	export let pow_data;
+	let image_el;
+	let image_data = { width: 0, height: 0 };
 	let pow_salt: string;
 	const empty_answer: Answer = {
 		right: false,
 		answer: ''
 	};
 	let uppyOpen = false;
+
+	enum PossibleImageTypes {
+		Normal,
+		Uncovering
+	}
+
+	let imageType = PossibleImageTypes.Normal;
+
+	const generateImageSeed = (): string => {
+		return (Math.random() + 1).toString(36).substring(2);
+	};
+	let image_seed = generateImageSeed();
 
 	const computePOW = async (salt: string) => {
 		if (pow_salt === undefined) {
@@ -40,6 +54,10 @@
 		pow_salt;
 		computePOW(pow_salt);
 	}
+	$: image_data.width =
+		image_el === undefined || image_el === null ? image_data.width : image_el.clientWidth;
+	$: image_data.height =
+		image_el === undefined || image_el === null ? image_data.height : image_el.clientHeight;
 
 	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 	const correctTimeInput = (_) => {
@@ -85,15 +103,60 @@
 				/>
 			</div>
 			{#if data.questions[selected_question].image != undefined && data.questions[selected_question].image !== ''}
-				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
-					<img
-						src={data.questions[selected_question].image}
-						alt="not available"
-						class="max-h-72 h-auto w-auto"
-						on:contextmenu|preventDefault={() => {
-							data.questions[selected_question].image = '';
-						}}
-					/>
+				<div class="flex justify-center pt-10 w-full max-h-72">
+					{#if imageType === PossibleImageTypes.Normal}
+						<img
+							src={data.questions[selected_question].image}
+							alt="not available"
+							class="max-h-72 h-auto w-auto"
+							bind:this={image_el}
+							on:load={() => {
+								image_data.width = image_el.clientWidth;
+								image_data.height = image_el.clientHeight;
+							}}
+							on:contextmenu|preventDefault={() => {
+								data.questions[selected_question].image = '';
+							}}
+						/>
+					{:else if imageType === PossibleImageTypes.Uncovering}
+						{#await import('$lib/quiz_image_uncover.svelte')}
+							<Spinner />
+						{:then c}
+							{#if image_el !== undefined}
+								<div>
+									<svelte:component
+										this={c.default}
+										bind:seed={image_seed}
+										bind:width={image_data.width}
+										bind:height={image_data.height}
+										image_styles={'max-h-72 h-auto w-auto'}
+									>
+										<img
+											src={data.questions[selected_question].image}
+											alt="not available"
+											style="height: {image_data.height}px; width: {image_data.width}px"
+											on:contextmenu|preventDefault={() => {
+												data.questions[selected_question].image = '';
+											}}
+										/>
+									</svelte:component>
+								</div>
+							{:else}
+								<Spinner />
+							{/if}
+						{/await}
+					{:else}
+						<p>CANT HAPPEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+					{/if}
+				</div>
+				<div class="flex justify-center mt-4">
+					<select
+						bind:value={imageType}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					>
+						<option value={PossibleImageTypes.Normal}>Normal</option>
+						<option value={PossibleImageTypes.Uncovering}>Uncovering</option>
+					</select>
 				</div>
 			{:else if pow_data === undefined}
 				<a
