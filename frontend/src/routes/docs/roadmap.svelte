@@ -16,16 +16,18 @@
 >
 	<h1>Roadmap</h1>
 
+	<b>Tell me!</b>
 	<ul>
 		<li>
+			<input type="checkbox" checked disabled />
 			User-management
 			<ul>
-				<li>Password-reset</li>
-				<li>Session-management</li>
+				<li><input type="checkbox" checked disabled /> Password-reset</li>
+				<li><input type="checkbox" checked disabled /> Session-management</li>
 			</ul>
 		</li>
-		<li>(Better) Admin-screen styling</li>
-		<li>(Better) Edit/Create-screen styling</li>
-		<li>Public quiz-discovery</li>
+		<li><input type="checkbox" checked disabled /> (Better) Admin-screen styling</li>
+		<li><input type="checkbox" checked disabled /> (Better) Edit/Create-screen styling</li>
+		<li><input type="checkbox" checked disabled /> Public quiz-discovery</li>
 	</ul>
 </article>
