@@ -1,3 +1,9 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
 <svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
 	<path
 		class="fill-black"

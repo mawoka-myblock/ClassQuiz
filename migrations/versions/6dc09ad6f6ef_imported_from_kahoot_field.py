@@ -5,6 +5,10 @@ Revises: 17ea75679da8
 Create Date: 2022-06-10 18:06:39.912634
 
 """
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 from alembic import op
 import sqlalchemy as sa
 

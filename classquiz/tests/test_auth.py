@@ -1,3 +1,7 @@
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 import pytest
 from classquiz.auth import get_password_hash, verify_password, settings, ALGORITHM, create_access_token
 from jose import JWTError, jwt

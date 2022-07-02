@@ -1,3 +1,9 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
 <footer class="text-center text-white border-black">
 	<div class="text-center pt-4 bg-gray-700">
 		Made with ❤️ by

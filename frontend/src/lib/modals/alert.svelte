@@ -9,6 +9,12 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 	open = true;
 </script>
 
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
 <!-- Main modal -->
 {#if open}
 	<div tabindex="-1" class="overflow-y-auto overflow-x-hidden md:inset-0 lg:w-2/6 w-5/6">
