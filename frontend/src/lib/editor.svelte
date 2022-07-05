@@ -106,7 +106,7 @@
 		const res = await fetch(`/api/v1/editor/pow?edit_id=${edit_id}`);
 		const data = (await res.json()).data;
 		console.log(data);
-		pow_data = await mint(data);
+		pow_data = await mint(data, 16);
 		console.log(pow_data);
 	};
 </script>

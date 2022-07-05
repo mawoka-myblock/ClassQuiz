@@ -36,7 +36,7 @@
 			return;
 		}
 		console.log('Computing POW');
-		pow_data = await mint(salt, 17, '', 8, false);
+		pow_data = await mint(salt, 16, '', 8, false);
 		pow_salt = undefined;
 		return;
 	};

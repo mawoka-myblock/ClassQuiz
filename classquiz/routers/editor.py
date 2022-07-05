@@ -88,7 +88,6 @@ class UploadImageReturn(BaseModel):
 
 @router.post("/image", response_model=UploadImageReturn)
 async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
-    print(pow_data)
     session_data = await redis.get(f"edit_session:{edit_id}")
     pow_data_server = await redis.get(f"edit_session:{edit_id}:pow")
     uploaded_images = await redis.llen(f"edit_session:{edit_id}:images")
@@ -97,9 +96,9 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
 
-    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "19"):
+    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "16"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "17"):
+    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "16"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     file_bytes = await file.read()
     if len(file_bytes) < 2000:
