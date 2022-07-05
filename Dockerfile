@@ -1,5 +1,7 @@
 FROM python:3.10-slim
-
+RUN apt update && \
+    apt install libcairo2 -y && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY Pipfile* /app/
 WORKDIR /app/
