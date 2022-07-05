@@ -32,6 +32,7 @@ class User(ormar.Model):
     created_at: datetime = ormar.DateTime(default=datetime.now())
     auth_type: UserAuthTypes = ormar.Enum(enum_class=UserAuthTypes, default=UserAuthTypes.LOCAL)
     google_uid: Optional[str] = ormar.String(unique=True, max_length=255, nullable=True)
+    avatar: bytes = ormar.LargeBinary(max_length=25000, represent_as_base64_str=True)
 
     class Meta:
         tablename = "users"

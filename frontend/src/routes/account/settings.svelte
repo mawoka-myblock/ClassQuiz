@@ -123,7 +123,12 @@
 
 	const checkLocation = async (session_ip: string) => {
 		const res = await fetch(`/api/v1/utils/ip-lookup/${session_ip}`);
-		if (res.status === 200) {
+		const json = await res.json();
+		console.log(json.status, json.status === 'fail');
+		if (json.status === 'fail') {
+			alert('This feature is kinda broken...');
+			return;
+		} else {
 			locationData = await res.json();
 			showMap = true;
 		}
@@ -151,7 +156,7 @@
 			<div class="mb-4">
 				<img
 					class="rounded-md md:w-80"
-					src="https://cdn.statically.io/avatar/shape=rounded/{user.username}"
+					src="/api/v1/users/avatar"
 					alt="Profile image of {user.username}"
 				/>
 			</div>

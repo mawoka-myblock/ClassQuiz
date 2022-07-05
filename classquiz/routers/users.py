@@ -1,17 +1,20 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import gzip
 import os
 
 import ormar
+import pydantic
 from email_validator import validate_email, EmailNotValidError
 from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
 from fastapi.background import BackgroundTasks
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse, PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 import html
 from classquiz import oauth
+from classquiz.helpers.avatar import gzipped_user_avatar
+import base64
 from classquiz.oauth.authenticate_user import rememberme_check, log_user_in
 
 from classquiz.auth import (
@@ -31,9 +34,11 @@ from classquiz.emails import send_register_email, send_forgotten_password_email
 settings = settings()
 router = APIRouter()
 
-route_user = User.get_pydantic(
-    exclude={"id": ..., "verified": ..., "verify_key": ..., "created_at": ..., "usersessions": ..., "quizs": ...}
-)
+
+class RouteUser(pydantic.BaseModel):
+    username: str
+    password: str
+    email: str
 
 
 async def _sign_out_everywhere(user: User) -> None:
@@ -49,8 +54,8 @@ router.include_router(oauth.router, tags=["users", "oauth"], prefix="/oauth")
     response_model=User,
     response_model_include={"id": ..., "verified": ..., "email": ...},
 )
-async def create_user(user: route_user, background_task: BackgroundTasks) -> User | JSONResponse:
-    user = User(**user.dict(), id=uuid.uuid4())
+async def create_user(user: RouteUser, background_task: BackgroundTasks) -> User | JSONResponse:
+    user = User(**user.dict(), id=uuid.uuid4(), avatar=gzipped_user_avatar())
     try:
         validate_email(user.email)
     except EmailNotValidError as e:
@@ -153,9 +158,13 @@ async def signout_everywhere(response: Response, user: User = Depends(get_curren
     return {"message": "Signout everywhere"}
 
 
-@router.get("/me", response_model_exclude={"password", "verify_key", "usersessions"})
+@router.get(
+    "/me",
+    response_model_exclude={"password", "verify_key", "usersessions", "avatar", "google_uid", "quizs"},
+    response_model=User,
+)
 async def get_me(user: User = Depends(get_current_user)):
-    return user.dict(exclude={"password", "verify_key", "usersessions"})
+    return user
 
 
 class ForgotPassword(BaseModel):
@@ -242,3 +251,18 @@ async def delete_user_account(input_data: DeleteUserInput, user: User = Depends(
     await Quiz.objects.filter(user_id=user).delete()
     await User.objects.filter(id=user.id).delete()
     await user.delete()
+
+
+@router.get("/avatar", response_class=PlainTextResponse)
+async def get_own_avatar(respo: Response, user: User = Depends(get_current_user)):
+    respo.headers.append("Content-Type", "image/svg+xml")
+    return gzip.decompress(base64.b64decode(user.avatar))
+
+
+@router.get("/avatar/{user_id}", response_class=PlainTextResponse)
+async def get_other_avatar(respo: Response, user_id: uuid.UUID):
+    user = await User.objects.filter(id=user_id).get_or_none()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    respo.headers.append("Content-Type", "image/svg+xml")
+    return gzip.decompress(base64.b64decode(user.avatar))
