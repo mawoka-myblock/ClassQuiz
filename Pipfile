@@ -31,7 +31,7 @@ authlib = "*"
 httpx = "*"
 itsdangerous = "*"
 puremagic = "*"
-py-avataaars = "==1.1.2"
+py-avataaars-no-png = "*"
 
 [dev-packages]
 coverage = "*"
