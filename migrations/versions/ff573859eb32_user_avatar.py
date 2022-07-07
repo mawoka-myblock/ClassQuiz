@@ -10,6 +10,8 @@ import asyncio
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import user
+
 from classquiz.helpers.avatar import gzipped_user_avatar
 import ormar
 from classquiz.db.models import User
@@ -31,7 +33,10 @@ def upgrade() -> None:
     for row in res:
         user_id = str(row).strip(",.'()")
         avatar = gzipped_user_avatar().hex()
-        session.execute(f"UPDATE users SET avatar = (decode('{avatar}', 'hex')) WHERE users.id='{user_id}'")
+        session.execute(
+            sa.sql.text("UPDATE users SET avatar = (decode(:avatar, 'hex')) WHERE users.id=:user_id"),
+            {"user_id": user_id, "avatar": avatar},
+        )
     op.alter_column("users", "avatar", nullable=False)
 
     # ### end Alembic commands ###
