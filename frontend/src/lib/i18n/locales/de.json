@@ -151,7 +151,8 @@
         "new_password": "Neues Passwort"
     },
     "explore_page": {
-        "made_by": "Erstellt von"
+        "made_by": "Erstellt von",
+        "imported_by": "Importiert von"
     },
     "search_page": {
         "at_least_3_characters": "Gib mindestens 3 Zeichen ein..."
