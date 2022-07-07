@@ -8,6 +8,7 @@ from classquiz.config import settings
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel, ValidationError
 from classquiz.auth import check_token
+from classquiz.helpers.avatar import gzipped_user_avatar
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from classquiz.oauth.init_oauth import init_oauth
 
@@ -83,6 +84,7 @@ async def auth(request: Request, response: Response):
             verified=user_data.email_verified,
             auth_type=UserAuthTypes.GOOGLE,
             google_uid=user_data.sub,
+            avatar=gzipped_user_avatar(),
         )
         try:
             await create_user.save()

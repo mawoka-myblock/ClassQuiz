@@ -11,6 +11,7 @@ from fastapi.responses import RedirectResponse
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel
 from classquiz.auth import check_token
+from classquiz.helpers.avatar import gzipped_user_avatar
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from datetime import datetime
 from classquiz.oauth.init_oauth import init_oauth
@@ -109,6 +110,7 @@ async def auth(request: Request, response: Response):
             username=user_data.login,
             verified=True,
             auth_type=UserAuthTypes.GITHUB,
+            avatar=gzipped_user_avatar(),
         )
         try:
             await create_user.save()
