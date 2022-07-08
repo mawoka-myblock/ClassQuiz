@@ -1,0 +1,121 @@
+<!--
+<script context='module' lang='ts'>
+	export const prerender = true;
+	export const load = async ({}) => {
+		return {};
+		const languages = [
+			{
+				code: 'de',
+				name: 'Deutsch',
+				flag: '🇩🇪'
+			},
+			{
+				code: 'en',
+				name: 'English',
+				flag: '🇺🇲'
+			},
+			{
+				code: 'tr',
+				name: 'Türkçe',
+				flag: '🇹🇷'
+			},
+			{
+				code: 'fr',
+				name: 'Français',
+				flag: '🇫🇷'
+			}
+		];
+		let final_arr = [];
+		const set_percents = async () => {
+			for (const lang of languages) {
+				const res = await fetch(`https://translate.mawoka.eu/api/translations/classquiz/frontend/${lang.code}/?format=json`);
+				const json = await res.json();
+				console.log(json);
+				// return Math.floor(json.translated_percent);
+				final_arr.push({ ...lang, percent: json.translated_percent });
+			}
+		};
+		await set_percents();
+		return {
+			slot: {
+				final_arr
+			}
+		};
+	};
+</script>
+-->
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { browser } from '$app/env';
+
+	export let languages: Array<{
+		flag: string;
+		name: string;
+		code: string;
+	}> = [
+		{
+			code: 'de',
+			name: 'Deutsch',
+			flag: '🇩🇪'
+		},
+		{
+			code: 'en',
+			name: 'English',
+			flag: '🇺🇲'
+		},
+		{
+			code: 'tr',
+			name: 'Türkçe',
+			flag: '🇹🇷'
+		},
+		{
+			code: 'fr',
+			name: 'Français',
+			flag: '🇫🇷'
+		},
+		{
+			code: 'id',
+			name: 'Bahasa Indonesia',
+			flag: '🇮🇩'
+		},
+		{
+			code: 'ca',
+			name: 'Català',
+			flag: '🇪🇸'
+		}
+	];
+	const get_selected_language = (): string => {
+		return localStorage.getItem('language');
+	};
+	let selected_language;
+	onMount(() => {
+		selected_language = get_selected_language();
+	});
+
+	const set_language = (code: string): void => {
+		if (browser) {
+			localStorage.setItem('language', code);
+			window.location.reload();
+		}
+	};
+</script>
+
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+
+<div>
+	<select
+		bind:value={selected_language}
+		on:change={() => {
+			set_language(selected_language);
+		}}
+		class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600"
+	>
+		{#each languages as lang}
+			<option value={lang.code}>{lang.flag} {lang.name} </option>
+		{/each}
+	</select>
+</div>
