@@ -22,16 +22,7 @@ const config = {
 		adapter: adapter({
 			out: 'build',
 			precompress: true
-		}),
-		vite: {
-			optimizeDeps: {
-				include: ['swiper']
-			},
-			build: {
-				sourcemap: true
-			},
-			plugins: [isoImport()]
-		}
+		})
 	}
 };
 
