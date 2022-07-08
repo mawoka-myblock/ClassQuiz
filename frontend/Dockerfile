@@ -20,7 +20,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml ./
 
 # run npm install in our local machine
-RUN corepack enable && corepack prepare pnpm@7.0.0-rc.2 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@7.5.0 --activate && pnpm i
 
 # copy the generated modules and all other files to the container
 COPY . .
