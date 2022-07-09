@@ -21,8 +21,9 @@ const config = {
 		adapter: adapter({
 			out: 'build',
 			precompress: true
-		}),
+		})
 		// +++ SOON OBSOLETE +++
+		/*
 		vite: {
 			optimizeDeps: {
 				include: ['swiper']
@@ -31,6 +32,7 @@ const config = {
 				sourcemap: true
 			}
 		}
+		*/
 		// --- SOON OBSOLETE ---
 	}
 };
