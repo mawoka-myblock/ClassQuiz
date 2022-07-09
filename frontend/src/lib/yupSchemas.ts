@@ -6,8 +6,26 @@
 
 import * as yup from 'yup';
 
+export const ABCDQuestionSchema = yup
+	.array()
+	.of(
+		yup.object({
+			right: yup.boolean().required(),
+			answer: yup.string().required('You need an answer')
+		})
+	)
+	.min(2, 'You need at least 2 answers')
+	.max(16, "You can't have more than 16 answers");
+
+export const RangeQuestionSchema = yup.object({
+	min: yup.number(),
+	max: yup.number(),
+	min_correct: yup.number(),
+	max_correct: yup.number()
+});
 export const dataSchema = yup.object({
 	public: yup.boolean().required(),
+	type: yup.string(),
 	title: yup
 		.string()
 		.required('A title is required')
@@ -32,16 +50,9 @@ export const dataSchema = yup.object({
 						"The image-url isn't valid"
 					)
 					.lowercase(),
-				answers: yup
-					.array()
-					.of(
-						yup.object({
-							right: yup.boolean().required(),
-							answer: yup.string().required('You need an answer')
-						})
-					)
-					.min(2, 'You need at least 2 answers')
-					.max(16, "You can't have more than 16 answers")
+				answers: yup.lazy((v) =>
+					Array.isArray(v) ? ABCDQuestionSchema : RangeQuestionSchema
+				)
 			})
 		)
 		.min(1, 'You need at least one question')

@@ -4,11 +4,12 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { EditorData, Answer } from '$lib/quiz_types';
+	import type { EditorData } from '$lib/quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
+	import RangeEditor from '$lib/editor/RangeSelectorEditorPart.svelte';
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
-	import { fade } from 'svelte/transition';
 	import { mint } from '$lib/hashcash';
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
@@ -25,10 +26,7 @@
 	export let edit_id: string;
 	export let pow_data;
 	let pow_salt: string;
-	const empty_answer: Answer = {
-		right: false,
-		answer: ''
-	};
+
 	let uppyOpen = false;
 
 	const computePOW = async (salt: string) => {
@@ -60,6 +58,13 @@
 		}
 	};
 	$: correctTimeInput(data.questions[selected_question].time);
+	/*
+	if (typeof data.questions[selected_question].type !== QuizQuestionType) {
+		console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)
+		data.questions[selected_question].type = QuizQuestionType.ABCD;
+	}
+	 */
+	console.log(data.questions[selected_question].type, 'moin');
 </script>
 
 <div class="w-full h-full pb-20 px-20">
@@ -149,88 +154,26 @@
 					/>
 				</div>
 			</div>
-
+			<div class="flex justify-center pt-10">
+				<select
+					class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600 text-white"
+					name="Answer-Type"
+					bind:value={data.questions[selected_question].type}
+				>
+					<option value={QuizQuestionType.RANGE}>Range</option>
+					<option value={QuizQuestionType.ABCD}>Multiple-Choice</option>
+				</select>
+			</div>
 			<div class="flex justify-center pt-10 w-full">
-				<div class="grid grid-cols-2 gap-4 w-full px-10">
-					{#each data.questions[selected_question].answers as answer, index}
-						<div
-							on:contextmenu|preventDefault={() => {
-								data.questions[selected_question].answers.splice(index, 1);
-								data.questions[selected_question].answers =
-									data.questions[selected_question].answers;
-							}}
-							out:fade={{ duration: 150 }}
-							class="p-4 rounded-lg flex justify-center w-full transition"
-							class:bg-red-500={!answer.right}
-							class:bg-green-500={answer.right}
-							class:bg-yellow-500={!reach(
-								dataSchema,
-								'questions[].answers[].answer'
-							).isValidSync(answer.answer)}
-						>
-							<input
-								bind:value={answer.answer}
-								type="text"
-								class="bg-transparent border-b-2 border-dotted w-5/6 text-center"
-								placeholder="Empty..."
-							/>
-							<button
-								type="button"
-								on:click={() => {
-									answer.right = !answer.right;
-									console.log(answer.right);
-								}}
-							>
-								{#if answer.right}
-									<svg
-										class="w-6 h-6 inline-block"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-										/>
-									</svg>
-								{:else}
-									<svg
-										class="w-6 h-6 inline-block"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-										/>
-									</svg>
-								{/if}
-							</button>
-						</div>
-					{/each}
-					{#if data.questions[selected_question].answers.length < 4}
-						<button
-							class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
-							type="button"
-							in:fade={{ duration: 150 }}
-							on:click={() => {
-								data.questions[selected_question].answers = [
-									...data.questions[selected_question].answers,
-									{ ...empty_answer }
-								];
-							}}
-						>
-							<span class="italic text-center">Add an answer</span>
-						</button>
-					{/if}
-				</div>
+				{#if data.questions[selected_question].type === QuizQuestionType.ABCD}
+					{#await import('$lib/editor/ABCDEditorPart.svelte')}
+						<Spinner />
+					{:then c}
+						<svelte:component this={c.default} bind:data bind:selected_question />
+					{/await}
+				{:else if data.questions[selected_question].type === QuizQuestionType.RANGE}
+					<RangeEditor bind:selected_question bind:data />
+				{/if}
 			</div>
 			<p class="italic text-center mt-auto pt-4">Right-click on an answer to delete it!</p>
 		</div>

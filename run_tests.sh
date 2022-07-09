@@ -20,6 +20,7 @@ init() {
   docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:latest
   docker volume create classquiz_db_data
   docker run --name classquiz_db -p 5432:5432 --rm -d -e POSTGRES_PASSWORD=mysecretpassword -v classquiz_db_data:/var/lib/postgresql/data -e POSTGRES_DB=classquiz postgres
+  sleep 1
   pipenv run alembic upgrade head
 }
 

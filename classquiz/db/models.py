@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Optional
 
 import ormar
-from pydantic import BaseModel, Json
+from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
 
@@ -62,16 +62,37 @@ class UserSession(ormar.Model):
         database = database
 
 
-class QuizAnswer(BaseModel):
+class ABCDQuizAnswer(BaseModel):
     right: bool
     answer: str
+
+
+class RangeQuizAnswer(BaseModel):
+    min: int
+    max: int
+    min_correct: int
+    max_correct: int
+
+
+class QuizQuestionType(str, Enum):
+    ABCD = "ABCD"
+    RANGE = "RANGE"
 
 
 class QuizQuestion(BaseModel):
     question: str
     time: str  # in Secs
-    answers: list[QuizAnswer]
+    type: None | QuizQuestionType = QuizQuestionType.ABCD
+    answers: list[ABCDQuizAnswer] | RangeQuizAnswer
     image: str | None = None
+
+    @validator("answers")
+    def answers_not_none_if_abcd_type(cls, v, values):
+        if values["type"] == QuizQuestionType.ABCD and len(v) == 0:
+            raise ValueError("Answers can't be none if type is ABCD")
+        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
+            raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        return v
 
 
 class QuizInput(BaseModel):

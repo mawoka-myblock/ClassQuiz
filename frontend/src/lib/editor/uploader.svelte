@@ -47,7 +47,7 @@
 	const props = {
 		inline: true,
 		restrictions: {
-			maxFileSize: 2000,
+			maxFileSize: 2_000_000,
 			maxNumberOfFiles: 1,
 			allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
 		}

@@ -112,7 +112,7 @@
 		on:change={() => {
 			set_language(selected_language);
 		}}
-		class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600"
+		class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600 text-white"
 	>
 		{#each languages as lang}
 			<option value={lang.code}>{lang.flag} {lang.name} </option>

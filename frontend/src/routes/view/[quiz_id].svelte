@@ -7,7 +7,7 @@
 	export async function load({ params, fetch, session }) {
 		const { quiz_id } = params;
 		const res = await fetch(`/api/v1/quiz/get/public/${quiz_id}`);
-		if (res.status === 404) {
+		if (res.status === 404 || res.status === 400) {
 			return {
 				status: 404
 			};

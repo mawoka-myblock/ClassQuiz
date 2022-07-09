@@ -96,9 +96,9 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
 
-    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "16"):
+    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "8"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "16"):
+    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "8"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     file_bytes = await file.read()
     if len(file_bytes) < 2000:

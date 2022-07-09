@@ -10,7 +10,7 @@ import socketio
 
 from typing import Any
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame
+from classquiz.db.models import PlayGame, QuizQuestionType
 from pydantic import BaseModel, ValidationError
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
@@ -188,10 +188,20 @@ async def submit_answer(sid: str, data: dict):
     session = await sio.get_session(sid)
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     answer_right = False
-    for answer in game_data.questions[int(data.question_index)].answers:
-        if answer.answer == data.answer and answer.right:
+    if game_data.questions[int(data.question_index)].type == QuizQuestionType.ABCD:
+        for answer in game_data.questions[int(data.question_index)].answers:
+            if answer.answer == data.answer and answer.right:
+                answer_right = True
+                break
+    elif game_data.questions[int(data.question_index)].type == QuizQuestionType.RANGE:
+        if (
+            game_data.questions[int(data.question_index)].answers.min_correct
+            <= int(data.answer)
+            <= game_data.questions[int(data.question_index)].answers.max_correct
+        ):
             answer_right = True
-            break
+    else:
+        raise NotImplementedError
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     if answers is None:
         await redis.set(

@@ -14,11 +14,24 @@ export interface QuizData {
 	started: boolean;
 }
 
+export enum QuizQuestionType {
+	ABCD = 'ABCD', // eslint-disable-line no-unused-vars
+	RANGE = 'RANGE' // eslint-disable-line no-unused-vars
+}
+
+export interface RangeQuizAnswer {
+	min: number;
+	max: number;
+	min_correct: number;
+	max_correct: number;
+}
+
 export interface Question {
 	time: string;
 	question: string;
+	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[];
+	answers: Answer[] | RangeQuizAnswer;
 }
 
 export interface Answer {
@@ -32,10 +45,3 @@ export interface EditorData {
 	description: string;
 	questions: Question[];
 }
-
-// TODO Keep an eye on this shit
-// export interface Answer {
-// 	username: string;
-// 	answer: string;
-// 	right: boolean;
-// }

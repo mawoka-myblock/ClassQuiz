@@ -5,15 +5,15 @@
   -->
 <script lang="ts">
 	import type { EditorData, Question } from '../quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
 	import { reach } from 'yup';
-	import { dataSchema } from '../yupSchemas';
-
-	export let data: EditorData;
-	export let selected_question = -1;
-
+	import { ABCDQuestionSchema, dataSchema } from '../yupSchemas';
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
 	import 'tippy.js/dist/tippy.css';
+
+	export let data: EditorData;
+	export let selected_question = -1;
 
 	const tippy = createTippy({
 		arrow: true,
@@ -26,7 +26,8 @@
 		question: '',
 		time: '20',
 		image: '',
-		answers: []
+		answers: [],
+		type: QuizQuestionType.ABCD
 	};
 
 	const setSelectedQuestion = (index: number): void => {
@@ -178,25 +179,30 @@
 					/>
 				</div>
 			{/if}
-			<div class="grid grid-cols-2 gap-2">
-				{#each question.answers as answer}
-					<span
-						class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center"
-						class:bg-green-500={answer.right}
-						class:bg-red-500={!answer.right}
-						class:bg-yellow-500={!reach(
-							dataSchema,
-							'questions[].answers[].answer'
-						).isValidSync(answer.answer)}
-						use:tippy={{ content: answer.answer === '' ? 'Empty...' : answer.answer }}
-						>{#if answer.answer === ''}
-							<i>Empty...</i>
-						{:else}
-							{answer.answer}
-						{/if}</span
-					>
-				{/each}
-			</div>
+			{#if question.type === QuizQuestionType.ABCD}
+				<div class="grid grid-cols-2 gap-2">
+					{#each question.answers as answer}
+						<span
+							class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center"
+							class:bg-green-500={answer.right}
+							class:bg-red-500={!answer.right}
+							class:bg-yellow-500={!reach(ABCDQuestionSchema, 'answer').isValidSync(
+								answer.answer
+							)}
+							use:tippy={{
+								content: answer.answer === '' ? 'Empty...' : answer.answer
+							}}
+							>{#if answer.answer === ''}
+								<i>Empty...</i>
+							{:else}
+								{answer.answer}
+							{/if}</span
+						>
+					{/each}
+				</div>
+			{:else}
+				<p>Hi!</p>
+			{/if}
 		</div>
 	{/each}
 	<div

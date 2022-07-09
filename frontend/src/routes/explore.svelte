@@ -15,6 +15,8 @@
 </script>
 
 <script lang="ts">
+	import { navbarVisible } from '$lib/stores';
+	navbarVisible.set(true);
 	import SearchCard from '$lib/search-card.svelte';
 	const getData = async () => {
 		const response = await fetch('/api/v1/search/', {

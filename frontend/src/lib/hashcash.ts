@@ -18,12 +18,13 @@ const gen_salt = (l: number): string => {
 
 export const mint = async (
 	resource: string,
-	bits = 19,
+	bits = 16,
 	// now = null,
 	ext = '',
 	saltchars = 8,
 	stamp_seconds = false
 ): Promise<string> => {
+	bits = 8;
 	const ver = '1';
 	let ts;
 	if (stamp_seconds) {

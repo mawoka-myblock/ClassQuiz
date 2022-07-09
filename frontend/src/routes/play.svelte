@@ -28,6 +28,7 @@
 	import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
+	import { QuizQuestionType } from '$lib/quiz_types';
 
 	// Exports
 	export let game_pin: string;
@@ -69,7 +70,16 @@
 	// Socket-events
 	socket.on('joined_game', (data) => {
 		console.log('joined_game', data);
-		gameData = JSON.parse(data);
+		let temp_data = JSON.parse(data);
+		for (let i = 0; i < temp_data.questions.length; i++) {
+			let question = temp_data.questions[i];
+			if (question.type === undefined) {
+				temp_data.questions[i].type = QuizQuestionType.ABCD;
+			} else {
+				temp_data.questions[i].type = QuizQuestionType[question.type];
+			}
+		}
+		gameData = temp_data;
 		// eslint-disable-next-line no-undef
 		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
 	});

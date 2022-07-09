@@ -5,7 +5,9 @@
   -->
 <script lang="ts">
 	import type { Question } from '$lib/quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
+	import Spinner from '../Spinner.svelte';
 
 	export let question: Question;
 	export let question_index: string | number;
@@ -44,6 +46,21 @@
 			answer: answer
 		});
 	};
+
+	let slider_value = [0];
+	if (question.type === QuizQuestionType.RANGE) {
+		slider_value[0] = (question.answers.max - question.answers.min) / 2 + question.answers.min;
+	}
+	const set_answer_if_not_set_range = (time) => {
+		if (question.type !== QuizQuestionType.RANGE) {
+			return;
+		}
+		if (selected_answer === undefined && time === '0') {
+			selected_answer = `${slider_value[0]}`;
+			selectAnswer(selected_answer);
+		}
+	};
+	$: set_answer_if_not_set_range(timer_res);
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
@@ -62,16 +79,40 @@
 	</div>
 {/if}
 {#if timer_res !== '0'}
-	<div class="flex flex-wrap">
-		{#each question.answers as answer}
-			<button
-				class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
-				disabled={selected_answer !== undefined}
-				on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
-			>
-		{/each}
-	</div>
-{:else}
+	{#if question.type === QuizQuestionType.ABCD}
+		<div class="flex flex-wrap">
+			{#each question.answers as answer}
+				<button
+					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+					disabled={selected_answer !== undefined}
+					on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
+				>
+			{/each}
+		</div>
+	{:else if question.type === QuizQuestionType.RANGE}
+		{#await import('svelte-range-slider-pips')}
+			<Spinner />
+		{:then c}
+			<svelte:component
+				this={c.default}
+				bind:values={slider_value}
+				bind:min={question.answers.min}
+				bind:max={question.answers.max}
+				pips
+				float
+				all="label"
+			/>
+			<div class="flex justify-center">
+				<button
+					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+					disabled={selected_answer !== undefined}
+					on:click={() => selectAnswer(slider_value[0])}
+					>Submit
+				</button>
+			</div>
+		{/await}
+	{/if}
+{:else if question.type === QuizQuestionType.ABCD}
 	<div class="flex flex-wrap">
 		{#each question.answers as answer}
 			{#if answer.right}
@@ -89,4 +130,14 @@
 			{/if}
 		{/each}
 	</div>
+{:else if question.type === QuizQuestionType.RANGE}
+	<p class="text-center">
+		Every number between {question.answers.min_correct} and {question.answers.max_correct} was correct.
+		You got {selected_answer}, so you have been
+		{#if question.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= question.answers.max_correct}
+			correct
+		{:else}
+			wrong.
+		{/if}
+	</p>
 {/if}

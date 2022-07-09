@@ -36,6 +36,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
+	import { QuizQuestionType } from '../lib/quiz_types';
 
 	navbarVisible.set(false);
 
@@ -72,7 +73,16 @@
 		if (response.status === 404) {
 			throw new Error('Quiz not found');
 		} else if (response.status === 200) {
-			data = await response.json();
+			let temp_data = await response.json();
+			for (let i = 0; i < temp_data.questions.length; i++) {
+				let question = temp_data.questions[i];
+				if (question.type === undefined) {
+					temp_data.questions[i].type = QuizQuestionType.ABCD;
+				} else {
+					temp_data.questions[i].type = QuizQuestionType[question.type];
+				}
+			}
+			data = temp_data;
 			return;
 		}
 	};
