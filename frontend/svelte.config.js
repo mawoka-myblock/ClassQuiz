@@ -6,7 +6,6 @@
 
 import adapter from '@sveltejs/adapter-node';
 import preprocess from 'svelte-preprocess';
-import { isoImport } from 'vite-plugin-iso-import';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -22,7 +21,17 @@ const config = {
 		adapter: adapter({
 			out: 'build',
 			precompress: true
-		})
+		}),
+		// +++ SOON OBSOLETE +++
+		vite: {
+			optimizeDeps: {
+				include: ['swiper']
+			},
+			build: {
+				sourcemap: true
+			}
+		}
+		// --- SOON OBSOLETE ---
 	}
 };
 
