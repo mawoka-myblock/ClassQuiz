@@ -8,6 +8,9 @@
 	import { fade } from 'svelte/transition';
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	const empty_answer: Answer = {
 		right: false,
@@ -91,7 +94,7 @@
 				];
 			}}
 		>
-			<span class="italic text-center">Add an answer</span>
+			<span class="italic text-center">{$t('editor_page.add_an_answer')}</span>
 		</button>
 	{/if}
 </div>

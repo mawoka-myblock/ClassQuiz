@@ -14,6 +14,9 @@
 	import { createTippy } from 'svelte-tippy';
 	import 'tippy.js/animations/perspective-subtle.css';
 	import 'tippy.js/dist/tippy.css';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	const tippy = createTippy({
 		arrow: true,
@@ -160,8 +163,8 @@
 					name="Answer-Type"
 					bind:value={data.questions[selected_question].type}
 				>
-					<option value={QuizQuestionType.RANGE}>Range</option>
-					<option value={QuizQuestionType.ABCD}>Multiple-Choice</option>
+					<option value={QuizQuestionType.RANGE}>{$t('words.range')}</option>
+					<option value={QuizQuestionType.ABCD}>{$t('words.multiple_choice')}</option>
 				</select>
 			</div>
 			<div class="flex justify-center pt-10 w-full">
@@ -175,7 +178,7 @@
 					<RangeEditor bind:selected_question bind:data />
 				{/if}
 			</div>
-			<p class="italic text-center mt-auto pt-4">Right-click on an answer to delete it!</p>
+			<p class="italic text-center mt-auto pt-4">{$t('editor_page.right_click_to_delete')}</p>
 		</div>
 	</div>
 </div>

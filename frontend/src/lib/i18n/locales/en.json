@@ -104,7 +104,10 @@
         "correct": "Correct",
         "result": "Result",
         "result_plural": "Results",
-        "count": "Count"
+        "count": "Count",
+        "range": "",
+        "multiple_choice": "",
+        "private": ""
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -156,5 +159,9 @@
         "2nd_place": "2nd Place",
         "3rd place": "3rd Place",
         "with_out_of": "with {{correct_questions}} out of {{total_question_count}}"
+    },
+    "editor_page": {
+        "add_an_answer": "",
+        "right_click_to_delete": ""
     }
 }
