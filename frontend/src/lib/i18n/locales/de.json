@@ -104,7 +104,10 @@
         "correct": "Richtig",
         "count": "Anzahl",
         "result": "Ergebnis",
-        "result_plural": "Ergebnisse"
+        "result_plural": "Ergebnisse",
+        "range": "Zahlenbereich",
+        "multiple_choice": "Multiple-Choice",
+        "private": "Privat"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -163,5 +166,9 @@
         "1st_place": "1. Platz",
         "2nd_place": "2. Platz",
         "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}"
+    },
+    "editor_page": {
+        "add_an_answer": "Antwort hinzufügen",
+        "right_click_to_delete": "Rechts-klicke eine Antwort, um diese zu löschen!"
     }
 }
