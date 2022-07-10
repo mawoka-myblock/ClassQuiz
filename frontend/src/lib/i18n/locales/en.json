@@ -105,9 +105,9 @@
         "result": "Result",
         "result_plural": "Results",
         "count": "Count",
-        "range": "",
-        "multiple_choice": "",
-        "private": ""
+        "range": "Range",
+        "multiple_choice": "Multiple-Choice",
+        "private": "Private"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -161,7 +161,7 @@
         "with_out_of": "with {{correct_questions}} out of {{total_question_count}}"
     },
     "editor_page": {
-        "add_an_answer": "",
-        "right_click_to_delete": ""
+        "add_an_answer": "Add an answer",
+        "right_click_to_delete": "Right-click on an answer to delete it!"
     }
 }
