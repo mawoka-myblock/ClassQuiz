@@ -17,7 +17,7 @@ stop() {
 init() {
   mkdir /tmp/storage
   docker run --rm -d -p 6379:6379 --name test_redis redis:alpine
-  docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:latest
+  docker run -it --rm -d -p 7700:7700 --name test_meili getmeili/meilisearch:v0.28.0
   docker volume create classquiz_db_data
   docker run --name classquiz_db -p 5432:5432 --rm -d -e POSTGRES_PASSWORD=mysecretpassword -v classquiz_db_data:/var/lib/postgresql/data -e POSTGRES_DB=classquiz postgres
   sleep 1

@@ -84,12 +84,15 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
 
 
 async def meilisearch_init():
-    indexes = meilisearch.get_indexes()
     classquiz_index_found = False
+    try:
+        indexes = meilisearch.get_indexes()
+        for index in indexes["results"]:
+            if index.uid == settings.meilisearch_index:
+                classquiz_index_found = True
+    except TypeError:
+        classquiz_index_found = False
     # +++ Check if the index does not exist and creates it
-    for index in indexes:
-        if index.uid == settings.meilisearch_index:
-            classquiz_index_found = True
     if not classquiz_index_found:
         print("Creating MeiliSearch Index")
         meilisearch.create_index(settings.meilisearch_index)
