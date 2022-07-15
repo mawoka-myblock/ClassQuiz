@@ -27,8 +27,8 @@ class Hit(pydantic.BaseModel):
 
 class SearchResponse(pydantic.BaseModel):
     hits: List[Hit] | list[None]
-    nbHits: int
-    exhaustiveNbHits: bool
+    # nbHits: int
+    # exhaustiveNbHits: bool
     query: str
     limit: int
     offset: int
@@ -45,7 +45,7 @@ class SearchData(pydantic.BaseModel):
     attributesToCrop: Optional[list[str]] = None
     cropLength: Optional[int] = 200
     attributesToHighlight: Optional[list[str]] = None
-    matches: Optional[bool] = False
+    # matches: Optional[bool] = False
     sort: Optional[list[str]] = None
 
 
@@ -68,14 +68,15 @@ async def search(data: SearchData):
             "limit": data.limit,
             "filter": data.filter,
             "cropLength": data.cropLength,
-            "matches": data.matches,
-            "facetsDistribution": data.facetsDistribution,
+            # "matches": data.matches,
+            # "facetsDistribution": data.facetsDistribution,
             "attributesToRetrieve": data.attributesToRetrieve,
             "attributesToCrop": data.attributesToCrop,
             "sort": data.sort,
             "attributesToHighlight": data.attributesToHighlight,
         },
     )
+    print(query)
     return SearchResponse(**query)
 
 
@@ -86,7 +87,7 @@ async def search_get(
     limit: int = 20,
     filter: str | None = None,  # skipcq: PYL-W0622
     cropLength: int = 200,
-    matches: bool = False,
+    # matches: bool = False,
     attributesToHighlight: Optional[str] = "*",
 ):
     query = await _perform_search(
@@ -96,7 +97,7 @@ async def search_get(
             "limit": limit,
             "filter": filter,  # skipcq: PYL-W0622
             "cropLength": cropLength,
-            "matches": matches,
+            # "matches": matches,
             "attributesToHighlight": [attributesToHighlight],
         },
     )
