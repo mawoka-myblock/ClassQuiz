@@ -7,7 +7,7 @@
 	import LanguageToggle from './language-toggle.svelte';
 </script>
 
-<footer class="text-center text-white border-black">
+<footer class="text-center text-white border-black w-screen">
 	<div class="grid grid-cols-12 w-full pt-4 bg-gray-700 pb-2">
 		<p class="col-start-2 col-end-12 text-center w-full">
 			Made with ❤️ by
@@ -36,16 +36,22 @@
 				>More details are here.</a
 			>
 		</p>
-		<div class="self-end flex flex-col items-center min-h-full h-full">
+		<div class="flex flex-col items-center min-h-full h-full md:block hidden">
 			<div class="my-auto mr-16">
 				<LanguageToggle />
 			</div>
 		</div>
 	</div>
+	<div class="md:hidden block">
+		<div class="self-end flex justify-center min-h-full h-full bg-gray-700 md:pb-2">
+			<div class="m-auto md:invisible visible">
+				<LanguageToggle />
+			</div>
+		</div>
+	</div>
+
 	<!-- to-[#8dc63f]-->
-	<span
-		class="w-full h-0.5 bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] block bg-animated"
-	/>
+	<span class="w-full h-0.5 bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] block" />
 
 	<div class="flex justify-center bg-gray-700">
 		<p class="text-gray-400 text-center">
@@ -54,9 +60,10 @@
 	</div>
 </footer>
 
+<!--
 <style>
 	.bg-animated {
-		background-size: 30% 30%;
+		background-size: 100% 100%;
 
 		-webkit-animation: ColorRunner 13s ease infinite;
 		-moz-animation: ColorRunner 13s ease infinite;
@@ -112,3 +119,4 @@
 		}
 	}
 </style>
+-->

@@ -96,7 +96,9 @@
 		</div>
 	</section>
 	<section class="py-8">
-		<h1 class="sm:text-6xl text-4xl text-center">{$t('words.screenshot', { count: 2 })}</h1>
+		<h1 class="sm:text-6xl text-4xl text-center break-words">
+			{$t('words.screenshot', { count: 2 })}
+		</h1>
 		<div>
 			<LandingPromo />
 		</div>
