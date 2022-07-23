@@ -77,7 +77,7 @@
 		});
 		if (res.status === 200) {
 			alert('Password changed');
-			window.location.replace('/account/login');
+			window.location.assign('/account/login');
 		} else {
 			alert('Password change failed');
 		}
@@ -93,7 +93,7 @@
 		if (response.status === 200) {
 			return await response.json();
 		} else {
-			window.location.replace('/account/login');
+			window.location.assign('/account/login');
 		}
 	};
 	const formatDate = (date: string): string => {
@@ -110,7 +110,7 @@
 			}
 			return await res.json();
 		} else {
-			window.location.replace('/account/login?returnTo=/account/settings');
+			window.location.assign('/account/login?returnTo=/account/settings');
 		}
 		return await res.json();
 	};
