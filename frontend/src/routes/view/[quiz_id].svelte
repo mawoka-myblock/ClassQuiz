@@ -86,7 +86,7 @@
 		const data = await res.json();
 		// eslint-disable-next-line no-undef
 		plausible('Started Game', { props: { quiz_id: id } });
-		window.location.replace(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
+		window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
 </script>
 
