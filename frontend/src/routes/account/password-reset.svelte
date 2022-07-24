@@ -52,7 +52,7 @@
 		});
 		const data = await response.json();
 		if (response.status === 200) {
-			window.location.replace('/account/login');
+			window.location.assign('/account/login');
 		} else {
 			alert(data.detail);
 		}
