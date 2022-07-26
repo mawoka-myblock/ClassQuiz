@@ -12,6 +12,9 @@ from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse, PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 import html
+
+from jose import jwt, JWTError
+
 from classquiz import oauth
 from classquiz.helpers.avatar import gzipped_user_avatar
 import base64
@@ -266,3 +269,46 @@ async def get_other_avatar(respo: Response, user_id: uuid.UUID):
         raise HTTPException(status_code=404, detail="User not found")
     respo.headers.append("Content-Type", "image/svg+xml")
     return gzip.decompress(base64.b64decode(user.avatar))
+
+
+class InternalAuthData(BaseModel):
+    rememberme: str
+    jwt: str | None
+
+
+@router.post("/auth/internal")
+async def internal_auth(data: InternalAuthData, resp: Response):
+    try:
+        data.jwt = data.jwt.replace("Bearer ", "")
+    except AttributeError:
+        pass
+    if data.jwt is not None:
+        try:
+            payload = jwt.decode(data.jwt, settings.secret_key, algorithms=["HS256"])
+            email: str = payload.get("sub")
+            if email is None:
+                resp.status_code = 401
+                return resp
+        except JWTError:
+            resp.status_code = 401
+            return resp
+    else:
+        return await rememberme_check(data.rememberme, resp)
+
+
+class GetEmailFromJWT(BaseModel):
+    jwt: str
+
+
+@router.post("/auth/internal/email")
+async def get_email_from_jwt(data: GetEmailFromJWT):
+    try:
+        data.jwt = data.jwt.replace("Bearer ", "")
+    except AttributeError:
+        pass
+    try:
+        payload = jwt.decode(data.jwt, settings.secret_key, algorithms=["HS256"])
+        return payload.get("sub")
+    except JWTError as e:
+        print(e)
+        raise HTTPException(status_code=401)

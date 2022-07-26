@@ -36,7 +36,6 @@ specifiers:
     highlight.js: ^11.5.1
     i18next: ^21.8.13
     i18next-browser-languagedetector: ^6.1.4
-    ioredis: ^5.1.0
     js-cookie: ^3.0.1
     luxon: ^2.4.0
     mapbox-gl: ^2.9.1
@@ -101,7 +100,6 @@ devDependencies:
     felte: 1.2.2_svelte@3.49.0
     highlight.js: 11.6.0
     i18next-browser-languagedetector: 6.1.4
-    ioredis: 5.2.1
     js-cookie: 3.0.1
     luxon: 2.5.0
     mapbox-gl: 2.9.2
@@ -248,13 +246,6 @@ packages:
         resolution:
             {
                 integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
-            }
-        dev: true
-
-    /@ioredis/commands/1.2.0:
-        resolution:
-            {
-                integrity: sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==
             }
         dev: true
 
@@ -1439,14 +1430,6 @@ packages:
             }
         dev: true
 
-    /cluster-key-slot/1.1.0:
-        resolution:
-            {
-                integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==
-            }
-        engines: { node: '>=0.10.0' }
-        dev: true
-
     /color-convert/2.0.1:
         resolution:
             {
@@ -1722,14 +1705,6 @@ packages:
             {
                 integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==
             }
-        dev: true
-
-    /denque/2.1.0:
-        resolution:
-            {
-                integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==
-            }
-        engines: { node: '>=0.10' }
         dev: true
 
     /detect-indent/6.1.0:
@@ -2797,26 +2772,6 @@ packages:
             }
         dev: true
 
-    /ioredis/5.2.1:
-        resolution:
-            {
-                integrity: sha512-+rgPUIawiT+L3am9FbUcwjI7R7KtLDUSJNYWF82NZmlUXCZELws7iJkVDuECQoNUHqZTf/EGn3uw9IA+PlBiyg==
-            }
-        engines: { node: '>=12.22.0' }
-        dependencies:
-            '@ioredis/commands': 1.2.0
-            cluster-key-slot: 1.1.0
-            debug: 4.3.4
-            denque: 2.1.0
-            lodash.defaults: 4.2.0
-            lodash.isarguments: 3.1.0
-            redis-errors: 1.2.0
-            redis-parser: 3.0.0
-            standard-as-callback: 2.1.0
-        transitivePeerDependencies:
-            - supports-color
-        dev: true
-
     /is-binary-path/2.1.0:
         resolution:
             {
@@ -2976,20 +2931,6 @@ packages:
         resolution:
             {
                 integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
-            }
-        dev: true
-
-    /lodash.defaults/4.2.0:
-        resolution:
-            {
-                integrity: sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==
-            }
-        dev: true
-
-    /lodash.isarguments/3.1.0:
-        resolution:
-            {
-                integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==
             }
         dev: true
 
@@ -4088,24 +4029,6 @@ packages:
             picomatch: 2.3.1
         dev: true
 
-    /redis-errors/1.2.0:
-        resolution:
-            {
-                integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==
-            }
-        engines: { node: '>=4' }
-        dev: true
-
-    /redis-parser/3.0.0:
-        resolution:
-            {
-                integrity: sha512-DJnGAeenTdpMEH6uAJRK/uiyEIH9WVsUmoLwzudwGJUwZPp80PDBWPHXSAGNPwNvIXAbe7MSUB1zQFugFml66A==
-            }
-        engines: { node: '>=4' }
-        dependencies:
-            redis-errors: 1.2.0
-        dev: true
-
     /regenerator-runtime/0.13.9:
         resolution:
             {
@@ -4416,13 +4339,6 @@ packages:
                 integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
             }
         deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
-        dev: true
-
-    /standard-as-callback/2.1.0:
-        resolution:
-            {
-                integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==
-            }
         dev: true
 
     /string-width/4.2.3:

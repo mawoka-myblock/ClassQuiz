@@ -9,7 +9,7 @@
 
 <footer class="text-center text-white border-black w-screen">
 	<div class="grid grid-cols-12 w-full pt-4 bg-gray-700 pb-2">
-		<p class="col-start-2 col-end-12 text-center w-full">
+		<p class="col-start-3 col-end-11 text-center w-full">
 			Made with ❤️ by
 			<a
 				href="https://mawoka.eu?utm_source=ClassQuiz&utm_medium=footer"
@@ -36,14 +36,16 @@
 				>More details are here.</a
 			>
 		</p>
-		<div class="flex flex-col items-center min-h-full h-full md:block hidden">
+		<div
+			class="flex flex-col items-center min-h-full h-full md:block hidden col-start-11 col-end-12"
+		>
 			<div class="my-auto mr-16">
 				<LanguageToggle />
 			</div>
 		</div>
 	</div>
 	<div class="md:hidden block">
-		<div class="self-end flex justify-center min-h-full h-full bg-gray-700 md:pb-2">
+		<div class="self-end flex justify-center min-h-full h-full bg-gray-700 pb-2 md:pb-0">
 			<div class="m-auto md:invisible visible">
 				<LanguageToggle />
 			</div>

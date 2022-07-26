@@ -25,11 +25,8 @@ RUN corepack enable && corepack prepare pnpm@7.5.0 --activate && pnpm i
 # copy the generated modules and all other files to the container
 COPY . .
 
-RUN apt update && \
-    apt install -y redis-server
-
 # build the application
-RUN nohup bash -c "redis-server &" && sleep 4 && pnpm run build
+RUN pnpm run build
 
 ### Serve Step
 # pull the Node.js Docker image

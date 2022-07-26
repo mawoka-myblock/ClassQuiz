@@ -5,56 +5,53 @@
  */
 
 import * as cookie from 'cookie';
-import Redis from 'ioredis';
-
-const redis = new Redis(process.env.REDIS_URL);
+import type { Handle, GetSession } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
+export const handle: Handle = async ({ event, resolve }) => {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-	const regex_token = /^Bearer (.*)$/gm.exec(cookies.access_token);
-	if (regex_token === null) {
-		event.locals.token = null;
-	} else {
-		event.locals.token = regex_token[1];
-	}
-	event.locals.rememberme = cookies.rememberme_token;
-
-	return await resolve(event);
-}
-
-/** @type {import('@sveltejs/kit').GetSession} */
-export async function getSession(event) {
-	const redis_res = await redis.get(event.locals.token);
-	let user_email: string;
-	if (redis_res === null) {
-		const res = await fetch(`${process.env.API_URL}/api/v1/users/check`, {
+	const jwt = /^Bearer (.*)$/gm.exec(cookies.access_token);
+	const rememberme_token = cookies.rememberme_token;
+	if (rememberme_token) {
+		const res = await fetch(`${process.env.API_URL}/api/v1/users/auth/internal`, {
+			method: 'POST',
 			headers: {
-				Cookie: `access_token=Bearer ${event.locals.token}` // skipcq: JS-0378
-			}
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				rememberme: rememberme_token,
+				jwt: jwt === null ? undefined : jwt[0]
+			})
 		});
-		if (res.ok) {
-			const json = await res.json();
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			//@ts-ignore // skipcq: JS-0295
-			user_email = json.email;
+		let new_jwt;
+		if (jwt) {
+			new_jwt = jwt[0];
 		} else {
-			user_email = null;
+			new_jwt = cookie.parse(res.headers.get('set-cookie')).access_token;
 		}
+		event.locals.email = await (
+			await fetch(`${process.env.API_URL}/api/v1/users/auth/internal/email`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					jwt: new_jwt
+				})
+			})
+		).text();
+		const resp = await resolve(event);
+		resp.headers.set('Set-Cookie', res.headers.get('set-cookie'));
+		return resp;
 	} else {
-		user_email = redis_res;
+		event.locals.email = null;
+		return resolve(event);
 	}
-	if (user_email === null) {
-		return {
-			authenticated: false,
-			token: event.locals.token,
-			email: null
-		};
-	} else {
-		return {
-			authenticated: true,
-			token: event.locals.token,
-			email: user_email
-		};
-	}
-}
+};
+
+export const getSession: GetSession = async (event) => {
+	return {
+		email: event.locals.email,
+		authenticated: Boolean(event.locals.email)
+	};
+};
