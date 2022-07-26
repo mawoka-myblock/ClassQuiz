@@ -12,8 +12,6 @@
 	import Spinner from '../Spinner.svelte';
 	import { mint } from '$lib/hashcash';
 	import { createTippy } from 'svelte-tippy';
-	import 'tippy.js/animations/perspective-subtle.css';
-	import 'tippy.js/dist/tippy.css';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();

@@ -5,8 +5,6 @@
   -->
 <script lang="ts">
 	import { createTippy } from 'svelte-tippy';
-	import 'tippy.js/animations/perspective-subtle.css';
-	import 'tippy.js/dist/tippy.css';
 
 	export let imported: boolean | undefined;
 	const tippy = createTippy({

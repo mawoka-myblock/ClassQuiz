@@ -8,8 +8,6 @@
 	import { getLocalization } from '$lib/i18n';
 	import { signedIn, pathname } from '$lib/stores';
 	import { createTippy } from 'svelte-tippy';
-	import 'tippy.js/animations/perspective-subtle.css';
-	import 'tippy.js/dist/tippy.css';
 	import { browser } from '$app/env';
 
 	const tippy = createTippy({
@@ -21,12 +19,8 @@
 	const { t } = getLocalization();
 
 	let openMenu = true;
-	let closeMenu = false;
-	let menuItems = false;
 	const toggleMenu = () => {
 		openMenu = !openMenu;
-		closeMenu = !closeMenu;
-		menuItems = !menuItems;
 	};
 	let darkMode = false;
 	if (browser) {
@@ -82,7 +76,7 @@
 		<button
 			class="hidden"
 			id="close-menu"
-			class:hidden={!closeMenu}
+			class:hidden={openMenu}
 			on:click={toggleMenu}
 			aria-label="Close navbar"
 		>
@@ -104,11 +98,7 @@
 		</button>
 	</section>
 
-	<ul
-		id="menu-items"
-		class="lg:flex w-full flex-col lg:flex-row lg:pl-6"
-		class:hidden={!menuItems}
-	>
+	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row lg:pl-6" class:hidden={openMenu}>
 		{#if $signedIn}
 			<li class="py-2">
 				<a

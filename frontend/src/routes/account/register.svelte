@@ -21,7 +21,6 @@
 	import { validateSchema } from '@felte/validator-yup';
 	import { navbarVisible } from '$lib/stores';
 	import Footer from '$lib/footer.svelte';
-	import 'tippy.js/dist/tippy.css';
 
 	const { t } = getLocalization();
 	import reporter from '@felte/reporter-tippy';

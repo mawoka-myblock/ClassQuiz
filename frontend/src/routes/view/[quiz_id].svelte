@@ -31,8 +31,6 @@
 	import { getLocalization } from '$lib/i18n';
 	import CollapsSection from '$lib/collapsible.svelte';
 	import { createTippy } from 'svelte-tippy';
-	import 'tippy.js/animations/perspective-subtle.css';
-	import 'tippy.js/dist/tippy.css';
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 
 	const tippy = createTippy({

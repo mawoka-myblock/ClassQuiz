@@ -9,8 +9,6 @@
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema, dataSchema } from '../yupSchemas';
 	import { createTippy } from 'svelte-tippy';
-	import 'tippy.js/animations/perspective-subtle.css';
-	import 'tippy.js/dist/tippy.css';
 
 	export let data: EditorData;
 	export let selected_question = -1;
