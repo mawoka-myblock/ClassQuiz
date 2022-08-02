@@ -83,7 +83,10 @@
         "correct": "Doğru",
         "result": "Sonuç",
         "result_plural": "Sonuçlar",
-        "count": "Sayı"
+        "count": "Sayı",
+        "range": "Aralık",
+        "multiple_choice": "Çoktan Seçmeli",
+        "private": "Gizli"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -156,5 +159,9 @@
         "1st_place": "1. Sıra",
         "2nd_place": "2. Sıra",
         "3rd place": "3. Sıra"
+    },
+    "editor_page": {
+        "add_an_answer": "Bir cevap ekle",
+        "right_click_to_delete": "Bir cevabı silmek için sağ tıkla!"
     }
 }
