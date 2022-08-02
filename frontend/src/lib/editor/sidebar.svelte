@@ -198,8 +198,14 @@
 						>
 					{/each}
 				</div>
+			{:else if question.type === QuizQuestionType.RANGE}
+				<p class="text-center text-sm p-0.5">
+					All numbers between {question.answers.min_correct}
+					and {question.answers.max_correct} are correct, where numbers between {question
+						.answers.min} and {question.answers.max} can be selected.
+				</p>
 			{:else}
-				<p>Hi!</p>
+				<p>Unknown Question Type (shouldn't happen)</p>
 			{/if}
 		</div>
 	{/each}

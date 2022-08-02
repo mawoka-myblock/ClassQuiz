@@ -65,7 +65,6 @@
 		data.questions[selected_question].type = QuizQuestionType.ABCD;
 	}
 	 */
-	console.log(data.questions[selected_question].type, 'moin');
 </script>
 
 <div class="w-full h-full pb-20 px-20">

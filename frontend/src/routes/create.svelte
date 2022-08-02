@@ -25,6 +25,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
+	import { QuizQuestionType } from '$lib/quiz_types';
 
 	navbarVisible.set(false);
 
@@ -40,6 +41,7 @@
 	interface Question {
 		question: string;
 		time: string;
+		type?: QuizQuestionType;
 		answers: Answer[];
 	}
 
@@ -61,7 +63,14 @@
 				description: '',
 				public: false,
 				title: '',
-				questions: [{ question: '', time: '20', answers: [{ right: false, answer: '' }] }]
+				questions: [
+					{
+						type: QuizQuestionType.ABCD,
+						question: '',
+						time: '20',
+						answers: [{ right: false, answer: '' }]
+					}
+				]
 			};
 		} else {
 			data = JSON.parse(from_localstorage);
