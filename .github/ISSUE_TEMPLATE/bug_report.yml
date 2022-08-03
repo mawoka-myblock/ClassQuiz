@@ -16,14 +16,14 @@ body:
         - On a self-hosted instance
     validations:
       required: true
-  - type: markdown
+  - type: textarea
     attributes:
-      value: How can the issue be reproduced?
+      label: How can the issue be reproduced?
     validations:
       required: true
-  - type: markdown
+  - type: textarea
     attributes:
-      value: Describe the bug (with screenshots if possible)
+      label: Describe the bug (with screenshots if possible)
     validations:
       required: true
   - type: dropdown
