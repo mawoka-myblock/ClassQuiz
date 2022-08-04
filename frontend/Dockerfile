@@ -1,6 +1,6 @@
 ### Build Step
 # pull the Node.js Docker image
-FROM node:17.8-bullseye as builder
+FROM node:18.5-bullseye as builder
 # ENV API_URL=http://api:80
 ENV API_URL=https://mawoka.eu
 #Ah, I've noticed that!!!
