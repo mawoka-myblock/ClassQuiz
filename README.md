@@ -41,6 +41,7 @@ located in Karlsruhe, Germany and hosted by [netcup](https://mawoka.eu/redir?tok
 on your location.
 
 ## Donating
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K3CK3ES)
 
 <a href="https://liberapay.com/Mawoka/donate"><img src="https://img.shields.io/liberapay/goal/Mawoka.svg?logo=liberapay"></a>
@@ -68,9 +69,35 @@ The docs are online at https://classquiz.de/docs
 
 ### Things to know about the structure
 
-1. Everything depends on Redis (API and frontend).
-2. The proxy-container is optional (Caddy), but makes your life easier
-3. You need to set your reverse proxy up, so that it allows Socket.io-connections.
+Since this repo is a monorepo, the frontend is located in
+the [`frontend/`](https://github.com/mawoka-myblock/ClassQuiz/tree/master/frontend)-directory.
+The backend-project (Pipfile) is in the root, but all the code is located in
+the [`classquiz/`](https://github.com/mawoka-myblock/ClassQuiz/tree/master/frontend)-folder.
+
+#### Tech-Stack
+
+##### Backend
+
+The backend is made with [FastAPI](https://fastapi.tiangolo.com/) (web-framework)
+, [ormar](https://github.com/collerek/ormar/) (ORM)
+, [python-socketio](https://python-socketio.readthedocs.io/en/latest/) (realtime-communication between server and
+client)
+
+##### Frontend
+
+The frontend is made with [SvelteKit](https://kit.svelte.dev/) (web-framework)
+and [TailwindCSS](https://tailwindcss.com/) (Css-Framework).
+
+##### External Dependencies
+Selfhostable:
+- [Meilisearch](https://www.meilisearch.com/) (Search-Server)
+- [Caddy](https://caddyserver.com/) (Reverse Proxy)
+- [Postgres](https://www.postgresql.org/) (Database)
+- [Redis](https://redis.io/) (Cache)
+
+Closed-Source 3rd parties:
+- [Mapbox](https://www.mapbox.com/) (maps)
+- [hCaptcha](https://www.hcaptcha.com/) (captcha)
 
 ---
 *Kahoot! and the K! logo are trademarks of Kahoot! AS*
