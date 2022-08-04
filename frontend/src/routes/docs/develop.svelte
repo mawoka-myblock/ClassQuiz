@@ -36,7 +36,7 @@
 		<li><a href="https://pipenv.pypa.io/en/latest/">Pipenv</a></li>
 		<li>Linux</li>
 		<li><a href="https://docker.com">Docker</a></li>
-		<li><a href="https://pnpm.io/">pnpm</a></li>
+		<li><a href="https://pnpm.io/">pnpm</a> (at least node 18)</li>
 	</ul>
 
 	<h2>Setup</h2>
@@ -81,9 +81,7 @@
 				</li>
 				<li>
 					Start the frontend-dev-server:
-					<pre><code
-							>cd frontend && API_URL=http://localhost:8080 REDIS_URL=redis://localhost:6379/0?decode_responses=True pnpm dev</code
-						></pre>
+					<pre><code>cd frontend && API_URL=http://localhost:8080 pnpm dev</code></pre>
 				</li>
 				<li>
 					Start Caddy:
@@ -130,11 +128,12 @@
 			<ul>
 				<li>
 					Backend:
-					<pre><code>pipenv run uvicorn classquiz:app --reload</code></pre>
+					<pre><code>pipenv run uvicorn classquiz:app --reload --proxy-headers</code
+						></pre>
 				</li>
 				<li>
 					Frontend:
-					<pre><code>cd frontend && pnpm dev</code></pre>
+					<pre><code>cd frontend && API_URL=http://localhost:8080 pnpm dev</code></pre>
 				</li>
 			</ul>
 		</li>
