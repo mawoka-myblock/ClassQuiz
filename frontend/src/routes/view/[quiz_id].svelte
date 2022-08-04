@@ -32,6 +32,7 @@
 	import CollapsSection from '$lib/collapsible.svelte';
 	import { createTippy } from 'svelte-tippy';
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
+	import { QuizQuestionType } from '$lib/quiz_types.js';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -145,34 +146,43 @@
 					{/if}
 					<span class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
 						{$t('editor.time_in_seconds')}:
-						<p>{question.time}</p>
+						{question.time}
 					</span>
-					{#each question.answers as answer, index_answer}
-						<div
-							class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1"
-						>
-							<h1 class="text-3xl m-1">{$t('words.answer')} {index_answer + 1}</h1>
-							<p class="m-1">
-								{$t('words.answer')}: {index_answer + 1}
-								{$t('words.question')}: {index_question + 1}
-							</p>
-							<p>
-								{$t('words.answer')}
-								: {quiz.questions[index_question].answers[index_answer].answer}
-							</p>
-							<label
-								class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap"
+					{#if question.type === QuizQuestionType.ABCD}
+						{#each question.answers as answer, index_answer}
+							<div
+								class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1"
 							>
-								<input
-									type="checkbox"
-									bind:checked={answer.right}
-									class="text-black w-fit"
-									disabled
-								/>
-								<span class="w-fit">{$t('editor.right_or_true?')}</span>
-							</label>
-						</div>
-					{/each}
+								<h1 class="text-3xl m-1">
+									{$t('words.answer')}
+									{index_answer + 1}
+								</h1>
+								<p class="m-1">
+									{$t('words.answer')}: {index_answer + 1}
+									{$t('words.question')}: {index_question + 1}
+								</p>
+								<p>
+									{$t('words.answer')}
+									: {quiz.questions[index_question].answers[index_answer].answer}
+								</p>
+								<label
+									class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap"
+								>
+									<input
+										type="checkbox"
+										bind:checked={answer.right}
+										class="text-black w-fit"
+										disabled
+									/>
+									<span class="w-fit">{$t('editor.right_or_true?')}</span>
+								</label>
+							</div>
+						{/each}
+					{:else if question.type === QuizQuestionType.RANGE}
+						All numbers between {question.answers.min_correct}
+						and {question.answers.max_correct} are correct, where numbers between {question
+							.answers.min} and {question.answers.max} can be selected.
+					{/if}
 				</div>
 			</CollapsSection>
 		</div>
