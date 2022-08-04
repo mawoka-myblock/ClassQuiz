@@ -1,0 +1,57 @@
+name: Bug Report
+description: File a bug report
+labels: ["bug"]
+body:
+  - type: input
+    attributes:
+      label: Which component is affected?
+      description: Which component/part of ClassQuiz is affected by the bug? The editor? The admin-screen if a game is running?
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Did the issue occur at ClassQuiz.de, or on a self-hosted instance?
+      options:
+        - On ClassQuiz.de
+        - On a self-hosted instance
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: How can the issue be reproduced?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the bug (with screenshots if possible)
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Device
+      options:
+        - Desktop
+        - Laptop/Notebook
+        - Smartphone
+        - Tablet
+        - Smartwatch
+        - Fridge/Toaster
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Operating System
+      placeholder: Windows, Linux, iOS, etc
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Browser
+      placeholder: Chrome, Safari, Firefox, etc
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: Additional
+    validations:
+      required: true
