@@ -9,7 +9,7 @@
 		const returnTo =
 			url.searchParams.get('returnTo') !== null
 				? url.searchParams.get('returnTo')
-				: '/overview';
+				: '/dashboard';
 		if (session.authenticated) {
 			return {
 				status: 302,

@@ -8,7 +8,7 @@
 		if (session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/overview'
+				redirect: '/dashboard'
 			};
 		}
 		return {};

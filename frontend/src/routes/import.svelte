@@ -53,7 +53,7 @@
 		});
 
 		if (res.status === 200) {
-			window.location.href = '/overview';
+			window.location.href = '/dashboard';
 		} else if (res.status === 400) {
 			alertModal.set({
 				open: true,

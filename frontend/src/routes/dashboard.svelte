@@ -8,7 +8,7 @@
 		if (!session.authenticated) {
 			return {
 				status: 302,
-				redirect: '/account/login?returnTo=/overview'
+				redirect: '/account/login?returnTo=/dashboard'
 			};
 		}
 		return {
@@ -71,7 +71,7 @@
 				body: `Failed to start game, ${await res.text()}`
 			});
 			alertModal.subscribe((_) => {
-				window.location.assign('/account/login?returnTo=/overview');
+				window.location.assign('/account/login?returnTo=/dashboard');
 			});
 		}
 		const data = await res.json();
@@ -89,7 +89,7 @@
 </script>
 
 <svelte:head>
-	<title>ClassQuiz - Overview</title>
+	<title>ClassQuiz - Dashboard</title>
 </svelte:head>
 
 <div class="min-h-screen flex flex-col">

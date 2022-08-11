@@ -107,7 +107,8 @@
         "count": "Count",
         "range": "Range",
         "multiple_choice": "Multiple-Choice",
-        "private": "Private"
+        "private": "Private",
+        "dashboard": ""
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
