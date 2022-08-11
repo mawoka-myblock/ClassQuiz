@@ -86,7 +86,8 @@
         "count": "Sayı",
         "range": "Aralık",
         "multiple_choice": "Çoktan Seçmeli",
-        "private": "Gizli"
+        "private": "Gizli",
+        "dashboard": "Panel"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
