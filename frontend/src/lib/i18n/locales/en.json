@@ -108,7 +108,7 @@
         "range": "Range",
         "multiple_choice": "Multiple-Choice",
         "private": "Private",
-        "dashboard": ""
+        "dashboard": "Dashboard"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
