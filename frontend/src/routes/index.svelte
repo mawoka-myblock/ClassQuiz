@@ -9,6 +9,10 @@
 	export async function load({ session }) {
 		if (session.authenticated) {
 			signedIn.set(true);
+			return {
+				status: 302,
+				redirect: '/dashboard'
+			};
 		}
 		return {};
 	}
