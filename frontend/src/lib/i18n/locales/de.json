@@ -107,7 +107,8 @@
         "result_plural": "Ergebnisse",
         "range": "Zahlenbereich",
         "multiple_choice": "Multiple-Choice",
-        "private": "Privat"
+        "private": "Privat",
+        "dashboard": "Dashboard"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
