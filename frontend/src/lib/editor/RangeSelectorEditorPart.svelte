@@ -14,7 +14,19 @@
 			min_correct: 3
 		};
 	}
+	/*
+	const correct_numbers = (data: number[]) => {
+		console.log(data, data[1] <= data[0])
+		if (data[1] <= data[0]) {
+			range_arr[1] = range_arr[0] + 2
+		}
+		if (data[0] <= data[1]) {
+			range_arr[0] = range_arr[1] - 2
+		}
+	}
+	$: correct_numbers(range_arr)
 
+ */
 	let answer = question.answers;
 	let range_arr = [answer.min_correct, answer.max_correct];
 	$: data.questions[selected_question].answers.min_correct = range_arr[0];
@@ -27,7 +39,6 @@
 		data.questions[selected_question].answers.max === null
 			? 0
 			: data.questions[selected_question].answers.max;
-	$: console.log(data.questions[selected_question].answers.min);
 
 	function sleep(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
@@ -40,11 +51,13 @@
 			<input
 				type="number"
 				class="w-16 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1"
+				max={data.questions[selected_question].answers.max - 2}
 				bind:value={data.questions[selected_question].answers.min}
 			/>
 			<input
 				type="number"
 				class="w-16 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1"
+				min={data.questions[selected_question].answers.min + 2}
 				bind:value={data.questions[selected_question].answers.max}
 			/>
 		</div>
