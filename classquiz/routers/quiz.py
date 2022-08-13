@@ -7,6 +7,9 @@ import re
 import uuid
 from datetime import datetime
 from random import randint
+
+import ormar.exceptions
+
 from classquiz.helpers import get_meili_data, generate_spreadsheet
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
@@ -129,8 +132,11 @@ async def get_game_id(game_pin: str):
 
 
 @router.get("/list")
-async def get_quiz_list(user: User = Depends(get_current_user)):
-    return await Quiz.objects.filter(user_id=user.id).all()
+async def get_quiz_list(user: User = Depends(get_current_user), page_size: int | None = 10, page: int | None = 1):
+    try:
+        return await Quiz.objects.filter(user_id=user.id).paginate(page, page_size=page_size).all()
+    except ormar.exceptions.QueryDefinitionError:
+        raise HTTPException(status_code=400, detail="Invalid page(size). page(size) have to be greater than 0.")
 
 
 @router.put("/update/{quiz_id}", deprecated=True)
