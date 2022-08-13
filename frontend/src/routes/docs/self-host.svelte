@@ -68,7 +68,11 @@
 	<pre><code class="language-bash"
 			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
 		></pre>
-	<p>Now, you'll configure your frontend. You'll have to change the following:</p>
+	<p>
+		Now, you'll configure your frontend. You'll have to change the following in <code
+			>frontend/Dockerfile</code
+		>:
+	</p>
 	<ul>
 		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
 		<li><code>VITE_HCAPTCHA</code>: The hCaptcha-Siteky for captchas</li>
