@@ -10,20 +10,26 @@
 </script>
 
 <div>
-	<h3 class="bg-white dark:bg-slate-800 m-0">
+	<h3 class="bg-transparent m-0">
 		<button
 			aria-expanded={expanded}
 			on:click={() => (expanded = !expanded)}
-			class="bg-white dark:bg-slate-800 flex justify-between w-full border-none m-0 p-2"
+			class="bg-white dark:bg-gray-700 flex justify-between w-full border-none m-0 p-2 rounded-t-lg hover:bg-gray-200 dark:hover:bg-gray-500 transition"
+			class:rounded-b-lg={!expanded}
 			>{headerText}
-			<svg viewBox="0 0 20 20" fill="none" class="my-auto">
-				<path class="vert" d="M10 1V19" stroke="black" stroke-width="2" />
-				<path d="M1 10L19 10" stroke="black" stroke-width="2" />
+			<svg
+				viewBox="0 0 20 20"
+				fill="none"
+				class="my-auto fill-black dark:fill-white"
+				stroke="currentColor"
+			>
+				<path class="vert" d="M10 1V19" stroke-width="2" stroke="currentColor" />
+				<path d="M1 10L19 10" stroke-width="2" stroke="currentColor" />
 			</svg>
 		</button>
 	</h3>
 
-	<div class="border-b-1 border-gray-500" class:hidden={!expanded}>
+	<div class:hidden={!expanded}>
 		<slot />
 	</div>
 </div>

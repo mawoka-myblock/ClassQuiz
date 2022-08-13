@@ -4,7 +4,9 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts" context="module">
-	export async function load({ params, fetch, session }) {
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = async ({ params, fetch, session }) => {
 		const { quiz_id } = params;
 		const res = await fetch(`/api/v1/quiz/get/public/${quiz_id}`);
 		if (res.status === 404 || res.status === 400) {
@@ -24,7 +26,7 @@
 				status: 500
 			};
 		}
-	}
+	};
 </script>
 
 <script lang="ts">
@@ -130,13 +132,13 @@
 	{#each quiz.questions as question, index_question}
 		<div class="px-4 py-1">
 			<CollapsSection headerText={question.question}>
-				<div class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2">
-					<h1 class="text-3xl m-1">{$t('words.question')} {index_question + 1}</h1>
+				<div class="grid grid-cols-1 gap-2 rounded-b-lg bg-white dark:bg-gray-700 -mt-1">
+					<h3 class="text-3xl m-1 text-center">
+						{index_question + 1}: {question.question}
+					</h3>
 
 					<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->
-					<p class="text-black w-full bg-inherit text-black dark:text-gray-200">
-						{$t('words.question')}: {question.question}
-					</p>
+
 					<!--					</label>-->
 					{#if question.image}
 						<span>
@@ -144,44 +146,45 @@
 							<img class="pl-8" src={question.image} alt="Not provided" />
 						</span>
 					{/if}
-					<span class="m-1 flex flex-row gap-2 w-3/5 flex-nowrap whitespace-nowrap">
-						{$t('editor.time_in_seconds')}:
-						{question.time}
-					</span>
+					<p
+						class="m-1 flex flex-row gap-2 flex-nowrap whitespace-nowrap w-full justify-center"
+					>
+						<svg
+							class="w-8 h-8 inline-block"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							><path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+							/></svg
+						>
+						<span class="text-lg">{question.time}s</span>
+					</p>
 					{#if question.type === QuizQuestionType.ABCD}
-						{#each question.answers as answer, index_answer}
-							<div
-								class="ml-8 grid grid-cols-1 gap-2 m-2 border border-black border-2 m-1"
-							>
-								<h1 class="text-3xl m-1">
-									{$t('words.answer')}
-									{index_answer + 1}
-								</h1>
-								<p class="m-1">
-									{$t('words.answer')}: {index_answer + 1}
-									{$t('words.question')}: {index_question + 1}
-								</p>
-								<p>
-									{$t('words.answer')}
-									: {quiz.questions[index_question].answers[index_answer].answer}
-								</p>
-								<label
-									class="m-1 flex flex-row gap-2 w-2/6 flex-nowrap whitespace-nowrap"
+						<div class="grid grid-cols-2 gap-4 m-4 p-6">
+							{#each question.answers as answer, index_answer}
+								<div
+									class="p-1 rounded-lg py-4"
+									class:bg-green-500={answer.right}
+									class:bg-red-500={!answer.right}
 								>
-									<input
-										type="checkbox"
-										bind:checked={answer.right}
-										class="text-black w-fit"
-										disabled
-									/>
-									<span class="w-fit">{$t('editor.right_or_true?')}</span>
-								</label>
-							</div>
-						{/each}
+									<h4 class="text-center">
+										{quiz.questions[index_question].answers[index_answer]
+											.answer}
+									</h4>
+								</div>
+							{/each}
+						</div>
 					{:else if question.type === QuizQuestionType.RANGE}
-						All numbers between {question.answers.min_correct}
-						and {question.answers.max_correct} are correct, where numbers between {question
-							.answers.min} and {question.answers.max} can be selected.
+						<p class="m-1 text-center">
+							All numbers between {question.answers.min_correct}
+							and {question.answers.max_correct} are correct, where numbers between {question
+								.answers.min} and {question.answers.max} can be selected.
+						</p>
 					{/if}
 				</div>
 			</CollapsSection>

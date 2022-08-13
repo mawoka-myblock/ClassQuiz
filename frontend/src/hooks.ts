@@ -41,7 +41,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 			})
 		).text();
 		const resp = await resolve(event);
-		resp.headers.set('Set-Cookie', res.headers.get('set-cookie'));
+		try {
+			resp.headers.set('Set-Cookie', res.headers.get('set-cookie'));
+		} catch {
+			console.log('Cannot mutate immutable header');
+		}
+
 		return resp;
 	} else {
 		event.locals.email = null;
