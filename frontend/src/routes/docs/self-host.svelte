@@ -72,7 +72,7 @@
 	<ul>
 		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
 		<li><code>VITE_HCAPTCHA</code>: The hCaptcha-Siteky for captchas</li>
-		<li><code>VITE_SENTRY</code>: A Sentry-DSb for Sentry (optional)</li>
+		<li><code>VITE_SENTRY</code>: A Sentry-DSN for Sentry (optional)</li>
 		<li>
 			<code>VITE_GOOGLE_AUTH_ENABLED</code>: Set it to <code>true</code>, if Google-Auth is
 			set up. Otherwise, leave it unset.
