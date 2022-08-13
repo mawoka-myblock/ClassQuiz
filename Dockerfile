@@ -2,10 +2,8 @@ FROM python:3.10-slim
 
 COPY Pipfile* /app/
 WORKDIR /app/
-RUN pip3 install --upgrade pip && \
-    pip install packaging \
-    pip install pipenv && \
-    pipenv install --system
+RUN pip install pipenv packaging \
+&& pipenv install --system
 
 COPY classquiz/ /app/classquiz/
 COPY image_cleanup.py /app/image_cleanup.py
