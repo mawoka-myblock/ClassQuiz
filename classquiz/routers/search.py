@@ -76,7 +76,6 @@ async def search(data: SearchData):
             "attributesToHighlight": data.attributesToHighlight,
         },
     )
-    print(query)
     return SearchResponse(**query)
 
 
