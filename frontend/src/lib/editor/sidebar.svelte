@@ -181,7 +181,7 @@
 				<div class="grid grid-cols-2 gap-2">
 					{#each question.answers as answer}
 						<span
-							class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center"
+							class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center border border-gray-700"
 							class:bg-green-500={answer.right}
 							class:bg-red-500={!answer.right}
 							class:bg-yellow-500={!reach(ABCDQuestionSchema, 'answer').isValidSync(
@@ -210,7 +210,7 @@
 		</div>
 	{/each}
 	<div
-		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500"
+		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
 	>
 		<button
 			type="button"

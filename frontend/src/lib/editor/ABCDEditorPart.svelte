@@ -19,6 +19,9 @@
 
 	export let selected_question: number;
 	export let data: EditorData;
+	if (!Array.isArray(data.questions[selected_question].answers)) {
+		data.questions[selected_question].answers = [];
+	}
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full px-10">
