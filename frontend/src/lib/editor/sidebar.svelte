@@ -179,24 +179,27 @@
 			{/if}
 			{#if question.type === QuizQuestionType.ABCD}
 				<div class="grid grid-cols-2 gap-2">
-					{#each question.answers as answer}
-						<span
-							class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center border border-gray-700"
-							class:bg-green-500={answer.right}
-							class:bg-red-500={!answer.right}
-							class:bg-yellow-500={!reach(ABCDQuestionSchema, 'answer').isValidSync(
-								answer.answer
-							)}
-							use:tippy={{
-								content: answer.answer === '' ? 'Empty...' : answer.answer
-							}}
-							>{#if answer.answer === ''}
-								<i>Empty...</i>
-							{:else}
-								{answer.answer}
-							{/if}</span
-						>
-					{/each}
+					{#if Array.isArray(question.answers)}
+						{#each question.answers as answer}
+							<span
+								class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center border border-gray-700"
+								class:bg-green-500={answer.right}
+								class:bg-red-500={!answer.right}
+								class:bg-yellow-500={!reach(
+									ABCDQuestionSchema,
+									'answer'
+								).isValidSync(answer.answer)}
+								use:tippy={{
+									content: answer.answer === '' ? 'Empty...' : answer.answer
+								}}
+								>{#if answer.answer === ''}
+									<i>Empty...</i>
+								{:else}
+									{answer.answer}
+								{/if}</span
+							>
+						{/each}
+					{/if}
 				</div>
 			{:else if question.type === QuizQuestionType.RANGE}
 				<p class="text-center text-sm p-0.5">
