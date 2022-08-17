@@ -164,7 +164,7 @@
 						>
 						<span class="text-lg">{question.time}s</span>
 					</p>
-					{#if question.type === QuizQuestionType.ABCD}
+					{#if question.type === QuizQuestionType.ABCD || question.type === undefined}
 						<div class="grid grid-cols-2 gap-4 m-4 p-6">
 							{#each question.answers as answer, index_answer}
 								<div
