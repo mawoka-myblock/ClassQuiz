@@ -51,6 +51,7 @@
 		"js-cookie": "^3.0.1",
 		"luxon": "^2.5.0",
 		"mapbox-gl": "^2.9.2",
+		"minisearch": "^5.0.0",
 		"plausible-tracker": "^0.3.8",
 		"postcss": "^8.4.16",
 		"postcss-import": "^14.1.0",

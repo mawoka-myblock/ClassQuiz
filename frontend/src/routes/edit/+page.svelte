@@ -38,6 +38,7 @@
 
 	export let data;
 	let { quiz_id } = data;
+	console.log(quiz_id);
 	let quiz_data: Data;
 
 	const get_quiz = async (): Promise<void> => {
@@ -76,7 +77,7 @@
 	</svg>
 {:then _}
 	{#if quiz_data !== undefined}
-		<Editor bind:quiz_data submit_button_text={$t('words.save')} bind:quiz_id />
+		<Editor bind:data={quiz_data} submit_button_text={$t('words.save')} bind:quiz_id />
 	{/if}
 {:catch err}
 	<div class="text-center">

@@ -39,6 +39,7 @@ specifiers:
     js-cookie: ^3.0.1
     luxon: ^2.5.0
     mapbox-gl: ^2.9.2
+    minisearch: ^5.0.0
     plausible-tracker: ^0.3.8
     postcss: ^8.4.16
     postcss-import: ^14.1.0
@@ -74,7 +75,7 @@ devDependencies:
     '@sentry/tracing': 7.11.1
     '@sveltejs/adapter-auto': 1.0.0-next.64
     '@sveltejs/adapter-node': 1.0.0-next.86
-    '@sveltejs/kit': 1.0.0-next.420_svelte@3.49.0+vite@3.0.8
+    '@sveltejs/kit': 1.0.0-next.421_svelte@3.49.0+vite@3.0.8
     '@tailwindcss/typography': 0.5.4_tailwindcss@3.1.8
     '@types/cookie': 0.5.1
     '@types/js-cookie': 3.0.2
@@ -103,6 +104,7 @@ devDependencies:
     js-cookie: 3.0.1
     luxon: 2.5.0
     mapbox-gl: 2.9.2
+    minisearch: 5.0.0
     plausible-tracker: 0.3.8
     postcss: 8.4.16
     postcss-import: 14.1.0_postcss@8.4.16
@@ -574,10 +576,10 @@ packages:
             - supports-color
         dev: true
 
-    /@sveltejs/kit/1.0.0-next.420_svelte@3.49.0+vite@3.0.8:
+    /@sveltejs/kit/1.0.0-next.421_svelte@3.49.0+vite@3.0.8:
         resolution:
             {
-                integrity: sha512-9m/uWbd7Osj474TrkjRZ2x784PZzO6akxDFGfaEoFS5AsRUnDFRJ0HWHHdymy170aJsvlu20ZpLTNbbS5a95+g==
+                integrity: sha512-DtrU43PKz8xR52aVXVyYCssSoB0LX9D1QZLsVEFc/vGppBAe+0eJCCFHH1BqdXoIPHzp3FhpGGsK7jt5l7XjOw==
             }
         engines: { node: '>=16.9' }
         hasBin: true
@@ -3239,6 +3241,13 @@ packages:
         engines: { node: '>=8' }
         dependencies:
             yallist: 4.0.0
+        dev: true
+
+    /minisearch/5.0.0:
+        resolution:
+            {
+                integrity: sha512-VEwBhl8aFtc2UG2XmP7a4XaZxVfNhe7GvB2W/ZRGbLL3P3LbBhkoOezBWsMqG8Mr5VonqXAMRWth79XXKja1bQ==
+            }
         dev: true
 
     /minizlib/2.1.2:

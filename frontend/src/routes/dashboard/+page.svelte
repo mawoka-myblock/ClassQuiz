@@ -5,10 +5,11 @@
   -->
 <script lang="ts">
 	import type { Question } from '$lib/quiz_types';
-	import { DateTime } from 'luxon';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { alertModal, navbarVisible, signedIn } from '$lib/stores';
+	import Spinner from '$lib/Spinner.svelte';
+	import MiniSearch from 'minisearch';
 
 	interface QuizData {
 		id: string;
@@ -21,55 +22,60 @@
 		questions: Question[];
 	}
 
+	let search_term = '';
 	signedIn.set(true);
 	navbarVisible.set(true);
 	const { t } = getLocalization();
 
+	let quizzes_to_show;
+	let quizzes: Array<any>;
+	const minisearch = new MiniSearch({
+		fields: ['title', 'description'],
+		idField: 'id',
+		storeFields: ['id']
+	});
+
+	let id_to_position_map = {};
+
 	const getData = async (): Promise<Array<QuizData>> => {
 		const res = await fetch('/api/v1/quiz/list');
-		return await res.json();
+		quizzes_to_show = await res.json();
+		await minisearch.addAllAsync(quizzes_to_show);
+		quizzes = quizzes_to_show;
+		for (let i = 0; i < quizzes.length; i++) {
+			id_to_position_map[quizzes[i].id] = i;
+		}
+		console.log(id_to_position_map);
+		return quizzes_to_show;
 	};
 
-	const formatDate = (date: string): string => {
-		const dt = DateTime.fromISO(date);
-		return dt.toLocaleString(DateTime.DATETIME_MED);
-	};
+	let suggestions = [];
 
-	const startGame = async (id: string): Promise<void> => {
-		console.log('start game', id);
-		let res;
-		if (window.confirm('Do you want to enable the captcha for players?')) {
-			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=True`, {
-				method: 'POST'
-			});
+	const search = () => {
+		console.log(search_term);
+		if (search_term === '') {
+			console.log('HELLO');
+			quizzes_to_show = [];
+			quizzes_to_show = quizzes;
+			console.log(quizzes_to_show);
+			quizzes_to_show = quizzes_to_show;
 		} else {
-			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=False`, {
-				method: 'POST'
-			});
+			const res = minisearch.search(search_term);
+			if (res.length === 0) {
+				quizzes_to_show = [];
+				suggestions = minisearch.autoSuggest(search_term);
+			} else {
+				for (const quiz_data of res) {
+					quizzes_to_show.push(quizzes[id_to_position_map[quiz_data.id]]);
+				}
+			}
+			quizzes_to_show = quizzes_to_show;
 		}
-
-		if (res.status !== 200) {
-			alertModal.set({
-				open: true,
-				title: 'Start failed',
-				body: `Failed to start game, ${await res.text()}`
-			});
-			alertModal.subscribe((_) => {
-				window.location.assign('/account/login?returnTo=/dashboard');
-			});
-		}
-		const data = await res.json();
-		// eslint-disable-next-line no-undef
-		plausible('Started Game', { props: { quiz_id: id } });
-		window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
-
-	const deleteQuiz = async (to_delete: string) => {
-		await fetch(`/api/v1/quiz/delete/${to_delete}`, {
-			method: 'DELETE'
-		});
-		window.location.reload();
-	};
+	$: {
+		search_term;
+		search();
+	}
 </script>
 
 <svelte:head>
@@ -118,125 +124,59 @@
 				</a>
 			</div>
 			{#if quizzes.length !== 0}
-				<div class="overflow-x-auto sm:-mx-8 lg:-mx-8">
-					<div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
-						<div class="overflow-hidden shadow-md sm:rounded-lg">
-							<table class="min-w-full">
-								<thead class="bg-gray-50 dark:bg-gray-700">
-									<tr>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('words.title')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 dark:text-gray-400 uppercase"
-										>
-											{$t('overview_page.created_at')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('overview_page.question_count')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('words.play')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('words.edit')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('words.delete')}
-										</th>
-										<th
-											scope="col"
-											class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-										>
-											{$t('words.public')}
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									{#each quizzes as quiz}
-										<tr
-											class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-										>
-											<td
-												class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"
+				{#await import('$lib/dashboard/main_slider.svelte')}
+					<Spinner />
+				{:then c}
+					<div class="flex justify-center pt-4 w-full">
+						<div>
+							<div>
+								<input
+									bind:value={search_term}
+									class="p-2 rounded-lg outline-none text-center w-96"
+									placeholder="Search for your own quizzes"
+								/>
+								<button
+									on:click={() => {
+										search_term = '';
+										quizzes_to_show = quizzes;
+										suggestions = [];
+									}}
+								>
+									<svg
+										class="h-8 inline-block"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
+							</div>
+							{#if quizzes_to_show.length === 0 && suggestions.length !== 0}
+								<ul class="relative bg-white mt-0.5">
+									{#each suggestions as res}
+										<li>
+											<button
+												class="w-full"
+												on:click={() => {
+													suggestions = [];
+													search_term = res.suggestion;
+												}}>{res.suggestion}</button
 											>
-												{quiz.title}
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												{formatDate(quiz.created_at)}
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												{quiz.questions.length}
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												<button
-													on:click={() => {
-														startGame(quiz.id);
-													}}
-													class="border border-green-600"
-												>
-													{$t('words.start')}
-												</button>
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												<a
-													href="/edit?quiz_id={quiz.id}"
-													class="border border-yellow-600"
-													>{$t('words.edit')}</a
-												>
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												<button
-													on:click={() => {
-														deleteQuiz(quiz.id);
-													}}
-													class="border border-red-600"
-												>
-													{$t('words.delete')}
-												</button>
-											</td>
-											<td
-												class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-											>
-												{#if quiz.public}
-													✅
-												{:else}
-													❌
-												{/if}
-											</td>
-										</tr>
+										</li>
 									{/each}
-								</tbody>
-							</table>
+								</ul>
+							{/if}
 						</div>
 					</div>
-				</div>
+					<svelte:component this={c.default} bind:quizzes={quizzes_to_show} />
+				{/await}
 			{:else}
 				<p>
 					{$t('overview_page.no_quizzes')}
