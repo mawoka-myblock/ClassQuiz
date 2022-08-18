@@ -52,6 +52,8 @@
 		players = [...players, int_data];
 	});
 	socket.on('already_registered_as_admin', () => {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
 
@@ -74,6 +76,8 @@
 	const confirmUnload = () => {
 		if (warnToLeave) {
 			event.preventDefault();
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			event.returnValue = '';
 		}
 	};

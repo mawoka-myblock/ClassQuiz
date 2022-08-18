@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ session, url }) {
-	if (!session.authenticated) {
+export async function load({ parent, url }) {
+	const { email } = await parent();
+	if (!email) {
 		throw redirect(302, '/account/login');
 	}
 	const token = url.searchParams.get('token');

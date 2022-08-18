@@ -1,7 +1,8 @@
 import { signedIn } from '$lib/stores';
 
-export async function load({ url, session }) {
-	if (session.authenticated) {
+export async function load({ url, parent }) {
+	const { email } = await parent();
+	if (email) {
 		signedIn.set(true);
 	}
 	const token = url.searchParams.get('pin');

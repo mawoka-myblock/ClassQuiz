@@ -1,14 +1,15 @@
 import { redirect } from '@sveltejs/kit';
 import { signedIn } from '$lib/stores';
-export async function load({ session }) {
-	if (!session.authenticated) {
+export async function load({ parent }) {
+	const { email } = await parent();
+	if (!email) {
 		throw redirect(302, '/account/login?returnTo=/import');
 	} else {
-		if (session.authenticated) {
+		if (email) {
 			signedIn.set(true);
 		}
 	}
 	return {
-		email: session.email
+		email
 	};
 }

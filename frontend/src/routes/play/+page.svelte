@@ -1,8 +1,4 @@
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
+<!--suppress ALL -->
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
@@ -49,6 +45,8 @@
 
 	const confirmUnload = () => {
 		event.preventDefault();
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		event.returnValue = '';
 	};
 
@@ -93,6 +91,12 @@
 	});
 	// The rest
 </script>
+
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
 
 <svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
