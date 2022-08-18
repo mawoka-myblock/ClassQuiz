@@ -3,31 +3,7 @@
   - License, v. 2.0. If a copy of the MPL was not distributed with this
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
-<script context="module" lang="ts">
-	throw new Error(
-		'@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)'
-	);
-
-	// import { signedIn } from '$lib/stores';
-
-	// export async function load({ url, session }) {
-	// 	if (session.authenticated) {
-	// 		signedIn.set(true);
-	// 	}
-	// 	const token = url.searchParams.get('pin');
-	// 	return {
-	// 		props: {
-	// 			game_pin: token === null ? '' : token
-	// 		}
-	// 	};
-	// }
-</script>
-
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
 	import type { Answer, QuizData } from '$lib/quiz_types';
@@ -39,7 +15,8 @@
 	import { QuizQuestionType } from '$lib/quiz_types';
 
 	// Exports
-	export let game_pin: string;
+	export let data;
+	let { game_pin } = data;
 
 	// Types
 	interface GameMeta {

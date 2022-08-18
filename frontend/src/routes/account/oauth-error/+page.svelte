@@ -4,11 +4,8 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
-	export let error: string;
+	export let data;
+	const { error } = data;
 </script>
 
 <div>

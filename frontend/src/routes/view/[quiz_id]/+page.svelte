@@ -4,10 +4,6 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
 	import { getLocalization } from '$lib/i18n';
 	import CollapsSection from '$lib/collapsible.svelte';
 	import { createTippy } from 'svelte-tippy';
@@ -21,8 +17,8 @@
 	});
 
 	const { t } = getLocalization();
-	export let logged_in: boolean;
-	export let quiz: QuizData;
+	export let data;
+	let { quiz, logged_in }: { quiz: QuizData; logged_in: boolean } = data;
 
 	interface Question {
 		time: string;
@@ -133,13 +129,14 @@
 							stroke="currentColor"
 							viewBox="0 0 24 24"
 							xmlns="http://www.w3.org/2000/svg"
-							><path
+						>
+							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
 								d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-							/></svg
-						>
+							/>
+						</svg>
 						<span class="text-lg">{question.time}s</span>
 					</p>
 					{#if question.type === QuizQuestionType.ABCD || question.type === undefined}

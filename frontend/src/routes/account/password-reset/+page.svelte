@@ -4,14 +4,11 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
-	import { getLocalization } from '../../../lib/i18n';
+	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let token: string;
+	export let data;
+	let { token }: string = data;
 	let isSubmitting = false;
 	interface PasswordData {
 		password1: string;

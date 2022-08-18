@@ -14,10 +14,6 @@ declare namespace App {
 	}
 
 	// interface Platform {}
-	interface Session {
-		authenticated: boolean;
-		email: string | null;
-	}
 
 	// interface Stuff {}
 }

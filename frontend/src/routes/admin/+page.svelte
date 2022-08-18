@@ -4,10 +4,6 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
 	import type { QuizData } from '$lib/quiz_types';
 
 	import { socket } from '$lib/socket';
@@ -24,9 +20,8 @@
 	// 	game_id: 'a7ddb6af-79ab-45e0-b996-6254c1ad9818',
 	// 	game_pin: '66190765'
 	// };
-	export let game_pin: string;
-	export let auto_connect: boolean;
-	export let game_token: string;
+	export let data;
+	let { game_pin, auto_connect, game_token } = data;
 
 	let players: Array<Player> = [];
 	let errorMessage = '';
@@ -53,25 +48,25 @@
 		console.log(quiz_data);
 		success = true;
 	});
-	socket.on('player_joined', (data) => {
-		players = [...players, data];
+	socket.on('player_joined', (int_data) => {
+		players = [...players, int_data];
 	});
 	socket.on('already_registered_as_admin', () => {
 		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
 
-	socket.on('question_results', (data) => {
+	socket.on('question_results', (int_data) => {
 		try {
-			data = JSON.parse(data);
+			int_data = JSON.parse(int_data);
 		} catch (e) {
 			console.error('Failed to parse question results');
 			return;
 		}
-		question_results = data;
+		question_results = int_data;
 	});
-	socket.on('export_token', (data) => {
+	socket.on('export_token', (int_data) => {
 		warnToLeave = false;
-		dataexport_download_a.href = `/api/v1/quiz/export_data/${data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;
+		dataexport_download_a.href = `/api/v1/quiz/export_data/${int_data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;
 		dataexport_download_a.click();
 		warnToLeave = true;
 	});

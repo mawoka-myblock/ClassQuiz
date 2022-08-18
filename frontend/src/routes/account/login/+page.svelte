@@ -4,10 +4,6 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
 	import * as Sentry from '@sentry/browser';
 	import { navbarVisible } from '$lib/stores';
 	import { browser } from '$app/env';
@@ -20,7 +16,8 @@
 
 	navbarVisible.set(true);
 
-	export let verified: boolean;
+	export let data;
+	const { verified }: boolean = data;
 
 	let loginData = {
 		email: '',

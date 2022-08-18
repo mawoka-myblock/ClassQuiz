@@ -3,26 +3,12 @@
   - License, v. 2.0. If a copy of the MPL was not distributed with this
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
-<script context="module">
-	throw new Error(
-		'@migration task: Replace error load function (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3293209)'
-	);
-
-	// /** @type {import('@sveltejs/kit').Load} */ export function load({ error, status }) {
-	// 	return {
-	// 		props: {
-	// 			status,
-	// 			message: error.message
-	// 		}
-	// 	};
-	// }
-</script>
-
 <script lang="ts">
 	import { navbarVisible } from '$lib/stores';
+	import { page } from '$app/stores';
+
 	navbarVisible.set(true);
-	export let status: number;
-	export let message: string;
+	let status = $page.status;
 </script>
 
 <!--

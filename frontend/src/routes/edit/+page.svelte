@@ -3,44 +3,7 @@
   - License, v. 2.0. If a copy of the MPL was not distributed with this
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
-<script lang="ts" context="module">
-	throw new Error(
-		'@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)'
-	);
-
-	// import { signedIn } from '$lib/stores';
-
-	// export async function load({ url, session }) {
-	// 	const quiz_id = url.searchParams.get('quiz_id');
-	// 	if (!session.authenticated) {
-	// 		return {
-	// 			status: 302,
-	// 			redirect: `/account/login?returnTo=/edit?quiz_id=${quiz_id}`
-	// 		};
-	// 	}
-
-	// 	if (session.authenticated) {
-	// 		signedIn.set(true);
-	// 	}
-
-	// 	if (quiz_id === null) {
-	// 		return {
-	// 			status: 404
-	// 		};
-	// 	}
-	// 	return {
-	// 		props: {
-	// 			quiz_id
-	// 		}
-	// 	};
-	// }
-</script>
-
 <script lang="ts">
-	throw new Error(
-		'@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)'
-	);
-
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
@@ -73,8 +36,9 @@
 		answer: string;
 	}
 
-	export let quiz_id: string;
-	let data: Data;
+	export let data;
+	let { quiz_id } = data;
+	let quiz_data: Data;
 
 	const get_quiz = async (): Promise<void> => {
 		const response = await fetch(`/api/v1/quiz/get/${quiz_id}`);
@@ -90,7 +54,7 @@
 					temp_data.questions[i].type = QuizQuestionType[question.type];
 				}
 			}
-			data = temp_data;
+			quiz_data = temp_data;
 			return;
 		}
 	};
@@ -111,8 +75,8 @@
 		/>
 	</svg>
 {:then _}
-	{#if data !== undefined}
-		<Editor bind:data submit_button_text={$t('words.save')} bind:quiz_id />
+	{#if quiz_data !== undefined}
+		<Editor bind:quiz_data submit_button_text={$t('words.save')} bind:quiz_id />
 	{/if}
 {:catch err}
 	<div class="text-center">

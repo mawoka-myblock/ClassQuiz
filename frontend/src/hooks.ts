@@ -5,7 +5,7 @@
  */
 
 import * as cookie from 'cookie';
-import type { Handle, GetSession } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle: Handle = async ({ event, resolve }) => {
@@ -54,9 +54,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 };
 
-export const getSession: GetSession = async (event) => {
+/*export const getSession: GetSession = async (event) => {
 	return {
 		email: event.locals.email,
 		authenticated: Boolean(event.locals.email)
 	};
-};
+};*/
