@@ -159,7 +159,7 @@
 								</button>
 							</div>
 							{#if quizzes_to_show.length === 0 && suggestions.length !== 0}
-								<ul class="relative bg-white mt-0.5">
+								<ul class="relative bg-white mt-0.5 dark:bg-gray-700">
 									{#each suggestions as res}
 										<li>
 											<button
