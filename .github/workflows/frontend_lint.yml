@@ -19,9 +19,9 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: pnpm/action-setup@v2.1.0
+      - uses: pnpm/action-setup@v2.2.2
         with:
-          version: 6.0.2
+          version: 7.9.3
           working-directory: ./frontend
 
       - name: Install dependencies
