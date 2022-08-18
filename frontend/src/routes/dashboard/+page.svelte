@@ -132,7 +132,7 @@
 							<div>
 								<input
 									bind:value={search_term}
-									class="p-2 rounded-lg outline-none text-center w-96"
+									class="p-2 rounded-lg outline-none text-center w-96 dark:bg-gray-700"
 									placeholder="Search for your own quizzes"
 								/>
 								<button
