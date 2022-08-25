@@ -89,13 +89,14 @@
 				{$t('words.start')}
 			</button>
 		{:else}
-			<button
-				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
-				disabled
-				use:tippy={{ content: 'You need to be logged in to start a game' }}
-			>
-				{$t('words.start')}
-			</button>
+			<div use:tippy={{ content: 'You need to be logged in to start a game' }}>
+				<button
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
+					disabled
+				>
+					{$t('words.start')}
+				</button>
+			</div>
 		{/if}
 	</div>
 	<div class="flex justify-center">
