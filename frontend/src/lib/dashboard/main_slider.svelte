@@ -42,7 +42,7 @@
 		plausible('Started Game', { props: { quiz_id: id } });
 		window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	};
-
+	/*
 	const deleteQuiz = async (to_delete: string) => {
 		if (!confirm('Do you really want to delete this quiz?')) {
 			return;
@@ -52,6 +52,8 @@
 		});
 		window.location.reload();
 	};
+
+	 */
 </script>
 
 <div class="w-screen p-8">

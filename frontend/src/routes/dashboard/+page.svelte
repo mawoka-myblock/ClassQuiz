@@ -7,7 +7,7 @@
 	import type { Question } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { alertModal, navbarVisible, signedIn } from '$lib/stores';
+	import { navbarVisible, signedIn } from '$lib/stores';
 	import Spinner from '$lib/Spinner.svelte';
 	import MiniSearch from 'minisearch';
 
