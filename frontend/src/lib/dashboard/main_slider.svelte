@@ -7,7 +7,8 @@
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
 	import 'swiper/css';
 	import 'swiper/css/pagination';
-	import { Pagination, EffectCoverflow } from 'swiper';
+	import 'swiper/css/navigation';
+	import { Pagination, EffectCoverflow, Keyboard, Mousewheel, Navigation } from 'swiper';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import { getLocalization } from '../i18n';
 	import { alertModal } from '../stores';
@@ -60,7 +61,8 @@
 	<Swiper
 		grabCursor={true}
 		effect={'coverflow'}
-		modules={[EffectCoverflow, Pagination]}
+		modules={[EffectCoverflow, Pagination, Mousewheel, Navigation]}
+		navigation={true}
 		slidesPerView={1}
 		mousewheel={true}
 		centeredSlides={true}
@@ -86,8 +88,10 @@
 							pagination={{
 								clickable: true
 							}}
+							keyboard={{ enabled: true }}
 							grabCursor={true}
-							modules={[Pagination]}
+							navigation={true}
+							modules={[Pagination, Keyboard, Navigation]}
 						>
 							<SwiperSlide>
 								<div class="grid grid-cols-6 h-full">
