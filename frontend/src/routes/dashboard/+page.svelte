@@ -45,19 +45,15 @@
 		for (let i = 0; i < quizzes.length; i++) {
 			id_to_position_map[quizzes[i].id] = i;
 		}
-		console.log(id_to_position_map);
 		return quizzes_to_show;
 	};
 
 	let suggestions = [];
 
 	const search = () => {
-		console.log(search_term);
 		if (search_term === '') {
-			console.log('HELLO');
 			quizzes_to_show = [];
 			quizzes_to_show = quizzes;
-			console.log(quizzes_to_show);
 			quizzes_to_show = quizzes_to_show;
 		} else {
 			const res = minisearch.search(search_term);
