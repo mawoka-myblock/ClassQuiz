@@ -43,69 +43,70 @@
 <nav
 	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-30 top-0"
 >
-	<section class="w-full lg:w-max flex justify-between">
+	<section class="w-full lg:w-max grid grid-cols-3 lg:grid-cols-2">
 		<a href="/" class="font-black tracking-tight text-xl text-black marck-script link-hover"
 			>ClassQuiz</a
 		>
-
-		<button
-			class="lg:hidden"
-			id="open-menu"
-			on:click={toggleMenu}
-			class:hidden={!openMenu}
-			aria-label="Open navbar"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				display="block"
-				id="TextAlignJustified"
+		<div class="flex justify-center">
+			<a
+				class="lg:pl-6 text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+				href="/play">{$t('words.play')}</a
 			>
-				<path d="M3 6h18M3 12h18M3 18h18" />
-			</svg>
-		</button>
-
-		<!-- Close menu -->
-		<button
-			class="hidden"
-			id="close-menu"
-			class:hidden={openMenu}
-			on:click={toggleMenu}
-			aria-label="Close navbar"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="14"
-				height="14"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="3"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				display="block"
-				id="Cross"
+		</div>
+		<div class="flex justify-end">
+			<button
+				class="lg:hidden dark:text-black"
+				id="open-menu"
+				on:click={toggleMenu}
+				class:hidden={!openMenu}
+				aria-label="Open navbar"
 			>
-				<path d="M20 20L4 4m16 0L4 20" />
-			</svg>
-		</button>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					display="block"
+					id="TextAlignJustified"
+				>
+					<path d="M3 6h18M3 12h18M3 18h18" />
+				</svg>
+			</button>
+
+			<!-- Close menu -->
+			<button
+				class="hidden dark:text-black"
+				id="close-menu"
+				class:hidden={openMenu}
+				on:click={toggleMenu}
+				aria-label="Close navbar"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="3"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					display="block"
+					id="Cross"
+				>
+					<path d="M20 20L4 4m16 0L4 20" />
+				</svg>
+			</button>
+		</div>
 	</section>
 
-	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row lg:pl-6" class:hidden={openMenu}>
+	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row" class:hidden={openMenu}>
 		{#if $signedIn}
-			<li class="py-2">
-				<a
-					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/play">{$t('words.play')}</a
-				>
-			</li>
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
@@ -131,12 +132,6 @@
 				>
 			</li>
 		{:else}
-			<li class="py-2">
-				<a
-					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/play">{$t('words.play')}</a
-				>
-			</li>
 			<li class="py-2">
 				<a
 					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"

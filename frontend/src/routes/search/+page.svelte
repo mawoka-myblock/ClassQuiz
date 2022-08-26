@@ -26,7 +26,6 @@
 			resp_data_temp = resp_data_temp.replaceAll('<em>', '<mark>');
 			resp_data_temp = resp_data_temp.replaceAll('</em>', '</mark>');
 			resp_data = JSON.parse(resp_data_temp);
-			console.log('Success!', resp_data);
 		} else {
 			console.error('Error!', res.status);
 		}

@@ -1,5 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import { signedIn } from '$lib/stores';
 
 export async function load({ parent }) {
 	const { email } = await parent();
