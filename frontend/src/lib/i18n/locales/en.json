@@ -132,7 +132,8 @@
         "get_final_results": "Get final results",
         "export_results": "Export results",
         "show_next_question": "Show next question",
-        "start_by_showing_first_question": "Start by showing the first question!"
+        "start_by_showing_first_question": "Start by showing the first question!",
+        "no_answers": "No answers!"
     },
     "password_reset_page": {
         "reset_password": "Reset password"

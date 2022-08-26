@@ -9,6 +9,9 @@
 	import { navbarVisible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
 	import { QuizQuestionType } from '$lib/quiz_types';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	// Exports
 	export let data;
@@ -83,7 +86,11 @@
 
 	socket.on('question_results', (data) => {
 		restart();
-		answer_results = JSON.parse(data);
+		try {
+			answer_results = JSON.parse(data);
+		} catch {
+			answer_results = null;
+		}
 	});
 
 	socket.on('final_results', (data) => {
@@ -124,12 +131,18 @@
 			/>
 		{/key}
 	{:else if gameMeta.started && answer_results !== undefined}
-		{#key unique}
-			<ShowResults
-				bind:results={answer_results}
-				bind:game_data={gameData}
-				bind:question_index
-			/>
-		{/key}
+		{#if answer_results === null}
+			<div class="w-full flex justify-center">
+				<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
+			</div>
+		{:else}
+			{#key unique}
+				<ShowResults
+					bind:results={answer_results}
+					bind:game_data={gameData}
+					bind:question_index
+				/>
+			{/key}
+		{/if}
 	{/if}
 </div>

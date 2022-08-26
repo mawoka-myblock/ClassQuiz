@@ -29,7 +29,7 @@
 	let game_started = false;
 	let quiz_data: QuizData;
 	//let question_number = '0';
-	let question_results = null;
+	// let question_results = null;
 	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
 	let success = false;
 	let dataexport_download_a;
@@ -58,7 +58,7 @@
 		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
 
-	socket.on('question_results', (int_data) => {
+	/*	socket.on('question_results', (int_data) => {
 		try {
 			int_data = JSON.parse(int_data);
 		} catch (e) {
@@ -66,7 +66,7 @@
 			return;
 		}
 		question_results = int_data;
-	});
+	});*/
 	socket.on('export_token', (int_data) => {
 		warnToLeave = false;
 		dataexport_download_a.href = `/api/v1/quiz/export_data/${int_data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;

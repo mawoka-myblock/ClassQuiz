@@ -6,7 +6,7 @@
 <script lang="ts">
 	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
-	import { get_question_title, getWinnersSorted } from '$lib/admin.ts';
+	import { get_question_title } from '$lib/admin.ts';
 	import type { PlayerAnswer } from '$lib/admin.ts';
 	import { socket } from './socket';
 
@@ -48,12 +48,14 @@
 	socket.on('final_results', (data) => {
 		// data = JSON.parse(data);
 		final_results = data;
-
-		console.log(getWinnersSorted(quiz_data, final_results));
 	});
 
 	socket.on('question_results', (data) => {
-		question_results = JSON.parse(data);
+		try {
+			question_results = JSON.parse(data);
+		} catch {
+			question_results = undefined;
+		}
 	});
 
 	const timer = (time: string) => {
@@ -71,9 +73,7 @@
 	};
 </script>
 
-{#if timer_res === undefined}
-	<span>Select a question to start!</span>
-{:else if !final_results_clicked}
+{#if timer_res !== undefined && !final_results_clicked}
 	<div class="w-full flex justify-center">
 		<span>{$t('admin_page.time_left')}: {timer_res}</span>
 	</div>
@@ -89,6 +89,12 @@
 				>{$t('admin_page.get_results')}</button
 			>
 		</div>
+	{:else if question_results === undefined}
+		{#if !final_results_clicked}
+			<div class="w-full flex justify-center">
+				<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
+			</div>
+		{/if}
 	{:else}
 		<div class="w-full flex justify-center">
 			<div class="relative overflow-x-auto shadow-md rounded-lg">

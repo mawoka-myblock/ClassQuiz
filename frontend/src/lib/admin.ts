@@ -23,21 +23,6 @@ export const getWinnersSorted = (
 ) => {
 	const winners = {};
 	const q_count = quiz_data.questions.length;
-	for (let i = 0; i < q_count; i++) {
-		const q_res = final_results[i];
-		if (q_res === null) {
-			continue;
-		}
-		for (let j = 0; j < q_res.length; j++) {
-			const res = q_res[j];
-			if (res['right']) {
-				if (winners[res['username']] === undefined) {
-					winners[res['username']] = 0;
-				}
-				winners[res['username']] += 1;
-			}
-		}
-	}
 
 	function sortObjectbyValue(obj) {
 		const asc = false;
@@ -48,7 +33,27 @@ export const getWinnersSorted = (
 		return ret;
 	}
 
-	return sortObjectbyValue(winners);
+	try {
+		for (let i = 0; i < q_count; i++) {
+			const q_res = final_results[i];
+			if (q_res === null) {
+				continue;
+			}
+			for (let j = 0; j < q_res.length; j++) {
+				const res = q_res[j];
+				if (res['right']) {
+					if (winners[res['username']] === undefined) {
+						winners[res['username']] = 0;
+					}
+					winners[res['username']] += 1;
+				}
+			}
+		}
+
+		return sortObjectbyValue(winners);
+	} catch {
+		return undefined;
+	}
 };
 
 export interface Player {
