@@ -7,7 +7,6 @@
 [![DeepSource](https://deepsource.io/gh/mawoka-myblock/ClassQuiz.svg/?label=active+issues&show_trend=true&token=5-2Na9HN-2CXcGkHjah_Rk09&style=for-the-badge)](https://deepsource.io/gh/mawoka-myblock/ClassQuiz/)
 <img alt="Snky badge" src="https://img.shields.io/badge/Snyk-Check-success?style=for-the-badge">
 [![codecov](https://codecov.io/gh/mawoka-myblock/ClassQuiz/branch/master/graph/badge.svg?token=7CHK2A0AMO)](https://codecov.io/gh/mawoka-myblock/ClassQuiz)
-<img src="https://tokei.rs/b1/github/mawoka-myblock/ClassQuiz?category=lines" alt="Code-Line count">
 
 <div align='center'>
     <h2 align='center'>ClassQuiz</h2>
@@ -25,6 +24,13 @@
         <a href='https://classquiz.de/docs/self-host'>Self-Hosting</a>
     </p>
 </div>
+
+## License Note
+
+This repository is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/), so you
+
+**MUST PUBLISH ANY CHANGES YOU MAKE!!!**[^1]
+
 
 ## About ClassQuiz
 
@@ -89,15 +95,21 @@ The frontend is made with [SvelteKit](https://kit.svelte.dev/) (web-framework)
 and [TailwindCSS](https://tailwindcss.com/) (Css-Framework).
 
 ##### External Dependencies
+
 Selfhostable:
+
 - [Meilisearch](https://www.meilisearch.com/) (Search-Server)
 - [Caddy](https://caddyserver.com/) (Reverse Proxy)
 - [Postgres](https://www.postgresql.org/) (Database)
 - [Redis](https://redis.io/) (Cache)
 
 Closed-Source 3rd parties:
+
 - [Mapbox](https://www.mapbox.com/) (maps)
 - [hCaptcha](https://www.hcaptcha.com/) (captcha)
 
 ---
 *Kahoot! and the K! logo are trademarks of Kahoot! AS*
+
+[^1]: _I added this note, since people are stealing my software and changing it without providing the source-code. Maybe they
+aren't aware of this license, maybe they don't care, but I don't care, why they don't do it._ **THEY HAVE TO!**
