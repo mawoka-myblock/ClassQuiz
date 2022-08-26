@@ -11,6 +11,7 @@ ENV VITE_HCAPTCHA=ee81b2a1-acf3-4d20-b2a4-a7ea94c7eba5
 # ENV VITE_SENTRY=https://75cb4ef1be624d8f81bbaf864b722f8a@glitch.mawoka.eu/2
 ENV VITE_GOOGLE_AUTH_ENABLED=true
 ENV VITE_GITHUB_AUTH_ENABLED=true
+ENV CAPTCHA_ENABLED=true
 # change working directory
 WORKDIR /usr/src/app
 

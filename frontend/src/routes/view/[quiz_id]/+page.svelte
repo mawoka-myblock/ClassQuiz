@@ -9,6 +9,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
+	import { start_game } from '$lib/dashboard/start_game';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -43,26 +44,6 @@
 		imported_from_kahoot?: boolean;
 		questions: Question[];
 	}
-
-	const startGame = async (id: string): Promise<void> => {
-		let res;
-		if (window.confirm('Do you want to enable the captcha for players?')) {
-			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=True`, {
-				method: 'POST'
-			});
-		} else {
-			res = await fetch(`/api/v1/quiz/start/${id}?captcha_enabled=False`, {
-				method: 'POST'
-			});
-		}
-		if (res.status !== 200) {
-			throw new Error('Failed to start game');
-		}
-		const data = await res.json();
-		// eslint-disable-next-line no-undef
-		plausible('Started Game', { props: { quiz_id: id } });
-		window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
-	};
 </script>
 
 <svelte:head>
@@ -83,7 +64,7 @@
 			<button
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 				on:click={() => {
-					startGame(quiz.id);
+					start_game(quiz.id);
 				}}
 			>
 				{$t('words.start')}
