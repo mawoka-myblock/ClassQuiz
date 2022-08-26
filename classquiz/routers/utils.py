@@ -23,16 +23,19 @@ router = APIRouter()
 
 
 @router.get("/qr/{quiz_pin}")
-async def get_qr(quiz_pin: str):
+async def get_qr(quiz_pin: str, dark_mode: bool = False):
     """
     Get QR code for quiz
     """
     qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathImage, version=1, box_size=20, border=0)
-    qr.add_data(f"{settings.root_address}/play?pin={quiz_pin}")
+    qr.add_data(f"{settings.root_address}/play?pin={quiz_pin}&ref=Qr")
     buf = io.BytesIO()
     qr.make(fit=True)
     qr.make_image(fill_color="black", back_color="white").save(buf, "SVG")
-    return Response(content=buf.getvalue(), media_type="image/svg+xml")
+    data = buf.getvalue()
+    if dark_mode:
+        data = data.replace(b'fill="#000000"', b'fill="#ffffff"')
+    return Response(content=data, media_type="image/svg+xml")
 
 
 class IpResponse(BaseModel):

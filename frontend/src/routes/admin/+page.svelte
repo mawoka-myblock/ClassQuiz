@@ -11,6 +11,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import type { PlayerAnswer, Player } from '$lib/admin.ts';
 	import SomeAdminScreen from '$lib/admin.svelte';
+	import { browser } from '$app/env';
 
 	navbarVisible.set(false);
 
@@ -85,6 +86,14 @@
 	const request_answer_export = async () => {
 		await socket.emit('get_export_token');
 	};
+
+	let darkMode = false;
+	if (browser) {
+		darkMode =
+			localStorage.theme === 'dark' ||
+			(!('theme' in localStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches);
+	}
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
@@ -113,7 +122,7 @@
 {:else if !game_started}
 	<img
 		alt="QR code to join the game"
-		src="/api/v1/utils/qr/{quiz_data.game_pin}"
+		src="/api/v1/utils/qr/{quiz_data.game_pin}?dark_mode={darkMode}"
 		class="block mx-auto w-1/6"
 	/>
 	<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
