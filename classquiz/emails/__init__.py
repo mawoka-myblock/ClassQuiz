@@ -41,9 +41,14 @@ async def send_register_email(email: str):
     user = await User.objects.get_or_none(email=email, verified=False)
     if user is None:
         raise ValueError("User not found")
-    template = jinja.get_template("register.jinja2")
-    template = await template.render_async(base_url=settings.root_address, token=user.verify_key)
-    _sendMail(template=template, to=email, subject="Verify your email")
+    if settings.skip_email_verification:
+        user.verify_key = None
+        user.verified = True
+        await user.save()
+    else:
+        template = jinja.get_template("register.jinja2")
+        template = await template.render_async(base_url=settings.root_address, token=user.verify_key)
+        _sendMail(template=template, to=email, subject="Verify your email")
 
 
 async def send_forgotten_password_email(email: str):
