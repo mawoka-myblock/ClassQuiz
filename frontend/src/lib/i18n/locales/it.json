@@ -1,0 +1,169 @@
+{
+    "index_page": {
+        "meta": {
+            "title": "Home",
+            "description": "ClassQuiz è un'applicazione per quiz come KAHOOT! per gli studenti, è gratuita e open source"
+        },
+        "features_description": {
+            "1": "ClassQuiz è una webapp per quiz che ti permette di creare e gestire quiz.",
+            "2": "La caratteristica principale è una funzione che consente di importare i quiz esportati da KAHOOT!.",
+            "3": "L'editor facile da utlizzare è un'aspetto di spicco come la possibilità di esportare i risultati dei quiz in formato Excel."
+        },
+        "stats": "In ClassQuiz esistono già {{user_count}} utenti e {{quiz_count}} quizz.",
+        "see_what_true_and_false": "Verifica cos'è corretto o sbagliato",
+        "see_how_many_true_and_false": "Verifica quanti sono corretti o errati",
+        "create_or_import": "Crea o importa",
+        "teachers_site": "Sito per l'insegnante",
+        "students_site": "Sito per lo studente",
+        "slogan": "La piattaforma per quiz open-source!",
+        "see_all_quizzes": "I tuoi quiz"
+    },
+    "overview_page": {
+        "created_at": "Creato il",
+        "question_count": "Numero domande",
+        "no_quizzes": "Sembra che tu non abbia ancora quiz. Clicca sul pulsante \"Crea\", o importa un quiz da KAHOO!"
+    },
+    "edit_page": {
+        "success_update_title": "Quiz importato con successo!",
+        "success_update_body": "Quiz aggiornato con successo!"
+    },
+    "create_page": {
+        "success": {
+            "title": "Quiz creato con successo!",
+            "body": "Quiz creato con successo!"
+        }
+    },
+    "register_page": {
+        "greeting": "Felice di vederti!",
+        "create_account": "Crea un account",
+        "forgot_password?": "Password dimenticata?",
+        "already_have_account?": "Hai già un account?"
+    },
+    "login_page": {
+        "welcome_back": "Bentornato!",
+        "already_have_account": "Non hai un account?",
+        "modal": {
+            "success": {
+                "success_check_mail": "Login effettuato! Verifica la tua mailbox!",
+                "success": "Login effettuato!",
+                "description": {
+                    "success": "Login effettuato con successo!",
+                    "success_check_mail": "Verifica la tua mailbox, dato che dovresti aver ricevuto una email con il link per accedere."
+                }
+            },
+            "error": {
+                "wrong_creds": "Email o password errate!",
+                "unexpected": "Errore imprevisto!",
+                "description": {
+                    "unexpected": "È accaduto il buon vecco errore inatteso!",
+                    "wrong_creds": "Verifica che l'email e la password siano corrette!"
+                }
+            }
+        },
+        "login_or_create_account": "Effettua il login o crea un account"
+    },
+    "words": {
+        "answer": "Risposta",
+        "question": "Domanda",
+        "stats": "Statistiche",
+        "features": "Caratteristiche",
+        "login": "Login",
+        "email": "Email",
+        "username": "Username",
+        "password": "Password",
+        "play": "Avvia",
+        "delete": "Elimina",
+        "public": "Pubblica",
+        "start": "Avvia",
+        "create": "Crea",
+        "import": "Importa",
+        "logout": "Logout",
+        "title": "Titolo",
+        "url": "URL",
+        "submit": "Invia",
+        "connect": "Connetti",
+        "pin": "PIN",
+        "kick": "Avvia",
+        "docs": "Documentazione",
+        "close": "Chiudi",
+        "save": "Salva",
+        "image": "Immagine",
+        "settings": "Impostazioni",
+        "repeat_password": "Ridigita la password",
+        "overview": "Panoramica",
+        "explore": "Esplora",
+        "screenshot": "Screenshot",
+        "screenshot_plural": "Screenshot",
+        "browser": "Browser",
+        "view": "Vista",
+        "correct": "Corretto",
+        "result": "Risultato",
+        "result_plural": "Risultati",
+        "count": "Conteggio",
+        "range": "Intervallo",
+        "multiple_choice": "Scelta multipla",
+        "dashboard": "Dashboard",
+        "edit": "Modifica",
+        "register": "Registra",
+        "description": "Descrizione",
+        "report": "Report",
+        "search": "Cerca",
+        "private": "Privato"
+    },
+    "editor": {
+        "right_or_true?": "Corretto?",
+        "add_new_answer": "Aggiungi una nuova risposta",
+        "add_new_question": "Aggiungi una nuova domanda",
+        "delete_question": "Elimina domanda",
+        "delete_answer": "Elimina risposta",
+        "time_in_seconds": "Tempo in secondi",
+        "not_all_links_imgur_links": "Non tutti i link sono Imgur-links!"
+    },
+    "import_page": {
+        "need_help": "Hai bisogno di aiuto?",
+        "visit_docs": "Guarda la documentazione"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "C'è già un amministratore registrato per questo gioco.",
+        "start_game": "Avvia gioco",
+        "time_left": "Tempo rimasto",
+        "get_results": "Risultati",
+        "export_results": "Esporta i risultati",
+        "show_next_question": "Mostra la prossima domanda",
+        "no_answers": "Nessuna risposta!",
+        "get_final_results": "Risultati finali",
+        "start_by_showing_first_question": "Avvia mostrando la prima domanda!",
+        "get_results_and_stop_time": "Raccogli i risultati e ferma il tempo"
+    },
+    "password_reset_page": {
+        "reset_password": "Resetta la password"
+    },
+    "settings_page": {
+        "old_password": "Vecchia password",
+        "new_password": "Nuova password",
+        "repeat_password": "Ripeti la password",
+        "change_password_submit": "Cambia la password!",
+        "check_location": "Verifica il luogo",
+        "this_session?": "Questa sessione?",
+        "last_seen": "Visto l'ultima volta",
+        "delete_this_session": "Elimina questa sessione"
+    },
+    "explore_page": {
+        "made_by": "Creato da",
+        "imported_by": "Importato da"
+    },
+    "play_page": {
+        "end_sentence": "Fatto! Ecco il quiz.",
+        "1st_place": "1° posto",
+        "2nd_place": "2° posto",
+        "3rd place": "3° posto",
+        "with_out_of": "con {{correct_questions}} su {{total_question_count}}"
+    },
+    "editor_page": {
+        "add_an_answer": "Aggiungi una risposta",
+        "right_click_to_delete": "Clicca col destro sulla risposta per eliminarla!"
+    },
+    "search_page": {
+        "at_least_3_characters": "Digita almento 3 caratteri..."
+    }
+}
