@@ -135,7 +135,8 @@
         "get_final_results": "Finale Ergebnisse abrufen",
         "export_results": "Ergebnisse exportieren",
         "show_next_question": "Zeige die nächste Frage",
-        "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!"
+        "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!",
+        "no_answers": "Keine Antworten!"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
