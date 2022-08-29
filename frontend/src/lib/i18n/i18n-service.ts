@@ -12,6 +12,7 @@ import fr from './locales/fr.json';
 import tr from './locales/tr.json';
 import id from './locales/id.json';
 import ca from './locales/ca.json';
+import it from './locales/it.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import type { i18n, Resource } from 'i18next';
@@ -61,6 +62,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('fr', 'translation', fr);
 		this.i18n.addResourceBundle('tr', 'translation', tr);
 		this.i18n.addResourceBundle('id', 'translation', id);
+		this.i18n.addResourceBundle('it', 'translation', it);
 		this.i18n.addResourceBundle('ca', 'translation', ca);
 	}
 

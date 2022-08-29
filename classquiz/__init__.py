@@ -12,7 +12,7 @@ from classquiz.config import settings
 from classquiz.db import database
 from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor
 from classquiz.socket_server import sio
-from classquiz.helpers import meilisearch_init
+from classquiz.helpers import meilisearch_init, telemetry_ping
 
 settings = settings()
 if settings.sentry_dsn:
@@ -39,6 +39,7 @@ async def startup() -> None:
     if not database_.is_connected:
         await database_.connect()
     await meilisearch_init()
+    await telemetry_ping()
 
 
 @app.on_event("shutdown")

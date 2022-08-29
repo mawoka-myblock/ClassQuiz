@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     google_client_secret: Optional[str]
     github_client_id: Optional[str]
     github_client_secret: Optional[str]
+    telemetry_enabled: bool = True
 
     # storage_backend
     storage_backend: str | None = "deta"

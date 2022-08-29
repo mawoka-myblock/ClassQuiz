@@ -119,6 +119,15 @@ class Quiz(ormar.Model):
         database = database
 
 
+class InstanceData(ormar.Model):
+    instance_id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
+
+    class Meta:
+        tablename = "instance_data"
+        metadata = metadata
+        database = database
+
+
 class Token(BaseModel):
     """
     For JWT

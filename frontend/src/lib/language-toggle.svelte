@@ -82,6 +82,11 @@
 			code: 'ca',
 			name: 'Català',
 			flag: '🇪🇸'
+		},
+		{
+			code: 'it',
+			name: 'Italiano',
+			flag: '🇮🇹'
 		}
 	];
 	const get_selected_language = (): string => {

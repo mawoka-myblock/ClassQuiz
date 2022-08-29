@@ -44,6 +44,9 @@
 		<li>
 			<a href="https://github.com/jmontane">Joan Montané</a> (Catalan)
 		</li>
+		<li>
+			<a href="https://github.com/maxmasetti">Max</a> (Italian)
+		</li>
 	</ul>
 
 	<p><i>...Maybe you?</i></p>
