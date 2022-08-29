@@ -60,7 +60,15 @@
         "screenshot": "Aperçu",
         "screenshot_plural": "Aperçus",
         "browser": "Navigateur",
-        "view": "Voir"
+        "view": "Voir",
+        "range": "Intervalle",
+        "multiple_choice": "Choix multiple",
+        "dashboard": "Tableau de bord",
+        "correct": "Correct",
+        "result": "Résultat",
+        "result_plural": "Résultats",
+        "count": "Compte",
+        "private": "Privé"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -70,12 +78,21 @@
         },
         "features_description": {
             "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des questionnaires.",
-            "2": "La fonctionnalité principale est la fonction d'import de quiz KAHOOT, vou permettant de créer des quiz directement depuis KAHOOT!."
-        }
+            "2": "La fonctionnalité principale est la fonction d'import de quiz KAHOOT, vou permettant de créer des quiz directement depuis KAHOOT!.",
+            "3": "L'éditeur prêt-à-l'emploi est une fonctionnalité majeure, de même que la possibilité d'exporter les résultats au format Excel."
+        },
+        "stats": "Il y a déjà {{user_count}} utilisateurs et {{quizz_count}} quizzs sur ClassQuiz.",
+        "see_what_true_and_false": "Voir ce qui est vrai ou faux",
+        "see_how_many_true_and_false": "Voir combien avaient vrai ou faux",
+        "create_or_import": "Créer ou Importer",
+        "see_all_quizzes": "Voir tout vos quizzs",
+        "teachers_site": "Site de l'enseignant",
+        "students_site": "Site de l'étudiant"
     },
     "overview_page": {
         "created_at": "Crée le",
-        "question_count": "Nombre de question"
+        "question_count": "Nombre de question",
+        "no_quizzes": "Il semble que n'ayez aucun quizzs. Vous voulez que ça change ? Cliquez sur le bouton \"Créer\" ou bien importer un quizz depuis Kahoot!"
     },
     "edit_page": {
         "success_update_title": "Quiz mis à jour avec succès !",
@@ -112,7 +129,10 @@
         "time_left": "Temps restant",
         "get_results": "Obtenir les résultats",
         "get_results_and_stop_time": "Obtenir les résultats et arrêter le chrono",
-        "get_final_results": "Obtenir les résultats finaux"
+        "get_final_results": "Obtenir les résultats finaux",
+        "export_results": "Exporter les résultats",
+        "show_next_question": "Montrer la prochaine question",
+        "start_by_showing_first_question": "Démarrer en montrant la première question !"
     },
     "password_reset_page": {
         "reset_password": "Réinitialiser le mot de passe"
@@ -128,9 +148,21 @@
         "this_session?": "Cette session ?"
     },
     "explore_page": {
-        "made_by": "Créé par"
+        "made_by": "Créé par",
+        "imported_by": "Importé par"
     },
     "search_page": {
         "at_least_3_characters": "Enter au moins 3 caractères…"
+    },
+    "play_page": {
+        "1st_place": "1ère place",
+        "end_sentence": "C'est terminé ! Voilà le quizz.",
+        "2nd_place": "2ème place",
+        "3rd place": "3ème place",
+        "with_out_of": "avec {{correct_questions}} sur {{total_question_count}}"
+    },
+    "editor_page": {
+        "add_an_answer": "Ajouter une réponse",
+        "right_click_to_delete": "Faites un clic droit sur une réponse pour la supprimer !"
     }
 }
