@@ -6,4 +6,4 @@
 
 export const google_auth_enabled = import.meta.env.VITE_GOOGLE_AUTH_ENABLED === 'true';
 export const github_auth_enabled = import.meta.env.VITE_GITHUB_AUTH_ENABLED === 'true';
-export const captcha_enabled = import.meta.env.CAPTCHA_ENABLED === 'true';
+export const captcha_enabled = import.meta.env.VITE_CAPTCHA_ENABLED === 'true';

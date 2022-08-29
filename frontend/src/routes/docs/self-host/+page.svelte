@@ -72,6 +72,10 @@
 	<ul>
 		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
 		<li><code>VITE_HCAPTCHA</code>: The hCaptcha-Siteky for captchas</li>
+		<li>
+			<code>VITE_CAPTCHA_ENABLED</code>: Set it to <code>true</code>, if the captcha should be
+			available
+		</li>
 		<li><code>VITE_SENTRY</code>: A Sentry-DSN for Sentry (optional)</li>
 		<li>
 			<code>VITE_GOOGLE_AUTH_ENABLED</code>: Set it to <code>true</code>, if Google-Auth is
@@ -163,7 +167,7 @@ services:
       - redis
 
     environment:
-      ROOT_ADDRESS: "https://classquiz.mawoka.eu" # Base-URL (change it)
+      ROOT_ADDRESS: "https://classquiz.de" # Base-URL (change it)
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # don't change
       MAIL_ADDRESS: "classquiz@mawoka.eu" # Email-Address (change it)
       MAIL_PASSWORD: "MAIL_PASSWORD" # Email-Password (change it)

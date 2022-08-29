@@ -75,7 +75,7 @@ async def get_public_quiz(quiz_id: str):
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
-    quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+    quiz = await Quiz.objects.get_or_none(id=quiz_id)
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
