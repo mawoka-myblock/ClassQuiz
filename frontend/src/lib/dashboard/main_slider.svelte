@@ -86,7 +86,10 @@
 										</p>
 									</div>
 								</div>
-								<p class="text-center">{quiz.questions.length} Questions</p>
+								<p class="text-center">
+									{quiz.questions.length}
+									{$t('words.question', { count: quiz.questions.length })}
+								</p>
 								<div class="flex justify-center mt-8">
 									{#if quiz.public}
 										<svg
@@ -127,7 +130,7 @@
 										<a
 											href="/edit?quiz_id={quiz.id}"
 											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
-											>Edit</a
+											>{$t('words.edit')}</a
 										>
 										<button
 											on:click={() => {
@@ -135,7 +138,7 @@
 											}}
 											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
 										>
-											Start
+											{$t('words.start')}
 										</button>
 									</div>
 								</div>

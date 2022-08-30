@@ -129,7 +129,7 @@
 								<input
 									bind:value={search_term}
 									class="p-2 rounded-lg outline-none text-center w-96 dark:bg-gray-700"
-									placeholder="Search for your own quizzes"
+									placeholder={$t('dashboard.search_for_own_quizzes')}
 								/>
 								<button
 									on:click={() => {

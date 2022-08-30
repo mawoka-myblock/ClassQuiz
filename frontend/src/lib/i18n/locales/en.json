@@ -108,7 +108,8 @@
         "range": "Range",
         "multiple_choice": "Multiple-Choice",
         "private": "Private",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "question_plural": "Questions"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -165,5 +166,8 @@
     "editor_page": {
         "add_an_answer": "Add an answer",
         "right_click_to_delete": "Right-click on an answer to delete it!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Search for your own quizzes"
     }
 }
