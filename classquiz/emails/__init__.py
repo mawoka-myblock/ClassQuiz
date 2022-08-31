@@ -44,7 +44,7 @@ async def send_register_email(email: str):
     if settings.skip_email_verification:
         user.verify_key = None
         user.verified = True
-        await user.save()
+        await user.update()
     else:
         template = jinja.get_template("register.jinja2")
         template = await template.render_async(base_url=settings.root_address, token=user.verify_key)
