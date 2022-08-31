@@ -9,7 +9,9 @@
 	import { browser } from '$app/env';
 	import * as Sentry from '@sentry/browser';
 	import { alertModal } from '../stores';
+	import { getLocalization } from '$lib/i18n';
 
+	const { t } = getLocalization();
 	export let game_pin: string;
 
 	let username = '';
@@ -114,9 +116,9 @@
 {#if game_pin === '' || game_pin.length <= 7}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
-			<h1 class="text-lg text-center">Game Pin</h1>
+			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
-				class="border border-amber-800 self-center text-center text-black"
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={game_pin}
 				maxlength="8"
 			/>
@@ -128,7 +130,7 @@
 				type="submit"
 				disabled={game_pin.length <= 7}
 			>
-				Submit
+				{$t('words.submit')}
 			</button>
 		</form>
 	</div>
@@ -138,14 +140,14 @@
 			on:submit|preventDefault={setUsername}
 			class="flex-col flex justify-center align-center mx-auto"
 		>
-			<h1 class="text-lg text-center">Username</h1>
+			<h1 class="text-lg text-center">{$t('words.username')}</h1>
 			<input class="border border-amber-800 text-black text-center" bind:value={username} />
 			<button
 				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
 				type="submit"
 				disabled={username.length <= 3}
 			>
-				Submit
+				{$t('words.submit')}
 			</button>
 		</form>
 	</div>

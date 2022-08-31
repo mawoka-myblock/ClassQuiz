@@ -8,6 +8,9 @@
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
 	import Spinner from '../Spinner.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	export let question: Question;
 	export let question_index: string | number;
@@ -109,7 +112,7 @@
 					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
 					disabled={selected_answer !== undefined}
 					on:click={() => selectAnswer(slider_value[0])}
-					>Submit
+					>{$t('words.submit')}
 				</button>
 			</div>
 		{/await}

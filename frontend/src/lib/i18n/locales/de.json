@@ -109,7 +109,8 @@
         "multiple_choice": "Multiple-Choice",
         "private": "Privat",
         "dashboard": "Dashboard",
-        "question_plural": "Fragen"
+        "question_plural": "Fragen",
+        "game_pin": "Spiel-Pin"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
