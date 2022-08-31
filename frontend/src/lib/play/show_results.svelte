@@ -7,6 +7,7 @@
 	import type { Answer, QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import { QuizQuestionType } from '../quiz_types.js';
+	import Spinner from '$lib/Spinner.svelte';
 
 	const { t } = getLocalization();
 	export let results: Array<Answer>;
@@ -22,6 +23,12 @@
 	for (let i = 0; i < results.length; i++) {
 		data_store[results[i].answer] += 1;
 	}
+
+	let slider_values = [
+		game_data.questions[parseInt(question_index)].answers.min_correct ?? 0,
+		game_data.questions[parseInt(question_index)].answers.max_correct ?? 0
+	];
+	console.log(slider_values, game_data.questions[parseInt(question_index)].answers);
 </script>
 
 <!-- Show the results from the results object -->
@@ -84,11 +91,26 @@
 				</table>
 			</div>
 		{:else if game_data.questions[parseInt(question_index)].type === QuizQuestionType.RANGE}
-			<p class="text-center">
+			<!--<p class="text-center">
 				Every number between {game_data.questions[parseInt(question_index)].answers
 					.min_correct} and {game_data.questions[parseInt(question_index)].answers
 					.max_correct} was correct.
-			</p>
+			</p>-->
+			{#await import('svelte-range-slider-pips')}
+				<Spinner />
+			{:then c}
+				<div class="grayscale pointer-events-none w-full">
+					<svelte:component
+						this={c.default}
+						bind:values={slider_values}
+						bind:min={game_data.questions[parseInt(question_index)].answers.min}
+						bind:max={game_data.questions[parseInt(question_index)].answers.max}
+						pips
+						float
+						all="label"
+					/>
+				</div>
+			{/await}
 		{/if}
 	</div>
 </div>

@@ -93,15 +93,17 @@
 		{#await import('svelte-range-slider-pips')}
 			<Spinner />
 		{:then c}
-			<svelte:component
-				this={c.default}
-				bind:values={slider_value}
-				bind:min={question.answers.min}
-				bind:max={question.answers.max}
-				pips
-				float
-				all="label"
-			/>
+			<div class:pointer-events-none={selected_answer !== undefined}>
+				<svelte:component
+					this={c.default}
+					bind:values={slider_value}
+					bind:min={question.answers.min}
+					bind:max={question.answers.max}
+					pips
+					float
+					all="label"
+				/>
+			</div>
 			<div class="flex justify-center">
 				<button
 					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"

@@ -64,6 +64,9 @@
 		}
 	};
 	let winners = getWinnersSorted();
+	$: {
+		console.log(winners, winners_arr);
+	}
 </script>
 
 <div>
@@ -75,7 +78,7 @@
 					{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0]}</span>
 					<span
 						>{$t('play_page.with_out_of', {
-							correct_questions: winners[winners_arr[1]] ?? 0,
+							correct_questions: winners[winners_arr[0]] ?? 0,
 							total_question_count: quiz_data.questions.length
 						})}</span
 					>
