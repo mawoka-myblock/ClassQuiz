@@ -110,7 +110,10 @@
         "private": "Private",
         "dashboard": "Dashboard",
         "question_plural": "Questions",
-        "game_pin": "Game Pin"
+        "game_pin": "Game Pin",
+        "other": "other",
+        "other_plural": "others",
+        "donating": "donating"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -170,5 +173,10 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Search for your own quizzes"
+    },
+    "footer": {
+        "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",
+        "more_details_here": "More details are here",
+        "donate": "If you find this useful, please consider {{donate_link}}."
     }
 }
