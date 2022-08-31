@@ -19,6 +19,7 @@
 	}
 
 	let data_available = false;
+	let winners_arr;
 
 	const getWinnersSorted = () => {
 		let winners = {};
@@ -58,12 +59,11 @@
 			winners_arr = Object.keys(winners);
 			data_available = true;
 			return sortObjectbyValue(winners);
-		} catch {
+		} catch (e) {
 			data_available = false;
 		}
 	};
 	let winners = getWinnersSorted();
-	let winners_arr;
 </script>
 
 <div>
@@ -73,7 +73,12 @@
 			<div>
 				<p class="text-3xl text-center">
 					{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0]}</span>
-					<span>with {winners[winners_arr[0]]} out of {quiz_data.questions.length}</span>
+					<span
+						>{$t('play_page.with_out_of', {
+							correct_questions: winners[winners_arr[1]] ?? 0,
+							total_question_count: quiz_data.questions.length
+						})}</span
+					>
 				</p>
 			</div>
 			{#if winners_arr.length >= 2}
@@ -81,8 +86,10 @@
 					<p class="text-2xl text-center">
 						{$t('play_page.2nd_place')}: <span class="underline">{winners_arr[1]}</span>
 						<span
-							>with {winners[winners_arr[1]]} out of {quiz_data.questions
-								.length}</span
+							>{$t('play_page.with_out_of', {
+								correct_questions: winners[winners_arr[1]] ?? 0,
+								total_question_count: quiz_data.questions.length
+							})}</span
 						>
 					</p>
 				</div>
@@ -93,7 +100,7 @@
 						{$t('play_page.3rd place')}: <span class="underline">{winners_arr[2]}</span>
 						<span>
 							{$t('play_page.with_out_of', {
-								correct_questions: winners[winners_arr[2]],
+								correct_questions: winners[winners_arr[2]] ?? 0,
 								total_question_count: quiz_data.questions.length
 							})}
 						</span>
