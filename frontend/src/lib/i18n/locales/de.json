@@ -110,7 +110,10 @@
         "private": "Privat",
         "dashboard": "Dashboard",
         "question_plural": "Fragen",
-        "game_pin": "Spiel-Pin"
+        "game_pin": "Spiel-Pin",
+        "other": "andere",
+        "other_plural": "andern",
+        "donating": "Spenden"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -177,5 +180,10 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Suche nach eigenen Quiz"
+    },
+    "footer": {
+        "more_details_here": "Mehr Details sind hier",
+        "donate": "Wenn ClassQuiz hilfreich ist, würde eine {{donate_link}} helfen.",
+        "self_ads": "Gemacht mit ❤️ von {{mawoka_link}} und mit der Hilfe von {{others_link}}."
     }
 }
