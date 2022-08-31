@@ -108,7 +108,8 @@
         "range": "Zahlenbereich",
         "multiple_choice": "Multiple-Choice",
         "private": "Privat",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "question_plural": "Fragen"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -172,5 +173,8 @@
     "editor_page": {
         "add_an_answer": "Antwort hinzufügen",
         "right_click_to_delete": "Rechts-klicke eine Antwort, um diese zu löschen!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Suche nach eigenen Quiz"
     }
 }

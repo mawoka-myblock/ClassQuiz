@@ -5,13 +5,13 @@
             "description": "ClassQuiz è un'applicazione per quiz come KAHOOT! per gli studenti, è gratuita e open source"
         },
         "features_description": {
-            "1": "ClassQuiz è una webapp per quiz che ti permette di creare e gestire quiz.",
-            "2": "La caratteristica principale è una funzione che consente di importare i quiz esportati da KAHOOT!.",
-            "3": "L'editor facile da utlizzare è un'aspetto di spicco come la possibilità di esportare i risultati dei quiz in formato Excel."
+            "1": "ClassQuiz è una webapp per creare e gestire quiz.",
+            "2": "Una delle caratteristiche principali è la possibilità di importare i quiz di KAHOOT!.",
+            "3": "L'editor delle domande è molto facile da usare, come l'esportazione dei risultati dei quiz in formato Excel."
         },
-        "stats": "In ClassQuiz esistono già {{user_count}} utenti e {{quiz_count}} quizz.",
+        "stats": "In ClassQuiz ci sono già {{user_count}} utenti e {{quiz_count}} quiz.",
         "see_what_true_and_false": "Verifica cos'è corretto o sbagliato",
-        "see_how_many_true_and_false": "Verifica quanti sono corretti o errati",
+        "see_how_many_true_and_false": "Verifica quanti sono corretti o sbagliati",
         "create_or_import": "Crea o importa",
         "teachers_site": "Sito per l'insegnante",
         "students_site": "Sito per lo studente",
@@ -21,7 +21,7 @@
     "overview_page": {
         "created_at": "Creato il",
         "question_count": "Numero domande",
-        "no_quizzes": "Sembra che tu non abbia ancora quiz. Clicca sul pulsante \"Crea\", o importa un quiz da KAHOO!"
+        "no_quizzes": "Sembra che tu non abbia ancora quiz. Clicca sul pulsante \"Crea\" o importa un quiz da Kahoot!"
     },
     "edit_page": {
         "success_update_title": "Quiz importato con successo!",
@@ -104,7 +104,7 @@
         "multiple_choice": "Scelta multipla",
         "dashboard": "Dashboard",
         "edit": "Modifica",
-        "register": "Registra",
+        "register": "Registrazione",
         "description": "Descrizione",
         "report": "Report",
         "search": "Cerca",
