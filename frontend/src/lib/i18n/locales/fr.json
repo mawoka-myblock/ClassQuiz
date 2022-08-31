@@ -68,31 +68,32 @@
         "result": "Résultat",
         "result_plural": "Résultats",
         "count": "Compte",
-        "private": "Privé"
+        "private": "Privé",
+        "question_plural": "Questions"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz comme KAHOOT! pour les étudiants, libre et open-source",
+            "description": "ClassQuiz est une application de quiz comme Kahoot! pour les étudiants, libre et open-source",
             "title": "Accueil"
         },
         "features_description": {
-            "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des questionnaires.",
-            "2": "La fonctionnalité principale est la fonction d'import de quiz KAHOOT, vou permettant de créer des quiz directement depuis KAHOOT!.",
+            "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des quiz.",
+            "2": "La fonctionnalité principale est la fonction d'import de quiz Kahoot!, vous permettant de créer des quiz directement depuis Kahoot!.",
             "3": "L'éditeur prêt-à-l'emploi est une fonctionnalité majeure, de même que la possibilité d'exporter les résultats au format Excel."
         },
-        "stats": "Il y a déjà {{user_count}} utilisateurs et {{quizz_count}} quizzs sur ClassQuiz.",
+        "stats": "Il y a déjà {{user_count}} utilisateurs et {{quizz_count}} quiz sur ClassQuiz.",
         "see_what_true_and_false": "Voir ce qui est vrai ou faux",
         "see_how_many_true_and_false": "Voir combien avaient vrai ou faux",
         "create_or_import": "Créer ou Importer",
-        "see_all_quizzes": "Voir tout vos quizzs",
+        "see_all_quizzes": "Voir tout vos quiz",
         "teachers_site": "Site de l'enseignant",
         "students_site": "Site de l'étudiant"
     },
     "overview_page": {
         "created_at": "Crée le",
         "question_count": "Nombre de question",
-        "no_quizzes": "Il semble que n'ayez aucun quizzs. Vous voulez que ça change ? Cliquez sur le bouton \"Créer\" ou bien importer un quizz depuis Kahoot!"
+        "no_quizzes": "Il semble que n'ayez aucun quiz. Vous voulez que ça change ? Cliquez sur le bouton \"Créer\" ou bien importer un quiz depuis Kahoot!"
     },
     "edit_page": {
         "success_update_title": "Quiz mis à jour avec succès !",
@@ -116,7 +117,7 @@
         "add_new_answer": "Ajouter une autre réponse",
         "delete_question": "Supprimer la question",
         "delete_answer": "Supprimer la réponse",
-        "right_or_true?": "Vrai?",
+        "right_or_true?": "Vrai ?",
         "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur !"
     },
     "import_page": {
@@ -133,7 +134,7 @@
         "export_results": "Exporter les résultats",
         "show_next_question": "Montrer la prochaine question",
         "start_by_showing_first_question": "Démarrer en montrant la première question !",
-        "no_answers": "Pas de reponses!"
+        "no_answers": "Pas de réponses !"
     },
     "password_reset_page": {
         "reset_password": "Réinitialiser le mot de passe"
@@ -165,5 +166,8 @@
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
         "right_click_to_delete": "Faites un clic droit sur une réponse pour la supprimer !"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Cherchez dans vos quiz"
     }
 }
