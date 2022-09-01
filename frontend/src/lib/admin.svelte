@@ -9,7 +9,6 @@
 	import { get_question_title } from '$lib/admin.ts';
 	import type { PlayerAnswer } from '$lib/admin.ts';
 	import { socket } from './socket';
-	import ShowQuestion from '$lib/play/question.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
