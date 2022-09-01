@@ -9,6 +9,7 @@
 	import { get_question_title } from '$lib/admin.ts';
 	import type { PlayerAnswer } from '$lib/admin.ts';
 	import { socket } from './socket';
+	import ShowQuestion from '$lib/play/question.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
@@ -74,9 +75,21 @@
 </script>
 
 {#if timer_res !== undefined && !final_results_clicked}
-	<div class="w-full flex justify-center">
-		<span>{$t('admin_page.time_left')}: {timer_res}</span>
+	<div class="flex flex-col justify-center w-screen h-1/6">
+		<h1 class="text-6xl text-center">
+			{quiz_data.questions[selected_question].question}
+		</h1>
+		<span class="text-center py-2 text-lg">{$t('admin_page.time_left')}: {timer_res}</span>
 	</div>
+	{#if quiz_data.questions[selected_question].image !== null}
+		<div>
+			<img
+				src={quiz_data.questions[selected_question].image}
+				class="h-2/5 object-cover mx-auto mb-8"
+				alt="Content for Question"
+			/>
+		</div>
+	{/if}
 {/if}
 <br />
 {#if timer_res === '0'}
