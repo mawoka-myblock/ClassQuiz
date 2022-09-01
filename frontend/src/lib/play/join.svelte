@@ -107,6 +107,8 @@
 		game_pin = '';
 		alert('Game not found');
 	});
+
+	$: game_pin = game_pin.replace(/\D/g, '');
 </script>
 
 <svelte:head>
@@ -141,7 +143,11 @@
 			class="flex-col flex justify-center align-center mx-auto"
 		>
 			<h1 class="text-lg text-center">{$t('words.username')}</h1>
-			<input class="border border-amber-800 text-black text-center" bind:value={username} />
+			<input
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
+				bind:value={username}
+				maxlength="17"
+			/>
 			<button
 				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
 				type="submit"
