@@ -108,7 +108,12 @@
         "description": "Descrizione",
         "report": "Report",
         "search": "Cerca",
-        "private": "Privato"
+        "private": "Privato",
+        "question_plural": "Domande",
+        "game_pin": "PIN",
+        "other": "altro",
+        "other_plural": "altri",
+        "donating": "donazione"
     },
     "editor": {
         "right_or_true?": "Corretto?",
@@ -124,8 +129,8 @@
         "visit_docs": "Guarda la documentazione"
     },
     "admin_page": {
-        "already_registered_as_admin": "C'è già un amministratore registrato per questo gioco.",
-        "start_game": "Avvia gioco",
+        "already_registered_as_admin": "C'è già un amministratore registrato per questo quiz.",
+        "start_game": "Avvia quiz",
         "time_left": "Tempo rimasto",
         "get_results": "Risultati",
         "export_results": "Esporta i risultati",
@@ -165,5 +170,13 @@
     },
     "search_page": {
         "at_least_3_characters": "Digita almento 3 caratteri..."
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Cerca fra i tuoi quiz"
+    },
+    "footer": {
+        "self_ads": "Realizzato con ❤️ da {{mawoka_link}} e con l'aiuto di {{others_link}}.",
+        "more_details_here": "Maggiorni informazioni qui",
+        "donate": "Se ritieni questa applicazione utile, considera la possibilità di fare una {{donate_link}}."
     }
 }
