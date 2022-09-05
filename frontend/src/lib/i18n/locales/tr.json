@@ -87,7 +87,12 @@
         "range": "Aralık",
         "multiple_choice": "Çoktan Seçmeli",
         "private": "Gizli",
-        "dashboard": "Panel"
+        "dashboard": "Panel",
+        "question_plural": "Sorular",
+        "other": "diğer",
+        "other_plural": "diğerleri",
+        "donating": "bağış yapma",
+        "game_pin": "Oyun Kodu"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -119,7 +124,8 @@
         "time_left": "Kalan süre",
         "export_results": "Sonuçları dışa aktar",
         "show_next_question": "Bir sonraki soruyu göster",
-        "start_by_showing_first_question": "İlk soruyu göstererek başla!"
+        "start_by_showing_first_question": "İlk soruyu göstererek başla!",
+        "no_answers": "Cevap yok!"
     },
     "editor": {
         "time_in_seconds": "Saniye cinsinden zaman",
@@ -164,5 +170,13 @@
     "editor_page": {
         "add_an_answer": "Bir cevap ekle",
         "right_click_to_delete": "Bir cevabı silmek için sağ tıkla!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Kendi quizleriniz için arama"
+    },
+    "footer": {
+        "self_ads": "{{mawoka_link}} tarafından ve {{others_link}}nin de yardımıyla ❤️ ile yapıldı.",
+        "more_details_here": "Daha fazla detay burada",
+        "donate": "Eğer bunu kullanışlı bulduysanız, lütfen {{donate_link}}yı bir düşünün."
     }
 }
