@@ -10,9 +10,16 @@
 	import WebPOpenGraph from '$lib/assets/landing/opengraph-home.webp';
 	import JpgOpenGraph from '$lib/assets/landing/opengraph-home.jpg';
 	import Newsletter from '$lib/landing/newsletter.svelte';
-	import { fly } from 'svelte/transition';
+	import { fly, fade } from 'svelte/transition';
 
-	import LandingPromo from '$lib/landing/landing-promo.svelte';
+	/*	import LandingPromo from '$lib/landing/landing-promo.svelte';*/
+
+	import FindScreenshot from '$lib/assets/landing_new/find.webp';
+	import ImportScreenshot from '$lib/assets/landing_new/import.webp';
+	import EditScreenshot from '$lib/assets/landing_new/edit.webp';
+	import SelectScreenshot from '$lib/assets/landing_new/select.webp';
+	import ResultScreenshot from '$lib/assets/landing_new/result.webp';
+	import WinnersScreenshot from '$lib/assets/landing_new/winners.webp';
 	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
@@ -24,15 +31,83 @@
 		user_count: number;
 	}
 
-	const getStats = async (): Promise<StatsData> => {
-		const response = await fetch('/api/v1/stats/combined');
-		return await response.json();
-	};
+	/*	const getStats = async (): Promise<StatsData> => {
+			const response = await fetch('/api/v1/stats/combined');
+			return await response.json();
+		};*/
 	let newsletterModalOpen;
 	onMount(() => {
 		const ls = localStorage.getItem('newsletter');
 		newsletterModalOpen = ls === null;
 	});
+
+	enum SelectedCreateThing {
+		Create,
+		Find,
+		Import
+	}
+
+	enum SelectedPlayThing {
+		Select,
+		Results,
+		Winners
+	}
+
+	let selected_create_thing = SelectedCreateThing.Create;
+	let selected_play_thing = SelectedPlayThing.Select;
+
+	/*	<li>No;
+		Tracking < /li>
+		< li > Self - hostable < /li>
+		< li > German;
+		Server < /li>
+		< li > user - friendly < /li>
+		< li > Completely;
+		free < /li>
+		< li > Quiz - results;
+		are;
+		downloadable < /li>;*/
+
+	const classquiz_reasons = [
+		{
+			headline: 'No Tracking',
+			content:
+				"Kahoot tracks with at least 2 american 3rd-parties and ClassQuiz doesn't track with any 3rd-parties at all!"
+		},
+		{
+			headline: 'Self-Hostable',
+			content: 'ClassQuiz can easily be self-hosted, so the data is only in your control!'
+		},
+		{
+			headline: 'German Server',
+			content: "ClassQuiz's servers are located in Germany and hosted by netcup."
+		},
+		{
+			headline: 'User-friendly',
+			content:
+				'ClassQuiz tries to be as user-friendly as possible, so it is easy to use for everyone'
+		},
+		{
+			headline: 'Completely Free',
+			content:
+				'ClassQuiz is completely free without any paid plans or annoying redirects to the upgrade-page. A donation is still appreciated!'
+		},
+		{
+			headline: 'Quiz-results can be downloaded',
+			content:
+				"Quiz-results can be easily exported into an Excel-spreadsheet. (Didn't know others couldn't do that)"
+		},
+		{
+			headline: 'Multilingual',
+			content:
+				'ClassQuiz is already fully translated into English, German, Turkish, French and Italian. It is also partly translated into Indonesian and Catalan.'
+		},
+		{
+			headline: 'Dark-Mode',
+			content: 'One of the most important features a website can have!'
+		}
+	];
+	let selected_classquiz_reason = 0;
 </script>
 
 <svelte:head>
@@ -64,7 +139,7 @@
 	<meta name="twitter:image" content={WebPOpenGraph} />
 </svelte:head>
 
-<div class="min-h-screen flex flex-col">
+<!--<div class="min-h-screen flex flex-col">
 	<section class="pb-40">
 		<div class="pt-12 text-center">
 			<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>
@@ -111,6 +186,312 @@
 					})}
 				{/await}
 			</p>
+		</div>
+	</section>
+</div>-->
+<div class="min-h-screen flex flex-col">
+	<section class="pb-40">
+		<div class="pt-12 text-center">
+			<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>
+			<p class="text-xl mt-4">{$t('index_page.slogan')}</p>
+		</div>
+	</section>
+	<section>
+		<div class="flex justify-center w-full">
+			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+				1. Get a quiz
+			</h2>
+		</div>
+		<div
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+		>
+			<div>
+				<div class="p-2 rounded-lg">
+					{#if selected_create_thing === SelectedCreateThing.Create}
+						<img
+							class="rounded-lg relative"
+							src={EditScreenshot}
+							in:fade
+							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+						/>
+					{:else if selected_create_thing === SelectedCreateThing.Find}
+						<img
+							class="rounded-lg relative"
+							src={FindScreenshot}
+							in:fade
+							alt="Screenshot of the search-page showing one found quiz for the term 'Country'"
+						/>
+					{:else if selected_create_thing === SelectedCreateThing.Import}
+						<img
+							class="rounded-lg relative"
+							src={ImportScreenshot}
+							in:fade
+							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+						/>
+					{:else}
+						<p>Shouldn't happen!</p>
+					{/if}
+				</div>
+			</div>
+			<div
+				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
+			>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_create_thing = SelectedCreateThing.Create;
+					}}
+					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Create}
+					class:opacity-70={selected_create_thing !== SelectedCreateThing.Create}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl w-fit">Create</h5>
+					<p>Create a quiz from scratch with the editor and include pictures and more</p>
+				</div>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_create_thing = SelectedCreateThing.Find;
+					}}
+					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Find}
+					class:opacity-70={selected_create_thing !== SelectedCreateThing.Find}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl">Find</h5>
+					<p>Find (or explore) quizzes made or imported by other people</p>
+				</div>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_create_thing = SelectedCreateThing.Import;
+					}}
+					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Import}
+					class:opacity-70={selected_create_thing !== SelectedCreateThing.Import}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl">Import</h5>
+					<p>Import a quiz from Kahoot! and edit it on ClassQuiz</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="mt-24">
+		<div class="flex justify-center w-full">
+			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+				2. Play the quiz
+			</h2>
+		</div>
+
+		<div
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+		>
+			<div>
+				<div class="p-2 rounded-lg">
+					{#if selected_play_thing === SelectedPlayThing.Select}
+						<img
+							class="rounded-lg relative"
+							src={SelectScreenshot}
+							in:fade
+							alt="Screenshot of the screen where an answer can be selected"
+						/>
+					{:else if selected_play_thing === SelectedPlayThing.Results}
+						<img
+							class="rounded-lg relative"
+							src={ResultScreenshot}
+							in:fade
+							alt="Screenshot of the results with a table showing how many players chose which answer"
+						/>
+					{:else if selected_play_thing === SelectedPlayThing.Winners}
+						<img
+							class="rounded-lg relative"
+							src={WinnersScreenshot}
+							in:fade
+							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+						/>
+					{:else}
+						<p>Shouldn't happen!</p>
+					{/if}
+				</div>
+			</div>
+			<div
+				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
+			>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_play_thing = SelectedPlayThing.Select;
+					}}
+					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Select}
+					class:opacity-70={selected_play_thing !== SelectedPlayThing.Select}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl w-fit">Select the answer</h5>
+					<p>Choose your answer wisely</p>
+				</div>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_play_thing = SelectedPlayThing.Results;
+					}}
+					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Results}
+					class:opacity-70={selected_play_thing !== SelectedPlayThing.Results}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 6h16M4 10h16M4 14h16M4 18h16"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl">View results</h5>
+					<p>Check, if you have chosen wisely</p>
+				</div>
+				<div
+					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					on:click={() => {
+						selected_play_thing = SelectedPlayThing.Winners;
+					}}
+					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Winners}
+					class:opacity-70={selected_play_thing !== SelectedPlayThing.Winners}
+				>
+					<div
+						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+					>
+						<svg
+							class="w-8 h-8"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+							/>
+						</svg>
+					</div>
+					<h5 class="text-xl">List winners</h5>
+					<p>Get the ranking and see who won</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="mt-24">
+		<div class="flex justify-center w-full">
+			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+				Why ClassQuiz?
+			</h2>
+		</div>
+
+		<div
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+		>
+			<div>
+				<div class="p-12 rounded-lg flex justify-center items-center h-full">
+					<p>
+						{classquiz_reasons[selected_classquiz_reason].content}
+					</p>
+				</div>
+			</div>
+			<div
+				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch overflow-x-scroll"
+			>
+				{#each classquiz_reasons as reason, index}
+					<div
+						class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+						on:click={() => {
+							selected_classquiz_reason = index;
+						}}
+						class:shadow-2xl={selected_classquiz_reason === index}
+						class:opacity-70={selected_classquiz_reason !== index}
+					>
+						<h5 class="text-xl">{reason.headline}</h5>
+					</div>
+				{/each}
+			</div>
 		</div>
 	</section>
 </div>
