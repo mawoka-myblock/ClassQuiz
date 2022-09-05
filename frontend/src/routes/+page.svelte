@@ -26,10 +26,10 @@
 
 	navbarVisible.set(true);
 
-	interface StatsData {
+	/*	interface StatsData {
 		quiz_count: number;
 		user_count: number;
-	}
+	}*/
 
 	/*	const getStats = async (): Promise<StatsData> => {
 			const response = await fetch('/api/v1/stats/combined');
@@ -41,15 +41,23 @@
 		newsletterModalOpen = ls === null;
 	});
 
+	// eslint-disable-next-line no-unused-vars
 	enum SelectedCreateThing {
+		// eslint-disable-next-line no-unused-vars
 		Create,
+		// eslint-disable-next-line no-unused-vars
 		Find,
+		// eslint-disable-next-line no-unused-vars
 		Import
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	enum SelectedPlayThing {
+		// eslint-disable-next-line no-unused-vars
 		Select,
+		// eslint-disable-next-line no-unused-vars
 		Results,
+		// eslint-disable-next-line no-unused-vars
 		Winners
 	}
 
