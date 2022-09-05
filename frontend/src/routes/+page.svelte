@@ -70,41 +70,36 @@
 
 	const classquiz_reasons = [
 		{
-			headline: 'No Tracking',
-			content:
-				"Kahoot tracks with at least 2 american 3rd-parties and ClassQuiz doesn't track with any 3rd-parties at all!"
+			headline: $t('index_page.no_tracking'),
+			content: $t('index_page.no_tracking_content')
 		},
 		{
-			headline: 'Self-Hostable',
-			content: 'ClassQuiz can easily be self-hosted, so the data is only in your control!'
+			headline: $t('index_page.self_hostable'),
+			content: $t('index_page.self_hostable_content')
 		},
 		{
-			headline: 'German Server',
-			content: "ClassQuiz's servers are located in Germany and hosted by netcup."
+			headline: $t('index_page.german_server'),
+			content: $t('index_page.german_server_content')
 		},
 		{
-			headline: 'User-friendly',
-			content:
-				'ClassQuiz tries to be as user-friendly as possible, so it is easy to use for everyone'
+			headline: $t('index_page.user_friendly'),
+			content: $t('index_page.user_friendly_content')
 		},
 		{
-			headline: 'Completely Free',
-			content:
-				'ClassQuiz is completely free without any paid plans or annoying redirects to the upgrade-page. A donation is still appreciated!'
+			headline: $t('index_page.completely_free'),
+			content: $t('index_page.completely_free_content')
 		},
 		{
-			headline: 'Quiz-results can be downloaded',
-			content:
-				"Quiz-results can be easily exported into an Excel-spreadsheet. (Didn't know others couldn't do that)"
+			headline: $t('index_page.quiz_results_downloadable'),
+			content: $t('index_page.quiz_results_downloadable_content')
 		},
 		{
-			headline: 'Multilingual',
-			content:
-				'ClassQuiz is already fully translated into English, German, Turkish, French and Italian. It is also partly translated into Indonesian and Catalan.'
+			headline: $t('index_page.multilingual'),
+			content: $t('index_page.multilingual_content')
 		},
 		{
-			headline: 'Dark-Mode',
-			content: 'One of the most important features a website can have!'
+			headline: $t('index_page.dark_mode'),
+			content: $t('index_page.dark_mode_content')
 		}
 	];
 	let selected_classquiz_reason = 0;
@@ -199,7 +194,7 @@
 	<section>
 		<div class="flex justify-center w-full">
 			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
-				1. Get a quiz
+				{$t('index_page.get_a_quiz')}
 			</h2>
 		</div>
 		<div
@@ -262,8 +257,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl w-fit">Create</h5>
-					<p>Create a quiz from scratch with the editor and include pictures and more</p>
+					<h5 class="text-xl w-fit">{$t('words.create')}</h5>
+					<p>{$t('index_page.create_a_quiz_from_scratch')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -291,8 +286,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">Find</h5>
-					<p>Find (or explore) quizzes made or imported by other people</p>
+					<h5 class="text-xl">{$t('words.find')}</h5>
+					<p>{$t('index_page.find_or_explore')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -320,8 +315,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">Import</h5>
-					<p>Import a quiz from Kahoot! and edit it on ClassQuiz</p>
+					<h5 class="text-xl">{$t('words.import')}</h5>
+					<p>{$t('index_page.import_quiz_from_kahoot_and_edit')}</p>
 				</div>
 			</div>
 		</div>
@@ -330,7 +325,7 @@
 	<section class="mt-24">
 		<div class="flex justify-center w-full">
 			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
-				2. Play the quiz
+				{$t('index_page.play_quiz')}
 			</h2>
 		</div>
 
@@ -394,8 +389,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl w-fit">Select the answer</h5>
-					<p>Choose your answer wisely</p>
+					<h5 class="text-xl w-fit">{$t('index_page.select_answer')}</h5>
+					<p>{$t('index_page.choose_answer_wisely')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -423,8 +418,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">View results</h5>
-					<p>Check, if you have chosen wisely</p>
+					<h5 class="text-xl">{$t('index_page.view_results')}</h5>
+					<p>{$t('index_page.check_if_chosen_wisely')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -452,8 +447,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">List winners</h5>
-					<p>Get the ranking and see who won</p>
+					<h5 class="text-xl">{$t('index_page.list_winners')}</h5>
+					<p>{$t('index_page.get_ranking_and_winners')}</p>
 				</div>
 			</div>
 		</div>
@@ -462,7 +457,7 @@
 	<section class="mt-24">
 		<div class="flex justify-center w-full">
 			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
-				Why ClassQuiz?
+				{$t('index_page.why_classquiz')}
 			</h2>
 		</div>
 
