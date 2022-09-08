@@ -19,6 +19,22 @@
 	export let quiz_id: string | null;
 	let selected_question = -1;
 	let imgur_links_valid = false;
+	let pow_salt;
+
+	const computePOW = async (salt: string) => {
+		if (pow_salt === undefined) {
+			return;
+		}
+		console.log('Computing POW');
+		pow_data = await mint(salt, 16, '', 8, false);
+		pow_salt = undefined;
+		return;
+	};
+
+	$: {
+		pow_salt;
+		computePOW(pow_salt);
+	}
 
 	const validateInput = async (data: EditorData) => {
 		try {
@@ -156,9 +172,15 @@
 				</div>
 				<div class="w-full h-full">
 					{#if selected_question === -1}
-						<SettingsCard bind:data />
+						<SettingsCard bind:data bind:pow_salt bind:edit_id bind:pow_data />
 					{:else}
-						<QuizCard bind:data bind:selected_question bind:edit_id bind:pow_data />
+						<QuizCard
+							bind:data
+							bind:selected_question
+							bind:edit_id
+							bind:pow_data
+							bind:pow_salt
+						/>
 					{/if}
 				</div>
 			</div>

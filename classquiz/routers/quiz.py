@@ -42,6 +42,11 @@ async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_curren
             and not re.match(server_regex, question.image)
         ):
             raise HTTPException(status_code=400, detail="image url is not valid")
+    if quiz_input.cover_image == "":
+        quiz_input.cover_image = None
+
+    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
+        raise HTTPException(status_code=400, detail="image url is not valid")
     quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
     await redis.delete("global_quiz_count")
     if quiz_input.public:
@@ -102,6 +107,7 @@ async def start_quiz(quiz_id: str, captcha_enabled: bool = True, user: User = De
         title=quiz.title,
         description=quiz.description,
         captcha_enabled=captcha_enabled,
+        cover_image=quiz.cover_image,
     )
     await redis.set(f"game:{str(game.game_pin)}", (game.json()), ex=18000)
     return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
@@ -156,6 +162,15 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
+    ## Check Cover-Image
+
+    print(quiz_input.cover_image)
+    if quiz_input.cover_image == "":
+        quiz_input.cover_image = None
+
+    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
+        raise HTTPException(status_code=400, detail="image url is not valid")
+
     quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
@@ -168,6 +183,7 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         if not quiz.public and quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         quiz.title = quiz_input.title
+        quiz.cover_image = quiz_input.cover_image
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()

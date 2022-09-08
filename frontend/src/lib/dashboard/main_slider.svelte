@@ -71,9 +71,25 @@
 									>
 										{quiz.title}
 									</p>
-									<p class="text-center col-start-2 col-end-6">
-										{quiz.description}
-									</p>
+									<div class="col-start-2 col-end-6">
+										<p class="text-center">
+											{quiz.description}
+										</p>
+										{#if quiz.cover_image}
+											<div
+												class="flex justify-center align-middle items-center"
+											>
+												<div class="h-[20vh] m-auto w-auto">
+													<img
+														class="max-h-full max-w-full  block"
+														src={quiz.cover_image}
+														alt="Not provided"
+													/>
+												</div>
+											</div>
+										{/if}
+									</div>
+
 									<div class="flex justify-end">
 										<p
 											style="writing-mode: sideways-lr"
@@ -83,10 +99,12 @@
 										</p>
 									</div>
 								</div>
+
 								<p class="text-center">
 									{quiz.questions.length}
 									{$t('words.question', { count: quiz.questions.length })}
 								</p>
+
 								<div class="flex justify-center mt-8">
 									{#if quiz.public}
 										<svg

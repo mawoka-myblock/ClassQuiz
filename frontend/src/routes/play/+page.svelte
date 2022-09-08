@@ -122,7 +122,11 @@
 	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
 		<ShowEndScreen bind:final_results bind:quiz_data={gameData} />
 	{:else if gameData !== undefined && question_index === ''}
-		<ShowTitle bind:title={gameData.title} bind:description={gameData.description} />
+		<ShowTitle
+			bind:title={gameData.title}
+			bind:description={gameData.description}
+			bind:cover_image={gameData.cover_image}
+		/>
 	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 		{#key unique}
 			<Question

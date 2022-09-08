@@ -55,6 +55,12 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
                 image=image,
             ).dict()
         )
+    cover = None
+    if quiz.kahoot.cover != "":
+        image_bytes = await _download_image(quiz.kahoot.cover)
+        image_name = f"{quiz_id}--{uuid.uuid4()}"
+        await storage.upload(file_name=image_name, file_data=image_bytes)
+        cover = f"{settings.root_address}/api/v1/storage/download/{image_name}"
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
@@ -65,6 +71,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         user_id=user.id,
         questions=json.dumps(quiz_questions),
         imported_from_kahoot=True,
+        cover_image=cover,
     )
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
     return await quiz_data.save()

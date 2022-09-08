@@ -61,9 +61,15 @@
 	});
 	uppy.on('complete', (_) => {
 		console.log(pow_data);
-		data.questions[
-			selected_question
-		].image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+		if (selected_question === undefined) {
+			data.cover_image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+		} else {
+			data.questions[
+				selected_question
+			].image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+		}
+		console.log(selected_question, data);
+
 		modalOpen = false;
 	});
 	console.log(edit_id);

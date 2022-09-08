@@ -157,6 +157,13 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
             mark_image_for_deletion(question.image, i, old_quiz_data)
         else:
             raise HTTPException(status_code=400, detail="Image URL(s) aren't valid!")
+
+    if quiz_input.cover_image == "":
+        quiz_input.cover_image = None
+
+    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
+        raise HTTPException(status_code=400, detail="image url is not valid")
+
     if session_data.edit:
         quiz = old_quiz_data
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
@@ -169,6 +176,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
         quiz.questions = quiz_input.dict()["questions"]
+        quiz.cover_image = quiz_input.cover_image
         for image in images_to_delete:
             if image is not None:
                 try:

@@ -200,10 +200,12 @@
 		</div>
 	</section>
 	<section>
+		<h2 class="text-center text-5xl mb-6">How does ClassQuiz even work?</h2>
+
 		<div class="flex justify-center w-full">
-			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+			<h3 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
 				{$t('index_page.get_a_quiz')}
-			</h2>
+			</h3>
 		</div>
 		<div
 			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"

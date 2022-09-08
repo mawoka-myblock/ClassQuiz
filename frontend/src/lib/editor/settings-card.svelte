@@ -6,8 +6,15 @@
 <script lang="ts">
 	import type { EditorData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
+	import Spinner from '$lib/Spinner.svelte';
+	export let pow_data;
+	export let pow_salt;
 
 	const { t } = getLocalization();
+
+	let uppyOpen = false;
+
+	export let edit_id: string;
 
 	export let data: EditorData;
 </script>
@@ -42,6 +49,36 @@
 					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500"
 				/>
 			</div>
+
+			{#if data.cover_image != undefined && data.cover_image !== ''}
+				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
+					<img
+						src={data.cover_image}
+						alt="not available"
+						class="max-h-72 h-auto w-auto"
+						on:contextmenu|preventDefault={() => {
+							data.cover_image = '';
+						}}
+					/>
+				</div>
+			{:else if pow_data === undefined}
+				<a href="/docs/pow" target="_blank" class="cursor-help">
+					<Spinner />
+				</a>
+			{:else}
+				{#await import('$lib/editor/uploader.svelte')}
+					<Spinner />
+				{:then c}
+					<svelte:component
+						this={c.default}
+						bind:modalOpen={uppyOpen}
+						bind:edit_id
+						bind:data
+						bind:pow_data
+						bind:pow_salt
+					/>
+				{/await}
+			{/if}
 			<div class="pt-10 w-full flex justify-center">
 				<button
 					type="button"

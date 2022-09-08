@@ -55,6 +55,17 @@
 	<div class="text-center">
 		<p>{quiz.description}</p>
 	</div>
+	{#if quiz.cover_image}
+		<div class="flex justify-center align-middle items-center">
+			<div class="h-[15vh] m-auto w-auto my-3">
+				<img
+					class="max-h-full max-w-full  block"
+					src={quiz.cover_image}
+					alt="Not provided"
+				/>
+			</div>
+		</div>
+	{/if}
 	<div class="text-center text-sm pt-1">
 		<ImportedOrNot imported={quiz.imported_from_kahoot} />
 	</div>
@@ -98,7 +109,6 @@
 					<!--					</label>-->
 					{#if question.image}
 						<span>
-							{$t('words.image')}:
 							<img class="pl-8" src={question.image} alt="Not provided" />
 						</span>
 					{/if}

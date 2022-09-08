@@ -10,7 +10,6 @@
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
-	import { mint } from '$lib/hashcash';
 	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
 
@@ -26,24 +25,9 @@
 	export let selected_question: number;
 	export let edit_id: string;
 	export let pow_data;
-	let pow_salt: string;
+	export let pow_salt: string;
 
 	let uppyOpen = false;
-
-	const computePOW = async (salt: string) => {
-		if (pow_salt === undefined) {
-			return;
-		}
-		console.log('Computing POW');
-		pow_data = await mint(salt, 16, '', 8, false);
-		pow_salt = undefined;
-		return;
-	};
-
-	$: {
-		pow_salt;
-		computePOW(pow_salt);
-	}
 
 	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 	const correctTimeInput = (_) => {
