@@ -27,7 +27,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (jwt) {
 			new_jwt = jwt[0];
 		} else {
-			new_jwt = cookie.parse(res.headers.get('set-cookie')).access_token;
+			new_jwt = cookie.parse(res.headers.get('set-cookie') ?? '').access_token;
 		}
 		event.locals.email = await (
 			await fetch(`${process.env.API_URL}/api/v1/users/auth/internal/email`, {
