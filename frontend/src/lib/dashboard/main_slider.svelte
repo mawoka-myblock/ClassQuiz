@@ -64,7 +64,7 @@
 							modules={[Pagination, Keyboard, Navigation]}
 						>
 							<SwiperSlide>
-								<div class="grid grid-cols-6 h-full">
+								<div class="grid grid-cols-6 h-[25vh]">
 									<p
 										style="writing-mode: vertical-lr"
 										class="text-center h-full text-xl p-2"

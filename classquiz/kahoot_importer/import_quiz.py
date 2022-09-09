@@ -7,6 +7,7 @@ import json
 import uuid
 from datetime import datetime
 
+import bleach
 from aiohttp import ClientSession
 
 from classquiz.config import settings, storage, meilisearch
@@ -46,10 +47,13 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
             image = await storage.upload(file_name=image_name, file_data=image_bytes)
             image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
         for a in q.choices:
-            answers.append((ABCDQuizAnswer(right=a.correct, answer=html.unescape(a.answer))))
+            answers.append(
+                (ABCDQuizAnswer(right=a.correct, answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True))))
+            )
+
         quiz_questions.append(
             QuizQuestion(
-                question=q.question,
+                question=html.unescape(bleach.clean(q.question, tags=[], strip=True)),
                 answers=answers,
                 time=str(q.time / 1000),
                 image=image,
@@ -64,8 +68,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
-        title=quiz.kahoot.title,
-        description=quiz.kahoot.description,
+        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=[], strip=True)),
+        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=[], strip=True)),
         created_at=datetime.now(),
         updated_at=datetime.now(),
         user_id=user.id,

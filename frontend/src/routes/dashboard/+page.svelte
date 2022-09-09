@@ -56,7 +56,7 @@
 			quizzes_to_show = quizzes;
 			quizzes_to_show = quizzes_to_show;
 		} else {
-			const res = minisearch.search(search_term);
+			const res = minisearch.search(search_term, { prefix: true, fuzzy: 0.3 });
 			if (res.length === 0) {
 				quizzes_to_show = [];
 				suggestions = minisearch.autoSuggest(search_term);
