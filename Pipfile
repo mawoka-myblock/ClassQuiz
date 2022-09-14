@@ -42,6 +42,7 @@ black = "*"
 pytest-dependency = "*"
 pytest-order = "*"
 pre-commit = "*"
+python-socketio = {extras = ["client"], version = "*"}
 
 [requires]
 python_version = "3.10"

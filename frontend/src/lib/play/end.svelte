@@ -32,10 +32,9 @@
 		);
 
 		function sortObjectbyValue(obj) {
-			const asc = false;
 			const ret = {};
 			Object.keys(obj)
-				.sort((a, b) => obj[asc ? a : b] - obj[asc ? b : a])
+				.sort((a, b) => obj[b] - obj[a])
 				.forEach((s) => (ret[s] = obj[s]));
 			return ret;
 		}
@@ -56,9 +55,18 @@
 					}
 				}
 			}
-			winners_arr = Object.keys(winners);
+
+			let close_to_res = sortObjectbyValue(winners);
+			winners_arr = [];
+			for (const i in close_to_res) {
+				winners_arr.push([i, close_to_res[i]]);
+			}
+
+			winners_arr = winners_arr.sort(function (a, b) {
+				return b[1] - a[1];
+			});
 			data_available = true;
-			return sortObjectbyValue(winners);
+			return close_to_res;
 		} catch (e) {
 			data_available = false;
 		}
@@ -75,10 +83,10 @@
 		<div class="flex mx-auto w-fit flex-col pt-8 gap-2">
 			<div>
 				<p class="text-3xl text-center">
-					{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0]}</span>
+					{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0][0]}</span>
 					<span
 						>{$t('play_page.with_out_of', {
-							correct_questions: winners[winners_arr[0]] ?? 0,
+							correct_questions: winners_arr[0][1] ?? 0,
 							total_question_count: quiz_data.questions.length
 						})}</span
 					>
@@ -87,10 +95,11 @@
 			{#if winners_arr.length >= 2}
 				<div>
 					<p class="text-2xl text-center">
-						{$t('play_page.2nd_place')}: <span class="underline">{winners_arr[1]}</span>
+						{$t('play_page.2nd_place')}:
+						<span class="underline">{winners_arr[1][0]}</span>
 						<span
 							>{$t('play_page.with_out_of', {
-								correct_questions: winners[winners_arr[1]] ?? 0,
+								correct_questions: winners_arr[1][1] ?? 0,
 								total_question_count: quiz_data.questions.length
 							})}</span
 						>
@@ -100,10 +109,11 @@
 			{#if winners_arr.length >= 3}
 				<div>
 					<p class="text-xl text-center">
-						{$t('play_page.3rd place')}: <span class="underline">{winners_arr[2]}</span>
+						{$t('play_page.3rd place')}:
+						<span class="underline">{winners_arr[2][0]}</span>
 						<span>
 							{$t('play_page.with_out_of', {
-								correct_questions: winners[winners_arr[2]] ?? 0,
+								correct_questions: winners_arr[2][1] ?? 0,
 								total_question_count: quiz_data.questions.length
 							})}
 						</span>
