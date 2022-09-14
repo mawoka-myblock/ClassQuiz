@@ -69,7 +69,12 @@
         "result_plural": "Résultats",
         "count": "Compte",
         "private": "Privé",
-        "question_plural": "Questions"
+        "question_plural": "Questions",
+        "find": "Trouver",
+        "game_pin": "Code de jeu",
+        "other": "autre",
+        "other_plural": "autres",
+        "donating": "Donner"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -88,7 +93,35 @@
         "create_or_import": "Créer ou Importer",
         "see_all_quizzes": "Voir tout vos quiz",
         "teachers_site": "Site de l'enseignant",
-        "students_site": "Site de l'étudiant"
+        "students_site": "Site de l'étudiant",
+        "no_tracking": "Pas de tracking",
+        "self_hostable": "Auto-hébergeable",
+        "german_server": "Serveur allemand",
+        "user_friendly": "Ergonomique",
+        "completely_free": "Libre",
+        "quiz_results_downloadable": "Résultats de quiz téléchargeable",
+        "multilingual": "Multilingue",
+        "dark_mode": "Mode nuit",
+        "get_a_quiz": "1. Recevoir un quiz",
+        "create_a_quiz_from_scratch": "Créer un quiz de zéro avec l'éditeur, inclure des images et plus",
+        "find_or_explore": "Rechercher (ou explorer) des quiz créés ou importé par d'autres",
+        "play_quiz": "2. Jouer le quiz",
+        "select_answer": "Sélectionner la réponse",
+        "view_results": "Voir les résultats",
+        "check_if_chosen_wisely": "Vérifier, si vous avez bien choisi",
+        "list_winners": "Lister les gagnants",
+        "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
+        "why_classquiz": "Pourquoi ClassQuiz ?",
+        "no_tracking_content": "Kahoot vous trace avec au moins 2 outils tiers étatsuniens. Classquiz ne vous trace pas du tous !",
+        "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
+        "user_friendly_content": "ClassQuiz essaye de le plus accessible possible, de manière utilisable par le plus grand nombre",
+        "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
+        "quiz_results_downloadable_content": "Les résultats des quiz est aisément exportable en format Excel (apparemment les autres outils ne peuvent pas)",
+        "multilingual_content": "ClassQuiz est déjà entièrement traduit en anglais, allemand, turc, français et en italien. D'autres langues sont en cours de traduction comme l'indonésien ou le catalan.",
+        "dark_mode_content": "L'une des fonctionnalités les plus importantes qu'un site peut avoir !",
+        "german_server_content": "Les serveurs de ClassQuiz sont situés en Germany et gérés par netcup.",
+        "choose_answer_wisely": "Choisissez votre réponse judicieusement",
+        "completely_free_content": "ClassQuiz est complétement libre, sans plans payants ou de redirection pour une version payante. Tout don est donc apprécié !"
     },
     "overview_page": {
         "created_at": "Crée le",
@@ -169,5 +202,10 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Cherchez dans vos quiz"
+    },
+    "footer": {
+        "more_details_here": "Plus de détails ici",
+        "donate": "Si vous trouvez ceci utile, pensez à {{donate_link}}.",
+        "self_ads": "Fait avec ❤️ par {{mawoka_link}} et l'aide de {{others_link}}."
     }
 }
