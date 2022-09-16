@@ -70,7 +70,7 @@
 		<ImportedOrNot imported={quiz.imported_from_kahoot} />
 	</div>
 
-	<div class="flex justify-center m-8">
+	<div class="flex justify-center mt-8 mb-4">
 		{#if logged_in}
 			<button
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
@@ -90,6 +90,14 @@
 				</button>
 			</div>
 		{/if}
+	</div>
+	<div class="flex justify-center m-2">
+		<a
+			class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			href="/practice?quiz_id={quiz.id}"
+		>
+			{$t('words.practice')}
+		</a>
 	</div>
 	<div class="flex justify-center">
 		<a href="mailto:report@mawoka.eu?subject=Report quiz {quiz.id}" class="text-sm underline">

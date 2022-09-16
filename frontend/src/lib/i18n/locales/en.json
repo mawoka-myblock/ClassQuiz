@@ -142,7 +142,8 @@
         "other": "other",
         "other_plural": "others",
         "donating": "donating",
-        "find": "Find"
+        "find": "Find",
+        "practice": "Practice"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",

@@ -105,7 +105,7 @@
         "edit": "Bearbeiten",
         "delete": "Löschen",
         "public": "Öffentlich",
-        "start": "Start",
+        "start": "Starten",
         "connect": "Verbinden",
         "pin": "PIN",
         "kick": "Kicken",
@@ -142,7 +142,8 @@
         "other": "andere",
         "other_plural": "anderen",
         "donating": "Spende",
-        "find": "Finden"
+        "find": "Finden",
+        "practice": "Üben"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
