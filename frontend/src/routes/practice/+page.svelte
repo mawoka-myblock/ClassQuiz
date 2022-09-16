@@ -17,6 +17,9 @@
 
 	const get_quiz = async () => {
 		const res = await fetch(`/api/v1/quiz/get/public/${$page.url.searchParams.get('quiz_id')}`);
+		if (!res.ok) {
+			throw res.status;
+		}
 		quiz = await res.json();
 		return quiz;
 	};
@@ -85,4 +88,10 @@
 			</button>
 		</div>
 	</div>
+{:catch e}
+	{#if e === 404 || e === 400}
+		<h1 class="text-center text-5xl">Quiz not found!</h1>
+	{:else}
+		<h1 class="text-center text-5xl">unknown error!</h1>
+	{/if}
 {/await}
