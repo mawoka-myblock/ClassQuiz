@@ -16,7 +16,14 @@
         "teachers_site": "Öğretmen sitesi",
         "students_site": "Öğrenci sitesi",
         "see_what_true_and_false": "Neyin doğru veya yanlış olduğunu gör",
-        "see_how_many_true_and_false": "Kaç tanesinin doğru veya yanlış olduğunu gör"
+        "see_how_many_true_and_false": "Kaç tanesinin doğru veya yanlış olduğunu gör",
+        "dark_mode": "Karanlık Mod",
+        "german_server_content": "ClassQuiz sunucuları Almanya'dadır ve netcup tarafından sağlanır.",
+        "why_classquiz": "Neden ClassQuiz?",
+        "view_results": "Sonuçları gör",
+        "completely_free": "Tamamen Ücretsiz",
+        "quiz_results_downloadable": "Quiz sonuçları indirilebilir",
+        "multilingual": "Çok dilli"
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
