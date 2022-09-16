@@ -46,7 +46,7 @@
 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 
 	export let languages: Array<{
 		flag: string;

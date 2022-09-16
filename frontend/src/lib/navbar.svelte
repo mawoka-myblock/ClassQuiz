@@ -8,7 +8,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { signedIn, pathname } from '$lib/stores';
 	import { createTippy } from 'svelte-tippy';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 
 	const tippy = createTippy({
 		arrow: true,

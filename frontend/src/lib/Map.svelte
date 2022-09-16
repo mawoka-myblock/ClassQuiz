@@ -4,7 +4,7 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import { Map, Marker } from '@beyonk/svelte-mapbox';
 
 	export let lng: number;

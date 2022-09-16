@@ -6,7 +6,7 @@
 <script lang="ts">
 	import * as Sentry from '@sentry/browser';
 	import { navbarVisible } from '$lib/stores';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import Cookies from 'js-cookie';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';

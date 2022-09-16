@@ -10,7 +10,7 @@
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {

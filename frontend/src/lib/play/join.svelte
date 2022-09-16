@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import { onDestroy, onMount } from 'svelte';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 	import * as Sentry from '@sentry/browser';
 	import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';

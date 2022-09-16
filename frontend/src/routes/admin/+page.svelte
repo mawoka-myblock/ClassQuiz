@@ -11,7 +11,7 @@
 	import { navbarVisible } from '$lib/stores';
 	import type { PlayerAnswer, Player } from '$lib/admin.ts';
 	import SomeAdminScreen from '$lib/admin.svelte';
-	import { browser } from '$app/env';
+	import { browser } from '$app/environment';
 
 	navbarVisible.set(false);
 
