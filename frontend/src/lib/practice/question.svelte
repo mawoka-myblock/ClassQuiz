@@ -54,6 +54,8 @@
 					disabled
 					class:bg-green-500={question.answers[i].right}
 					class:bg-red-500={!question.answers[i].right}
+					class:text-xl={i === selected_question}
+					class:underline={i === selected_question}
 					class="p-2 rounded-lg flex justify-center w-full transition my-5"
 					>{answer.answer}</button
 				>
