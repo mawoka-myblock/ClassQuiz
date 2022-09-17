@@ -254,7 +254,7 @@
 					>
 						<svg
 							aria-label="Pencil-Icon"
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -268,8 +268,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl w-fit">{$t('words.create')}</h5>
-					<p>{$t('index_page.create_a_quiz_from_scratch')}</p>
+					<h5 class="text-xl w-fit dark:text-black">{$t('words.create')}</h5>
+					<p class="dark:text-black">{$t('index_page.create_a_quiz_from_scratch')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -283,7 +283,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -298,8 +298,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">{$t('words.find')}</h5>
-					<p>{$t('index_page.find_or_explore')}</p>
+					<h5 class="text-xl dark:text-black">{$t('words.find')}</h5>
+					<p class="dark:text-black">{$t('index_page.find_or_explore')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -313,7 +313,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -328,8 +328,10 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">{$t('words.import')}</h5>
-					<p>{$t('index_page.import_quiz_from_kahoot_and_edit')}</p>
+					<h5 class="text-xl dark:text-black">{$t('words.import')}</h5>
+					<p class="dark:text-black">
+						{$t('index_page.import_quiz_from_kahoot_and_edit')}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -389,7 +391,7 @@
 					>
 						<svg
 							aria-label="Mouse-Click icon"
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -403,8 +405,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl w-fit">{$t('index_page.select_answer')}</h5>
-					<p>{$t('index_page.choose_answer_wisely')}</p>
+					<h5 class="text-xl w-fit dark:text-black">{$t('index_page.select_answer')}</h5>
+					<p class="dark:text-black">{$t('index_page.choose_answer_wisely')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -419,7 +421,7 @@
 					>
 						<svg
 							aria-label="context-menu icon"
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -433,8 +435,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">{$t('index_page.view_results')}</h5>
-					<p>{$t('index_page.check_if_chosen_wisely')}</p>
+					<h5 class="text-xl dark:text-black">{$t('index_page.view_results')}</h5>
+					<p class="dark:text-black">{$t('index_page.check_if_chosen_wisely')}</p>
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
@@ -449,7 +451,7 @@
 					>
 						<svg
 							aria-label="sparkling stars-icon"
-							class="w-8 h-8"
+							class="w-8 h-8 text-black"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -463,8 +465,8 @@
 							/>
 						</svg>
 					</div>
-					<h5 class="text-xl">{$t('index_page.list_winners')}</h5>
-					<p>{$t('index_page.get_ranking_and_winners')}</p>
+					<h5 class="text-xl dark:text-black">{$t('index_page.list_winners')}</h5>
+					<p class="dark:text-black">{$t('index_page.get_ranking_and_winners')}</p>
 				</div>
 			</div>
 		</div>
@@ -482,7 +484,7 @@
 		>
 			<div>
 				<div class="p-12 rounded-lg flex justify-center items-center h-full">
-					<p>
+					<p class="dark:text-black">
 						{classquiz_reasons[selected_classquiz_reason].content}
 					</p>
 				</div>
@@ -499,7 +501,7 @@
 						class:shadow-2xl={selected_classquiz_reason === index}
 						class:opacity-70={selected_classquiz_reason !== index}
 					>
-						<h5 class="text-xl">{reason.headline}</h5>
+						<h5 class="text-xl dark:text-black">{reason.headline}</h5>
 					</div>
 				{/each}
 			</div>
