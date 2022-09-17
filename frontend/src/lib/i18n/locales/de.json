@@ -143,7 +143,8 @@
         "other_plural": "anderen",
         "donating": "Spende",
         "find": "Finden",
-        "practice": "Üben"
+        "practice": "Üben",
+        "error": "Fehler"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -215,5 +216,9 @@
         "more_details_here": "Mehr Details sind hier",
         "donate": "Wenn ClassQuiz hilfreich ist, würde eine {{donate_link}} helfen.",
         "self_ads": "Gemacht mit ❤️ von {{mawoka_link}} und mit der Hilfe von {{others_link}}."
+    },
+    "error_page": {
+        "404_text": "Die Seite nach der du suchst existiert nicht mehr oder hat nie existiert. Wer weiß?",
+        "unknown_error_text": "Das sollte nicht passieren. Es ist wahrscheinlich meine Schuld, oder du hast eine magische Fähigkeit, Fehler zu erschaffen..."
     }
 }

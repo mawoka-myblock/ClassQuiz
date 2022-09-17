@@ -143,7 +143,8 @@
         "other_plural": "others",
         "donating": "donating",
         "find": "Find",
-        "practice": "Practice"
+        "practice": "Practice",
+        "error": "Error"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -208,5 +209,9 @@
         "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",
         "more_details_here": "More details are here",
         "donate": "If you find this useful, please consider {{donate_link}}."
+    },
+    "error_page": {
+        "404_text": "The page you were looking for is gone or never even existed. Who knows?",
+        "unknown_error_text": "That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power to break stuff..."
     }
 }

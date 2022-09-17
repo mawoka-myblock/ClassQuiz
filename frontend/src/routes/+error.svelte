@@ -6,9 +6,11 @@
 <script lang="ts">
 	import { navbarVisible } from '$lib/stores';
 	import { page } from '$app/stores';
+	import { getLocalization } from '$lib/i18n';
 
 	navbarVisible.set(true);
 	let status = $page.status;
+	const { t } = getLocalization();
 </script>
 
 <!--
@@ -18,18 +20,17 @@
   -->
 
 <svelte:head>
-	<title>Error - {status}</title>
+	<title>{$t('words.error')} - {status}</title>
 </svelte:head>
 <h1 class="text-6xl text-center">{status}</h1>
 
 {#if status === 404}
 	<p class="text-center">
-		The page you were looking for is gone or never even existed. Who knows?
+		{$t('error_page.404_text')}
 	</p>
 {:else}
 	<p>
-		That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power
-		to break stuff...
+		{$t('error_page.unknown_error_text')}
 	</p>
 {/if}
 
