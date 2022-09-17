@@ -7,12 +7,14 @@
 	import type { Question } from '$lib/quiz_types';
 	import { fly } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
+	import { QuizQuestionType } from '$lib/quiz_types';
+	import Spinner from '$lib/Spinner.svelte';
 
 	export let question: Question;
 
 	const { t } = getLocalization();
 
-	let selected_question = undefined;
+	let selected_answer = undefined;
 	let timer_res = question.time;
 	let show_results = false;
 
@@ -31,6 +33,11 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
+	let slider_value = [0];
+	if (question.type === QuizQuestionType.RANGE) {
+		slider_value[0] = (question.answers.max - question.answers.min) / 2 + question.answers.min;
+	}
+	let slider_values = [question.answers.min_correct ?? 0, question.answers.max_correct ?? 0];
 
 	timer(question.time);
 </script>
@@ -47,40 +54,85 @@
 		</div>
 	{/if}
 	<p class="text-center">{timer_res}</p>
-	{#if show_results}
-		<div>
-			{#each question.answers as answer, i}
-				<button
-					disabled
-					class:bg-green-500={question.answers[i].right}
-					class:bg-red-500={!question.answers[i].right}
-					class:text-xl={i === selected_question}
-					class:underline={i === selected_question}
-					class="p-2 rounded-lg flex justify-center w-full transition my-5"
-					>{answer.answer}</button
-				>
-			{/each}
-		</div>
+	{#if question.type === QuizQuestionType.ABCD}
+		{#if show_results}
+			<div>
+				{#each question.answers as answer, i}
+					<button
+						disabled
+						class:bg-green-500={question.answers[i].right}
+						class:bg-red-500={!question.answers[i].right}
+						class:text-xl={i === selected_answer}
+						class:underline={i === selected_answer}
+						class="p-2 rounded-lg flex justify-center w-full transition my-5"
+						>{answer.answer}</button
+					>
+				{/each}
+			</div>
+		{:else}
+			<div>
+				{#each question.answers as answer, i}
+					<button
+						disabled={selected_answer !== undefined || timer_res === '0'}
+						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale"
+						on:click={() => {
+							selected_answer = i;
+							timer_res = '0';
+						}}>{answer.answer}</button
+					>
+				{/each}
+				{#if timer_res === '0'}
+					<button
+						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5"
+						on:click={() => {
+							show_results = true;
+						}}>{$t('admin_page.get_results')}</button
+					>
+				{/if}
+			</div>
+		{/if}
+	{:else if timer_res === '0'}
+		{#await import('svelte-range-slider-pips')}
+			<Spinner />
+		{:then c}
+			<div class="grayscale pointer-events-none w-full">
+				<svelte:component
+					this={c.default}
+					bind:values={slider_values}
+					bind:min={question.answers.min}
+					bind:max={question.answers.max}
+					pips
+					float
+					all="label"
+				/>
+			</div>
+		{/await}
 	{:else}
-		<div>
-			{#each question.answers as answer, i}
+		{#await import('svelte-range-slider-pips')}
+			<Spinner />
+		{:then c}
+			<div class:pointer-events-none={selected_answer !== undefined}>
+				<svelte:component
+					this={c.default}
+					bind:values={slider_value}
+					bind:min={question.answers.min}
+					bind:max={question.answers.max}
+					pips
+					float
+					all="label"
+				/>
+			</div>
+			<div class="flex justify-center">
 				<button
-					disabled={selected_question !== undefined || timer_res === '0'}
-					class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale"
+					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+					disabled={selected_answer !== undefined}
 					on:click={() => {
-						selected_question = i;
+						selected_answer = slider_value[0];
 						timer_res = '0';
-					}}>{answer.answer}</button
-				>
-			{/each}
-			{#if timer_res === '0'}
-				<button
-					class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5"
-					on:click={() => {
-						show_results = true;
-					}}>{$t('admin_page.get_results')}</button
-				>
-			{/if}
-		</div>
+					}}
+					>{$t('words.submit')}
+				</button>
+			</div>
+		{/await}
 	{/if}
 </div>
