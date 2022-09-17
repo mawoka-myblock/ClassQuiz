@@ -38,6 +38,7 @@ export interface Question {
 export interface Answer {
 	right: boolean;
 	answer: string;
+	color?: string;
 }
 
 export interface EditorData {

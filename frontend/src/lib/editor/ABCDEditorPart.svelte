@@ -9,6 +9,7 @@
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
 	import { getLocalization } from '$lib/i18n';
+	import { invertColor } from '$lib/helpers';
 
 	const { t } = getLocalization();
 
@@ -32,11 +33,6 @@
 	{#if Array.isArray(data.questions[selected_question].answers)}
 		{#each data.questions[selected_question].answers as answer, index}
 			<div
-				on:contextmenu|preventDefault={() => {
-					data.questions[selected_question].answers.splice(index, 1);
-					data.questions[selected_question].answers =
-						data.questions[selected_question].answers;
-				}}
 				out:fade={{ duration: 150 }}
 				class="p-4 rounded-lg flex justify-center w-full transition"
 				class:bg-red-500={!answer.right}
@@ -48,7 +44,13 @@
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="bg-transparent border-b-2 border-dotted w-5/6 text-center"
+					on:contextmenu|preventDefault={() => {
+						data.questions[selected_question].answers.splice(index, 1);
+						data.questions[selected_question].answers =
+							data.questions[selected_question].answers;
+					}}
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg"
+					style="background-color: {answer.color ?? 'transparent'}"
 					placeholder="Empty..."
 				/>
 				<button
@@ -90,6 +92,14 @@
 						</svg>
 					{/if}
 				</button>
+				<input
+					class="rounded-lg p-1"
+					type="color"
+					bind:value={answer.color}
+					on:contextmenu|preventDefault={() => {
+						answer.color = null;
+					}}
+				/>
 			</div>
 		{/each}
 	{/if}

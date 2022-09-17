@@ -9,6 +9,7 @@
 	import { socket } from '$lib/socket';
 	import Spinner from '../Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
+	import { invertColor } from '$lib/helpers';
 
 	const { t } = getLocalization();
 
@@ -86,7 +87,8 @@
 		<div class="flex flex-wrap">
 			{#each question.answers as answer}
 				<button
-					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+					class="w-1/2 text-3xl my-2 disabled:opacity-60 border border-white"
+					style="background-color: {answer.color ?? '#B45309'}"
 					disabled={selected_answer !== undefined}
 					on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
 				>

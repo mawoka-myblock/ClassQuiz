@@ -65,6 +65,7 @@ class UserSession(ormar.Model):
 class ABCDQuizAnswer(BaseModel):
     right: bool
     answer: str
+    color: str | None
 
 
 class RangeQuizAnswer(BaseModel):
