@@ -253,6 +253,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
+							aria-label="Pencil-Icon"
 							class="w-8 h-8"
 							fill="none"
 							stroke="currentColor"
@@ -287,6 +288,7 @@
 							stroke="currentColor"
 							viewBox="0 0 24 24"
 							xmlns="http://www.w3.org/2000/svg"
+							aria-label="magnifying glass-Icon"
 						>
 							<path
 								stroke-linecap="round"
@@ -316,6 +318,7 @@
 							stroke="currentColor"
 							viewBox="0 0 24 24"
 							xmlns="http://www.w3.org/2000/svg"
+							aria-label="Cloud with arrow pointing down"
 						>
 							<path
 								stroke-linecap="round"
@@ -385,6 +388,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
+							aria-label="Mouse-Click icon"
 							class="w-8 h-8"
 							fill="none"
 							stroke="currentColor"
@@ -414,6 +418,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
+							aria-label="context-menu icon"
 							class="w-8 h-8"
 							fill="none"
 							stroke="currentColor"
@@ -443,6 +448,7 @@
 						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
+							aria-label="sparkling stars-icon"
 							class="w-8 h-8"
 							fill="none"
 							stroke="currentColor"

@@ -180,11 +180,13 @@
 					switchDarkMode(false);
 				}}
 				use:tippy={{ content: 'Switch light mode on' }}
+				aria-label="Activate light mode"
 			>
 				<!-- Heroicons: sun -->
 				<svg
 					class="w-6 h-6 text-black"
 					fill="none"
+					aria-label="Sun-Icon"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg"
@@ -203,10 +205,12 @@
 				on:click={() => {
 					switchDarkMode(true);
 				}}
+				aria-label="Activate darkmode"
 				use:tippy={{ content: 'Switch dark mode on' }}
 			>
 				<!-- Heroicons: moon -->
 				<svg
+					aria-label="Moon-Icon"
 					class="w-6 h-6"
 					fill="none"
 					stroke="currentColor"
