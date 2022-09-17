@@ -22,6 +22,7 @@ from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
+from classquiz.socket_server import sio
 
 settings = settings()
 
@@ -298,3 +299,11 @@ async def get_game_session(game_pin: int):
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
     return game
+
+
+@router.post("/live/set_question")
+async def set_next_question(game_pin: int, question_number: int):
+    redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    sio.emit("set_question_number", question_number, room=game_pin)
