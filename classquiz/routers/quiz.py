@@ -250,9 +250,10 @@ async def export_quiz_answers(export_token: str, game_pin: str):
 class GetLiveDataResponse(BaseModel):
     quiz: PlayGame
     data: GameSession
+    player_count: int
 
 
-@router.get("/live")
+@router.get("/live", response_model=GetLiveDataResponse)
 async def get_live_game_data(game_pin: int):
     redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None:
@@ -268,4 +269,4 @@ async def get_live_game_data(game_pin: int):
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
 
-    return GetLiveDataResponse(quiz=game, data=data)
+    return GetLiveDataResponse(quiz=game, data=data, player_count=len(data.players))
