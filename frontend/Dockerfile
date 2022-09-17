@@ -35,7 +35,7 @@ FROM node:18.5-bullseye-slim
 
 # change working directory
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@7.0.0-rc.2 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@7.5.0 --activate && pnpm i
 # copy files from previous step
 COPY --from=builder /usr/src/app/build .
 COPY --from=builder /usr/src/app/package.json .
