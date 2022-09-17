@@ -28,9 +28,10 @@ export const start_game = async (id: string) => {
 		alertModal.subscribe((_) => {
 			window.location.assign('/account/login?returnTo=/dashboard');
 		});
+	} else {
+		const data = await res.json();
+		// eslint-disable-next-line no-undef
+		plausible('Started Game', { props: { quiz_id: id } });
+		window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 	}
-	const data = await res.json();
-	// eslint-disable-next-line no-undef
-	plausible('Started Game', { props: { quiz_id: id } });
-	window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 };
