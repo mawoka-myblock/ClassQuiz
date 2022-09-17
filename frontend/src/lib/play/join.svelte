@@ -13,6 +13,7 @@
 
 	const { t } = getLocalization();
 	export let game_pin: string;
+	export let game_mode;
 
 	let username = '';
 	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
@@ -54,8 +55,10 @@
 		let captcha_resp: string;
 		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
 		let captcha_enabled;
+		const json = await res.json();
+		game_mode = json.game_mode;
 		if (res.status === 200) {
-			captcha_enabled = (await res.json()).enabled;
+			captcha_enabled = json.enabled;
 		}
 		if (res.status === 404) {
 			alertModal.set({

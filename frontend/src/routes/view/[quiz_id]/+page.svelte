@@ -9,7 +9,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
-	import { start_game } from '$lib/dashboard/start_game';
+	import { start_game } from '../../../lib/dashboard/start_game.svelte';
 
 	const tippy = createTippy({
 		arrow: true,

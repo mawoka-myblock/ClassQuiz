@@ -11,8 +11,9 @@
 	import { Pagination, EffectCoverflow, Keyboard, Mousewheel, Navigation } from 'swiper';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import { getLocalization } from '../i18n';
-	import { start_game } from './start_game';
+	import StartGamePopup from './start_game.svelte';
 
+	let start_game = null;
 	const { t } = getLocalization();
 	export let quizzes;
 
@@ -149,7 +150,7 @@
 										>
 										<button
 											on:click={() => {
-												start_game(quiz.id);
+												start_game = quiz.id;
 											}}
 											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
 										>
@@ -248,3 +249,7 @@
 		{/each}
 	</Swiper>
 </div>
+
+{#if start_game !== null}
+	<StartGamePopup bind:quiz_id={start_game} />
+{/if}

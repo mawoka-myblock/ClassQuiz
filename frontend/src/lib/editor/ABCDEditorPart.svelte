@@ -9,7 +9,6 @@
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
 	import { getLocalization } from '$lib/i18n';
-	import { invertColor } from '$lib/helpers';
 
 	const { t } = getLocalization();
 

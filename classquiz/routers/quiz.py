@@ -90,7 +90,9 @@ async def get_public_quiz(quiz_id: str):
 
 
 @router.post("/start/{quiz_id}")
-async def start_quiz(quiz_id: str, captcha_enabled: bool = True, user: User = Depends(get_current_user)):
+async def start_quiz(
+    quiz_id: str, game_mode: str, captcha_enabled: bool = True, user: User = Depends(get_current_user)
+):
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
@@ -110,6 +112,7 @@ async def start_quiz(quiz_id: str, captcha_enabled: bool = True, user: User = De
         description=quiz.description,
         captcha_enabled=captcha_enabled,
         cover_image=quiz.cover_image,
+        game_mode=game_mode,
     )
     await redis.set(f"game:{str(game.game_pin)}", (game.json()), ex=18000)
     return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
@@ -117,6 +120,7 @@ async def start_quiz(quiz_id: str, captcha_enabled: bool = True, user: User = De
 
 class CheckIfCaptchaEnabledResponse(BaseModel):
     enabled: bool
+    game_mode: str | None
 
 
 @router.get("/play/check_captcha/{game_pin}", response_model=CheckIfCaptchaEnabledResponse)
@@ -124,10 +128,11 @@ async def check_if_captcha_enabled(game_pin: str):
     game = await redis.get(f"game:{game_pin}")
     if game is None:
         return JSONResponse(status_code=404, content={"detail": "game not found"})
-    try:
-        return CheckIfCaptchaEnabledResponse(**{"enabled": json.loads(game)["captcha_enabled"]})
-    except (KeyError, TypeError):
-        return CheckIfCaptchaEnabledResponse(**{"enabled": True})
+    game = PlayGame.parse_raw(game)
+    if game.captcha_enabled:
+        return CheckIfCaptchaEnabledResponse(enabled=True, game_mode=game.game_mode)
+    else:
+        return CheckIfCaptchaEnabledResponse(enabled=False, game_mode=game.game_mode)
 
 
 @router.get("/join/{game_pin}", deprecated=True)

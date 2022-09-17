@@ -9,9 +9,12 @@
 	import { get_question_title } from '$lib/admin.ts';
 	import type { PlayerAnswer } from '$lib/admin.ts';
 	import { socket } from './socket';
+	import { QuizQuestionType } from '$lib/quiz_types';
+	import { kahoot_icons } from './play/kahoot_mode_assets/kahoot_icons';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
+	export let game_mode;
 
 	const { t } = getLocalization();
 
@@ -84,10 +87,25 @@
 		<div>
 			<img
 				src={quiz_data.questions[selected_question].image}
-				class="h-2/5 object-cover mx-auto mb-8"
+				class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 				alt="Content for Question"
 			/>
 		</div>
+	{/if}
+	{#if game_mode === 'kahoot'}
+		{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD}
+			<div class="grid grid-cols-2 gap-2 w-full p-4">
+				{#each quiz_data.questions[selected_question].answers as answer, i}
+					<div
+						class="rounded-lg h-fit flex align-middle"
+						style="background-color: {answer.color ?? '#B45309'}"
+					>
+						<img class="w-10 inline-block" alt="icon" src={kahoot_icons[i]} />
+						<span class="text-center text-2xl px-2 py-4">{answer.answer}</span>
+					</div>
+				{/each}
+			</div>
+		{/if}
 	{/if}
 {/if}
 <br />

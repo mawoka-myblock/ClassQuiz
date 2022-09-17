@@ -22,6 +22,7 @@
 		started: boolean;
 	}
 
+	let game_mode;
 	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
 
 	interface PlayerAnswer {
@@ -118,7 +119,7 @@
 </svelte:head>
 <div>
 	{#if !gameMeta.started && gameData === undefined}
-		<JoinGame {game_pin} />
+		<JoinGame {game_pin} bind:game_mode />
 	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
 		<ShowEndScreen bind:final_results bind:quiz_data={gameData} />
 	{:else if gameData !== undefined && question_index === ''}
@@ -130,6 +131,7 @@
 	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 		{#key unique}
 			<Question
+				bind:game_mode
 				bind:question={gameData.questions[parseInt(question_index)]}
 				bind:question_index
 			/>

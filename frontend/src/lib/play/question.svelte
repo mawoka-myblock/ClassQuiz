@@ -9,11 +9,12 @@
 	import { socket } from '$lib/socket';
 	import Spinner from '../Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
-	import { invertColor } from '$lib/helpers';
+	import { kahoot_icons } from './kahoot_mode_assets/kahoot_icons';
 
 	const { t } = getLocalization();
 
 	export let question: Question;
+	export let game_mode;
 	export let question_index: string | number;
 
 	if (typeof question_index === 'string') {
@@ -84,16 +85,33 @@
 {/if}
 {#if timer_res !== '0'}
 	{#if question.type === QuizQuestionType.ABCD}
-		<div class="flex flex-wrap">
-			{#each question.answers as answer}
-				<button
-					class="w-1/2 text-3xl my-2 disabled:opacity-60 border border-white"
-					style="background-color: {answer.color ?? '#B45309'}"
-					disabled={selected_answer !== undefined}
-					on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
-				>
-			{/each}
-		</div>
+		{#if game_mode === 'normal'}
+			<div class="flex flex-wrap">
+				{#each question.answers as answer}
+					<button
+						class="w-1/2 text-3xl my-2 disabled:opacity-60 border border-white"
+						style="background-color: {answer.color ?? '#B45309'}"
+						disabled={selected_answer !== undefined}
+						on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
+					>
+				{/each}
+			</div>
+		{:else if game_mode === 'kahoot'}
+			<div class="grid grid-cols-2 gap-2 w-full p-4">
+				{#each question.answers as answer, i}
+					<button
+						class="rounded-lg h-fit flex align-middle justify-center disabled:opacity-60"
+						style="background-color: {answer.color ?? '#B45309'}"
+						disabled={selected_answer !== undefined}
+						on:click={() => selectAnswer(answer.answer)}
+					>
+						<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
+					</button>
+				{/each}
+			</div>
+		{:else}
+			<p>Error</p>
+		{/if}
 	{:else if question.type === QuizQuestionType.RANGE}
 		{#await import('svelte-range-slider-pips')}
 			<Spinner />

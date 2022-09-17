@@ -158,6 +158,7 @@ class PlayGame(BaseModel):
     started: bool = False
     captcha_enabled: bool = False
     cover_image: str | None
+    game_mode: str | None
 
 
 class GamePlayer(BaseModel):

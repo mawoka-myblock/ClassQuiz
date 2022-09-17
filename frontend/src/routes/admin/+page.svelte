@@ -12,6 +12,7 @@
 	import type { PlayerAnswer, Player } from '$lib/admin.ts';
 	import SomeAdminScreen from '$lib/admin.svelte';
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	navbarVisible.set(false);
 
@@ -22,6 +23,7 @@
 	// 	game_pin: '66190765'
 	// };
 	export let data;
+	let game_mode;
 	let { game_pin, auto_connect, game_token } = data;
 
 	let players: Array<Player> = [];
@@ -35,15 +37,21 @@
 	let dataexport_download_a;
 	let warnToLeave = true;
 
-	const connect = () => {
+	const connect = async () => {
 		socket.emit('register_as_admin', {
 			game_pin: game_pin,
 			game_id: game_token
 		});
+		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
+		const json = await res.json();
+		game_mode = json.game_mode;
 	};
-	if (auto_connect) {
-		connect();
-	}
+	onMount(() => {
+		if (auto_connect) {
+			connect();
+		}
+	});
+
 	socket.on('registered_as_admin', (data) => {
 		quiz_data = JSON.parse(data['game']);
 		console.log(quiz_data);
@@ -152,7 +160,13 @@
 		</div>
 	{/if}
 {:else}
-	<SomeAdminScreen bind:final_results bind:game_pin bind:game_token bind:quiz_data />
+	<SomeAdminScreen
+		bind:final_results
+		bind:game_pin
+		bind:game_token
+		bind:quiz_data
+		bind:game_mode
+	/>
 {/if}
 
 <a
