@@ -80,47 +80,54 @@
 <div>
 	<h1 class="mx-auto text-center text-6xl mt-8">{$t('play_page.end_sentence')}</h1>
 	{#if data_available}
-		<div class="flex mx-auto w-fit flex-col pt-8 gap-2">
-			<div>
-				<p class="text-3xl text-center">
-					{$t('play_page.1st_place')}: <span class="underline">{winners_arr[0][0]}</span>
-					<span
-						>{$t('play_page.with_out_of', {
-							correct_questions: winners_arr[0][1] ?? 0,
-							total_question_count: quiz_data.questions.length
-						})}</span
-					>
-				</p>
+		{#if winners_arr[0][0] === undefined}
+			<div class="flex justify-center">
+				<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
 			</div>
-			{#if winners_arr.length >= 2}
+		{:else}
+			<div class="flex mx-auto w-fit flex-col pt-8 gap-2">
 				<div>
-					<p class="text-2xl text-center">
-						{$t('play_page.2nd_place')}:
-						<span class="underline">{winners_arr[1][0]}</span>
+					<p class="text-3xl text-center">
+						{$t('play_page.1st_place')}:
+						<span class="underline">{winners_arr[0][0]}</span>
 						<span
 							>{$t('play_page.with_out_of', {
-								correct_questions: winners_arr[1][1] ?? 0,
+								correct_questions: winners_arr[0][1] ?? 0,
 								total_question_count: quiz_data.questions.length
 							})}</span
 						>
 					</p>
 				</div>
-			{/if}
-			{#if winners_arr.length >= 3}
-				<div>
-					<p class="text-xl text-center">
-						{$t('play_page.3rd place')}:
-						<span class="underline">{winners_arr[2][0]}</span>
-						<span>
-							{$t('play_page.with_out_of', {
-								correct_questions: winners_arr[2][1] ?? 0,
-								total_question_count: quiz_data.questions.length
-							})}
-						</span>
-					</p>
-				</div>
-			{/if}
-		</div>
+				{#if winners_arr.length >= 2 && winners_arr[1][0] !== undefined}
+					<div>
+						<p class="text-2xl text-center">
+							{$t('play_page.2nd_place')}:
+							<span class="underline">{winners_arr[1][0]}</span>
+							<span
+								>{$t('play_page.with_out_of', {
+									correct_questions: winners_arr[1][1] ?? 0,
+									total_question_count: quiz_data.questions.length
+								})}</span
+							>
+						</p>
+					</div>
+				{/if}
+				{#if winners_arr.length >= 3 && winners_arr[2][0] !== undefined}
+					<div>
+						<p class="text-xl text-center">
+							{$t('play_page.3rd place')}:
+							<span class="underline">{winners_arr[2][0]}</span>
+							<span>
+								{$t('play_page.with_out_of', {
+									correct_questions: winners_arr[2][1] ?? 0,
+									total_question_count: quiz_data.questions.length
+								})}
+							</span>
+						</p>
+					</div>
+				{/if}
+			</div>
+		{/if}
 	{:else}
 		<div class="flex justify-center">
 			<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
