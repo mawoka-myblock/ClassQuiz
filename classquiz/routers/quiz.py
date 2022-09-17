@@ -7,6 +7,7 @@ import re
 import uuid
 from datetime import datetime
 from random import randint
+from typing import Dict
 
 import ormar.exceptions
 
@@ -273,12 +274,12 @@ async def get_live_game_data(game_pin: int):
 
 
 @router.get("/live/user_count")
-async def get_game_user_count(game_pin: int) -> int:
+async def get_game_user_count(game_pin: int) -> dict[str, int]:
     redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found")
     session = GameSession.parse_raw(redis_res)
-    return len(session.players)
+    return {"player_count": len(session.players)}
 
 
 @router.get("/live/players", response_model=GameSession)
