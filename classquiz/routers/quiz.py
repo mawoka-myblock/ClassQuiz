@@ -18,7 +18,7 @@ import bleach
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame
+from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
 
@@ -245,3 +245,27 @@ async def export_quiz_answers(export_token: str, game_pin: str):
         media_type="application/vnd.ms-excel",
         headers={"Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title}.xlsx"},
     )
+
+
+class GetLiveDataResponse(BaseModel):
+    quiz: PlayGame
+    data: GameSession
+
+
+@router.get("/live")
+async def get_live_game_data(game_pin: int):
+    redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    game = PlayGame.parse_raw(redis_res)
+    data = GameSession.parse_raw(await redis.get(f"game_session:{game_pin}"))
+    for i in range(0, len(game.questions)):
+        res = await redis.get(f"game_session:{game_pin}:{i}")
+        if res is None:
+            break
+        else:
+            res = json.loads(res)
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
+            data.answers.append(ga_1)
+
+    return GetLiveDataResponse(quiz=game, data=data)

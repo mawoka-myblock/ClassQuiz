@@ -10,7 +10,7 @@ import socketio
 
 from typing import Any
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame, QuizQuestionType
+from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer
 from pydantic import BaseModel, ValidationError
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
@@ -32,18 +32,6 @@ class _JoinGameData(BaseModel):
     username: str
     game_pin: str
     captcha: str | None
-
-
-class _GameSessionPlayer(BaseModel):
-    username: str
-    sid: str
-
-
-class _GameSession(BaseModel):
-    admin: str
-    game_id: str
-    players: list[_GameSessionPlayer | None]
-    answers: list[Any]
 
 
 @sio.event
@@ -86,11 +74,11 @@ async def join_game(sid: str, data: dict):
     await sio.save_session(sid, session)
     await sio.emit("joined_game", redis_res, room=sid)
     redis_res = await redis.get(f"game_session:{data.game_pin}")
-    redis_res = _GameSession.parse_raw(redis_res)
-    redis_res.players.append(_GameSessionPlayer(username=data.username, sid=sid))
+    redis_res = GameSession.parse_raw(redis_res)
+    redis_res.players.append(GamePlayer(username=data.username, sid=sid))
     await redis.set(
         f"game_session:{data.game_pin}",
-        _GameSession(admin=redis_res.admin, game_id=redis_res.game_id, players=redis_res.players, answers=[]).json(),
+        GameSession(admin=redis_res.admin, game_id=redis_res.game_id, players=redis_res.players, answers=[]).json(),
         ex=18000,
     )
     await sio.emit(
@@ -126,7 +114,7 @@ async def register_as_admin(sid: str, data: dict):
     if (await redis.get(f"game_session:{game_pin}")) is None:
         await redis.set(
             f"game_session:{game_pin}",
-            _GameSession(admin=sid, game_id=game_id, answers=[], players=[]).json(),
+            GameSession(admin=sid, game_id=game_id, answers=[], players=[]).json(),
             ex=18000,
         )
 

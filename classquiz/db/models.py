@@ -164,22 +164,22 @@ class GamePlayer(BaseModel):
     sid: str
 
 
-class GameAnser2(BaseModel):
+class GameAnswer2(BaseModel):
     username: str
     right: bool
     answer: str
 
 
-class GameAnser1(BaseModel):
+class GameAnswer1(BaseModel):
     id: int
-    answers: list[GameAnser2]
+    answers: list[GameAnswer2]
 
 
 class GameSession(BaseModel):
     admin: str
     game_id: str
     players: list[GamePlayer | None]
-    answers: list[GameAnser1 | None]
+    answers: list[GameAnswer1 | None]
 
 
 class UpdatePassword(BaseModel):
