@@ -270,3 +270,30 @@ async def get_live_game_data(game_pin: int):
             data.answers.append(ga_1)
 
     return GetLiveDataResponse(quiz=game, data=data, player_count=len(data.players))
+
+
+@router.get("/live/user_count")
+async def get_game_user_count(game_pin: int) -> int:
+    redis_res = await redis.get(f"game_session:{game_pin}")
+    if redis_res is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    session = GameSession.parse_raw(redis_res)
+    return len(session.players)
+
+
+@router.get("/live/players", response_model=GameSession)
+async def get_game_session(game_pin: int):
+    redis_res = await redis.get(f"game_session:{game_pin}")
+    if redis_res is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    data = GameSession.parse_raw(redis_res)
+    game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
+    for i in range(0, len(game.questions)):
+        res = await redis.get(f"game_session:{game_pin}:{i}")
+        if res is None:
+            break
+        else:
+            res = json.loads(res)
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
+            data.answers.append(ga_1)
+    return game
