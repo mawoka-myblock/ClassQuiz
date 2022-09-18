@@ -71,7 +71,9 @@
 	$: {
 		try {
 			circular_prgoress = 1 - ((100 / question.time) * parseInt(timer_res)) / 100;
-		} catch {}
+		} catch {
+			circular_prgoress = 0;
+		}
 	}
 </script>
 

@@ -81,7 +81,9 @@
 			circular_prgoress =
 				1 -
 				((100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)) / 100;
-		} catch {}
+		} catch {
+			circular_prgoress = 0;
+		}
 	}
 </script>
 
