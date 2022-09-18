@@ -9,12 +9,24 @@
 	import { createTippy } from 'svelte-tippy';
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
-	import { start_game } from '../../../lib/dashboard/start_game.svelte';
+	import StartGamePopup from '$lib/dashboard/start_game.svelte';
+	import { onMount } from 'svelte';
 
 	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle',
 		placement: 'right'
+	});
+
+	let start_game = null;
+
+	const close_start_game_if_esc_is_pressed = (key: KeyboardEvent) => {
+		if (key.code === 'Escape') {
+			start_game = null;
+		}
+	};
+	onMount(() => {
+		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
 
 	const { t } = getLocalization();
@@ -75,7 +87,7 @@
 			<button
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 				on:click={() => {
-					start_game(quiz.id);
+					start_game = quiz.id;
 				}}
 			>
 				{$t('words.start')}
@@ -166,3 +178,7 @@
 		</div>
 	{/each}
 </div>
+
+{#if start_game !== null}
+	<StartGamePopup bind:quiz_id={start_game} />
+{/if}
