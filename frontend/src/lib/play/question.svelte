@@ -10,6 +10,7 @@
 	import Spinner from '../Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { kahoot_icons } from './kahoot_mode_assets/kahoot_icons';
+	import CircularTimer from '$lib/play/circular_progress.svelte';
 
 	const { t } = getLocalization();
 
@@ -66,13 +67,21 @@
 		}
 	};
 	$: set_answer_if_not_set_range(timer_res);
+	let circular_prgoress = 0;
+	$: {
+		try {
+			circular_prgoress = 1 - ((100 / question.time) * parseInt(timer_res)) / 100;
+		} catch {}
+	}
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
 	<h1 class="text-6xl text-center">
 		{question.question}
 	</h1>
-	<span class="text-center py-2 text-lg">{timer_res}</span>
+	<div class="mx-auto my-2">
+		<CircularTimer bind:text={timer_res} bind:progress={circular_prgoress} color="#ef4444" />
+	</div>
 </div>
 {#if question.image !== null}
 	<div>
@@ -100,7 +109,7 @@
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each question.answers as answer, i}
 					<button
-						class="rounded-lg h-fit flex align-middle justify-center disabled:opacity-60"
+						class="rounded-lg h-fit flex align-middle justify-center disabled:opacity-60 p-3"
 						style="background-color: {answer.color ?? '#B45309'}"
 						disabled={selected_answer !== undefined}
 						on:click={() => selectAnswer(answer.answer)}

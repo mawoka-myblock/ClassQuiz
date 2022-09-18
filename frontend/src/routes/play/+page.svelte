@@ -109,7 +109,7 @@
 <svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
-	{#if gameData !== undefined}
+	{#if gameData !== undefined && game_mode !== 'kahoot'}
 		{#each gameData.questions as question}
 			{#if question.image !== undefined}
 				<link rel="preload" as="image" href={question.image} />

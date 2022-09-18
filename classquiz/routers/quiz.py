@@ -311,4 +311,4 @@ async def set_next_question(game_pin: int, question_number: int):
     redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found")
-    sio.emit("set_question_number", question_number, room=game_pin)
+    await sio.emit("set_question_number", question_number, room=game_pin)
