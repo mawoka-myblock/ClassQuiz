@@ -12,6 +12,7 @@
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import { getLocalization } from '../i18n';
 	import StartGamePopup from './start_game.svelte';
+	import { onMount } from 'svelte';
 
 	let start_game = null;
 	const { t } = getLocalization();
@@ -26,6 +27,14 @@
 		});
 		window.location.reload();
 	};
+	const close_start_game_if_esc_is_pressed = (key: KeyboardEvent) => {
+		if (key.code === 'Escape') {
+			start_game = null;
+		}
+	};
+	onMount(() => {
+		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
+	});
 </script>
 
 <div class="w-screen p-8">

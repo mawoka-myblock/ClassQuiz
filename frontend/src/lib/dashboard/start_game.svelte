@@ -7,6 +7,7 @@
 	import { alertModal } from '$lib/stores';
 	import { captcha_enabled } from '$lib/config';
 	import StartGameBackground from './start_game_background.svg';
+	import { fade } from 'svelte/transition';
 
 	export let quiz_id;
 	let captcha_selected = false;
@@ -48,7 +49,10 @@
 	};
 </script>
 
-<div class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black bg-opacity-60 z-50">
+<div
+	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black bg-opacity-60 z-50"
+	transition:fade={{ duration: 100 }}
+>
 	<div
 		class="w-5/6 h-5/6 bg-black m-auto rounded-lg shadow-lg p-4 flex flex-col"
 		style="background-image: url({StartGameBackground}); background-color: #DFDBE5;"
