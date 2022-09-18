@@ -38,7 +38,7 @@ def __main__():
                 },
             )
             print(i.sid)
-            time.sleep(0.1)
+            time.sleep(0.03)
         print("Everyone answered!")
 
     for i in arr_of_sio_instances:
@@ -46,9 +46,9 @@ def __main__():
 
     arr_of_sio_instances[3].on("joined_game", joined_game)
     arr_of_sio_instances[3].on("set_question_number", set_question_number)
-    for i in arr_of_sio_instances:
-        i.emit("join_game", {"username": random.randint(0, 30), "game_pin": GAME_PIN, "captcha": None})
-        time.sleep(0.1)
+    for index, i in enumerate(arr_of_sio_instances):
+        i.emit("join_game", {"username": str(index), "game_pin": GAME_PIN, "captcha": None})
+        time.sleep(0.03)
     print("Everyone joined!")
 
 
