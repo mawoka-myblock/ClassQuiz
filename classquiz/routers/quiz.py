@@ -22,7 +22,7 @@ from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
-from classquiz.socket_server import sio
+from classquiz.socket_server import sio, ReturnQuestion
 
 settings = settings()
 
@@ -275,17 +275,16 @@ async def get_live_game_data(game_pin: int):
             res = json.loads(res)
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
-
-    return GetLiveDataResponse(quiz=game, data=data, player_count=len(data.players))
+    player_count = await redis.scard(f"game_session:{game_pin}:players")
+    return GetLiveDataResponse(quiz=game, data=data, player_count=player_count)
 
 
 @router.get("/live/user_count")
 async def get_game_user_count(game_pin: int) -> dict[str, int]:
-    redis_res = await redis.get(f"game_session:{game_pin}")
-    if redis_res is None:
-        raise HTTPException(status_code=404, detail="Game not found")
-    session = GameSession.parse_raw(redis_res)
-    return {"player_count": len(session.players)}
+    # if redis_res is None:
+    #     raise HTTPException(status_code=404, detail="Game not found")
+    player_count = await redis.scard(f"game_session:{game_pin}:players")
+    return {"player_count": player_count}
 
 
 @router.get("/live/players", response_model=GameSession)
@@ -303,7 +302,7 @@ async def get_game_session(game_pin: int):
             res = json.loads(res)
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
-    return game
+    return data
 
 
 @router.post("/live/set_question")
@@ -311,4 +310,14 @@ async def set_next_question(game_pin: int, question_number: int):
     redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found")
-    await sio.emit("set_question_number", question_number, room=game_pin)
+    game_data = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
+    game_data.current_question = question_number
+    await redis.set(f"game:{game_pin}", game_data.json())
+    await sio.emit(
+        "set_question_number",
+        {
+            "question_index": question_number,
+            "question": ReturnQuestion(**game_data.dict(include={"questions"})["questions"][question_number]).dict(),
+        },
+        room=game_pin,
+    )
