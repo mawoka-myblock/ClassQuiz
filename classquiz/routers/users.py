@@ -31,7 +31,7 @@ from classquiz.config import redis, settings, meilisearch
 import uuid
 import bleach
 from pydantic import BaseModel
-from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz
+from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz, ApiKey
 from classquiz.emails import send_register_email, send_forgotten_password_email
 
 settings = settings()
@@ -312,3 +312,25 @@ async def get_email_from_jwt(data: GetEmailFromJWT):
     except JWTError as e:
         print(e)
         raise HTTPException(status_code=401)
+
+
+@router.post("/api_keys", response_model=ApiKey, response_model_include={"key"})
+async def generate_api_key(user: User = Depends(get_current_user)):
+    key = ApiKey(key=os.urandom(24).hex(), user=user)
+    await key.save()
+    return key.dict(include={"key"})
+
+
+@router.get("/api_keys", response_model=list[ApiKey], response_model_include={"key"})
+async def list_api_keys(user: User = Depends(get_current_user)):
+    keys = await ApiKey.objects.filter(user=user).all()
+    return keys
+
+
+@router.delete("/api_keys")
+async def delete_api_key(api_key: str, user: User = Depends(get_current_user)):
+    key = await ApiKey.objects.get_or_none(key=api_key)
+    if key is None:
+        raise HTTPException(status_code=404, detail="Key not found")
+    await redis.delete(f"apikey:{key.key}")
+    await key.delete()

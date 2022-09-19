@@ -1,7 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import uuid
 from datetime import timedelta
 from typing import Dict
 from typing import Optional
@@ -18,9 +18,9 @@ from jose import JWTError, jwt
 from passlib.hash import argon2
 
 from classquiz.cache import get_cache
-from classquiz.config import settings
+from classquiz.config import settings, redis
 from datetime import datetime
-from classquiz.db.models import User, TokenData
+from classquiz.db.models import User, TokenData, ApiKey
 
 settings = settings()
 
@@ -148,3 +148,16 @@ async def check_token(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise credentials_exception
     return token_data.email
+
+
+async def check_api_key(key: str) -> uuid.UUID | None:
+    redis_res = await redis.get(f"apikey:{key}")
+    if redis_res is None:
+        key2 = await ApiKey.objects.get_or_none(key=key)
+        if key2 is None:
+            return None
+        else:
+            await redis.set(f"apikey:{key}", key2.user.id.hex, ex=3600)
+            return key2.user.id
+    else:
+        return uuid.UUID(redis_res)

@@ -43,6 +43,16 @@ class User(ormar.Model):
         use_enum_values = True
 
 
+class ApiKey(ormar.Model):
+    key: str = ormar.String(max_length=48, min_length=48, primary_key=True)
+    user: Optional[User] = ormar.ForeignKey(User)
+
+    class Meta:
+        tablename = "api_keys"
+        metadata = metadata
+        database = database
+
+
 class UserSession(ormar.Model):
     """
     The user session model for user-sessions
@@ -151,6 +161,7 @@ class TokenData(BaseModel):
 class PlayGame(BaseModel):
     quiz_id: uuid.UUID | str
     description: str
+    user_id: uuid.UUID
     title: str
     questions: list[QuizQuestion]
     game_id: uuid.UUID

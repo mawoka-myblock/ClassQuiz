@@ -77,7 +77,10 @@ async def join_game(sid: str, data: dict):
     await sio.save_session(sid, session)
     await sio.emit(
         "joined_game",
-        {**json.loads(game_data.json(exclude={"quiz_id", "questions"})), "question_count": len(game_data.questions)},
+        {
+            **json.loads(game_data.json(exclude={"quiz_id", "questions", "user_id"})),
+            "question_count": len(game_data.questions),
+        },
         room=sid,
     )
     redis_res = await redis.get(f"game_session:{data.game_pin}")
