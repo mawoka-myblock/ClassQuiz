@@ -119,7 +119,11 @@
 		>
 	</div>
 	{#await import('$lib/play/end.svelte') then c}
-		<svelte:component this={c.default} bind:final_results bind:quiz_data />
+		<svelte:component
+			this={c.default}
+			bind:final_results
+			bind:question_count={quiz_data.questions.length}
+		/>
 	{/await}
 {/if}
 {#if !success}

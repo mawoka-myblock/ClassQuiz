@@ -159,6 +159,7 @@ class PlayGame(BaseModel):
     captcha_enabled: bool = False
     cover_image: str | None
     game_mode: str | None
+    current_question: int = -1
 
 
 class GamePlayer(BaseModel):
@@ -180,7 +181,7 @@ class GameAnswer1(BaseModel):
 class GameSession(BaseModel):
     admin: str
     game_id: str
-    players: list[GamePlayer | None]
+    # players: list[GamePlayer | None]
     answers: list[GameAnswer1 | None]
 
 

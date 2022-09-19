@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
-	import type { Answer, QuizData } from '$lib/quiz_types';
+	import type { Answer, QuizData, Question } from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';
@@ -37,10 +37,13 @@
 	navbarVisible.set(false);
 	let game_pin_valid: boolean;
 	let answer_results: Array<Answer>;
-	let gameData: QuizData;
+	let gameData;
+	let solution: Question;
 	let gameMeta: GameMeta = {
 		started: false
 	};
+
+	let question;
 
 	// Functions
 	function restart() {
@@ -56,17 +59,7 @@
 
 	// Socket-events
 	socket.on('joined_game', (data) => {
-		console.log('joined_game', data);
-		let temp_data = JSON.parse(data);
-		for (let i = 0; i < temp_data.questions.length; i++) {
-			let question = temp_data.questions[i];
-			if (question.type === undefined) {
-				temp_data.questions[i].type = QuizQuestionType.ABCD;
-			} else {
-				temp_data.questions[i].type = QuizQuestionType[question.type];
-			}
-		}
-		gameData = temp_data;
+		gameData = data;
 		// eslint-disable-next-line no-undef
 		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
 	});
@@ -76,9 +69,12 @@
 	});
 
 	socket.on('set_question_number', (data) => {
+		solution = undefined;
 		restart();
+		console.log(data, data.question_index);
+		question = data.question;
+		question_index = data.question_index;
 		answer_results = undefined;
-		question_index = data;
 	});
 
 	socket.on('start_game', () => {
@@ -97,6 +93,10 @@
 	socket.on('final_results', (data) => {
 		final_results = data;
 	});
+
+	socket.on('solutions', (data) => {
+		solution = data;
+	});
 	// The rest
 </script>
 
@@ -109,19 +109,19 @@
 <svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
-	{#if gameData !== undefined && game_mode !== 'kahoot'}
+	<!--	{#if gameData !== undefined && game_mode !== 'kahoot'}
 		{#each gameData.questions as question}
 			{#if question.image !== undefined}
 				<link rel="preload" as="image" href={question.image} />
 			{/if}
 		{/each}
-	{/if}
+	{/if}-->
 </svelte:head>
 <div>
 	{#if !gameMeta.started && gameData === undefined}
 		<JoinGame {game_pin} bind:game_mode />
 	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
-		<ShowEndScreen bind:final_results bind:quiz_data={gameData} />
+		<ShowEndScreen bind:final_results bind:question_count={gameData.question_count} />
 	{:else if gameData !== undefined && question_index === ''}
 		<ShowTitle
 			bind:title={gameData.title}
@@ -130,11 +130,7 @@
 		/>
 	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 		{#key unique}
-			<Question
-				bind:game_mode
-				bind:question={gameData.questions[parseInt(question_index)]}
-				bind:question_index
-			/>
+			<Question bind:game_mode bind:question bind:question_index bind:solution />
 		{/key}
 	{:else if gameMeta.started && answer_results !== undefined}
 		{#if answer_results === null}
@@ -147,6 +143,7 @@
 					bind:results={answer_results}
 					bind:game_data={gameData}
 					bind:question_index
+					bind:solution
 				/>
 			{/key}
 		{/if}

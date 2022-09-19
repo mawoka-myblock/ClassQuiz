@@ -43,6 +43,10 @@
 		});
 		timer_res = '0';
 	};
+	const show_solutions = () => {
+		socket.emit('show_solutions', {});
+		timer_res = '0';
+	};
 
 	const get_final_results = () => {
 		socket.emit('get_final_results', {});
@@ -67,6 +71,7 @@
 		let timer_interval = setInterval(() => {
 			if (timer_res === '0') {
 				clearInterval(timer_interval);
+				socket.emit('show_solutions', {});
 				return;
 			} else {
 				seconds--;
@@ -85,6 +90,7 @@
 			circular_prgoress = 0;
 		}
 	}
+	$: console.log(quiz_data.questions.length, 'length of quiz');
 </script>
 
 {#if game_mode === 'kahoot'}
@@ -100,13 +106,32 @@
 			</div>
 		{/if}
 		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-			<button
-				on:click={() => {
-					set_question_number(selected_question + 1);
-				}}
-				>Next Question ({selected_question + 2}
-				)
-			</button>
+			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0'}
+				{#if JSON.stringify(final_results) === JSON.stringify([null])}
+					<button on:click={get_final_results}>Get final results</button>
+				{/if}
+			{:else if timer_res === '0' || selected_question === -1}
+				<button
+					on:click={() => {
+						set_question_number(selected_question + 1);
+					}}
+					>Next Question ({selected_question + 2})
+				</button>
+				{#if question_results === null && selected_question !== -1}
+					<button on:click={get_question_results}>Show results</button>
+				{/if}
+			{:else if selected_question !== -1}
+				<button on:click={show_solutions}>Stop time and show solutions</button>
+			{:else}
+				<p>!OK!</p>
+				<button
+					on:click={() => {
+						set_question_number(selected_question + 1);
+					}}
+					>Next Question ({selected_question + 2}
+					)
+				</button>
+			{/if}
 		</div>
 	</div>
 	{#if timer_res !== '0' && selected_question >= 0}
@@ -228,10 +253,12 @@
 		{#if game_mode === 'normal'}
 			<div class="w-full flex justify-center">
 				<button
-					on:click={get_question_results}
+					on:click={() => {
+						timer_res = '0';
+					}}
 					id="GetQuestionResultsAndStopTime"
 					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-					>{$t('admin_page.get_results_and_stop_time')}</button
+					>{$t('admin_page.stop_time')}</button
 				>
 			</div>
 		{/if}

@@ -17,12 +17,22 @@
 	export let question: Question;
 	export let game_mode;
 	export let question_index: string | number;
+	export let solution;
 
-	if (typeof question_index === 'string') {
-		question_index = parseInt(question_index);
+	$: console.log(question_index, question, 'hi!');
+
+	console.log(question);
+	if (question.type === undefined) {
+		question.type = QuizQuestionType.ABCD;
 	} else {
-		throw new Error('question_index must be a string or number');
+		question.type = QuizQuestionType[question.type];
 	}
+
+	/*	if (typeof question_index === 'string') {
+			question_index = parseInt(question_index);
+		} else {
+			throw new Error('question_index must be a string or number');
+		}*/
 
 	let timer_res = question.time;
 	let selected_answer: string;
@@ -43,6 +53,12 @@
 	};
 
 	timer(question.time);
+
+	$: {
+		if (solution !== undefined) {
+			timer_res = '0';
+		}
+	}
 
 	const selectAnswer = (answer: string) => {
 		selected_answer = answer;
@@ -75,6 +91,8 @@
 			circular_prgoress = 0;
 		}
 	}
+
+	$: console.log(solution);
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
@@ -149,31 +167,39 @@
 		{/await}
 	{/if}
 {:else if question.type === QuizQuestionType.ABCD}
-	<div class="flex flex-wrap">
-		{#each question.answers as answer}
-			{#if answer.right}
-				<button
-					class="w-1/2 text-3xl bg-green-600 border border-white"
-					disabled
-					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
-				>
-			{:else}
-				<button
-					class="w-1/2 text-3xl bg-red-500 border border-white"
-					disabled
-					class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
-				>
-			{/if}
-		{/each}
-	</div>
+	{#if solution === undefined}
+		<Spinner />
+	{:else}
+		<div class="flex flex-wrap">
+			{#each solution.answers as answer}
+				{#if answer.right}
+					<button
+						class="w-1/2 text-3xl bg-green-600 border border-white"
+						disabled
+						class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
+					>
+				{:else}
+					<button
+						class="w-1/2 text-3xl bg-red-500 border border-white"
+						disabled
+						class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
+					>
+				{/if}
+			{/each}
+		</div>
+	{/if}
 {:else if question.type === QuizQuestionType.RANGE}
-	<p class="text-center">
-		Every number between {question.answers.min_correct} and {question.answers.max_correct} was correct.
-		You got {selected_answer}, so you have been
-		{#if question.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= question.answers.max_correct}
-			correct
-		{:else}
-			wrong.
-		{/if}
-	</p>
+	{#if solution === undefined}
+		<Spinner />
+	{:else}
+		<p class="text-center">
+			Every number between {solution.answers.min_correct} and {solution.answers.max_correct} was
+			correct. You got {selected_answer}, so you have been
+			{#if solution.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= solution.answers.max_correct}
+				correct
+			{:else}
+				wrong.
+			{/if}
+		</p>
+	{/if}
 {/if}

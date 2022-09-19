@@ -8,10 +8,9 @@ import os
 import aiohttp
 import socketio
 
-from typing import Any
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer
-from pydantic import BaseModel, ValidationError
+from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, RangeQuizAnswer, QuizQuestion
+from pydantic import BaseModel, ValidationError, validator
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
@@ -22,7 +21,7 @@ async def generate_final_results(game_data: PlayGame, game_pin: str) -> dict:
     for i in range(len(game_data.questions)):
         redis_res = await redis.get(f"game_session:{game_pin}:{i}")
         if redis_res is None:
-            break
+            continue
         else:
             results[str(i)] = json.loads(redis_res)
     return results
@@ -46,10 +45,14 @@ async def join_game(sid: str, data: dict):
         await sio.emit("error", room=sid)
         print(e)
         return
+    game_data = PlayGame.parse_raw(redis_res)
+    if game_data.started:
+        await sio.emit("game_already_started", room=sid)
+        return
     # +++ START checking captcha +++
     async with aiohttp.ClientSession() as session:
         try:
-            if json.loads(redis_res)["captcha_enabled"]:
+            if game_data.captcha_enabled:
                 try:
                     async with session.post(
                         "https://hcaptcha.com/siteverify",
@@ -72,15 +75,19 @@ async def join_game(sid: str, data: dict):
         "admin": False,
     }
     await sio.save_session(sid, session)
-    await sio.emit("joined_game", redis_res, room=sid)
+    await sio.emit(
+        "joined_game",
+        {**json.loads(game_data.json(exclude={"quiz_id", "questions"})), "question_count": len(game_data.questions)},
+        room=sid,
+    )
     redis_res = await redis.get(f"game_session:{data.game_pin}")
     redis_res = GameSession.parse_raw(redis_res)
-    redis_res.players.append(GamePlayer(username=data.username, sid=sid))
-    await redis.set(
-        f"game_session:{data.game_pin}",
-        GameSession(admin=redis_res.admin, game_id=redis_res.game_id, players=redis_res.players, answers=[]).json(),
-        ex=18000,
-    )
+    await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
+    # await redis.set(
+    #     f"game_session:{data.game_pin}",
+    #     GameSession(admin=redis_res.admin, game_id=redis_res.game_id, answers=[]).json(),
+    #     ex=18000,
+    # )
     await sio.emit(
         "player_joined",
         {"username": data.username, "sid": sid},
@@ -93,6 +100,9 @@ async def join_game(sid: str, data: dict):
 async def start_game(sid: str, _data: dict):
     session = await sio.get_session(sid)
     if session["admin"]:
+        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        game_data.started = True
+        await redis.set(f"game:{session['game_pin']}", game_data.json())
         await sio.emit("start_game", room=session["game_pin"])
 
 
@@ -114,7 +124,7 @@ async def register_as_admin(sid: str, data: dict):
     if (await redis.get(f"game_session:{game_pin}")) is None:
         await redis.set(
             f"game_session:{game_pin}",
-            GameSession(admin=sid, game_id=game_id, answers=[], players=[]).json(),
+            GameSession(admin=sid, game_id=game_id, answers=[]).json(),
             ex=18000,
         )
 
@@ -140,13 +150,45 @@ async def get_question_results(sid: str, data: dict):
         await sio.emit("question_results", redis_res, room=game_pin)
 
 
+class ABCDQuizAnswerWithoutSolution(BaseModel):
+    answer: str
+    color: str | None
+
+
+class RangeQuizAnswerWithoutSolution(BaseModel):
+    min: int
+    max: int
+
+
+class ReturnQuestion(QuizQuestion):
+    answers: list[ABCDQuizAnswerWithoutSolution] | RangeQuizAnswerWithoutSolution
+
+    @validator("answers")
+    def answers_not_none_if_abcd_type(cls, v, values):
+        if values["type"] == QuizQuestionType.ABCD and len(v) == 0:
+            raise ValueError("Answers can't be none if type is ABCD")
+        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
+            raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        return v
+
+
 @sio.event
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
     session = await sio.get_session(sid)
     if session["admin"]:
         game_pin = session["game_pin"]
-        await sio.emit("set_question_number", data, room=game_pin)
+        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        game_data.current_question = int(data)
+        await redis.set(f"game:{session['game_pin']}", game_data.json())
+        await sio.emit(
+            "set_question_number",
+            {
+                "question_index": int(data),
+                "question": ReturnQuestion(**game_data.dict(include={"questions"})["questions"][int(data)]).dict(),
+            },
+            room=game_pin,
+        )
 
 
 class _SubmitAnswerData(BaseModel):
@@ -219,6 +261,7 @@ async def get_final_results(sid: str, _data: dict):
     if not session["admin"]:
         return
     results = await generate_final_results(game_data, session["game_pin"])
+    print(results)
     await sio.emit("final_results", results, room=session["game_pin"])
 
 
@@ -232,3 +275,12 @@ async def get_export_token(sid):
     token = os.urandom(32).hex()
     await redis.set(f"export_token:{token}", json.dumps(results))
     await sio.emit("export_token", token, room=sid)
+
+
+@sio.event
+async def show_solutions(sid: str, _data: dict):
+    session: dict = await sio.get_session(sid)
+    game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
+    if not session["admin"]:
+        return
+    await sio.emit("solutions", game_data.questions[game_data.current_question].dict(), room=session["game_pin"])

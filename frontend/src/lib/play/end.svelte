@@ -9,7 +9,7 @@
 
 	const { t } = getLocalization();
 
-	export let quiz_data: QuizData;
+	export let question_count: number;
 	export let final_results: Array<null> | Array<Array<PlayerAnswer>>;
 
 	interface PlayerAnswer {
@@ -23,7 +23,7 @@
 
 	const getWinnersSorted = () => {
 		let winners = {};
-		let q_count = quiz_data.questions.length;
+		let q_count = question_count;
 		console.log(
 			JSON.stringify(final_results),
 			JSON.stringify(final_results) === '{}',
@@ -42,9 +42,15 @@
 		try {
 			for (let i = 0; i < q_count; i++) {
 				let q_res = final_results[i];
-				if (q_res === null) {
+				if (!q_res) {
 					continue;
+				} else {
+					q_res = final_results[String(i)];
+					if (!q_res) {
+						continue;
+					}
 				}
+				console.log(q_res);
 				for (let j = 0; j < q_res.length; j++) {
 					let res = q_res[j];
 					if (res['right']) {
@@ -68,6 +74,7 @@
 			data_available = true;
 			return close_to_res;
 		} catch (e) {
+			console.log(e);
 			data_available = false;
 		}
 	};
@@ -93,7 +100,7 @@
 						<span
 							>{$t('play_page.with_out_of', {
 								correct_questions: winners_arr[0][1] ?? 0,
-								total_question_count: quiz_data.questions.length
+								total_question_count: question_count
 							})}</span
 						>
 					</p>
@@ -106,7 +113,7 @@
 							<span
 								>{$t('play_page.with_out_of', {
 									correct_questions: winners_arr[1][1] ?? 0,
-									total_question_count: quiz_data.questions.length
+									total_question_count: question_count
 								})}</span
 							>
 						</p>
@@ -120,7 +127,7 @@
 							<span>
 								{$t('play_page.with_out_of', {
 									correct_questions: winners_arr[2][1] ?? 0,
-									total_question_count: quiz_data.questions.length
+									total_question_count: question_count
 								})}
 							</span>
 						</p>
