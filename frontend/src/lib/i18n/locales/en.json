@@ -169,7 +169,8 @@
         "export_results": "Export results",
         "show_next_question": "Show next question",
         "start_by_showing_first_question": "Start by showing the first question!",
-        "no_answers": "No answers!"
+        "no_answers": "No answers!",
+        "stop_time": "Stop time"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
