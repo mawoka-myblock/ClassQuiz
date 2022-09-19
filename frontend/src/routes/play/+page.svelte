@@ -2,13 +2,12 @@
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
-	import type { Answer, QuizData, Question } from '$lib/quiz_types';
+	import type { Answer, Question as QuestionType } from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
-	import { QuizQuestionType } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -38,7 +37,7 @@
 	let game_pin_valid: boolean;
 	let answer_results: Array<Answer>;
 	let gameData;
-	let solution: Question;
+	let solution: QuestionType;
 	let gameMeta: GameMeta = {
 		started: false
 	};

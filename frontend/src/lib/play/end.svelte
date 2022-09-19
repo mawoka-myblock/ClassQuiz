@@ -4,7 +4,6 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
