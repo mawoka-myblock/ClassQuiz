@@ -64,7 +64,7 @@
 						class:bg-red-500={!question.answers[i].right}
 						class:text-xl={i === selected_answer}
 						class:underline={i === selected_answer}
-						class="p-2 rounded-lg flex justify-center w-full transition my-5"
+						class="p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
 						>{answer.answer}</button
 					>
 				{/each}
@@ -74,7 +74,7 @@
 				{#each question.answers as answer, i}
 					<button
 						disabled={selected_answer !== undefined || timer_res === '0'}
-						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale"
+						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black"
 						on:click={() => {
 							selected_answer = i;
 							timer_res = '0';
@@ -83,7 +83,7 @@
 				{/each}
 				{#if timer_res === '0'}
 					<button
-						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5"
+						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
 						on:click={() => {
 							show_results = true;
 						}}>{$t('admin_page.get_results')}</button
