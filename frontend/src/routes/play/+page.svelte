@@ -56,6 +56,10 @@
 		event.returnValue = '';
 	};
 
+	socket.on('time_sync', (data) => {
+		socket.emit('echo_time_sync', data);
+	});
+
 	// Socket-events
 	socket.on('joined_game', (data) => {
 		gameData = data;

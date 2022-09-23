@@ -32,6 +32,7 @@ httpx = "*"
 itsdangerous = "*"
 puremagic = "*"
 py-avataaars-no-png = "*"
+cryptography = "*"
 
 [dev-packages]
 coverage = "*"

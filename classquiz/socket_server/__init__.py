@@ -1,19 +1,31 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import base64
+import hashlib
 import json
 import os
 
 import aiohttp
 import socketio
+from cryptography.fernet import Fernet
 
 from classquiz.config import redis, settings
 from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, RangeQuizAnswer, QuizQuestion
 from pydantic import BaseModel, ValidationError, validator
+from datetime import timedelta, datetime
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
+
+
+def get_fernet_key() -> bytes:
+    hlib = hashlib.sha256()
+    hlib.update(settings.secret_key.encode("utf-8"))
+    return base64.urlsafe_b64encode(hlib.hexdigest().encode("latin-1")[:32])
+
+
+fernet = Fernet(get_fernet_key())
 
 
 async def generate_final_results(game_data: PlayGame, game_pin: str) -> dict:
@@ -96,6 +108,9 @@ async def join_game(sid: str, data: dict):
         {"username": data.username, "sid": sid},
         room=redis_res.admin,
     )
+    lol = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
+    print(lol)
+    await sio.emit("time_sync", lol, room=sid)
     sio.enter_room(sid, data.game_pin)
 
 
@@ -184,6 +199,7 @@ async def set_question_number(sid, data: str):
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
         game_data.current_question = int(data)
         await redis.set(f"game:{session['game_pin']}", game_data.json())
+        await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
         await sio.emit(
             "set_question_number",
             {
@@ -203,6 +219,7 @@ class _AnswerData(BaseModel):
     username: str
     answer: str
     right: bool
+    time_taken: float  # In milliseconds
 
 
 class _AnswerDataList(BaseModel):
@@ -212,6 +229,7 @@ class _AnswerDataList(BaseModel):
 
 @sio.event
 async def submit_answer(sid: str, data: dict):
+    now = datetime.now()
     try:
         data = _SubmitAnswerData(**data)
     except ValidationError as e:
@@ -235,18 +253,33 @@ async def submit_answer(sid: str, data: dict):
             answer_right = True
     else:
         raise NotImplementedError
+    latency = int((await sio.get_session(sid))["ping"])
+    time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
+    diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
+    # print(abs(diff) - latency, latency, abs(diff))
     if answers is None:
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
             _AnswerDataList(
-                __root__=[_AnswerData(username=session["username"], answer=data.answer, right=answer_right)]
+                __root__=[
+                    _AnswerData(
+                        username=session["username"],
+                        answer=data.answer,
+                        right=answer_right,
+                        time_taken=abs(diff) - latency,
+                    )
+                ]
             ).json(),
             ex=18000,
         )
     else:
         answers = _AnswerDataList.parse_raw(answers)
-        answers.__root__.append(_AnswerData(username=session["username"], answer=data.answer, right=answer_right))
+        answers.__root__.append(
+            _AnswerData(
+                username=session["username"], answer=data.answer, right=answer_right, time_taken=abs(diff) - latency
+            )
+        )
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
             answers.json(),
@@ -287,3 +320,25 @@ async def show_solutions(sid: str, _data: dict):
     if not session["admin"]:
         return
     await sio.emit("solutions", game_data.questions[game_data.current_question].dict(), room=session["game_pin"])
+
+
+@sio.event
+async def echo_time_sync(sid: str, data: str):
+    then_dec = fernet.decrypt(data).decode("utf-8")
+    then = datetime.fromisoformat(then_dec)
+    now = datetime.now()
+    delta = now - then
+    print(
+        "delta:",
+        delta,
+        "then:",
+        then,
+        "now:",
+        now,
+        "seconds delay:",
+        delta.seconds,
+        "microseconds delay",
+        delta.microseconds / 1000,
+    )
+    async with sio.session(sid) as session:
+        session["ping"] = delta.microseconds / 1000
