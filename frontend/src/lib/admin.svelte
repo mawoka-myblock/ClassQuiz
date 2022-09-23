@@ -175,7 +175,7 @@
 							style="background-color: {answer.color ?? '#B45309'}"
 						>
 							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
-							<span class="text-center text-2xl px-2 py-4 w-full"
+							<span class="text-center text-2xl px-2 py-4 w-full text-black"
 								>{answer.answer}</span
 							>
 							<span class="pl-4 w-10" />

@@ -24,7 +24,9 @@
 	$: cssVarStyles = `--background:${background}`;
 </script>
 
-<div id="progress-circle" style={cssVarStyles} class="transition-all text-4xl">{text}</div>
+<div id="progress-circle" style={cssVarStyles} class="transition-all text-4xl text-black">
+	{text}
+</div>
 
 <style>
 	#progress-circle {
