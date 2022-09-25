@@ -81,6 +81,10 @@ async def join_game(sid: str, data: dict):
         except TypeError:
             pass
     # --- END checking captcha ---
+    if await redis.get(f"game_session:{data.game_pin}:players:{data.username}") is not None:
+        await sio.emit("username_already_exists", room=sid)
+        return
+
     session = {
         "game_pin": data.game_pin,
         "username": data.username,
@@ -97,6 +101,7 @@ async def join_game(sid: str, data: dict):
     )
     redis_res = await redis.get(f"game_session:{data.game_pin}")
     redis_res = GameSession.parse_raw(redis_res)
+    await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=18000)
     await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
     # await redis.set(
     #     f"game_session:{data.game_pin}",
@@ -344,3 +349,27 @@ async def echo_time_sync(sid: str, data: str):
     delta = now - then
     async with sio.session(sid) as session:
         session["ping"] = delta.microseconds / 1000
+
+
+class _KickPlayerInput(BaseModel):
+    username: str
+
+
+@sio.event
+async def kick_player(sid: str, data: dict):
+    try:
+        data = _KickPlayerInput(**data)
+    except ValidationError as e:
+        await sio.emit("error", room=sid)
+        print(e)
+        return
+
+    session: dict = await sio.get_session(sid)
+    if not session["admin"]:
+        return
+
+    player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{data.username}")
+
+    print(player_sid, session["game_pin"])
+    sio.leave_room(player_sid, session["game_pin"])
+    await sio.emit("kick", room=player_sid)

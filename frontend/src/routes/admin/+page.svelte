@@ -104,6 +104,18 @@
 			(!('theme' in localStorage) &&
 				window.matchMedia('(prefers-color-scheme: dark)').matches);
 	}
+
+	const kick_player = (username: string) => {
+		socket.emit('kick_player', { username: username });
+		for (let i = 0; i < players.length; i++) {
+			console.log(players[i].username, username);
+			if (players[i].username === username) {
+				players.splice(i, 1);
+				break;
+			}
+		}
+		players = players;
+	};
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
@@ -147,7 +159,12 @@
 				{#if players.length > 0}
 					{#each players as player}
 						<li>
-							<span>{player.username}</span>
+							<span
+								class="hover:line-through"
+								on:click={() => {
+									kick_player(player.username);
+								}}>{player.username}</span
+							>
 							<!--					<button>{$t('words.kick')}</button>-->
 						</li>
 					{/each}

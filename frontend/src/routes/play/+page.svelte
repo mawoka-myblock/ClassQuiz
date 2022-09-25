@@ -47,16 +47,20 @@
 
 	let question;
 
+	let preventReload = true;
+
 	// Functions
 	function restart() {
 		unique = {};
 	}
 
 	const confirmUnload = () => {
-		event.preventDefault();
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		event.returnValue = '';
+		if (preventReload) {
+			event.preventDefault();
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			event.returnValue = '';
+		}
 	};
 
 	socket.on('time_sync', (data) => {
@@ -96,6 +100,17 @@
 		}
 	});
 
+	socket.on('username_already_exists', () => {
+		window.alert('Username already exists!');
+	});
+
+	socket.on('kick', () => {
+		window.alert('You got kicked');
+		preventReload = false;
+		game_pin = '';
+		username = '';
+		window.location.reload();
+	});
 	socket.on('final_results', (data) => {
 		final_results = data;
 	});
