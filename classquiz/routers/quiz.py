@@ -355,5 +355,6 @@ async def get_live_player_scores(game_pin: int):
     res = await redis.hgetall(f"game_session:{game_pin}:player_scores")
     return_arr = []
     for username in res:
-        return_arr.append({"useranme": username, "score": res[username]})
+        return_arr.append({"username": username, "score": int(res[username])})
+    return_arr = sorted(return_arr, key=lambda d: d["score"], reverse=True)
     return return_arr
