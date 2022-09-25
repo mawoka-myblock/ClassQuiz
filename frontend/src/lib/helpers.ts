@@ -14,3 +14,7 @@ export const invertColor = (hexTripletColor: string): string => {
 	color = '#' + color; // prepend #
 	return color;
 };
+
+export const calculate_score = (q_time: number, time_taken: number): number => {
+	return q_time / time_taken;
+};

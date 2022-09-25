@@ -8,6 +8,7 @@
 	import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
+	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -38,6 +39,8 @@
 	let answer_results: Array<Answer>;
 	let gameData;
 	let solution: QuestionType;
+	let username = '';
+	let scores = {};
 	let gameMeta: GameMeta = {
 		started: false
 	};
@@ -122,7 +125,7 @@
 </svelte:head>
 <div>
 	{#if !gameMeta.started && gameData === undefined}
-		<JoinGame {game_pin} bind:game_mode />
+		<JoinGame {game_pin} bind:game_mode bind:username />
 	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
 		<ShowEndScreen bind:final_results bind:question_count={gameData.question_count} />
 	{:else if gameData !== undefined && question_index === ''}
@@ -140,6 +143,13 @@
 			<div class="w-full flex justify-center">
 				<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
 			</div>
+		{:else if game_mode === 'kahoot'}
+			<div>
+				<h2 class="text-center text-3xl mb-8">{$t('words.result', { count: 2 })}</h2>
+			</div>
+			{#key unique}
+				<KahootResults bind:username bind:question_results={answer_results} bind:scores />
+			{/key}
 		{:else}
 			{#key unique}
 				<ShowResults

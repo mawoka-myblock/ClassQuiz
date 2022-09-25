@@ -12,6 +12,7 @@
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { kahoot_icons } from './play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
+	import Spinner from '$lib/Spinner.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
@@ -26,7 +27,7 @@
 	let shown_question_now: number;
 	let final_results_clicked = false;
 
-	console.log(quiz_data);
+	let player_scores = {};
 
 	export const set_question_number = (q_number: number) => {
 		question_results = null;
@@ -143,7 +144,7 @@
 	{/if}
 {/if}
 <div class:mt-28={game_mode === 'kahoot'} class="w-full h-full">
-	{#if timer_res !== undefined && !final_results_clicked}
+	{#if timer_res !== undefined && !final_results_clicked && !question_results}
 		<div class="flex flex-col justify-center w-screen h-1/6">
 			<h1 class="text-6xl text-center">
 				{quiz_data.questions[selected_question].question}
@@ -205,49 +206,15 @@
 				</div>
 			{/if}
 		{:else}
-			<div class="w-full flex justify-center">
-				<div class="relative overflow-x-auto shadow-md rounded-lg">
-					<table class="w-fit text-sm text-left text-gray-500 dark:text-gray-400">
-						<thead
-							class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-						>
-							<tr>
-								<th scope="col" class="px-6 py-3">
-									{$t('words.username')}
-								</th>
-								<th scope="col" class="px-6 py-3">
-									{$t('words.answer')}
-								</th>
-								<th scope="col" class="px-6 py-3">
-									{$t('words.correct')}?
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each question_results as result}
-								<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-									<th
-										scope="row"
-										class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-									>
-										{result.username}
-									</th>
-									<td class="px-6 py-4">
-										{result.answer}
-									</td>
-									<td class="px-6 py-4">
-										{#if result.right}
-											✅
-										{:else}
-											❌
-										{/if}
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
-			</div>
+			{#await import('$lib/play/admin/results.svelte')}
+				<Spinner />
+			{:then c}
+				<svelte:component
+					this={c.default}
+					bind:data={player_scores}
+					bind:new_data={question_results}
+				/>
+			{/await}
 		{/if}
 	{:else if timer_res !== undefined}
 		{#if game_mode === 'normal'}

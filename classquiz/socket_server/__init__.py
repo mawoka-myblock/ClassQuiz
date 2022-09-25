@@ -109,7 +109,6 @@ async def join_game(sid: str, data: dict):
         room=redis_res.admin,
     )
     lol = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
-    print(lol)
     await sio.emit("time_sync", lol, room=sid)
     sio.enter_room(sid, data.game_pin)
 
@@ -220,6 +219,7 @@ class _AnswerData(BaseModel):
     answer: str
     right: bool
     time_taken: float  # In milliseconds
+    score: int
 
 
 class _AnswerDataList(BaseModel):
@@ -257,7 +257,17 @@ async def submit_answer(sid: str, data: dict):
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
+
     # print(abs(diff) - latency, latency, abs(diff))
+    def calculate_score(z: float, t: int) -> int:
+        t = t * 1000
+        res = (t - z) / t
+        return int(res * 1000)
+
+    score = 0
+    if answer_right:
+        score = calculate_score(abs(diff) - latency, int(game_data.questions[int(data.question_index)].time))
+
     if answers is None:
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
@@ -268,6 +278,7 @@ async def submit_answer(sid: str, data: dict):
                         answer=data.answer,
                         right=answer_right,
                         time_taken=abs(diff) - latency,
+                        score=score,
                     )
                 ]
             ).json(),
@@ -277,7 +288,11 @@ async def submit_answer(sid: str, data: dict):
         answers = _AnswerDataList.parse_raw(answers)
         answers.__root__.append(
             _AnswerData(
-                username=session["username"], answer=data.answer, right=answer_right, time_taken=abs(diff) - latency
+                username=session["username"],
+                answer=data.answer,
+                right=answer_right,
+                time_taken=abs(diff) - latency,
+                score=score,
             )
         )
         await redis.set(
@@ -297,7 +312,6 @@ async def get_final_results(sid: str, _data: dict):
     if not session["admin"]:
         return
     results = await generate_final_results(game_data, session["game_pin"])
-    print(results)
     await sio.emit("final_results", results, room=session["game_pin"])
 
 
@@ -328,17 +342,5 @@ async def echo_time_sync(sid: str, data: str):
     then = datetime.fromisoformat(then_dec)
     now = datetime.now()
     delta = now - then
-    print(
-        "delta:",
-        delta,
-        "then:",
-        then,
-        "now:",
-        now,
-        "seconds delay:",
-        delta.seconds,
-        "microseconds delay",
-        delta.microseconds / 1000,
-    )
     async with sio.session(sid) as session:
         session["ping"] = delta.microseconds / 1000

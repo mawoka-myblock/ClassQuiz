@@ -103,7 +103,7 @@
 		<CircularTimer bind:text={timer_res} bind:progress={circular_prgoress} color="#ef4444" />
 	</div>
 </div>
-{#if question.image !== null}
+{#if question.image !== null && game_mode !== 'kahoot'}
 	<div>
 		<img
 			src={question.image}

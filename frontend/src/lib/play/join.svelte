@@ -15,7 +15,7 @@
 	export let game_pin: string;
 	export let game_mode;
 
-	let username = '';
+	export let username;
 	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
 
 	let hcaptcha = {
