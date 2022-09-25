@@ -254,10 +254,14 @@ async def export_quiz_answers(export_token: str, game_pin: str):
     )
 
 
+class _GetLiveDataPlayers(BaseModel):
+    count: int | str
+
+
 class GetLiveDataResponse(BaseModel):
     quiz: PlayGame
     data: GameSession
-    player_count: int | str
+    players: _GetLiveDataPlayers
 
 
 @router.get("/live", response_model=GetLiveDataResponse, tags=["live"])
@@ -280,20 +284,20 @@ async def get_live_game_data(game_pin: int, api_key: str, player_count_as_a_stri
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     if player_count_as_a_string:
-        return GetLiveDataResponse(quiz=game, data=data, player_count=str(player_count))
+        return GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=str(player_count)))
     else:
-        return GetLiveDataResponse(quiz=game, data=data, player_count=player_count)
+        return GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=player_count))
 
 
 @router.get("/live/user_count", tags=["live"])
-async def get_game_user_count(game_pin: int, as_string: bool = False) -> dict[str, int | str]:
+async def get_game_user_count(game_pin: int, as_string: bool = False):
     # if redis_res is None:
     #     raise HTTPException(status_code=404, detail="Game not found")
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     if as_string:
-        return {"player_count": str(player_count)}
+        return {"players": {"count": str(player_count)}}
     else:
-        return {"player_count": player_count}
+        return {"players": {"count": player_count}}
 
 
 @router.get("/live/players", response_model=GameSession, tags=["live"])
