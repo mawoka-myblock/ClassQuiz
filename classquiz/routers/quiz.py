@@ -283,11 +283,14 @@ async def get_live_game_data(game_pin: int, api_key: str):
 
 
 @router.get("/live/user_count", tags=["live"])
-async def get_game_user_count(game_pin: int) -> dict[str, int]:
+async def get_game_user_count(game_pin: int, as_string: bool = False) -> dict[str, int | str]:
     # if redis_res is None:
     #     raise HTTPException(status_code=404, detail="Game not found")
     player_count = await redis.scard(f"game_session:{game_pin}:players")
-    return {"player_count": player_count}
+    if as_string:
+        return {"player_count": str(player_count)}
+    else:
+        return {"player_count": player_count}
 
 
 @router.get("/live/players", response_model=GameSession, tags=["live"])
