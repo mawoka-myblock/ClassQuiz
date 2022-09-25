@@ -264,7 +264,7 @@ class GetLiveDataResponse(BaseModel):
     players: _GetLiveDataPlayers
 
 
-@router.get("/live", response_model=GetLiveDataResponse, tags=["live"])
+@router.get("/live", tags=["live"])
 async def get_live_game_data(
     game_pin: int, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
 ):
