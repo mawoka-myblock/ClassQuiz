@@ -265,7 +265,9 @@ class GetLiveDataResponse(BaseModel):
 
 
 @router.get("/live", response_model=GetLiveDataResponse, tags=["live"])
-async def get_live_game_data(game_pin: int, api_key: str, player_count_as_a_string: bool = False):
+async def get_live_game_data(
+    game_pin: int, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
+):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
@@ -283,10 +285,16 @@ async def get_live_game_data(game_pin: int, api_key: str, player_count_as_a_stri
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
+    return_obj = None
     if player_count_as_a_string:
-        return GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=str(player_count)))
+        return_obj = GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=str(player_count)))
     else:
-        return GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=player_count))
+        return_obj = GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=player_count))
+
+    if in_array:
+        return [return_obj]
+    else:
+        return return_obj
 
 
 @router.get("/live/user_count", tags=["live"])
