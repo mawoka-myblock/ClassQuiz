@@ -353,4 +353,7 @@ async def set_next_question(game_pin: int, question_number: int, api_key: str):
 @router.get("/live/scores", tags=["live"])
 async def get_live_player_scores(game_pin: int):
     res = await redis.hgetall(f"game_session:{game_pin}:player_scores")
-    return res
+    return_arr = []
+    for username in res:
+        return_arr.append({"useranme": username, "score": res[username]})
+    return return_arr
