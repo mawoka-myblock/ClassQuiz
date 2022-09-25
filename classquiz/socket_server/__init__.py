@@ -272,7 +272,7 @@ async def submit_answer(sid: str, data: dict):
     score = 0
     if answer_right:
         score = calculate_score(abs(diff) - latency, int(game_data.questions[int(data.question_index)].time))
-
+    await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     if answers is None:
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
