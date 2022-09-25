@@ -8,6 +8,7 @@
 	import { DateTime } from 'luxon';
 	import { UAParser } from 'ua-parser-js';
 	import Spinner from '$lib/Spinner.svelte';
+	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
 
@@ -80,9 +81,32 @@
 			window.location.assign('/account/login');
 		}
 	};
+
+	onMount(() => {
+		api_keys = get_api_keys();
+	});
+
+	const get_api_keys = async (): Promise<Array<string>> => {
+		const res = await fetch('/api/v1/users/api_keys');
+		const api_keys_temp = await res.json();
+		console.log(api_keys_temp);
+		return api_keys_temp;
+	};
+
+	let api_keys;
+
+	const add_api_key = async () => {
+		await fetch('/api/v1/users/api_keys', { method: 'POST' });
+		api_keys = get_api_keys();
+	};
 	const formatDate = (date: string): string => {
 		const dt = DateTime.fromISO(date);
 		return dt.toLocaleString(DateTime.DATETIME_MED);
+	};
+
+	const delete_api_key = async (key: string) => {
+		await fetch(`/api/v1/users/api_keys?api_key=${key}`, { method: 'DELETE' });
+		api_keys = get_api_keys();
 	};
 
 	const getSessions = async () => {
@@ -179,6 +203,22 @@
 						{$t('settings_page.change_password_submit')}
 					</button>
 				</form>
+				<div>
+					<button on:click={add_api_key}>Add API-Key</button>
+					{#await api_keys}
+						<Spinner />
+					{:then keys}
+						{#each keys as key}
+							<p
+								on:contextmenu|preventDefault={() => {
+									delete_api_key(key.key);
+								}}
+							>
+								{key.key}
+							</p>
+						{/each}
+					{/await}
+				</div>
 			</div>
 		</div>
 	</div>
