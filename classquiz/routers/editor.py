@@ -28,7 +28,7 @@ settings = settings()
 
 router = APIRouter()
 
-allowed_image_extensions = [".gif", ".jpg", ".jpeg", ".png", ".svg", ".webp"]
+allowed_image_extensions = [".gif", ".jpg", ".jpeg", ".png", ".svg", ".webp", ".jfif"]
 
 
 class InitEditorResponse(BaseModel):
@@ -101,7 +101,7 @@ async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
     if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "8"):
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     file_bytes = await file.read()
-    if len(file_bytes) < 2000:
+    if len(file_bytes) > 2000000:
         raise HTTPException(status_code=400, detail="File too large")
     pm_data = puremagic.magic_string(file_bytes)[0]
     if pm_data.extension not in allowed_image_extensions:
