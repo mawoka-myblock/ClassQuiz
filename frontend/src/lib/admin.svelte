@@ -179,9 +179,13 @@
 						<div
 							class="rounded-lg h-fit flex"
 							style="background-color: {answer.color ?? '#B45309'}"
+							class:opacity-50={!answer.right && timer_res === '0'}
 						>
 							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
-							<span class="text-center text-2xl px-2 py-4 w-full text-black"
+							<span
+								class="text-center text-2xl px-2 py-4 w-full text-black"
+								class:text-4xl={answer.right && timer_res === '0'}
+								class:underline={answer.right && timer_res === '0'}
 								>{answer.answer}</span
 							>
 							<span class="pl-4 w-10" />
