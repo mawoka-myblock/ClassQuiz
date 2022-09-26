@@ -113,6 +113,7 @@ async def start_quiz(
         cover_image=quiz.cover_image,
         game_mode=game_mode,
         user_id=user.id,
+        background_color=quiz.background_color,
     )
     await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
     return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}

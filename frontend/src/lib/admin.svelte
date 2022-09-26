@@ -17,6 +17,7 @@
 	export let game_token: string;
 	export let quiz_data: QuizData;
 	export let game_mode;
+	export let bg_color;
 
 	const { t } = getLocalization();
 
@@ -95,7 +96,11 @@
 </script>
 
 {#if game_mode === 'kahoot'}
-	<div class="fixed top-0 w-full h-14 bg-transparent z-20 grid grid-cols-3">
+	<div
+		class="fixed top-0 w-full h-14 z-20 grid grid-cols-3"
+		style="background: {bg_color ? bg_color : 'transparent'}"
+		class:text-black={bg_color}
+	>
 		<p class="mr-auto ml-0 col-start-1 col-end-1">
 			{selected_question === -1 ? '0' : selected_question + 1}
 			/{quiz_data.questions.length}
@@ -143,7 +148,7 @@
 		/>
 	{/if}
 {/if}
-<div class:mt-28={game_mode === 'kahoot'} class="w-full h-full">
+<div class:pt-28={game_mode === 'kahoot'} class="w-full h-full">
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
 		<div class="flex flex-col justify-center w-screen h-1/6">
 			<h1 class="text-6xl text-center">

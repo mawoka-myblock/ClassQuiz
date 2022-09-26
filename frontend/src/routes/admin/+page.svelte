@@ -116,85 +116,93 @@
 		}
 		players = players;
 	};
+	let bg_color;
+	$: bg_color = quiz_data ? quiz_data.background_color : undefined;
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Host</title>
 </svelte:head>
-{#if JSON.stringify(final_results) !== JSON.stringify([null])}
-	<div class="w-screen flex justify-center mt-8">
-		<button
-			on:click={request_answer_export}
-			class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-			>{$t('admin_page.export_results')}</button
-		>
-	</div>
-	{#await import('$lib/play/end.svelte') then c}
-		<svelte:component
-			this={c.default}
-			bind:final_results
-			bind:question_count={quiz_data.questions.length}
-		/>
-	{/await}
-{/if}
-{#if !success}
-	<input placeholder="game id" bind:value={game_token} />
-	<input placeholder="game pin" bind:value={game_pin} />
-	<button on:click={connect}>{$t('words.connect')}!</button>
-	{#if errorMessage !== ''}
-		<p class="text-red-700">{errorMessage}</p>
-	{/if}
-{:else if !game_started}
-	<div class="w-full h-full">
-		<AudioPlayer bind:play={play_music} />
-		<img
-			alt="QR code to join the game"
-			src="/api/v1/utils/qr/{quiz_data.game_pin}?dark_mode={darkMode}"
-			class="block mx-auto w-1/6"
-		/>
-		<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
-		<div class="flex justify-center w-full mt-4">
-			<ul class="list-disc pl-8">
-				{#if players.length > 0}
-					{#each players as player}
-						<li>
-							<span
-								class="hover:line-through"
-								on:click={() => {
-									kick_player(player.username);
-								}}>{player.username}</span
-							>
-							<!--					<button>{$t('words.kick')}</button>-->
-						</li>
-					{/each}
-				{/if}
-			</ul>
+<div
+	class="min-h-screen min-w-full"
+	style="background: {bg_color ? bg_color : 'transparent'}"
+	class:text-black={bg_color}
+>
+	{#if JSON.stringify(final_results) !== JSON.stringify([null])}
+		<div class="w-screen flex justify-center mt-8">
+			<button
+				on:click={request_answer_export}
+				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				>{$t('admin_page.export_results')}</button
+			>
 		</div>
-		{#if players.length > 0}
-			<div class="flex justify-center w-full mt-4">
-				<button
-					class="ml-4 px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-					id="startGame"
-					on:click={() => {
-						socket.emit('start_game', '');
-						game_started = true;
-					}}
-					>{$t('admin_page.start_game')}
-				</button>
-			</div>
+		{#await import('$lib/play/end.svelte') then c}
+			<svelte:component
+				this={c.default}
+				bind:final_results
+				bind:question_count={quiz_data.questions.length}
+			/>
+		{/await}
+	{/if}
+	{#if !success}
+		<input placeholder="game id" bind:value={game_token} />
+		<input placeholder="game pin" bind:value={game_pin} />
+		<button on:click={connect}>{$t('words.connect')}!</button>
+		{#if errorMessage !== ''}
+			<p class="text-red-700">{errorMessage}</p>
 		{/if}
-	</div>
-{:else}
-	<SomeAdminScreen
-		bind:final_results
-		bind:game_pin
-		bind:game_token
-		bind:quiz_data
-		bind:game_mode
-	/>
-{/if}
-
+	{:else if !game_started}
+		<div class="w-full h-full">
+			<AudioPlayer bind:play={play_music} />
+			<img
+				alt="QR code to join the game"
+				src="/api/v1/utils/qr/{quiz_data.game_pin}?dark_mode={bg_color ? false : darkMode}"
+				class="block mx-auto w-1/6"
+			/>
+			<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
+			<div class="flex justify-center w-full mt-4">
+				<ul class="list-disc pl-8">
+					{#if players.length > 0}
+						{#each players as player}
+							<li>
+								<span
+									class="hover:line-through"
+									on:click={() => {
+										kick_player(player.username);
+									}}>{player.username}</span
+								>
+								<!--					<button>{$t('words.kick')}</button>-->
+							</li>
+						{/each}
+					{/if}
+				</ul>
+			</div>
+			{#if players.length > 0}
+				<div class="flex justify-center w-full mt-4">
+					<button
+						class="ml-4 px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+						id="startGame"
+						on:click={() => {
+							socket.emit('start_game', '');
+							game_started = true;
+						}}
+						>{$t('admin_page.start_game')}
+					</button>
+				</div>
+			{/if}
+		</div>
+	{:else}
+		<SomeAdminScreen
+			bind:final_results
+			bind:game_pin
+			bind:game_token
+			bind:quiz_data
+			bind:game_mode
+			bind:bg_color
+		/>
+	{/if}
+</div>
 <a
 	on:click|preventDefault={request_answer_export}
 	href="#"

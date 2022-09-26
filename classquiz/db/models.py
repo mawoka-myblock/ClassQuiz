@@ -111,6 +111,7 @@ class QuizInput(BaseModel):
     title: str
     description: str
     cover_image: str | None
+    background_color: str | None
     questions: list[QuizQuestion]
 
 
@@ -125,6 +126,7 @@ class Quiz(ormar.Model):
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
     imported_from_kahoot: Optional[bool] = ormar.Boolean(default=False, nullable=True)
     cover_image: Optional[str] = ormar.Text(nullable=True, unique=False)
+    background_color: str | None = ormar.Text(nullable=True, unique=False)
 
     class Meta:
         tablename = "quiz"
@@ -171,6 +173,7 @@ class PlayGame(BaseModel):
     cover_image: str | None
     game_mode: str | None
     current_question: int = -1
+    background_color: str | None
 
 
 class GamePlayer(BaseModel):

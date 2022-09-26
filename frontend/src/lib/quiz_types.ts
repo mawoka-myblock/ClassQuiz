@@ -13,6 +13,7 @@ export interface QuizData {
 	game_pin: string;
 	started: boolean;
 	cover_image?: string;
+	background_color?: string;
 }
 
 export enum QuizQuestionType {
@@ -47,4 +48,5 @@ export interface EditorData {
 	description: string;
 	questions: Question[];
 	cover_image?: string;
+	background_color?: string;
 }

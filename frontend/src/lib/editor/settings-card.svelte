@@ -7,6 +7,7 @@
 	import type { EditorData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
+
 	export let pow_data;
 	export let pow_salt;
 
@@ -15,8 +16,11 @@
 	let uppyOpen = false;
 
 	export let edit_id: string;
-
 	export let data: EditorData;
+
+	let custom_bg_color = Boolean(data.background_color);
+
+	$: data.background_color = custom_bg_color ? data.background_color : undefined;
 </script>
 
 <div class="w-full h-full pb-20 px-20">
@@ -121,6 +125,48 @@
 						<span>{$t('words.private')}</span>
 					{/if}
 				</button>
+			</div>
+			<div class="pt-10 w-full flex justify-center">
+				<div class="grid grid-cols-3 w-fit h-fit gap-4">
+					<div
+						class="max-w-full transition-all"
+						class:pointer-events-none={custom_bg_color}
+						class:opacity-50={custom_bg_color}
+					>
+						<div class="bg-gray-200 rounded-lg w-full h-full p-1">
+							<span
+								class="inline-block w-full h-full bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] dark:bg-[#0f2702] dark:from-[#0f2702] dark:via-[#0f2702] dark:to[#0f2702]"
+							/>
+						</div>
+					</div>
+					<div>
+						<label
+							for="large-toggle"
+							class="inline-flex relative items-center cursor-pointer"
+						>
+							<input
+								type="checkbox"
+								bind:checked={custom_bg_color}
+								id="large-toggle"
+								class="sr-only peer"
+							/>
+							<span
+								class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+							/>
+						</label>
+					</div>
+					<div
+						class:pointer-events-none={!custom_bg_color}
+						class:opacity-50={!custom_bg_color}
+						class="transition-all"
+					>
+						<input
+							type="color"
+							class="rounded-lg p-1 min-h-full hover:cursor-pointer"
+							bind:value={data.background_color}
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

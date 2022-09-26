@@ -81,7 +81,6 @@
 	socket.on('set_question_number', (data) => {
 		solution = undefined;
 		restart();
-		console.log(data, data.question_index);
 		question = data.question;
 		question_index = data.question_index;
 		answer_results = undefined;
@@ -118,6 +117,9 @@
 	socket.on('solutions', (data) => {
 		solution = data;
 	});
+
+	let bg_color;
+	$: bg_color = gameData ? gameData.background_color : undefined;
 	// The rest
 </script>
 
@@ -138,42 +140,52 @@
 		{/each}
 	{/if}-->
 </svelte:head>
-<div>
-	{#if !gameMeta.started && gameData === undefined}
-		<JoinGame {game_pin} bind:game_mode bind:username />
-	{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
-		<ShowEndScreen bind:final_results bind:question_count={gameData.question_count} />
-	{:else if gameData !== undefined && question_index === ''}
-		<ShowTitle
-			bind:title={gameData.title}
-			bind:description={gameData.description}
-			bind:cover_image={gameData.cover_image}
-		/>
-	{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
-		{#key unique}
-			<Question bind:game_mode bind:question bind:question_index bind:solution />
-		{/key}
-	{:else if gameMeta.started && answer_results !== undefined}
-		{#if answer_results === null}
-			<div class="w-full flex justify-center">
-				<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
-			</div>
-		{:else if game_mode === 'kahoot'}
-			<div>
-				<h2 class="text-center text-3xl mb-8">{$t('words.result', { count: 2 })}</h2>
-			</div>
+<div
+	class="min-h-screen min-w-full"
+	style="background: {bg_color ? bg_color : 'transparent'}"
+	class:text-black={bg_color}
+>
+	<div>
+		{#if !gameMeta.started && gameData === undefined}
+			<JoinGame {game_pin} bind:game_mode bind:username />
+		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
+			<ShowEndScreen bind:final_results bind:question_count={gameData.question_count} />
+		{:else if gameData !== undefined && question_index === ''}
+			<ShowTitle
+				bind:title={gameData.title}
+				bind:description={gameData.description}
+				bind:cover_image={gameData.cover_image}
+			/>
+		{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 			{#key unique}
-				<KahootResults bind:username bind:question_results={answer_results} bind:scores />
+				<Question bind:game_mode bind:question bind:question_index bind:solution />
 			{/key}
-		{:else}
-			{#key unique}
-				<ShowResults
-					bind:results={answer_results}
-					bind:game_data={gameData}
-					bind:question_index
-					bind:solution
-				/>
-			{/key}
+		{:else if gameMeta.started && answer_results !== undefined}
+			{#if answer_results === null}
+				<div class="w-full flex justify-center">
+					<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
+				</div>
+			{:else if game_mode === 'kahoot'}
+				<div>
+					<h2 class="text-center text-3xl mb-8">{$t('words.result', { count: 2 })}</h2>
+				</div>
+				{#key unique}
+					<KahootResults
+						bind:username
+						bind:question_results={answer_results}
+						bind:scores
+					/>
+				{/key}
+			{:else}
+				{#key unique}
+					<ShowResults
+						bind:results={answer_results}
+						bind:game_data={gameData}
+						bind:question_index
+						bind:solution
+					/>
+				{/key}
+			{/if}
 		{/if}
-	{/if}
+	</div>
 </div>

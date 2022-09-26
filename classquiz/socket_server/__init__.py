@@ -201,14 +201,16 @@ async def set_question_number(sid, data: str):
     if session["admin"]:
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
-        game_data.current_question = int(data)
+        game_data.current_question = int(float(data))
         await redis.set(f"game:{session['game_pin']}", game_data.json())
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
         await sio.emit(
             "set_question_number",
             {
-                "question_index": int(data),
-                "question": ReturnQuestion(**game_data.dict(include={"questions"})["questions"][int(data)]).dict(),
+                "question_index": int(float(data)),
+                "question": ReturnQuestion(
+                    **game_data.dict(include={"questions"})["questions"][int(float(data))]
+                ).dict(),
             },
             room=game_pin,
         )
@@ -244,21 +246,21 @@ async def submit_answer(sid: str, data: dict):
     session = await sio.get_session(sid)
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     answer_right = False
-    if game_data.questions[int(data.question_index)].type == QuizQuestionType.ABCD:
-        for answer in game_data.questions[int(data.question_index)].answers:
+    if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
+        for answer in game_data.questions[int(float(data.question_index))].answers:
             if answer.answer == data.answer and answer.right:
                 answer_right = True
                 break
-    elif game_data.questions[int(data.question_index)].type == QuizQuestionType.RANGE:
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.RANGE:
         if (
-            game_data.questions[int(data.question_index)].answers.min_correct
-            <= int(data.answer)
-            <= game_data.questions[int(data.question_index)].answers.max_correct
+            game_data.questions[int(float(data.question_index))].answers.min_correct
+            <= int(float(data.answer))
+            <= game_data.questions[int(float(data.question_index))].answers.max_correct
         ):
             answer_right = True
     else:
         raise NotImplementedError
-    latency = int((await sio.get_session(sid))["ping"])
+    latency = int(float((await sio.get_session(sid))["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
@@ -271,7 +273,9 @@ async def submit_answer(sid: str, data: dict):
 
     score = 0
     if answer_right:
-        score = calculate_score(abs(diff) - latency, int(game_data.questions[int(data.question_index)].time))
+        score = calculate_score(
+            abs(diff) - latency, int(float(game_data.questions[int(float(data.question_index))].time))
+        )
     await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     if answers is None:
         await redis.set(
