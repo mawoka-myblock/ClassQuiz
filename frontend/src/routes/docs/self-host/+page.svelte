@@ -35,10 +35,15 @@
 	<h2>Requirements</h2>
 	<h3>Software</h3>
 	<ul>
-		<li><a href="https://docker.com">Docker</a></li>
-		<li><a href="https://git-scm.com/">Git</a></li>
 		<li>
-			A <a href="https://redis.com">Redis</a>-Server
+			<a href="https://docker.com" target="_blank">Docker</a> (<a
+				href="https://docs.docker.com/compose/install/linux/"
+				target="_blank">Compose</a
+			>)
+		</li>
+		<li><a href="https://git-scm.com/" target="_blank">Git</a></li>
+		<li>
+			A <a href="https://redis.com" target="_blank">Redis</a>-Server
 		</li>
 	</ul>
 	<h3>3rd-Parties</h3>
