@@ -14,6 +14,7 @@
 	import AudioPlayer from '$lib/play/audio_player.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	import FinalResults from '$lib/play/admin/final_results.svelte';
 
 	navbarVisible.set(false);
 
@@ -28,6 +29,7 @@
 	let { game_pin, auto_connect, game_token } = data;
 
 	let players: Array<Player> = [];
+	let player_scores = {};
 	let errorMessage = '';
 	let game_started = false;
 	let quiz_data: QuizData;
@@ -118,6 +120,8 @@
 	};
 	let bg_color;
 	$: bg_color = quiz_data ? quiz_data.background_color : undefined;
+	let show_final_results = false;
+	$: show_final_results = JSON.stringify(final_results) !== JSON.stringify([null]);
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
@@ -137,13 +141,17 @@
 				>{$t('admin_page.export_results')}</button
 			>
 		</div>
-		{#await import('$lib/play/end.svelte') then c}
-			<svelte:component
-				this={c.default}
-				bind:final_results
-				bind:question_count={quiz_data.questions.length}
-			/>
-		{/await}
+		<!--{#if game_mode === 'kahoot'}-->
+		<FinalResults bind:data={player_scores} bind:show_final_results />
+		<!--		{:else}
+			{#await import('$lib/play/end.svelte') then c}
+				<svelte:component
+					this={c.default}
+					bind:final_results
+					bind:question_count={quiz_data.questions.length}
+				/>
+			{/await}
+		{/if}-->
 	{/if}
 	{#if !success}
 		<input placeholder="game id" bind:value={game_token} />
@@ -200,6 +208,7 @@
 			bind:quiz_data
 			bind:game_mode
 			bind:bg_color
+			bind:player_scores
 		/>
 	{/if}
 </div>

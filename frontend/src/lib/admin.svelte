@@ -28,7 +28,7 @@
 	let shown_question_now: number;
 	let final_results_clicked = false;
 
-	let player_scores = {};
+	export let player_scores;
 
 	export const set_question_number = (q_number: number) => {
 		question_results = null;
