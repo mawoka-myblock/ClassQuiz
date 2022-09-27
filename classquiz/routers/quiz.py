@@ -16,12 +16,11 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
 import bleach
 
-from classquiz.auth import get_current_user, check_api_key
+from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2, GamePlayer
+from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
-from classquiz.socket_server import sio, ReturnQuestion
 
 settings = settings()
 
@@ -253,125 +252,3 @@ async def export_quiz_answers(export_token: str, game_pin: str):
         media_type="application/vnd.ms-excel",
         headers={"Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title}.xlsx"},
     )
-
-
-class _GetLiveDataPlayers(BaseModel):
-    count: int | str
-
-
-class GetLiveDataResponse(BaseModel):
-    quiz: PlayGame
-    data: GameSession
-    players: _GetLiveDataPlayers
-
-
-@router.get("/live", tags=["live"])
-async def get_live_game_data(
-    game_pin: int, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
-):
-    user_id = await check_api_key(api_key)
-    redis_res = await redis.get(f"game:{game_pin}")
-    if redis_res is None or user_id is None:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game = PlayGame.parse_raw(redis_res)
-    if game.user_id != user_id:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    data = GameSession.parse_raw(await redis.get(f"game_session:{game_pin}"))
-    for i in range(0, len(game.questions)):
-        res = await redis.get(f"game_session:{game_pin}:{i}")
-        if res is None:
-            break
-        else:
-            res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
-            data.answers.append(ga_1)
-    player_count = await redis.scard(f"game_session:{game_pin}:players")
-    return_obj = None
-    if player_count_as_a_string:
-        return_obj = GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=str(player_count)))
-    else:
-        return_obj = GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=player_count))
-
-    if in_array:
-        return [return_obj]
-    else:
-        return return_obj
-
-
-@router.get("/live/user_count", tags=["live"])
-async def get_game_user_count(game_pin: int, as_string: bool = False):
-    # if redis_res is None:
-    #     raise HTTPException(status_code=404, detail="Game not found")
-    player_count = await redis.scard(f"game_session:{game_pin}:players")
-    if as_string:
-        return {"players": {"count": str(player_count)}}
-    else:
-        return {"players": {"count": player_count}}
-
-
-class _LivePlayersReturn(BaseModel):
-    # players: list[GamePlayer | None]
-    answers: list[GameAnswer1 | None]
-    players: list[GamePlayer | None]
-
-
-@router.get(
-    "/live/players",
-    tags=["live"],
-)
-async def get_game_session(game_pin: int, api_key: str, in_array: bool = False):
-    user_id = await check_api_key(api_key)
-    redis_res = await redis.get(f"game_session:{game_pin}")
-    if redis_res is None or user_id is None:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    data = GameSession.parse_raw(redis_res)
-    game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
-    if game.user_id != user_id:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    for i in range(0, len(game.questions)):
-        res = await redis.get(f"game_session:{game_pin}:{i}")
-        if res is None:
-            break
-        else:
-            res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
-            data.answers.append(ga_1)
-    players = await redis.smembers(f"game_session:{game_pin}:players")
-    player_list = []
-    for p in players:
-        player_list.append(GamePlayer.parse_raw(p))
-    if in_array:
-        return [_LivePlayersReturn(answers=data.answers, players=player_list)]
-    else:
-        return _LivePlayersReturn(answers=data.answers, players=player_list)
-
-
-@router.post("/live/set_question", tags=["live"])
-async def set_next_question(game_pin: int, question_number: int, api_key: str):
-    user_id = await check_api_key(api_key)
-    redis_res = await redis.get(f"game:{game_pin}")
-    if redis_res is None or user_id is None:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game_data = PlayGame.parse_raw(redis_res)
-    if game_data.user_id != user_id:
-        raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game_data.current_question = question_number
-    await redis.set(f"game:{game_pin}", game_data.json())
-    await sio.emit(
-        "set_question_number",
-        {
-            "question_index": question_number,
-            "question": ReturnQuestion(**game_data.dict(include={"questions"})["questions"][question_number]).dict(),
-        },
-        room=game_pin,
-    )
-
-
-@router.get("/live/scores", tags=["live"])
-async def get_live_player_scores(game_pin: int):
-    res = await redis.hgetall(f"game_session:{game_pin}:player_scores")
-    return_arr = []
-    for username in res:
-        return_arr.append({"username": username, "score": int(res[username])})
-    return_arr = sorted(return_arr, key=lambda d: d["score"], reverse=True)
-    return return_arr
