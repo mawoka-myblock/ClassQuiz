@@ -18,7 +18,7 @@ import bleach
 
 from classquiz.auth import get_current_user, check_api_key
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2
+from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameSession, GameAnswer1, GameAnswer2, GamePlayer
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
 from classquiz.socket_server import sio, ReturnQuestion
@@ -309,8 +309,17 @@ async def get_game_user_count(game_pin: int, as_string: bool = False):
         return {"players": {"count": player_count}}
 
 
-@router.get("/live/players", response_model=GameSession, tags=["live"])
-async def get_game_session(game_pin: int, api_key: str):
+class _LivePlayersReturn(BaseModel):
+    # players: list[GamePlayer | None]
+    answers: list[GameAnswer1 | None]
+    players: list[GamePlayer | None]
+
+
+@router.get(
+    "/live/players",
+    tags=["live"],
+)
+async def get_game_session(game_pin: int, api_key: str, in_array: bool = False):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None or user_id is None:
@@ -327,7 +336,14 @@ async def get_game_session(game_pin: int, api_key: str):
             res = json.loads(res)
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
-    return data
+    players = await redis.smembers(f"game_session:{game_pin}:players")
+    player_list = []
+    for p in players:
+        player_list.append(GamePlayer.parse_raw(p))
+    if in_array:
+        return [_LivePlayersReturn(answers=data.answers, players=player_list)]
+    else:
+        return _LivePlayersReturn(answers=data.answers, players=player_list)
 
 
 @router.post("/live/set_question", tags=["live"])
