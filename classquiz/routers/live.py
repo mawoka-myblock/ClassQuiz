@@ -69,7 +69,10 @@ async def get_live_game_data(
                     right=answer.right, answer=answer.answer, color=answer.color, color_code=color
                 )
 
-    data = GameSession.parse_raw(await redis.get(f"game_session:{game_pin}"))
+    data_redis_res = await redis.get(f"game_session:{game_pin}")
+    if data_redis_res is None:
+        raise HTTPException(status_code=404, detail="Game not found or API key not found")
+    data = GameSession.parse_raw(data_redis_res)
     for i in range(0, len(game.questions)):
         res = await redis.get(f"game_session:{game_pin}:{i}")
         if res is None:
