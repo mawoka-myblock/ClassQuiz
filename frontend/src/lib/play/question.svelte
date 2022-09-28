@@ -96,7 +96,7 @@
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
-	<h1 class="text-6xl text-center">
+	<h1 class="text-6xl text-center text-black dark:text-white">
 		{question.question}
 	</h1>
 	<div class="mx-auto my-2">
@@ -115,10 +115,10 @@
 {#if timer_res !== '0'}
 	{#if question.type === QuizQuestionType.ABCD}
 		{#if game_mode === 'normal'}
-			<div class="flex flex-wrap">
+			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each question.answers as answer}
 					<button
-						class="w-1/2 text-3xl my-2 disabled:opacity-60 border border-white"
+						class="text-3xl rounded-lg h-fit text-center disabled:opacity-60 p-3"
 						style="background-color: {answer.color ?? '#B45309'}"
 						disabled={selected_answer !== undefined}
 						on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
@@ -170,17 +170,17 @@
 	{#if solution === undefined}
 		<Spinner />
 	{:else}
-		<div class="flex flex-wrap">
+		<div class="grid grid-cols-2 gap-2 w-full p-4">
 			{#each solution.answers as answer}
 				{#if answer.right}
 					<button
-						class="w-1/2 text-3xl bg-green-600 border border-white"
+						class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-green-600"
 						disabled
 						class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
 					>
 				{:else}
 					<button
-						class="w-1/2 text-3xl bg-red-500 border border-white"
+						class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-red-500"
 						disabled
 						class:opacity-30={answer.answer !== selected_answer}>{answer.answer}</button
 					>

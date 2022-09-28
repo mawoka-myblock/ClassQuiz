@@ -158,7 +158,9 @@
 			/>
 		{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 			{#key unique}
-				<Question bind:game_mode bind:question bind:question_index bind:solution />
+				<div class="text-black dark:text-black">
+					<Question bind:game_mode bind:question bind:question_index bind:solution />
+				</div>
 			{/key}
 		{:else if gameMeta.started && answer_results !== undefined}
 			{#if answer_results === null}

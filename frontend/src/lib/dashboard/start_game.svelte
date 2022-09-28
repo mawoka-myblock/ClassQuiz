@@ -8,13 +8,16 @@
 	import { captcha_enabled } from '$lib/config';
 	import StartGameBackground from './start_game_background.svg';
 	import { fade } from 'svelte/transition';
+	import Spinner from '$lib/Spinner.svelte';
 
 	export let quiz_id;
 	let captcha_selected = false;
-	let selected_game_mode = 'normal';
+	let selected_game_mode = 'kahoot';
+	let loading = false;
 
 	const start_game = async (id: string) => {
 		let res;
+		loading = true;
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
 				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}`,
@@ -82,40 +85,44 @@
 		<div class="grid grid-cols-2 gap-8 my-auto">
 			<div
 				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
-				class:opacity-50={selected_game_mode !== 'normal'}
-				on:click={() => {
-					selected_game_mode = 'normal';
-				}}
-			>
-				<h2 class="text-center text-2xl">Normal</h2>
-				<p>
-					Questions, images and answers will be shown on both admins screen and on the
-					screen of the players
-				</p>
-			</div>
-			<div
-				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
 				class:opacity-50={selected_game_mode !== 'kahoot'}
 				on:click={() => {
 					selected_game_mode = 'kahoot';
 				}}
 			>
-				<h2 class="text-center text-2xl">Kahoot!-Like [EARLY BETA]</h2>
+				<h2 class="text-center text-2xl">Normal</h2>
 				<p>
 					Question and answer will only be shown on admins screen, like Kahoot!. The
 					players will only have colored buttons with symbols matching these on the screen
 					of the admin.
 				</p>
 			</div>
+			<div
+				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
+				class:opacity-50={selected_game_mode !== 'normal'}
+				on:click={() => {
+					selected_game_mode = 'normal';
+				}}
+			>
+				<h2 class="text-center text-2xl">Old-School</h2>
+				<p>
+					Questions and images will be shown on both admins screen and on the screen of
+					the players
+				</p>
+			</div>
 		</div>
 
 		<button
-			class="mt-auto mx-auto bg-green-500 p-4 rounded-lg shadow-lg"
+			class="mt-auto mx-auto bg-green-500 p-4 rounded-lg shadow-lg hover:bg-green-400 transition-all marck-script text-2xl"
 			on:click={() => {
 				start_game(quiz_id);
 			}}
 		>
-			START GAME
+			{#if loading}
+				<Spinner my_20={false} />
+			{:else}
+				Start Game
+			{/if}
 		</button>
 	</div>
 </div>
