@@ -105,8 +105,10 @@
 	};
 
 	const delete_api_key = async (key: string) => {
-		await fetch(`/api/v1/users/api_keys?api_key=${key}`, { method: 'DELETE' });
-		api_keys = get_api_keys();
+		if (confirm('Do you really want to delete this API-Key?')) {
+			await fetch(`/api/v1/users/api_keys?api_key=${key}`, { method: 'DELETE' });
+			api_keys = get_api_keys();
+		}
 	};
 
 	const getSessions = async () => {
@@ -209,13 +211,16 @@
 						<Spinner />
 					{:then keys}
 						{#each keys as key}
-							<p
-								on:contextmenu|preventDefault={() => {
-									delete_api_key(key.key);
-								}}
-							>
+							<div>
 								{key.key}
-							</p>
+								<button
+									on:click={() => {
+										delete_api_key(key.key);
+									}}
+									class="admin-button"
+									>Delete
+								</button>
+							</div>
 						{/each}
 					{/await}
 				</div>
