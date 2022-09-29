@@ -135,9 +135,7 @@
 >
 	{#if JSON.stringify(final_results) !== JSON.stringify([null])}
 		<div class="w-screen flex justify-center mt-8">
-			<button
-				on:click={request_answer_export}
-				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			<button on:click={request_answer_export} class="admin-button"
 				>{$t('admin_page.export_results')}</button
 			>
 		</div>
@@ -189,7 +187,7 @@
 			{#if players.length > 0}
 				<div class="flex justify-center w-full mt-4">
 					<button
-						class="ml-4 px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+						class="ml-4 admin-button"
 						id="startGame"
 						on:click={() => {
 							socket.emit('start_game', '');

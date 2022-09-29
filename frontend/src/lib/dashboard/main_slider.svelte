@@ -10,7 +10,7 @@
 	import 'swiper/css/navigation';
 	import { Pagination, EffectCoverflow, Keyboard, Mousewheel, Navigation } from 'swiper';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
-	import { getLocalization } from '../i18n';
+	import { getLocalization } from '$lib/i18n';
 	import StartGamePopup from './start_game.svelte';
 	import { onMount } from 'svelte';
 

@@ -92,7 +92,6 @@
 			circular_prgoress = 0;
 		}
 	}
-	$: console.log(quiz_data.questions.length, 'length of quiz');
 </script>
 
 {#if game_mode === 'kahoot'}
@@ -105,38 +104,47 @@
 			{selected_question === -1 ? '0' : selected_question + 1}
 			/{quiz_data.questions.length}
 		</p>
-		{#if selected_question >= 0}
+		{#if selected_question >= 0 && JSON.stringify(final_results) === JSON.stringify([null])}
 			<div class="flex justify-center flex-col my-auto col-start-2 col-end-2">
 				<h2 class="text-center">{quiz_data.questions[selected_question].question}</h2>
 				<p class="w-full text-center">{timer_res}</p>
 			</div>
 		{/if}
 		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0'}
+			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
 				{#if JSON.stringify(final_results) === JSON.stringify([null])}
-					<button on:click={get_final_results}>Get final results</button>
+					<button on:click={get_final_results} class="admin-button"
+						>Get final results</button
+					>
 				{/if}
 			{:else if timer_res === '0' || selected_question === -1}
-				<button
-					on:click={() => {
-						set_question_number(selected_question + 1);
-					}}
-					>Next Question ({selected_question + 2})
-				</button>
+				{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
+					<button
+						on:click={() => {
+							set_question_number(selected_question + 1);
+						}}
+						class="admin-button"
+						>Next Question ({selected_question + 2})
+					</button>
+				{/if}
 				{#if question_results === null && selected_question !== -1}
-					<button on:click={get_question_results}>Show results</button>
+					<button on:click={get_question_results} class="admin-button"
+						>Show results</button
+					>
 				{/if}
 			{:else if selected_question !== -1}
-				<button on:click={show_solutions}>Stop time and show solutions</button>
+				<button on:click={show_solutions} class="admin-button"
+					>Stop time and show solutions</button
+				>
 			{:else}
-				<p>!OK!</p>
-				<button
+				<!--				<button
 					on:click={() => {
 						set_question_number(selected_question + 1);
 					}}
-					>Next Question ({selected_question + 2}
+					class='admin-button'
+				>Next Question ({selected_question + 2}
 					)
-				</button>
+				</button>-->
 			{/if}
 		</div>
 	</div>
@@ -196,15 +204,14 @@
 		{/if}
 	{/if}
 	<br />
-	{#if timer_res === '0'}
+	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify([null])}
 		{#if question_results === null}
 			{#if game_mode === 'normal'}
 				<div class="w-full flex justify-center">
 					<button
 						on:click={get_question_results}
 						id="GetQuestionResults"
-						class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-						>{$t('admin_page.get_results')}</button
+						class="admin-button">{$t('admin_page.get_results')}</button
 					>
 				</div>
 			{/if}
@@ -233,8 +240,7 @@
 						timer_res = '0';
 					}}
 					id="GetQuestionResultsAndStopTime"
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-					>{$t('admin_page.stop_time')}</button
+					class="admin-button">{$t('admin_page.stop_time')}</button
 				>
 			</div>
 		{/if}
@@ -244,7 +250,7 @@
 		{#if game_mode === 'normal'}
 			<div class="w-full flex justify-center">
 				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+					class="admin-button"
 					disabled={!(timer_res === undefined || timer_res === '0')}
 					id="SetQuestionNumber"
 					on:click={() => {
@@ -264,7 +270,7 @@
 					on:click={() => {
 						set_question_number(0);
 					}}
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+					class="admin-button"
 				>
 					{$t('admin_page.start_by_showing_first_question')}
 				</button>
@@ -273,9 +279,7 @@
 	{:else if final_results_clicked === false}
 		{#if game_mode === 'normal'}
 			<div class="w-screen flex justify-center">
-				<button
-					on:click={get_final_results}
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				<button on:click={get_final_results} class="admin-button"
 					>{$t('admin_page.get_final_results')}</button
 				>
 			</div>
