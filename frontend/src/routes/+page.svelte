@@ -140,6 +140,30 @@
 		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
 	/>
 	<meta name="twitter:image" content={WebPOpenGraph} />
+	<style>
+		
+		.why-classquiz::-webkit-scrollbar {
+			height: 0.8rem;
+			margin-bottom: 5rem;
+		}
+
+		.why-classquiz::-webkit-scrollbar-track {
+			box-shadow: inset 0 0 10px 10px transparent;
+			border: solid 3px transparent;
+		}
+
+		.why-classquiz::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 10px 10px #374151;
+			border: solid 3px transparent;
+			border-radius: 15px;
+		}
+
+		.why-classquiz::-webkit-scrollbar-thumb:hover {
+			box-shadow: inset 0 0 10px 10px #555;
+			border: solid 3px transparent;
+		}
+
+	</style>
 </svelte:head>
 
 <!--<div class="min-h-screen flex flex-col">
