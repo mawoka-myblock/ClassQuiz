@@ -33,23 +33,23 @@
 	}
 }
 
-#why-classquiz::-webkit-scrollbar {
+.why-classquiz::-webkit-scrollbar {
 	height: 0.8rem;
 	margin-bottom: 5rem;
 }
 
-#why-classquiz::-webkit-scrollbar-track {
+.why-classquiz::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 10px 10px transparent;
 	border: solid 3px transparent;
 }
 
-#why-classquiz::-webkit-scrollbar-thumb {
+.why-classquiz::-webkit-scrollbar-thumb {
 	box-shadow: inset 0 0 10px 10px #374151;
 	border: solid 3px transparent;
 	border-radius: 15px;
 }
 
-#why-classquiz::-webkit-scrollbar-thumb:hover {
+.why-classquiz::-webkit-scrollbar-thumb:hover {
 	box-shadow: inset 0 0 10px 10px #555;
 	border: solid 3px transparent;
 }

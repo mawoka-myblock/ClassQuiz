@@ -490,8 +490,7 @@
 				</div>
 			</div>
 			<div
-				id="why-classquiz"
-				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch overflow-x-auto"
+				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch overflow-x-auto why-classquiz"
 			>
 				{#each classquiz_reasons as reason, index}
 					<div
