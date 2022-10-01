@@ -141,7 +141,6 @@
 	/>
 	<meta name="twitter:image" content={WebPOpenGraph} />
 	<style>
-		
 		.why-classquiz::-webkit-scrollbar {
 			height: 0.8rem;
 			margin-bottom: 5rem;
@@ -162,7 +161,6 @@
 			box-shadow: inset 0 0 10px 10px #555;
 			border: solid 3px transparent;
 		}
-
 	</style>
 </svelte:head>
 
