@@ -81,10 +81,10 @@ def mint(resource, bits=20, now=None, ext="", saltchars=8, stamp_seconds=False):
     return challenge + _mint(challenge, bits)
 
 
-def _salt(l):
-    "Return a random string of length 'l'"
+def _salt(length):
+    "Return a random string of length 'length'"
     alphabet = ascii_letters + "+/="
-    return "".join([choice(alphabet) for _ in [None] * l])
+    return "".join([choice(alphabet) for _ in [None] * length])
 
 
 def _mint(challenge, bits):

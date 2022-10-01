@@ -22,3 +22,10 @@ repos:
         additional_dependencies:
           - "prettier-plugin-svelte@latest"
           - "prettier@latest"
+  - repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+        # flake8 is passed in all tracked python files
+        # so --exclude in .flake8 does not work
+        exclude: ^migrations/versions/

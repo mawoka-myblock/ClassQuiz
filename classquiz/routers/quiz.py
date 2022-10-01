@@ -169,7 +169,7 @@ async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
-    ## Check Cover-Image
+    # Check Cover-Image
 
     print(quiz_input.cover_image)
     if quiz_input.cover_image == "":

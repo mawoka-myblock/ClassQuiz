@@ -6,8 +6,6 @@ from logging.config import fileConfig
 from classquiz.db.models import metadata
 from classquiz.config import settings
 from sqlalchemy import create_engine
-from sqlalchemy.ext.asyncio import async_engine_from_config
-import asyncio
 
 from alembic import context
 
