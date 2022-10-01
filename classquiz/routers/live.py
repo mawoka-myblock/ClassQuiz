@@ -105,16 +105,16 @@ async def get_game_user_count(game_pin: int, as_string: bool = False):
         return {"players": {"count": player_count}}
 
 
-class _LivePlayersReturn(BaseModel):
-    # players: list[GamePlayer | None]
-    answers: list[GameAnswer1 | None]
-    players: list[GamePlayer | None]
+# class _LivePlayersReturn(BaseModel):
+#     # players: list[GamePlayer | None]
+#     answers: list[GameAnswer1 | None]
+#     players: list[GamePlayer | None]
 
 
 @router.get(
     "/players",
 )
-async def get_game_session(game_pin: int, api_key: str, in_array: bool = False):
+async def get_game_session(game_pin: int, api_key: str):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None or user_id is None:
@@ -135,10 +135,7 @@ async def get_game_session(game_pin: int, api_key: str, in_array: bool = False):
     player_list = []
     for p in players:
         player_list.append(GamePlayer.parse_raw(p))
-    if in_array:
-        return [_LivePlayersReturn(answers=data.answers, players=player_list)]
-    else:
-        return _LivePlayersReturn(answers=data.answers, players=player_list)
+    return player_list
 
 
 @router.post("/set_question")
