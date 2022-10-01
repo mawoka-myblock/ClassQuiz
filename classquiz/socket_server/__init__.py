@@ -11,9 +11,9 @@ import socketio
 from cryptography.fernet import Fernet
 
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, RangeQuizAnswer, QuizQuestion
+from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, QuizQuestion
 from pydantic import BaseModel, ValidationError, validator
-from datetime import timedelta, datetime
+from datetime import datetime
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()

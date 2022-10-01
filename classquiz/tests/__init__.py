@@ -57,7 +57,30 @@ example_quiz = {
 test_user_email = "sth@byom.de"
 test_user_password = "test"
 
-# mock_test_results = {'0': [{'username': 'Player 1', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False}, {'username': 'Player 2', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False}, {'username': 'Player 3', 'answer': 'Bit, Byte, KB, MB, GB, TB', 'right': True}], '1': [{'username': 'Player 3', 'answer': 'CPU', 'right': True}, {'username': 'Player 2', 'answer': 'CPU', 'right': True}, {'username': 'Player 1', 'answer': 'CPU', 'right': True}], '2': [{'username': 'Player 1', 'answer': 'Peripheriegeräte', 'right': True}, {'username': 'Player 2', 'answer': 'Speichergeräte', 'right': False}, {'username': 'Player 3', 'answer': 'Kommunikationsgeräte', 'right': False}], '3': [{'username': 'Player 1', 'answer': 'die Taktfrequenz der CPU', 'right': True}, {'username': 'Player 2', 'answer': 'die Taktfrequenz der CPU', 'right': True}, {'username': 'Player 3', 'answer': 'die Taktfrequenz der CPU', 'right': True}], '4': [{'username': 'Player 3', 'answer': 'Drucker', 'right': True}, {'username': 'Player 2', 'answer': 'Drucker', 'right': True}, {'username': 'Player 1', 'answer': 'Tabellenkalkulation', 'right': False}], '5': [{'username': 'Player 1', 'answer': 'CPU (Central Processing Unit)', 'right': False}, {'username': 'Player 2', 'answer': 'RAM (Random Access Memory)', 'right': True}, {'username': 'Player 3', 'answer': 'RAM (Random Access Memory)', 'right': True}], '6': [{'username': 'Player 3', 'answer': 'RAM', 'right': True}, {'username': 'Player 2', 'answer': 'ROM', 'right': False}, {'username': 'Player 1', 'answer': 'RAM', 'right': True}], '7': [{'username': 'Player 1', 'answer': '1 TB (Terabyte)', 'right': True}, {'username': 'Player 2', 'answer': '500 KB (Kilobyte)', 'right': False}, {'username': 'Player 3', 'answer': '500 TB (Terabyte)', 'right': False}], '8': [{'username': 'Player 3', 'answer': 'Tabellenkalkulationsprogramm', 'right': True}, {'username': 'Player 2', 'answer': 'Tabellenkalkulationsprogramm', 'right': True}, {'username': 'Player 1', 'answer': 'Linux', 'right': False}], '9': [{'username': 'Player 1', 'answer': 'Anwendungsprogramme', 'right': True}, {'username': 'Player 2', 'answer': 'Lernprogramme', 'right': False}, {'username': 'Player 3', 'answer': 'Anwendungsprogramme', 'right': True}]}
+# mock_test_results = {'0': [{'username': 'Player 1', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False},
+# {'username': 'Player 2', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False}, {'username': 'Player 3',
+# 'answer': 'Bit, Byte, KB, MB, GB, TB', 'right': True}], '1': [{'username': 'Player 3', 'answer': 'CPU',
+# 'right': True}, {'username': 'Player 2', 'answer': 'CPU', 'right': True}, {'username': 'Player 1',
+# 'answer': 'CPU', 'right': True}], '2': [{'username': 'Player 1', 'answer': 'Peripheriegeräte',
+# 'right': True}, {'username': 'Player 2', 'answer': 'Speichergeräte', 'right': False},
+# {'username': 'Player 3', 'answer': 'Kommunikationsgeräte', 'right': False}], '3': [{'username': 'Player 1',
+# 'answer': 'die Taktfrequenz der CPU', 'right': True}, {'username': 'Player 2',
+# 'answer': 'die Taktfrequenz der CPU', 'right': True}, {'username': 'Player 3',
+# 'answer': 'die Taktfrequenz der CPU', 'right': True}], '4': [{'username': 'Player 3', 'answer': 'Drucker',
+# 'right': True}, {'username': 'Player 2', 'answer': 'Drucker', 'right': True}, {'username': 'Player 1',
+# 'answer': 'Tabellenkalkulation', 'right': False}], '5': [{'username': 'Player 1',
+# 'answer':'CPU (Central Processing Unit)', 'right': False}, {'username': 'Player 2',
+# 'answer': 'RAM (Random Access Memory)', 'right': True}, {'username': 'Player 3',
+# 'answer': 'RAM (Random Access Memory)', 'right': True}], '6': [{'username': 'Player 3', 'answer': 'RAM',
+# 'right': True}, {'username': 'Player 2', 'answer': 'ROM', 'right': False}, {'username': 'Player 1',
+# 'answer': 'RAM', 'right': True}], '7': [{'username': 'Player 1', 'answer': '1 TB (Terabyte)',
+# 'right': True}, {'username': 'Player 2', 'answer': '500 KB (Kilobyte)', 'right': False},
+# {'username': 'Player 3', 'answer': '500 TB (Terabyte)', 'right': False}], '8': [{'username': 'Player 3',
+# 'answer': 'Tabellenkalkulationsprogramm', 'right': True}, {'username': 'Player 2',
+# 'answer': 'Tabellenkalkulationsprogramm', 'right': True}, {'username': 'Player 1', 'answer': 'Linux',
+# 'right': False}], '9': [{'username': 'Player 1', 'answer': 'Anwendungsprogramme', 'right': True},
+# {'username': 'Player 2', 'answer': 'Lernprogramme', 'right': False}, {'username': 'Player 3',
+# 'answer': 'Anwendungsprogramme', 'right': True}]}
 
 
 @pytest.fixture(scope="module")
