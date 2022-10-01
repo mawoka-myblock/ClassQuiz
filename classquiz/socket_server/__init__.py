@@ -373,7 +373,6 @@ async def kick_player(sid: str, data: dict):
         return
 
     player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{data.username}")
-
-    print(player_sid, session["game_pin"])
+    await redis.spop(f"game_session:{session['game_pin']}:players", GamePlayer(username=data.username, sid=sid).json())
     sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)
