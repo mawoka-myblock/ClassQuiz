@@ -194,7 +194,8 @@ class ReturnQuestion(QuizQuestion):
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
-            print("Answer must be from type VotingQuizAnswer if type is VOTING")
+            # print("Answer must be from type VotingQuizAnswer if type is VOTING")
+            pass
         return v
 
 
@@ -208,12 +209,10 @@ async def set_question_number(sid, data: str):
         game_data.current_question = int(float(data))
         await redis.set(f"game:{session['game_pin']}", game_data.json())
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
-        # print(game_data.dict(include={"questions"})["questions"][int(float(data))])
         temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
         if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
-        print(temp_return)
         await sio.emit(
             "set_question_number",
             {
