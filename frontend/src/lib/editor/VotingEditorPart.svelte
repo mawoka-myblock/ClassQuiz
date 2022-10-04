@@ -9,7 +9,6 @@
 	import { reach } from 'yup';
 	import { getLocalization } from '$lib/i18n';
 	import { VotingQuestionSchema } from '$lib/yupSchemas';
-	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
 
@@ -24,6 +23,7 @@
 		if (typeof data.questions[selected_question].answers[0].right === 'boolean') {
 			data.questions[selected_question].answers = [];
 		}
+		// eslint-disable-next-line no-empty
 	} catch {}
 
 	/*console.log(data.questions[selected_question].answers, 'moIn!', data.questions[selected_question].answers.length);
@@ -34,12 +34,6 @@
 		}
 	});*/
 </script>
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
 
 <div class="grid grid-cols-2 gap-4 w-full px-10">
 	{#if Array.isArray(data.questions[selected_question].answers)}
