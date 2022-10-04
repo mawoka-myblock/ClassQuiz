@@ -188,3 +188,28 @@ async def get_live_player_scores(game_pin: str, api_key: str):
         return_arr.append({"username": username, "score": int(res[username])})
     return_arr = sorted(return_arr, key=lambda d: d["score"], reverse=True)
     return return_arr
+
+
+@router.get("/get_question/now")
+async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str):
+    user_id = await check_api_key(api_key)
+    redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None or user_id is None:
+        raise HTTPException(status_code=404, detail="Game not found or API key not found")
+    game = PlayGame.parse_raw(redis_res)
+    for i, question in enumerate(game.questions):
+        if question.type == QuizQuestionType.ABCD:
+            for o, answer in enumerate(question.answers):
+                color = "#00F007"
+                if not answer.right:
+                    color = "#FF0000"
+                game.questions[i].answers[o] = _ABCDQuizAnswer(
+                    right=answer.right, answer=answer.answer, color=answer.color, color_code=color
+                )
+    if game.current_question >= 0:
+        return [{**game.questions[game.current_question].dict(), "current_question": game.current_question}]
+    else:
+        return [{"question": {}, "current_question": game.current_question}]
