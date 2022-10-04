@@ -107,9 +107,9 @@ async def join_game(sid: str, data: dict):
     await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
     if data.custom_field == "":
         data.custom_field = None
-    print(data.custom_field)
     if data.custom_field is not None:
-        await redis.hset(f"game:{data.game_pin}:player:custom_fields", data.username, data.custom_field)
+        await redis.hset(f"game:{data.game_pin}:players:custom_fields", data.username, data.custom_field)
+
     # await redis.set(
     #     f"game_session:{data.game_pin}",
     #     GameSession(admin=redis_res.admin, game_id=redis_res.game_id, answers=[]).json(),

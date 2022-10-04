@@ -5,7 +5,7 @@
 
 import json
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from classquiz.config import settings, redis
 from classquiz.db.models import (
     PlayGame,
@@ -37,6 +37,17 @@ class _ABCDQuizAnswer(ABCDQuizAnswer):
 
 class _QuizQuestion(QuizQuestion):
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[VotingQuizAnswer]
+
+    @validator("answers")
+    def answers_not_none_if_abcd_type(cls, v, values):
+        if values["type"] == QuizQuestionType.ABCD and type(v[0]) != _ABCDQuizAnswer:
+            print(type(v[0]))
+            raise ValueError("Answers can't be none if type is ABCD")
+        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
+            raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
+            raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
+        return v
 
 
 class _GetLivePlayGame(PlayGame):
