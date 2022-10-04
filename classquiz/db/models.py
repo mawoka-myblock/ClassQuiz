@@ -183,6 +183,7 @@ class PlayGame(BaseModel):
     game_mode: str | None
     current_question: int = -1
     background_color: str | None
+    custom_field: str | None
 
 
 class GamePlayer(BaseModel):

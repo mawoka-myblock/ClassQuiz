@@ -29,9 +29,18 @@ async def get_meili_data(quiz: Quiz) -> dict:
     }
 
 
-async def generate_spreadsheet(quiz_results: dict, quiz: Quiz) -> BytesIO:
+async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: dict) -> BytesIO:
     storage = BytesIO()
     workbook = xlsxwriter.Workbook(storage, {"in_memory": True})
+    player_worksheet = workbook.add_worksheet()
+    player_worksheet.name = "Players"
+    player_worksheet.write(0, 0, "Username")
+    player_worksheet.write(0, 1, "Score")
+    player_worksheet.write(0, 2, "Custom-Field")
+    for i, player in enumerate(player_fields.keys()):
+        player_worksheet.write(i + 1, 0, player)
+        player_worksheet.write(i + 1, 2, player_fields[player])
+
     worksheet = workbook.add_worksheet()
     worksheet.name = "Questions"
     worksheet.write(0, 0, "Question")

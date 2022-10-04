@@ -16,6 +16,10 @@
 	export let game_mode;
 
 	export let username;
+	let custom_field;
+	let custom_field_value;
+	let captcha_enabled;
+
 	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
 
 	let hcaptcha = {
@@ -48,17 +52,13 @@
 		}
 	});
 
-	const setUsername = async () => {
-		if (username.length <= 3) {
-			return;
-		}
-		let captcha_resp: string;
+	const set_game_pin = async () => {
 		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
-		let captcha_enabled;
 		const json = await res.json();
 		game_mode = json.game_mode;
 		if (res.status === 200) {
 			captcha_enabled = json.enabled;
+			custom_field = json.custom_field;
 		}
 		if (res.status === 404) {
 			alertModal.set({
@@ -77,6 +77,17 @@
 			});
 			return;
 		}
+	};
+
+	$: if (game_pin.length >= 7) {
+		set_game_pin();
+	}
+
+	const setUsername = async () => {
+		if (username.length <= 3) {
+			return;
+		}
+		let captcha_resp: string;
 
 		if (captcha_enabled) {
 			try {
@@ -103,7 +114,8 @@
 		socket.emit('join_game', {
 			username: username,
 			game_pin: game_pin,
-			captcha: captcha_resp
+			captcha: captcha_resp,
+			custom_field: custom_field ? custom_field_value : undefined
 		});
 	};
 	socket.on('game_not_found', () => {
@@ -151,6 +163,13 @@
 				bind:value={username}
 				maxlength="17"
 			/>
+			{#if custom_field}
+				<h1 class="text-lg text-center">{custom_field}</h1>
+				<input
+					class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
+					bind:value={custom_field_value}
+				/>
+			{/if}
 			<button
 				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
 				type="submit"
