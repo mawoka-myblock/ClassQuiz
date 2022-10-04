@@ -96,11 +96,11 @@
 					use:tippy={{ content: "Click to learn why it's loading so long." }}
 					class="cursor-help"
 				>
-					<Spinner />
+					<Spinner my_20={false} />
 				</a>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
-					<Spinner />
+					<Spinner my_20={false} />
 				{:then c}
 					<svelte:component
 						this={c.default}
@@ -146,17 +146,24 @@
 				>
 					<option value={QuizQuestionType.RANGE}>{$t('words.range')}</option>
 					<option value={QuizQuestionType.ABCD}>{$t('words.multiple_choice')}</option>
+					<option value={QuizQuestionType.VOTING}>{$t('words.voting')}</option>
 				</select>
 			</div>
 			<div class="flex justify-center pt-10 w-full">
 				{#if data.questions[selected_question].type === QuizQuestionType.ABCD}
 					{#await import('$lib/editor/ABCDEditorPart.svelte')}
-						<Spinner />
+						<Spinner my_20={false} />
 					{:then c}
 						<svelte:component this={c.default} bind:data bind:selected_question />
 					{/await}
 				{:else if data.questions[selected_question].type === QuizQuestionType.RANGE}
 					<RangeEditor bind:selected_question bind:data />
+				{:else if data.questions[selected_question].type === QuizQuestionType.VOTING}
+					{#await import('$lib/editor/VotingEditorPart.svelte')}
+						<Spinner my_20={false} />
+					{:then c}
+						<svelte:component this={c.default} bind:data bind:selected_question />
+					{/await}
 				{/if}
 			</div>
 			<p class="italic text-center mt-auto pt-4">{$t('editor_page.right_click_to_delete')}</p>

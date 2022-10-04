@@ -66,10 +66,10 @@
 		<!--		<RangeSlider bind:value={range_arr} bind:min={answer.min} bind:max={answer.max} range={true} slider={lol} /> -->
 
 		{#await import('svelte-range-slider-pips')}
-			<Spinner />
+			<Spinner my_20={false} />
 		{:then c}
 			{#await sleep(100)}
-				<Spinner />
+				<Spinner my_20={false} />
 			{:then _}
 				<svelte:component
 					this={c.default}

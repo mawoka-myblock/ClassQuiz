@@ -67,11 +67,11 @@
 				</div>
 			{:else if pow_data === undefined}
 				<a href="/docs/pow" target="_blank" class="cursor-help">
-					<Spinner />
+					<Spinner my_20={false} />
 				</a>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
-					<Spinner />
+					<Spinner my_20={false} />
 				{:then c}
 					<svelte:component
 						this={c.default}
