@@ -17,6 +17,7 @@ from classquiz.db.models import (
     RangeQuizAnswer,
     ABCDQuizAnswer,
     QuizQuestionType,
+    VotingQuizAnswer,
 )
 from classquiz.auth import check_api_key
 from classquiz.socket_server import ReturnQuestion, sio
@@ -35,7 +36,7 @@ class _ABCDQuizAnswer(ABCDQuizAnswer):
 
 
 class _QuizQuestion(QuizQuestion):
-    answers: list[ABCDQuizAnswer] | RangeQuizAnswer
+    answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[VotingQuizAnswer]
 
 
 class _GetLivePlayGame(PlayGame):
