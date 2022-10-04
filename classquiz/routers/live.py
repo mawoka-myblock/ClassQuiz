@@ -51,10 +51,13 @@ class GetLiveDataResponse(BaseModel):
 
 @router.get("/")
 async def get_live_game_data(
-    game_pin: int, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
+    game_pin: str, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
 ):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     game = PlayGame.parse_raw(redis_res)
@@ -96,9 +99,13 @@ async def get_live_game_data(
 
 
 @router.get("/user_count")
-async def get_game_user_count(game_pin: int, as_string: bool = False):
+async def get_game_user_count(game_pin: str, api_key: str, as_string: bool = False):
     # if redis_res is None:
     #     raise HTTPException(status_code=404, detail="Game not found")
+    user_id = await check_api_key(api_key)
+    redis_res = await redis.get(f"game_session:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     if as_string:
         return {"players": {"count": str(player_count)}}
@@ -115,9 +122,12 @@ async def get_game_user_count(game_pin: int, as_string: bool = False):
 @router.get(
     "/players",
 )
-async def get_game_session(game_pin: int, api_key: str):
+async def get_game_session(game_pin: str, api_key: str):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game_session:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     data = GameSession.parse_raw(redis_res)
@@ -140,9 +150,12 @@ async def get_game_session(game_pin: int, api_key: str):
 
 
 @router.post("/set_question")
-async def set_next_question(game_pin: int, question_number: int, api_key: str):
+async def set_next_question(game_pin: str, question_number: int, api_key: str):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     game_data = PlayGame.parse_raw(redis_res)
@@ -161,7 +174,14 @@ async def set_next_question(game_pin: int, question_number: int, api_key: str):
 
 
 @router.get("/scores")
-async def get_live_player_scores(game_pin: int):
+async def get_live_player_scores(game_pin: str, api_key: str):
+    user_id = await check_api_key(api_key)
+    redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None or user_id is None:
+        raise HTTPException(status_code=404, detail="Game not found or API key not found")
     res = await redis.hgetall(f"game_session:{game_pin}:player_scores")
     return_arr = []
     for username in res:
