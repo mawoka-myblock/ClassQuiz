@@ -89,7 +89,11 @@ async def get_public_quiz(quiz_id: str):
 
 @router.post("/start/{quiz_id}")
 async def start_quiz(
-    quiz_id: str, game_mode: str, captcha_enabled: bool = True, user: User = Depends(get_current_user)
+    quiz_id: str,
+    game_mode: str,
+    captcha_enabled: bool = True,
+    custom_field: str | None = None,
+    user: User = Depends(get_current_user),
 ):
     try:
         quiz_id = uuid.UUID(quiz_id)
@@ -101,6 +105,8 @@ async def start_quiz(
         if quiz is None:
             return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     game_pin = randint(10000000, 99999999)
+    if custom_field == "":
+        custom_field = None
     game = PlayGame(
         quiz_id=quiz_id,
         game_pin=str(game_pin),
@@ -113,6 +119,7 @@ async def start_quiz(
         game_mode=game_mode,
         user_id=user.id,
         background_color=quiz.background_color,
+        custom_field=custom_field,
     )
     await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
     await redis.set(f"game_pin:{user.id}:{quiz_id}", game_pin, ex=18000)
@@ -122,6 +129,7 @@ async def start_quiz(
 class CheckIfCaptchaEnabledResponse(BaseModel):
     enabled: bool
     game_mode: str | None
+    custom_field: str | None
 
 
 @router.get("/play/check_captcha/{game_pin}", response_model=CheckIfCaptchaEnabledResponse)
@@ -131,9 +139,9 @@ async def check_if_captcha_enabled(game_pin: str):
         return JSONResponse(status_code=404, content={"detail": "game not found"})
     game = PlayGame.parse_raw(game)
     if game.captcha_enabled:
-        return CheckIfCaptchaEnabledResponse(enabled=True, game_mode=game.game_mode)
+        return CheckIfCaptchaEnabledResponse(enabled=True, game_mode=game.game_mode, custom_field=game.custom_field)
     else:
-        return CheckIfCaptchaEnabledResponse(enabled=False, game_mode=game.game_mode)
+        return CheckIfCaptchaEnabledResponse(enabled=False, game_mode=game.game_mode, custom_field=game.custom_field)
 
 
 @router.get("/join/{game_pin}", deprecated=True)
@@ -238,11 +246,14 @@ async def export_quiz_answers(export_token: str, game_pin: str):
     if data is None:
         raise HTTPException(status_code=404, detail="export token not found")
     data = json.loads(data)
-    game_data = PlayGame(**json.loads(await redis.get(f"game:{game_pin}")))
+    data2 = await redis.get(f"game:{game_pin}")
+    game_data = PlayGame.parse_raw(data2)
     quiz = await Quiz.objects.get_or_none(id=game_data.quiz_id)
     if quiz is None:
         raise HTTPException(status_code=404, detail="quiz not found")
-    spreadsheet = await generate_spreadsheet(quiz=quiz, quiz_results=data)
+
+    player_fields = await redis.hgetall(f"game:{game_pin}:player:custom_fields")
+    spreadsheet = await generate_spreadsheet(quiz=quiz, quiz_results=data, player_fields=player_fields)
 
     def iter_file():
         yield from spreadsheet

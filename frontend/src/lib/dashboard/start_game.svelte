@@ -14,26 +14,26 @@
 	let captcha_selected = false;
 	let selected_game_mode = 'kahoot';
 	let loading = false;
+	let custom_field = '';
 
 	const start_game = async (id: string) => {
 		let res;
 		loading = true;
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}`,
 				{
 					method: 'POST'
 				}
 			);
 		} else {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}`,
 				{
 					method: 'POST'
 				}
 			);
 		}
-
 		if (res.status !== 200) {
 			alertModal.set({
 				open: true,
@@ -110,6 +110,9 @@
 					the players
 				</p>
 			</div>
+		</div>
+		<div class="flex justify-center">
+			<input bind:value={custom_field} />
 		</div>
 
 		<button
