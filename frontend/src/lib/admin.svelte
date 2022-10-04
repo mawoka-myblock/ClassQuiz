@@ -114,8 +114,8 @@
 			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
 				{#if JSON.stringify(final_results) === JSON.stringify([null])}
 					<button on:click={get_final_results} class="admin-button"
-						>Get final results</button
-					>
+						>Get final results
+					</button>
 				{/if}
 			{:else if timer_res === '0' || selected_question === -1}
 				{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
@@ -129,13 +129,13 @@
 				{/if}
 				{#if question_results === null && selected_question !== -1}
 					<button on:click={get_question_results} class="admin-button"
-						>Show results</button
-					>
+						>Show results
+					</button>
 				{/if}
 			{:else if selected_question !== -1}
 				<button on:click={show_solutions} class="admin-button"
-					>Stop time and show solutions</button
-				>
+					>Stop time and show solutions
+				</button>
 			{:else}
 				<!--				<button
 					on:click={() => {
@@ -181,20 +181,28 @@
 			</div>
 		{/if}
 		{#if game_mode === 'kahoot'}
-			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD}
+			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
 				<div class="grid grid-cols-2 gap-2 w-full p-4">
 					{#each quiz_data.questions[selected_question].answers as answer, i}
 						<div
 							class="rounded-lg h-fit flex"
 							style="background-color: {answer.color ?? '#B45309'}"
-							class:opacity-50={!answer.right && timer_res === '0'}
+							class:opacity-50={!answer.right &&
+								timer_res === '0' &&
+								quiz_data.questions[selected_question].type !==
+									QuizQuestionType.ABCD}
 						>
 							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
 							<span
 								class="text-center text-2xl px-2 py-4 w-full text-black"
-								class:text-4xl={answer.right && timer_res === '0'}
-								class:underline={answer.right && timer_res === '0'}
-								>{answer.answer}</span
+								class:text-4xl={answer.right &&
+									timer_res === '0' &&
+									quiz_data.questions[selected_question].type !==
+										QuizQuestionType.ABCD}
+								class:underline={answer.right &&
+									timer_res === '0' &&
+									quiz_data.questions[selected_question].type !==
+										QuizQuestionType.ABCD}>{answer.answer}</span
 							>
 							<span class="pl-4 w-10" />
 						</div>
@@ -221,6 +229,16 @@
 					<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
 				</div>
 			{/if}
+		{:else if quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
+			{#await import('$lib/play/admin/voting_results.svelte')}
+				<Spinner />
+			{:then c}
+				<svelte:component
+					this={c.default}
+					bind:data={question_results}
+					bind:question={quiz_data.questions[selected_question]}
+				/>
+			{/await}
 		{:else}
 			{#await import('$lib/play/admin/results.svelte')}
 				<Spinner />

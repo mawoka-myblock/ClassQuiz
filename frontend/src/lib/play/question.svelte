@@ -113,7 +113,7 @@
 	</div>
 {/if}
 {#if timer_res !== '0'}
-	{#if question.type === QuizQuestionType.ABCD}
+	{#if question.type === QuizQuestionType.ABCD || QuizQuestionType.VOTING}
 		{#if game_mode === 'normal'}
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each question.answers as answer}
@@ -202,4 +202,11 @@
 			{/if}
 		</p>
 	{/if}
+	<!--{:else if question.type === QuizQuestionType.VOTING}
+	{#await import('$lib/play/admin/voting_results.svelte')}
+		<Spinner />
+	{:then c}
+		<svelte:component this={c.default} bind:data={question_results}
+						  bind:question={quiz_data.questions[selected_question]} />
+	{/await}-->
 {/if}

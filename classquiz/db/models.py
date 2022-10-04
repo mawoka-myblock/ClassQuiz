@@ -111,7 +111,7 @@ class QuizQuestion(BaseModel):
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
-            raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+            raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
         return v
 
 

@@ -11,7 +11,7 @@ import socketio
 from cryptography.fernet import Fernet
 
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, QuizQuestion
+from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, QuizQuestion, VotingQuizAnswer
 from pydantic import BaseModel, ValidationError, validator
 from datetime import datetime
 
@@ -113,8 +113,10 @@ async def join_game(sid: str, data: dict):
         {"username": data.username, "sid": sid},
         room=redis_res.admin,
     )
-    lol = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
-    await sio.emit("time_sync", lol, room=sid)
+    # +++ Time-Sync +++
+    encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
+    await sio.emit("time_sync", encrypted_datetime, room=sid)
+    # --- Time-Sync ---
     sio.enter_room(sid, data.game_pin)
 
 
@@ -183,14 +185,16 @@ class RangeQuizAnswerWithoutSolution(BaseModel):
 
 
 class ReturnQuestion(QuizQuestion):
-    answers: list[ABCDQuizAnswerWithoutSolution] | RangeQuizAnswerWithoutSolution
+    answers: list[ABCDQuizAnswerWithoutSolution] | RangeQuizAnswerWithoutSolution | list[VotingQuizAnswer]
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and len(v) == 0:
+        if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswerWithoutSolution:
             raise ValueError("Answers can't be none if type is ABCD")
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
+            print("Answer must be from type VotingQuizAnswer if type is VOTING")
         return v
 
 
@@ -204,13 +208,17 @@ async def set_question_number(sid, data: str):
         game_data.current_question = int(float(data))
         await redis.set(f"game:{session['game_pin']}", game_data.json())
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
+        # print(game_data.dict(include={"questions"})["questions"][int(float(data))])
+        temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
+        if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
+            for i in range(len(temp_return["answers"])):
+                temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
+        print(temp_return)
         await sio.emit(
             "set_question_number",
             {
                 "question_index": int(float(data)),
-                "question": ReturnQuestion(
-                    **game_data.dict(include={"questions"})["questions"][int(float(data))]
-                ).dict(),
+                "question": ReturnQuestion(**temp_return).dict(),
             },
             room=game_pin,
         )
@@ -258,6 +266,8 @@ async def submit_answer(sid: str, data: dict):
             <= game_data.questions[int(float(data.question_index))].answers.max_correct
         ):
             answer_right = True
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
+        answer_right = False
     else:
         raise NotImplementedError
     latency = int(float((await sio.get_session(sid))["ping"]))
@@ -317,7 +327,6 @@ async def submit_answer(sid: str, data: dict):
 async def get_final_results(sid: str, _data: dict):
     session: dict = await sio.get_session(sid)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
-    results = {}
     if not session["admin"]:
         return
     results = await generate_final_results(game_data, session["game_pin"])

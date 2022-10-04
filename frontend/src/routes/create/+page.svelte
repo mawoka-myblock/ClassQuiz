@@ -9,6 +9,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
 	import { QuizQuestionType } from '$lib/quiz_types';
+	import type { Question } from '$lib/quiz_types';
 
 	navbarVisible.set(false);
 
@@ -19,18 +20,6 @@
 		title: string;
 		description: string;
 		questions: Question[];
-	}
-
-	interface Question {
-		question: string;
-		time: string;
-		type?: QuizQuestionType;
-		answers: Answer[];
-	}
-
-	interface Answer {
-		right: boolean;
-		answer: string;
 	}
 
 	let responseData = {

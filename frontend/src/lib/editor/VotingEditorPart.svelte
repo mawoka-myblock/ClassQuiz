@@ -9,6 +9,7 @@
 	import { reach } from 'yup';
 	import { getLocalization } from '$lib/i18n';
 	import { VotingQuestionSchema } from '$lib/yupSchemas';
+	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
 
@@ -19,9 +20,19 @@
 
 	export let selected_question: number;
 	export let data: EditorData;
-	if (!Array.isArray(data.questions[selected_question].answers)) {
-		data.questions[selected_question].answers = [];
-	}
+	try {
+		if (typeof data.questions[selected_question].answers[0].right === 'boolean') {
+			data.questions[selected_question].answers = [];
+		}
+	} catch {}
+
+	/*console.log(data.questions[selected_question].answers, 'moIn!', data.questions[selected_question].answers.length);
+	onMount(() => {
+		for (let i = 0; i < data.questions[selected_question].answers; i++) {
+			console.log(data.questions[selected_question].answers[i], 'iterate');
+			data.questions[selected_question].answers[i].right = undefined;
+		}
+	});*/
 </script>
 
 <!--

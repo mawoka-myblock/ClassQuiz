@@ -63,9 +63,12 @@ export const dataSchema = yup.object({
 					.lowercase(),
 				answers: yup.lazy((v) => {
 					if (Array.isArray(v)) {
+						console.log(v);
 						if (typeof v[0].right === 'boolean') {
+							console.log('Yup, ABCD');
 							return ABCDQuestionSchema;
 						} else {
+							console.log('Yup, Poll');
 							return VotingQuestionSchema;
 						}
 					} else {

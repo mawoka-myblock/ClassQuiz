@@ -91,48 +91,64 @@
 				{/if}
 			</div>
 		{/if}
-	{:else if timer_res === '0'}
-		{#await import('svelte-range-slider-pips')}
-			<Spinner />
-		{:then c}
-			<div class="grayscale pointer-events-none w-full">
-				<svelte:component
-					this={c.default}
-					bind:values={slider_values}
-					bind:min={question.answers.min}
-					bind:max={question.answers.max}
-					pips
-					float
-					all="label"
-				/>
-			</div>
-		{/await}
-	{:else}
-		{#await import('svelte-range-slider-pips')}
-			<Spinner />
-		{:then c}
-			<div class:pointer-events-none={selected_answer !== undefined}>
-				<svelte:component
-					this={c.default}
-					bind:values={slider_value}
-					bind:min={question.answers.min}
-					bind:max={question.answers.max}
-					pips
-					float
-					all="label"
-				/>
-			</div>
-			<div class="flex justify-center">
-				<button
-					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
-					disabled={selected_answer !== undefined}
-					on:click={() => {
-						selected_answer = slider_value[0];
-						timer_res = '0';
-					}}
-					>{$t('words.submit')}
-				</button>
-			</div>
-		{/await}
+	{:else if question.type === QuizQuestionType.RANGE}
+		{#if timer_res === '0'}
+			{#await import('svelte-range-slider-pips')}
+				<Spinner />
+			{:then c}
+				<div class="grayscale pointer-events-none w-full">
+					<svelte:component
+						this={c.default}
+						bind:values={slider_values}
+						bind:min={question.answers.min}
+						bind:max={question.answers.max}
+						pips
+						float
+						all="label"
+					/>
+				</div>
+			{/await}
+		{:else}
+			{#await import('svelte-range-slider-pips')}
+				<Spinner />
+			{:then c}
+				<div class:pointer-events-none={selected_answer !== undefined}>
+					<svelte:component
+						this={c.default}
+						bind:values={slider_value}
+						bind:min={question.answers.min}
+						bind:max={question.answers.max}
+						pips
+						float
+						all="label"
+					/>
+				</div>
+				<div class="flex justify-center">
+					<button
+						class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+						disabled={selected_answer !== undefined}
+						on:click={() => {
+							selected_answer = slider_value[0];
+							timer_res = '0';
+						}}
+						>{$t('words.submit')}
+					</button>
+				</div>
+			{/await}
+		{/if}
+	{:else if question.type === QuizQuestionType.VOTING}
+		{#each question.answers as answer, i}
+			<button
+				disabled={selected_answer !== undefined || timer_res === '0'}
+				class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black"
+				on:click={() => {
+					selected_answer = i;
+					timer_res = '0';
+				}}>{answer.answer}</button
+			>
+		{/each}
+		{#if timer_res === '0'}
+			<p>No correct answers, since this is a poll-question</p>
+		{/if}
 	{/if}
 </div>
