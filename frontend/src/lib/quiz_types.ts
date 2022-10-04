@@ -18,7 +18,8 @@ export interface QuizData {
 
 export enum QuizQuestionType {
 	ABCD = 'ABCD', // eslint-disable-line no-unused-vars
-	RANGE = 'RANGE' // eslint-disable-line no-unused-vars
+	RANGE = 'RANGE', // eslint-disable-line no-unused-vars
+	VOTING = 'VOTING' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {
@@ -33,12 +34,17 @@ export interface Question {
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[] | RangeQuizAnswer;
+	answers: Answer[] | RangeQuizAnswer | VotingAnswer[];
 }
 
 export interface Answer {
 	right: boolean;
 	answer: string;
+	color?: string;
+}
+export interface VotingAnswer {
+	answer: string;
+	image?: string;
 	color?: string;
 }
 

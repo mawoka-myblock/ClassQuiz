@@ -207,6 +207,30 @@
 					and {question.answers.max_correct} are correct, where numbers between {question
 						.answers.min} and {question.answers.max} can be selected.
 				</p>
+			{:else if question.type === QuizQuestionType.VOTING}
+				{#if Array.isArray(question.answers)}
+					<div class="grid grid-cols-2 gap-2">
+						{#each question.answers as answer}
+							<span
+								class="whitespace-nowrap truncate rounded-lg p-0.5 text-sm text-center border border-gray-700"
+								class:dark:bg-gray-500={answer.answer}
+								class:bg-gray-300={answer.answer}
+								class:bg-yellow-500={!reach(
+									ABCDQuestionSchema,
+									'answer'
+								).isValidSync(answer.answer)}
+								use:tippy={{
+									content: answer.answer === '' ? 'Empty...' : answer.answer
+								}}
+								>{#if answer.answer === ''}
+									<i>Empty...</i>
+								{:else}
+									{answer.answer}
+								{/if}</span
+							>
+						{/each}
+					</div>
+				{/if}
 			{:else}
 				<p>Unknown Question Type (shouldn't happen)</p>
 			{/if}
