@@ -88,6 +88,7 @@ async def join_game(sid: str, data: dict):
     session = {
         "game_pin": data.game_pin,
         "username": data.username,
+        "sid_custom": sid,
         "admin": False,
     }
     await sio.save_session(sid, session)
@@ -103,6 +104,7 @@ async def join_game(sid: str, data: dict):
     redis_res = GameSession.parse_raw(redis_res)
     await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=18000)
     await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
+    print(GamePlayer(username=data.username, sid=sid).json())
     # await redis.set(
     #     f"game_session:{data.game_pin}",
     #     GameSession(admin=redis_res.admin, game_id=redis_res.game_id, answers=[]).json(),
@@ -377,10 +379,13 @@ async def kick_player(sid: str, data: dict):
         return
 
     session: dict = await sio.get_session(sid)
+    print(sid)
     if not session["admin"]:
         return
 
     player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{data.username}")
-    await redis.spop(f"game_session:{session['game_pin']}:players", GamePlayer(username=data.username, sid=sid).json())
+    await redis.srem(
+        f"game_session:{session['game_pin']}:players", GamePlayer(username=data.username, sid=player_sid).json()
+    )
     sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)
