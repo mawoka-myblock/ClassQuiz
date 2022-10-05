@@ -248,7 +248,10 @@ async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
     game = PlayGame.parse_raw(redis_res)
     if game.questions[game.current_question].type != QuizQuestionType.VOTING:
         return
-    answer_list = _AnswerDataList.parse_raw(await redis.get(f"game_session:{game_pin}:{game.current_question}"))
+    answer_data = await redis.get(f"game_session:{game_pin}:{game.current_question}")
+    if answer_data is None:
+        return
+    answer_list = _AnswerDataList.parse_raw(answer_data)
     answer_dict = {}
     for answer in game.questions[game.current_question].answers:
         answer_dict[answer.answer] = 0
