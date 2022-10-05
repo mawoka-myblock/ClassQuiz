@@ -169,7 +169,6 @@
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={game_pin}
 				maxlength="8"
-				inputmode="numeric"
 			/>
 			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
 
