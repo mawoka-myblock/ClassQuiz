@@ -50,7 +50,9 @@
 	}
 
 	$: data = sortObjectbyValue(data);
-	$: player_names = Object.keys(data);
+	$: player_names = Object.keys(data).sort(function (a, b) {
+		return data[b] - data[a];
+	});
 
 	let show_new_score_clicked = false;
 

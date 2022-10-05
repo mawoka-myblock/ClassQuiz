@@ -20,9 +20,12 @@
 	}
 
 	$: data = sortObjectbyValue(data);
+	$: console.log(data, 'sorted, fina');
 
 	let player_names;
-	$: player_names = Object.keys(data);
+	$: player_names = Object.keys(data).sort(function (a, b) {
+		return data[b] - data[a];
+	});
 
 	let player_count_or_five;
 	$: player_count_or_five = player_names.length >= 5 ? 5 : player_names.length;
