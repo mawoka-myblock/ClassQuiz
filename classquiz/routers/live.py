@@ -52,6 +52,7 @@ class _QuizQuestion(QuizQuestion):
 
 class _GetLivePlayGame(PlayGame):
     questions: list[_QuizQuestion]
+    total_questions: int
 
 
 class GetLiveDataResponse(BaseModel):
@@ -62,7 +63,11 @@ class GetLiveDataResponse(BaseModel):
 
 @router.get("/")
 async def get_live_game_data(
-    game_pin: str, api_key: str, player_count_as_a_string: bool = False, in_array: bool = False
+    game_pin: str,
+    api_key: str,
+    player_count_as_a_string: bool = False,
+    in_array: bool = False,
+    in_human_count: bool = False,
 ):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game:{game_pin}")
@@ -97,6 +102,11 @@ async def get_live_game_data(
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
+    game = _GetLivePlayGame(**{**game.dict(), "total_questions": len(game.questions)})
+    if in_human_count:
+        player_count += 1
+        game.current_question += 1
+
     return_obj = None
     if player_count_as_a_string:
         return_obj = GetLiveDataResponse(quiz=game, data=data, players=_GetLiveDataPlayers(count=str(player_count)))
