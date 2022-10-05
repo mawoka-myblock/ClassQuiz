@@ -270,5 +270,7 @@ async def export_quiz_answers(export_token: str, game_pin: str):
     return StreamingResponse(
         iter_file(),
         media_type="application/vnd.ms-excel",
-        headers={"Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title}.xlsx"},
+        headers={
+            "Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title}-{datetime.now().strftime('%m-%d-%Y')}.xlsx"  # noqa: E501
+        },
     )
