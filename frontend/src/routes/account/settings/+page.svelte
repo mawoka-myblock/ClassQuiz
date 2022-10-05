@@ -171,8 +171,8 @@
 				/>
 			</div>
 			<div>
-				<h1 class="text-slate-100 text-4xl font-bold my-2">{user.username}</h1>
-				<p class="text-slate-100 text-lg mb-6 md:max-w-lg">
+				<h1 class="text-4xl font-bold my-2">{user.username}</h1>
+				<p class="text-lg mb-6 md:max-w-lg">
 					{$t('words.email')}: {user.email}
 				</p>
 				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
