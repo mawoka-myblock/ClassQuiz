@@ -104,9 +104,14 @@ async def start_quiz(
         quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
         if quiz is None:
             return JSONResponse(status_code=404, content={"detail": "quiz not found"})
-    game_pin = randint(10000000, 99999999)
+    game_pin = randint(100000, 999999)
     if custom_field == "":
         custom_field = None
+    game = await redis.get(f"game:{game_pin}")
+    while game is not None:
+        game_pin = randint(100000, 999999)
+        game = await redis.get(f"game:{game_pin}")
+
     game = PlayGame(
         quiz_id=quiz_id,
         game_pin=str(game_pin),
