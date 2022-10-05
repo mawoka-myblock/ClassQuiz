@@ -107,6 +107,11 @@ async def start_quiz(
     game_pin = randint(10000000, 99999999)
     if custom_field == "":
         custom_field = None
+    game = await redis.get(f"game:{game_pin}")
+    while( game is not None):
+        game_pin = randint(10000000, 99999999)
+        game = await redis.get(f"game:{game_pin}")
+       
     game = PlayGame(
         quiz_id=quiz_id,
         game_pin=str(game_pin),
