@@ -143,7 +143,7 @@
 
 			<br />
 			<button
-				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+				class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
 				type="submit"
 				disabled={game_pin.length <= 5}
 			>
@@ -171,7 +171,7 @@
 				/>
 			{/if}
 			<button
-				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
+				class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
 				type="submit"
 				disabled={username.length <= 3}
 			>

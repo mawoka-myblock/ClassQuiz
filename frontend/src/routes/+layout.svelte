@@ -89,7 +89,8 @@
 		// width: 100%;
 
 		// bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f]
-		background: linear-gradient(to right, #009444, #39b54a, #8dc63f) repeat-y;
+		//background: linear-gradient(to right, #009444, #39b54a, #8dc63f) repeat-y;
+		background-color: #d6edc9;
 		background-size: cover;
 		/*background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
 		/*background: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%); */
@@ -101,7 +102,8 @@
 	}
 
 	:global(html.dark) {
-		background-color: #0f2702;
+		//background-color: #0f2702;
+		background-color: #4e6e58;
 		background-size: cover;
 		color: white;
 	}

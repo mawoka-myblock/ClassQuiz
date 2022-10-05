@@ -19,9 +19,7 @@
 }
 
 .link-hover:hover {
-	background: linear-gradient(90deg, #009444, #39b54a, #8dc63f);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+	color: #4e6e58;
 }
 
 @layer utilities {

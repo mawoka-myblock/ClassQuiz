@@ -158,7 +158,7 @@
 			</div>
 			<div class="flex justify-center">
 				<button
-					class="w-1/2 text-3xl bg-amber-700 my-2 disabled:opacity-60 border border-white"
+					class="w-1/2 text-3xl bg-[#B07156] my-2 disabled:opacity-60 border border-white"
 					disabled={selected_answer !== undefined}
 					on:click={() => selectAnswer(slider_value[0])}
 					>{$t('words.submit')}

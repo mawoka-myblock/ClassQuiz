@@ -93,28 +93,28 @@
 	{:then quizzes}
 		<div class="flex flex-col w-fit mx-auto">
 			<!--		<button
-					class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-gray-50 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
+					class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-[#B07156] rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
 					Primary
 				</button>-->
 			<div class="w-full grid grid-cols-4 gap-2">
 				<a
 					href="/create"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156] rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
 					>{$t('words.create')}
 				</a>
 				<a
 					href="/import"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
 					>{$t('words.import')}
 				</a>
 				<a
 					href="/api/v1/users/logout"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
 					>{$t('words.logout')}
 				</a>
 				<a
 					href="/account/settings"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
 				>
 					{$t('words.settings')}
 				</a>
