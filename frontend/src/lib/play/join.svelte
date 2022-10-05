@@ -79,7 +79,8 @@
 		}
 	};
 
-	$: if (game_pin.length >= 5) {
+	$: if (game_pin.length > 5) {
+		console.log('Setting game pin');
 		set_game_pin();
 	}
 
@@ -147,6 +148,7 @@
 		alert('Game not found');
 	});
 
+	$: console.log(game_pin, game_pin.length > 6);
 	$: game_pin = game_pin.replace(/\D/g, '');
 </script>
 
@@ -161,14 +163,15 @@
 	{/if}
 </svelte:head>
 
-{#if game_pin === '' || game_pin.length <= 5}
+{#if game_pin === '' || game_pin.length < 6}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={game_pin}
-				maxlength="8"
+				maxlength="6"
+				inputmode="numeric"
 			/>
 			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
 
@@ -176,7 +179,7 @@
 			<button
 				class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
 				type="submit"
-				disabled={game_pin.length <= 5}
+				disabled={game_pin.length < 6}
 			>
 				{$t('words.submit')}
 			</button>
