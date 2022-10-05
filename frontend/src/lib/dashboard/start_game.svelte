@@ -9,6 +9,7 @@
 	import StartGameBackground from './start_game_background.svg';
 	import { fade } from 'svelte/transition';
 	import Spinner from '$lib/Spinner.svelte';
+	import { onMount } from 'svelte';
 
 	export let quiz_id;
 	let captcha_selected = false;
@@ -16,9 +17,15 @@
 	let loading = false;
 	let custom_field = '';
 
+	onMount(() => {
+		const ls_data = localStorage.getItem('custom_field');
+		custom_field = ls_data ? ls_data : '';
+	});
+
 	const start_game = async (id: string) => {
 		let res;
 		loading = true;
+		localStorage.setItem('custom_field', custom_field);
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
 				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}`,
@@ -111,8 +118,13 @@
 				</p>
 			</div>
 		</div>
-		<div class="flex justify-center">
-			<input bind:value={custom_field} />
+		<div class="flex justify-center items-center">
+			<label class="mr-4">Custom Field</label>
+			<input
+				bind:value={custom_field}
+				class="rounded-lg p-2 outline-none placeholder:italic"
+				placeholder="Phone Number or Email"
+			/>
 		</div>
 
 		<button
