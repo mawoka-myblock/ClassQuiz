@@ -2,15 +2,14 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import json
 import random
 import time
 
 import socketio
 
-NUMBER_OF_PLAYERS = 20
-GAME_PIN = 35490014
-quiz = [None]
+NUMBER_OF_PLAYERS = 200
+GAME_PIN = 563037
+q_index = 0
 
 
 def __main__():
@@ -20,25 +19,32 @@ def __main__():
 
     def joined_game(data):
         print("JOINED!!!!")
-        print(data)
-        quiz[0] = json.loads(data)
-        print(type(quiz[0]))
+
+    def time_sync(data):
+        print("time sync")
+        for i in arr_of_sio_instances:
+            i.emit("echo_time_sync", data)
+            time.sleep(0.04)
 
     def set_question_number(data):
+        print(data)
+        global q_index
+
         for i in arr_of_sio_instances:
             # print(int(data))
             # print("hi!", data)
-            random_num = random.randint(0, len(quiz[0]["questions"][int(data)]["answers"]) - 1)
-            print(random_num)
+            random_num = random.randint(0, len(data["question"]["answers"]) - 1)
+            print(random_num, q_index)
             i.emit(
                 "submit_answer",
                 {
-                    "question_index": int(data),
-                    "answer": quiz[0]["questions"][int(data)]["answers"][random_num]["answer"],
+                    "question_index": q_index,
+                    "answer": data["question"]["answers"][random_num]["answer"],
                 },
             )
             print(i.sid)
             time.sleep(0.03)
+        q_index = +1
         print("Everyone answered!")
 
     for i in arr_of_sio_instances:
@@ -46,6 +52,7 @@ def __main__():
 
     arr_of_sio_instances[3].on("joined_game", joined_game)
     arr_of_sio_instances[3].on("set_question_number", set_question_number)
+    arr_of_sio_instances[3].on("time_sync", time_sync)
     for index, i in enumerate(arr_of_sio_instances):
         i.emit("join_game", {"username": str(index), "game_pin": GAME_PIN, "captcha": None})
         time.sleep(0.03)
