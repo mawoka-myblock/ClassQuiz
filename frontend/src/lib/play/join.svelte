@@ -90,33 +90,57 @@
 		let captcha_resp: string;
 
 		if (captcha_enabled) {
-			try {
-				const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
-					async: true
-				});
-				captcha_resp = response;
-			} catch (e) {
-				if (import.meta.env.VITE_SENTRY !== null) {
-					Sentry.captureException(e);
-				}
-				alertModal.set({
-					open: true,
-					body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
-					title: 'Captcha failed'
-				});
-				alertModal.subscribe((data) => {
-					if (!data.open) {
-						window.location.reload();
+			if (hcaptchaSitekey) {
+				try {
+					const { response } = await hcaptcha.execute(hcaptchaWidgetID, {
+						async: true
+					});
+					captcha_resp = response;
+					socket.emit('join_game', {
+						username: username,
+						game_pin: game_pin,
+						captcha: captcha_resp,
+						custom_field: custom_field ? custom_field_value : undefined
+					});
+				} catch (e) {
+					if (import.meta.env.VITE_SENTRY !== null) {
+						Sentry.captureException(e);
 					}
+					alertModal.set({
+						open: true,
+						body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
+						title: 'Captcha failed'
+					});
+					alertModal.subscribe((data) => {
+						if (!data.open) {
+							window.location.reload();
+						}
+					});
+				}
+			} else if (import.meta.env.VITE_RECAPTCHA) {
+				// eslint-disable-next-line no-undef
+				grecaptcha.ready(() => {
+					// eslint-disable-next-line no-undef
+					grecaptcha
+						.execute(import.meta.env.VITE_RECAPTCHA, { action: 'submit' })
+						.then(function (token) {
+							socket.emit('join_game', {
+								username: username,
+								game_pin: game_pin,
+								captcha: token,
+								custom_field: custom_field ? custom_field_value : undefined
+							});
+						});
 				});
 			}
+		} else {
+			socket.emit('join_game', {
+				username: username,
+				game_pin: game_pin,
+				captcha: undefined,
+				custom_field: custom_field ? custom_field_value : undefined
+			});
 		}
-		socket.emit('join_game', {
-			username: username,
-			game_pin: game_pin,
-			captcha: captcha_resp,
-			custom_field: custom_field ? custom_field_value : undefined
-		});
 	};
 	socket.on('game_not_found', () => {
 		game_pin = '';
@@ -127,7 +151,14 @@
 </script>
 
 <svelte:head>
-	<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+	{#if captcha_enabled && hcaptchaSitekey}
+		<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+	{/if}
+	{#if import.meta.env.VITE_RECAPTCHA && captcha_enabled}
+		<script
+			src="https://www.google.com/recaptcha/api.js?render={import.meta.env
+				.VITE_RECAPTCHA}"></script>
+	{/if}
 </svelte:head>
 
 {#if game_pin === '' || game_pin.length <= 5}

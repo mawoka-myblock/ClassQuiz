@@ -22,7 +22,8 @@ class Settings(BaseSettings):
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
     db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
-    hcaptcha_key: str
+    hcaptcha_key: str | None = None
+    recpatcha_key: str | None = None
     mail_address: str
     mail_password: str
     mail_username: str

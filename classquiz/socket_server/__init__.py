@@ -63,24 +63,37 @@ async def join_game(sid: str, data: dict):
         await sio.emit("game_already_started", room=sid)
         return
     # +++ START checking captcha +++
-    async with aiohttp.ClientSession() as session:
-        try:
-            if game_data.captcha_enabled:
-                try:
+    if game_data.captcha_enabled:
+        async with aiohttp.ClientSession() as session:
+            try:
+                if settings.hcaptcha_key is not None:
+                    try:
+                        async with session.post(
+                            "https://hcaptcha.com/siteverify",
+                            data={"response": data.captcha, "secret": settings.hcaptcha_key},
+                        ) as resp:
+                            resp_data = await resp.json()
+                            if not resp_data["success"]:
+                                print("CAPTCHA FAILED")
+                                return
+                    except KeyError:
+                        print("CAPTCHA FAILED")
+                        return
+                elif settings.recpatcha_key is not None:
                     async with session.post(
-                        "https://hcaptcha.com/siteverify",
-                        data={"response": data.captcha, "secret": settings.hcaptcha_key},
+                        "https://www.google.com/recaptcha/api/siteverify",
+                        data={"secret": settings.recpatcha_key, "response": data.captcha},
                     ) as resp:
-                        resp_data = await resp.json()
-                        if not resp_data["success"]:
+                        try:
+                            resp_data = await resp.json()
+                            if not resp_data["success"]:
+                                print("CAPTCHA FAILED")
+                                return
+                        except KeyError:
                             print("CAPTCHA FAILED")
                             return
-                except KeyError:
-                    print("CAPTCHA FAILED")
-
-                    return
-        except TypeError:
-            pass
+            except TypeError:
+                pass
     # --- END checking captcha ---
     if await redis.get(f"game_session:{data.game_pin}:players:{data.username}") is not None:
         await sio.emit("username_already_exists", room=sid)
