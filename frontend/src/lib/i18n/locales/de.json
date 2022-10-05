@@ -144,7 +144,8 @@
         "donating": "Spende",
         "find": "Finden",
         "practice": "Üben",
-        "error": "Fehler"
+        "error": "Fehler",
+        "voting": "Umfrage"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
