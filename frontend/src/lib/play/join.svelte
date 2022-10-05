@@ -79,7 +79,7 @@
 		}
 	};
 
-	$: if (game_pin.length >= 7) {
+	$: if (game_pin.length >= 5) {
 		set_game_pin();
 	}
 
@@ -130,7 +130,7 @@
 	<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </svelte:head>
 
-{#if game_pin === '' || game_pin.length <= 7}
+{#if game_pin === '' || game_pin.length <= 5}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
@@ -145,7 +145,7 @@
 			<button
 				class="bg-amber-800 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
 				type="submit"
-				disabled={game_pin.length <= 7}
+				disabled={game_pin.length <= 5}
 			>
 				{$t('words.submit')}
 			</button>
