@@ -12,11 +12,6 @@
 
 	const { t } = getLocalization();
 
-	const empty_answer: Answer = {
-		right: false,
-		answer: ''
-	};
-
 	export let selected_question: number;
 	export let data: EditorData;
 	console.log(
@@ -26,6 +21,26 @@
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
 	}
+	const save_colors = (data_local: EditorData) => {
+		if (selected_question === 0) {
+			for (let i = 0; i < data_local.questions[selected_question].answers.length; i++) {
+				localStorage.setItem(
+					`quiz_color:${i}:${data_local.title}`,
+					data_local.questions[selected_question].answers[i].color
+				);
+			}
+		}
+	};
+
+	const get_empty_answer = (i: number): Answer => {
+		const color = localStorage.getItem(`quiz_color:${i}:${data.title}`);
+		return {
+			answer: '',
+			color: color,
+			right: false
+		};
+	};
+	$: save_colors(data);
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full px-10">
@@ -110,7 +125,7 @@
 			on:click={() => {
 				data.questions[selected_question].answers = [
 					...data.questions[selected_question].answers,
-					{ ...empty_answer }
+					{ ...get_empty_answer(data.questions[selected_question].answers.length) }
 				];
 			}}
 		>
