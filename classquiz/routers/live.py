@@ -20,7 +20,7 @@ from classquiz.db.models import (
     VotingQuizAnswer,
 )
 from classquiz.auth import check_api_key
-from classquiz.socket_server import ReturnQuestion, sio
+from classquiz.socket_server import ReturnQuestion, sio, _AnswerDataList
 
 settings = settings()
 
@@ -234,3 +234,27 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str):
         return [{**game.questions[game.current_question].dict(), "current_question": game.current_question}]
     else:
         return [{"question": {}, "current_question": game.current_question}]
+
+
+@router.get("/voting")
+async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
+    user_id = await check_api_key(api_key)
+    redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None:
+        game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
+        redis_res = await redis.get(f"game:{game_pin}")
+    if redis_res is None or user_id is None:
+        raise HTTPException(status_code=404, detail="Game not found or API key not found")
+    game = PlayGame.parse_raw(redis_res)
+    if game.questions[game.current_question].type != QuizQuestionType.VOTING:
+        return
+    answer_list = _AnswerDataList.parse_raw(await redis.get(f"game_session:{game_pin}:{game.current_question}"))
+    answer_dict = {}
+    for answer in game.questions[game.current_question].answers:
+        answer_dict[answer.answer] = 0
+    for answer in answer_list.__root__:
+        answer_dict[answer.answer] += 1
+    if as_array:
+        return [answer_dict]
+    else:
+        return answer_dict
