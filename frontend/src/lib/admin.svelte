@@ -13,6 +13,7 @@
 	import { kahoot_icons } from './play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import Spinner from '$lib/Spinner.svelte';
+	import showNextSound from '$lib/assets/music/showNext.wav';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
@@ -37,6 +38,7 @@
 		timer_res = quiz_data.questions[q_number].time;
 		selected_question += 1;
 		timer(timer_res);
+		showNextAudio.play();
 	};
 	const get_question_results = () => {
 		socket.emit('get_question_results', {
@@ -92,7 +94,11 @@
 			circular_prgoress = 0;
 		}
 	}
+
+	let showNextAudio;
 </script>
+
+<audio style="display: hidden;" src={showNextSound} bind:this={showNextAudio} />
 
 {#if game_mode === 'kahoot'}
 	<div
