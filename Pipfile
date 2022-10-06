@@ -33,6 +33,7 @@ itsdangerous = "*"
 puremagic = "*"
 py-avataaars-no-png = "*"
 cryptography = "*"
+scheduler = "*"
 
 [dev-packages]
 coverage = "*"

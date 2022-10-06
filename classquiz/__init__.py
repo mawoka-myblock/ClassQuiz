@@ -1,6 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+import asyncio
 
 import sentry_sdk
 from fastapi import FastAPI, Request
@@ -10,9 +11,11 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from classquiz.config import settings
 from classquiz.db import database
+from datetime import timedelta
 from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live
 from classquiz.socket_server import sio
-from classquiz.helpers import meilisearch_init, telemetry_ping
+from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
+from scheduler.asyncio import Scheduler
 
 settings = settings()
 if settings.sentry_dsn:
@@ -33,6 +36,13 @@ async def sentry_exception(request: Request, call_next):
         raise e
 
 
+async def background_tasks():
+    schedule = Scheduler()
+    schedule.cyclic(timedelta(hours=24), bg_tasks.clean_editor_images_up)
+    while True:
+        await asyncio.sleep(1)
+
+
 @app.on_event("startup")
 async def startup() -> None:
     database_ = app.state.database
@@ -40,6 +50,7 @@ async def startup() -> None:
         await database_.connect()
     await meilisearch_init()
     await telemetry_ping()
+    asyncio.create_task(background_tasks())
 
 
 @app.on_event("shutdown")
