@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     skip_email_verification: bool = False
     db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
     hcaptcha_key: str | None = None
-    recpatcha_key: str | None = None
+    recaptcha_key: str | None = None
     mail_address: str
     mail_password: str
     mail_username: str
