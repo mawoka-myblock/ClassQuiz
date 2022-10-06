@@ -79,10 +79,10 @@ async def join_game(sid: str, data: dict):
                     except KeyError:
                         print("CAPTCHA FAILED")
                         return
-                elif settings.recpatcha_key is not None:
+                elif settings.recaptcha_key is not None:
                     async with session.post(
                         "https://www.google.com/recaptcha/api/siteverify",
-                        data={"secret": settings.recpatcha_key, "response": data.captcha},
+                        data={"secret": settings.recaptcha_key, "response": data.captcha},
                     ) as resp:
                         try:
                             resp_data = await resp.json()
