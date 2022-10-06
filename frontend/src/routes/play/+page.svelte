@@ -10,6 +10,7 @@
 	import ShowEndScreen from '$lib/play/end.svelte';
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
+	import Cookies from 'js-cookie';
 
 	const { t } = getLocalization();
 
@@ -108,6 +109,7 @@
 		preventReload = false;
 		game_pin = '';
 		username = '';
+		Cookies.set('kicked', 'value', { expires: 1 });
 		window.location.reload();
 	});
 	socket.on('final_results', (data) => {

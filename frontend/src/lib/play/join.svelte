@@ -10,6 +10,7 @@
 	import * as Sentry from '@sentry/browser';
 	import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';
+	import Cookies from 'js-cookie';
 
 	const { t } = getLocalization();
 	export let game_pin: string;
@@ -89,6 +90,10 @@
 			return;
 		}
 		let captcha_resp: string;
+		if (Cookies.get('kicked')) {
+			console.log("%cYou're Banned!", 'font-size:6rem');
+			return;
+		}
 
 		if (captcha_enabled) {
 			if (hcaptchaSitekey) {
