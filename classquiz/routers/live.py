@@ -40,18 +40,22 @@ class _QuizQuestion(QuizQuestion):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and type(v[0]) != _ABCDQuizAnswer:
-            print(type(v[0]))
-            raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
-            raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
-        if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
-            raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
+        # if values["type"] == QuizQuestionType.ABCD and type(v[0]) != _ABCDQuizAnswer:
+        #     print(type(v[0]), values)
+        #     raise ValueError("Answers can't be none if type is ABCD")
+        # if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
+        #     raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        # if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
+        #     raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
+        # return v
         return v
 
 
-class _GetLivePlayGame(PlayGame):
+class _PlayGame(PlayGame):
     questions: list[_QuizQuestion]
+
+
+class _GetLivePlayGame(_PlayGame):
     total_questions: int
 
 
@@ -76,15 +80,21 @@ async def get_live_game_data(
         redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game = PlayGame.parse_raw(redis_res)
+    game = _PlayGame.parse_raw(redis_res)
     if game.user_id != user_id:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     for i, question in enumerate(game.questions):
         if question.type == QuizQuestionType.ABCD:
             for o, answer in enumerate(question.answers):
                 color = "#00F007"
-                if not answer.right:
-                    color = "#FF0000"
+                try:
+                    if not answer.right:
+                        color = "#FF0000"
+                except AttributeError:
+                    game.questions[i].answers[o] = VotingQuizAnswer(
+                        answer=answer.answer, color=answer.color, image=answer.image
+                    )
+                    continue
                 game.questions[i].answers[o] = _ABCDQuizAnswer(
                     right=answer.right, answer=answer.answer, color=answer.color, color_code=color
                 )
