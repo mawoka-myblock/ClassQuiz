@@ -243,10 +243,16 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str, in_huma
                 )
     if game.current_question >= 0:
         game.current_question += 1
-        return [{**game.questions[game.current_question].dict(), "current_question": game.current_question}]
+        return [
+            {
+                **game.questions[game.current_question].dict(),
+                "current_question": game.current_question,
+                "total_questions": len(game.questions),
+            }
+        ]
     else:
         game.current_question += 1
-        return [{"question": {}, "current_question": game.current_question}]
+        return [{"question": {}, "current_question": game.current_question, "total_questions": len(game.questions)}]
 
 
 @router.get("/voting")
