@@ -112,7 +112,10 @@ async def get_live_game_data(
             ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
-    game = _GetLivePlayGame(**{**game.dict(), "total_questions": len(game.questions)})
+    total_questions = len(game.questions)
+    if in_human_count:
+        total_questions += 1
+    game = _GetLivePlayGame(**{**game.dict(), "total_questions": total_questions})
     if in_human_count:
         player_count += 1
         game.current_question += 1
