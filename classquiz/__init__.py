@@ -38,7 +38,7 @@ async def sentry_exception(request: Request, call_next):
 
 async def background_tasks():
     schedule = Scheduler()
-    schedule.cyclic(timedelta(hours=24), bg_tasks.clean_editor_images_up)
+    schedule.cyclic(timedelta(hours=6), bg_tasks.clean_editor_images_up)
     while True:
         await asyncio.sleep(1)
 
