@@ -113,8 +113,6 @@ async def get_live_game_data(
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     total_questions = len(game.questions)
-    if in_human_count:
-        total_questions += 1
     game = _GetLivePlayGame(**{**game.dict(), "total_questions": total_questions})
     if in_human_count:
         player_count += 1
