@@ -24,6 +24,7 @@
 			console.log('After nav');
 		}
 	});*/
+	const plausible_data_url = import.meta.env.VITE_PLAUSIBLE_DATA_URL;
 
 	if (browser) {
 		pathname.set(window.location.pathname);
@@ -61,6 +62,17 @@
 		});
 	}
 </script>
+
+<svelte:head>
+	{#if plausible_data_url}
+		<link rel="prefetch" href="https://sugar.mawoka.eu.org/" />
+		<script
+			async=""
+			defer=""
+			data-domain={plausible_data_url}
+			src="https://sugar.mawoka.eu.org/js/plausible.hash.outbound-links.js"></script>
+	{/if}
+</svelte:head>
 
 {#if $navbarVisible}
 	<Navbar />
