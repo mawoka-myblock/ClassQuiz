@@ -115,7 +115,6 @@ async def get_live_game_data(
     total_questions = len(game.questions)
     game = _GetLivePlayGame(**{**game.dict(), "total_questions": total_questions})
     if in_human_count:
-        player_count += 1
         game.current_question += 1
 
     return_obj = None
