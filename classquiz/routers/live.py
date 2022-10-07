@@ -242,11 +242,10 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str, in_huma
                     right=answer.right, answer=answer.answer, color=answer.color, color_code=color
                 )
     if game.current_question >= 0:
-        game.current_question += 1
         return [
             {
                 **game.questions[game.current_question].dict(),
-                "current_question": game.current_question,
+                "current_question": game.current_question + 1 if in_human_count else game.current_question,
                 "total_questions": len(game.questions),
             }
         ]
