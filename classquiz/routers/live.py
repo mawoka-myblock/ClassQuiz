@@ -222,7 +222,7 @@ async def get_live_player_scores(game_pin: str, api_key: str):
 
 
 @router.get("/get_question/now")
-async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str):
+async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str, in_human_count: bool = False):
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None:
@@ -241,8 +241,10 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str):
                     right=answer.right, answer=answer.answer, color=answer.color, color_code=color
                 )
     if game.current_question >= 0:
+        game.current_question += 1
         return [{**game.questions[game.current_question].dict(), "current_question": game.current_question}]
     else:
+        game.current_question += 1
         return [{"question": {}, "current_question": game.current_question}]
 
 
