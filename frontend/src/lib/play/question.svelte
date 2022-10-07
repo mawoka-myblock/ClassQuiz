@@ -92,7 +92,7 @@
 		}
 	}
 
-	$: console.log(solution);
+	$: console.log(slider_value, 'values');
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
@@ -113,7 +113,7 @@
 	</div>
 {/if}
 {#if timer_res !== '0'}
-	{#if question.type === QuizQuestionType.ABCD || QuizQuestionType.VOTING}
+	{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.VOTING}
 		{#if game_mode === 'normal'}
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each question.answers as answer}
