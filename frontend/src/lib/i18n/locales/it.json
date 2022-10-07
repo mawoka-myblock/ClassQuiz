@@ -16,7 +16,8 @@
         "teachers_site": "Sito per l'insegnante",
         "students_site": "Sito per lo studente",
         "slogan": "La piattaforma per quiz open-source!",
-        "see_all_quizzes": "I tuoi quiz"
+        "see_all_quizzes": "I tuoi quiz",
+        "dark_mode": "Modalità Notte"
     },
     "overview_page": {
         "created_at": "Creato il",
