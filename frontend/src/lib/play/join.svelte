@@ -163,8 +163,8 @@
 	{/if}
 	{#if import.meta.env.VITE_RECAPTCHA && captcha_enabled}
 		<script
-			src="https://www.google.com/recaptcha/api.js?render={import.meta.env
-				.VITE_RECAPTCHA}"></script>
+			src="https://www.google.com/recaptcha/api.js?render={import.meta.env.VITE_RECAPTCHA}"
+		></script>
 	{/if}
 </svelte:head>
 
