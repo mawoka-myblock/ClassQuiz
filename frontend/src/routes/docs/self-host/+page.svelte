@@ -179,6 +179,7 @@ services:
       MAIL_USERNAME: "classquiz@mawoka.eu" # Email-Username (change it)
       MAIL_SERVER: "smtp.gmail.com" # SMTP-Server (change it)
 	  MAIL_PORT: "587" # SMTP-Port
+	  SKIP_EMAIL_VERIFICATION: True # Set this to skip sending emails
       MAX_WORKERS: "1" # Very important and don't change it!
       REDIS: "redis://redis:6379/0?decode_responses=True" # don't change
       SECRET_KEY: "TOP_SECRET" # openssl rand -hex 32
@@ -210,7 +211,7 @@ services:
       test: [ "CMD", "redis-cli","ping" ]
 
   db:
-    image: postgres:alpine
+    image: postgres:14-alpine
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]

@@ -39,7 +39,7 @@ services:
       test: [ "CMD", "redis-cli","ping" ]
 
   db:
-    image: postgres:alpine
+    image: postgres:14-alpine
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
