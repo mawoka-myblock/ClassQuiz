@@ -70,7 +70,8 @@
 			async=""
 			defer=""
 			data-domain={plausible_data_url}
-			src="https://sugar.mawoka.eu.org/js/plausible.hash.outbound-links.js"></script>
+			src="https://sugar.mawoka.eu.org/js/plausible.hash.outbound-links.js"
+		></script>
 	{/if}
 </svelte:head>
 
