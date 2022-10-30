@@ -5,7 +5,7 @@
 	import type { Answer, Question as QuestionType } from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
-	import ShowResults from '$lib/play/show_results.svelte';
+	// import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
 	import ShowEndScreen from '$lib/play/end.svelte';
 	import KahootResults from '$lib/play/results_kahoot.svelte';
