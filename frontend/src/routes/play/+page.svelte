@@ -169,7 +169,7 @@
 				<div class="w-full flex justify-center">
 					<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
 				</div>
-			{:else if game_mode === 'kahoot'}
+			{:else}
 				<div>
 					<h2 class="text-center text-3xl mb-8">{$t('words.result', { count: 2 })}</h2>
 				</div>
@@ -178,15 +178,6 @@
 						bind:username
 						bind:question_results={answer_results}
 						bind:scores
-					/>
-				{/key}
-			{:else}
-				{#key unique}
-					<ShowResults
-						bind:results={answer_results}
-						bind:game_data={gameData}
-						bind:question_index
-						bind:solution
 					/>
 				{/key}
 			{/if}

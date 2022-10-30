@@ -118,7 +118,7 @@
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each question.answers as answer}
 					<button
-						class="text-3xl rounded-lg h-fit text-center disabled:opacity-60 p-3"
+						class="rounded-lg h-fit flex align-middle justify-center disabled:opacity-60 p-3"
 						style="background-color: {answer.color ?? '#B45309'}"
 						disabled={selected_answer !== undefined}
 						on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
