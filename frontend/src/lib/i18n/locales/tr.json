@@ -7,7 +7,7 @@
             "3": "Kullanımı kolay editör, quiz sonuçlarını Excel dosyası olarak dışarıya aktaran fonksiyonuyla önemlidir."
         },
         "meta": {
-            "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için KAHOOT!'a benzer bir quiz uygulamasıdır",
+            "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için Kahoot!'a benzer bir quiz uygulamasıdır",
             "title": "Ana Sayfa"
         },
         "stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır.",
@@ -23,7 +23,28 @@
         "view_results": "Sonuçları gör",
         "completely_free": "Tamamen Ücretsiz",
         "quiz_results_downloadable": "Quiz sonuçları indirilebilir",
-        "multilingual": "Çok dilli"
+        "multilingual": "Çok dilli",
+        "no_tracking_content": "Kahoot en az 2 Amerikan üçüncü taraflarla sizi takip eder ve ClassQuiz hiçbir üçüncü tarafla takip etmez!",
+        "german_server": "Alman Sunucusu",
+        "user_friendly": "Kullanıcı Dostu",
+        "list_winners": "Kazananları listele",
+        "get_ranking_and_winners": "Sıralamayı al ve kimin kazandığını gör",
+        "select_answer": "Cevabı seç",
+        "choose_answer_wisely": "Cevabını akıllıca seç",
+        "import_quiz_from_kahoot_and_edit": "Kahoot! sitesinden bir quizi içeri aktar ve ClassQuiz'de düzenle",
+        "play_quiz": "2. Quizi oyna",
+        "check_if_chosen_wisely": "Akıllıca seçip seçmediğini kontrol et",
+        "completely_free_content": "ClassQuiz, herhangi bir paralı plan veya yükseltme sayfasına rahatsız edici yönlendirmeler olmaksızın tamamen ücretsizdir. Bir bağış yine de makbule geçer!",
+        "quiz_results_downloadable_content": "Quiz sonuçları kolayca bir Excel tablosuyla dışarı aktarılabilir. (Diğerlerinin bunu yapamadığını bilmiyordum)",
+        "multilingual_content": "ClassQuiz halihazırda İngilizce, Almanca, Türkçe, Fransızca ve İtalyancaya tamamen çevrilmiştir. Ayrıca Endonezce ve Katalancaya da kısmen çevrilmiştir.",
+        "find_or_explore": "Başkaları tarafından yapılmış veya içe aktarılmış quizleri bul (veya keşfet)",
+        "no_tracking": "Takip Yok",
+        "self_hostable_content": "ClassQuiz kolayca self-hostlanabilir, yani veri sadece sizin kontrolünüz altındadır!",
+        "user_friendly_content": "ClassQuiz olabildiğince kullanıcı dostu olmaya çalışır, dolayısıyla kullanımı herkes için kolaydır",
+        "self_hostable": "Self-Host Edilebilir",
+        "get_a_quiz": "1. Quiz bul",
+        "create_a_quiz_from_scratch": "Editörle sıfırdan bir quiz oluştur, resimleri ve daha fazlasını ekle",
+        "dark_mode_content": "Bir sitenin sahip olabileceği en önemli özelliklerden biri!"
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
@@ -99,7 +120,11 @@
         "other": "diğer",
         "other_plural": "diğerleri",
         "donating": "bağış yapma",
-        "game_pin": "Oyun Kodu"
+        "game_pin": "Oyun Kodu",
+        "voting": "Oylama",
+        "error": "Hata",
+        "practice": "Alıştırma",
+        "find": "Bul"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -132,7 +157,8 @@
         "export_results": "Sonuçları dışa aktar",
         "show_next_question": "Bir sonraki soruyu göster",
         "start_by_showing_first_question": "İlk soruyu göstererek başla!",
-        "no_answers": "Cevap yok!"
+        "no_answers": "Cevap yok!",
+        "stop_time": "Zamanı durdur"
     },
     "editor": {
         "time_in_seconds": "Saniye cinsinden zaman",
@@ -185,5 +211,9 @@
         "self_ads": "{{mawoka_link}} tarafından ve {{others_link}}nin de yardımıyla ❤️ ile yapıldı.",
         "more_details_here": "Daha fazla detay burada",
         "donate": "Eğer bunu kullanışlı bulduysanız, lütfen {{donate_link}}yı bir düşünün."
+    },
+    "error_page": {
+        "404_text": "Aradığınız sayfa gitmiş veya hiç olmamış bile. Kim bilir?",
+        "unknown_error_text": "Bu gerçekleşmemeliydi. Muhtemelen benim hatam, sizin değil, ama belki sizde de bir şeyleri kırabilecek büyülü bir güç var..."
     }
 }
