@@ -54,7 +54,16 @@
 	});
 
 	const set_game_pin = async () => {
-		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
+		let process_var;
+		try {
+			process_var = process;
+		} catch {
+			process_var = { env: { API_URL: undefined } };
+		}
+
+		const res = await fetch(
+			`${process_var.env.API_URL ?? ''}/api/v1/quiz/play/check_captcha/${game_pin}`
+		);
 		const json = await res.json();
 		game_mode = json.game_mode;
 		if (res.status === 200) {
