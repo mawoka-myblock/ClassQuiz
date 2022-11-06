@@ -78,16 +78,15 @@ async def auth(request: Request, response: Response):
     user_in_db = await User.objects.get_or_none(email=user_data.email)
     if user_in_db is None:
         # REGISTER USER
-        create_user = User(
-            email=user_data.email,
-            username=user_data.name,
-            verified=user_data.email_verified,
-            auth_type=UserAuthTypes.GOOGLE,
-            google_uid=user_data.sub,
-            avatar=gzipped_user_avatar(),
-        )
         try:
-            await create_user.save()
+            await User.object.create(
+                email=user_data.email,
+                username=user_data.name,
+                verified=user_data.email_verified,
+                auth_type=UserAuthTypes.GOOGLE,
+                google_uid=user_data.sub,
+                avatar=gzipped_user_avatar(),
+            )
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
