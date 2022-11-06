@@ -1,6 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+import uuid
 
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
@@ -80,6 +81,7 @@ async def auth(request: Request, response: Response):
         # REGISTER USER
         try:
             await User.object.create(
+                id=uuid.uuid4(),
                 email=user_data.email,
                 username=user_data.name,
                 verified=user_data.email_verified,

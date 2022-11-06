@@ -1,7 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import uuid
 from typing import Optional
 
 import authlib.integrations.base_client
@@ -105,15 +105,16 @@ async def auth(request: Request, response: Response):
     user_in_db = await User.objects.get_or_none(email=user_data.email)
     if user_in_db is None:
         # REGISTER USER
-        create_user = User(
-            email=user_data.email,
-            username=user_data.login,
-            verified=True,
-            auth_type=UserAuthTypes.GITHUB,
-            avatar=gzipped_user_avatar(),
-        )
         try:
-            await create_user.save()
+            await User.objects.create(
+                id=uuid.uuid4(),
+                email=user_data.email,
+                username=user_data.login,
+                verified=True,
+                auth_type=UserAuthTypes.GITHUB,
+                avatar=gzipped_user_avatar(),
+            )
+
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
