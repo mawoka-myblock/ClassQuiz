@@ -293,6 +293,22 @@
 					{$t('admin_page.start_by_showing_first_question')}
 				</button>
 			</div>
+		{:else}
+			<div class="flex flex-col justify-center w-screen h-full">
+				<h1 class="text-7xl text-center">{quiz_data.title}</h1>
+				<p class="text-3xl pt-8 text-center">{quiz_data.description}</p>
+				{#if quiz_data.cover_image}
+					<div class="flex justify-center align-middle items-center">
+						<div class="h-[30vh] m-auto w-auto mt-12">
+							<img
+								class="max-h-full max-w-full  block"
+								src={quiz_data.cover_image}
+								alt="Not provided"
+							/>
+						</div>
+					</div>
+				{/if}
+			</div>
 		{/if}
 	{:else if final_results_clicked === false}
 		{#if game_mode === 'normal'}
