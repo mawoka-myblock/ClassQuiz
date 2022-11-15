@@ -107,7 +107,6 @@
 		{#if selected_question >= 0 && JSON.stringify(final_results) === JSON.stringify([null])}
 			<div class="flex justify-center flex-col my-auto col-start-2 col-end-2">
 				<h2 class="text-center">{quiz_data.questions[selected_question].question}</h2>
-				<p class="w-full text-center">{timer_res}</p>
 			</div>
 		{/if}
 		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
@@ -150,7 +149,7 @@
 	</div>
 	{#if timer_res !== '0' && selected_question >= 0}
 		<span
-			class="fixed top-0 bg-red-500 h-10 transition-all mt-14"
+			class="fixed top-0 bg-red-500 h-8 transition-all mt-12"
 			style="width: {(100 / quiz_data.questions[selected_question].time) *
 				parseInt(timer_res)}vw"
 		/>
