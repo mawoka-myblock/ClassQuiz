@@ -60,7 +60,7 @@
 		final_results = data;
 	});
 
-	socket.on('everyone_answered', (data) => {
+	socket.on('everyone_answered', (_) => {
 		timer_res = '0';
 	});
 
