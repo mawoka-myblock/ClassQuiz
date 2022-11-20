@@ -51,6 +51,9 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
+	socket.on('everyone_answered', (data) => {
+		timer_res = '0';
+	});
 
 	timer(question.time);
 

@@ -35,7 +35,7 @@
 		socket.emit('set_question_number', q_number.toString());
 		shown_question_now = q_number;
 		timer_res = quiz_data.questions[q_number].time;
-		selected_question += 1;
+		selected_question = selected_question + 1;
 		timer(timer_res);
 	};
 	const get_question_results = () => {
@@ -60,10 +60,13 @@
 		final_results = data;
 	});
 
+	socket.on('everyone_answered', (data) => {
+		timer_res = '0';
+	});
+
 	socket.on('question_results', (data) => {
 		try {
 			question_results = JSON.parse(data);
-			final_results_clicked = true;
 			timer_res = '0';
 		} catch {
 			question_results = undefined;
@@ -75,7 +78,7 @@
 		let timer_interval = setInterval(() => {
 			if (timer_res === '0') {
 				clearInterval(timer_interval);
-				socket.emit('show_solutions', {});
+				// socket.emit('show_solutions', {});
 				return;
 			} else {
 				seconds--;
@@ -198,11 +201,11 @@
 								class="text-center text-2xl px-2 py-4 w-full text-black"
 								class:text-4xl={answer.right &&
 									timer_res === '0' &&
-									quiz_data.questions[selected_question].type !==
+									quiz_data.questions[selected_question].type ===
 										QuizQuestionType.ABCD}
 								class:underline={answer.right &&
 									timer_res === '0' &&
-									quiz_data.questions[selected_question].type !==
+									quiz_data.questions[selected_question].type ===
 										QuizQuestionType.ABCD}>{answer.answer}</span
 							>
 							<span class="pl-4 w-10" />
