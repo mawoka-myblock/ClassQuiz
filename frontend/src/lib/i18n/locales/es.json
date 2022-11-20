@@ -1,1 +1,16 @@
-{}
+{
+    "index_page": {
+        "slogan": "¡La plataforma de quiz open-source!",
+        "meta": {
+            "description": "ClassQuiz es una aplicación de quiz como Kahoot! para estudiantes, que es open source y de uso gratuito",
+            "title": "Inicio"
+        },
+        "features_description": {
+            "1": "ClassQuiz es una plataforma de quiz que permite crear y gestionar quiz.",
+            "2": "La principal funcionalidad es una función de importación de Kahoot! que permite importar cuestionarios de Kahoot!",
+            "3": "Destaca el editor sencillo, así como la función de exportar los resultados de los cuestionarios a archivos de Excel."
+        },
+        "stats": "Ya hay {{user_count}} usuarios y {{quiz_count}} cuestionarios en ClassQuiz.",
+        "see_what_true_and_false": "Ver lo que estaba correcto o incorrecto"
+    }
+}

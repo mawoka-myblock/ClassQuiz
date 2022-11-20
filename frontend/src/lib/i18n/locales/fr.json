@@ -74,7 +74,10 @@
         "game_pin": "Code de jeu",
         "other": "autre",
         "other_plural": "autres",
-        "donating": "Donner"
+        "donating": "Donner",
+        "practice": "Pratiquer",
+        "error": "Erreur",
+        "voting": "Vote"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -167,7 +170,8 @@
         "export_results": "Exporter les résultats",
         "show_next_question": "Montrer la prochaine question",
         "start_by_showing_first_question": "Démarrer en montrant la première question !",
-        "no_answers": "Pas de réponses !"
+        "no_answers": "Pas de réponses !",
+        "stop_time": "Arrêter le temps"
     },
     "password_reset_page": {
         "reset_password": "Réinitialiser le mot de passe"
@@ -207,5 +211,9 @@
         "more_details_here": "Plus de détails ici",
         "donate": "Si vous trouvez ceci utile, pensez à {{donate_link}}.",
         "self_ads": "Fait avec ❤️ par {{mawoka_link}} et l'aide de {{others_link}}."
+    },
+    "error_page": {
+        "404_text": "La page que vous recherchiez a disparu ou n'a même jamais existé. Qui sait ?",
+        "unknown_error_text": "Cela ne devrait pas arriver. C'est probablement ma faute, pas la tienne, mais peut-être que tu as un pouvoir magique pour casser les choses..."
     }
 }

@@ -7,7 +7,7 @@
         },
         "features_description": {
             "1": "ClassQuiz is a quiz-platform that allows you to create and manage quizzes.",
-            "2": "The main feature is a KAHOOT!-import function that allows you to import quizzes from KAHOOT!-quizzes.",
+            "2": "The main feature is a Kahoot!-import function that allows you to import quizzes from Kahoot!-quizzes.",
             "3": "The easy-to-use editor is highlight as well as the function to export quiz-results to Excel-files."
         },
         "stats": "There are already {{user_count}} users and {{quiz_count}} quizzes on ClassQuiz.",
