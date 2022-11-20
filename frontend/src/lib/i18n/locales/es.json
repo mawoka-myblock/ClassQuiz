@@ -11,6 +11,73 @@
             "3": "Destaca el editor sencillo, así como la función de exportar los resultados de los cuestionarios a archivos de Excel."
         },
         "stats": "Ya hay {{user_count}} usuarios y {{quiz_count}} cuestionarios en ClassQuiz.",
-        "see_what_true_and_false": "Ver lo que estaba correcto o incorrecto"
+        "see_what_true_and_false": "Ver lo que estaba correcto o incorrecto",
+        "dark_mode": "Modo oscuro",
+        "get_a_quiz": "1. Haz un quiz",
+        "create_a_quiz_from_scratch": "Crea un quiz desde cero con el editor e incluye imágenes y más",
+        "find_or_explore": "Encuentra (o explora) quizzes hechos o importados por otras personas",
+        "import_quiz_from_kahoot_and_edit": "Importa un cuestionario de Kahoot! y edítalo en ClassQuiz",
+        "no_tracking": "Sin rastreo",
+        "german_server": "Servidor alemán",
+        "user_friendly": "Fácil de usar",
+        "completely_free": "Totalmente gratuito",
+        "quiz_results_downloadable": "Los resultados de los cuestionarios se pueden descargar",
+        "multilingual": "Multilingüe",
+        "completely_free_content": "ClassQuiz es completamente gratuito, sin planes de pago ni molestas redirecciones a la página de actualización. Sin embargo, ¡se agradece una donación!",
+        "see_how_many_true_and_false": "Ver cuántos estaban correctos o equivocados",
+        "create_or_import": "Crear o importar",
+        "see_all_quizzes": "Ver todos tus cuestionarios",
+        "teachers_site": "Portal de profesores",
+        "students_site": "Portal estudiante",
+        "multilingual_content": "ClassQuiz ya está totalmente traducido al inglés, alemán, turco, francés e italiano. También está parcialmente traducido al indonesio y al catalán.",
+        "select_answer": "Selecciona la respuesta",
+        "view_results": "Ver los resultados",
+        "check_if_chosen_wisely": "Comprueba, si has elegido bien",
+        "list_winners": "Lista de los ganadores",
+        "get_ranking_and_winners": "Consigue la clasificación y mira quién ha ganado",
+        "why_classquiz": "¿Por qué ClassQuiz?",
+        "self_hostable_content": "ClassQuiz puede ser fácilmente auto-alojado, por lo que los datos sólo están bajo tu control!",
+        "user_friendly_content": "ClassQuiz trata de ser lo más fácil de uso posible, por lo que es fácil de usar para todo el mundo",
+        "quiz_results_downloadable_content": "Los resultados de los cuestionarios se pueden exportar fácilmente a una hoja de cálculo de Excel. (No sabía que otros no pudieran hacerlo)",
+        "dark_mode_content": "Una de las funcionalidades más importantes que puede tener un sitio web!",
+        "german_server_content": "Los servidores de ClassQuiz se encuentran en Alemania y están alojados con netcup.",
+        "play_quiz": "2. Haz el quiz",
+        "choose_answer_wisely": "Elige bien tu respuesta",
+        "no_tracking_content": "Kahoot! rastrea con al menos 2 proveedores americanos y ClassQuiz no rastrea con ningún proveedor!"
+    },
+    "create_page": {
+        "success": {
+            "body": "¡Creación del quiz con éxito!",
+            "title": "¡Quiz creado con éxito!"
+        }
+    },
+    "login_page": {
+        "modal": {
+            "success": {
+                "success_check_mail": "¡Inicio de sesión exitoso! ¡Comprueba tu buzón de correo!",
+                "description": {
+                    "success_check_mail": "Por favor, comprueba tu buzón, ya que deberías haber recibido un correo, con un enlace en el que puedes hacer clic para iniciar sesión."
+                },
+                "success": "¡Inicio de sesión exitoso!"
+            }
+        },
+        "welcome_back": "¡Bienvenido de nuevo!",
+        "login_or_create_account": "Iniciar sesión o crear una cuenta",
+        "already_have_account": "¿No tienes una cuenta?"
+    },
+    "overview_page": {
+        "created_at": "Creado en",
+        "question_count": "Recuento de preguntas",
+        "no_quizzes": "Parece que no tienes ningún quiz. ¿Quieres cambiar eso? ¡Haz clic en el botón \"Crear\" o importa un cuestionario de Kahoot!"
+    },
+    "edit_page": {
+        "success_update_title": "¡Quiz actualizado con éxito!",
+        "success_update_body": "¡Actualización del quiz con éxito!"
+    },
+    "register_page": {
+        "greeting": "¡Encantado de conocerte!",
+        "create_account": "Crear una cuenta",
+        "forgot_password?": "¿Olvidaste tu contraseña?",
+        "already_have_account?": "¿Ya tienes una cuenta?"
     }
 }
