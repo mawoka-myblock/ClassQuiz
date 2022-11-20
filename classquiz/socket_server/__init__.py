@@ -338,7 +338,14 @@ async def submit_answer(sid: str, data: dict):
             answers.json(),
             ex=18000,
         )
-
+    answers = _AnswerDataList.parse_raw(await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"))
+    player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
+    if len(answers.__root__) == player_count:
+        await sio.emit(
+            "question_results",
+            await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"),
+            room=session["game_pin"],
+        )
     # await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))
 
 

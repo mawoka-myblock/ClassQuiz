@@ -63,6 +63,8 @@
 	socket.on('question_results', (data) => {
 		try {
 			question_results = JSON.parse(data);
+			final_results_clicked = true;
+			timer_res = '0';
 		} catch {
 			question_results = undefined;
 		}
