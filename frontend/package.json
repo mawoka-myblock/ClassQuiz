@@ -15,6 +15,12 @@
 	},
 	"devDependencies": {
 		"@beyonk/svelte-mapbox": "^8.2.0",
+		"@ckeditor/ckeditor5-autoformat": "^35.3.1",
+		"@ckeditor/ckeditor5-basic-styles": "^35.3.1",
+		"@ckeditor/ckeditor5-build-balloon": "^35.3.1",
+		"@ckeditor/ckeditor5-editor-balloon": "^35.3.1",
+		"@ckeditor/ckeditor5-essentials": "^35.3.1",
+		"@ckeditor/ckeditor5-theme-lark": "^35.3.1",
 		"@felte/reporter-tippy": "^1.1.4",
 		"@felte/validator-yup": "^1.0.10",
 		"@fontsource/marck-script": "^4.5.11",

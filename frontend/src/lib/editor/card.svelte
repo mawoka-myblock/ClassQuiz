@@ -68,15 +68,21 @@
 		</div>
 		<div class="flex flex-col">
 			<div class="flex justify-center pt-10 w-full">
-				<input
-					type="text"
-					bind:value={data.questions[selected_question].question}
-					placeholder="No title..."
-					class="p-3 rounded-lg border-gray-500 border text-center w-2/3 text-lg font-semibold placeholder:italic placeholder:font-normal dark:bg-gray-500"
-					class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
-						data.questions[selected_question].question
-					)}
-				/>
+				{#await import('$lib/inline-editor.svelte')}
+					<Spinner my_20={false} />
+				{:then c}
+					<div
+						class="rounded-lg placeholder:italic placeholder:font-normal dark:bg-gray-500"
+						class:bg-yellow-500={!reach(dataSchema, 'questions[].question').isValidSync(
+							data.questions[selected_question].question
+						)}
+					>
+						<svelte:component
+							this={c.default}
+							bind:text={data.questions[selected_question].question}
+						/>
+					</div>
+				{/await}
 			</div>
 			{#if data.questions[selected_question].image != undefined && data.questions[selected_question].image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">

@@ -146,7 +146,7 @@
 						</p>
 					{:else}
 						<p class="text-center w-full text-black h-full align-bottom mt-0.5">
-							{data.title}
+							{@html data.title}
 						</p>
 					{/if}
 					<button

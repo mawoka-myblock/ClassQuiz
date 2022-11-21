@@ -62,12 +62,13 @@
 			class:border-solid={!reach(dataSchema, 'title').isValidSync(data.title)}
 			class:border-2={!reach(dataSchema, 'title').isValidSync(data.title)}
 		>
-			<input
+			<p
 				type="text"
-				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded font-semibold dark:text-white"
+				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded dark:text-white"
 				class:dark:text-black={selected_question === -1}
-				bind:value={data.title}
-			/>
+			>
+				{@html data.title}
+			</p>
 		</div>
 		<div
 			use:tippy={{ content: data.description === '' ? "It's empty!" : data.description }}
@@ -160,7 +161,7 @@
 					{#if question.question === ''}
 						<span class="italic text-gray-500">No title...</span>
 					{:else}
-						{question.question}
+						{@html question.question}
 					{/if}
 				</h1>
 			</div>

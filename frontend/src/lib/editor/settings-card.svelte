@@ -40,11 +40,16 @@
 		</div>
 		<div class="dark:bg-gray-700">
 			<div class="flex justify-center pt-10 w-full">
-				<input
+				<!--<input
 					type="text"
 					bind:value={data.title}
 					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 text-lg font-semibold dark:bg-gray-500"
-				/>
+				/>-->
+				{#await import('$lib/inline-editor.svelte')}
+					<Spinner my_20={false} />
+				{:then c}
+					<svelte:component this={c.default} bind:text={data.title} />
+				{/await}
 			</div>
 			<div class="flex justify-center pt-10 w-full max-h-32">
 				<textarea
