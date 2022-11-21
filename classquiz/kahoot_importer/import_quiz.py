@@ -53,7 +53,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
 
         quiz_questions.append(
             QuizQuestion(
-                question=html.unescape(bleach.clean(q.question, tags=[], strip=True)),
+                question=html.unescape(bleach.clean(q.question, tags=bleach.ALLOWED_TAGS, strip=True)),
                 answers=answers,
                 time=str(q.time / 1000),
                 image=image,
@@ -68,8 +68,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
-        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=[], strip=True)),
-        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=[], strip=True)),
+        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=bleach.ALLOWED_TAGS, strip=True)),
+        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=bleach.ALLOWED_TAGS, strip=True)),
         created_at=datetime.now(),
         updated_at=datetime.now(),
         user_id=user.id,
