@@ -43,7 +43,7 @@
 		{/each}
 		{#each quiz_answers as answer}
 			<div class="w-20">
-				<p class="-rotate-45">{answer}</p>
+				<p class="-rotate-45">{@html answer}</p>
 			</div>
 		{/each}
 	</div>

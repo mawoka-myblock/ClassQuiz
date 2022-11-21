@@ -121,8 +121,8 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     session_data = EditSessionData.parse_raw(session_data)
-    quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
-    quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
+    quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=bleach.ALLOWED_TAGS, strip=True))
+    quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=bleach.ALLOWED_TAGS, strip=True))
     if quiz_input.background_color is not None:
         quiz_input.background_color = html.unescape(bleach.clean(quiz_input.background_color, tags=[], strip=True))
 
@@ -132,6 +132,12 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                 if answer.color is not None:
                     quiz_input.questions[i].answers[i2].color = html.unescape(
                         bleach.clean(answer.color, tags=[], strip=True)
+                    )
+                if answer.answer == "":
+                    quiz_input.questions[i].answers[i2].answer = None
+                if answer.answer is not None:
+                    quiz_input.questions[i].answers[i2].answer = html.unescape(
+                        bleach.clean(answer.answer, tags=bleach.ALLOWED_TAGS, strip=True)
                     )
     image_id_regex = r"^.{36}--.{36}$"
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
@@ -154,6 +160,9 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
 
     for i, question in enumerate(quiz_input.questions):
         image = question.image
+        quiz_input.questions[i].question = html.unescape(
+            bleach.clean(quiz_input.questions[i].question, tags=bleach.ALLOWED_TAGS, strip=True)
+        )
         if image == "":
             question.image = None
             mark_image_for_deletion(question.image, i, old_quiz_data)

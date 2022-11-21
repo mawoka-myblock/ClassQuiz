@@ -63,9 +63,9 @@
 </svelte:head>
 
 <div>
-	<h1 class="text-4xl text-center">{quiz.title}</h1>
+	<h1 class="text-4xl text-center">{@html quiz.title}</h1>
 	<div class="text-center">
-		<p>{quiz.description}</p>
+		<p>{@html quiz.description}</p>
 	</div>
 	{#if quiz.cover_image}
 		<div class="flex justify-center align-middle items-center">
@@ -118,7 +118,7 @@
 			<CollapsSection headerText={question.question}>
 				<div class="grid grid-cols-1 gap-2 rounded-b-lg bg-white dark:bg-gray-700 -mt-1">
 					<h3 class="text-3xl m-1 text-center">
-						{index_question + 1}: {question.question}
+						{index_question + 1}: {@html question.question}
 					</h3>
 
 					<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->

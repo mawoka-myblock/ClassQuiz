@@ -8,7 +8,6 @@
 
 	const { t } = getLocalization();
 	export let quiz;
-	export let enable_html = false;
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
 </script>
 
@@ -24,11 +23,7 @@
 					<h2
 						class="text-gray-800 dark:text-gray-200 text-3xl font-semibold truncate pr-2"
 					>
-						{#if enable_html}
-							{@html quiz.title}
-						{:else}
-							{quiz.title}
-						{/if}
+						{@html quiz.title}
 					</h2>
 					<span class="inline-block ml-auto">
 						<ImportedOrNot imported={quiz.imported_from_kahoot} />
@@ -37,7 +32,7 @@
 				<p
 					class="mt-2 text-gray-600 dark:text-gray-300 break-all overflow-hidden text-ellipsis max-h-[4.5rem] block"
 				>
-					{#if enable_html} {@html quiz.description}{:else}{quiz.description} {/if}
+					{@html quiz.description}
 				</p>
 			</div>
 			<div class="flex mt-4">
@@ -47,7 +42,7 @@
 					{:else}
 						{$t('explore_page.made_by')}
 					{/if}
-					{#if enable_html}{@html quiz.user}{:else}{quiz.user}{/if}</span
+					{@html quiz.user}</span
 				>
 			</div>
 		</div>

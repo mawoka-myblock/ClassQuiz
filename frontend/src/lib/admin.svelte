@@ -111,7 +111,7 @@
 		</p>
 		{#if selected_question >= 0 && JSON.stringify(final_results) === JSON.stringify([null])}
 			<div class="flex justify-center flex-col my-auto col-start-2 col-end-2">
-				<h2 class="text-center">{quiz_data.questions[selected_question].question}</h2>
+				<h2 class="text-center">{@html quiz_data.questions[selected_question].question}</h2>
 			</div>
 		{/if}
 		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
@@ -164,7 +164,7 @@
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
 		<div class="flex flex-col justify-center w-screen h-1/6">
 			<h1 class="text-6xl text-center">
-				{quiz_data.questions[selected_question].question}
+				{@html quiz_data.questions[selected_question].question}
 			</h1>
 			<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
 			<div class="mx-auto my-2">
@@ -278,7 +278,7 @@
 					on:click={() => {
 						set_question_number(selected_question + 1);
 					}}
-					>{$t('admin_page.show_next_question')}: {get_question_title(
+					>{$t('admin_page.show_next_question')}: {@html get_question_title(
 						selected_question + 1,
 						quiz_data
 					)}</button
@@ -299,8 +299,8 @@
 			</div>
 		{:else}
 			<div class="flex flex-col justify-center w-screen h-full">
-				<h1 class="text-7xl text-center">{quiz_data.title}</h1>
-				<p class="text-3xl pt-8 text-center">{quiz_data.description}</p>
+				<h1 class="text-7xl text-center">{@html quiz_data.title}</h1>
+				<p class="text-3xl pt-8 text-center">{@html quiz_data.description}</p>
 				{#if quiz_data.cover_image}
 					<div class="flex justify-center align-middle items-center">
 						<div class="h-[30vh] m-auto w-auto mt-12">

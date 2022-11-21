@@ -105,7 +105,7 @@
 		{#each quizzes as quiz, i}
 			<SwiperSlide>
 				<div class="flex justify-center pt-4 px-4">
-					<a href="/edit?quiz_id={quiz.id}" class="text-3xl">{quiz.title}</a>
+					<a href="/edit?quiz_id={quiz.id}" class="text-3xl">{@html quiz.title}</a>
 				</div>
 				<div class="flex justify-center p-10 h-full">
 					<div class="border-2 border-black rounded-lg w-5/6">
@@ -124,11 +124,11 @@
 										style="writing-mode: vertical-lr"
 										class="text-center h-full text-xl p-2"
 									>
-										{quiz.title}
+										{@html quiz.title}
 									</p>
 									<div class="col-start-2 col-end-6">
 										<p class="text-center">
-											{quiz.description}
+											{@html quiz.description}
 										</p>
 										{#if quiz.cover_image}
 											<div
@@ -150,7 +150,7 @@
 											style="writing-mode: sideways-lr"
 											class="text-center text-xl p-2"
 										>
-											{quiz.title}
+											{@html quiz.title}
 										</p>
 									</div>
 								</div>
@@ -246,7 +246,9 @@
 							{#each quiz.questions as question}
 								<SwiperSlide>
 									<div class="h-full">
-										<h5 class="text-center text-2xl">{question.question}</h5>
+										<h5 class="text-center text-2xl">
+											{@html question.question}
+										</h5>
 										{#if question.image}
 											<div
 												class="flex justify-center align-middle items-center"

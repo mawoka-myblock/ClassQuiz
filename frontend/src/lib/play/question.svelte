@@ -100,7 +100,7 @@
 
 <div class="flex flex-col justify-center w-screen h-1/6">
 	<h1 class="text-6xl text-center text-black dark:text-white">
-		{question.question}
+		{@html question.question}
 	</h1>
 	<div class="mx-auto my-2">
 		<CircularTimer bind:text={timer_res} bind:progress={circular_prgoress} color="#ef4444" />

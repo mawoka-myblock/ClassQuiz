@@ -82,7 +82,7 @@
 	{#if resp_data.hits.length !== 0}
 		<div class="grid lg:grid-cols-3 grid-cols-1">
 			{#each resp_data.hits as quiz}
-				<SearchCard quiz={quiz._formatted} enable_html={true} />
+				<SearchCard quiz={quiz._formatted} />
 			{/each}
 		</div>
 	{:else}

@@ -43,7 +43,7 @@
 </script>
 
 <div class="w-full px-6 lg:px-20 h-[80vh] absolute" in:fly={{ x: 100 }} out:fly={{ x: -100 }}>
-	<h1 class="text-3xl text-center">{question.question}</h1>
+	<h1 class="text-3xl text-center">{@html question.question}</h1>
 	{#if question.image !== null}
 		<div>
 			<img

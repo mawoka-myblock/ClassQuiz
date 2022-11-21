@@ -10,8 +10,8 @@
 </script>
 
 <div class="flex flex-col justify-center w-screen h-screen">
-	<h1 class="text-7xl text-center">{title}</h1>
-	<p class="text-3xl pt-8 text-center">{description}</p>
+	<h1 class="text-7xl text-center">{@html title}</h1>
+	<p class="text-3xl pt-8 text-center">{@html description}</p>
 	{#if cover_image}
 		<div class="flex justify-center align-middle items-center">
 			<div class="h-[30vh] m-auto w-auto mt-12">
