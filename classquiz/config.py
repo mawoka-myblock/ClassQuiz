@@ -69,3 +69,5 @@ storage: Storage = Storage(
 )
 
 meilisearch = MeiliSearch.Client(settings().meilisearch_url)
+
+ALLOWED_TAGS_FOR_QUIZ = ["b", "strong", "i", "em", "small", "mark", "del", "sub", "sup"]

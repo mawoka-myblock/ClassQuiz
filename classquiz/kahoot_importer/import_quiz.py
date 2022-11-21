@@ -10,7 +10,7 @@ from datetime import datetime
 import bleach
 from aiohttp import ClientSession
 
-from classquiz.config import settings, storage, meilisearch
+from classquiz.config import settings, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ
 from classquiz.db.models import Quiz, ABCDQuizAnswer, QuizQuestion, User
 from classquiz.kahoot_importer.get import get as get_quiz
 from classquiz.helpers import get_meili_data
@@ -53,7 +53,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
 
         quiz_questions.append(
             QuizQuestion(
-                question=html.unescape(bleach.clean(q.question, tags=bleach.ALLOWED_TAGS, strip=True)),
+                question=html.unescape(bleach.clean(q.question, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
                 answers=answers,
                 time=str(q.time / 1000),
                 image=image,
@@ -68,8 +68,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
-        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=bleach.ALLOWED_TAGS, strip=True)),
-        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=bleach.ALLOWED_TAGS, strip=True)),
+        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
+        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
         created_at=datetime.now(),
         updated_at=datetime.now(),
         user_id=user.id,
