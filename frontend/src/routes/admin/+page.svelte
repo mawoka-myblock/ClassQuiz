@@ -134,7 +134,7 @@
 	class:text-black={bg_color}
 >
 	{#if JSON.stringify(final_results) !== JSON.stringify([null])}
-		<div class="w-screen flex justify-center mt-8">
+		<div class="w-screen flex justify-center mt-16">
 			<button on:click={request_answer_export} class="admin-button"
 				>{$t('admin_page.export_results')}</button
 			>
