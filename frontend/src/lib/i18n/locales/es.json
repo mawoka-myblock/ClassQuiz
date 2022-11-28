@@ -43,7 +43,8 @@
         "german_server_content": "Los servidores de ClassQuiz se encuentran en Alemania y están alojados con netcup.",
         "play_quiz": "2. Haz el quiz",
         "choose_answer_wisely": "Elige bien tu respuesta",
-        "no_tracking_content": "Kahoot! rastrea con al menos 2 proveedores americanos y ClassQuiz no rastrea con ningún proveedor!"
+        "no_tracking_content": "Kahoot! rastrea con al menos 2 proveedores americanos y ClassQuiz no rastrea con ningún proveedor!",
+        "self_hostable": "Autohospedable"
     },
     "create_page": {
         "success": {
@@ -56,9 +57,18 @@
             "success": {
                 "success_check_mail": "¡Inicio de sesión exitoso! ¡Comprueba tu buzón de correo!",
                 "description": {
-                    "success_check_mail": "Por favor, comprueba tu buzón, ya que deberías haber recibido un correo, con un enlace en el que puedes hacer clic para iniciar sesión."
+                    "success_check_mail": "Por favor, comprueba tu buzón, ya que deberías haber recibido un correo, con un enlace en el que puedes hacer clic para iniciar sesión.",
+                    "success": "¡Se ha iniciado la sesión con éxito!"
                 },
                 "success": "¡Inicio de sesión exitoso!"
+            },
+            "error": {
+                "wrong_creds": "Correo electrónico o contraseña incorrectos!",
+                "unexpected": "¡Error inesperado!",
+                "description": {
+                    "wrong_creds": "Asegúrate de que tu contraseña y tu correo electrónico son correctos!",
+                    "unexpected": "Se produjo el típico error inesperado!"
+                }
             }
         },
         "welcome_back": "¡Bienvenido de nuevo!",
@@ -79,5 +89,131 @@
         "create_account": "Crear una cuenta",
         "forgot_password?": "¿Olvidaste tu contraseña?",
         "already_have_account?": "¿Ya tienes una cuenta?"
+    },
+    "words": {
+        "question_plural": "Preguntas",
+        "connect": "Conectar",
+        "screenshot": "Captura de pantalla",
+        "voting": "Votar",
+        "start": "Iniciar",
+        "public": "Público",
+        "create": "Crear",
+        "import": "Importar",
+        "logout": "Cerrar la sesión",
+        "practice": "Practica",
+        "register": "Registrar",
+        "docs": "Documentos",
+        "close": "Cerrar",
+        "kick": "Expulsar",
+        "error": "Error",
+        "game_pin": "Pin del juego",
+        "other": "otro",
+        "other_plural": "otros",
+        "donating": "donación",
+        "question": "Pregunta",
+        "answer": "Respuesta",
+        "stats": "Estadísticas",
+        "features": "Características",
+        "login": "Inicio de sesión",
+        "email": "Correo electrónico",
+        "username": "Nombre de usuario",
+        "count": "Cuenta",
+        "range": "Zona",
+        "multiple_choice": "Opción múltiple",
+        "private": "Privado",
+        "dashboard": "Tablero de mandos",
+        "find": "Encuentra",
+        "play": "Jugar",
+        "edit": "Editar",
+        "delete": "Borrar",
+        "title": "Título",
+        "url": "URL",
+        "submit": "Enviar",
+        "pin": "PIN",
+        "save": "Guardar",
+        "description": "Descripción",
+        "image": "Imagen",
+        "settings": "Ajustes",
+        "repeat_password": "Repite la contraseña",
+        "overview": "Resumen",
+        "report": "Informe",
+        "explore": "Explora",
+        "search": "Buscar",
+        "screenshot_plural": "Capturas de pantalla",
+        "browser": "Navegador",
+        "view": "Ver",
+        "correct": "Correcto",
+        "result": "Resultado",
+        "result_plural": "Resultados",
+        "password": "Contraseña"
+    },
+    "admin_page": {
+        "export_results": "Exportar resultados",
+        "show_next_question": "Muestra la siguiente pregunta",
+        "stop_time": "Detener el tiempo",
+        "get_results": "Obtener resultados",
+        "get_results_and_stop_time": "Obtén los resultados y pará el tiempo",
+        "already_registered_as_admin": "Ya hay un administrador registrado para este juego.",
+        "start_game": "Iniciar el juego",
+        "time_left": "Tiempo restante",
+        "get_final_results": "Ver los resultados finales",
+        "start_by_showing_first_question": "Comienza mostrando la primera pregunta!",
+        "no_answers": "¡No hay respuestas!"
+    },
+    "settings_page": {
+        "check_location": "Comprobar ubicación",
+        "new_password": "Nueva contraseña",
+        "repeat_password": "Repite la contraseña",
+        "change_password_submit": "Cambia la contraseña!",
+        "last_seen": "Visto por última vez",
+        "delete_this_session": "Borrar esta sesión",
+        "this_session?": "¿Esta sesión?",
+        "old_password": "Contraseña antigua"
+    },
+    "play_page": {
+        "2nd_place": "2º puesto",
+        "end_sentence": "¡Ya está! ¡Este era el quiz!",
+        "1st_place": "1er puesto",
+        "3rd place": "3er puesto",
+        "with_out_of": "con {{correct_questions}} de {{total_question_count}}"
+    },
+    "editor_page": {
+        "right_click_to_delete": "Haz clic con el botón derecho en una respuesta para eliminarla!",
+        "add_an_answer": "Añadir una respuesta"
+    },
+    "footer": {
+        "self_ads": "Hecho con ❤️ por {{mawoka_link}} y con la ayuda de {{others_link}}.",
+        "more_details_here": "Más detalles aquí",
+        "donate": "Si te resulta útil, considera {{donate_link}}."
+    },
+    "error_page": {
+        "unknown_error_text": "Eso no debería pasar. Seguramente es mi culpa, no la tuya, pero quizás tienes un poder mágico para romper cosas...",
+        "404_text": "La página que buscabas ha desaparecido o ni siquiera ha existido. ¿Quién sabe?"
+    },
+    "editor": {
+        "add_new_question": "Añadir una nueva pregunta",
+        "delete_question": "Borrar la pregunta",
+        "delete_answer": "Borrar la pregunta",
+        "not_all_links_imgur_links": "¡No todos los enlaces son de Imgur!",
+        "right_or_true?": "¿Cierto?",
+        "add_new_answer": "Añadir nueva respuesta",
+        "time_in_seconds": "Tiempo en segundos"
+    },
+    "import_page": {
+        "need_help": "¿Necesitas ayuda?",
+        "visit_docs": "Visite la documentación"
+    },
+    "explore_page": {
+        "made_by": "Hecho por",
+        "imported_by": "Importado por"
+    },
+    "search_page": {
+        "at_least_3_characters": "Escribe al menos 3 caracteres..."
+    },
+    "password_reset_page": {
+        "reset_password": "Restablecer contraseña"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Busca tus propios quizzes"
     }
 }
