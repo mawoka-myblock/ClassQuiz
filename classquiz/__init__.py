@@ -12,7 +12,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from classquiz.config import settings
 from classquiz.db import database
 from datetime import timedelta
-from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live
+from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live, eximport
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
 from scheduler.asyncio import Scheduler
@@ -72,4 +72,5 @@ app.include_router(
     testing_routes.router, tags=["internal", "testing"], prefix="/api/v1/internal/testing", include_in_schema=False
 )
 app.include_router(editor.router, tags=["editor"], prefix="/api/v1/editor", include_in_schema=True)
+app.include_router(eximport.router, tags=["export", "import"], prefix="/api/v1/eximport", include_in_schema=True)
 app.mount("/", ASGIApp(sio))

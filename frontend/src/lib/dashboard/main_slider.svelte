@@ -160,7 +160,7 @@
 									{$t('words.question', { count: quiz.questions.length })}
 								</p>
 
-								<div class="flex justify-center mt-8">
+								<div class="flex justify-center mt-4">
 									{#if quiz.public}
 										<svg
 											class="w-8 h-8 inline-block"
@@ -196,7 +196,7 @@
 									{/if}
 								</div>
 								<div class="flex justify-center pb-10 pt-8">
-									<div class="flex flex-col gap-3">
+									<div class="grid grid-cols-2 gap-3 w-1/3">
 										<a
 											href="/edit?quiz_id={quiz.id}"
 											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
@@ -232,15 +232,36 @@
 												/>
 											</svg>
 										</button>
-										<p
-											class="text-sm font-mono select-all cursor-pointer"
-											on:click={() => {
-												copy_id(quiz.id);
-											}}
-										>
-											{quiz.id}
-										</p>
+										<a
+											href="/api/v1/eximport/{quiz.id}"
+											class="flex justify-center px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+											><!-- heroicons/download -->
+											<svg
+												class="w-5 h-5"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+												/>
+											</svg>
+										</a>
 									</div>
+								</div>
+								<div class="flex justify-center">
+									<p
+										class="text-sm font-mono select-all cursor-pointer"
+										on:click={() => {
+											copy_id(quiz.id);
+										}}
+									>
+										{quiz.id}
+									</p>
 								</div>
 							</SwiperSlide>
 							{#each quiz.questions as question}
