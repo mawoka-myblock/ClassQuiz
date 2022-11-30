@@ -165,7 +165,9 @@ services:
 	  REDIS_URL: redis://redis:6379/0?decode_responses=True # don't change
       API_URL: http://api:80 # don't change
   api:
-    image: ghcr.io/mawoka-myblock/classquiz:master
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       - db
