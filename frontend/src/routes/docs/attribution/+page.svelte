@@ -5,7 +5,7 @@
   -->
 <svelte:head>
 	<title>ClassQuiz/docs - Attribution</title>
-	<meta name="description" content="People who helped make with ClassQuiz." />
+	<meta name="description" content="People who helped making with ClassQuiz." />
 </svelte:head>
 <article
 	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
@@ -46,6 +46,9 @@
 		</li>
 		<li>
 			<a href="https://github.com/maxmasetti">Max</a> (Italian)
+		</li>
+		<li>
+			<a href="https://github.com/RicoLaaa">RicoLaaa</a> (Spanish)
 		</li>
 	</ul>
 
