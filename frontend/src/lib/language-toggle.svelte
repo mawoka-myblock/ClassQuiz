@@ -87,6 +87,11 @@
 			code: 'it',
 			name: 'Italiano',
 			flag: '🇮🇹'
+		},
+		{
+			code: 'es',
+			name: 'Español',
+			flag: '🇪🇸'
 		}
 	];
 	const get_selected_language = (): string => {
