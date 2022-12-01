@@ -44,7 +44,11 @@
         "user_friendly_content": "ClassQuiz probiert so benutzerfreundlich zu sein, sodass es für jeden einfach zu benutzen ist",
         "completely_free_content": "ClassQuiz ist komplett kostenlos und ohne irgendwelche kostenpflichtigen Abonnements oder nervige Weiterleitungen auf Upgrade-Seiten, obwohl eine Spende trotzdem erwünscht ist!",
         "dark_mode_content": "Eines der wichtigsten Features, die eine Webseite haben kann!",
-        "german_server_content": "ClassQuiz' Server stehen in Deutschland und werden von netcup betrieben."
+        "german_server_content": "ClassQuiz' Server stehen in Deutschland und werden von netcup betrieben.",
+        "community_driven_content": "ClassQuiz hängt von der Community ab, die ClassQuiz mit Spenden, Feature-Requests, Übersetzungen und mehr versorgt! Du kannst auch ein Teil der ClassQuiz-Community werden!",
+        "download_quizzes_content": "Quiz können als einzige Datei heruntergeladen werden und jederzeit importiert werden, sodass du auch einfach auf eine andere Instanz von ClassQuiz umziehen kannst!",
+        "community_driven": "Von der Community betrieben",
+        "download_quizzes": "Quiz herunterladen"
     },
     "overview_page": {
         "created_at": "Erstellt am",
@@ -145,7 +149,8 @@
         "find": "Finden",
         "practice": "Üben",
         "error": "Fehler",
-        "voting": "Umfrage"
+        "voting": "Umfrage",
+        "download": "Herunterladen"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -178,7 +183,13 @@
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
-        "visit_docs": "Besuche die Dokumentation"
+        "visit_docs": "Besuche die Dokumentation",
+        "a_kahoot_quiz": "Ein Kahoot!-Quiz",
+        "url_should_look_like_this": "Die URL sollte vie folgt aussehen: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "Auf dieser Seite kannst du Quiz von Kahoot! importieren.",
+        "classquiz_quiz": "Ein ClassQuiz-Quiz",
+        "upload_file_ending": "Lade die Datei, die auf .cqa endet, hoch",
+        "this_side_classquiz": "Auf dieser Seite kannst du Quiz importieren, die von ClassQuiz exportiert wurden."
     },
     "password_reset_page": {
         "reset_password": "Passwort zurücksetzen"
@@ -198,7 +209,8 @@
         "imported_by": "Importiert von"
     },
     "search_page": {
-        "at_least_3_characters": "Gib mindestens 3 Zeichen ein..."
+        "at_least_3_characters": "Gib mindestens 3 Zeichen ein...",
+        "nothing_here": "Hier ist noch nichts..."
     },
     "play_page": {
         "3rd place": "3. Platz",
@@ -222,5 +234,8 @@
     "error_page": {
         "404_text": "Die Seite nach der du suchst existiert nicht mehr oder hat nie existiert. Wer weiß?",
         "unknown_error_text": "Das sollte nicht passieren. Es ist wahrscheinlich meine Schuld, oder du hast eine magische Fähigkeit, Fehler zu erschaffen..."
+    },
+    "uploader": {
+        "add_image": "Bild hinzufügen"
     }
 }
