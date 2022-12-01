@@ -18,7 +18,7 @@
 	let copy_toast_open = false;
 	let start_game = null;
 	const { t } = getLocalization();
-	export let quizzes;
+	export let quizzes = [];
 
 	const deleteQuiz = async (to_delete: string) => {
 		if (!confirm('Do you really want to delete this quiz?')) {
@@ -45,6 +45,7 @@
 	onMount(() => {
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
+	$: console.log(quizzes, 'quizzes_here');
 </script>
 
 {#if copy_toast_open}

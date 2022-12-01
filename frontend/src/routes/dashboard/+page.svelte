@@ -9,7 +9,7 @@
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
 	import Spinner from '$lib/Spinner.svelte';
-	import MiniSearch from 'minisearch';
+	import Fuse from 'fuse.js';
 
 	interface QuizData {
 		id: string;
@@ -27,20 +27,24 @@
 	navbarVisible.set(true);
 	const { t } = getLocalization();
 
-	let quizzes_to_show;
+	let quizzes_to_show = [];
 	let quizzes: Array<any>;
-	const minisearch = new MiniSearch({
-		fields: ['title', 'description'],
-		idField: 'id',
-		storeFields: ['id']
-	});
+	let fuse;
+	/*	const minisearch = new MiniSearch({
+				fields: ['title', 'description'],
+				idField: 'id',
+				storeFields: ['id']
+			})*/
 
 	let id_to_position_map = {};
 
 	const getData = async (): Promise<Array<QuizData>> => {
 		const res = await fetch('/api/v1/quiz/list');
 		quizzes_to_show = await res.json();
-		await minisearch.addAllAsync(quizzes_to_show);
+		fuse = new Fuse(quizzes_to_show, {
+			keys: ['title', 'description', 'questions.question'],
+			findAllMatches: true
+		});
 		quizzes = quizzes_to_show;
 		for (let i = 0; i < quizzes.length; i++) {
 			id_to_position_map[quizzes[i].id] = i;
@@ -56,20 +60,19 @@
 			quizzes_to_show = quizzes;
 			quizzes_to_show = quizzes_to_show;
 		} else {
-			const res = minisearch.search(search_term, { prefix: true, fuzzy: 0.3 });
-			if (res.length === 0) {
-				quizzes_to_show = [];
-				suggestions = minisearch.autoSuggest(search_term);
-			} else {
-				for (const quiz_data of res) {
-					quizzes_to_show.push(quizzes[id_to_position_map[quiz_data.id]]);
-				}
+			const res = fuse.search(search_term);
+			console.log(res, 'search_res');
+			quizzes_to_show = [];
+			for (const quiz_data of res) {
+				quizzes_to_show.push(quiz_data.item);
 			}
+
 			quizzes_to_show = quizzes_to_show;
 		}
 	};
 	$: {
 		search_term;
+		console.log(search_term);
 		search();
 	}
 </script>
@@ -154,21 +157,6 @@
 									</svg>
 								</button>
 							</div>
-							{#if quizzes_to_show.length === 0 && suggestions.length !== 0}
-								<ul class="relative bg-white mt-0.5 dark:bg-gray-700">
-									{#each suggestions as res}
-										<li>
-											<button
-												class="w-full"
-												on:click={() => {
-													suggestions = [];
-													search_term = res.suggestion;
-												}}>{res.suggestion}</button
-											>
-										</li>
-									{/each}
-								</ul>
-							{/if}
 						</div>
 					</div>
 					<svelte:component this={c.default} bind:quizzes={quizzes_to_show} />
