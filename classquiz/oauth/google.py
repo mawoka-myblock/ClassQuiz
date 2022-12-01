@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import uuid
 
+import asyncpg
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
 
@@ -80,7 +81,7 @@ async def auth(request: Request, response: Response):
     if user_in_db is None:
         # REGISTER USER
         try:
-            await User.object.create(
+            await User.objects.create(
                 id=uuid.uuid4(),
                 email=user_data.email,
                 username=user_data.name,
@@ -90,7 +91,26 @@ async def auth(request: Request, response: Response):
                 avatar=gzipped_user_avatar(),
             )
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            if type(e) == asyncpg.exceptions.UniqueViolationError:
+                error = True
+                counter = 1
+                while error:
+                    try:
+                        await User.objects.create(
+                            id=uuid.uuid4(),
+                            email=user_data.email,
+                            username=f"{user_data.name}{counter}",
+                            verified=user_data.email_verified,
+                            auth_type=UserAuthTypes.GOOGLE,
+                            google_uid=user_data.sub,
+                            avatar=gzipped_user_avatar(),
+                        )
+                        error = False
+                    except asyncpg.exceptions.UniqueViolationError:
+                        counter += 1
+                        error = True
+            else:
+                raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
         email=user_data.email, google_uid=user_data.sub, auth_type=UserAuthTypes.GOOGLE, verified=True
     )

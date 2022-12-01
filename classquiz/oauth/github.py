@@ -4,6 +4,7 @@
 import uuid
 from typing import Optional
 
+import asyncpg
 import authlib.integrations.base_client
 from fastapi import APIRouter, Request, HTTPException, Response
 from classquiz.config import settings
@@ -114,9 +115,26 @@ async def auth(request: Request, response: Response):
                 auth_type=UserAuthTypes.GITHUB,
                 avatar=gzipped_user_avatar(),
             )
-
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            if type(e) == asyncpg.exceptions.UniqueViolationError:
+                error = True
+                counter = 1
+                while error:
+                    try:
+                        await User.objects.create(
+                            id=uuid.uuid4(),
+                            email=user_data.email,
+                            username=user_data.login,
+                            verified=True,
+                            auth_type=UserAuthTypes.GITHUB,
+                            avatar=gzipped_user_avatar(),
+                        )
+                        error = False
+                    except asyncpg.exceptions.UniqueViolationError:
+                        counter += 1
+                        error = True
+            else:
+                raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
         email=user_data.email, username=user_data.login, auth_type=UserAuthTypes.GITHUB, verified=True
     )
