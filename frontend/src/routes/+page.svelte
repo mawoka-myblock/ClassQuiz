@@ -108,6 +108,14 @@
 		{
 			headline: $t('index_page.dark_mode'),
 			content: $t('index_page.dark_mode_content')
+		},
+		{
+			headline: $t('index_page.download_quizzes'),
+			content: $t('index_page.download_quizzes_content')
+		},
+		{
+			headline: $t('index_page.community_driven'),
+			content: $t('index_page.community_driven_content')
 		}
 	];
 	let selected_classquiz_reason = 0;

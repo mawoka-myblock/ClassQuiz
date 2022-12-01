@@ -80,7 +80,7 @@
 							</div>
 						</div>
 
-						<div class="flex items-center justify-between mt-4">
+						<div class="flex items-center justify-between mt-4 gap-2">
 							<a
 								href="/account/login"
 								class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"

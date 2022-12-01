@@ -20,6 +20,8 @@
 	// import '@uppy/file-input/dist/style.css'
 	import '@uppy/image-editor/dist/style.css';
 	import type { EditorData } from '../quiz_types';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	export let modalOpen = false;
 	export let edit_id: string;
@@ -102,7 +104,7 @@
 		on:click={() => {
 			modalOpen = true;
 		}}
-		><span class="italic">Add Image</span>
+		><span class="italic">{$t('uploader.add_image')}</span>
 		<svg
 			class="w-6 h-6 inline-block"
 			fill="none"

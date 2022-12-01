@@ -44,7 +44,11 @@
         "quiz_results_downloadable_content": "Quiz-results can be easily exported into an Excel-spreadsheet. (Didn't know others couldn't do that)",
         "multilingual_content": "ClassQuiz is already fully translated into English, German, Turkish, French and Italian. It is also partly translated into Indonesian and Catalan.",
         "dark_mode_content": "One of the most important features a website can have!",
-        "german_server_content": "ClassQuiz's servers are located in Germany and hosted by netcup."
+        "german_server_content": "ClassQuiz's servers are located in Germany and hosted by netcup.",
+        "download_quizzes": "Download Quizzes",
+        "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time, so you can also move your quizzes to an other instance of ClassQuiz easily!",
+        "community_driven": "Community-driven",
+        "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!"
     },
     "overview_page": {
         "created_at": "Created at",
@@ -145,7 +149,8 @@
         "find": "Find",
         "practice": "Practice",
         "error": "Error",
-        "voting": "Voting"
+        "voting": "Voting",
+        "download": "Download"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -158,7 +163,13 @@
     },
     "import_page": {
         "need_help": "Need help?",
-        "visit_docs": "Visit the documentation"
+        "visit_docs": "Visit the documentation",
+        "a_kahoot_quiz": "A Kahoot!-Quiz",
+        "url_should_look_like_this": "The URl should look like this: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "On this side you can import quizzes, which live on Kahoot!.",
+        "classquiz_quiz": "A ClassQuiz-Quiz",
+        "upload_file_ending": "Upload the file ending in .cqa",
+        "this_side_classquiz": "On this side you can import quizzes, which were exported from ClassQuiz."
     },
     "admin_page": {
         "already_registered_as_admin": "There is already an admin registered for this game.",
@@ -191,7 +202,8 @@
         "imported_by": "Imported by"
     },
     "search_page": {
-        "at_least_3_characters": "Enter at least 3 characters..."
+        "at_least_3_characters": "Enter at least 3 characters...",
+        "nothing_here": "There is nothing here..."
     },
     "play_page": {
         "end_sentence": "That's it! This was the quiz.",
@@ -215,5 +227,8 @@
     "error_page": {
         "404_text": "The page you were looking for is gone or never even existed. Who knows?",
         "unknown_error_text": "That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power to break stuff..."
+    },
+    "uploader": {
+        "add_image": "Add image"
     }
 }

@@ -116,7 +116,7 @@
 				<div class="grid grid-cols-2">
 					<form on:submit|preventDefault={submit}>
 						<div class="w-full mt-4 h-full flex flex-col">
-							<h2 class="text-center text-2xl">A Kahoot!-Quiz</h2>
+							<h2 class="text-center text-2xl">{$t('import_page.a_kahoot_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 								<div class="relative bg-inherit w-full">
 									<input
@@ -136,13 +136,11 @@
 										{$t('words.url')}
 									</label>
 									<p class="text-sm">
-										The URl should look like this:
-										https://create.kahoot.it/details/...
+										{$t('import_page.url_should_look_like_this')}
 									</p>
 								</div>
 								<p class="mt-2">
-									On this side you can import quizzes, which live on <b>Kahoot!</b
-									>.
+									{$t('import_page.side_import_kahoot')}
 								</p>
 							</div>
 
@@ -177,7 +175,7 @@
 					</form>
 					<form on:submit|preventDefault={file_submit}>
 						<div class="w-full mt-4 border-l-2 border-gray-600 h-full flex flex-col">
-							<h2 class="text-center text-2xl">A ClassQuiz-Quiz</h2>
+							<h2 class="text-center text-2xl">{$t('import_page.classquiz_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 								<div class="relative bg-inherit w-full">
 									<input
@@ -190,12 +188,10 @@
 										class:ring-red-700={!file_input}
 										class:ring-green-600={file_input}
 									/>
-									<p class="text-sm">Upload the file ending in .cqa</p>
+									<p class="text-sm">{$t('import_page.upload_file_ending')}</p>
 								</div>
 								<p class="mt-2">
-									On this side you can import quizzes, which were <b
-										>exported from ClassQuiz</b
-									>.
+									{$t('import_page.this_side_classquiz')}
 								</p>
 							</div>
 

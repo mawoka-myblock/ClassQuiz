@@ -87,7 +87,7 @@
 		</div>
 	{:else}
 		<div class="flex justify-center">
-			<h1 class="text-4xl">There is nothing here...</h1>
+			<h1 class="text-4xl">{$t('search_page.nothing_here')}</h1>
 		</div>
 		<div class="flex justify-center">
 			<p>
