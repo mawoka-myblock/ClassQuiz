@@ -109,10 +109,58 @@
 		</a>
 	</div>
 	<div class="flex justify-center">
+		{#if logged_in}
+			<a
+				href="/api/v1/eximport/{quiz.id}"
+				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none"
+			>
+				<svg
+					class="w-5 h-5 inline-block"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+					/>
+				</svg>
+				Download
+			</a>
+		{:else}
+			<div use:tippy={{ content: 'You need to be logged in to download a game' }}>
+				<button
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
+					disabled
+				>
+					<svg
+						class="w-5 h-5 inline-block"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+						/>
+					</svg>
+					Download
+				</button>
+			</div>
+		{/if}
+	</div>
+	<div class="flex justify-center">
 		<a href="mailto:report@mawoka.eu?subject=Report quiz {quiz.id}" class="text-sm underline">
 			{$t('words.report')}
 		</a>
 	</div>
+
 	{#each quiz.questions as question, index_question}
 		<div class="px-4 py-1">
 			<CollapsSection headerText={question.question}>

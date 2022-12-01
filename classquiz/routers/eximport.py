@@ -87,5 +87,6 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
         quiz_dict["cover_image"] = image_urls[-1]
     quiz = Quiz.parse_obj(quiz_dict)
     quiz.user_id = user.id
+    quiz.imported_from_kahoot = None
     await quiz.save()
     return quiz
