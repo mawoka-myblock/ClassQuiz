@@ -72,6 +72,13 @@
 			data-domain={plausible_data_url}
 			src="https://sugar.mawoka.eu.org/js/plausible.hash.outbound-links.js"
 		></script>
+		<script>
+			window.plausible =
+				window.plausible ||
+				function () {
+					(window.plausible.q = window.plausible.q || []).push(arguments);
+				};
+		</script>
 	{/if}
 </svelte:head>
 
