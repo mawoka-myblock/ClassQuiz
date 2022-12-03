@@ -104,11 +104,13 @@
 			{@html question.question}
 		</h1>
 		<div class="mx-auto my-2">
-			<CircularTimer
-				bind:text={timer_res}
-				bind:progress={circular_prgoress}
-				color="#ef4444"
-			/>
+			{#if game_mode !== 'kahoot'}
+				<CircularTimer
+					bind:text={timer_res}
+					bind:progress={circular_prgoress}
+					color="#ef4444"
+				/>
+			{/if}
 		</div>
 	</div>
 	{#if question.image !== null && game_mode !== 'kahoot'}
@@ -134,17 +136,29 @@
 					{/each}
 				</div>
 			{:else if game_mode === 'kahoot'}
-				<div class="grid grid-cols-2 gap-2 w-full p-4 h-5/6">
-					{#each question.answers as answer, i}
-						<button
-							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-							style="background-color: {answer.color ?? '#B45309'}"
-							disabled={selected_answer !== undefined}
-							on:click={() => selectAnswer(answer.answer)}
-						>
-							<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
-						</button>
-					{/each}
+				<div class="h-5/6 w-full relative">
+					<div
+						class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl"
+					>
+						<CircularTimer
+							bind:text={timer_res}
+							bind:progress={circular_prgoress}
+							color="#ef4444"
+						/>
+					</div>
+
+					<div class="grid grid-cols-2 gap-2 w-full p-4 h-full">
+						{#each question.answers as answer, i}
+							<button
+								class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
+								style="background-color: {answer.color ?? '#B45309'}"
+								disabled={selected_answer !== undefined}
+								on:click={() => selectAnswer(answer.answer)}
+							>
+								<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
+							</button>
+						{/each}
+					</div>
 				</div>
 			{:else}
 				<p>Error</p>
