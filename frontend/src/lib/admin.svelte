@@ -193,7 +193,7 @@
 							style="background-color: {answer.color ?? '#B45309'}"
 							class:opacity-50={!answer.right &&
 								timer_res === '0' &&
-								quiz_data.questions[selected_question].type !==
+								quiz_data.questions[selected_question].type ===
 									QuizQuestionType.ABCD}
 						>
 							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
