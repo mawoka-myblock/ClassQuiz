@@ -5,8 +5,9 @@ import json
 import uuid
 from datetime import datetime
 
+import ormar.exceptions
 from aiohttp import ClientSession
-from fastapi import APIRouter, Depends, Response, File, UploadFile
+from fastapi import APIRouter, Depends, Response, File, UploadFile, HTTPException
 
 from classquiz.auth import get_current_user
 from classquiz.config import storage, settings
@@ -22,7 +23,10 @@ image_index_delimiter = b"\xc5\xc5\x00"
 
 @router.get("/{quiz_id}")
 async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
-    quiz: Quiz = await Quiz.objects.filter(Quiz.id == quiz_id).first()
+    try:
+        quiz: Quiz = await Quiz.objects.filter(Quiz.id == quiz_id).first()
+    except ormar.exceptions.NoMatch:
+        raise HTTPException(status_code=404, detail="Quiz not found")
     image_urls = {}
     for i, question in enumerate(quiz.questions):
         if question["image"] is None:

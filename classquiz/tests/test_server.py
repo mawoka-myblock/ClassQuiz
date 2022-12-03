@@ -5,10 +5,12 @@
 import uuid
 
 import pytest
+from httpx import AsyncClient
 from redis import Redis
 from classquiz.config import settings
 from classquiz.tests import test_user_email, test_user_password
 from classquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
+from classquiz.helpers.hashcash import mint
 
 
 # @pytest.fixture
@@ -414,14 +416,17 @@ class TestPlayQuiz:
         )
         token = resp.cookies["access_token"]
         resp = test_client.post(
-            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400e36417c", cookies={"access_token": token}
+            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400e36417c?game_mode=kahoot", cookies={"access_token": token}
         )
         assert resp.status_code == 404
         resp = test_client.post(
-            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400sdadsasadsadasddsae36417c", cookies={"access_token": token}
+            "/api/v1/quiz/start/fb5adc91-629e-416e-8b98-ae400sdadsasadsadasddsae36417c?game_mode=kahoot",
+            cookies={"access_token": token},
         )
         assert resp.status_code == 400
-        resp = test_client.post(f"/api/v1/quiz/start/{ValueStorage.quiz_id}", cookies={"access_token": token})
+        resp = test_client.post(
+            f"/api/v1/quiz/start/{ValueStorage.quiz_id}?game_mode=kahoot", cookies={"access_token": token}
+        )
         ValueStorage.game_pin = resp.json()["game_pin"]
         ValueStorage.game_id = resp.json()["game_id"]
 
@@ -460,6 +465,66 @@ class TestCache:
         resp = test_client.get("/api/v1/users/me", cookies={"access_token": token})
         user = await get_user_from_id(resp.json()["id"])
 """
+
+
+class TestEditor:
+    @pytest.mark.asyncio
+    async def test_start(self, test_client):  # noqa : F811
+        resp = test_client.post(
+            "/api/v1/users/token/cookie", data={"username": test_user_email, "password": test_user_password}
+        )
+        token = resp.cookies["access_token"]
+
+        resp = test_client.post("/api/v1/editor/start?edit=false", cookies={"access_token": token})
+        assert resp.status_code == 200
+        edit_id = resp.json()["token"]
+        resp = test_client.get(f"/api/v1/editor/pow?edit_id={edit_id}")
+        assert resp.status_code == 200
+        pow_data = resp.json()["data"]
+        resp = test_client.get("/api/v1/editor/pow?edit_id=loladdfs")
+        assert resp.status_code == 401
+        pow_res = mint(pow_data, 8, None, "", 8, False)
+        print("POW-Res", pow_res)
+
+        async with AsyncClient() as ac:
+            resp = await ac.get("https://i.imgur.com/OE22DNZ.png")
+        image_bytes = resp.read()
+
+        resp = test_client.post(
+            f"/api/v1/editor/image?edit_id={edit_id}&pow_data={pow_res}", files={"file": image_bytes}
+        )
+        assert resp.status_code == 200
+        ValueStorage.edit_id = edit_id
+        ValueStorage.image_id = resp.json()["id"]
+
+    @pytest.mark.asyncio
+    async def test_finish(self, test_client):  # noqa : F811
+        local_example_quiz = example_quiz
+        local_example_quiz["questions"][1][
+            "image"
+        ] = f"http://localhost:8080/api/v1/storage/download/{ValueStorage.image_id}"
+        resp = test_client.post(f"/api/v1/editor/finish?edit_id={ValueStorage.edit_id}", json=example_quiz)
+        assert resp.status_code == 200
+
+
+class TestExImport:
+    @pytest.mark.asyncio
+    async def test_export_quiz(self, test_client):  # noqa : F811
+
+        resp = test_client.get("/api/v1/eximport/jgfgufgfgfzftzi")
+        assert resp.status_code == 422
+        resp = test_client.get("/api/v1/eximport/8bd77201-65ed-46fe-9160-cfe71dad501f")
+        assert resp.status_code == 404
+        resp = test_client.get(f"/api/v1/eximport/{ValueStorage.quiz_id}")
+        assert resp.status_code == 200
+        exported_data = resp.content
+        assert len(exported_data) > 3000
+        ValueStorage.exported_quiz_data = exported_data
+
+    @pytest.mark.asyncio
+    async def test_import_quiz(self, test_client):  # noqa : F811
+        resp = test_client.post("/api/v1/eximport/", files={"file": ValueStorage.exported_quiz_data})
+        assert resp.status_code == 200
 
 
 class TestDeleteStuff:

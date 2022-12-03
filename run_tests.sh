@@ -33,6 +33,11 @@ a)
   run_tests
   stop
   ;;
+prepare)
+  stop
+  docker volume rm classquiz_db_data
+  init
+  ;;
 *)
   echo "Invalid option: -$OPTARG" >&2
   exit 1

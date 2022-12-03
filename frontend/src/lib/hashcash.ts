@@ -18,7 +18,7 @@ const gen_salt = (l: number): string => {
 
 export const mint = async (
 	resource: string,
-	bits = 16,
+	bits = 8,
 	// now = null,
 	ext = '',
 	saltchars = 8,
