@@ -88,6 +88,15 @@
 				>
 			</label>
 		</div>
+		{#if captcha_selected}
+			<div class="flex justify-center mt-2" transition:fade>
+				<p class="w-1/3">
+					If enabled, Google's ReCaptcha will load in the browser of players. Only enable
+					if you really need it, since you need the consent of <b>EVERY</b> player to load
+					the captcha.
+				</p>
+			</div>
+		{/if}
 
 		<div class="grid grid-cols-2 gap-8 my-auto">
 			<div

@@ -69,10 +69,20 @@
 		year.
 	</p>
 
-	<h2>Third-parties</h2>
+	<h2>Tracking</h2>
 	<p>
 		This site uses a self-hosted GlitchTip (sentry) instance for error-logging. An opt-out is
 		not available at the moment. This website also uses
-		<a href="https://plausible.io/">Plausible</a> to log usage-data.
+		<a href="https://plausible.io/">Plausible</a> to log usage-data, but this is also running on
+		the same server as ClassQuiz itself.
+	</p>
+	<h3>Third-Parties</h3>
+	<p>
+		The quiz-admin can enable the captcha, which then loads Google's ReCaptcha which then sends
+		something to Google. Refer to Google's <a
+			href="https://policies.google.com/privacy?hl=en-GB"
+			target="_blank"
+			rel="noreferrer">Privacy policy</a
+		>.
 	</p>
 </article>
