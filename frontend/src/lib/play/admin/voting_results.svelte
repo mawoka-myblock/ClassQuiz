@@ -10,9 +10,11 @@
 	export let question: Question;
 
 	let quiz_answers = [];
+	let quiz_colors = [];
 
 	for (const i of question.answers) {
 		quiz_answers.push(i.answer);
+		quiz_colors.push(i.color);
 	}
 
 	console.log('mounted', question);
@@ -35,10 +37,11 @@
 				>{#if sorted_data[answer] > 0}{sorted_data[answer]}{/if}</span
 			>
 		{/each}
-		{#each quiz_answers as answer}
+		{#each quiz_answers as answer, i}
 			<div
-				class="w-20 bg-black self-end flex justify-center"
-				style="height: {(sorted_data[answer] * 20) / data.length}rem"
+				class="w-20 self-end flex justify-center"
+				style="height: {(sorted_data[answer] * 20) /
+					data.length}rem; background-color: {quiz_colors[i] ? quiz_colors[i] : 'black'}"
 			/>
 		{/each}
 		{#each quiz_answers as answer}
