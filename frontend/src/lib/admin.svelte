@@ -101,7 +101,7 @@
 
 {#if game_mode === 'kahoot'}
 	<div
-		class="fixed top-0 w-full h-14 z-20 grid grid-cols-3"
+		class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
 		style="background: {bg_color ? bg_color : 'transparent'}"
 		class:text-black={bg_color}
 	>
@@ -109,11 +109,6 @@
 			{selected_question === -1 ? '0' : selected_question + 1}
 			/{quiz_data.questions.length}
 		</p>
-		{#if selected_question >= 0 && JSON.stringify(final_results) === JSON.stringify([null])}
-			<div class="flex justify-center flex-col my-auto col-start-2 col-end-2">
-				<h2 class="text-center">{@html quiz_data.questions[selected_question].question}</h2>
-			</div>
-		{/if}
 		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
 			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
 				{#if JSON.stringify(final_results) === JSON.stringify([null])}
@@ -154,7 +149,7 @@
 	</div>
 	{#if timer_res !== '0' && selected_question >= 0}
 		<span
-			class="fixed top-0 bg-red-500 h-8 transition-all mt-12"
+			class="fixed top-0 bg-red-500 h-8 transition-all mt-10"
 			style="width: {(100 / quiz_data.questions[selected_question].time) *
 				parseInt(timer_res)}vw"
 		/>
