@@ -59,7 +59,7 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
         stream_response(),
         media_type="application/octet-stream",
         headers={
-            "Content-Disposition": f"attachment;filename={quiz.title}.cqa"
+            "Content-Disposition": f"attachment;filename={quiz.title.encode('ascii', errors='ignore').decode()}.cqa"
             # noqa: E501
         },
     )
