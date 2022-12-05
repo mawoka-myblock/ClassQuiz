@@ -95,6 +95,7 @@
 					if you really need it, since you need the consent of <b>EVERY</b> player to load
 					the captcha.
 				</p>
+				<!-- Todo: Add translation  -->
 			</div>
 		{/if}
 

@@ -7,8 +7,8 @@ from datetime import datetime
 
 import ormar.exceptions
 from aiohttp import ClientSession
-from fastapi import APIRouter, Depends, Response, File, UploadFile, HTTPException
-
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
+from fastapi.responses import StreamingResponse
 from classquiz.auth import get_current_user
 from classquiz.config import storage, settings
 from classquiz.db.models import Quiz, User
@@ -52,8 +52,11 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
             image_data = await resp.read()
         bin_data = bin_data + image_data
 
-    return Response(
-        content=bin_data,
+    def stream_response():
+        yield bin_data
+
+    return StreamingResponse(
+        stream_response(),
         media_type="application/octet-stream",
         headers={
             "Content-Disposition": f"attachment;filename={quiz.title}.cqa"
