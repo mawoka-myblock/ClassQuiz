@@ -67,7 +67,11 @@
 				class="whitespace-nowrap truncate text-center w-full bg-transparent rounded dark:text-white"
 				class:dark:text-black={selected_question === -1}
 			>
-				{@html data.title}
+				{#if data.title}
+					{@html data.title}
+				{:else}
+					<i>No title...</i>
+				{/if}
 			</p>
 		</div>
 		<div

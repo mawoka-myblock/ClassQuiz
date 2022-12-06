@@ -43,7 +43,7 @@
 			yupErrorMessage = '';
 		} catch (err) {
 			schemaInvalid = true;
-			yupErrorMessage = err.errors[0];
+			yupErrorMessage = err.errors ? err.errors[0] : '';
 		}
 	};
 	$: validateInput(data);

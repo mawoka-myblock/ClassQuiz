@@ -16,9 +16,12 @@
 		answer: '',
 		image: undefined
 	};
-
 	export let selected_question: number;
 	export let data: EditorData;
+
+	if (!Array.isArray(data.questions[selected_question].answers)) {
+		data.questions[selected_question].answers = [];
+	}
 	try {
 		if (typeof data.questions[selected_question].answers[0].right === 'boolean') {
 			data.questions[selected_question].answers = [];

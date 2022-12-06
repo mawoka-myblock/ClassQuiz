@@ -14,10 +14,6 @@
 
 	export let selected_question: number;
 	export let data: EditorData;
-	console.log(
-		data.questions[selected_question].answers,
-		Array.isArray(data.questions[selected_question].answers)
-	);
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
 	}
