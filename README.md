@@ -62,11 +62,11 @@ See https://classquiz.de/docs/develop
 
 ## Translation
 
-ClassQuiz uses a Weblate-instace hosted by Mawoka.
+ClassQuiz uses [hosted Weblate](https://hosted.weblate.org/engage/classquiz/)
 
 
-<a href="https://translate.mawoka.eu/engage/classquiz/">
-<img src="https://translate.mawoka.eu/widgets/classquiz/-/frontend/multi-auto.svg" alt="Übersetzungsstatus" />
+<a href="https://hosted.weblate.org/engage/classquiz/">
+<img src="https://hosted.weblate.org/widgets/classquiz/-/frontend/multi-auto.svg" alt="Übersetzungsstatus" />
 </a>
 
 ## Docs
