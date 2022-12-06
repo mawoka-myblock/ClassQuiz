@@ -43,11 +43,17 @@
         "check_if_chosen_wisely": "",
         "why_classquiz": "",
         "community_driven": "",
-        "play_quiz": ""
+        "play_quiz": "",
+        "completely_free_content": "",
+        "user_friendly_content": "",
+        "no_tracking_content": "",
+        "multilingual_content": "",
+        "download_quizzes_content": ""
     },
     "overview_page": {
         "question_count": "Jumlah pertanyaan",
-        "created_at": ""
+        "created_at": "",
+        "no_quizzes": ""
     },
     "edit_page": {
         "success_update_title": "Berhasil memperbarui kuis!",
@@ -72,8 +78,10 @@
             "success": {
                 "success": "Berhasil Masuk!",
                 "description": {
-                    "success": "Berhasil masuk!"
-                }
+                    "success": "Berhasil masuk!",
+                    "success_check_mail": ""
+                },
+                "success_check_mail": ""
             },
             "error": {
                 "wrong_creds": "Surel atau kata sandi tidak tepat!",
@@ -187,7 +195,8 @@
         "never": "",
         "connect": "",
         "quiz": "",
-        "range": ""
+        "range": "",
+        "game_pin": ""
     },
     "editor": {
         "right_or_true?": "Benar?",
@@ -245,7 +254,8 @@
         "enter_answer_into_field": "",
         "answers_submitted": "",
         "download_export_results": "",
-        "next_question": ""
+        "next_question": "",
+        "start_by_showing_first_question": ""
     },
     "settings_page": {
         "old_password": "Kata sandi lama",
@@ -316,7 +326,8 @@
     },
     "footer": {
         "donate": "",
-        "self_ads": ""
+        "self_ads": "",
+        "more_details_here": ""
     },
     "quiztivity": {
         "editor": {
