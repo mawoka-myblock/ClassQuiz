@@ -98,7 +98,8 @@
         "result_plural": "",
         "never": "",
         "quiz": "",
-        "range": ""
+        "range": "",
+        "game_pin": ""
     },
     "login_page": {
         "already_have_account": "No teniu cap compte?",
@@ -143,7 +144,8 @@
         "enter_answer_into_field": "",
         "answers_submitted": "",
         "download_export_results": "",
-        "next_question": ""
+        "next_question": "",
+        "start_by_showing_first_question": ""
     },
     "index_page": {
         "meta": {
@@ -187,11 +189,18 @@
         "why_classquiz": "",
         "community_driven": "",
         "play_quiz": "",
-        "see_all_quizzes": ""
+        "see_all_quizzes": "",
+        "completely_free": "",
+        "completely_free_content": "",
+        "user_friendly_content": "",
+        "no_tracking_content": "",
+        "multilingual_content": "",
+        "download_quizzes_content": ""
     },
     "overview_page": {
         "question_count": "Nombre de preguntes",
-        "created_at": "Creat el"
+        "created_at": "Creat el",
+        "no_quizzes": ""
     },
     "register_page": {
         "create_account": "Crea un compte",
@@ -327,7 +336,8 @@
     },
     "footer": {
         "donate": "",
-        "self_ads": ""
+        "self_ads": "",
+        "more_details_here": ""
     },
     "quiztivity": {
         "editor": {
