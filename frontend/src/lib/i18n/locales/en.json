@@ -8,7 +8,7 @@
         "features_description": {
             "1": "ClassQuiz is a quiz-platform that allows you to create and manage quizzes.",
             "2": "The main feature is a Kahoot!-import function that allows you to import quizzes from Kahoot!-quizzes.",
-            "3": "The easy-to-use editor is highlight as well as the function to export quiz-results to Excel-files."
+            "3": "The editor and function of exporting quiz results as Excel files are particular highlights of the software."
         },
         "stats": "There are already {{user_count}} users and {{quiz_count}} quizzes on ClassQuiz.",
         "see_what_true_and_false": "See what was right or wrong",
@@ -21,14 +21,14 @@
         "self_hostable": "Self-Hostable",
         "german_server": "German Server",
         "user_friendly": "User-Friendly",
-        "completely_free": "Completely Free",
+        "completely_free": "Completely Cost Free",
         "quiz_results_downloadable": "Quiz-results can be downloaded",
         "multilingual": "Multilingual",
         "dark_mode": "Darkmode",
         "get_a_quiz": "1. Get a quiz",
         "create_a_quiz_from_scratch": "Create a quiz from scratch with the editor and include pictures and more",
         "find_or_explore": "Find (or explore) quizzes made or imported by other people",
-        "import_quiz_from_kahoot_and_edit": "Import a quiz from Kahoot! and edit it on ClassQuiz",
+        "import_quiz_from_kahoot_and_edit": "Import a quiz from Kahoot! and edit it in ClassQuiz",
         "play_quiz": "2. Play the quiz",
         "select_answer": "Select the answer",
         "choose_answer_wisely": "Choose your answer wisely",
@@ -37,32 +37,32 @@
         "list_winners": "List winners",
         "get_ranking_and_winners": "Get the ranking and see who won",
         "why_classquiz": "Why ClassQuiz?",
-        "no_tracking_content": "Kahoot tracks with at least 2 american 3rd-parties and ClassQuiz doesn't track with any 3rd-parties at all!",
+        "no_tracking_content": "Kahoot! tracks you with at least two American third-parties, whereas ClassQuiz doesn't at all!",
         "self_hostable_content": "ClassQuiz can easily be self-hosted, so the data is only in your control!",
-        "user_friendly_content": "ClassQuiz tries to be as user-friendly as possible, so it is easy to use for everyone",
-        "completely_free_content": "ClassQuiz is completely free without any paid plans or annoying redirects to the upgrade-page. A donation is still appreciated!",
+        "user_friendly_content": "ClassQuiz aims to be simple, so it is can be used by everyone.",
+        "completely_free_content": "ClassQuiz is completely cost free (for the user), without any paid plans or annoying redirects to the upgrade-page. Donations are highly appreciated.",
         "quiz_results_downloadable_content": "Quiz-results can be easily exported into an Excel-spreadsheet. (Didn't know others couldn't do that)",
-        "multilingual_content": "ClassQuiz is already fully translated into English, German, Turkish, French and Italian. It is also partly translated into Indonesian and Catalan.",
+        "multilingual_content": "ClassQuiz is available in English, French, German, Italian, Norwegian Bokmål, Turkish, and partly Indonesian and Catalan.",
         "dark_mode_content": "One of the most important features a website can have!",
         "german_server_content": "ClassQuiz's servers are located in Germany and hosted by netcup.",
         "download_quizzes": "Download Quizzes",
-        "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time, so you can also move your quizzes to an other instance of ClassQuiz easily!",
+        "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time. This also lets you move your quizzes to other ClassQuiz instances.",
         "community_driven": "Community-driven",
         "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!"
     },
     "overview_page": {
         "created_at": "Created at",
         "question_count": "Question count",
-        "no_quizzes": "Looks like you don't have any quizzes. Wanna change that? Click the \"Create\"-button, or import a quiz from KAHOOT!"
+        "no_quizzes": "Click the \"Create\"-button, or import a quiz from Kahoot! to get going."
     },
     "edit_page": {
-        "success_update_title": "Successfully updated quiz!",
-        "success_update_body": "Updated the quiz successfully!"
+        "success_update_title": "Quiz updated.",
+        "success_update_body": "Nobody will expect the inquizition."
     },
     "create_page": {
         "success": {
-            "title": "Successfully created quiz!",
-            "body": "Created the quiz successfully!"
+            "title": "Quiz created.",
+            "body": "Let the games begin."
         }
     },
     "register_page": {
@@ -72,23 +72,23 @@
         "already_have_account?": "Already have an account?"
     },
     "login_page": {
-        "welcome_back": "Welcome back!",
-        "login_or_create_account": "Login or create an account",
+        "welcome_back": "Welcome back.",
+        "login_or_create_account": "Log in or create an account",
         "already_have_account": "Don't have an account?",
         "modal": {
             "success": {
-                "success_check_mail": "Login Succeded! Check your mailbox!",
-                "success": "Login Succeded!",
+                "success_check_mail": "Logged in. Check your e-mail inbox.",
+                "success": "Logged in.",
                 "description": {
-                    "success_check_mail": "Please check your mailbox, since you should have received a mail, with a link you can click to login.",
-                    "success": "Logged in successfully!"
+                    "success_check_mail": "Please check your e-mail inbox for an e-mail with a link you can click to log in.",
+                    "success": "Logged in."
                 }
             },
             "error": {
-                "wrong_creds": "Wrong email or password!",
+                "wrong_creds": "Wrong e-mail address or password.",
                 "unexpected": "Unexpected error!",
                 "description": {
-                    "wrong_creds": "Please make sure that your password and your email are correct!",
+                    "wrong_creds": "Please ensure your password and e-mail address are correct.",
                     "unexpected": "There was the good old unexpected error!"
                 }
             }
@@ -99,8 +99,8 @@
         "answer": "Answer",
         "stats": "Stats",
         "features": "Features",
-        "login": "Login",
-        "email": "Email",
+        "login": "Log in",
+        "email": "E-mail address",
         "username": "Username",
         "password": "Password",
         "play": "Play",
@@ -110,7 +110,7 @@
         "start": "Start",
         "create": "Create",
         "import": "Import",
-        "logout": "Logout",
+        "logout": "Log out",
         "title": "Title",
         "url": "URL",
         "submit": "Submit",
@@ -142,7 +142,7 @@
         "private": "Private",
         "dashboard": "Dashboard",
         "question_plural": "Questions",
-        "game_pin": "Game Pin",
+        "game_pin": "Game PIN",
         "other": "other",
         "other_plural": "others",
         "donating": "donating",
@@ -180,7 +180,7 @@
         "get_final_results": "Get final results",
         "export_results": "Export results",
         "show_next_question": "Show next question",
-        "start_by_showing_first_question": "Start by showing the first question!",
+        "start_by_showing_first_question": "Start by showing the first question.",
         "no_answers": "No answers!",
         "stop_time": "Stop time"
     },
@@ -221,7 +221,7 @@
     },
     "footer": {
         "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",
-        "more_details_here": "More details are here",
+        "more_details_here": "More details here",
         "donate": "If you find this useful, please consider {{donate_link}}."
     },
     "error_page": {
