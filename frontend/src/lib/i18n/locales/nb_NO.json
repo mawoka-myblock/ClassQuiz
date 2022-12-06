@@ -1,1 +1,234 @@
-{}
+{
+    "index_page": {
+        "community_driven": "Gemenskapsdrevet",
+        "features_description": {
+            "2": "Hovedfunksjonen er Kahoot!-import, som lar deg importere spørrekonkurranser fra Kahoot!.",
+            "1": "ClassQuiz er en spørrekonkurranseplattform som lar deg opprette og håndtere spørrekonkurranser.",
+            "3": "Redigereren og eksportering av spørrekonkurranseresultater som Excel-filer er høydepunkter i programvaren."
+        },
+        "why_classquiz": "Hvorfor ClassQuiz?",
+        "download_quizzes": "Last ned spørrekonkurranser",
+        "meta": {
+            "title": "Hjem",
+            "description": "ClassQuiz er et spørrekonkurranseprogram som ligner Kahoot! for studenter, og er fritt og gratis"
+        },
+        "create_or_import": "Opprett eller importer",
+        "see_all_quizzes": "Vis alle dine spørrekonkurranser",
+        "teachers_site": "Lærerens side",
+        "students_site": "Studentens side",
+        "no_tracking": "Ingen sporing",
+        "user_friendly": "Brukervennlig",
+        "multilingual": "Flerspråklig",
+        "dark_mode": "Mørk drakt",
+        "get_a_quiz": "1. Hent en spørrekonkurranse",
+        "play_quiz": "2. Ta del i spørrekonkurransen",
+        "select_answer": "Velg svaret",
+        "choose_answer_wisely": "Velg svaret ditt med omhu",
+        "view_results": "Vis resultater",
+        "list_winners": "List opp vinnerne",
+        "get_ranking_and_winners": "Hent poengtabellen og finn ut hvem som vant",
+        "create_a_quiz_from_scratch": "Opprett en spørrekonkurranse med redigereren og inkluder bilder og andre ting",
+        "quiz_results_downloadable": "Spørrekonkurranseresultater kan lastes ned",
+        "self_hostable_content": "ClassQuiz kan enkelt selvtjenes, så dataen er i din kontroll.",
+        "stats": "Det er allerede {{user_count}} brukere og {{quiz_count}} spørrekonkurranser ClassQuiz.",
+        "see_how_many_true_and_false": "Sjekk hvor mange som var riktige eller feil",
+        "see_what_true_and_false": "Finn ut hva forskjellen på rett og galt er",
+        "self_hostable": "Selvtjenbart",
+        "completely_free": "Gratis",
+        "check_if_chosen_wisely": "Sjekk, hvis du har valgt klokelig.",
+        "no_tracking_content": "Kahoot! sporer deg med minst to amerikanske tredjeparter, noe ClassQuiz ikke gjør i det hele tatt.",
+        "quiz_results_downloadable_content": "Resultater av spørrekonkurranser kan eksporteres til regneark. (Visste ikke at de andre ikke kunne gjøre dette.)",
+        "user_friendly_content": "ClassQuiz prøver å være enkelt, slik at alle kan bruke det.",
+        "dark_mode_content": "En av de viktigste funksjonene en nettside kan ha.",
+        "german_server_content": "ClassQuiz sine tjenere finnes i Tyskland og vertstjenes av netcup.",
+        "community_driven_content": "ClassQuiz avhenger av gemenskapen for kronerulling, testing av idéer, funksjonsforespørsler, oversettelser, med mer. Du kan bidra du også.",
+        "slogan": "Den frie spørrekonkurranseplattformen.",
+        "german_server": "Tysk tjener",
+        "find_or_explore": "Finn (eller utforsk) spørrekonkurranser laget eller importert av andre",
+        "import_quiz_from_kahoot_and_edit": "Importer en spørrekonkurranse fra Kahoot! og rediger den i CrassQuiz",
+        "completely_free_content": "ClassQuiz er helt kostnadsfritt (for brukeren), uten betalte planer eller irriterende videresending til en oppgraderingsside. Donasjoner verdsettes høyt.",
+        "multilingual_content": "ClassQuiz er tilgjengelig på bokmål, engelsk, fransk, italiensk, tysk, tyrkisk, og delvis indonesisk og katalansk.",
+        "download_quizzes_content": "Spørrekonkuranser kan lastes ned som én fil og importeres når som helst, slik at du også kan flytte spørrekonkurransene dine til andre ClassQuiz-instanser."
+    },
+    "words": {
+        "logout": "Logg ut",
+        "settings": "Innstillinger",
+        "delete": "Slett",
+        "explore": "Utforsk",
+        "play": "Spill",
+        "edit": "Rediger",
+        "public": "Offentlig",
+        "start": "Start",
+        "create": "Opprett",
+        "stats": "Statistikk",
+        "features": "Funksjoner",
+        "login": "Logg inn",
+        "answer": "Svar",
+        "username": "Brukernavn",
+        "password": "Passord",
+        "description": "Beskrivelse",
+        "repeat_password": "Gjenta passord",
+        "overview": "Oversikt",
+        "report": "Rapporter",
+        "search": "Søk",
+        "screenshot": "Skjermavbildning",
+        "screenshot_plural": "Skjermavbildninger",
+        "view": "Vis",
+        "correct": "Riktig",
+        "result": "Resultat",
+        "result_plural": "Resultater",
+        "multiple_choice": "Flervalg",
+        "private": "Privat",
+        "dashboard": "Oversikt",
+        "question_plural": "Spørsmål",
+        "find": "Finn",
+        "error": "Feil",
+        "download": "Last ned",
+        "save": "Lagre",
+        "title": "Navn",
+        "url": "Nettadresse",
+        "connect": "Koble til",
+        "pin": "PIN",
+        "kick": "Kast ut",
+        "register": "Registrering",
+        "docs": "Dokumentasjon",
+        "close": "Lukk",
+        "count": "Antall",
+        "game_pin": "Spill-PIN",
+        "other": "til",
+        "browser": "Nettleser",
+        "range": "Tallfølge",
+        "donating": "donering",
+        "voting": "Stemmegivning",
+        "practice": "Tjuvtrening",
+        "import": "Importer",
+        "image": "Bilde",
+        "question": "Spørsmål",
+        "submit": "Send inn",
+        "other_plural": "andre",
+        "email": "E-postadresse"
+    },
+    "settings_page": {
+        "repeat_password": "Gjenta passordet",
+        "old_password": "Gammelt passord",
+        "new_password": "Nytt passord",
+        "change_password_submit": "Endre passord.",
+        "last_seen": "Sist sett",
+        "this_session?": "Denne økten?",
+        "check_location": "Sjekk posisjon",
+        "delete_this_session": "Slett denne økten"
+    },
+    "admin_page": {
+        "time_left": "Gjenværende tid",
+        "get_results": "Hent resultater",
+        "get_final_results": "Hent sluttresultater",
+        "export_results": "Eksporter resultater",
+        "show_next_question": "Vis neste spørsmål",
+        "no_answers": "Ingen svar.",
+        "already_registered_as_admin": "Det er allerede en administrator registrert for dette spillet.",
+        "start_game": "Start spillet",
+        "start_by_showing_first_question": "Start ved å vise det første spørsmålet.",
+        "get_results_and_stop_time": "Hent resultater og stopp tiden",
+        "stop_time": "Stopp tiden"
+    },
+    "register_page": {
+        "already_have_account?": "Har du allerede en konto?",
+        "create_account": "Opprett konto",
+        "forgot_password?": "Glemt passordet?",
+        "greeting": "Hyggelig å møte deg."
+    },
+    "overview_page": {
+        "question_count": "Antall spørsmål",
+        "created_at": "Opprettet",
+        "no_quizzes": "Klikk «Opprett»-knappen eller importer fra Kahoot! for å begynne."
+    },
+    "edit_page": {
+        "success_update_body": "Ingen vil forvente inquizisjonen.",
+        "success_update_title": "Spørrekonkurranse oppdatert."
+    },
+    "login_page": {
+        "login_or_create_account": "Logg inn eller opprett en konto",
+        "already_have_account": "Har du ikke konto?",
+        "modal": {
+            "error": {
+                "unexpected": "Uventet feil.",
+                "wrong_creds": "Feil e-postadresse eller passord.",
+                "description": {
+                    "unexpected": "God gammeldags uventet floke.",
+                    "wrong_creds": "Forsikre deg om at passordet og e-postadressen er riktig."
+                }
+            },
+            "success": {
+                "success_check_mail": "Innlogget. Sjekk e-postinnboksen din.",
+                "success": "Innlogget.",
+                "description": {
+                    "success": "Innlogget.",
+                    "success_check_mail": "Sjekk e-postinnboksen din. Der finner du en e-post med en lenke du kan trykke for å logge inn."
+                }
+            }
+        },
+        "welcome_back": "Velkommen tilbake."
+    },
+    "create_page": {
+        "success": {
+            "title": "Spørrekonkurranse opprettet.",
+            "body": "La spillet begynne."
+        }
+    },
+    "editor": {
+        "add_new_answer": "Legg til nytt svar",
+        "add_new_question": "Legg til nytt spørsmål",
+        "delete_question": "Slett spørsmål",
+        "delete_answer": "Slett svaret",
+        "right_or_true?": "Rett?",
+        "not_all_links_imgur_links": "Ikke alle lenkene er Imgur-lenker.",
+        "time_in_seconds": "Antall sekunder"
+    },
+    "import_page": {
+        "visit_docs": "Besøk dokumentasjonen",
+        "a_kahoot_quiz": "En Kahot!-spørrekonkurranse",
+        "need_help": "Hjelp?",
+        "side_import_kahoot": "På denne siden kan du importere spørrekonkurranser som bor på Kahoot!.",
+        "upload_file_ending": "Last opp filen som slutter med «.cqa»",
+        "classquiz_quiz": "En ClassQuiz-spørrekonkurranse",
+        "this_side_classquiz": "På denne siden kan du importere spørrekonkurranser som ble eksportert fra ClassQuiz.",
+        "url_should_look_like_this": "Nettadressen skal være utformet slik: https://create.kahoot.it/details/…"
+    },
+    "password_reset_page": {
+        "reset_password": "Tilbakestill passordet"
+    },
+    "explore_page": {
+        "made_by": "Laget av",
+        "imported_by": "Importert av"
+    },
+    "search_page": {
+        "at_least_3_characters": "Skriv inn minst tre tegn …",
+        "nothing_here": "Det er ikke noe her …"
+    },
+    "editor_page": {
+        "add_an_answer": "Legg til et svar",
+        "right_click_to_delete": "Høyreklikk på et svar for å slette det."
+    },
+    "uploader": {
+        "add_image": "Legg til bilde"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Søk etter dine egne spørrekonkurranser"
+    },
+    "footer": {
+        "self_ads": "Med ❤️ av {{mawoka_link}} og hjelp fra {{others_link}}.",
+        "donate": "Ærbødigst kan du kronerulle geskjeften på {{donate_link}}, din helt.",
+        "more_details_here": "Flere detaljer her"
+    },
+    "error_page": {
+        "unknown_error_text": "Dette skal ikke skje. Antagelig en kodefeil, som du ikke er skyld i. Du har dog magiens kraft i å knekke ting …",
+        "404_text": "Siden du leter etter er borte, eller har aldri funnes. Hvem vet?"
+    },
+    "play_page": {
+        "1st_place": "Førsteplass",
+        "2nd_place": "Andreplass",
+        "end_sentence": "Det var det. Som man svarer får man nye spørsmål.",
+        "with_out_of": "med {{correct_questions}} riktige av {{total_question_count}}",
+        "3rd place": "Tredjeplass"
+    }
+}
