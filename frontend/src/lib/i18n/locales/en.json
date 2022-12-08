@@ -37,7 +37,7 @@
         "list_winners": "List winners",
         "get_ranking_and_winners": "Get the ranking and see who won",
         "why_classquiz": "Why ClassQuiz?",
-        "no_tracking_content": "Kahoot! tracks you with at least two American third-parties, whereas ClassQuiz doesn't at all!",
+        "no_tracking_content": "Kahoot! tracks you and sends that info to third-parties, but ClassQuiz doesn't.",
         "self_hostable_content": "ClassQuiz can easily be self-hosted, so the data is only in your control!",
         "user_friendly_content": "ClassQuiz aims to be simple, so it is can be used by everyone.",
         "completely_free_content": "ClassQuiz is completely cost free (for the user), without any paid plans or annoying redirects to the upgrade-page. Donations are highly appreciated.",
