@@ -92,6 +92,11 @@
 			code: 'es',
 			name: 'Español',
 			flag: '🇪🇸'
+		},
+		{
+			code: 'nb_NO',
+			name: 'Norsk',
+			flag: '🇳🇴'
 		}
 	];
 	const get_selected_language = (): string => {
