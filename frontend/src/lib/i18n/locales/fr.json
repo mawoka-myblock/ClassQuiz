@@ -3,22 +3,22 @@
         "modal": {
             "success": {
                 "description": {
-                    "success": "Connecté avec succès !",
+                    "success": "Connecté.",
                     "success_check_mail": "Veuillez vérifier votre boîte mail, vous avez normalement reçu un mail avec un lien pour vous connecter."
                 },
-                "success": "Connexion réussie !",
-                "success_check_mail": "Connexion réussie ! Vérifiez votre boîte mail !"
+                "success": "Connexion réussie.",
+                "success_check_mail": "Connexion réussie. Vérifiez votre boîte mail."
             },
             "error": {
-                "wrong_creds": "Mot de passe ou email non-correct !",
+                "wrong_creds": "Mot de passe ou email incorrect.",
                 "description": {
-                    "wrong_creds": "Assurez-vous que votre mot de passe et votre email sont corrects !",
+                    "wrong_creds": "Assurez-vous que votre mot de passe et votre email sont corrects.",
                     "unexpected": "Une bonne vieille erreur inattendue s'est produite !"
                 },
                 "unexpected": "Erreur inattendue !"
             }
         },
-        "welcome_back": "Bon retour parmi nous !",
+        "welcome_back": "Bon retour parmi nous.",
         "login_or_create_account": "Se connecter ou créer un compte",
         "already_have_account": "Pas encore de compte ?"
     },
@@ -77,7 +77,8 @@
         "donating": "Donner",
         "practice": "Pratiquer",
         "error": "Erreur",
-        "voting": "Vote"
+        "voting": "Vote",
+        "download": "Télécharger"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -88,7 +89,7 @@
         "features_description": {
             "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des quiz.",
             "2": "La fonctionnalité principale est la fonction d'import de quiz Kahoot!, vous permettant de créer des quiz directement depuis Kahoot!.",
-            "3": "L'éditeur prêt-à-l'emploi est une fonctionnalité majeure, de même que la possibilité d'exporter les résultats au format Excel."
+            "3": "L'éditeur et la fonction d'export des résultats de quiz en format Excel sont des fonctionnalités remarquables du logiciel."
         },
         "stats": "Il y a déjà {{user_count}} utilisateurs et {{quizz_count}} quiz sur ClassQuiz.",
         "see_what_true_and_false": "Voir ce qui est vrai ou faux",
@@ -115,30 +116,34 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Kahoot vous trace avec au moins 2 outils tiers étatsuniens. Classquiz ne vous trace pas du tous !",
+        "no_tracking_content": "Si Kahoot! vous espionne avec au moins 2 outils tiers étatsuniens, Classquiz lui ne vous trace pas du tout !",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
-        "user_friendly_content": "ClassQuiz essaye de le plus accessible possible, de manière utilisable par le plus grand nombre",
+        "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
         "quiz_results_downloadable_content": "Les résultats des quiz est aisément exportable en format Excel (apparemment les autres outils ne peuvent pas)",
-        "multilingual_content": "ClassQuiz est déjà entièrement traduit en anglais, allemand, turc, français et en italien. D'autres langues sont en cours de traduction comme l'indonésien ou le catalan.",
+        "multilingual_content": "ClassQuiz est entièrement traduit en anglais, français, allemand, italien, norvégien bokmål, turc, et partiellement en indonésien et catalan.",
         "dark_mode_content": "L'une des fonctionnalités les plus importantes qu'un site peut avoir !",
         "german_server_content": "Les serveurs de ClassQuiz sont situés en Germany et gérés par netcup.",
         "choose_answer_wisely": "Choisissez votre réponse judicieusement",
-        "completely_free_content": "ClassQuiz est complétement libre, sans plans payants ou de redirection pour une version payante. Tout don est donc apprécié !"
+        "completely_free_content": "ClassQuiz est gratuit pour l'utilisateur, sans plans payant ou de redirection pour une version payante. Tout don est donc apprécié.",
+        "download_quizzes": "Télécharger des quiz",
+        "community_driven": "Piloté par la communauté",
+        "download_quizzes_content": "Les quiz peuvent être téléchargés en un seul fichier et importés à tout moment, ce qui vous permet de déplacer facilement vos quiz vers une autre instance de ClassQuiz.",
+        "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !"
     },
     "overview_page": {
         "created_at": "Crée le",
         "question_count": "Nombre de question",
-        "no_quizzes": "Il semble que n'ayez aucun quiz. Vous voulez que ça change ? Cliquez sur le bouton \"Créer\" ou bien importer un quiz depuis Kahoot!"
+        "no_quizzes": "Cliquez sur le bouton \"Créer\", ou importer un quiz depuis Kahoot! pour commencer."
     },
     "edit_page": {
-        "success_update_title": "Quiz mis à jour avec succès !",
-        "success_update_body": "Quiz mis à jour avec succès !"
+        "success_update_title": "Quiz mis à jour.",
+        "success_update_body": "Personne ne s'attendra à l'Inquizisition."
     },
     "create_page": {
         "success": {
-            "body": "Quiz créé avec succès !",
-            "title": "Quiz créé avec succès !"
+            "body": "Que le jeu commence.",
+            "title": "Quiz créé."
         }
     },
     "register_page": {
@@ -158,7 +163,13 @@
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
-        "visit_docs": "Voir la documentation"
+        "visit_docs": "Voir la documentation",
+        "a_kahoot_quiz": "Un quiz Kahoot!",
+        "side_import_kahoot": "De ce côté, vous pouvez importer des quiz, qui se trouvent sur Kahoot!.",
+        "classquiz_quiz": "Un quiz ClassQuiz",
+        "upload_file_ending": "Téléchargez le fichier se terminant par .cqa",
+        "url_should_look_like_this": "L'URL devrait ressembler à ceci : https://create.kahoot.it/details/...",
+        "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz."
     },
     "admin_page": {
         "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
@@ -169,7 +180,7 @@
         "get_final_results": "Obtenir les résultats finaux",
         "export_results": "Exporter les résultats",
         "show_next_question": "Montrer la prochaine question",
-        "start_by_showing_first_question": "Démarrer en montrant la première question !",
+        "start_by_showing_first_question": "Démarrer en montrant la première question.",
         "no_answers": "Pas de réponses !",
         "stop_time": "Arrêter le temps"
     },
@@ -191,7 +202,8 @@
         "imported_by": "Importé par"
     },
     "search_page": {
-        "at_least_3_characters": "Enter au moins 3 caractères…"
+        "at_least_3_characters": "Enter au moins 3 caractères…",
+        "nothing_here": "Il n'y a rien ici..."
     },
     "play_page": {
         "1st_place": "1ère place",
@@ -215,5 +227,8 @@
     "error_page": {
         "404_text": "La page que vous recherchiez a disparu ou n'a même jamais existé. Qui sait ?",
         "unknown_error_text": "Cela ne devrait pas arriver. C'est probablement ma faute, pas la tienne, mais peut-être que tu as un pouvoir magique pour casser les choses..."
+    },
+    "uploader": {
+        "add_image": "Ajouter une image"
     }
 }

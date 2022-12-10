@@ -7,7 +7,7 @@
         "features_description": {
             "1": "ClassQuiz ist eine Quiz-Platform, welche das erstellen und managen von Quizzes erlaubt.",
             "2": "Das Hauptfeature ist die Kahoot!-Importfunktion, mit der man Quizzes von Kahoot! importieren kann.",
-            "3": "Der einfach zu benutzende Editor ist ein Highlight, genau so wie die Export-Funktion um Quiz-Ergebnisse als Excel-Dateien herunterzuladen."
+            "3": "Der einfach zu benutzende Editor ist ein Highlight, genauso wie die Export-Funktion um Quiz-Ergebnisse als Excel-Dateien herunterzuladen."
         },
         "slogan": "Die quelloffene Quiz-Platform!",
         "stats": "Es gibt jetzt schon {{user_count}} Benutzer und {{quiz_count}} Quizzes auf ClassQuiz.",
@@ -17,9 +17,9 @@
         "see_all_quizzes": "Sieh all deine Quizze",
         "students_site": "Seite der Schüler*innen",
         "teachers_site": "Seite der Lehrer*innen",
-        "no_tracking_content": "Kahoot trackt mit mindestens 2 amerikanischen Drittanbietern und ClassQuiz trackt gar nicht mit Drittanbietern!",
+        "no_tracking_content": "Kahoot! trackt mit mindestens 2 amerikanischen Drittanbietern und ClassQuiz trackt gar nicht mit Drittanbietern!",
         "quiz_results_downloadable_content": "Quiz-Ergebnisse können einfach in Form einer Excel-Tabelle heruntergeladen werden (Wusste gar nicht, dass andere dies nicht können).",
-        "multilingual_content": "ClassQuiz ist jetzt schon komplett in Englisch, Deutsch, Türkisch, Französisch und Italienisch verfügbar, wobei es auch teilweise in Indonesisch und Katalanisch verfügbar ist.",
+        "multilingual_content": "ClassQuiz ist jetzt schon komplett in Englisch, Deutsch, Türkisch, Französisch, norwegischem Bokmål und Italienisch verfügbar, wobei es auch teilweise in Indonesisch und Katalanisch verfügbar ist.",
         "no_tracking": "Kein Tracking",
         "self_hostable": "Self-hostbar",
         "german_server": "Deutscher Server",
@@ -41,8 +41,8 @@
         "get_ranking_and_winners": "Die Rangliste einsehen und sehen, wer gewonnen hat",
         "why_classquiz": "Warum ClassQuiz?",
         "self_hostable_content": "ClassQuiz kann einfach selber gehostet werden, sodass die Daten alle in deiner Hand sind!",
-        "user_friendly_content": "ClassQuiz probiert so benutzerfreundlich zu sein, sodass es für jeden einfach zu benutzen ist",
-        "completely_free_content": "ClassQuiz ist komplett kostenlos und ohne irgendwelche kostenpflichtigen Abonnements oder nervige Weiterleitungen auf Upgrade-Seiten, obwohl eine Spende trotzdem erwünscht ist!",
+        "user_friendly_content": "ClassQuiz probiert so benutzerfreundlich zu sein, sodass es für jeden einfach zu benutzen ist.",
+        "completely_free_content": "ClassQuiz ist für den Benutzer komplett kostenlos und ohne irgendwelche kostenpflichtigen Abonnements oder nervige Weiterleitungen auf Upgrade-Seiten, obwohl eine Spende trotzdem erwünscht ist!",
         "dark_mode_content": "Eines der wichtigsten Features, die eine Webseite haben kann!",
         "german_server_content": "ClassQuiz' Server stehen in Deutschland und werden von netcup betrieben.",
         "community_driven_content": "ClassQuiz hängt von der Community ab, die ClassQuiz mit Spenden, Feature-Requests, Übersetzungen und mehr versorgt! Du kannst auch ein Teil der ClassQuiz-Community werden!",
@@ -56,13 +56,13 @@
         "no_quizzes": "Es scheint so, als hättest du noch keine Quiz erstellt. Klicke auf den \"Erstellen\"-Knopf um ein Quiz zu erstellen oder importiere eins von Kahoot!"
     },
     "edit_page": {
-        "success_update_title": "Quiz erfolgreich aktualisiert!",
-        "success_update_body": "Das Quiz wurde erfolgreich aktualisiert!"
+        "success_update_title": "Quiz erfolgreich aktualisiert.",
+        "success_update_body": "Das Quiz wurde erfolgreich aktualisiert."
     },
     "create_page": {
         "success": {
-            "title": "Quiz erfolgreich erstellt!",
-            "body": "Das Quiz wurde erfolgreich erstellt!"
+            "title": "Quiz erfolgreich erstellt.",
+            "body": "Lass die Spiele beginnen!"
         }
     },
     "register_page": {
@@ -77,7 +77,7 @@
         "already_have_account": "Noch kein Account?",
         "modal": {
             "success": {
-                "success_check_mail": "Login erfolgreich! Guck in deine Mailbox!",
+                "success_check_mail": "Login erfolgreich! Überprüfe in deine Mailbox!",
                 "success": "Login erfolgreich!",
                 "description": {
                     "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
@@ -227,7 +227,7 @@
         "search_for_own_quizzes": "Suche nach eigenen Quiz"
     },
     "footer": {
-        "more_details_here": "Mehr Details sind hier",
+        "more_details_here": "Mehr Details hier",
         "donate": "Wenn ClassQuiz hilfreich ist, würde eine {{donate_link}} helfen.",
         "self_ads": "Gemacht mit ❤️ von {{mawoka_link}} und mit der Hilfe von {{others_link}}."
     },
