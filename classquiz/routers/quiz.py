@@ -21,6 +21,7 @@ from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, QuizInput, User, PlayGame
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
+import urllib.parse
 
 settings = settings()
 
@@ -270,6 +271,6 @@ async def export_quiz_answers(export_token: str, game_pin: str):
         iter_file(),
         media_type="application/vnd.ms-excel",
         headers={
-            "Content-Disposition": f"attachment;filename=ClassQuiz-{quiz.title.encode('ascii', errors='ignore').decode()}-{datetime.now().strftime('%m-%d-%Y')}.xlsx"  # noqa: E501
+            "Content-Disposition": f"attachment;filename=ClassQuiz-{urllib.parse.quote(quiz.title)}-{datetime.now().strftime('%m-%d-%Y')}.xlsx"  # noqa: E501
         },
     )

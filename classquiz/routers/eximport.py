@@ -13,6 +13,7 @@ from classquiz.auth import get_current_user
 from classquiz.config import storage, settings
 from classquiz.db.models import Quiz, User
 import gzip
+import urllib.parse
 
 router = APIRouter()
 settings = settings()
@@ -59,7 +60,7 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
         stream_response(),
         media_type="application/octet-stream",
         headers={
-            "Content-Disposition": f"attachment;filename={quiz.title.encode('ascii', errors='ignore').decode()}.cqa"
+            "Content-Disposition": f"attachment;filename={urllib.parse.quote(quiz.title)}.cqa"
             # noqa: E501
         },
     )
