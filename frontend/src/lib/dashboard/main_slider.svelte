@@ -14,6 +14,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import StartGamePopup from './start_game.svelte';
 	import { onMount } from 'svelte';
+	import viewport from './useViewportAction.js';
 
 	let copy_toast_open = false;
 	let start_game = null;
@@ -29,6 +30,8 @@
 		});
 		window.location.reload();
 	};
+	let visibleImages = Array.from(Array(quizzes.length), () => []);
+
 	const close_start_game_if_esc_is_pressed = (key: KeyboardEvent) => {
 		if (key.code === 'Escape') {
 			start_game = null;
@@ -46,6 +49,7 @@
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
 	$: console.log(quizzes, 'quizzes_here');
+	$: console.log(visibleImages, 'visible images');
 </script>
 
 {#if copy_toast_open}
@@ -140,6 +144,7 @@
 														class="max-h-full max-w-full  block"
 														src={quiz.cover_image}
 														alt="Not provided"
+														loading="lazy"
 													/>
 												</div>
 											</div>
@@ -265,7 +270,7 @@
 									</p>
 								</div>
 							</SwiperSlide>
-							{#each quiz.questions as question}
+							{#each quiz.questions as question, q}
 								<SwiperSlide>
 									<div class="h-full">
 										<h5 class="text-center text-2xl">
@@ -273,14 +278,23 @@
 										</h5>
 										{#if question.image}
 											<div
+												use:viewport
+												on:enterViewport={() => {
+													visibleImages[i][q] = true;
+												}}
+												on:exitViewport={() => {
+													visibleImages[i][q] = false;
+												}}
 												class="flex justify-center align-middle items-center"
 											>
 												<div class="h-[30vh] m-auto w-auto">
-													<img
-														class="max-h-full max-w-full  block"
-														src={question.image}
-														alt="Not provided"
-													/>
+													{#if visibleImages?.[i]?.[q]}
+														<img
+															class="max-h-full max-w-full  block"
+															src={question.image}
+															alt="Not provided"
+														/>
+													{/if}
 												</div>
 											</div>
 										{/if}
