@@ -99,63 +99,59 @@
 	}
 </script>
 
-{#if game_mode === 'kahoot'}
-	<div
-		class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
-		style="background: {bg_color ? bg_color : 'transparent'}"
-		class:text-black={bg_color}
-	>
-		<p class="mr-auto ml-0 col-start-1 col-end-1">
-			{selected_question === -1 ? '0' : selected_question + 1}
-			/{quiz_data.questions.length}
-		</p>
-		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-			{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
-				{#if JSON.stringify(final_results) === JSON.stringify([null])}
-					<button on:click={get_final_results} class="admin-button"
-						>Get final results
-					</button>
-				{/if}
-			{:else if timer_res === '0' || selected_question === -1}
-				{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
-					<button
-						on:click={() => {
-							set_question_number(selected_question + 1);
-						}}
-						class="admin-button"
-						>Next Question ({selected_question + 2})
-					</button>
-				{/if}
-				{#if question_results === null && selected_question !== -1}
-					<button on:click={get_question_results} class="admin-button"
-						>Show results
-					</button>
-				{/if}
-			{:else if selected_question !== -1}
-				<button on:click={show_solutions} class="admin-button"
-					>Stop time and show solutions
+<div
+	class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
+	style="background: {bg_color ? bg_color : 'transparent'}"
+	class:text-black={bg_color}
+>
+	<p class="mr-auto ml-0 col-start-1 col-end-1">
+		{selected_question === -1 ? '0' : selected_question + 1}
+		/{quiz_data.questions.length}
+	</p>
+	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
+		{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
+			{#if JSON.stringify(final_results) === JSON.stringify([null])}
+				<button on:click={get_final_results} class="admin-button"
+					>Get final results
 				</button>
-			{:else}
-				<!--				<button
+			{/if}
+		{:else if timer_res === '0' || selected_question === -1}
+			{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
+				<button
 					on:click={() => {
 						set_question_number(selected_question + 1);
 					}}
-					class='admin-button'
-				>Next Question ({selected_question + 2}
-					)
-				</button>-->
+					class="admin-button"
+					>Next Question ({selected_question + 2})
+				</button>
 			{/if}
-		</div>
+			{#if question_results === null && selected_question !== -1}
+				<button on:click={get_question_results} class="admin-button">Show results </button>
+			{/if}
+		{:else if selected_question !== -1}
+			<button on:click={show_solutions} class="admin-button"
+				>Stop time and show solutions
+			</button>
+		{:else}
+			<!--				<button
+				on:click={() => {
+					set_question_number(selected_question + 1);
+				}}
+				class='admin-button'
+			>Next Question ({selected_question + 2}
+				)
+			</button>-->
+		{/if}
 	</div>
-	{#if timer_res !== '0' && selected_question >= 0}
-		<span
-			class="fixed top-0 bg-red-500 h-8 transition-all mt-10"
-			style="width: {(100 / quiz_data.questions[selected_question].time) *
-				parseInt(timer_res)}vw"
-		/>
-	{/if}
+</div>
+{#if timer_res !== '0' && selected_question >= 0}
+	<span
+		class="fixed top-0 bg-red-500 h-8 transition-all mt-10"
+		style="width: {(100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)}vw"
+	/>
 {/if}
-<div class:pt-28={game_mode === 'kahoot'} class="w-full h-full">
+
+<div class="w-full h-full pt-28">
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
 		<div class="flex flex-col justify-center w-screen h-1/6">
 			<h1 class="text-6xl text-center">
@@ -179,50 +175,29 @@
 				/>
 			</div>
 		{/if}
-		{#if game_mode === 'kahoot'}
-			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
-				<div class="grid grid-cols-2 gap-2 w-full p-4">
-					{#each quiz_data.questions[selected_question].answers as answer, i}
-						<div
-							class="rounded-lg h-fit flex"
-							style="background-color: {answer.color ?? '#B45309'}"
-							class:opacity-50={!answer.right &&
-								timer_res === '0' &&
-								quiz_data.questions[selected_question].type ===
-									QuizQuestionType.ABCD}
+		{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
+			<div class="grid grid-cols-2 gap-2 w-full p-4">
+				{#each quiz_data.questions[selected_question].answers as answer, i}
+					<div
+						class="rounded-lg h-fit flex"
+						style="background-color: {answer.color ?? '#B45309'}"
+						class:opacity-50={!answer.right &&
+							timer_res === '0' &&
+							quiz_data.questions[selected_question].type === QuizQuestionType.ABCD}
+					>
+						<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
+						<span class="text-center text-2xl px-2 py-4 w-full text-black"
+							>{answer.answer}</span
 						>
-							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
-							<span
-								class="text-center text-2xl px-2 py-4 w-full text-black"
-								class:text-4xl={answer.right &&
-									timer_res === '0' &&
-									quiz_data.questions[selected_question].type ===
-										QuizQuestionType.ABCD}
-								class:underline={answer.right &&
-									timer_res === '0' &&
-									quiz_data.questions[selected_question].type ===
-										QuizQuestionType.ABCD}>{answer.answer}</span
-							>
-							<span class="pl-4 w-10" />
-						</div>
-					{/each}
-				</div>
-			{/if}
+						<span class="pl-4 w-10" />
+					</div>
+				{/each}
+			</div>
 		{/if}
 	{/if}
 	<br />
 	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify([null])}
-		{#if question_results === null}
-			{#if game_mode === 'normal'}
-				<div class="w-full flex justify-center">
-					<button
-						on:click={get_question_results}
-						id="GetQuestionResults"
-						class="admin-button">{$t('admin_page.get_results')}</button
-					>
-				</div>
-			{/if}
-		{:else if question_results === undefined}
+		{#if question_results === null}{:else if question_results === undefined}
 			{#if !final_results_clicked}
 				<div class="w-full flex justify-center">
 					<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
@@ -249,73 +224,23 @@
 				/>
 			{/await}
 		{/if}
-	{:else if timer_res !== undefined}
-		{#if game_mode === 'normal'}
-			<div class="w-full flex justify-center">
-				<button
-					on:click={() => {
-						timer_res = '0';
-					}}
-					id="GetQuestionResultsAndStopTime"
-					class="admin-button">{$t('admin_page.stop_time')}</button
-				>
-			</div>
-		{/if}
-	{/if}
+	{:else if timer_res !== undefined}{/if}
 	<br />
-	{#if get_question_title(selected_question + 1, quiz_data) !== '' && selected_question + 1 !== 0}
-		{#if game_mode === 'normal'}
-			<div class="w-full flex justify-center">
-				<button
-					class="admin-button"
-					disabled={!(timer_res === undefined || timer_res === '0')}
-					id="SetQuestionNumber"
-					on:click={() => {
-						set_question_number(selected_question + 1);
-					}}
-					>{$t('admin_page.show_next_question')}: {@html get_question_title(
-						selected_question + 1,
-						quiz_data
-					)}</button
-				>
-			</div>
-		{/if}
-	{:else if selected_question + 1 === 0}
-		{#if game_mode === 'normal'}
-			<div class="w-full flex justify-center">
-				<button
-					on:click={() => {
-						set_question_number(0);
-					}}
-					class="admin-button"
-				>
-					{$t('admin_page.start_by_showing_first_question')}
-				</button>
-			</div>
-		{:else}
-			<div class="flex flex-col justify-center w-screen h-full">
-				<h1 class="text-7xl text-center">{@html quiz_data.title}</h1>
-				<p class="text-3xl pt-8 text-center">{@html quiz_data.description}</p>
-				{#if quiz_data.cover_image}
-					<div class="flex justify-center align-middle items-center">
-						<div class="h-[30vh] m-auto w-auto mt-12">
-							<img
-								class="max-h-full max-w-full  block"
-								src={quiz_data.cover_image}
-								alt="Not provided"
-							/>
-						</div>
+	{#if get_question_title(selected_question + 1, quiz_data) !== '' && selected_question + 1 !== 0}{:else if selected_question + 1 === 0}
+		<div class="flex flex-col justify-center w-screen h-full">
+			<h1 class="text-7xl text-center">{@html quiz_data.title}</h1>
+			<p class="text-3xl pt-8 text-center">{@html quiz_data.description}</p>
+			{#if quiz_data.cover_image}
+				<div class="flex justify-center align-middle items-center">
+					<div class="h-[30vh] m-auto w-auto mt-12">
+						<img
+							class="max-h-full max-w-full  block"
+							src={quiz_data.cover_image}
+							alt="Not provided"
+						/>
 					</div>
-				{/if}
-			</div>
-		{/if}
-	{:else if final_results_clicked === false}
-		{#if game_mode === 'normal'}
-			<div class="w-screen flex justify-center">
-				<button on:click={get_final_results} class="admin-button"
-					>{$t('admin_page.get_final_results')}</button
-				>
-			</div>
-		{/if}
+				</div>
+			{/if}
+		</div>
 	{/if}
 </div>

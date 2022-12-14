@@ -7,7 +7,7 @@
 	import Question from '$lib/play/question.svelte';
 	// import ShowResults from '$lib/play/show_results.svelte';
 	import { navbarVisible } from '$lib/stores';
-	import ShowEndScreen from '$lib/play/end.svelte';
+	import ShowEndScreen from '$lib/play/admin/final_results.svelte';
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
@@ -151,7 +151,7 @@
 		{#if !gameMeta.started && gameData === undefined}
 			<JoinGame {game_pin} bind:game_mode bind:username />
 		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
-			<ShowEndScreen bind:final_results bind:question_count={gameData.question_count} />
+			<ShowEndScreen bind:data={scores} show_final_results={true} />
 		{:else if gameData !== undefined && question_index === ''}
 			<ShowTitle
 				bind:title={gameData.title}

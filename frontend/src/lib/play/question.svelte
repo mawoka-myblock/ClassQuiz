@@ -95,79 +95,75 @@
 		}
 	}
 
+	const get_div_height = (): string => {
+		if (game_mode === 'normal') {
+			if (question.image) {
+				return '66.666667';
+			} else {
+				return '83.333333';
+			}
+		} else {
+			return '100';
+		}
+	};
 	$: console.log(slider_value, 'values');
 </script>
 
 <div class="h-screen w-screen">
-	<div class="flex flex-col justify-center w-screen h-1/6">
-		<h1 class="text-3xl text-center text-black dark:text-white mt-2">
-			{@html question.question}
-		</h1>
-		<div class="mx-auto my-2">
-			{#if game_mode !== 'kahoot'}
-				<CircularTimer
-					bind:text={timer_res}
-					bind:progress={circular_prgoress}
-					color="#ef4444"
-				/>
+	{#if game_mode === 'normal'}
+		<div
+			class="flex flex-col justify-start w-screen"
+			style="height: {question.image ? '33.333333' : '16.666667'}%"
+		>
+			<h1 class="text-3xl text-center text-black dark:text-white mt-2">
+				{@html question.question}
+			</h1>
+			{#if question.image !== null && game_mode !== 'kahoot'}
+				<div class="max-h-full">
+					<img
+						src={question.image}
+						class="object-cover mx-auto mb-8 max-h-[90%]"
+						alt="Content for Question"
+					/>
+				</div>
 			{/if}
-		</div>
-	</div>
-	{#if question.image !== null && game_mode !== 'kahoot'}
-		<div>
-			<img
-				src={question.image}
-				class="h-2/5 object-cover mx-auto mb-8"
-				alt="Content for Question"
-			/>
 		</div>
 	{/if}
 	{#if timer_res !== '0'}
 		{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.VOTING}
-			{#if game_mode === 'normal'}
-				<div class="grid grid-cols-2 gap-2 w-full p-4">
-					{#each question.answers as answer}
+			<div class="w-full relative" style="height: {get_div_height()}%">
+				<div
+					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl"
+				>
+					<CircularTimer
+						bind:text={timer_res}
+						bind:progress={circular_prgoress}
+						color="#ef4444"
+					/>
+				</div>
+
+				<div class="grid grid-cols-2 gap-2 w-full p-4 h-full">
+					{#each question.answers as answer, i}
 						<button
-							class="rounded-lg h-fit flex align-middle justify-center disabled:opacity-60 p-3"
+							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
 							style="background-color: {answer.color ?? '#B45309'}"
 							disabled={selected_answer !== undefined}
-							on:click={() => selectAnswer(answer.answer)}>{answer.answer}</button
+							on:click={() => selectAnswer(answer.answer)}
 						>
+							{#if game_mode === 'kahoot'}
+								<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
+							{:else}
+								<p class="m-auto">{answer.answer}</p>
+							{/if}
+						</button>
 					{/each}
 				</div>
-			{:else if game_mode === 'kahoot'}
-				<div class="h-5/6 w-full relative">
-					<div
-						class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl"
-					>
-						<CircularTimer
-							bind:text={timer_res}
-							bind:progress={circular_prgoress}
-							color="#ef4444"
-						/>
-					</div>
-
-					<div class="grid grid-cols-2 gap-2 w-full p-4 h-full">
-						{#each question.answers as answer, i}
-							<button
-								class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-								style="background-color: {answer.color ?? '#B45309'}"
-								disabled={selected_answer !== undefined}
-								on:click={() => selectAnswer(answer.answer)}
-							>
-								<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
-							</button>
-						{/each}
-					</div>
-				</div>
-			{:else}
-				<p>Error</p>
-			{/if}
+			</div>
 		{:else if question.type === QuizQuestionType.RANGE}
 			{#await import('svelte-range-slider-pips')}
 				<Spinner />
 			{:then c}
-				<div class:pointer-events-none={selected_answer !== undefined}>
+				<div class:pointer-events-none={selected_answer !== undefined} class="mt-14">
 					<svelte:component
 						this={c.default}
 						bind:values={slider_value}

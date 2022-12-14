@@ -139,17 +139,7 @@
 				>{$t('admin_page.export_results')}</button
 			>
 		</div>
-		<!--{#if game_mode === 'kahoot'}-->
 		<FinalResults bind:data={player_scores} bind:show_final_results />
-		<!--		{:else}
-			{#await import('$lib/play/end.svelte') then c}
-				<svelte:component
-					this={c.default}
-					bind:final_results
-					bind:question_count={quiz_data.questions.length}
-				/>
-			{/await}
-		{/if}-->
 	{/if}
 	{#if !success}
 		<input placeholder="game id" bind:value={game_token} />
