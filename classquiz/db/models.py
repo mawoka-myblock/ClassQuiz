@@ -127,8 +127,8 @@ class QuizInput(BaseModel):
 class Quiz(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
     public: bool = ormar.Boolean(default=False)
-    title: str = ormar.String(max_length=100)
-    description: str = ormar.String(max_length=300, nullable=True)
+    title: str = ormar.Text()
+    description: str = ormar.Text(nullable=True)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     updated_at: datetime = ormar.DateTime(default=datetime.now())
     user_id: uuid.UUID = ormar.ForeignKey(User)
