@@ -9,37 +9,15 @@ import type { Handle } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle: Handle = async ({ event, resolve }) => {
-	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-	const jwt = /^Bearer (.*)$/gm.exec(cookies.access_token);
-	const rememberme_token = cookies.rememberme_token;
-	if (rememberme_token) {
-		const res = await fetch(`${process.env.API_URL}/api/v1/users/auth/internal`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				rememberme: rememberme_token,
-				jwt: jwt === null ? undefined : jwt[0]
-			})
-		});
-		let new_jwt;
-		if (jwt) {
-			new_jwt = jwt[0];
-		} else {
-			new_jwt = cookie.parse(res.headers.get('set-cookie') ?? '').access_token;
+	const res = await fetch(`${process.env.API_URL}/api/v1/users/check`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Cookie: event.request.headers.get('cookie') || ''
 		}
-		event.locals.email = await (
-			await fetch(`${process.env.API_URL}/api/v1/users/auth/internal/email`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					jwt: new_jwt
-				})
-			})
-		).text();
+	});
+	if (res.ok) {
+		event.locals.email = await res.text();
 		const resp = await resolve(event);
 		try {
 			resp.headers.set('Set-Cookie', res.headers.get('set-cookie'));

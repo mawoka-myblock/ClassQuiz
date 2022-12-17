@@ -12,6 +12,8 @@ from starlette.middleware.sessions import SessionMiddleware
 from classquiz.config import settings
 from classquiz.db import database
 from datetime import timedelta
+
+from classquiz.oauth import rememberme_middleware
 from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live, eximport
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
@@ -58,6 +60,11 @@ async def shutdown() -> None:
     database_ = app.state.database
     if database_.is_connected:
         await database_.disconnect()
+
+
+@app.middleware("http")
+async def auth_middleware_wrapper(request: Request, call_next):
+    return await rememberme_middleware(request, call_next)
 
 
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
