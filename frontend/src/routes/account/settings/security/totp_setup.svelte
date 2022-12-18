@@ -17,13 +17,13 @@
 <div class="w-screen h-screen fixed top-0 left-0 p-48 z-30 bg-black bg-opacity-50">
 	<div class="w-full h-full">
 		<button
-			class="bg-gray-200 px-2 py-1 rounded-t-lg hover:bg-gray-300 transition"
+			class="bg-gray-200 dark:bg-gray-900 px-2 py-1 rounded-t-lg hover:bg-gray-300 transition"
 			on:click={() => {
 				totp_data = undefined;
 			}}
 			>Close
 		</button>
-		<div class="bg-white rounded-b-lg rounded-tr-lg w-full h-full">
+		<div class="bg-white dark:bg-gray-700 rounded-b-lg rounded-tr-lg w-full h-full">
 			<div class="grid grid-cols-3 w-full h-full">
 				<div class="flex flex-col justify-center w-full h-5/6">
 					<span class="m-auto" />
