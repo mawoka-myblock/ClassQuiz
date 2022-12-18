@@ -14,7 +14,7 @@ from classquiz.db import database
 from datetime import timedelta
 
 from classquiz.oauth import rememberme_middleware
-from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live, eximport
+from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live, eximport, login
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
 from scheduler.asyncio import Scheduler
@@ -66,6 +66,8 @@ async def shutdown() -> None:
 async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
+
+app.include_router(login.router, tags=["auth"], prefix="/api/v1/login", include_in_schema=True)
 
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 app.include_router(users.router, tags=["users"], prefix="/api/v1/users", include_in_schema=True)

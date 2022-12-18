@@ -34,6 +34,8 @@ puremagic = "*"
 py-avataaars-no-png = "*"
 cryptography = "*"
 scheduler = "*"
+webauthn = "*"
+pyotp = "*"
 
 [dev-packages]
 coverage = "*"

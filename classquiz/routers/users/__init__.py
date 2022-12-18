@@ -1,6 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 import gzip
 import os
 
@@ -33,9 +34,13 @@ import bleach
 from pydantic import BaseModel
 from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz, ApiKey
 from classquiz.emails import send_register_email, send_forgotten_password_email
+from classquiz.routers.users import webauthn, twofa
 
 settings = settings()
 router = APIRouter()
+
+router.include_router(webauthn.router, prefix="/webauthn")
+router.include_router(twofa.router, prefix="/2fa")
 
 
 class RouteUser(pydantic.BaseModel):
@@ -84,14 +89,15 @@ async def create_user(user: RouteUser, background_task: BackgroundTasks) -> User
     return user
 
 
-@router.post("/token/cookie", response_model=Token)
+@router.post("/token/cookie", response_model=Token, deprecated=True)
 async def login_for_cookie_access_token(
     request: Request,
     response: Response,
     form_data: OAuth2PasswordRequestForm = Depends(),
 ):
     user = await authenticate_user(form_data.username, form_data.password)
-    if not user:
+    user = await User.objects.select_related("fidocredentialss").get(id=user.id)
+    if not user or user.totp_secret is not None or user or len(user.fidocredentialss) != 0:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -169,7 +175,17 @@ async def signout_everywhere(response: Response, user: User = Depends(get_curren
 
 @router.get(
     "/me",
-    response_model_exclude={"password", "verify_key", "usersessions", "avatar", "google_uid", "quizs"},
+    response_model_exclude={
+        "password",
+        "verify_key",
+        "usersessions",
+        "avatar",
+        "quizs",
+        "fidocredentialss",
+        "backup_code",
+        "apikeys",
+        "totp_secret",
+    },
     response_model=User,
 )
 async def get_me(user: User = Depends(get_current_user)):

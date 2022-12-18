@@ -45,8 +45,6 @@ async def log_user_in(user: User, request: Request, response: Response):
         samesite="lax",
         max_age=settings.access_token_expire_minutes * 60,
     )
-    response.set_cookie(key="expiry", value="", max_age=settings.access_token_expire_minutes * 60)
-    response.set_cookie(key="rememberme", value="", max_age=60 * 60 * 24 * 365)
     response.set_cookie(
         key="rememberme_token", value=session_key, httponly=True, samesite="lax", max_age=60 * 60 * 24 * 365
     )

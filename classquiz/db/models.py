@@ -1,7 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import os
 import uuid
 from datetime import datetime
 from typing import Optional
@@ -33,6 +33,10 @@ class User(ormar.Model):
     auth_type: UserAuthTypes = ormar.Enum(enum_class=UserAuthTypes, default=UserAuthTypes.LOCAL)
     google_uid: Optional[str] = ormar.String(unique=True, max_length=255, nullable=True)
     avatar: bytes = ormar.LargeBinary(max_length=25000, represent_as_base64_str=True)
+    github_user_id: int | None = ormar.Integer(nullable=True)
+    require_password: bool = ormar.Boolean(default=True, nullable=False)
+    backup_code: str = ormar.String(max_length=64, min_length=64, nullable=False, default=os.urandom(32).hex())
+    totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
 
     class Meta:
         tablename = "users"
@@ -41,6 +45,19 @@ class User(ormar.Model):
 
     class Config:
         use_enum_values = True
+
+
+class FidoCredentials(ormar.Model):
+    pk: int = ormar.Integer(autoincrement=True, primary_key=True)
+    id: bytes = ormar.LargeBinary(max_length=256)
+    public_key: bytes = ormar.LargeBinary(max_length=256)
+    sign_count: int = ormar.Integer()
+    user: Optional[User] = ormar.ForeignKey(User)
+
+    class Meta:
+        tablename = "fido_credentials"
+        metadata = metadata
+        database = database
 
 
 class ApiKey(ormar.Model):

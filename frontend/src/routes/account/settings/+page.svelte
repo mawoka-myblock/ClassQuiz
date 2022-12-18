@@ -161,20 +161,29 @@
 {#await getUser()}
 	<Spinner />
 {:then user}
-	<div class="w-full">
-		<div class="sm:flex space-x-7 md:items-start items-center">
-			<div class="mb-4">
-				<img
-					class="rounded-md md:w-80"
-					src="/api/v1/users/avatar"
-					alt="Profile image of {user.username}"
-				/>
+	<div class="w-full grid grid-cols-6">
+		<img
+			class="rounded-md md:w-80"
+			src="/api/v1/users/avatar"
+			alt="Profile image of {user.username}"
+		/>
+		<div class="grid grid-rows-2 col-start-2 col-end-7">
+			<div class="grid grid-cols-2">
+				<div>
+					<h1 class="text-4xl font-bold my-2">{user.username}</h1>
+					<p class="text-lg mb-6 md:max-w-lg">
+						{$t('words.email')}: {user.email}
+					</p>
+				</div>
+				<div class="p-4 flex justify-center">
+					<a
+						href="/account/settings/security"
+						class="text-lg rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition h-fit m-auto"
+						>Security-Settings</a
+					>
+				</div>
 			</div>
 			<div>
-				<h1 class="text-4xl font-bold my-2">{user.username}</h1>
-				<p class="text-lg mb-6 md:max-w-lg">
-					{$t('words.email')}: {user.email}
-				</p>
 				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
 					<label
 						>{$t('settings_page.old_password')}:<input

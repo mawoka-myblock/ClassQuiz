@@ -150,7 +150,8 @@
         "practice": "Practice",
         "error": "Error",
         "voting": "Voting",
-        "download": "Download"
+        "download": "Download",
+        "continue": "Continue"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",

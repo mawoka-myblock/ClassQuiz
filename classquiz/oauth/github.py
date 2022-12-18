@@ -7,11 +7,12 @@ from typing import Optional
 import asyncpg
 import authlib.integrations.base_client
 from fastapi import APIRouter, Request, HTTPException, Response
+
+from classquiz.auth import check_token
 from classquiz.config import settings
 from fastapi.responses import RedirectResponse
 from classquiz.db.models import User, UserAuthTypes
 from pydantic import BaseModel
-from classquiz.auth import check_token
 from classquiz.helpers.avatar import gzipped_user_avatar
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from datetime import datetime
@@ -104,6 +105,7 @@ async def auth(request: Request, response: Response):
     if user_data.email is None:
         return RedirectResponse("/account/oauth-error?error=email")
     user_in_db = await User.objects.get_or_none(email=user_data.email)
+    print(user_data.id)
     if user_in_db is None:
         # REGISTER USER
         try:
