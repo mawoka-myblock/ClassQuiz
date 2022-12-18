@@ -92,7 +92,8 @@
                     "unexpected": "There was the good old unexpected error!"
                 }
             }
-        }
+        },
+        "use_backup_code": "Use backup-code"
     },
     "words": {
         "question": "Question",
@@ -151,7 +152,9 @@
         "error": "Error",
         "voting": "Voting",
         "download": "Download",
-        "continue": "Continue"
+        "continue": "Continue",
+        "backup_code": "Backup-code",
+        "totp": "Totp"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
