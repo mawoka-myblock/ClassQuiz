@@ -29,7 +29,7 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(["user"], ["users.id"], name="fk_fido_credentials_users_id_user"),
         sa.PrimaryKeyConstraint("pk"),
     )
-    op.add_column("users", sa.Column("require_password", sa.Boolean(), nullable=False, default=False))
+    op.add_column("users", sa.Column("require_password", sa.Boolean(), nullable=False, server_default="f"))
     # ### end Alembic commands ###
 
 
