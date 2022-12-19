@@ -4,12 +4,8 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import * as Sentry from '@sentry/browser';
 	import { alertModal, navbarVisible } from '$lib/stores';
 	import { slide } from 'svelte/transition';
-	import { browser } from '$app/environment';
-	import Cookies from 'js-cookie';
-	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import VerifiedBadge from './verified_badge.svelte';
 	import StartWindow from './start_window.svelte';
@@ -19,8 +15,6 @@
 	import BackupComponent from './backup_component.svelte';
 	import TotpComponent from './totp_component.svelte';
 	import { browserSupportsWebAuthn } from '@simplewebauthn/browser';
-
-	const { t } = getLocalization();
 
 	navbarVisible.set(true);
 

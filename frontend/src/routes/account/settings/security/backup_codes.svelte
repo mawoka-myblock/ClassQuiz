@@ -8,7 +8,7 @@
 
 	let already_downloaded = false;
 
-	const download_code = (force: boolean = false) => {
+	const download_code = (force = false) => {
 		if (already_downloaded && !force) {
 			return;
 		}

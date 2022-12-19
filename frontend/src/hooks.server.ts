@@ -4,7 +4,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import * as cookie from 'cookie';
 import type { Handle } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').Handle} */

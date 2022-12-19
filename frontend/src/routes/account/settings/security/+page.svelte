@@ -48,6 +48,7 @@
 		}
 		let attResp;
 		const resp_data = await res1.json();
+		// eslint-disable-next-line no-useless-catch
 		try {
 			resp_data.authenticatorSelection.authenticatorAttachment = 'cross-platform';
 			for (let i = 0; i++; i < resp_data.excludeCredentials.length) {
