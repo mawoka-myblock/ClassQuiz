@@ -85,7 +85,7 @@ def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session
         verify_authentication_response(
             credential=credential,
             expected_challenge=base64.b64decode(login_session.webauthn_challenge),
-            expected_rp_id=urllib.parse.urlparse(settings.root_address).netloc,
+            expected_rp_id=urllib.parse.urlparse(settings.root_address).hostname,
             expected_origin=settings.root_address,
             credential_public_key=user_cred.public_key,
             credential_current_sign_count=user_cred.sign_count,
@@ -116,7 +116,7 @@ async def start_login(data: StartLoginInput):
         else:
             step_1.add(StartLoginResponseTypes.PASSKEY)
         webauthn_data = generate_authentication_options(
-            rp_id=urllib.parse.urlparse(settings.root_address).netloc,
+            rp_id=urllib.parse.urlparse(settings.root_address).hostname,
             allow_credentials=[
                 PublicKeyCredentialDescriptor(id=cred.id, type="public-key") for cred in user.fidocredentialss
             ],

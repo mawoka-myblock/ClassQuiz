@@ -28,7 +28,7 @@ router = APIRouter()
 async def request_add_key_data(user: User = Depends(get_current_user)):
     user = await User.objects.select_related("fidocredentialss").get(id=user.id)
     options = generate_registration_options(
-        rp_id=urllib.parse.urlparse(settings.root_address).netloc,
+        rp_id=urllib.parse.urlparse(settings.root_address).hostname,
         rp_name="ClassQuiz",
         user_id=user.id.hex,
         user_name=user.email,
@@ -59,7 +59,7 @@ async def confirm_add_key_data(credential: RegistrationCredential, user: User = 
     verification = verify_registration_response(
         credential=credential,
         expected_challenge=current_registration_challenge,
-        expected_rp_id=urllib.parse.urlparse(settings.root_address).netloc,
+        expected_rp_id=urllib.parse.urlparse(settings.root_address).hostname,
         expected_origin=settings.root_address,
     )
     new_credential = FidoCredentials(

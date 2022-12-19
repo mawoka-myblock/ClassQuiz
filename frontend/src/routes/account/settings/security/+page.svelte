@@ -84,6 +84,9 @@
 	};
 
 	const get_backup_code = async () => {
+		if (!confirm('If you continue, your old backup-code will be removed.')) {
+			return;
+		}
 		const res = await fetch('/api/v1/users/2fa/backup_code');
 		backup_code = (await res.json()).code;
 	};
@@ -126,7 +129,7 @@
 										class="pointer-events-none inline-block h-4 w-4 translate-x-3 rounded-full bg-white transition will-change-transform"
 									/>
 								</button>
-								<span class="text-sm font-medium text-gray-700"
+								<span class="text-sm font-medium text-gray-700 dark:text-white"
 									>Two Factor authentication is activated</span
 								>
 							</div>
@@ -147,7 +150,7 @@
 										class="pointer-events-none inline-block h-4 w-4 translate-x-0 rounded-full bg-white transition will-change-transform"
 									/>
 								</button>
-								<span class="text-sm font-medium text-gray-700"
+								<span class="text-sm font-medium text-gray-700 dark:text-white"
 									>Two Factor authentication is deactivated</span
 								>
 							</div>
@@ -167,7 +170,11 @@
 					{/if}
 				</div>
 				<div class="flex justify-center">
-					<button on:click={add_security_key}>Add Security-Key</button>
+					<button
+						on:click={add_security_key}
+						class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
+						>Add Security-Key</button
+					>
 				</div>
 				<div class="flex justify-center">
 					<ul class="list-disc block">
@@ -196,9 +203,17 @@
 
 				<div class="flex justify-center">
 					{#if totp_activated}
-						<button on:click={disable_totp}>Disable Totp</button>
+						<button
+							on:click={disable_totp}
+							class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
+							>Disable Totp</button
+						>
 					{:else}
-						<button on:click={enable_totp}>Enable Totp</button>
+						<button
+							on:click={enable_totp}
+							class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
+							>Enable Totp</button
+						>
 					{/if}
 				</div>
 			</div>
