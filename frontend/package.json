@@ -24,6 +24,7 @@
 		"@felte/reporter-tippy": "^1.1.4",
 		"@felte/validator-yup": "^1.0.10",
 		"@fontsource/marck-script": "^4.5.11",
+		"@neodrag/svelte": "^1.2.4",
 		"@sentry/browser": "^7.23.0",
 		"@sentry/tracing": "^7.23.0",
 		"@simplewebauthn/browser": "^6.2.2",

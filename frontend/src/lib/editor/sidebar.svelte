@@ -28,6 +28,14 @@
 		type: QuizQuestionType.ABCD
 	};
 
+	const empy_slide: Question = {
+		type: QuizQuestionType.SLIDE,
+		time: '120',
+		question: 'Slide',
+		image: undefined,
+		answers: []
+	};
+
 	const setSelectedQuestion = (index: number): void => {
 		selected_question = index;
 		if (index === -1) {
@@ -270,7 +278,7 @@
 			type="button"
 			class="h-full flex justify-center w-full dark:text-black"
 			on:click={() => {
-				data.questions = [...data.questions, { ...{} }];
+				data.questions = [...data.questions, { ...empy_slide }];
 			}}
 		>
 			<svg

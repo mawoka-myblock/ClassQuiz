@@ -4,10 +4,11 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import { ElementTypes } from '$lib/editor/types';
-	import { elementSelection } from '$lib/stores';
+	import { ElementTypes } from '$lib/quiz_types';
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 
+	export let selected_element;
 	const keybinding_list = {
 		t: ElementTypes.Text,
 		h: ElementTypes.Headline
@@ -15,11 +16,14 @@
 	};
 
 	const keypress_listener = (key: KeyboardEvent) => {
+		if (selected_element !== null) {
+			return;
+		}
 		const sel_type = keybinding_list[key.key];
 		if (sel_type) {
-			elementSelection.set({ data: sel_type });
+			selected_element = sel_type;
 		} else if (key.code === 'Escape') {
-			elementSelection.set({ data: undefined });
+			selected_element = undefined;
 		}
 	};
 
@@ -51,27 +55,23 @@
 </script>
 
 <div
-	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black bg-opacity-60 z-50 text-black"
+	class="bg-white m-auto rounded-lg shadow-lg p-4 flex flex-col dark:bg-gray-600 h-fit"
+	transition:fade={{ duration: 100 }}
 >
-	<div class="w-5/6 h-5/6 bg-white m-auto rounded-lg shadow-lg p-4 flex flex-col">
-		<div class="flex justify-center">
-			<h1 class="text-2xl">Select the element you want to add</h1>
-		</div>
-		<ul>
-			{#each element_list as el}
-				<li
-					class="flex flex-row mt-4 w-full bg-gray-200 shadow-xl rounded-lg p-2 hover:bg-gray-300 hover:shadow-2xl hover:cursor-pointer transition"
-					on:click={() => {
-						elementSelection.set({ data: el.type });
-					}}
-				>
-					<div class="flex flex-col">
-						<h3 class="text-xl">{el.name}</h3>
-						<p>{el.description}</p>
-					</div>
-					<kbd class="my-auto ml-auto">{el.shortcut}</kbd>
-				</li>
-			{/each}
-		</ul>
-	</div>
+	<ul>
+		{#each element_list as el}
+			<li
+				class="flex flex-row mt-4 w-full bg-gray-200 shadow-xl rounded-lg p-2 hover:bg-gray-300 hover:shadow-2xl hover:cursor-pointer transition dark:bg-gray-800"
+				on:click={() => {
+					selected_element = el.type;
+				}}
+			>
+				<div class="flex flex-col">
+					<h3 class="text-xl">{el.name}</h3>
+					<p>{el.description}</p>
+				</div>
+				<kbd class="my-auto ml-auto">{el.shortcut}</kbd>
+			</li>
+		{/each}
+	</ul>
 </div>

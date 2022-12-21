@@ -39,11 +39,13 @@
 	}
 
 	const validateInput = async (data: EditorData) => {
+		// console.log("input", data)
 		try {
 			await dataSchema.validate(data, { abortEarly: false });
 			schemaInvalid = false;
 			yupErrorMessage = '';
 		} catch (err) {
+			console.log('erro!', err.errors);
 			schemaInvalid = true;
 			yupErrorMessage = err.errors ? err.errors[0] : '';
 		}

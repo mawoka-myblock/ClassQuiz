@@ -11,6 +11,7 @@ specifiers:
     '@felte/reporter-tippy': ^1.1.4
     '@felte/validator-yup': ^1.0.10
     '@fontsource/marck-script': ^4.5.11
+    '@neodrag/svelte': ^1.2.4
     '@sentry/browser': ^7.23.0
     '@sentry/tracing': ^7.23.0
     '@simplewebauthn/browser': ^6.2.2
@@ -91,6 +92,7 @@ devDependencies:
     '@felte/reporter-tippy': 1.1.4_tippy.js@6.3.7
     '@felte/validator-yup': 1.0.10_yup@0.32.11
     '@fontsource/marck-script': 4.5.11
+    '@neodrag/svelte': 1.2.4
     '@sentry/browser': 7.27.0
     '@sentry/tracing': 7.27.0
     '@simplewebauthn/browser': 6.2.2
@@ -999,6 +1001,13 @@ packages:
                 integrity: sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
             }
         engines: { node: '>=6.0.0' }
+        dev: true
+
+    /@neodrag/svelte/1.2.4:
+        resolution:
+            {
+                integrity: sha512-oGOxAgjtLbHyCJIWv35cvuHpgip9Kzn0ANrCidZb3rXV29w3AWhS7VtKAQfRinzFbmfK0Jeic7aSYdGmtKFKqw==
+            }
         dev: true
 
     /@nodelib/fs.scandir/2.1.5:

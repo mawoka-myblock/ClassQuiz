@@ -7,4 +7,8 @@
 	export let data;
 </script>
 
-<input bind:value={data} type="text" class="w-full h-full dark:text-black text-4xl text-center" />
+<input
+	bind:value={data}
+	type="text"
+	class="w-full h-full dark:text-black text-center text-3xl min-h-fit"
+/>

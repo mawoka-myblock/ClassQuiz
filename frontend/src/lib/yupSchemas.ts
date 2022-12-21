@@ -5,6 +5,7 @@
  */
 
 import * as yup from 'yup';
+import { ElementTypes } from '$lib/quiz_types';
 
 export const ABCDQuestionSchema = yup
 	.array()
@@ -34,6 +35,18 @@ export const RangeQuestionSchema = yup.object({
 	min_correct: yup.number(),
 	max_correct: yup.number()
 });
+
+export const SlideQuestionSchema = yup.array().of(
+	yup.object({
+		type: yup.string().required(),
+		x: yup.number(),
+		y: yup.number(),
+		height: yup.number(),
+		width: yup.number(),
+		data: yup.string().optional(),
+		id: yup.number().required()
+	})
+);
 export const dataSchema = yup.object({
 	public: yup.boolean().required(),
 	type: yup.string(),
@@ -63,12 +76,23 @@ export const dataSchema = yup.object({
 					.lowercase(),
 				answers: yup.lazy((v) => {
 					if (Array.isArray(v)) {
-						if (typeof v[0].right === 'boolean') {
-							return ABCDQuestionSchema;
-						} else {
-							return VotingQuestionSchema;
+						try {
+							if (typeof v[0].right === 'boolean') {
+								// console.log('ABCDQuestionSchema');
+								return ABCDQuestionSchema;
+							} else if (v[0].answer !== undefined) {
+								// console.log('VotingQuestionSchema');
+								return VotingQuestionSchema;
+							} else {
+								// console.log('SlideQuestionSchema');
+								return SlideQuestionSchema;
+							}
+						} catch {
+							// console.log('SlideQuestionSchema');
+							return SlideQuestionSchema;
 						}
 					} else {
+						// console.log('RangeQuestionSchema');
 						return RangeQuestionSchema;
 					}
 				})
