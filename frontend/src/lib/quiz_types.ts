@@ -52,7 +52,7 @@ export interface EditorData {
 	public: boolean;
 	title: string;
 	description: string;
-	questions: Question[];
+	questions: (Question | object)[];
 	cover_image?: string;
 	background_color?: string;
 }
