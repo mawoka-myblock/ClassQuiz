@@ -151,7 +151,11 @@
 							on:click={() => selectAnswer(answer.answer)}
 						>
 							{#if game_mode === 'kahoot'}
-								<img class="w-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
+								<img
+									class="w-10 inline-block m-auto"
+									alt="Icon"
+									src={kahoot_icons[i]}
+								/>
 							{:else}
 								<p class="m-auto">{answer.answer}</p>
 							{/if}
