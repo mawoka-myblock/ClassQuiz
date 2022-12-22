@@ -242,35 +242,13 @@
 		</div>
 	{/each}
 	<div
-		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
+		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600"
 	>
 		<button
 			type="button"
 			class="h-full flex justify-center w-full dark:text-black"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empty_question }];
-			}}
-		>
-			<svg
-				class="h-full"
-				fill="none"
-				stroke="currentColor"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-				/>
-			</svg>
-		</button>
-		<button
-			type="button"
-			class="h-full flex justify-center w-full dark:text-black"
-			on:click={() => {
-				data.questions = [...data.questions, { ...{} }];
 			}}
 		>
 			<svg

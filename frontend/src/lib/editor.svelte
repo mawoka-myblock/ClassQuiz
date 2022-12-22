@@ -11,8 +11,6 @@
 	import SettingsCard from '$lib/editor/settings-card.svelte';
 	import QuizCard from '$lib/editor/card.svelte';
 	import Spinner from './Spinner.svelte';
-	import { elementSelection } from '$lib/stores.js';
-	import ElementSelection from '$lib/editor/slides/element_selection.svelte';
 
 	let schemaInvalid = false;
 	let yupErrorMessage = '';
@@ -189,7 +187,3 @@
 		</div>
 	</form>
 {/await}
-
-{#if $elementSelection.data === null}
-	<ElementSelection />
-{/if}
