@@ -230,6 +230,8 @@ async def set_question_number(sid, data: str):
         await redis.set(f"game:{session['game_pin']}", game_data.json())
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
         temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
+        if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
+            return
         if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])

@@ -187,7 +187,7 @@
 						</svg>
 					</button>-->
 				{#if el.type === ElementTypes.Text}
-					<TextElement bind:text={el.data} />
+					<TextElement bind:data={el.data} />
 				{:else if el.type === ElementTypes.Headline}
 					<HeadlineElement bind:data={el.data} />
 				{/if}
