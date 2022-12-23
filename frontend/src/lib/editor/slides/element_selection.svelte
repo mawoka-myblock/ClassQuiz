@@ -11,7 +11,9 @@
 	export let selected_element;
 	const keybinding_list = {
 		t: ElementTypes.Text,
-		h: ElementTypes.Headline
+		h: ElementTypes.Headline,
+		r: ElementTypes.Rectangle,
+		c: ElementTypes.Circle
 		// "i": ElementTypes.Image
 	};
 
@@ -50,6 +52,20 @@
 			type: ElementTypes.Text,
 			icon: undefined,
 			shortcut: 't'
+		},
+		{
+			name: 'Rectangle',
+			description: 'Just a rectangle',
+			type: ElementTypes.Rectangle,
+			icon: undefined,
+			shortcut: 'r'
+		},
+		{
+			name: 'Circle',
+			description: 'Just a circle',
+			type: ElementTypes.Circle,
+			icon: undefined,
+			shortcut: 'c'
 		}
 	];
 </script>

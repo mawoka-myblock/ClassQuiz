@@ -5,9 +5,11 @@
  */
 
 export enum ElementTypes {
-	Text = 'TEXT',
-	Headline = 'HEADLINE',
-	Image = 'IMAGE'
+	Text = 'TEXT', // eslint-disable-line no-unused-vars
+	Headline = 'HEADLINE', // eslint-disable-line no-unused-vars
+	Image = 'IMAGE', // eslint-disable-line no-unused-vars
+	Rectangle = 'RECTANGLE', // eslint-disable-line no-unused-vars
+	Circle = 'CIRCLE' // eslint-disable-line no-unused-vars
 }
 
 export interface QuizData {

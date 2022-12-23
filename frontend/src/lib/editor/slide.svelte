@@ -6,6 +6,8 @@
 <script lang="ts">
 	import TextElement from './slides/types/text.svelte';
 	import HeadlineElement from './slides/types/headline.svelte';
+	import RectangleElement from './slides/types/rectangle.svelte';
+	import CircleElement from './slides/types/circle.svelte';
 	import { draggable } from '@neodrag/svelte';
 	import type { Question } from '$lib/quiz_types';
 	import { ElementTypes, QuizQuestionType } from '$lib/quiz_types';
@@ -108,7 +110,7 @@
 				}px`;
 				elements_binds[i].style.width = `${data.answers[i].width * main_el.offsetWidth}px`;
 			}
-		}, 100);
+		}, 200);
 	});
 </script>
 
@@ -190,6 +192,10 @@
 					<TextElement bind:data={el.data} />
 				{:else if el.type === ElementTypes.Headline}
 					<HeadlineElement bind:data={el.data} />
+				{:else if el.type === ElementTypes.Rectangle}
+					<RectangleElement bind:data={el.data} />
+				{:else if el.type === ElementTypes.Circle}
+					<CircleElement bind:data={el.data} />
 				{/if}
 			</div>
 		{/each}

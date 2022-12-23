@@ -119,6 +119,8 @@ class SlideElementTypes(str, Enum):
     TEXT = "TEXT"
     HEADLINE = "HEADLINE"
     IMAGE = "IMAGE"
+    RECTANGLE = "RECTANGLE"
+    CIRCLE = "CIRCLE"
 
 
 class SlideElement(BaseModel):
