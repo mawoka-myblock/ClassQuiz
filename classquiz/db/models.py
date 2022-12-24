@@ -123,21 +123,11 @@ class SlideElementTypes(str, Enum):
     CIRCLE = "CIRCLE"
 
 
-class SlideElement(BaseModel):
-    type: SlideElementTypes
-    x: float
-    y: float
-    height: float
-    width: float
-    data: str
-    id: int
-
-
 class QuizQuestion(BaseModel):
     question: str
     time: str  # in Secs
     type: None | QuizQuestionType = QuizQuestionType.ABCD
-    answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[VotingQuizAnswer] | list[SlideElement]
+    answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[VotingQuizAnswer] | str
     image: str | None = None
 
     @validator("answers")
@@ -148,7 +138,7 @@ class QuizQuestion(BaseModel):
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
             raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
-        if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != SlideElement:
+        if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != str:
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
         return v
 

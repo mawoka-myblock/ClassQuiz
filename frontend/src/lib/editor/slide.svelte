@@ -4,25 +4,27 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import TextElement from './slides/types/text.svelte';
-	import HeadlineElement from './slides/types/headline.svelte';
-	import RectangleElement from './slides/types/rectangle.svelte';
-	import CircleElement from './slides/types/circle.svelte';
-	import { draggable } from '@neodrag/svelte';
 	import type { Question } from '$lib/quiz_types';
 	import { ElementTypes, QuizQuestionType } from '$lib/quiz_types';
 	import ElementSelection from './slides/element_selection.svelte';
 	import SettingsMenu from './slides/settings_menu.svelte';
 	import { onMount } from 'svelte';
+	import Pikaso from 'pikaso';
+	import EditMenu from './slides/edit_menu.svelte';
+	import type { Konva, ShapeModel } from 'pikaso';
 
 	export let data: Question = {
 		type: QuizQuestionType.SLIDE,
 		time: '120',
 		question: '',
 		image: undefined,
-		answers: []
+		answers: ''
 	};
 	let selected_element = undefined;
+	let canvas_el: HTMLDivElement | undefined;
+	let canvas: Pikaso;
+	let elements = [];
+	let selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig> = null;
 
 	let elements_binds: Array<HTMLElement> | undefined = [];
 	let main_el: undefined | HTMLElement;
@@ -50,29 +52,45 @@
 		}
 	});
 	const add_text_field = () => {
-		data.answers = [
-			...data.answers,
-			{
-				type: selected_element,
-				data: '',
-				x: 0,
-				y: 0,
-				id: data.answers.length,
-				height: 0,
-				width: 0
-			}
-		];
-		selected_element = undefined;
-	};
-
-	const delete_element = (id: number) => {
-		if (!confirm('Do you really want to delete this element?')) {
-			return;
+		if (selected_element === ElementTypes.Text) {
+			canvas.shapes.label.insert({
+				container: {
+					x: 40,
+					y: 40
+				},
+				text: {
+					text: 'Text',
+					fontSize: 20
+				}
+			});
+		} else if (selected_element === ElementTypes.Headline) {
+			canvas.shapes.label.insert({
+				container: {
+					x: 40,
+					y: 40
+				},
+				text: {
+					text: 'Headline',
+					fontSize: 35
+				}
+			});
+		} else if (selected_element === ElementTypes.Circle) {
+			canvas.shapes.circle.insert({
+				x: 40,
+				y: 40,
+				radius: 50,
+				fill: '#ff000d'
+			});
+		} else if (selected_element === ElementTypes.Rectangle) {
+			canvas.shapes.rect.insert({
+				x: 40,
+				y: 40,
+				width: 50,
+				height: 50,
+				fill: '#ff000d'
+			});
 		}
-		data.answers.splice(id, 1);
-		data.answers = data.answers;
-		elements_binds.splice(id, 1);
-		elements_binds = elements_binds;
+		console.log(canvas.export.toJson());
 	};
 
 	$: {
@@ -103,101 +121,120 @@
 	};
 
 	onMount(() => {
-		setTimeout(() => {
-			for (let i = 0; i < data.answers.length; i++) {
-				elements_binds[i].style.height = `${
-					data.answers[i].height * main_el.offsetHeight
-				}px`;
-				elements_binds[i].style.width = `${data.answers[i].width * main_el.offsetWidth}px`;
+		/*		setTimeout(() => {
+					for (let i = 0; i < data.answers.length; i++) {
+						elements_binds[i].style.height = `${
+							data.answers[i].height * main_el.offsetHeight
+						}px`;
+						elements_binds[i].style.width = `${data.answers[i].width * main_el.offsetWidth}px`;
+					}
+				}, 200);*/
+		canvas = new Pikaso({
+			container: canvas_el,
+			snapToGrid: {}
+			/*			selection: {
+							interactive: false
+						}*/
+		});
+		console.log(data.answers);
+		if (data.answers) {
+			if (typeof data.answers === 'string') {
+				canvas.import.json(JSON.parse(data.answers));
 			}
-		}, 200);
+		}
+		canvas.on('*', () => {
+			data.answers = JSON.stringify(canvas.export.toJson());
+		});
+		canvas.on('selection:change', (data) => {
+			/*			data.shapes[0].update({fill: "#ffffff"})
+						console.log(data.shapes[0])*/
+			// console.log(canvas.board.shapes)
+			if (data.shapes.length > 0) {
+				selected_el = data.shapes[0];
+			} else {
+				selected_el = null;
+			}
+		});
 	});
+
+	const get_shape_from_id = (id: number) => {
+		for (let i = 0; i < canvas.board.shapes.length; i++) {
+			if (canvas.board.shapes[i].node._id === id) {
+				return canvas.board.shapes[i].node;
+			}
+		}
+	};
 </script>
 
-<div class="flex h-full relative w-full pb-12" bind:this={main_el}>
-	<div class="absolute top-0 right-0 flex flex-col pr-2 rounded-t-lg">
-		<button
-			class="ml-auto"
-			on:click={() => {
-				selected_element = selected_element === null ? undefined : null;
-			}}
-			type="button"
-			class:add-button={selected_element === null}
-		>
-			Add element
-		</button>
-		{#if selected_element === null}
-			<ElementSelection bind:selected_element />
-		{/if}
-	</div>
-
-	<div class="absolute top-0 left-0 flex flex-col pl-2 rounded-t-lg">
-		<button
-			class="mr-auto"
-			on:click={() => {
-				settings_menu_open = !settings_menu_open;
-			}}
-			type="button"
-		>
-			Settings
-		</button>
-		{#if settings_menu_open}
-			<SettingsMenu bind:time={data.time} bind:title={data.question} />
-		{/if}
-	</div>
-	{#if main_el}
-		{#each data.answers as el, i}
-			<div
-				use:draggable={{
-					bounds: 'parent',
-					handle: '.drag',
-					defaultPosition: {
-						x: data.answers[i].x * main_el.offsetWidth,
-						y: data.answers[i].y * main_el.offsetHeight
-					}
+<div class="flex h-full relative w-full" bind:this={main_el}>
+	<div class="absolute top-0 left-0 grid grid-cols-6 w-full">
+		<div class="flex flex-col pl-2 rounded-t-lg z-40 pt-2">
+			<button
+				class="mr-auto"
+				on:click={() => {
+					settings_menu_open = !settings_menu_open;
 				}}
-				class="resize h-fit overflow-auto relative min-h-fit"
-				on:neodrag:end={set_correct_position}
-				el_id={i}
-				on:resize={set_correct_size}
-				bind:this={elements_binds[el.id]}
+				type="button"
 			>
-				<span
-					class="absolute drag dark:text-black hover:cursor-grab opacity-30 hover:opacity-100 transition top-0 left-0"
-				>
-					<!-- heroicons/arrows-expand -->
-					<svg
-						class="w-4 h-4"
-						fill="none"
+				<svg
+					class="w-6 h-6"
+					stroke-width="2"
+					viewBox="0 0 24 24"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					color="currentColor"
+					><path
+						d="M12 15a3 3 0 100-6 3 3 0 000 6z"
 						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-						><path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-						/></svg
-					></span
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/><path
+						d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.632 2.401-2.645 1.115L6 4 4 6l1.453 1.789-1.08 2.657L2 11v2l2.401.655L5.516 16.3 4 18l2 2 1.791-1.46 2.606 1.072L11 22h2l.604-2.387 2.651-1.098C16.697 18.831 18 20 18 20l2-2-1.484-1.75 1.098-2.652 2.386-.62V11l-2.378-.605z"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/></svg
 				>
-				<!--	<button class='absolute drag dark:text-black opacity-30 hover:opacity-100 transition top-0 right-0' on:click={() => {delete_element(i)}}>
-						&lt;!&ndash; heroicons/trash &ndash;&gt;
-						<svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'
-							 xmlns='http://www.w3.org/2000/svg'>
-							<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2'
-								  d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'></path>
-						</svg>
-					</button>-->
-				{#if el.type === ElementTypes.Text}
-					<TextElement bind:data={el.data} />
-				{:else if el.type === ElementTypes.Headline}
-					<HeadlineElement bind:data={el.data} />
-				{:else if el.type === ElementTypes.Rectangle}
-					<RectangleElement bind:data={el.data} />
-				{:else if el.type === ElementTypes.Circle}
-					<CircleElement bind:data={el.data} />
-				{/if}
-			</div>
-		{/each}
-	{/if}
+			</button>
+			{#if settings_menu_open}
+				<SettingsMenu bind:time={data.time} bind:title={data.question} />
+			{/if}
+		</div>
+		<div class="col-start-2 col-end-6 transition bg-transparent pt-2">
+			<EditMenu bind:selected_el />
+		</div>
+
+		<div class="flex flex-col pr-2 rounded-t-lg z-40 pt-2">
+			<button
+				class="ml-auto"
+				on:click={() => {
+					selected_element = selected_element === null ? undefined : null;
+				}}
+				type="button"
+				class:add-button={selected_element === null}
+			>
+				<svg
+					class="w-6 h-6"
+					stroke-width="2"
+					viewBox="0 0 24 24"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					color="currentColor"
+					><path
+						d="M9 12h3m3 0h-3m0 0V9m0 3v3M21 3.6v16.8a.6.6 0 01-.6.6H3.6a.6.6 0 01-.6-.6V3.6a.6.6 0 01.6-.6h16.8a.6.6 0 01.6.6z"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/></svg
+				>
+			</button>
+			{#if selected_element === null}
+				<ElementSelection bind:selected_element />
+			{/if}
+		</div>
+	</div>
+	<div bind:this={canvas_el} class="w-full h-full block" />
 </div>

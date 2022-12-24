@@ -33,7 +33,7 @@
 		time: '120',
 		question: 'Slide',
 		image: undefined,
-		answers: []
+		answers: ''
 	};
 
 	const setSelectedQuestion = (index: number): void => {

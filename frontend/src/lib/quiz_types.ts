@@ -38,22 +38,12 @@ export interface RangeQuizAnswer {
 	max_correct: number;
 }
 
-export interface Slide {
-	type: ElementTypes;
-	x: number;
-	y: number;
-	height: number;
-	width: number;
-	data: string;
-	id: number;
-}
-
 export interface Question {
 	time: string;
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[] | RangeQuizAnswer | VotingAnswer[];
+	answers: Answer[] | RangeQuizAnswer | VotingAnswer[] | string;
 }
 
 export interface Answer {
