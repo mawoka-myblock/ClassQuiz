@@ -12,7 +12,6 @@
 	import Spinner from '../Spinner.svelte';
 	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
-	import Slide from './slide.svelte';
 
 	const { t } = getLocalization();
 
@@ -67,7 +66,13 @@
 				/>
 			</div>
 		</div>
-		{#if data.questions[selected_question].time}
+		{#if data.questions[selected_question].type === QuizQuestionType.SLIDE}
+			{#await import('./slide.svelte')}
+				<Spinner my_20={false} />
+			{:then c}
+				<svelte:component this={c.default} bind:data={data.questions[selected_question]} />
+			{/await}
+		{:else}
 			<div class="flex flex-col">
 				<div class="flex justify-center pt-10 w-full">
 					{#await import('$lib/inline-editor.svelte')}
@@ -179,8 +184,6 @@
 					{$t('editor_page.right_click_to_delete')}
 				</p>
 			</div>
-		{:else}
-			<Slide bind:data={data.questions[selected_question]} />
 		{/if}
 	</div>
 </div>
