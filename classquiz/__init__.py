@@ -14,7 +14,20 @@ from classquiz.db import database
 from datetime import timedelta
 
 from classquiz.oauth import rememberme_middleware
-from classquiz.routers import users, quiz, utils, stats, storage, search, testing_routes, editor, live, eximport, login
+from classquiz.routers import (
+    users,
+    quiz,
+    utils,
+    stats,
+    storage,
+    search,
+    testing_routes,
+    editor,
+    live,
+    eximport,
+    login,
+    sitemap,
+)
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
 from scheduler.asyncio import Scheduler
@@ -82,4 +95,5 @@ app.include_router(
 )
 app.include_router(editor.router, tags=["editor"], prefix="/api/v1/editor", include_in_schema=True)
 app.include_router(eximport.router, tags=["export", "import"], prefix="/api/v1/eximport", include_in_schema=True)
+app.include_router(sitemap.router, tags=["sitemap"], prefix="/api/v1/sitemap", include_in_schema=True)
 app.mount("/", ASGIApp(sio))

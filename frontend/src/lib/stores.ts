@@ -11,7 +11,6 @@ export const signedIn = writable(false);
 export const pathname = writable('/');
 
 export const alertModal = writable({ open: false, title: '', body: '' });
-export const elementSelection = writable({ data: undefined });
 
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
