@@ -27,16 +27,21 @@
 	let timer_res: string;
 	let shown_question_now: number;
 	let final_results_clicked = false;
+	let timer_interval;
 
 	export let player_scores;
 
 	export const set_question_number = (q_number: number) => {
+		timer_res = '0';
+		clearInterval(timer_interval);
+		// setTimeout(() => {
 		question_results = null;
 		socket.emit('set_question_number', q_number.toString());
 		shown_question_now = q_number;
 		timer_res = quiz_data.questions[q_number].time;
 		selected_question = selected_question + 1;
 		timer(timer_res);
+		// }, 1000);
 	};
 	const get_question_results = () => {
 		socket.emit('get_question_results', {
@@ -53,6 +58,7 @@
 	const get_final_results = () => {
 		socket.emit('get_final_results', {});
 		final_results_clicked = true;
+		timer_res = '0';
 	};
 
 	socket.on('final_results', (data) => {
@@ -75,7 +81,7 @@
 
 	const timer = (time: string) => {
 		let seconds = Number(time);
-		let timer_interval = setInterval(() => {
+		timer_interval = setInterval(() => {
 			if (timer_res === '0') {
 				clearInterval(timer_interval);
 				// socket.emit('show_solutions', {});
@@ -109,7 +115,7 @@
 		/{quiz_data.questions.length}
 	</p>
 	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-		{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
+		{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 			{#if JSON.stringify(final_results) === JSON.stringify([null])}
 				<button on:click={get_final_results} class="admin-button"
 					>Get final results
@@ -126,12 +132,34 @@
 				</button>
 			{/if}
 			{#if question_results === null && selected_question !== -1}
-				<button on:click={get_question_results} class="admin-button">Show results</button>
+				{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+					<button
+						on:click={() => {
+							set_question_number(selected_question + 1);
+						}}
+						class="admin-button"
+						>Next Question ({selected_question + 2})
+					</button>
+				{:else}
+					<button on:click={get_question_results} class="admin-button"
+						>Show results</button
+					>
+				{/if}
 			{/if}
 		{:else if selected_question !== -1}
-			<button on:click={show_solutions} class="admin-button"
-				>Stop time and show solutions
-			</button>
+			{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+				<button
+					on:click={() => {
+						set_question_number(selected_question + 1);
+					}}
+					class="admin-button"
+					>Next Question ({selected_question + 2})
+				</button>
+			{:else}
+				<button on:click={show_solutions} class="admin-button"
+					>Stop time and show solutions
+				</button>
+			{/if}
 		{:else}
 			<!--				<button
 				on:click={() => {

@@ -23,26 +23,11 @@
 	let selected_element = undefined;
 	let canvas_el: HTMLDivElement | undefined;
 	let canvas: Pikaso;
-	let elements = [];
 	let selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig> = null;
 
 	let elements_binds: Array<HTMLElement> | undefined = [];
 	let main_el: undefined | HTMLElement;
 	let settings_menu_open = false;
-	const get_location = (id: number): { row: number; col: number } => {
-		const numColumns = 12;
-		const row = Math.floor(id / numColumns);
-		const col = id % numColumns;
-		return { row, col };
-	};
-
-	const set_correct_position = (
-		e: CustomEvent<{ offsetX: number; offsetY: number; domRect: DOMRect }>
-	) => {
-		const id = parseInt(e.target.getAttribute('el_id'));
-		data.answers[id].x = e.detail.offsetX / main_el.offsetWidth;
-		data.answers[id].y = e.detail.offsetY / main_el.offsetHeight;
-	};
 
 	const set_correct_height = new ResizeObserver((e) => {
 		for (const i of e) {
@@ -116,10 +101,6 @@
 		assign_resize_handlers();
 	}
 
-	const set_correct_size = (e: UIEvent) => {
-		console.log(e, 'resized');
-	};
-
 	onMount(() => {
 		/*		setTimeout(() => {
 					for (let i = 0; i < data.answers.length; i++) {
@@ -156,14 +137,6 @@
 			}
 		});
 	});
-
-	const get_shape_from_id = (id: number) => {
-		for (let i = 0; i < canvas.board.shapes.length; i++) {
-			if (canvas.board.shapes[i].node._id === id) {
-				return canvas.board.shapes[i].node;
-			}
-		}
-	};
 </script>
 
 <div class="flex h-full relative w-full" bind:this={main_el}>

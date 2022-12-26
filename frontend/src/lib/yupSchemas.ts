@@ -5,7 +5,6 @@
  */
 
 import * as yup from 'yup';
-import { ElementTypes } from '$lib/quiz_types';
 
 export const ABCDQuestionSchema = yup
 	.array()

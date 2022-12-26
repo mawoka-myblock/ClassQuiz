@@ -56,6 +56,7 @@ specifiers:
     luxon: ^3.1.1
     mapbox-gl: ^2.11.0
     minisearch: ^5.1.0
+    pikaso: ^2.7.4
     plausible-tracker: ^0.3.8
     postcss: ^8.4.19
     postcss-import: ^14.1.0
@@ -138,6 +139,7 @@ devDependencies:
     luxon: 3.1.1
     mapbox-gl: 2.11.1
     minisearch: 5.1.0
+    pikaso: 2.7.4
     plausible-tracker: 0.3.8
     postcss: 8.4.20
     postcss-import: 14.1.0_postcss@8.4.20
@@ -3911,6 +3913,13 @@ packages:
         engines: { node: '>=6' }
         dev: true
 
+    /konva/8.3.14:
+        resolution:
+            {
+                integrity: sha512-6I/TZppgY3Frs//AvZ87YVQLFxLywitb8wLS3qMM+Ih9e4QcB5Yy8br6eq7DdUzxPdbsYTz1FQBHzNxs08M1Tw==
+            }
+        dev: true
+
     /levn/0.3.0:
         resolution:
             {
@@ -4644,6 +4653,17 @@ packages:
                 integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
             }
         engines: { node: '>=0.10.0' }
+        dev: true
+
+    /pikaso/2.7.4:
+        resolution:
+            {
+                integrity: sha512-30nqF5+xBUIBKiHHfDfjA3oZChjirN3AmhfWb456iUvTpMY2D51PKjGHfgF2SoQP5Jad7i4Zv+wrQAp7BhcNmQ==
+            }
+        dependencies:
+            deepmerge: 4.2.2
+            konva: 8.3.14
+            typescript: 4.7.4
         dev: true
 
     /plausible-tracker/0.3.8:

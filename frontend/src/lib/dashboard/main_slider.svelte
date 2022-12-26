@@ -15,6 +15,7 @@
 	import StartGamePopup from './start_game.svelte';
 	import { onMount } from 'svelte';
 	import viewport from './useViewportAction.js';
+	import Spinner from '$lib/Spinner.svelte';
 
 	let copy_toast_open = false;
 	let start_game = null;
@@ -349,6 +350,28 @@
 														</h4>
 													</div>
 												{/each}
+											</div>
+										{:else if question.type === QuizQuestionType.SLIDE}
+											<div
+												use:viewport
+												on:enterViewport={() => {
+													visibleImages[i][q] = true;
+												}}
+												on:exitViewport={() => {
+													visibleImages[i][q] = false;
+												}}
+												class="flex justify-center align-middle items-center"
+											>
+												{#await import('$lib/play/admin/slide.svelte')}
+													<Spinner my={false} />
+												{:then c}
+													<div class="max-h-[50%] max-w-[60%]">
+														<svelte:component
+															this={c.default}
+															bind:question
+														/>
+													</div>
+												{/await}
 											</div>
 										{/if}
 									</div>

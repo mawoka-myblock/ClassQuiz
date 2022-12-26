@@ -198,7 +198,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
         quiz.questions = quiz_input.dict()["questions"]
-        print(quiz.questions)
         quiz.cover_image = quiz_input.cover_image
         quiz.background_color = quiz_input.background_color
         for image in images_to_delete:
