@@ -84,11 +84,11 @@ export const dataSchema = yup.object({
 								return VotingQuestionSchema;
 							} else {
 								// console.log('SlideQuestionSchema');
-								return SlideQuestionSchema;
+								return yup.string().required();
 							}
 						} catch {
 							// console.log('SlideQuestionSchema');
-							return SlideQuestionSchema;
+							return yup.string().required();
 						}
 					} else {
 						// console.log('RangeQuestionSchema');
