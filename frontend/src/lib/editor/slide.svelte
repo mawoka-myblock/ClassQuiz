@@ -12,6 +12,7 @@
 	import Pikaso from 'pikaso';
 	import EditMenu from './slides/edit_menu.svelte';
 	import type { Konva, ShapeModel } from 'pikaso';
+	import { browser } from '$app/environment';
 
 	export let data: Question = {
 		type: QuizQuestionType.SLIDE,
@@ -36,6 +37,14 @@
 			data.answers[id].height = i.contentRect.height / main_el.offsetHeight;
 		}
 	});
+
+	let darkMode = false;
+	if (browser) {
+		darkMode =
+			localStorage.theme === 'dark' ||
+			(!('theme' in localStorage) &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches);
+	}
 	const add_text_field = () => {
 		if (selected_element === ElementTypes.Text) {
 			canvas.shapes.label.insert({
@@ -112,7 +121,27 @@
 				}, 200);*/
 		canvas = new Pikaso({
 			container: canvas_el,
-			snapToGrid: {}
+			snapToGrid: {},
+			/*			transformer: {
+							borderStroke: "#00ff00",
+							anchorStroke: "#00ff00"
+						},
+						cropper: {
+							transformer: {
+								borderStroke: "#00ff00",
+								// anchorFill: "#00ff00",
+								anchorStroke: "#00ff00"
+							},
+							guides: {
+								color: "#00ff00"
+							}
+						},*/
+			selection: {
+				transformer: {
+					borderStroke: darkMode ? '#fff' : '#000000',
+					anchorStroke: darkMode ? '#fff' : '#000000'
+				}
+			}
 			/*			selection: {
 							interactive: false
 						}*/
@@ -156,20 +185,22 @@
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 					color="currentColor"
-					><path
+				>
+					<path
 						d="M12 15a3 3 0 100-6 3 3 0 000 6z"
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-					/><path
+					/>
+					<path
 						d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.632 2.401-2.645 1.115L6 4 4 6l1.453 1.789-1.08 2.657L2 11v2l2.401.655L5.516 16.3 4 18l2 2 1.791-1.46 2.606 1.072L11 22h2l.604-2.387 2.651-1.098C16.697 18.831 18 20 18 20l2-2-1.484-1.75 1.098-2.652 2.386-.62V11l-2.378-.605z"
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-					/></svg
-				>
+					/>
+				</svg>
 			</button>
 			{#if settings_menu_open}
 				<SettingsMenu bind:time={data.time} bind:title={data.question} />
@@ -195,14 +226,15 @@
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 					color="currentColor"
-					><path
+				>
+					<path
 						d="M9 12h3m3 0h-3m0 0V9m0 3v3M21 3.6v16.8a.6.6 0 01-.6.6H3.6a.6.6 0 01-.6-.6V3.6a.6.6 0 01.6-.6h16.8a.6.6 0 01.6.6z"
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-					/></svg
-				>
+					/>
+				</svg>
 			</button>
 			{#if selected_element === null}
 				<ElementSelection bind:selected_element />

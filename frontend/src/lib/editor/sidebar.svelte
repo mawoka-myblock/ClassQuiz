@@ -254,11 +254,12 @@
 	>
 		<button
 			type="button"
-			class="h-full flex justify-center w-full dark:text-black"
+			class="h-full flex justify-center w-full dark:text-black flex-col border-r border-black"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empty_question }];
 			}}
 		>
+			Question
 			<svg
 				class="h-full"
 				fill="none"
@@ -276,11 +277,12 @@
 		</button>
 		<button
 			type="button"
-			class="h-full flex justify-center w-full dark:text-black"
+			class="h-full flex justify-center w-full dark:text-black flex-col"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empy_slide }];
 			}}
 		>
+			Slide
 			<svg
 				class="h-full"
 				fill="none"
