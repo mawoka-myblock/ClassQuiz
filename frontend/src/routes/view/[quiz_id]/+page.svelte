@@ -11,6 +11,7 @@
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 	import { onMount } from 'svelte';
+	import Spinner from '$lib/Spinner.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -228,6 +229,14 @@
 								</div>
 							{/each}
 						</div>
+					{:else if question.type === QuizQuestionType.SLIDE}
+						{#await import('$lib/play/admin/slide.svelte')}
+							<Spinner my={false} />
+						{:then c}
+							<div class="max-h-[90%] max-w-[90%]">
+								<svelte:component this={c.default} bind:question />
+							</div>
+						{/await}
 					{/if}
 				</div>
 			</CollapsSection>

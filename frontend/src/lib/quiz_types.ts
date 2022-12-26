@@ -4,6 +4,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+export enum ElementTypes {
+	Text = 'TEXT', // eslint-disable-line no-unused-vars
+	Headline = 'HEADLINE', // eslint-disable-line no-unused-vars
+	Image = 'IMAGE', // eslint-disable-line no-unused-vars
+	Rectangle = 'RECTANGLE', // eslint-disable-line no-unused-vars
+	Circle = 'CIRCLE' // eslint-disable-line no-unused-vars
+}
+
 export interface QuizData {
 	title: string;
 	description: string;
@@ -19,7 +27,8 @@ export interface QuizData {
 export enum QuizQuestionType {
 	ABCD = 'ABCD', // eslint-disable-line no-unused-vars
 	RANGE = 'RANGE', // eslint-disable-line no-unused-vars
-	VOTING = 'VOTING' // eslint-disable-line no-unused-vars
+	VOTING = 'VOTING', // eslint-disable-line no-unused-vars
+	SLIDE = 'SLIDE' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {
@@ -34,7 +43,7 @@ export interface Question {
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[] | RangeQuizAnswer | VotingAnswer[];
+	answers: Answer[] | RangeQuizAnswer | VotingAnswer[] | string;
 }
 
 export interface Answer {
@@ -42,6 +51,7 @@ export interface Answer {
 	answer: string;
 	color?: string;
 }
+
 export interface VotingAnswer {
 	answer: string;
 	image?: string;

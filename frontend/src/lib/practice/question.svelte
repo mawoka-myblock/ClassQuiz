@@ -150,5 +150,13 @@
 		{#if timer_res === '0'}
 			<p>No correct answers, since this is a poll-question</p>
 		{/if}
+	{:else if question.type === QuizQuestionType.SLIDE}
+		{#await import('$lib/play/admin/slide.svelte')}
+			<Spinner my={false} />
+		{:then c}
+			<div class="max-h-[90%] max-w-[90%]">
+				<svelte:component this={c.default} bind:question />
+			</div>
+		{/await}
 	{/if}
 </div>

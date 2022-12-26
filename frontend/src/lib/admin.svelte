@@ -27,16 +27,21 @@
 	let timer_res: string;
 	let shown_question_now: number;
 	let final_results_clicked = false;
+	let timer_interval;
 
 	export let player_scores;
 
 	export const set_question_number = (q_number: number) => {
+		timer_res = '0';
+		clearInterval(timer_interval);
+		// setTimeout(() => {
 		question_results = null;
 		socket.emit('set_question_number', q_number.toString());
 		shown_question_now = q_number;
 		timer_res = quiz_data.questions[q_number].time;
 		selected_question = selected_question + 1;
 		timer(timer_res);
+		// }, 1000);
 	};
 	const get_question_results = () => {
 		socket.emit('get_question_results', {
@@ -53,6 +58,7 @@
 	const get_final_results = () => {
 		socket.emit('get_final_results', {});
 		final_results_clicked = true;
+		timer_res = '0';
 	};
 
 	socket.on('final_results', (data) => {
@@ -75,7 +81,7 @@
 
 	const timer = (time: string) => {
 		let seconds = Number(time);
-		let timer_interval = setInterval(() => {
+		timer_interval = setInterval(() => {
 			if (timer_res === '0') {
 				clearInterval(timer_interval);
 				// socket.emit('show_solutions', {});
@@ -87,14 +93,14 @@
 			timer_res = seconds.toString();
 		}, 1000);
 	};
-	let circular_prgoress = 0;
+	let circular_progress = 0;
 	$: {
 		try {
-			circular_prgoress =
+			circular_progress =
 				1 -
 				((100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)) / 100;
 		} catch {
-			circular_prgoress = 0;
+			circular_progress = 0;
 		}
 	}
 </script>
@@ -109,7 +115,7 @@
 		/{quiz_data.questions.length}
 	</p>
 	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-		{#if selected_question + 1 === quiz_data.questions.length && timer_res === '0' && question_results !== null}
+		{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 			{#if JSON.stringify(final_results) === JSON.stringify([null])}
 				<button on:click={get_final_results} class="admin-button"
 					>Get final results
@@ -126,12 +132,34 @@
 				</button>
 			{/if}
 			{#if question_results === null && selected_question !== -1}
-				<button on:click={get_question_results} class="admin-button">Show results </button>
+				{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+					<button
+						on:click={() => {
+							set_question_number(selected_question + 1);
+						}}
+						class="admin-button"
+						>Next Question ({selected_question + 2})
+					</button>
+				{:else}
+					<button on:click={get_question_results} class="admin-button"
+						>Show results</button
+					>
+				{/if}
 			{/if}
 		{:else if selected_question !== -1}
-			<button on:click={show_solutions} class="admin-button"
-				>Stop time and show solutions
-			</button>
+			{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+				<button
+					on:click={() => {
+						set_question_number(selected_question + 1);
+					}}
+					class="admin-button"
+					>Next Question ({selected_question + 2})
+				</button>
+			{:else}
+				<button on:click={show_solutions} class="admin-button"
+					>Stop time and show solutions
+				</button>
+			{/if}
 		{:else}
 			<!--				<button
 				on:click={() => {
@@ -153,50 +181,62 @@
 
 <div class="w-full h-full pt-28">
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
-		<div class="flex flex-col justify-center w-screen h-1/6">
-			<h1 class="text-6xl text-center">
-				{@html quiz_data.questions[selected_question].question}
-			</h1>
-			<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
-			<div class="mx-auto my-2">
-				<CircularTimer
-					bind:text={timer_res}
-					bind:progress={circular_prgoress}
-					color="#ef4444"
+		{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+			{#await import('$lib/play/admin/slide.svelte')}
+				<Spinner my_20={false} />
+			{:then c}
+				<svelte:component
+					this={c.default}
+					bind:question={quiz_data.questions[selected_question]}
 				/>
+			{/await}
+		{:else}
+			<div class="flex flex-col justify-center w-screen h-1/6">
+				<h1 class="text-6xl text-center">
+					{@html quiz_data.questions[selected_question].question}
+				</h1>
+				<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
+				<div class="mx-auto my-2">
+					<CircularTimer
+						bind:text={timer_res}
+						bind:progress={circular_progress}
+						color="#ef4444"
+					/>
+				</div>
 			</div>
-		</div>
-		{#if quiz_data.questions[selected_question].image !== null}
-			<div>
-				<img
-					src={quiz_data.questions[selected_question].image}
-					class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
-					alt="Content for Question"
-				/>
-			</div>
-		{/if}
-		{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
-			<div class="grid grid-cols-2 gap-2 w-full p-4">
-				{#each quiz_data.questions[selected_question].answers as answer, i}
-					<div
-						class="rounded-lg h-fit flex"
-						style="background-color: {answer.color ?? '#B45309'}"
-						class:opacity-50={!answer.right &&
-							timer_res === '0' &&
-							quiz_data.questions[selected_question].type === QuizQuestionType.ABCD}
-					>
-						<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
-						<span class="text-center text-2xl px-2 py-4 w-full text-black"
-							>{answer.answer}</span
+			{#if quiz_data.questions[selected_question].image !== null}
+				<div>
+					<img
+						src={quiz_data.questions[selected_question].image}
+						class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
+						alt="Content for Question"
+					/>
+				</div>
+			{/if}
+			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
+				<div class="grid grid-cols-2 gap-2 w-full p-4">
+					{#each quiz_data.questions[selected_question].answers as answer, i}
+						<div
+							class="rounded-lg h-fit flex"
+							style="background-color: {answer.color ?? '#B45309'}"
+							class:opacity-50={!answer.right &&
+								timer_res === '0' &&
+								quiz_data.questions[selected_question].type ===
+									QuizQuestionType.ABCD}
 						>
-						<span class="pl-4 w-10" />
-					</div>
-				{/each}
-			</div>
+							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
+							<span class="text-center text-2xl px-2 py-4 w-full text-black"
+								>{answer.answer}</span
+							>
+							<span class="pl-4 w-10" />
+						</div>
+					{/each}
+				</div>
+			{/if}
 		{/if}
 	{/if}
 	<br />
-	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify([null])}
+	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify( [null] ) && quiz_data.questions[selected_question].type !== QuizQuestionType.SLIDE}
 		{#if question_results === null}{:else if question_results === undefined}
 			{#if !final_results_clicked}
 				<div class="w-full flex justify-center">
