@@ -239,7 +239,6 @@ async def set_question_number(sid, data: str):
                 "set_question_number",
                 {
                     "question_index": int(float(data)),
-                    "question": ReturnQuestion(**temp_return).dict(),
                 },
                 room=sid,
             )
