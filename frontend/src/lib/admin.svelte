@@ -28,27 +28,38 @@
 	let shown_question_now: number;
 	let final_results_clicked = false;
 	let timer_interval;
+	export let control_visible: boolean;
 
 	export let player_scores;
 
 	export const set_question_number = (q_number: number) => {
+		socket.emit('set_question_number', q_number.toString());
+	};
+
+	socket.on('set_question_number', () => {
+		console.log('set_question_number');
+	});
+	socket.on('get_question_results', () => {
+		console.log('get_question_results');
+	});
+	socket.on('question_results', (_) => {
 		timer_res = '0';
 		clearInterval(timer_interval);
-		// setTimeout(() => {
+	});
+	socket.on('set_question_number', (data) => {
+		timer_res = '0';
+		clearInterval(timer_interval);
 		question_results = null;
-		socket.emit('set_question_number', q_number.toString());
-		shown_question_now = q_number;
-		timer_res = quiz_data.questions[q_number].time;
+		shown_question_now = data.question_index;
+		timer_res = quiz_data.questions[data.question_index].time;
 		selected_question = selected_question + 1;
 		timer(timer_res);
-		// }, 1000);
-	};
+	});
 	const get_question_results = () => {
 		socket.emit('get_question_results', {
 			game_id: game_token,
 			question_number: shown_question_now
 		});
-		timer_res = '0';
 	};
 	const show_solutions = () => {
 		socket.emit('show_solutions', {});
@@ -57,12 +68,17 @@
 
 	const get_final_results = () => {
 		socket.emit('get_final_results', {});
-		final_results_clicked = true;
-		timer_res = '0';
 	};
+
+	socket.on('solutions', (_) => {
+		timer_res = '0';
+		clearInterval(timer_interval);
+	});
 
 	socket.on('final_results', (data) => {
 		// data = JSON.parse(data);
+		final_results_clicked = true;
+		timer_res = '0';
 		final_results = data;
 	});
 
@@ -105,33 +121,49 @@
 	}
 </script>
 
-<div
-	class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
-	style="background: {bg_color ? bg_color : 'transparent'}"
-	class:text-black={bg_color}
->
-	<p class="mr-auto ml-0 col-start-1 col-end-1">
-		{selected_question === -1 ? '0' : selected_question + 1}
-		/{quiz_data.questions.length}
-	</p>
-	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-		{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
-			{#if JSON.stringify(final_results) === JSON.stringify([null])}
-				<button on:click={get_final_results} class="admin-button"
-					>Get final results
-				</button>
-			{/if}
-		{:else if timer_res === '0' || selected_question === -1}
-			{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
-				<button
-					on:click={() => {
-						set_question_number(selected_question + 1);
-					}}
-					class="admin-button"
-					>Next Question ({selected_question + 2})
-				</button>
-			{/if}
-			{#if question_results === null && selected_question !== -1}
+{#if control_visible}
+	<div
+		class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
+		style="background: {bg_color ? bg_color : 'transparent'}"
+		class:text-black={bg_color}
+	>
+		<p class="mr-auto ml-0 col-start-1 col-end-1">
+			{selected_question === -1 ? '0' : selected_question + 1}
+			/{quiz_data.questions.length}
+		</p>
+		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
+			{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
+				{#if JSON.stringify(final_results) === JSON.stringify([null])}
+					<button on:click={get_final_results} class="admin-button"
+						>Get final results
+					</button>
+				{/if}
+			{:else if timer_res === '0' || selected_question === -1}
+				{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
+					<button
+						on:click={() => {
+							set_question_number(selected_question + 1);
+						}}
+						class="admin-button"
+						>Next Question ({selected_question + 2})
+					</button>
+				{/if}
+				{#if question_results === null && selected_question !== -1}
+					{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
+						<button
+							on:click={() => {
+								set_question_number(selected_question + 1);
+							}}
+							class="admin-button"
+							>Next Question ({selected_question + 2})
+						</button>
+					{:else}
+						<button on:click={get_question_results} class="admin-button"
+							>Show results
+						</button>
+					{/if}
+				{/if}
+			{:else if selected_question !== -1}
 				{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 					<button
 						on:click={() => {
@@ -141,45 +173,32 @@
 						>Next Question ({selected_question + 2})
 					</button>
 				{:else}
-					<button on:click={get_question_results} class="admin-button"
-						>Show results</button
-					>
+					<button on:click={show_solutions} class="admin-button"
+						>Stop time and show solutions
+					</button>
 				{/if}
-			{/if}
-		{:else if selected_question !== -1}
-			{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
-				<button
+			{:else}
+				<!--				<button
 					on:click={() => {
 						set_question_number(selected_question + 1);
 					}}
-					class="admin-button"
-					>Next Question ({selected_question + 2})
-				</button>
-			{:else}
-				<button on:click={show_solutions} class="admin-button"
-					>Stop time and show solutions
-				</button>
+					class='admin-button'
+				>Next Question ({selected_question + 2}
+					)
+				</button>-->
 			{/if}
-		{:else}
-			<!--				<button
-				on:click={() => {
-					set_question_number(selected_question + 1);
-				}}
-				class='admin-button'
-			>Next Question ({selected_question + 2}
-				)
-			</button>-->
-		{/if}
+		</div>
 	</div>
-</div>
+{/if}
 {#if timer_res !== '0' && selected_question >= 0}
 	<span
-		class="fixed top-0 bg-red-500 h-8 transition-all mt-10"
+		class="fixed top-0 bg-red-500 h-8 transition-all"
+		class:mt-10={control_visible}
 		style="width: {(100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)}vw"
 	/>
 {/if}
 
-<div class="w-full h-full pt-28">
+<div class="w-full h-full" class:pt-28={control_visible} class:pt-12={!control_visible}>
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
 		{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 			{#await import('$lib/play/admin/slide.svelte')}

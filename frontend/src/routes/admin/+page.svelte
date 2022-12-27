@@ -33,6 +33,7 @@
 	let errorMessage = '';
 	let game_started = false;
 	let quiz_data: QuizData;
+	let control_visible = true;
 	//let question_number = '0';
 	// let question_results = null;
 	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
@@ -70,6 +71,14 @@
 		errorMessage = $t('admin_page.already_registered_as_admin');
 	});
 
+	socket.on('start_game', (_) => {
+		game_started = true;
+	});
+
+	socket.on('control_visibility', (data) => {
+		control_visible = data.visible;
+	});
+
 	/*	socket.on('question_results', (int_data) => {
 		try {
 			int_data = JSON.parse(int_data);
@@ -83,7 +92,10 @@
 		warnToLeave = false;
 		dataexport_download_a.href = `/api/v1/quiz/export_data/${int_data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;
 		dataexport_download_a.click();
-		warnToLeave = true;
+
+		setTimeout(() => {
+			warnToLeave = true;
+		}, 200);
 	});
 
 	const confirmUnload = () => {
@@ -134,11 +146,13 @@
 	class:text-black={bg_color}
 >
 	{#if JSON.stringify(final_results) !== JSON.stringify([null])}
-		<div class="w-screen flex justify-center mt-16">
-			<button on:click={request_answer_export} class="admin-button"
-				>{$t('admin_page.export_results')}</button
-			>
-		</div>
+		{#if control_visible}
+			<div class="w-screen flex justify-center mt-16">
+				<button on:click={request_answer_export} class="admin-button"
+					>{$t('admin_page.export_results')}</button
+				>
+			</div>
+		{/if}
 		<FinalResults bind:data={player_scores} bind:show_final_results />
 	{/if}
 	{#if !success}
@@ -181,7 +195,6 @@
 						id="startGame"
 						on:click={() => {
 							socket.emit('start_game', '');
-							game_started = true;
 						}}
 						>{$t('admin_page.start_game')}
 					</button>
@@ -197,6 +210,7 @@
 			bind:game_mode
 			bind:bg_color
 			bind:player_scores
+			bind:control_visible
 		/>
 	{/if}
 </div>

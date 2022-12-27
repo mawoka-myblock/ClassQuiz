@@ -27,6 +27,7 @@ from classquiz.routers import (
     eximport,
     login,
     sitemap,
+    remote,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
@@ -80,6 +81,7 @@ async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
 
+app.include_router(remote.router, tags=["remote"], prefix="/api/v1/remote", include_in_schema=True)
 app.include_router(login.router, tags=["auth"], prefix="/api/v1/login", include_in_schema=True)
 
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
@@ -96,4 +98,5 @@ app.include_router(
 app.include_router(editor.router, tags=["editor"], prefix="/api/v1/editor", include_in_schema=True)
 app.include_router(eximport.router, tags=["export", "import"], prefix="/api/v1/eximport", include_in_schema=True)
 app.include_router(sitemap.router, tags=["sitemap"], prefix="/api/v1/sitemap", include_in_schema=True)
+
 app.mount("/", ASGIApp(sio))

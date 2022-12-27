@@ -18,7 +18,7 @@ import bleach
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame
+from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameInLobby
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
 import urllib.parse
@@ -129,6 +129,11 @@ async def start_quiz(
     )
     await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
     await redis.set(f"game_pin:{user.id}:{quiz_id}", game_pin, ex=18000)
+    await redis.set(
+        f"game_in_lobby:{user.id.hex}",
+        GameInLobby(game_id=game.game_id, game_pin=str(game_pin), quiz_title=quiz.title).json(),
+        ex=900,
+    )
     return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
 
 

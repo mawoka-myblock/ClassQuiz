@@ -116,7 +116,7 @@ async def join_game(sid: str, data: dict):
     )
     redis_res = await redis.get(f"game_session:{data.game_pin}")
     redis_res = GameSession.parse_raw(redis_res)
-    await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=18000)
+    await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=7200)
     await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
     if data.custom_field == "":
         data.custom_field = None
@@ -131,7 +131,7 @@ async def join_game(sid: str, data: dict):
     await sio.emit(
         "player_joined",
         {"username": data.username, "sid": sid},
-        room=redis_res.admin,
+        room=f"admin:{data.game_pin}",
     )
     # +++ Time-Sync +++
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
@@ -146,7 +146,8 @@ async def start_game(sid: str, _data: dict):
     if session["admin"]:
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
         game_data.started = True
-        await redis.set(f"game:{session['game_pin']}", game_data.json())
+        await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+        await redis.delete(f"game_in_lobby:{game_data.user_id.hex}")
         await sio.emit("start_game", room=session["game_pin"])
 
 
@@ -169,7 +170,7 @@ async def register_as_admin(sid: str, data: dict):
         await redis.set(
             f"game_session:{game_pin}",
             GameSession(admin=sid, game_id=game_id, answers=[]).json(),
-            ex=18000,
+            ex=7200,
         )
 
         await sio.emit(
@@ -180,7 +181,9 @@ async def register_as_admin(sid: str, data: dict):
         async with sio.session(sid) as session:
             session["game_pin"] = game_pin
             session["admin"] = True
+            session["remote"] = False
         sio.enter_room(sid, game_pin)
+        sio.enter_room(sid, f"admin:{data.game_pin}")
     else:
         await sio.emit("already_registered_as_admin", room=sid)
 
@@ -227,8 +230,8 @@ async def set_question_number(sid, data: str):
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
         game_data.current_question = int(float(data))
-        await redis.set(f"game:{session['game_pin']}", game_data.json())
-        await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat())
+        await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+        await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
         temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
         if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
             return
@@ -322,7 +325,7 @@ async def submit_answer(sid: str, data: dict):
                     )
                 ]
             ).json(),
-            ex=18000,
+            ex=7200,
         )
     else:
         answers = _AnswerDataList.parse_raw(answers)
@@ -338,7 +341,7 @@ async def submit_answer(sid: str, data: dict):
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
             answers.json(),
-            ex=18000,
+            ex=7200,
         )
     answers = _AnswerDataList.parse_raw(await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"))
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
@@ -349,7 +352,9 @@ async def submit_answer(sid: str, data: dict):
         #     room=session["game_pin"],
         # )
         await sio.emit("everyone_answered", {})
-    # await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))
+
+
+# await redis.set(f"game_data:{session['game_pin']}", json.dumps(data))
 
 
 @sio.event
@@ -363,14 +368,14 @@ async def get_final_results(sid: str, _data: dict):
 
 
 @sio.event
-async def get_export_token(sid):
+async def get_export_token(sid: str):
     session = await sio.get_session(sid)
     if not session["admin"]:
         return
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     results = await generate_final_results(game_data, session["game_pin"])
     token = os.urandom(32).hex()
-    await redis.set(f"export_token:{token}", json.dumps(results))
+    await redis.set(f"export_token:{token}", json.dumps(results), ex=7200)
     await sio.emit("export_token", token, room=sid)
 
 
@@ -407,7 +412,6 @@ async def kick_player(sid: str, data: dict):
         return
 
     session: dict = await sio.get_session(sid)
-    print(sid)
     if not session["admin"]:
         return
 
@@ -417,3 +421,46 @@ async def kick_player(sid: str, data: dict):
     )
     sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)
+
+
+class _RegisterAsRemoteInput(BaseModel):
+    game_pin: str
+    game_id: str
+
+
+@sio.event
+async def register_as_remote(sid: str, data: dict):
+    try:
+        data = _RegisterAsRemoteInput(**data)
+    except ValidationError as e:
+        await sio.emit("error", room=sid)
+        print(e)
+        return
+    await sio.emit(
+        "registered_as_admin",
+        {"game_id": data.game_id, "game": await redis.get(f"game:{data.game_pin}")},
+        room=sid,
+    )
+    await sio.emit("control_visibility", {"visible": False}, room=f"admin:{data.game_pin}")
+    async with sio.session(sid) as session:
+        session["game_pin"] = data.game_pin
+        session["admin"] = True
+        session["remote"] = True
+    sio.enter_room(sid, data.game_pin)
+    sio.enter_room(sid, f"admin:{data.game_pin}")
+
+
+class _SetControlVisibilityInput(BaseModel):
+    visible: bool
+
+
+@sio.event
+async def set_control_visibility(sid: str, data: dict):
+    try:
+        data = _SetControlVisibilityInput(**data)
+    except ValidationError as e:
+        await sio.emit("error", room=sid)
+        print(e)
+        return
+    session: dict = await sio.get_session(sid)
+    await sio.emit("control_visibility", {"visible": data.visible}, room=f"admin:{session['game_pin']}")

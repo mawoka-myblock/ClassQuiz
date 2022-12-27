@@ -4,6 +4,8 @@
 
 
 import json
+import uuid
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, validator
 from classquiz.config import settings, redis
@@ -155,17 +157,21 @@ async def get_game_user_count(game_pin: str, api_key: str, as_string: bool = Fal
 @router.get(
     "/players",
 )
-async def get_game_session(game_pin: str, api_key: str):
+async def get_game_session(game_pin: str, api_key: str | None = None, game_id: uuid.UUID | None = None):
+    if game_id is None and api_key is None:
+        raise HTTPException(status_code=401, detail="API-Key and Quiz-ID are missing")
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None:
         game_pin = await redis.get(f"game_pin:{user_id}:{game_pin}")
         redis_res = await redis.get(f"game_session:{game_pin}")
-    if redis_res is None or user_id is None:
+    if redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     data = GameSession.parse_raw(redis_res)
+    if user_id is None and data.game_id != str(game_id):
+        raise HTTPException(status_code=401, detail="Game not found or API key not found")
     game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
-    if game.user_id != user_id:
+    if game.user_id != user_id and data.game_id != str(game_id):
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     for i in range(0, len(game.questions)):
         res = await redis.get(f"game_session:{game_pin}:{i}")
@@ -195,7 +201,7 @@ async def set_next_question(game_pin: str, question_number: int, api_key: str):
     if game_data.user_id != user_id:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     game_data.current_question = question_number
-    await redis.set(f"game:{game_pin}", game_data.json())
+    await redis.set(f"game:{game_pin}", game_data.json(), ex=18000)
     await sio.emit(
         "set_question_number",
         {

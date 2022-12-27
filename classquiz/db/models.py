@@ -240,3 +240,9 @@ class GameSession(BaseModel):
 class UpdatePassword(BaseModel):
     old_password: str
     new_password: str
+
+
+class GameInLobby(BaseModel):
+    game_pin: str
+    quiz_title: str
+    game_id: uuid.UUID
