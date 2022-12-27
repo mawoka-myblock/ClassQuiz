@@ -32,13 +32,10 @@
 
 	export let player_scores;
 
-	export const set_question_number = (q_number: number) => {
+	const set_question_number = (q_number: number) => {
 		socket.emit('set_question_number', q_number.toString());
 	};
 
-	socket.on('set_question_number', () => {
-		console.log('set_question_number');
-	});
 	socket.on('get_question_results', () => {
 		console.log('get_question_results');
 	});

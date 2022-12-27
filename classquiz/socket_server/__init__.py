@@ -226,6 +226,7 @@ class ReturnQuestion(QuizQuestion):
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
     session = await sio.get_session(sid)
+    print("set_question_number", data, session)
     if session["admin"]:
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
@@ -234,10 +235,18 @@ async def set_question_number(sid, data: str):
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
         temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
         if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
-            return
+            await sio.emit(
+                "set_question_number",
+                {
+                    "question_index": int(float(data)),
+                    "question": ReturnQuestion(**temp_return).dict(),
+                },
+                room=sid,
+            )
         if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
+        print("emitting")
         await sio.emit(
             "set_question_number",
             {
