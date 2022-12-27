@@ -243,6 +243,7 @@ async def set_question_number(sid, data: str):
                 },
                 room=sid,
             )
+            return
         if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
