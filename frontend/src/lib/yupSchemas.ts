@@ -77,21 +77,23 @@ export const dataSchema = yup.object({
 					if (Array.isArray(v)) {
 						try {
 							if (typeof v[0].right === 'boolean') {
-								// console.log('ABCDQuestionSchema');
+								console.log('ABCDQuestionSchema');
 								return ABCDQuestionSchema;
 							} else if (v[0].answer !== undefined) {
-								// console.log('VotingQuestionSchema');
+								console.log('VotingQuestionSchema');
 								return VotingQuestionSchema;
 							} else {
-								// console.log('SlideQuestionSchema');
-								return yup.string().required();
+								console.log('SlideQuestionSchema');
+								return yup.string().required().nullable();
 							}
 						} catch {
-							// console.log('SlideQuestionSchema');
-							return yup.string().required();
+							console.log('SlideQuestionSchema');
+							return yup.string().required("The slide mustn't be empty").nullable();
 						}
+					} else if (typeof v === 'string' || v instanceof String) {
+						return yup.string().required("The slide mustn't be empty").nullable();
 					} else {
-						// console.log('RangeQuestionSchema');
+						console.log('RangeQuestionSchema');
 						return RangeQuestionSchema;
 					}
 				})
