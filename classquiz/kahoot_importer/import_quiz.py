@@ -60,7 +60,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
             ).dict()
         )
     cover = None
-    if quiz.kahoot.cover != "":
+    print(quiz.kahoot.cover)
+    if quiz.kahoot.cover != "" and quiz.kahoot.cover is not None:
         image_bytes = await _download_image(quiz.kahoot.cover)
         image_name = f"{quiz_id}--{uuid.uuid4()}"
         await storage.upload(file_name=image_name, file_data=image_bytes)
