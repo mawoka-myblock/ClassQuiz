@@ -244,6 +244,8 @@
 						{/each}
 					</div>
 				{/if}
+			{:else if question.type === QuizQuestionType.SLIDE}
+				<p>Slide!</p>
 			{:else}
 				<p>Unknown Question Type (shouldn't happen)</p>
 			{/if}
@@ -259,7 +261,7 @@
 				data.questions = [...data.questions, { ...empty_question }];
 			}}
 		>
-			Question
+			<span class="w-full text-center">Question</span>
 			<svg
 				class="h-full"
 				fill="none"
@@ -282,7 +284,7 @@
 				data.questions = [...data.questions, { ...empy_slide }];
 			}}
 		>
-			Slide
+			<span class="w-full text-center">Slide</span>
 			<svg
 				class="h-full"
 				fill="none"
