@@ -43,21 +43,40 @@
 		{#each data.questions[selected_question].answers as answer, index}
 			<div
 				out:fade={{ duration: 150 }}
-				class="p-4 rounded-lg flex justify-center w-full transition"
+				class="p-4 rounded-lg flex justify-center w-full transition relative"
 				class:bg-yellow-500={!reach(VotingQuestionSchema, 'answer').isValidSync(
 					answer.answer
 				)}
 				class:dark:bg-gray-500={answer.answer}
 				class:bg-gray-300={answer.answer}
 			>
-				<input
-					bind:value={answer.answer}
-					type="text"
-					on:contextmenu|preventDefault={() => {
+				<button
+					class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
+					type="button"
+					on:click={() => {
 						data.questions[selected_question].answers.splice(index, 1);
 						data.questions[selected_question].answers =
 							data.questions[selected_question].answers;
 					}}
+				>
+					<svg
+						class="w-6 h-6 bg-red-500 rounded-full"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+				</button>
+				<input
+					bind:value={answer.answer}
+					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg"
 					style="background-color: {answer.color ?? 'transparent'}"
 					placeholder="Empty..."
