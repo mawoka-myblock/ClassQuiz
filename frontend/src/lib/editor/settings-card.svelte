@@ -167,7 +167,7 @@
 					>
 						<input
 							type="color"
-							class="rounded-lg p-1 min-h-full hover:cursor-pointer"
+							class="rounded-lg p-1 min-h-full hover:cursor-pointer border-black border"
 							bind:value={data.background_color}
 						/>
 					</div>

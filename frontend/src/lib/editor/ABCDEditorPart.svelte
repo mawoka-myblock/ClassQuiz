@@ -103,7 +103,7 @@
 					{/if}
 				</button>
 				<input
-					class="rounded-lg p-1"
+					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
 					on:contextmenu|preventDefault={() => {
