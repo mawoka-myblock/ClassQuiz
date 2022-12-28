@@ -1,7 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+import re
 from functools import lru_cache
 
 from redis import asyncio as redis_lib
@@ -71,3 +71,5 @@ storage: Storage = Storage(
 meilisearch = MeiliSearch.Client(settings().meilisearch_url)
 
 ALLOWED_TAGS_FOR_QUIZ = ["b", "strong", "i", "em", "small", "mark", "del", "sub", "sup"]
+
+server_regex = rf"^{re.escape(settings().root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"

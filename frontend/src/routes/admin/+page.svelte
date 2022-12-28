@@ -131,7 +131,9 @@
 		players = players;
 	};
 	let bg_color;
+	let bg_image;
 	$: bg_color = quiz_data ? quiz_data.background_color : undefined;
+	$: bg_image = quiz_data ? quiz_data.background_image : undefined;
 	let show_final_results = false;
 	$: show_final_results = JSON.stringify(final_results) !== JSON.stringify([null]);
 </script>
@@ -142,7 +144,9 @@
 </svelte:head>
 <div
 	class="min-h-screen min-w-full"
-	style="background: {bg_color ? bg_color : 'transparent'}"
+	style="background-repeat: no-repeat;background-size: 100% 100%;background-image: {bg_image
+		? `url('${bg_image}')`
+		: `unset`}; background-color: {bg_color ? bg_color : 'transparent'}"
 	class:text-black={bg_color}
 >
 	{#if JSON.stringify(final_results) !== JSON.stringify([null])}

@@ -21,6 +21,7 @@
 	import '@uppy/image-editor/dist/style.css';
 	import type { EditorData } from '../quiz_types';
 	import { getLocalization } from '$lib/i18n';
+
 	const { t } = getLocalization();
 
 	export let modalOpen = false;
@@ -65,6 +66,8 @@
 		console.log(pow_data);
 		if (selected_question === undefined) {
 			data.cover_image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+		} else if (selected_question === -1) {
+			data.background_image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
 		} else {
 			data.questions[
 				selected_question

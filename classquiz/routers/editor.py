@@ -13,7 +13,7 @@ import bleach
 from fastapi import APIRouter, File, UploadFile, HTTPException, Depends
 from pydantic import BaseModel
 
-from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ
+from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, server_regex
 from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType
 import puremagic
 from classquiz.auth import get_current_user
@@ -143,10 +143,10 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                     )
     image_id_regex = r"^.{36}--.{36}$"
     imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
-    server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"
+
     extract_file_name_re = r"^.*/api/v1/storage/download/(.{36}--.{36})$"
     images_to_delete = []
-    old_quiz_data = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
+    old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
 
     def mark_image_for_deletion(new: str | None, index: int, old_quiz: Quiz | None):
         if old_quiz is None:
@@ -183,6 +183,9 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     if quiz_input.cover_image == "":
         quiz_input.cover_image = None
 
+    # if quiz_input.background_image is None and old_quiz_data.background_image is not None:
+    #     mark_image_for_deletion(quiz_input.background_image)
+
     if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
         raise HTTPException(status_code=400, detail="image url is not valid")
 
@@ -200,6 +203,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.questions = quiz_input.dict()["questions"]
         quiz.cover_image = quiz_input.cover_image
         quiz.background_color = quiz_input.background_color
+        quiz.background_image = quiz_input.background_image
         for image in images_to_delete:
             if image is not None:
                 try:

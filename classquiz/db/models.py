@@ -2,6 +2,7 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import os
+import re
 import uuid
 from datetime import datetime
 from typing import Optional
@@ -10,6 +11,7 @@ import ormar
 from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
+from ..config import server_regex
 
 
 class UserAuthTypes(Enum):
@@ -150,6 +152,16 @@ class QuizInput(BaseModel):
     cover_image: str | None
     background_color: str | None
     questions: list[QuizQuestion]
+    background_image: str | None
+
+    @validator("background_image")
+    def must_come_from_local_cdn(cls, v):
+        if v is None:
+            return v
+        elif bool(re.match(server_regex, v)):
+            return v
+        else:
+            raise ValueError("does not match url scheme")
 
 
 class Quiz(ormar.Model):
@@ -164,6 +176,16 @@ class Quiz(ormar.Model):
     imported_from_kahoot: Optional[bool] = ormar.Boolean(default=False, nullable=True)
     cover_image: Optional[str] = ormar.Text(nullable=True, unique=False)
     background_color: str | None = ormar.Text(nullable=True, unique=False)
+    background_image: str | None = ormar.Text(nullable=True, unique=False)
+
+    @validator("background_image")
+    def must_come_from_local_cdn(cls, v):
+        if v is None:
+            return v
+        elif bool(re.match(server_regex, v)):
+            return v
+        else:
+            raise ValueError("does not match url scheme")
 
     class Meta:
         tablename = "quiz"
@@ -211,6 +233,7 @@ class PlayGame(BaseModel):
     game_mode: str | None
     current_question: int = -1
     background_color: str | None
+    background_image: str | None
     custom_field: str | None
 
 

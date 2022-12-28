@@ -22,6 +22,7 @@ export interface QuizData {
 	started: boolean;
 	cover_image?: string;
 	background_color?: string;
+	background_image?: string;
 }
 
 export enum QuizQuestionType {
@@ -65,4 +66,5 @@ export interface EditorData {
 	questions: Question[];
 	cover_image?: string;
 	background_color?: string;
+	background_image?: string;
 }

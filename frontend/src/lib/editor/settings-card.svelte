@@ -14,6 +14,7 @@
 	const { t } = getLocalization();
 
 	let uppyOpen = false;
+	let bg_uppy_open = false;
 
 	export let edit_id: string;
 	export let data: EditorData;
@@ -38,7 +39,12 @@
 				/>
 			</div>
 		</div>
-		<div class="dark:bg-gray-700">
+		<div
+			class="dark:bg-gray-700 h-full"
+			style="background-repeat: no-repeat;background-size: 100% 100%;background-image: {data.background_image
+				? `url("${data.background_image}")`
+				: `unset`}"
+		>
 			<div class="flex justify-center pt-10 w-full">
 				<!--<input
 					type="text"
@@ -172,6 +178,40 @@
 						/>
 					</div>
 				</div>
+			</div>
+			<div class="flex justify-center pt-10">
+				<h3>Background-Image</h3>
+			</div>
+			<div class="w-full flex justify-center -mt-8">
+				{#if data.background_image}
+					<button
+						on:click={() => {
+							data.background_image = undefined;
+						}}
+						class="mt-10 bg-red-500 p-2 rounded-lg border-2 border-black transition hover:bg-red-400"
+						>Remove Background-Image</button
+					>
+				{:else if pow_data === undefined}
+					<a href="/docs/pow" target="_blank" class="cursor-help pt-10">
+						<Spinner my_20={false} />
+					</a>
+				{:else}
+					{#await import('$lib/editor/uploader.svelte')}
+						<div class="pt-10">
+							<Spinner my_20={false} />
+						</div>
+					{:then c}
+						<svelte:component
+							this={c.default}
+							bind:modalOpen={bg_uppy_open}
+							bind:edit_id
+							bind:data
+							selected_question={-1}
+							bind:pow_data
+							bind:pow_salt
+						/>
+					{/await}
+				{/if}
 			</div>
 		</div>
 	</div>
