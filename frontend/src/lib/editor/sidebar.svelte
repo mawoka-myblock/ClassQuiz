@@ -147,18 +147,37 @@
 			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
 			class:bg-green-300={index === selected_question}
 			class:dark:bg-green-500={index === selected_question}
-			on:contextmenu|preventDefault={() => {
-				if (confirm('Do you really want to delete this Question?')) {
-					selected_question = selected_question - 1;
-					data.questions.splice(index, 1);
-					data.questions = data.questions;
-				}
-			}}
 			on:click={() => {
 				setSelectedQuestion(index);
 			}}
 			bind:this={arr_of_cards[index]}
 		>
+			<button
+				class="rounded-full absolute -top-3 -right-3 opacity-70 hover:opacity-100 transition"
+				type="button"
+				on:click={() => {
+					if (confirm('Do you really want to delete this Question?')) {
+						selected_question = selected_question - 1;
+						data.questions.splice(index, 1);
+						data.questions = data.questions;
+					}
+				}}
+			>
+				<svg
+					class="w-6 h-6 bg-red-500 rounded-full"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+					/>
+				</svg>
+			</button>
 			<div
 				use:tippy={{ content: question.question === '' ? 'No title' : question.question }}
 				class="m-1 border border-gray-500 rounded-lg p-0.5"

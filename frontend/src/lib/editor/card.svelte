@@ -93,15 +93,36 @@
 					{/await}
 				</div>
 				{#if data.questions[selected_question].image != undefined && data.questions[selected_question].image !== ''}
-					<div class="flex justify-center pt-10 w-full max-h-72 w-full">
-						<img
-							src={data.questions[selected_question].image}
-							alt="not available"
-							class="max-h-72 h-auto w-auto"
-							on:contextmenu|preventDefault={() => {
-								data.questions[selected_question].image = '';
-							}}
-						/>
+					<div class="flex justify-center pt-10 w-full max-h-72">
+						<div class="max-h-72 h-auto relative">
+							<button
+								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
+								type="button"
+								on:click={() => {
+									data.questions[selected_question].image = '';
+								}}
+							>
+								<svg
+									class="w-6 h-6 bg-red-500 rounded-full"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</button>
+							<img
+								src={data.questions[selected_question].image}
+								alt="not available"
+								class="max-h-64 h-auto w-auto"
+							/>
+						</div>
 					</div>
 				{:else if pow_data === undefined}
 					<a
@@ -163,7 +184,7 @@
 						<option value={QuizQuestionType.VOTING}>{$t('words.voting')}</option>
 					</select>
 				</div>
-				<div class="flex justify-center pt-10 w-full">
+				<div class="flex justify-center py-10 w-full">
 					{#if data.questions[selected_question].type === QuizQuestionType.ABCD}
 						{#await import('$lib/editor/ABCDEditorPart.svelte')}
 							<Spinner my_20={false} />
@@ -180,9 +201,6 @@
 						{/await}
 					{/if}
 				</div>
-				<p class="italic text-center mt-auto pt-4">
-					{$t('editor_page.right_click_to_delete')}
-				</p>
 			</div>
 		{/if}
 	</div>
