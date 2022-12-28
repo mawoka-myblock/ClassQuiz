@@ -1,0 +1,24 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
+# Custom Field
+
+## What is the Custom-Field?
+
+The Custom-Field is an input-field which can be enabled in the start-quiz modal. The custom-field has to be named, and
+then it will be displayed if a player wants to join.
+
+## Use Case
+
+Imagine you're a teacher, and you want to know the real names of your students, but you don't want everyone to see
+who is behind which username. That's where the custom-field comes into play. Players can enter their username and their
+real name and only the admin (you) can see which username belongs to which real name and which real names exist. The
+data can be obtained by downloading the quiz-results at the end. In the spreadsheet, you can then see all the data.
+
+## Notes
+
+- There is no validation at all. Users can also leave it empty, enter numbers and more.
+- The value gets saved for future use, so make sure to clear it before starting a new quiz.

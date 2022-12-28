@@ -64,6 +64,7 @@
 		"js-cookie": "^3.0.1",
 		"luxon": "^3.1.1",
 		"mapbox-gl": "^2.11.0",
+		"mdsvex": "^0.10.6",
 		"minisearch": "^5.1.0",
 		"pikaso": "^2.7.4",
 		"plausible-tracker": "^0.3.8",

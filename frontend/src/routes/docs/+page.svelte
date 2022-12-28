@@ -3,6 +3,12 @@
   - License, v. 2.0. If a copy of the MPL was not distributed with this
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
+
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
 <svelte:head>
 	<title>ClassQuiz/docs - Index</title>
 	<meta
@@ -27,6 +33,9 @@
 		</li>
 		<li>
 			<a href="/docs/develop">Development-Setup</a>
+		</li>
+		<li>
+			<a href="/docs/features">Features</a>
 		</li>
 	</ul>
 </article>

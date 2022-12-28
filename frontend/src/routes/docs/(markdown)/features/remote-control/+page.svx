@@ -1,0 +1,15 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
+# Remote Control
+
+Control the admin-screen from a different device!
+
+## Use Case
+
+Imagine mirroring the admin-screen to a projector and you want to show the quiz full-screen without the disruption of
+buttons, etc. That's where this feature comes in handy, since you can control the quiz from another device, e.g. your
+phone.
