@@ -29,7 +29,8 @@ export enum QuizQuestionType {
 	ABCD = 'ABCD', // eslint-disable-line no-unused-vars
 	RANGE = 'RANGE', // eslint-disable-line no-unused-vars
 	VOTING = 'VOTING', // eslint-disable-line no-unused-vars
-	SLIDE = 'SLIDE' // eslint-disable-line no-unused-vars
+	SLIDE = 'SLIDE', // eslint-disable-line no-unused-vars
+	TEXT = 'TEXT' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {
@@ -39,12 +40,17 @@ export interface RangeQuizAnswer {
 	max_correct: number;
 }
 
+export interface TextQuizAnswer {
+	answer: string;
+	case_sensitive: boolean;
+}
+
 export interface Question {
 	time: string;
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[] | RangeQuizAnswer | VotingAnswer[] | string;
+	answers: Answer[] | RangeQuizAnswer | VotingAnswer[] | string | TextQuizAnswer[];
 }
 
 export interface Answer {

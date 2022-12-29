@@ -72,6 +72,8 @@
 		});
 	};
 
+	let text_input = '';
+
 	let slider_value = [0];
 	if (question.type === QuizQuestionType.RANGE) {
 		slider_value[0] = (question.answers.max - question.answers.min) / 2 + question.answers.min;
@@ -187,6 +189,21 @@
 					</button>
 				</div>
 			{/await}
+		{:else if question.type === QuizQuestionType.TEXT}
+			<input bind:value={text_input} />
+
+			<div class="flex justify-center">
+				<button
+					class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+					type="button"
+					disabled={!text_input}
+					on:click={() => {
+						selectAnswer(text_input);
+					}}
+				>
+					{$t('words.submit')}
+				</button>
+			</div>
 		{/if}
 	{:else if question.type === QuizQuestionType.ABCD}
 		{#if solution === undefined}

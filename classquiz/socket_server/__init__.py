@@ -209,6 +209,7 @@ class RangeQuizAnswerWithoutSolution(BaseModel):
 
 class ReturnQuestion(QuizQuestion):
     answers: list[ABCDQuizAnswerWithoutSolution] | RangeQuizAnswerWithoutSolution | list[VotingQuizAnswer]
+    type: QuizQuestionType = QuizQuestionType.ABCD
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
@@ -226,7 +227,7 @@ class ReturnQuestion(QuizQuestion):
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
     session = await sio.get_session(sid)
-    print("set_question_number", data, session)
+    # print("set_question_number", data, session)
     if session["admin"]:
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
@@ -246,7 +247,8 @@ async def set_question_number(sid, data: str):
         if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
-        print("emitting")
+        temp_return["type"] = game_data.questions[int(float(data))].type
+        # print("emitting")
         await sio.emit(
             "set_question_number",
             {
@@ -301,6 +303,17 @@ async def submit_answer(sid: str, data: dict):
             answer_right = True
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
         answer_right = False
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
+        answer_right = False
+        for q in game_data.questions[int(float(data.question_index))].answers:
+            if q.case_sensitive:
+                if data.answer == q.answer:
+                    answer_right = True
+                    break
+            else:
+                if data.answer.lower() == q.answer.lower():
+                    answer_right = True
+                    break
     else:
         raise NotImplementedError
     latency = int(float((await sio.get_session(sid))["ping"]))

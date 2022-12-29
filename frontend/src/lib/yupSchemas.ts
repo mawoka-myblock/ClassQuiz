@@ -35,17 +35,17 @@ export const RangeQuestionSchema = yup.object({
 	max_correct: yup.number()
 });
 
-export const SlideQuestionSchema = yup.array().of(
-	yup.object({
-		type: yup.string().required(),
-		x: yup.number(),
-		y: yup.number(),
-		height: yup.number(),
-		width: yup.number(),
-		data: yup.string().optional(),
-		id: yup.number().required()
-	})
-);
+export const TextQuestionSchema = yup
+	.array()
+	.of(
+		yup.object({
+			case_sensitive: yup.boolean().required(),
+			answer: yup.string().required('You need an answer')
+		})
+	)
+	.min(2, 'You need at least 2 answers')
+	.max(16, "You can't have more than 16 answers");
+
 export const dataSchema = yup.object({
 	public: yup.boolean().required(),
 	type: yup.string(),
@@ -75,20 +75,15 @@ export const dataSchema = yup.object({
 					.lowercase(),
 				answers: yup.lazy((v) => {
 					if (Array.isArray(v)) {
-						try {
-							if (typeof v[0].right === 'boolean') {
-								console.log('ABCDQuestionSchema');
-								return ABCDQuestionSchema;
-							} else if (v[0].answer !== undefined) {
-								console.log('VotingQuestionSchema');
-								return VotingQuestionSchema;
-							} else {
-								console.log('SlideQuestionSchema');
-								return yup.string().required().nullable();
-							}
-						} catch {
-							console.log('SlideQuestionSchema');
-							return yup.string().required("The slide mustn't be empty").nullable();
+						if (typeof v[0].right === 'boolean') {
+							console.log('ABCDQuestionSchema');
+							return ABCDQuestionSchema;
+						} else if (typeof v[0].case_sensitive === 'boolean') {
+							console.log('TextQuestionSchema');
+							return TextQuestionSchema;
+						} else if (v[0].answer !== undefined) {
+							console.log('VotingQuestionSchema');
+							return VotingQuestionSchema;
 						}
 					} else if (typeof v === 'string' || v instanceof String) {
 						return yup.string().required("The slide mustn't be empty").nullable();

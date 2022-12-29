@@ -218,7 +218,7 @@
 							and {question.answers.max_correct} are correct, where numbers between {question
 								.answers.min} and {question.answers.max} can be selected.
 						</p>
-					{:else if question.type === QuizQuestionType.VOTING}
+					{:else if question.type === QuizQuestionType.VOTING || question.type === QuizQuestionType.TEXT}
 						<div class="grid grid-cols-2 gap-4 m-4 p-6">
 							{#each question.answers as answer, index_answer}
 								<div class="p-1 rounded-lg py-4 dark:bg-gray-500 bg-gray-300">

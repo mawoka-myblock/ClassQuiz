@@ -39,6 +39,7 @@
 	}
 	let slider_values = [question.answers.min_correct ?? 0, question.answers.max_correct ?? 0];
 
+	let text_input;
 	timer(question.time);
 </script>
 
@@ -125,7 +126,7 @@
 				</div>
 				<div class="flex justify-center">
 					<button
-						class="w-1/2 text-3xl bg-[#B07156] my-2 disabled:opacity-60 border border-white"
+						class="w-1/3 text-3xl bg-[#B07156] my-2 disabled:opacity-60 rounded-lg p-1 transition"
 						disabled={selected_answer !== undefined}
 						on:click={() => {
 							selected_answer = slider_value[0];
@@ -158,5 +159,33 @@
 				<svelte:component this={c.default} bind:question />
 			</div>
 		{/await}
+	{:else if question.type === QuizQuestionType.TEXT}
+		{#if timer_res === '0'}
+			{#each question.answers as answer, i}
+				<div
+					class="p-2 rounded-lg flex justify-center w-full transition bg-gray-200 my-5 text-black"
+				>
+					{answer.answer}
+				</div>
+			{/each}
+		{:else}
+			<div class="flex justify-center mt-2">
+				<input
+					type="text"
+					bind:value={text_input}
+					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center"
+				/>
+			</div>
+			<div class="flex justify-center">
+				<button
+					disabled={!text_input}
+					class="w-1/3 text-3xl bg-[#B07156] my-2 disabled:opacity-60 rounded-lg p-1 transition"
+					on:click={() => {
+						selected_answer = text_input;
+						timer_res = '0';
+					}}>{$t('words.submit')}</button
+				>
+			</div>
+		{/if}
 	{/if}
 </div>

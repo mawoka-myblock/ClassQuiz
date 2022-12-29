@@ -248,6 +248,21 @@
 						</div>
 					{/each}
 				</div>
+			{:else if quiz_data.questions[selected_question].type === QuizQuestionType.TEXT}
+				{#if timer_res === '0'}
+					<div class="grid grid-cols-2 gap-2 w-full p-4">
+						{#each quiz_data.questions[selected_question].answers as answer, i}
+							<div class="rounded-lg h-fit flex bg-[#B07156]">
+								<span class="text-center text-2xl px-2 py-4 w-full text-black"
+									>{answer.answer}</span
+								>
+								<span class="pl-4 w-10" />
+							</div>
+						{/each}
+					</div>
+				{:else}
+					<p>Enter your answer into the input field!</p>
+				{/if}
 			{/if}
 		{/if}
 	{/if}
