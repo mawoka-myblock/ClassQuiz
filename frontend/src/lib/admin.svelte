@@ -261,7 +261,9 @@
 						{/each}
 					</div>
 				{:else}
-					<p>Enter your answer into the input field!</p>
+					<div class="flex justify-center">
+						<p class="text-2xl">Enter your answer into the input field!</p>
+					</div>
 				{/if}
 			{/if}
 		{/if}

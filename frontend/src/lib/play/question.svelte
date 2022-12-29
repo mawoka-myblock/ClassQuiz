@@ -190,7 +190,16 @@
 				</div>
 			{/await}
 		{:else if question.type === QuizQuestionType.TEXT}
-			<input bind:value={text_input} />
+			<div class="flex justify-center">
+				<p class="text-black dark:text-white">Enter your answer</p>
+			</div>
+			<div class="flex justify-center m-2">
+				<input
+					type="text"
+					bind:value={text_input}
+					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center"
+				/>
+			</div>
 
 			<div class="flex justify-center">
 				<button
