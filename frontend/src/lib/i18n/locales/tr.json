@@ -4,7 +4,7 @@
         "features_description": {
             "1": "ClassQuiz quiz oluşturmanıza ve yönetmenize olanak sağlayan bir quiz platformudur.",
             "2": "Ana özelliği Kahoot! quizlerinden quizleri içe aktarmanıza olanak tanıyan bir Kahoot!-içe aktarma fonksiyonudur.",
-            "3": "Kullanımı kolay editör, quiz sonuçlarını Excel dosyası olarak dışarıya aktaran fonksiyonuyla önemlidir."
+            "3": "Editör ve quiz sonuçlarını Excel dosyaları olarak dışa aktarma fonksiyonu, bu yazılımın önemli özellikleridir."
         },
         "meta": {
             "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için Kahoot!'a benzer bir quiz uygulamasıdır",
@@ -24,7 +24,7 @@
         "completely_free": "Tamamen Ücretsiz",
         "quiz_results_downloadable": "Quiz sonuçları indirilebilir",
         "multilingual": "Çok dilli",
-        "no_tracking_content": "Kahoot en az 2 Amerikan üçüncü taraflarla sizi takip eder ve ClassQuiz hiçbir üçüncü tarafla takip etmez!",
+        "no_tracking_content": "Kahoot! en az iki Amerikan üçüncü taraflarla sizi takip eder, oysaki ClassQuiz bunu yapmaz!",
         "german_server": "Alman Sunucusu",
         "user_friendly": "Kullanıcı Dostu",
         "list_winners": "Kazananları listele",
@@ -34,17 +34,21 @@
         "import_quiz_from_kahoot_and_edit": "Kahoot! sitesinden bir quizi içeri aktar ve ClassQuiz'de düzenle",
         "play_quiz": "2. Quizi oyna",
         "check_if_chosen_wisely": "Akıllıca seçip seçmediğini kontrol et",
-        "completely_free_content": "ClassQuiz, herhangi bir paralı plan veya yükseltme sayfasına rahatsız edici yönlendirmeler olmaksızın tamamen ücretsizdir. Bir bağış yine de makbule geçer!",
+        "completely_free_content": "ClassQuiz, herhangi bir paralı plan veya yükseltme sayfasına rahatsız edici yönlendirmeler olmaksızın tamamen ücretsizdir (kullanıcı için). Bağışlar oldukça makbule geçer.",
         "quiz_results_downloadable_content": "Quiz sonuçları kolayca bir Excel tablosuyla dışarı aktarılabilir. (Diğerlerinin bunu yapamadığını bilmiyordum)",
-        "multilingual_content": "ClassQuiz halihazırda İngilizce, Almanca, Türkçe, Fransızca ve İtalyancaya tamamen çevrilmiştir. Ayrıca Endonezce ve Katalancaya da kısmen çevrilmiştir.",
+        "multilingual_content": "ClassQuiz Türkçe, İngilizce, Fransızca, Almanca ve Norveççe (Bokmål) dillerinde mevcuttur. Ayrıca Endonezce ve Katalanca dillerinde de kısmen mevcuttur.",
         "find_or_explore": "Başkaları tarafından yapılmış veya içe aktarılmış quizleri bul (veya keşfet)",
         "no_tracking": "Takip Yok",
         "self_hostable_content": "ClassQuiz kolayca self-hostlanabilir, yani veri sadece sizin kontrolünüz altındadır!",
-        "user_friendly_content": "ClassQuiz olabildiğince kullanıcı dostu olmaya çalışır, dolayısıyla kullanımı herkes için kolaydır",
+        "user_friendly_content": "ClassQuiz basit olmayı hedefler, dolayısıyla herkes tarafından kullanılabilir.",
         "self_hostable": "Self-Host Edilebilir",
         "get_a_quiz": "1. Quiz bul",
         "create_a_quiz_from_scratch": "Editörle sıfırdan bir quiz oluştur, resimleri ve daha fazlasını ekle",
-        "dark_mode_content": "Bir sitenin sahip olabileceği en önemli özelliklerden biri!"
+        "dark_mode_content": "Bir sitenin sahip olabileceği en önemli özelliklerden biri!",
+        "community_driven_content": "ClassQuiz fonlama, fikirleri test etme, özellik istekleri, çeviriler ve daha fazlası için kendi topluluğuna bağlıdır! Siz de ClassQuiz topluluğunun bir parçası olabilirsiniz!",
+        "community_driven": "Topluluk güdümlü",
+        "download_quizzes": "Quizleri İndir",
+        "download_quizzes_content": "Quizler bir dosya olarak indirilebilir ve her zaman içe aktarılabilir. Bu ayrıca quizlerinizi diğer ClassQuiz sunucularına taşımanıza da olanak sağlar."
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
@@ -52,29 +56,29 @@
         "modal": {
             "success": {
                 "description": {
-                    "success": "Başarıyla giriş yapıldı!",
-                    "success_check_mail": "Giriş yapmak için tıklayabileceğiniz bir bağlantı içeren bir e-posta almış olmanız gerektiğinden, lütfen posta kutunuzu kontrol edin."
+                    "success": "Giriş yapıldı.",
+                    "success_check_mail": "Giriş yapmak için tıklayabileceğiniz bir bağlantı içeren bir e-posta için lütfen e-postanızın gelen kutusunu kontrol edin."
                 },
-                "success": "Giriş Başarılı!",
-                "success_check_mail": "Giriş Başarılı! Posta kutunuzu kontrol edin!"
+                "success": "Giriş yapıldı.",
+                "success_check_mail": "Giriş yapıldı. E-postanızın gelen kutusunu kontrol edin."
             },
             "error": {
                 "unexpected": "Beklenmedik hata!",
-                "wrong_creds": "Yanlış e-posta veya şifre!",
+                "wrong_creds": "Yanlış e-posta adresi veya şifre.",
                 "description": {
                     "unexpected": "Burada güvenilir beklenmedik hata vardı!",
-                    "wrong_creds": "Lütfen şifrenizin ve e-postanızın doğru olduğundan emin olun!"
+                    "wrong_creds": "Lütfen şifrenizin ve e-posta adresinin doğru olduğundan emin olun."
                 }
             }
         },
-        "welcome_back": "Tekrar hoş geldiniz!"
+        "welcome_back": "Tekrar hoş geldiniz."
     },
     "words": {
         "answer": "Cevap",
         "question": "Soru",
         "browser": "Tarayıcı",
-        "login": "Giriş Yap",
-        "email": "E-posta",
+        "login": "Giriş yap",
+        "email": "E-posta adresi",
         "username": "Kullanıcı adı",
         "password": "Şifre",
         "title": "Başlık",
@@ -89,7 +93,7 @@
         "start": "Başlat",
         "create": "Oluştur",
         "import": "İçe Aktar",
-        "logout": "Çıkış Yap",
+        "logout": "Çıkış yap",
         "stats": "İstatistikler",
         "features": "Özellikler",
         "play": "Oyna",
@@ -124,7 +128,8 @@
         "voting": "Oylama",
         "error": "Hata",
         "practice": "Alıştırma",
-        "find": "Bul"
+        "find": "Bul",
+        "download": "İndir"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -134,18 +139,18 @@
     },
     "create_page": {
         "success": {
-            "title": "Başarıyla quiz oluşturuldu!",
-            "body": "Quiz başarıyla oluşturuldu!"
+            "title": "Quiz oluşturuldu.",
+            "body": "Oyunlar başlasın."
         }
     },
     "edit_page": {
         "success_update_body": "Quiz başarıyla güncellendi!",
-        "success_update_title": "Başarıyla quiz güncellendi!"
+        "success_update_title": "Quiz güncellendi."
     },
     "overview_page": {
         "question_count": "Soru sayısı",
         "created_at": "Oluşturulduğu tarih:",
-        "no_quizzes": "Görünüşe göre hiçbir quiziniz yok. Bu durumu değiştirmek mi istiyorsunuz? \"Oluştur\" düğmesine tıklayın veya KAHOOT!'tan bir quizi içe aktarın!"
+        "no_quizzes": "Başlamak için \"Oluştur\" düğmesine tıklayın veya Kahoot'tan bir quizi içe aktarın."
     },
     "admin_page": {
         "already_registered_as_admin": "Bu oyun için halihazırda kaydolmuş bir yönetici var.",
@@ -156,7 +161,7 @@
         "time_left": "Kalan süre",
         "export_results": "Sonuçları dışa aktar",
         "show_next_question": "Bir sonraki soruyu göster",
-        "start_by_showing_first_question": "İlk soruyu göstererek başla!",
+        "start_by_showing_first_question": "İlk soruyu göstererek başla.",
         "no_answers": "Cevap yok!",
         "stop_time": "Zamanı durdur"
     },
@@ -171,7 +176,13 @@
     },
     "import_page": {
         "visit_docs": "Dokümantasyonu ziyaret edin",
-        "need_help": "Yardıma mı ihtiyacınız var?"
+        "need_help": "Yardıma mı ihtiyacınız var?",
+        "url_should_look_like_this": "URL şunun gibi görünmelidir: https://create.kahoot.it/details/...",
+        "a_kahoot_quiz": "Bir Kahoot! Quizi",
+        "side_import_kahoot": "Bu tarafta, Kahoot! üzerinde bulunan quizleri içe aktarabilirsiniz.",
+        "classquiz_quiz": "Bir ClassQuiz Quizi",
+        "upload_file_ending": "Sonu .cpa ile biten dosyayı yükleyin",
+        "this_side_classquiz": "Bu tarafta, ClassQuiz'den dışa aktarılan sınavları içe aktarabilirsiniz."
     },
     "password_reset_page": {
         "reset_password": "Şifreyi sıfırla"
@@ -191,7 +202,8 @@
         "imported_by": "İçeri aktaran kullanıcı:"
     },
     "search_page": {
-        "at_least_3_characters": "En az 3 karakter gir..."
+        "at_least_3_characters": "En az 3 karakter gir...",
+        "nothing_here": "Burada hiçbir şey yok..."
     },
     "play_page": {
         "with_out_of": "{{total_question_count}} üzerinden {{correct_questions}} ile",
@@ -215,5 +227,8 @@
     "error_page": {
         "404_text": "Aradığınız sayfa gitmiş veya hiç olmamış bile. Kim bilir?",
         "unknown_error_text": "Bu gerçekleşmemeliydi. Muhtemelen benim hatam, sizin değil, ama belki sizde de bir şeyleri kırabilecek büyülü bir güç var..."
+    },
+    "uploader": {
+        "add_image": "Resim ekle"
     }
 }
