@@ -78,7 +78,7 @@
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg"
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
 					style="background-color: {answer.color ?? 'transparent'}"
 					placeholder="Empty..."
 				/>
