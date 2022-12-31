@@ -239,7 +239,7 @@
 					and {question.answers.max_correct} are correct, where numbers between {question
 						.answers.min} and {question.answers.max} can be selected.
 				</p>
-			{:else if question.type === QuizQuestionType.VOTING}
+			{:else if question.type === QuizQuestionType.VOTING || question.type === QuizQuestionType.TEXT}
 				{#if Array.isArray(question.answers)}
 					<div class="grid grid-cols-2 gap-2">
 						{#each question.answers as answer}
