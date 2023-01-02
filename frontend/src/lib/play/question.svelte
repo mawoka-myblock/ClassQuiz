@@ -11,6 +11,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { kahoot_icons } from './kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
+	import { flip } from 'svelte/animate';
 
 	const { t } = getLocalization();
 
@@ -72,6 +73,18 @@
 		});
 	};
 
+	const select_complex_answer = (data) => {
+		const new_array = [];
+		for (let i = 0; i < data.length; i++) {
+			new_array.push({ answer: data[i].answer });
+		}
+		socket.emit('submit_answer', {
+			question_index: question_index,
+			answer: 'a',
+			complex_answer: new_array
+		});
+	};
+
 	let text_input = '';
 
 	let slider_value = [0];
@@ -86,6 +99,20 @@
 			selected_answer = `${slider_value[0]}`;
 			selectAnswer(selected_answer);
 		}
+	};
+
+	if (question.type === QuizQuestionType.ORDER) {
+		for (let i = 0; i < question.answers.length; i++) {
+			question.answers[i] = { ...question.answers[i], id: i };
+		}
+	}
+
+	const swapArrayElements = (arr, a: number, b: number) => {
+		let _arr = [...arr];
+		let temp = _arr[a];
+		_arr[a] = _arr[b];
+		_arr[b] = temp;
+		return _arr;
 	};
 	$: set_answer_if_not_set_range(timer_res);
 	let circular_prgoress = 0;
@@ -213,45 +240,122 @@
 					{$t('words.submit')}
 				</button>
 			</div>
-		{/if}
-	{:else if question.type === QuizQuestionType.ABCD}
-		{#if solution === undefined}
-			<Spinner />
-		{:else}
-			<div class="grid grid-cols-2 gap-2 w-full p-4">
-				{#each solution.answers as answer}
-					{#if answer.right}
-						<button
-							class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-green-600"
-							disabled
-							class:opacity-30={answer.answer !== selected_answer}
-							>{answer.answer}</button
-						>
+		{:else if question.type === QuizQuestionType.ABCD}
+			{#if solution === undefined}
+				<Spinner />
+			{:else}
+				<div class="grid grid-cols-2 gap-2 w-full p-4">
+					{#each solution.answers as answer}
+						{#if answer.right}
+							<button
+								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-green-600"
+								disabled
+								class:opacity-30={answer.answer !== selected_answer}
+								>{answer.answer}</button
+							>
+						{:else}
+							<button
+								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-red-500"
+								disabled
+								class:opacity-30={answer.answer !== selected_answer}
+								>{answer.answer}</button
+							>
+						{/if}
+					{/each}
+				</div>
+			{/if}
+		{:else if question.type === QuizQuestionType.RANGE}
+			{#if solution === undefined}
+				<Spinner />
+			{:else}
+				<p class="text-center">
+					Every number between {solution.answers.min_correct} and {solution.answers
+						.max_correct} was correct. You got {selected_answer}, so you have been
+					{#if solution.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= solution.answers.max_correct}
+						correct
 					{:else}
-						<button
-							class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-red-500"
-							disabled
-							class:opacity-30={answer.answer !== selected_answer}
-							>{answer.answer}</button
-						>
+						wrong.
 					{/if}
+				</p>
+			{/if}
+		{:else if question.type === QuizQuestionType.ORDER}
+			<!--			{#if solution === undefined}
+							<Spinner />
+						{:else}-->
+			<div class="flex flex-col w-full h-full gap-4 px-4 py-6">
+				{#each question.answers as answer, i (answer.id)}
+					<div
+						class="w-full h-fit flex-row rounded-lg p-2 align-middle"
+						animate:flip={{ duration: 100 }}
+						style="background-color: {answer.color ?? '#b07156'}"
+					>
+						<button
+							on:click={() => {
+								question.answers = swapArrayElements(question.answers, i, i - 1);
+							}}
+							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							type="button"
+							disabled={i === 0}
+						>
+							<svg
+								class="w-8 h-8"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="currentColor"
+							>
+								<path
+									d="M12 22a2 2 0 110-4 2 2 0 010 4zM12 15V2m0 0l3 3m-3-3L9 5"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</button>
+						<p class="w-full text-center p-2 text-2xl">{answer.answer}</p>
+
+						<button
+							on:click={() => {
+								question.answers = swapArrayElements(question.answers, i, i + 1);
+							}}
+							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							type="button"
+							disabled={i === question.answers.length - 1}
+						>
+							<svg
+								class="w-8 h-8"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+								color="currentColor"
+							>
+								<path
+									d="M12 6a2 2 0 110-4 2 2 0 010 4zM12 9v13m0 0l3-3m-3 3l-3-3"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</button>
+					</div>
 				{/each}
+				<button
+					class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-lg mt-2 transition w-full"
+					type="button"
+					on:click={() => {
+						select_complex_answer(question.answers);
+					}}
+				>
+					{$t('words.submit')}
+				</button>
 			</div>
+			<!--{/if}-->
 		{/if}
-	{:else if question.type === QuizQuestionType.RANGE}
-		{#if solution === undefined}
-			<Spinner />
-		{:else}
-			<p class="text-center">
-				Every number between {solution.answers.min_correct} and {solution.answers
-					.max_correct} was correct. You got {selected_answer}, so you have been
-				{#if solution.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= solution.answers.max_correct}
-					correct
-				{:else}
-					wrong.
-				{/if}
-			</p>
-		{/if}
+
 		<!--{:else if question.type === QuizQuestionType.VOTING}
 	{#await import('$lib/play/admin/voting_results.svelte')}
 		<Spinner />

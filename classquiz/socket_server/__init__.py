@@ -5,6 +5,7 @@ import base64
 import hashlib
 import json
 import os
+import random
 
 import aiohttp
 import socketio
@@ -248,6 +249,8 @@ async def set_question_number(sid, data: str):
             for i in range(len(temp_return["answers"])):
                 temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
         temp_return["type"] = game_data.questions[int(float(data))].type
+        if temp_return["type"] == QuizQuestionType.ORDER:
+            random.shuffle(temp_return["answers"])
         # print("emitting")
         await sio.emit(
             "set_question_number",
@@ -259,9 +262,14 @@ async def set_question_number(sid, data: str):
         )
 
 
+class _SubmitAnswerDataOrderType(BaseModel):
+    answer: str
+
+
 class _SubmitAnswerData(BaseModel):
     question_index: int
     answer: str
+    complex_answer: list[_SubmitAnswerDataOrderType] | None
 
 
 class _AnswerData(BaseModel):
@@ -303,6 +311,18 @@ async def submit_answer(sid: str, data: dict):
             answer_right = True
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
         answer_right = False
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ORDER:
+        if data.complex_answer is None:
+            answer_right = False
+        else:
+            question = game_data.questions[int(float(data.question_index))]
+            correct_answers = []
+            for a in question.answers:
+                correct_answers.append({"answer": a.answer})
+            print(data.dict()["complex_answer"], correct_answers)
+            if correct_answers == data.dict()["complex_answer"]:
+                answer_right = True
+
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
         answer_right = False
         for q in game_data.questions[int(float(data.question_index))].answers:

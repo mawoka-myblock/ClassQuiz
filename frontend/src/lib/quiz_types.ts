@@ -30,7 +30,8 @@ export enum QuizQuestionType {
 	RANGE = 'RANGE', // eslint-disable-line no-unused-vars
 	VOTING = 'VOTING', // eslint-disable-line no-unused-vars
 	SLIDE = 'SLIDE', // eslint-disable-line no-unused-vars
-	TEXT = 'TEXT' // eslint-disable-line no-unused-vars
+	TEXT = 'TEXT', // eslint-disable-line no-unused-vars
+	ORDER = 'ORDER' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {
@@ -45,12 +46,24 @@ export interface TextQuizAnswer {
 	case_sensitive: boolean;
 }
 
+export interface OrderQuizAnswer {
+	answer: string;
+	color?: string;
+	id?: number;
+}
+
 export interface Question {
 	time: string;
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers: Answer[] | RangeQuizAnswer | VotingAnswer[] | string | TextQuizAnswer[];
+	answers:
+		| Answer[]
+		| RangeQuizAnswer
+		| VotingAnswer[]
+		| string
+		| TextQuizAnswer[]
+		| OrderQuizAnswer[];
 }
 
 export interface Answer {

@@ -116,6 +116,7 @@ class QuizQuestionType(str, Enum):
     VOTING = "VOTING"
     SLIDE = "SLIDE"
     TEXT = "TEXT"
+    ORDER = "ORDER"
 
 
 class TextQuizAnswer(BaseModel):
@@ -140,6 +141,8 @@ class QuizQuestion(BaseModel):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
         if values["type"] == QuizQuestionType.TEXT and type(v[0]) != TextQuizAnswer:
             raise ValueError("Answer must be from type TextQuizAnswer if type is TEXT")
+        if values["type"] == QuizQuestionType.ORDER and type(v[0]) != VotingQuizAnswer:
+            raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
         if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != str:
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
         return v
