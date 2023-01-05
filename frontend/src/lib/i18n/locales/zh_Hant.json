@@ -1,1 +1,186 @@
-{}
+{
+    "index_page": {
+        "meta": {
+            "title": "首頁"
+        },
+        "slogan": "開源的測驗平台！",
+        "create_or_import": "建立或匯入",
+        "see_all_quizzes": "查看你所有的測驗",
+        "teachers_site": "教師頁面",
+        "students_site": "學生頁面",
+        "no_tracking": "零追蹤",
+        "self_hostable": "可自行架設",
+        "german_server": "德國伺服器",
+        "user_friendly": "易於使用",
+        "completely_free": "完全免費",
+        "multilingual": "多語言",
+        "dark_mode": "深色模式",
+        "get_a_quiz": "1. 取得測驗",
+        "create_a_quiz_from_scratch": "使用編輯器建立測驗並加入圖片和更多內容",
+        "import_quiz_from_kahoot_and_edit": "從 Kahoot! 匯入測驗並在 ClassQuiz 上進行編輯",
+        "play_quiz": "2. 遊玩測驗",
+        "select_answer": "選擇答案",
+        "choose_answer_wisely": "明智地選擇你的答案",
+        "view_results": "檢視結果",
+        "check_if_chosen_wisely": "驗證你的選擇是否正確",
+        "list_winners": "列出贏家",
+        "get_ranking_and_winners": "取得排名和贏家",
+        "why_classquiz": "為什麼選擇 ClassQuiz？",
+        "download_quizzes": "下載測驗",
+        "stats": "ClassQuiz 上已有 {{user_count}} 位使用者和 {{quiz_count}} 個測驗。",
+        "features_description": {
+            "1": "ClassQuiz 是一個可以讓你建立和管理測驗的測驗平台。"
+        },
+        "quiz_results_downloadable": "可被下載的測驗結果",
+        "find_or_explore": "搜尋 (或瀏覽) 其他人建立和匯入的測驗",
+        "no_tracking_content": "Kahoot! 會追蹤並將你的資料分享給第三方，但 ClassQuiz 不會。"
+    },
+    "edit_page": {
+        "success_update_title": "測驗已更新。"
+    },
+    "create_page": {
+        "success": {
+            "title": "測驗已建立。",
+            "body": "讓遊戲開始吧。"
+        }
+    },
+    "register_page": {
+        "create_account": "建立帳戶",
+        "forgot_password?": "忘記密碼？",
+        "already_have_account?": "已經擁有帳戶？",
+        "greeting": "很高興見到你！"
+    },
+    "login_page": {
+        "login_or_create_account": "登入或建立帳戶",
+        "already_have_account": "沒有帳戶？",
+        "modal": {
+            "error": {
+                "wrong_creds": "電子郵件地址或密碼錯誤。",
+                "unexpected": "非預期錯誤！",
+                "description": {
+                    "wrong_creds": "請確認你的密碼和電子郵件地址是否正確。"
+                }
+            },
+            "success": {
+                "success": "已登入。",
+                "success_check_mail": "已登入。請檢查你的電子信箱收件匣。"
+            }
+        },
+        "welcome_back": "歡迎回來。",
+        "use_backup_code": "使用備用代碼"
+    },
+    "editor": {
+        "delete_question": "刪除問題",
+        "add_new_question": "新增問題",
+        "delete_answer": "刪除答案",
+        "add_new_answer": "新增答案"
+    },
+    "import_page": {
+        "need_help": "需要幫助？"
+    },
+    "admin_page": {
+        "start_game": "開始遊戲",
+        "get_results": "取得結果",
+        "get_results_and_stop_time": "取得結果並停止計時",
+        "get_final_results": "取得最終結果",
+        "export_results": "匯出結果",
+        "show_next_question": "顯示下一個問題",
+        "time_left": "剩餘時間",
+        "stop_time": "停止計時"
+    },
+    "password_reset_page": {
+        "reset_password": "重設密碼"
+    },
+    "settings_page": {
+        "old_password": "舊密碼",
+        "new_password": "新密碼",
+        "repeat_password": "再次輸入密碼",
+        "change_password_submit": "變更密碼！",
+        "check_location": "檢查位置"
+    },
+    "explore_page": {
+        "made_by": "作者為",
+        "imported_by": "匯入者為"
+    },
+    "play_page": {
+        "2nd_place": "第二名",
+        "3rd place": "第三名",
+        "with_out_of": "{{total_question_count}} 題中答對 {{correct_questions}} 題",
+        "1st_place": "第一名"
+    },
+    "editor_page": {
+        "add_an_answer": "新增一個答案",
+        "right_click_to_delete": "右鍵點擊一個答案即可將它刪除！"
+    },
+    "footer": {
+        "more_details_here": "更多詳細資訊"
+    },
+    "uploader": {
+        "add_image": "新增圖片"
+    },
+    "words": {
+        "find": "尋找",
+        "question": "問題",
+        "answer": "答案",
+        "stats": "統計資料",
+        "features": "功能",
+        "login": "登入",
+        "email": "電子郵件地址",
+        "username": "使用者名稱",
+        "password": "密碼",
+        "edit": "編輯",
+        "delete": "刪除",
+        "public": "公開",
+        "create": "建立",
+        "import": "匯入",
+        "logout": "登出",
+        "title": "標題",
+        "url": "URL",
+        "submit": "提交",
+        "pin": "PIN",
+        "kick": "踢出",
+        "register": "註冊",
+        "close": "關閉",
+        "save": "儲存",
+        "description": "描述",
+        "image": "圖片",
+        "settings": "設定",
+        "repeat_password": "再次輸入密碼",
+        "explore": "發現",
+        "screenshot": "螢幕截圖",
+        "screenshot_plural": "螢幕截圖",
+        "browser": "瀏覽器",
+        "correct": "正確",
+        "result": "結果",
+        "result_plural": "結果",
+        "range": "範圍",
+        "multiple_choice": "選擇題",
+        "private": "私人",
+        "dashboard": "儀錶板",
+        "question_plural": "問題",
+        "game_pin": "遊戲 PIN",
+        "other": "其他",
+        "search": "搜尋",
+        "other_plural": "其他",
+        "download": "下載",
+        "voting": "投票",
+        "docs": "文件",
+        "donating": "贊助",
+        "practice": "練習",
+        "error": "錯誤",
+        "continue": "繼續",
+        "backup_code": "備用代碼",
+        "totp": ""
+    },
+    "search_page": {
+        "at_least_3_characters": "輸入至少 3 個字元..."
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "搜尋你的測驗"
+    },
+    "overview_page": {
+        "created_at": "建立於",
+        "question_count": "問題數",
+        "no_quizzes": "點擊「建立」按鈕或從 Kahoot! 匯入測驗。"
+    }
+}
