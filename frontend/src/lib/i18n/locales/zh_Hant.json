@@ -1,7 +1,8 @@
 {
     "index_page": {
         "meta": {
-            "title": "首頁"
+            "title": "首頁",
+            "description": "ClassQuiz 是一款為學生設計的似 Kahoot! 測驗應用程式，不僅開源還免費"
         },
         "slogan": "開源的測驗平台！",
         "create_or_import": "建立或匯入",
@@ -29,7 +30,8 @@
         "download_quizzes": "下載測驗",
         "stats": "ClassQuiz 上已有 {{user_count}} 位使用者和 {{quiz_count}} 個測驗。",
         "features_description": {
-            "1": "ClassQuiz 是一個可以讓你建立和管理測驗的測驗平台。"
+            "1": "ClassQuiz 是一個可以讓你建立和管理測驗的測驗平台。",
+            "2": "最主要的功能之一是允許你匯入 Kahoot! 上的測驗。"
         },
         "quiz_results_downloadable": "可被下載的測驗結果",
         "find_or_explore": "搜尋 (或瀏覽) 其他人建立和匯入的測驗",
