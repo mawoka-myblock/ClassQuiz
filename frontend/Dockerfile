@@ -32,7 +32,7 @@ RUN pnpm run build
 
 ### Serve Step
 # pull the Node.js Docker image
-FROM node:18.5-bullseye-slim
+FROM node:18.13-bullseye-slim
 
 # change working directory
 WORKDIR /app
