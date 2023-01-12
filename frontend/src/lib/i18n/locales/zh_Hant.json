@@ -35,7 +35,10 @@
         },
         "quiz_results_downloadable": "可被下載的測驗結果",
         "find_or_explore": "搜尋 (或瀏覽) 其他人建立和匯入的測驗",
-        "no_tracking_content": "Kahoot! 會追蹤並將你的資料分享給第三方，但 ClassQuiz 不會。"
+        "no_tracking_content": "Kahoot! 會追蹤並將你的資料分享給第三方，但 ClassQuiz 不會。",
+        "user_friendly_content": "ClassQuiz 旨在簡單，每個人都可以輕鬆使用。",
+        "dark_mode_content": "一個網站最重要的功能之一！",
+        "german_server_content": "ClassQuiz 的伺服器位於德國，並由 netcup 提供。"
     },
     "edit_page": {
         "success_update_title": "測驗已更新。"
@@ -65,7 +68,10 @@
             },
             "success": {
                 "success": "已登入。",
-                "success_check_mail": "已登入。請檢查你的電子信箱收件匣。"
+                "success_check_mail": "已登入。請檢查你的電子信箱收件匣。",
+                "description": {
+                    "success": "已登入。"
+                }
             }
         },
         "welcome_back": "歡迎回來。",
