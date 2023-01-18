@@ -322,6 +322,7 @@ async def submit_answer(sid: str, data: dict):
             print(data.dict()["complex_answer"], correct_answers)
             if correct_answers == data.dict()["complex_answer"]:
                 answer_right = True
+        # TODO Set data.answer to a real value for export
 
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
         answer_right = False

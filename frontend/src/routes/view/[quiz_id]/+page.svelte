@@ -218,6 +218,16 @@
 							and {question.answers.max_correct} are correct, where numbers between {question
 								.answers.min} and {question.answers.max} can be selected.
 						</p>
+					{:else if question.type === QuizQuestionType.ORDER}
+						<ul class="flex flex-col gap-4 m-4 p-6">
+							{#each question.answers as answer}
+								<li class="p-1 rounded-lg py-3 dark:bg-gray-500 bg-gray-300">
+									<h4 class="text-center">
+										{answer.answer}
+									</h4>
+								</li>
+							{/each}
+						</ul>
 					{:else if question.type === QuizQuestionType.VOTING || question.type === QuizQuestionType.TEXT}
 						<div class="grid grid-cols-2 gap-4 m-4 p-6">
 							{#each question.answers as answer, index_answer}

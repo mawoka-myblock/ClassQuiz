@@ -56,7 +56,7 @@
 	<div class="flex flex-col w-full px-8" bind:this={parent_el}>
 		{#each data.questions[selected_question].answers as answer, i (answer.id)}
 			<div
-				animate:flip
+				animate:flip={{ duration: 200 }}
 				out:fade={{ duration: 150 }}
 				class="p-4 rounded-lg flex justify-center w-full transition relative border border-gray-600 flex-row gap-4 m-2"
 			>
