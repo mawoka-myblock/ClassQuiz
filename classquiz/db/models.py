@@ -132,6 +132,7 @@ class QuizQuestion(BaseModel):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
+        # print(values)
         if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswer:
             raise ValueError("Answers can't be none if type is ABCD")
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:

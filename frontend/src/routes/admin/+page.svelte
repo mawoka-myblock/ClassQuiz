@@ -172,7 +172,7 @@
 			<img
 				alt="QR code to join the game"
 				src="/api/v1/utils/qr/{quiz_data.game_pin}?dark_mode={bg_color ? false : darkMode}"
-				class="block mx-auto w-1/6"
+				class="block mx-auto w-1/6 mt-12"
 			/>
 			<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
 			<div class="flex justify-center w-full mt-4">
