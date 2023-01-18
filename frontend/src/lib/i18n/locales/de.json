@@ -17,7 +17,7 @@
         "see_all_quizzes": "Sieh all deine Quizze",
         "students_site": "Seite der Schüler*innen",
         "teachers_site": "Seite der Lehrer*innen",
-        "no_tracking_content": "Kahoot! trackt mit mindestens 2 amerikanischen Drittanbietern und ClassQuiz trackt gar nicht mit Drittanbietern!",
+        "no_tracking_content": "Kahoot! trackt mit mindestens zwei amerikanischen Drittanbietern und ClassQuiz trackt gar nicht mit Drittanbietern!",
         "quiz_results_downloadable_content": "Quiz-Ergebnisse können einfach in Form einer Excel-Tabelle heruntergeladen werden (Wusste gar nicht, dass andere dies nicht können).",
         "multilingual_content": "ClassQuiz ist jetzt schon komplett in Englisch, Deutsch, Türkisch, Französisch, norwegischem Bokmål und Italienisch verfügbar, wobei es auch teilweise in Indonesisch und Katalanisch verfügbar ist.",
         "no_tracking": "Kein Tracking",
@@ -92,7 +92,8 @@
                     "unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
                 }
             }
-        }
+        },
+        "use_backup_code": "Backup-Code benutzen"
     },
     "words": {
         "question": "Frage",
@@ -150,7 +151,10 @@
         "practice": "Üben",
         "error": "Fehler",
         "voting": "Umfrage",
-        "download": "Herunterladen"
+        "download": "Herunterladen",
+        "continue": "Weiter",
+        "totp": "TOTP",
+        "backup_code": "Backup-Code"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
