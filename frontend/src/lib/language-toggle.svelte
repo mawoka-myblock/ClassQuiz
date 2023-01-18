@@ -47,7 +47,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import zh_Hant from '$lib/i18n/locales/zh_Hant.json';
 
 	export let languages: Array<{
 		flag: string;
