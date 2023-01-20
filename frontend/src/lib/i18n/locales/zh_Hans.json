@@ -1,1 +1,9 @@
-{}
+{
+    "index_page": {
+        "meta": {
+            "title": "首页",
+            "description": "ClassQuiz是提供给学生的一个类似Kahoot!的测试应用，其开源且可免费使用"
+        },
+        "slogan": "提供测试的开源平台！"
+    }
+}
