@@ -270,3 +270,12 @@ class GameInLobby(BaseModel):
     game_pin: str
     quiz_title: str
     game_id: uuid.UUID
+
+
+#
+# class UserProfileLinks(ormar.Model):
+#     id: int = ormar.Integer(primary_key=True, autoincrement=True)
+#     user: Optional[User] = ormar.ForeignKey(User)
+#     github_username: str | None = ormar.Text(nullable=True)
+#     reddit_username: str | None = ormar.Text(nullable=True)
+#     kahoot_user_id: str | None = ormar.Text(nullable=True)
