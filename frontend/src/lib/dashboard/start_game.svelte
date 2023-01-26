@@ -53,7 +53,7 @@
 		} else {
 			const data = await res.json();
 			// eslint-disable-next-line no-undef
-			plausible('Started Game', { props: { quiz_id: id } });
+			plausible('Started Game', { props: { quiz_id: id, game_id: data.game_id } });
 			window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
 		}
 	};

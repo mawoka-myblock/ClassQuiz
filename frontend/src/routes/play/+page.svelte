@@ -72,7 +72,7 @@
 	socket.on('joined_game', (data) => {
 		gameData = data;
 		// eslint-disable-next-line no-undef
-		plausible('Joined Game', { props: { quiz_id: gameData.quiz_id } });
+		plausible('Joined Game', { props: { game_id: gameData.game_id } });
 	});
 
 	socket.on('game_not_found', () => {
