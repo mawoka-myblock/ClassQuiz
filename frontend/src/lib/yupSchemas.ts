@@ -81,11 +81,15 @@ export const dataSchema = yup.object({
 						} else if (typeof v[0].case_sensitive === 'boolean') {
 							console.log('TextQuestionSchema');
 							return TextQuestionSchema;
+						} else if (v[0].id !== undefined) {
+							console.log('OrderQuestionSchema');
+							return VotingQuestionSchema;
 						} else if (v[0].answer !== undefined) {
 							console.log('VotingQuestionSchema');
 							return VotingQuestionSchema;
 						}
 					} else if (typeof v === 'string' || v instanceof String) {
+						console.log('StringQuestionSchema');
 						return yup.string().required("The slide mustn't be empty").nullable();
 					} else {
 						console.log('RangeQuestionSchema');

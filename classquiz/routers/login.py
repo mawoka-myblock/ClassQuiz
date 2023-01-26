@@ -80,7 +80,6 @@ def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session
     credential.response.client_data_json = base64.b64decode(credential.response.client_data_json + b"==")
     credential.response.authenticator_data = base64.urlsafe_b64decode(credential.response.authenticator_data + b"==")
     credential.response.signature = base64.urlsafe_b64decode(credential.response.signature + b"==")
-    print(credential)
     try:
         verify_authentication_response(
             credential=credential,

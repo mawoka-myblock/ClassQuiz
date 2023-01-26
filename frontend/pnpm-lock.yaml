@@ -23,6 +23,7 @@ specifiers:
     '@types/js-cookie': ^3.0.2
     '@types/luxon': ^2.4.0
     '@types/qrcode': ^1.5.0
+    '@types/sortablejs': ^1.15.0
     '@types/ua-parser-js': ^0.7.36
     '@typescript-eslint/eslint-plugin': ^5.48.2
     '@typescript-eslint/parser': ^5.48.2
@@ -105,6 +106,7 @@ devDependencies:
     '@types/js-cookie': 3.0.2
     '@types/luxon': 2.4.0
     '@types/qrcode': 1.5.0
+    '@types/sortablejs': 1.15.0
     '@types/ua-parser-js': 0.7.36
     '@typescript-eslint/eslint-plugin': 5.48.2_2hbgynhxm74hsb5vlfnyqgemdi
     '@typescript-eslint/parser': 5.48.2_oz6z67amphy2h47f67wll6poxm
@@ -1005,6 +1007,13 @@ packages:
         engines: { node: '>=6.0.0' }
         dev: true
 
+    /@neodrag/svelte/1.2.4:
+        resolution:
+            {
+                integrity: sha512-oGOxAgjtLbHyCJIWv35cvuHpgip9Kzn0ANrCidZb3rXV29w3AWhS7VtKAQfRinzFbmfK0Jeic7aSYdGmtKFKqw==
+            }
+        dev: true
+
     /@nodelib/fs.scandir/2.1.5:
         resolution:
             {
@@ -1418,6 +1427,13 @@ packages:
         resolution:
             {
                 integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==
+            }
+        dev: true
+
+    /@types/sortablejs/1.15.0:
+        resolution:
+            {
+                integrity: sha512-qrhtM7M41EhH4tZQTNw2/RJkxllBx3reiJpTbgWCM2Dx0U1sZ6LwKp9lfNln9uqE26ZMKUaPEYaD4rzvOWYtZw==
             }
         dev: true
 
@@ -4911,6 +4927,13 @@ packages:
             buffer-crc32: 0.2.13
             minimist: 1.2.7
             sander: 0.5.1
+        dev: true
+
+    /sortablejs/1.15.0:
+        resolution:
+            {
+                integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
+            }
         dev: true
 
     /source-map-js/1.0.2:
