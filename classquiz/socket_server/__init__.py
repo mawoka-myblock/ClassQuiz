@@ -319,7 +319,10 @@ async def submit_answer(sid: str, data: dict):
             correct_answers = []
             for a in question.answers:
                 correct_answers.append({"answer": a.answer})
-            print(data.dict()["complex_answer"], correct_answers)
+            answer_order = []
+            for a in data.dict()["complex_answer"]:
+                answer_order.append(a["answer"])
+            data.answer = ", ".join(answer_order)
             if correct_answers == data.dict()["complex_answer"]:
                 answer_right = True
         # TODO Set data.answer to a real value for export
