@@ -133,6 +133,7 @@ class QuizQuestion(BaseModel):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
+        # print(values)
         if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswer:
             raise ValueError("Answers can't be none if type is ABCD")
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
@@ -272,3 +273,12 @@ class GameInLobby(BaseModel):
     game_pin: str
     quiz_title: str
     game_id: uuid.UUID
+
+
+#
+# class UserProfileLinks(ormar.Model):
+#     id: int = ormar.Integer(primary_key=True, autoincrement=True)
+#     user: Optional[User] = ormar.ForeignKey(User)
+#     github_username: str | None = ormar.Text(nullable=True)
+#     reddit_username: str | None = ormar.Text(nullable=True)
+#     kahoot_user_id: str | None = ormar.Text(nullable=True)

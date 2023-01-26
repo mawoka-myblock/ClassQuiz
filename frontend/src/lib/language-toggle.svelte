@@ -97,6 +97,11 @@
 			code: 'nb_NO',
 			name: 'Norsk',
 			flag: '🇳🇴'
+		},
+		{
+			code: 'zh_Hant',
+			name: 'Chinese (traditional)',
+			flag: '🇨🇳'
 		}
 	];
 	const get_selected_language = (): string => {
