@@ -68,6 +68,9 @@
 	<div class="text-center">
 		<p>{@html quiz.description}</p>
 	</div>
+	<p class="text-center">
+		Made by <a href="/user/{quiz.user_id.id}" class="underline">@{quiz.user_id.username}</a>
+	</p>
 	{#if quiz.cover_image}
 		<div class="flex justify-center align-middle items-center">
 			<div class="h-[15vh] m-auto w-auto my-3">

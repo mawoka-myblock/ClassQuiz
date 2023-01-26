@@ -18,7 +18,7 @@ import bleach
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameInLobby
+from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameInLobby, QuizQuestion
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import html
 import urllib.parse
@@ -75,17 +75,28 @@ async def get_quiz_from_id(quiz_id: str, user: User | None = Depends(get_current
         return quiz
 
 
-@router.get("/get/public/{quiz_id}", response_model=Quiz)
+class PublicQuizResponseUser(BaseModel):
+    username: str
+    id: uuid.UUID
+
+
+class PublicQuizResponse(Quiz.get_pydantic()):
+    user_id: PublicQuizResponseUser
+    questions: list[QuizQuestion]
+
+
+@router.get("/get/public/{quiz_id}")
 async def get_public_quiz(quiz_id: str):
     try:
         quiz_id = uuid.UUID(quiz_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="badly formed quiz id")
-    quiz = await Quiz.objects.get_or_none(id=quiz_id)
+    quiz = await Quiz.objects.select_related("user_id").get_or_none(id=quiz_id)
+    print(quiz.dict(exclude={"user_id": {"avatar"}}))
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
-        return quiz
+        return PublicQuizResponse(**quiz.dict())
 
 
 @router.post("/start/{quiz_id}")
