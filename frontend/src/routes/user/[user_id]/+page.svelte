@@ -33,6 +33,10 @@
 	console.log(data, 'data');
 </script>
 
+<svelte:head>
+	<title>ClassQuiz - @{data.user.username}</title>
+</svelte:head>
+
 <div class="h-full">
 	<div class="grid grid-cols-6 h-full">
 		<div class="pl-2">
