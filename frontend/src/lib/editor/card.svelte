@@ -183,6 +183,7 @@
 						<option value={QuizQuestionType.ABCD}>{$t('words.multiple_choice')}</option>
 						<option value={QuizQuestionType.VOTING}>{$t('words.voting')}</option>
 						<option value={QuizQuestionType.TEXT}>{$t('words.text')}</option>
+						<option value={QuizQuestionType.ORDER}>{$t('words.order')}</option>
 					</select>
 				</div>
 				<div class="flex justify-center py-10 w-full">
@@ -202,6 +203,12 @@
 						{/await}
 					{:else if data.questions[selected_question].type === QuizQuestionType.TEXT}
 						{#await import('$lib/editor/TextEditorPart.svelte')}
+							<Spinner my_20={false} />
+						{:then c}
+							<svelte:component this={c.default} bind:data bind:selected_question />
+						{/await}
+					{:else if data.questions[selected_question].type === QuizQuestionType.ORDER}
+						{#await import('$lib/editor/OrderEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
 							<svelte:component this={c.default} bind:data bind:selected_question />

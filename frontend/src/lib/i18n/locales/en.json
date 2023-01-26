@@ -154,7 +154,9 @@
         "download": "Download",
         "continue": "Continue",
         "backup_code": "Backup-code",
-        "totp": "Totp"
+        "totp": "Totp",
+        "text": "Text",
+        "order": "order"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
