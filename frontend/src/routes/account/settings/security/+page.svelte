@@ -9,6 +9,7 @@
 	import { startRegistration } from '@simplewebauthn/browser';
 	import TotpSetup from './totp_setup.svelte';
 	import BackupCodes from './backup_codes.svelte';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	let user_data: object | undefined;
 	let security_keys: Array<{ id: number }> | undefined;
@@ -102,11 +103,9 @@
 			<div class="h-full w-full border-r-2 border-black">
 				<h2 class="text-center text-2xl">Backup-Code</h2>
 				<div class="flex h-full w-full justify-center">
-					<button
-						class="m-auto text-lg rounded-lg bg-[#B07156] p-4 hover:bg-opacity-80 transition"
-						on:click={get_backup_code}
-						>Get Backup-Codes
-					</button>
+					<div class="m-auto">
+						<BrownButton on:click={get_backup_code}>Get Backup-Codes</BrownButton>
+					</div>
 				</div>
 			</div>
 			<div class="h-full w-full">
@@ -171,11 +170,9 @@
 					{/if}
 				</div>
 				<div class="flex justify-center">
-					<button
-						on:click={add_security_key}
-						class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
-						>Add Security-Key</button
-					>
+					<div class="m-auto">
+						<BrownButton on:click={add_security_key}>Add Security-Key</BrownButton>
+					</div>
 				</div>
 				<div class="flex justify-center">
 					<ul class="list-disc block">
@@ -203,19 +200,13 @@
 				</div>
 
 				<div class="flex justify-center">
-					{#if totp_activated}
-						<button
-							on:click={disable_totp}
-							class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
-							>Disable Totp</button
-						>
-					{:else}
-						<button
-							on:click={enable_totp}
-							class="m-auto rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition m-2"
-							>Enable Totp</button
-						>
-					{/if}
+					<div class="m-auto">
+						{#if totp_activated}
+							<BrownButton on:click={disable_totp}>Disable Totp</BrownButton>
+						{:else}
+							<BrownButton on:click={enable_totp}>Enable Totp</BrownButton>
+						{/if}
+					</div>
 				</div>
 			</div>
 		</div>

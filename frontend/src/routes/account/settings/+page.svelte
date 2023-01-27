@@ -9,6 +9,7 @@
 	import { UAParser } from 'ua-parser-js';
 	import Spinner from '$lib/Spinner.svelte';
 	import { onMount } from 'svelte';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const { t } = getLocalization();
 
@@ -176,11 +177,11 @@
 					</p>
 				</div>
 				<div class="p-4 flex justify-center">
-					<a
-						href="/account/settings/security"
-						class="text-lg rounded-lg bg-[#B07156] p-2 hover:bg-opacity-80 transition h-fit m-auto"
-						>Security-Settings</a
-					>
+					<div class="m-auto">
+						<BrownButton href="/account/settings/security"
+							>Security-Settings
+						</BrownButton>
+					</div>
 				</div>
 			</div>
 			<div>
@@ -206,13 +207,11 @@
 							bind:value={changePasswordData.newPasswordConfirm}
 						/></label
 					>
-					<button
-						class="border-2 px-2 py-1 rounded-md border-black text-slate-100 hover:bg-amber-700 hover:text-indigo-100 transition duration-75 disabled:cursor-not-allowed disabled:opacity-50"
-						disabled={!passwordChangeDataValid}
-						type="submit"
-					>
-						{$t('settings_page.change_password_submit')}
-					</button>
+					<div>
+						<BrownButton disabled={!passwordChangeDataValid} type="submit">
+							{$t('settings_page.change_password_submit')}
+						</BrownButton>
+					</div>
 				</form>
 				<div>
 					<button on:click={add_api_key}>Add API-Key</button>

@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import viewport from './useViewportAction.js';
 	import Spinner from '$lib/Spinner.svelte';
+	import GrayButton from '$lib/components/buttons/gray.svelte';
 
 	let copy_toast_open = false;
 	let start_game = null;
@@ -224,24 +225,21 @@
 								</div>
 								<div class="flex justify-center pb-10 pt-8">
 									<div class="grid grid-cols-2 gap-3 w-1/3">
-										<a
-											href="/edit?quiz_id={quiz.id}"
-											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
-											>{$t('words.edit')}</a
+										<GrayButton href="/edit?quiz_id={quiz.id}"
+											>{$t('words.edit')}</GrayButton
 										>
-										<button
+										<GrayButton
 											on:click={() => {
 												start_game = quiz.id;
 											}}
-											class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
 										>
 											{$t('words.start')}
-										</button>
-										<button
+										</GrayButton>
+										<GrayButton
 											on:click={() => {
 												deleteQuiz(quiz.id);
 											}}
-											class="py-2 w-full flex justify-center text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+											flex={true}
 										>
 											<!-- heroicons/trash -->
 											<svg
@@ -258,10 +256,8 @@
 													d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
 												/>
 											</svg>
-										</button>
-										<a
-											href="/api/v1/eximport/{quiz.id}"
-											class="flex justify-center px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+										</GrayButton>
+										<GrayButton href="/api/v1/eximport/{quiz.id}" flex={true}
 											><!-- heroicons/download -->
 											<svg
 												class="w-5 h-5"
@@ -277,7 +273,7 @@
 													d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
 												/>
 											</svg>
-										</a>
+										</GrayButton>
 									</div>
 								</div>
 								<div class="flex justify-center">

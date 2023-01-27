@@ -10,6 +10,7 @@
 	import { navbarVisible, signedIn } from '$lib/stores';
 	import Spinner from '$lib/Spinner.svelte';
 	import Fuse from 'fuse.js';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	interface QuizData {
 		id: string;
@@ -100,27 +101,12 @@
 					Primary
 				</button>-->
 			<div class="w-full grid grid-cols-4 gap-2">
-				<a
-					href="/create"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156] rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
-					>{$t('words.create')}
-				</a>
-				<a
-					href="/import"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
-					>{$t('words.import')}
-				</a>
-				<a
-					href="/api/v1/users/logout"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
-					>{$t('words.logout')}
-				</a>
-				<a
-					href="/account/settings"
-					class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-[#B07156]  rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600 text-white"
-				>
+				<BrownButton href="/create">{$t('words.create')}</BrownButton>
+				<BrownButton href="/import">{$t('words.import')}</BrownButton>
+				<BrownButton href="/api/v1/users/logout">{$t('words.logout')}</BrownButton>
+				<BrownButton href="/account/settings">
 					{$t('words.settings')}
-				</a>
+				</BrownButton>
 			</div>
 			{#if quizzes.length !== 0}
 				{#await import('$lib/dashboard/main_slider.svelte')}
