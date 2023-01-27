@@ -181,6 +181,7 @@ class Quiz(ormar.Model):
     cover_image: Optional[str] = ormar.Text(nullable=True, unique=False)
     background_color: str | None = ormar.Text(nullable=True, unique=False)
     background_image: str | None = ormar.Text(nullable=True, unique=False)
+    kahoot_id: uuid.UUID | None = ormar.UUID(nullable=True, default=None)
 
     @validator("background_image")
     def must_come_from_local_cdn(cls, v):

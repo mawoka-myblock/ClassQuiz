@@ -12,6 +12,7 @@
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 	import { onMount } from 'svelte';
 	import Spinner from '$lib/Spinner.svelte';
+	import GrayButton from '$lib/components/buttons/gray.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -56,6 +57,7 @@
 		user_id: string;
 		imported_from_kahoot?: boolean;
 		questions: Question[];
+		kahoot_id?: string;
 	}
 </script>
 
@@ -82,87 +84,95 @@
 			</div>
 		</div>
 	{/if}
-	<div class="text-center text-sm pt-1">
+	<div class="text-center text-sm pt-1 mb-4">
 		<ImportedOrNot imported={quiz.imported_from_kahoot} />
 	</div>
-
-	<div class="flex justify-center mt-8 mb-4">
-		{#if logged_in}
-			<button
-				class="admin-button"
-				on:click={() => {
-					start_game = quiz.id;
-				}}
-			>
-				{$t('words.start')}
-			</button>
-		{:else}
-			<div use:tippy={{ content: 'You need to be logged in to start a game' }}>
-				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
-					disabled
-				>
-					{$t('words.start')}
-				</button>
-			</div>
-		{/if}
-	</div>
-	<div class="flex justify-center m-2">
-		<a class="admin-button" href="/practice?quiz_id={quiz.id}">
-			{$t('words.practice')}
-		</a>
-	</div>
-	<div class="flex justify-center">
-		{#if logged_in}
-			<a
-				href="/api/v1/eximport/{quiz.id}"
-				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none"
-			>
-				<svg
-					class="w-5 h-5 inline-block"
-					fill="none"
-					stroke="currentColor"
-					viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-					/>
-				</svg>
-				{$t('words.download')}
-			</a>
-		{:else}
-			<div use:tippy={{ content: 'You need to be logged in to download a game' }}>
-				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none cursor-not-allowed opacity-50"
-					disabled
-				>
-					<svg
-						class="w-5 h-5 inline-block"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
+	<div class="flex flex-col justify-center">
+		<div class="mx-auto flex flex-col gap-2 justify-center w-fit">
+			{#if quiz.imported_from_kahoot && quiz.kahoot_id}
+				<div class="w-full">
+					<GrayButton
+						href="https://create.kahoot.it/details/{quiz.kahoot_id}"
+						target="_blank"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-						/>
-					</svg>
-					{$t('words.download')}
-				</button>
+						View on <i>Kahoot!</i>
+					</GrayButton>
+				</div>
+			{/if}
+			{#if logged_in}
+				<div class="w-full">
+					<GrayButton
+						on:click={() => {
+							start_game = quiz.id;
+						}}
+					>
+						{$t('words.start')}
+					</GrayButton>
+				</div>
+			{:else}
+				<div use:tippy={{ content: 'You need to be logged in to start a game' }}>
+					<div class="w-full">
+						<GrayButton disabled={true}>
+							{$t('words.start')}
+						</GrayButton>
+					</div>
+				</div>
+			{/if}
+			<div class="w-full">
+				<GrayButton href="/practice?quiz_id={quiz.id}">
+					{$t('words.practice')}
+				</GrayButton>
 			</div>
-		{/if}
-	</div>
-	<div class="flex justify-center">
-		<a href="mailto:report@mawoka.eu?subject=Report quiz {quiz.id}" class="text-sm underline">
-			{$t('words.report')}
-		</a>
+			<div class="w-full">
+				{#if logged_in}
+					<GrayButton flex={true} href="/api/v1/eximport/{quiz.id}">
+						<svg
+							class="w-5 h-5 inline-block"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+							/>
+						</svg>
+						{$t('words.download')}
+					</GrayButton>
+				{:else}
+					<div use:tippy={{ content: 'You need to be logged in to download a game' }}>
+						<GrayButton disabled={true} flex={true}>
+							<svg
+								class="w-5 h-5 inline-block"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+								/>
+							</svg>
+							{$t('words.download')}
+						</GrayButton>
+					</div>
+				{/if}
+			</div>
+		</div>
+		<div class="flex justify-center">
+			<a
+				href="mailto:report@mawoka.eu?subject=Report quiz {quiz.id}"
+				class="text-sm underline"
+			>
+				{$t('words.report')}
+			</a>
+		</div>
 	</div>
 
 	{#each quiz.questions as question, index_question}

@@ -30,7 +30,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     :param quiz_id: The ID of the quiz to import.
     :return: True if the import was successful, False otherwise.
     """
-    quiz = await get_quiz(quiz_id)
+    kahoot_quiz_id = quiz_id
+    quiz = await get_quiz(kahoot_quiz_id)
     if quiz is None:
         return "quiz not found"
     quiz_questions: list[dict] = []
@@ -60,7 +61,6 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
             ).dict()
         )
     cover = None
-    print(quiz.kahoot.cover)
     if quiz.kahoot.cover != "" and quiz.kahoot.cover is not None:
         image_bytes = await _download_image(quiz.kahoot.cover)
         image_name = f"{quiz_id}--{uuid.uuid4()}"
@@ -77,6 +77,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         questions=json.dumps(quiz_questions),
         imported_from_kahoot=True,
         cover_image=cover,
+        kahoot_id=uuid.UUID(kahoot_quiz_id),
     )
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
     return await quiz_data.save()

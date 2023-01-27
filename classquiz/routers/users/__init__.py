@@ -331,8 +331,7 @@ async def get_email_from_jwt(data: GetEmailFromJWT):
     try:
         payload = jwt.decode(data.jwt, settings.secret_key, algorithms=["HS256"])
         return payload.get("sub")
-    except JWTError as e:
-        print(e)
+    except JWTError:
         raise HTTPException(status_code=401)
 
 

@@ -105,7 +105,6 @@ async def auth(request: Request, response: Response):
     if user_data.email is None:
         return RedirectResponse("/account/oauth-error?error=email")
     user_in_db = await User.objects.get_or_none(email=user_data.email)
-    print(user_data.id)
     if user_in_db is None:
         # REGISTER USER
         try:
