@@ -16,7 +16,12 @@ export const load = async ({ params, fetch }) => {
 		};
 	}
 	const quiz_req = await fetch(`/api/v1/community/quizzes/${params.user_id}?imported=false`);
-	const quizzes = await quiz_req.json();
+	let quizzes;
+	if (quiz_req.status === 404) {
+		quizzes = [];
+	} else {
+		quizzes = await quiz_req.json();
+	}
 	return {
 		user,
 		quizzes
