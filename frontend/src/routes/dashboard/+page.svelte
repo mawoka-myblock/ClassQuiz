@@ -73,7 +73,7 @@
 	};
 	$: {
 		search_term;
-		console.log(search_term);
+		// console.log(search_term);
 		search();
 	}
 </script>
