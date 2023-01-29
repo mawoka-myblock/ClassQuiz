@@ -115,6 +115,7 @@
 							if (index < 11) {
 								index++;
 							} else {
+								save_finished = undefined;
 								finished = true;
 							}
 						}}
