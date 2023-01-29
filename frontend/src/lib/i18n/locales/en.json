@@ -236,5 +236,21 @@
     },
     "uploader": {
         "add_image": "Add image"
+    },
+    "avatar_settings": {
+        "skin_color": "Skin color",
+        "top_type": "Top",
+        "hair_color": "Hair color",
+        "facial_hair_type": "Facial hair",
+        "facial_hair_color": "Facial hair color",
+        "mouth_type": "Mouth",
+        "eyebrow_type": "Eyebrow",
+        "accessories_type": "Glasses",
+        "hat_color": "Hat color",
+        "clothe_type": "Clothes",
+        "clothe_color": "Clothing color",
+        "clothe_graphic_type": "Graphic",
+        "thats_you": "That's You!",
+        "start_over": "Start over"
     }
 }

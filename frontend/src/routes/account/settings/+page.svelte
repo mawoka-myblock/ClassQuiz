@@ -163,11 +163,16 @@
 	<Spinner />
 {:then user}
 	<div class="w-full grid grid-cols-6">
-		<img
-			class="rounded-md md:w-80"
-			src="/api/v1/users/avatar"
-			alt="Profile image of {user.username}"
-		/>
+		<div>
+			<img
+				class="rounded-md md:w-80"
+				src="/api/v1/users/avatar"
+				alt="Profile image of {user.username}"
+			/>
+			<div class="m-2 flex justify-center">
+				<BrownButton href="/account/settings/avatar">Change avatar</BrownButton>
+			</div>
+		</div>
 		<div class="grid grid-rows-2 col-start-2 col-end-7">
 			<div class="grid grid-cols-2">
 				<div>

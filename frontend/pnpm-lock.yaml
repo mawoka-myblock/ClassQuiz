@@ -1007,13 +1007,6 @@ packages:
         engines: { node: '>=6.0.0' }
         dev: true
 
-    /@neodrag/svelte/1.2.4:
-        resolution:
-            {
-                integrity: sha512-oGOxAgjtLbHyCJIWv35cvuHpgip9Kzn0ANrCidZb3rXV29w3AWhS7VtKAQfRinzFbmfK0Jeic7aSYdGmtKFKqw==
-            }
-        dev: true
-
     /@nodelib/fs.scandir/2.1.5:
         resolution:
             {
@@ -4927,13 +4920,6 @@ packages:
             buffer-crc32: 0.2.13
             minimist: 1.2.7
             sander: 0.5.1
-        dev: true
-
-    /sortablejs/1.15.0:
-        resolution:
-            {
-                integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
-            }
         dev: true
 
     /source-map-js/1.0.2:
