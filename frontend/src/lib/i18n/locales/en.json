@@ -75,6 +75,7 @@
         "welcome_back": "Welcome back.",
         "login_or_create_account": "Log in or create an account",
         "already_have_account": "Don't have an account?",
+        "email_or_username": "Email or Username",
         "modal": {
             "success": {
                 "success_check_mail": "Logged in. Check your e-mail inbox.",

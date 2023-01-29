@@ -99,7 +99,11 @@ def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session
 
 @router.post("/start")
 async def start_login(data: StartLoginInput):
-    user = await User.objects.select_related("fidocredentialss").get_or_none(email=data.email)
+    user = (
+        await User.objects.select_related("fidocredentialss")
+        .filter((User.email == data.email) | (User.username == data.email))
+        .get_or_none()
+    )
     step_1: set[StartLoginResponseTypes] = set()
     step_2: set[StartLoginResponseTypes] = set()
     webauthn_data = None

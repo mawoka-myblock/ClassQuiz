@@ -86,7 +86,7 @@
 	{/if}
 
 	<div
-		class="lg:w-1/3 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
+		class="lg:w-1/3 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-2xl dark:bg-gray-800"
 	>
 		{#if step === 0}
 			<!--			<p>StartWindow</p>-->
