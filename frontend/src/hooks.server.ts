@@ -27,7 +27,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (res.ok) {
 			event.locals.email = await res.text();
 			const resp = await resolve(event);
-			console.log(res.headers.get('set-cookie'));
 			try {
 				resp.headers.set('Set-Cookie', res.headers.get('set-cookie'));
 			} catch {

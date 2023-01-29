@@ -27,7 +27,9 @@ async def get_quizzes_from_user(user_id: UUID, imported: bool | None = None):
     if imported is None:
         quizzes = await Quiz.objects.all(user_id=user_id, public=True)
     else:
-        quizzes = await Quiz.objects.all(user_id=user_id, public=True, imported_from_kahoot=imported)
+        quizzes = await Quiz.objects.filter(
+            (Quiz.imported_from_kahoot == False) | (Quiz.imported_from_kahoot == None)  # noqa
+        ).all(user_id=user_id, public=True)
     if len(quizzes) == 0:
         raise HTTPException(status_code=404, detail="no quizzes found")
     else:

@@ -30,7 +30,6 @@
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
 	export let data: PageData;
-	console.log(data, 'data');
 </script>
 
 <svelte:head>
