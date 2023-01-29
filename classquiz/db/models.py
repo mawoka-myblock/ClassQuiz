@@ -270,6 +270,19 @@ class UpdatePassword(BaseModel):
     new_password: str
 
 
+class AnswerData(BaseModel):
+    username: str
+    answer: str
+    right: bool
+    time_taken: float  # In milliseconds
+    score: int
+
+
+class AnswerDataList(BaseModel):
+    # Just a method to make a top-level list
+    __root__: list[AnswerData]
+
+
 class GameInLobby(BaseModel):
     game_pin: str
     quiz_title: str
@@ -283,3 +296,20 @@ class GameInLobby(BaseModel):
 #     github_username: str | None = ormar.Text(nullable=True)
 #     reddit_username: str | None = ormar.Text(nullable=True)
 #     kahoot_user_id: str | None = ormar.Text(nullable=True)
+
+
+class GameResults(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    quiz_id: uuid.UUID = ormar.ForeignKey(Quiz)
+    user_id: uuid.UUID = ormar.ForeignKey(User)
+    timestamp: datetime = ormar.DateTime(default=datetime.now(), nullable=False)
+    player_count: int = ormar.Integer(nullable=False, default=0)
+    note: str | None = ormar.Text(nullable=True)
+    answers: Json[AnswerDataList] = ormar.JSON(True)
+    player_scores: Json[dict[str, str]] = ormar.JSON(nullable=True)
+    custom_field_data: Json[dict[str, str]] | None = ormar.JSON(nullable=True)
+
+    class Meta:
+        tablename = "game_results"
+        metadata = metadata
+        database = database

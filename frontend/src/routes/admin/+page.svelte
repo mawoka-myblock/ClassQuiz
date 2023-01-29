@@ -110,6 +110,9 @@
 	const request_answer_export = async () => {
 		await socket.emit('get_export_token');
 	};
+	const save_quiz = async () => {
+		await socket.emit('save_quiz');
+	};
 
 	let darkMode = false;
 	if (browser) {
@@ -154,6 +157,11 @@
 			<div class="w-screen flex justify-center mt-16">
 				<button on:click={request_answer_export} class="admin-button"
 					>{$t('admin_page.export_results')}</button
+				>
+			</div>
+			<div class="w-screen flex justify-center">
+				<button on:click={save_quiz} class="admin-button"
+					>{$t('admin_page.save_results')}</button
 				>
 			</div>
 		{/if}
