@@ -93,7 +93,8 @@
                 }
             }
         },
-        "use_backup_code": "Backup-Code benutzen"
+        "use_backup_code": "Backup-Code benutzen",
+        "email_or_username": "E-Mail oder Benutzername"
     },
     "words": {
         "question": "Frage",
@@ -154,7 +155,9 @@
         "download": "Herunterladen",
         "continue": "Weiter",
         "totp": "TOTP",
-        "backup_code": "Backup-Code"
+        "backup_code": "Backup-Code",
+        "text": "Text",
+        "order": "Reihenfolge"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -241,5 +244,21 @@
     },
     "uploader": {
         "add_image": "Bild hinzufügen"
+    },
+    "avatar_settings": {
+        "skin_color": "Hautfarbe",
+        "top_type": "Oberteil",
+        "hair_color": "Haarfarbe",
+        "facial_hair_type": "Gesichtsbehaarung",
+        "facial_hair_color": "Farbe der Gesichtsbehaarung",
+        "mouth_type": "Mund",
+        "eyebrow_type": "Augenbrauen",
+        "hat_color": "Hutfarbe",
+        "clothe_color": "Farbe der Kleidung",
+        "accessories_type": "Brille",
+        "clothe_graphic_type": "Grafik",
+        "thats_you": "Das bist du!",
+        "start_over": "Neu anfangen",
+        "clothe_type": "Kleidung"
     }
 }
