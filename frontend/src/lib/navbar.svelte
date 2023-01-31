@@ -9,6 +9,7 @@
 	import { signedIn, pathname } from '$lib/stores';
 	import { createTippy } from 'svelte-tippy';
 	import { browser } from '$app/environment';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -173,8 +174,11 @@
 		{/if}
 	</ul>
 	<div
-		class="justify-self-end h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
+		class="justify-self-end gap-2 h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
 	>
+		<div class="whitespace-nowrap">
+			<BrownButton>Donate <span class="">❤️</span></BrownButton>
+		</div>
 		{#if darkMode}
 			<button
 				on:click={() => {
@@ -229,3 +233,22 @@
 		{/if}
 	</div>
 </nav>
+
+<style>
+	.heart {
+		animation: heartbeat 1s linear infinite;
+	}
+
+	@keyframes heartbeat {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(2);
+		}
+		100% {
+			transform: scale(2);
+			opacity: 0;
+		}
+	}
+</style>
