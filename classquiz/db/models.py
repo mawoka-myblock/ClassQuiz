@@ -300,12 +300,12 @@ class GameInLobby(BaseModel):
 
 class GameResults(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True)
-    quiz_id: uuid.UUID = ormar.ForeignKey(Quiz)
-    user_id: uuid.UUID = ormar.ForeignKey(User)
+    quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz)
+    user: uuid.UUID | User = ormar.ForeignKey(User)
     timestamp: datetime = ormar.DateTime(default=datetime.now(), nullable=False)
     player_count: int = ormar.Integer(nullable=False, default=0)
     note: str | None = ormar.Text(nullable=True)
-    answers: Json[AnswerDataList] = ormar.JSON(True)
+    answers: Json[list[AnswerData]] = ormar.JSON(True)
     player_scores: Json[dict[str, str]] = ormar.JSON(nullable=True)
     custom_field_data: Json[dict[str, str]] | None = ormar.JSON(nullable=True)
 

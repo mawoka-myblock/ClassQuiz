@@ -1,0 +1,44 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
+<script lang="ts">
+	export let scores: {
+		[key: string]: string;
+	};
+	export let custom_field: {
+		[key: string]: string;
+	};
+
+	let usernames = Object.keys(scores);
+</script>
+
+<div class="w-full">
+	<div class="flex justify-center w-full">
+		<table class="w-11/12 m-auto">
+			<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
+				<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+					>Player name</th
+				>
+				<th class="p-1 mx-auto">Player Score</th>
+				{#if custom_field}
+					<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
+						>Custom field</th
+					>
+				{/if}
+			</tr>
+			{#each usernames as uname}
+				<tr class="text-left">
+					<td class="border-r dark:border-gray-500 p-1 border-gray-300">{uname}</td>
+					<td class="p-1">{scores[uname]}</td>
+					{#if custom_field}
+						<td class="border-l dark:border-gray-500 p-1 border-gray-300"
+							>{custom_field[uname]}</td
+						>
+					{/if}
+				</tr>
+			{/each}
+		</table>
+	</div>
+</div>

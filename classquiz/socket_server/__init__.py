@@ -519,19 +519,17 @@ async def save_quiz(sid: str):
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     answers = []
     for i in range(len(game.questions)):
-        print("hiqq", i)
         redis_res = await redis.get(f"game_session:{game_pin}:{i}")
         try:
-            answers.append(AnswerDataList.parse_raw(redis_res).dict())
+            answers.append(json.loads(redis_res))
         except ValidationError:
             answers.append([])
     player_scores = await redis.hgetall(f"game_session:{game_pin}:player_scores")
     custom_field_data = await redis.hgetall(f"game:{game_pin}:players:custom_fields")
-    print(custom_field_data)
     data = GameResults(
         id=game.game_id,
-        quiz_id=game.quiz_id,
-        user_id=game.user_id,
+        quiz=game.quiz_id,
+        user=game.user_id,
         timestamp=datetime.now(),
         player_count=player_count,
         answers=json.dumps(answers),

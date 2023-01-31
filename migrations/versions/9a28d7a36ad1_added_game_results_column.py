@@ -1,8 +1,8 @@
 """Added game_results column
 
-Revision ID: ac98b64a5347
+Revision ID: 9a28d7a36ad1
 Revises: 7ad8502af419
-Create Date: 2023-01-29 18:00:36.389980
+Create Date: 2023-01-30 15:42:42.293514
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import ormar
 
 
 # revision identifiers, used by Alembic.
-revision = "ac98b64a5347"
+revision = "9a28d7a36ad1"
 down_revision = "7ad8502af419"
 branch_labels = None
 depends_on = None
@@ -22,16 +22,16 @@ def upgrade() -> None:
     op.create_table(
         "game_results",
         sa.Column("id", ormar.fields.sqlalchemy_uuid.CHAR(32), nullable=False),
-        sa.Column("quiz_id", ormar.fields.sqlalchemy_uuid.CHAR(32), nullable=True),
-        sa.Column("user_id", ormar.fields.sqlalchemy_uuid.CHAR(32), nullable=True),
+        sa.Column("quiz", ormar.fields.sqlalchemy_uuid.CHAR(32), nullable=True),
+        sa.Column("user", ormar.fields.sqlalchemy_uuid.CHAR(32), nullable=True),
         sa.Column("timestamp", sa.DateTime(), nullable=False),
         sa.Column("player_count", sa.Integer(), nullable=False),
         sa.Column("note", sa.Text(), nullable=True),
         sa.Column("answers", sa.JSON(), nullable=False),
         sa.Column("player_scores", sa.JSON(none_as_null=True), nullable=True),
         sa.Column("custom_field_data", sa.JSON(none_as_null=True), nullable=True),
-        sa.ForeignKeyConstraint(["quiz_id"], ["quiz.id"], name="fk_game_results_quiz_id_quiz_id"),
-        sa.ForeignKeyConstraint(["user_id"], ["users.id"], name="fk_game_results_users_id_user_id"),
+        sa.ForeignKeyConstraint(["quiz"], ["quiz.id"], name="fk_game_results_quiz_id_quiz"),
+        sa.ForeignKeyConstraint(["user"], ["users.id"], name="fk_game_results_users_id_user"),
         sa.PrimaryKeyConstraint("id"),
     )
     # ### end Alembic commands ###
