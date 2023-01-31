@@ -10,6 +10,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import { browser } from '$app/environment';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { fade } from 'svelte/transition';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -107,6 +108,11 @@
 	</section>
 
 	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row" class:hidden={openMenu}>
+		<li class="py-2 lg:hidden">
+			<BrownButton href="https://mawoka.eu/donate" target="_blank"
+				>Donate <span class="">❤️</span></BrownButton
+			>
+		</li>
 		{#if $signedIn}
 			<li class="py-2">
 				<a
@@ -176,7 +182,7 @@
 	<div
 		class="justify-self-end gap-2 h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
 	>
-		<div class="whitespace-nowrap">
+		<div class="whitespace-nowrap hidden lg:block">
 			<BrownButton href="https://mawoka.eu/donate" target="_blank"
 				>Donate <span class="">❤️</span></BrownButton
 			>
