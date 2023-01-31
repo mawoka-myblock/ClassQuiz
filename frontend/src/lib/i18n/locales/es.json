@@ -78,7 +78,8 @@
         "welcome_back": "Bienvenido de nuevo.",
         "login_or_create_account": "Ingresar o Crear una cuenta",
         "already_have_account": "¿No tienes una cuenta?",
-        "use_backup_code": "Usar el código de la copia de seguridad"
+        "use_backup_code": "Usar el código de la copia de seguridad",
+        "email_or_username": "Correo electrónico o nombre de usuario"
     },
     "overview_page": {
         "created_at": "Creado en",
@@ -154,7 +155,9 @@
         "download": "Descargar",
         "continue": "Continuar",
         "backup_code": "Código de la copia de seguridad",
-        "totp": "contraseña de un solo uso (Totp)"
+        "totp": "contraseña de un solo uso (Totp)",
+        "text": "Texto",
+        "order": "solicitar"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -234,5 +237,8 @@
     },
     "uploader": {
         "add_image": "Añadir una imagen"
+    },
+    "avatar_settings": {
+        "skin_color": "Color de la aplicación"
     }
 }
