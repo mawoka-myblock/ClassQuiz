@@ -177,7 +177,9 @@
 		class="justify-self-end gap-2 h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
 	>
 		<div class="whitespace-nowrap">
-			<BrownButton>Donate <span class="">❤️</span></BrownButton>
+			<BrownButton href="https://mawoka.eu/donate" target="_blank"
+				>Donate <span class="">❤️</span></BrownButton
+			>
 		</div>
 		{#if darkMode}
 			<button
