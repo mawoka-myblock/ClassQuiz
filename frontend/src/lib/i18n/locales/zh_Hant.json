@@ -178,7 +178,10 @@
         "error": "錯誤",
         "continue": "繼續",
         "backup_code": "備用代碼",
-        "totp": ""
+        "totp": "",
+        "play": "遊玩",
+        "text": "文字",
+        "start": "開始"
     },
     "search_page": {
         "at_least_3_characters": "輸入至少 3 個字元..."
