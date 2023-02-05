@@ -12,6 +12,7 @@
 	};
 
 	let usernames = Object.keys(scores);
+	console.log(custom_field);
 </script>
 
 <div class="w-full">
@@ -22,7 +23,7 @@
 					>Player name</th
 				>
 				<th class="p-1 mx-auto">Player Score</th>
-				{#if custom_field}
+				{#if Object.keys(custom_field).length !== 0}
 					<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
 						>Custom field</th
 					>
@@ -32,7 +33,7 @@
 				<tr class="text-left">
 					<td class="border-r dark:border-gray-500 p-1 border-gray-300">{uname}</td>
 					<td class="p-1">{scores[uname]}</td>
-					{#if custom_field}
+					{#if custom_field[uname]}
 						<td class="border-l dark:border-gray-500 p-1 border-gray-300"
 							>{custom_field[uname]}</td
 						>

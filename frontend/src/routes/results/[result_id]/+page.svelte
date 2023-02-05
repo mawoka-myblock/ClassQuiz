@@ -6,6 +6,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import PlayerOverview from './player_overview.svelte';
+	import QuestionOverview from './question_overview.svelte';
 
 	export let data: PageData;
 
@@ -65,7 +66,11 @@
 			</button>
 		</div>
 	</div>
-	{#if selected_tab === SelectedTab.Overview}{:else if selected_tab === SelectedTab.Questions}{:else if selected_tab === SelectedTab.Players}
+	{#if selected_tab === SelectedTab.Overview}{:else if selected_tab === SelectedTab.Questions}
+		<div>
+			<QuestionOverview quiz={data.results.quiz} answers={data.results.answers} />
+		</div>
+	{:else if selected_tab === SelectedTab.Players}
 		<div>
 			<PlayerOverview
 				custom_field={data.results.custom_field_data}
