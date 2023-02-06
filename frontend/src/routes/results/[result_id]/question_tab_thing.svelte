@@ -26,15 +26,6 @@
 		}
 		return count;
 	};
-	const get_answers_for_answer = (answer: string): Array<Answer> => {
-		let ret_answers = [];
-		for (const a of answers) {
-			if (a.answer === answer) {
-				ret_answers.push(a);
-			}
-		}
-		return ret_answers;
-	};
 </script>
 
 <div class="flex justify-center">
@@ -43,7 +34,9 @@
 			{#each question.answers as answer}
 				<div class="grid grid-cols-4">
 					<p>{answer.answer}</p>
-					<div class="col-span-3 flex w-full border-l border-gray-500 px-1">
+					<div
+						class="col-span-3 flex w-full border-l border-gray-300 px-1 dark:border-gray-500"
+					>
 						<div class="my-auto w-full mr-1">
 							<span
 								class="h-1 block bg-green-600 my-auto"
@@ -53,11 +46,14 @@
 							/>
 						</div>
 						<p>{get_answer_count_for_answer(answer.answer)}</p>
+						<p class="ml-1">
+							{#if answer.right}✅{:else}❌{/if}
+						</p>
 					</div>
 				</div>
 			{/each}
 		</div>
-		<div class="mt-2">
+		<div class="mt-4">
 			<table class="w-full text-left">
 				<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
 					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
@@ -80,12 +76,14 @@
 							>{answer.score}</td
 						>
 						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-							>{answer.time_taken}</td
+							>{(answer.time_taken / 1000).toFixed(3)}s</td
 						>
 						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
 							>{answer.answer}</td
 						>
-						<td class="p-1">{answer.right}</td>
+						<td class="p-1"
+							>{#if answer.right}✅{:else}❌{/if}</td
+						>
 					</tr>
 				{/each}
 			</table>

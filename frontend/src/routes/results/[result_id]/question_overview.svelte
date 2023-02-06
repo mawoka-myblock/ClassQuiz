@@ -64,7 +64,7 @@
 					</p>
 				</div>
 				{#if question_open === i}
-					<div transition:fly={{ y: -10 }}>
+					<div transition:fly|local={{ y: -10 }}>
 						<QuestionTab {question} answers={answers[i]} />
 					</div>
 				{/if}
