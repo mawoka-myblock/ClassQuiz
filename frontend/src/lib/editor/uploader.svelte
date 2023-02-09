@@ -83,7 +83,7 @@
 {#if modalOpen}
 	<div
 		class="w-full h-full absolute top-0 left-0 bg-opacity-60 z-20 flex justify-center"
-		transition:fade
+		transition:fade|local
 	>
 		<div>
 			<button
@@ -100,7 +100,7 @@
 		</div>
 	</div>
 {/if}
-<div class="flex justify-center w-full pt-10" transition:fade>
+<div class="flex justify-center w-full pt-10" transition:fade|local>
 	<button
 		class="rounded-lg p-4 flex justify-center bg-transparent border-gray-500 border-2 w-1/2 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
 		type="button"

@@ -38,7 +38,7 @@
 	{#if Array.isArray(data.questions[selected_question].answers)}
 		{#each data.questions[selected_question].answers as answer, index}
 			<div
-				out:fade={{ duration: 150 }}
+				out:fade|local={{ duration: 150 }}
 				class="p-4 rounded-lg flex justify-center w-full transition relative"
 				class:dark:bg-gray-500={answer.answer}
 				class:bg-gray-300={answer.answer}
@@ -122,7 +122,7 @@
 		<button
 			class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
 			type="button"
-			in:fade={{ duration: 150 }}
+			in:fade|local={{ duration: 150 }}
 			on:click={() => {
 				data.questions[selected_question].answers = [
 					...data.questions[selected_question].answers,
