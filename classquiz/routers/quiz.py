@@ -178,7 +178,12 @@ async def get_game_id(game_pin: str):
 @router.get("/list")
 async def get_quiz_list(user: User = Depends(get_current_user), page_size: int | None = 10, page: int | None = 1):
     try:
-        return await Quiz.objects.filter(user_id=user.id).paginate(page, page_size=page_size).all()
+        return (
+            await Quiz.objects.order_by(Quiz.updated_at.desc())
+            .filter(user_id=user.id)
+            .paginate(page, page_size=page_size)
+            .all()
+        )
     except ormar.exceptions.QueryDefinitionError:
         raise HTTPException(status_code=400, detail="Invalid page(size). page(size) have to be greater than 0.")
 

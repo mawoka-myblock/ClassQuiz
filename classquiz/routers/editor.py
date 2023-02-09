@@ -215,7 +215,13 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         await redis.delete(f"edit_session:{edit_id}:images")
         return await quiz.update()
     else:
-        quiz = Quiz(**quiz_input.dict(), user_id=session_data.user_id, id=session_data.quiz_id)
+        quiz = Quiz(
+            **quiz_input.dict(),
+            user_id=session_data.user_id,
+            id=session_data.quiz_id,
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+        )
         await redis.delete("global_quiz_count")
         if quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])

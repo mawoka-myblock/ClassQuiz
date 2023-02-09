@@ -106,7 +106,6 @@
 			</button>
 		</div>
 	</section>
-
 	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row" class:hidden={openMenu}>
 		<li class="py-2 lg:hidden">
 			<BrownButton href="https://mawoka.eu/donate" target="_blank"
