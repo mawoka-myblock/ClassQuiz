@@ -157,7 +157,11 @@
         "totp": "TOTP",
         "backup_code": "Backup-Code",
         "text": "Text",
-        "order": "Reihenfolge"
+        "order": "Reihenfolge",
+        "score": "Punkte",
+        "results": "Ergebnisse",
+        "note": "Notiz",
+        "player_plural": "Spieler"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -186,7 +190,8 @@
         "show_next_question": "Zeige die nächste Frage",
         "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!",
         "no_answers": "Keine Antworten!",
-        "stop_time": "Zeit stoppen"
+        "stop_time": "Zeit stoppen",
+        "save_results": "Ergebnisse speichern"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
@@ -260,5 +265,19 @@
         "thats_you": "Das bist du!",
         "start_over": "Neu anfangen",
         "clothe_type": "Kleidung"
+    },
+    "results_page": {
+        "quiz_title": "Quiz-Titel",
+        "date_played": "Datum",
+        "player_count": "Spieleranzahl",
+        "no_results_so_far": "Noch keine Ergebnisse gespeichert..."
+    },
+    "result_page": {
+        "custom_field": "Benutzerdefiniertes Feld",
+        "correct_answer": "{{count}} richtige Antwort",
+        "average_score": "Durchschnittliche Punktzahl: {{average_score}}",
+        "time_taken": "benötigte Zeit",
+        "player_name": "Spielername",
+        "correct_answer_plural": "{{count}} richtige Antworten"
     }
 }
