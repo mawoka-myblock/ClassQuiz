@@ -10,7 +10,7 @@
 	import { createTippy } from 'svelte-tippy';
 	import { browser } from '$app/environment';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
-	import { fade } from 'svelte/transition';
+	// import { fade } from 'svelte/transition';
 
 	const tippy = createTippy({
 		arrow: true,
