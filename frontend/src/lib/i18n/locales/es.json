@@ -78,7 +78,8 @@
         "welcome_back": "Bienvenido de nuevo.",
         "login_or_create_account": "Ingresar o Crear una cuenta",
         "already_have_account": "¿No tienes una cuenta?",
-        "use_backup_code": "Usar el código de la copia de seguridad"
+        "use_backup_code": "Usar el código de la copia de seguridad",
+        "email_or_username": "Correo electrónico o nombre de usuario"
     },
     "overview_page": {
         "created_at": "Creado en",
@@ -154,7 +155,9 @@
         "download": "Descargar",
         "continue": "Continuar",
         "backup_code": "Código de la copia de seguridad",
-        "totp": "contraseña de un solo uso (Totp)"
+        "totp": "contraseña de un solo uso (Totp)",
+        "text": "Texto",
+        "order": "solicitar"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -234,5 +237,21 @@
     },
     "uploader": {
         "add_image": "Añadir una imagen"
+    },
+    "avatar_settings": {
+        "skin_color": "Color de la piel",
+        "top_type": "Arriba",
+        "facial_hair_color": "Color del vello facial",
+        "mouth_type": "Boca",
+        "accessories_type": "Gafas",
+        "clothe_color": "Color de la ropa",
+        "hat_color": "Color de la gorra",
+        "facial_hair_type": "Vello facial",
+        "hair_color": "Color del pelo",
+        "thats_you": "¡Eres tú!",
+        "clothe_type": "Ropa",
+        "eyebrow_type": "Cejas",
+        "clothe_graphic_type": "Gráficos",
+        "start_over": "Empezar de nuevo"
     }
 }
