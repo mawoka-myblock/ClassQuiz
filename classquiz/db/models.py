@@ -308,6 +308,9 @@ class GameResults(ormar.Model):
     answers: Json[list[AnswerData]] = ormar.JSON(True)
     player_scores: Json[dict[str, str]] = ormar.JSON(nullable=True)
     custom_field_data: Json[dict[str, str]] | None = ormar.JSON(nullable=True)
+    title: str = ormar.Text(nullable=False)
+    description: str = ormar.Text(nullable=False)
+    questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
 
     class Meta:
         tablename = "game_results"

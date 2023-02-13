@@ -1,8 +1,8 @@
-"""Added game_results column
+"""Added game_results
 
-Revision ID: 9a28d7a36ad1
+Revision ID: 438516c09cf3
 Revises: 7ad8502af419
-Create Date: 2023-01-30 15:42:42.293514
+Create Date: 2023-02-13 17:34:05.358665
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import ormar
 
 
 # revision identifiers, used by Alembic.
-revision = "9a28d7a36ad1"
+revision = "438516c09cf3"
 down_revision = "7ad8502af419"
 branch_labels = None
 depends_on = None
@@ -30,6 +30,9 @@ def upgrade() -> None:
         sa.Column("answers", sa.JSON(), nullable=False),
         sa.Column("player_scores", sa.JSON(none_as_null=True), nullable=True),
         sa.Column("custom_field_data", sa.JSON(none_as_null=True), nullable=True),
+        sa.Column("title", sa.Text(), nullable=False),
+        sa.Column("description", sa.Text(), nullable=False),
+        sa.Column("questions", sa.JSON(), nullable=False),
         sa.ForeignKeyConstraint(["quiz"], ["quiz.id"], name="fk_game_results_quiz_id_quiz"),
         sa.ForeignKeyConstraint(["user"], ["users.id"], name="fk_game_results_users_id_user"),
         sa.PrimaryKeyConstraint("id"),

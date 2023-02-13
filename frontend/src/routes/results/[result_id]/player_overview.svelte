@@ -4,6 +4,9 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 	export let scores: {
 		[key: string]: string;
 	};
@@ -20,13 +23,13 @@
 		<table class="w-11/12 m-auto">
 			<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
 				<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-					>Player name</th
-				>
+					>{$t('result_page.player_name')}
+				</th>
 				<th class="p-1 mx-auto">Player Score</th>
 				{#if Object.keys(custom_field).length !== 0}
 					<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>Custom field</th
-					>
+						>{$t('result_page.custom_field')}
+					</th>
 				{/if}
 			</tr>
 			{#each usernames as uname}

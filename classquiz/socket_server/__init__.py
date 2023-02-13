@@ -21,10 +21,11 @@ from classquiz.db.models import (
     VotingQuizAnswer,
     AnswerDataList,
     AnswerData,
-    GameResults,
 )
 from pydantic import BaseModel, ValidationError, validator
 from datetime import datetime
+
+from classquiz.socket_server.export_helpers import save_quiz_to_storage
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
@@ -514,26 +515,5 @@ async def save_quiz(sid: str):
     session: dict = await sio.get_session(sid)
     if not session["admin"]:
         return
-    game_pin = session["game_pin"]
-    game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
-    player_count = await redis.scard(f"game_session:{game_pin}:players")
-    answers = []
-    for i in range(len(game.questions)):
-        redis_res = await redis.get(f"game_session:{game_pin}:{i}")
-        try:
-            answers.append(json.loads(redis_res))
-        except ValidationError:
-            answers.append([])
-    player_scores = await redis.hgetall(f"game_session:{game_pin}:player_scores")
-    custom_field_data = await redis.hgetall(f"game:{game_pin}:players:custom_fields")
-    data = GameResults(
-        id=game.game_id,
-        quiz=game.quiz_id,
-        user=game.user_id,
-        timestamp=datetime.now(),
-        player_count=player_count,
-        answers=json.dumps(answers),
-        player_scores=json.dumps(player_scores),
-        custom_field_data=json.dumps(custom_field_data),
-    )
-    await data.save()
+    await save_quiz_to_storage(session["game_pin"])
+    await sio.emit("results_saved_successfully")

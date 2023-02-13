@@ -157,7 +157,11 @@
         "backup_code": "Backup-code",
         "totp": "Totp",
         "text": "Text",
-        "order": "order"
+        "order": "order",
+        "results": "Results",
+        "note": "Note",
+        "player_plural": "Players",
+        "score": "Score"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -189,7 +193,8 @@
         "show_next_question": "Show next question",
         "start_by_showing_first_question": "Start by showing the first question.",
         "no_answers": "No answers!",
-        "stop_time": "Stop time"
+        "stop_time": "Stop time",
+        "save_results": "Save results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -253,5 +258,19 @@
         "clothe_graphic_type": "Graphic",
         "thats_you": "That's You!",
         "start_over": "Start over"
+    },
+    "results_page": {
+        "no_results_so_far": "No results saved so far...",
+        "quiz_title": "Quiz Title",
+        "date_played": "Date Played",
+        "player_count": "Player count"
+    },
+    "result_page": {
+        "player_name": "Player name",
+        "custom_field": "Custom field",
+        "average_score": "Average score: {{average_score}}",
+        "correct_answer": "{{count}} correct answer",
+        "correct_answer_plural": "{{count}} correct answers",
+        "time_taken": "Time taken"
     }
 }

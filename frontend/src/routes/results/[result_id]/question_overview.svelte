@@ -4,11 +4,15 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { QuizData } from '$lib/quiz_types';
+	import type { Question } from '$lib/quiz_types';
 	import { fly } from 'svelte/transition';
 	import QuestionTab from './question_tab_thing.svelte';
+	import { QuizQuestionType } from '$lib/quiz_types';
+	import { getLocalization } from '$lib/i18n';
 
-	export let quiz: QuizData;
+	const { t } = getLocalization();
+
+	export let questions: Question[];
 	export let answers: {
 		username: string;
 		answer: string;
@@ -48,23 +52,32 @@
 </script>
 
 <div class="w-full flex justify-center">
-	<div class="w-11/12 flex flex-col w-full">
-		{#each quiz.questions as question, i}
-			<div>
+	<div class="w-11/12 flex flex-col w-full gap-4">
+		{#each questions as question, i}
+			<div class="transition-all">
 				<div class="w-full bg-white bg-opacity-60 p-2 rounded grid grid-cols-3 z-40">
 					<button
 						class="text-center underline text-xl"
 						on:click={() => {
 							toggle_dropdown(i);
-						}}>{question.question}</button
+						}}>{@html question.question}</button
 					>
-					<p class="text-center text-sm my-auto">Average Score: {get_average_score(i)}</p>
-					<p class="text-center text-sm my-auto">
-						{get_number_of_correct_answers(i)} correct Answer(s)
-					</p>
+					{#if question.type !== QuizQuestionType.VOTING}
+						{@const correct_answers = get_number_of_correct_answers(i)}
+						<p class="text-center text-sm my-auto">
+							{$t('result_page.average_score', {
+								average_score: get_average_score(i)
+							})}
+						</p>
+						<p class="text-center text-sm my-auto">
+							{$t('result_page.correct_answer', { count: correct_answers })}
+							<!--							{correct_answers} correct
+							{#if correct_answers === 1}Answer{:else}Answers{/if}-->
+						</p>
+					{/if}
 				</div>
 				{#if question_open === i}
-					<div transition:fly|local={{ y: -10 }}>
+					<div in:fly|local={{ y: -10 }}>
 						<QuestionTab {question} answers={answers[i]} />
 					</div>
 				{/if}
