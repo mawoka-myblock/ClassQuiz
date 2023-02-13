@@ -20,9 +20,10 @@ from classquiz.db.models import (
     ABCDQuizAnswer,
     QuizQuestionType,
     VotingQuizAnswer,
+    AnswerDataList,
 )
 from classquiz.auth import check_api_key
-from classquiz.socket_server import ReturnQuestion, sio, _AnswerDataList
+from classquiz.socket_server import ReturnQuestion, sio
 
 settings = settings()
 
@@ -276,7 +277,7 @@ async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
     answer_data = await redis.get(f"game_session:{game_pin}:{game.current_question}")
     if answer_data is None:
         return
-    answer_list = _AnswerDataList.parse_raw(answer_data)
+    answer_list = AnswerDataList.parse_raw(answer_data)
     answer_dict = {}
     for answer in game.questions[game.current_question].answers:
         answer_dict[answer.answer] = 0

@@ -12,9 +12,20 @@ import socketio
 from cryptography.fernet import Fernet
 
 from classquiz.config import redis, settings
-from classquiz.db.models import PlayGame, QuizQuestionType, GameSession, GamePlayer, QuizQuestion, VotingQuizAnswer
+from classquiz.db.models import (
+    PlayGame,
+    QuizQuestionType,
+    GameSession,
+    GamePlayer,
+    QuizQuestion,
+    VotingQuizAnswer,
+    AnswerDataList,
+    AnswerData,
+)
 from pydantic import BaseModel, ValidationError, validator
 from datetime import datetime
+
+from classquiz.socket_server.export_helpers import save_quiz_to_storage
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
@@ -272,19 +283,6 @@ class _SubmitAnswerData(BaseModel):
     complex_answer: list[_SubmitAnswerDataOrderType] | None
 
 
-class _AnswerData(BaseModel):
-    username: str
-    answer: str
-    right: bool
-    time_taken: float  # In milliseconds
-    score: int
-
-
-class _AnswerDataList(BaseModel):
-    # Just a method to make a top-level list
-    __root__: list[_AnswerData]
-
-
 @sio.event
 async def submit_answer(sid: str, data: dict):
     now = datetime.now()
@@ -360,9 +358,9 @@ async def submit_answer(sid: str, data: dict):
     if answers is None:
         await redis.set(
             f"game_session:{session['game_pin']}:{data.question_index}",
-            _AnswerDataList(
+            AnswerDataList(
                 __root__=[
-                    _AnswerData(
+                    AnswerData(
                         username=session["username"],
                         answer=data.answer,
                         right=answer_right,
@@ -374,9 +372,9 @@ async def submit_answer(sid: str, data: dict):
             ex=7200,
         )
     else:
-        answers = _AnswerDataList.parse_raw(answers)
+        answers = AnswerDataList.parse_raw(answers)
         answers.__root__.append(
-            _AnswerData(
+            AnswerData(
                 username=session["username"],
                 answer=data.answer,
                 right=answer_right,
@@ -389,7 +387,7 @@ async def submit_answer(sid: str, data: dict):
             answers.json(),
             ex=7200,
         )
-    answers = _AnswerDataList.parse_raw(await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"))
+    answers = AnswerDataList.parse_raw(await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"))
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     if len(answers.__root__) == player_count:
         # await sio.emit(
@@ -510,3 +508,12 @@ async def set_control_visibility(sid: str, data: dict):
         return
     session: dict = await sio.get_session(sid)
     await sio.emit("control_visibility", {"visible": data.visible}, room=f"admin:{session['game_pin']}")
+
+
+@sio.event
+async def save_quiz(sid: str):
+    session: dict = await sio.get_session(sid)
+    if not session["admin"]:
+        return
+    await save_quiz_to_storage(session["game_pin"])
+    await sio.emit("results_saved_successfully")

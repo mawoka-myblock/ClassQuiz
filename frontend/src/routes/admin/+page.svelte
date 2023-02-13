@@ -15,6 +15,7 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import FinalResults from '$lib/play/admin/final_results.svelte';
+	import GrayButton from '$lib/components/buttons/gray.svelte';
 
 	navbarVisible.set(false);
 
@@ -98,6 +99,10 @@
 		}, 200);
 	});
 
+	socket.on('results_saved_successfully', (_) => {
+		results_saved = true;
+	});
+
 	const confirmUnload = () => {
 		if (warnToLeave) {
 			event.preventDefault();
@@ -109,6 +114,9 @@
 
 	const request_answer_export = async () => {
 		await socket.emit('get_export_token');
+	};
+	const save_quiz = async () => {
+		await socket.emit('save_quiz');
 	};
 
 	let darkMode = false;
@@ -132,6 +140,7 @@
 	};
 	let bg_color;
 	let bg_image;
+	let results_saved = false;
 	$: bg_color = quiz_data ? quiz_data.background_color : undefined;
 	$: bg_image = quiz_data ? quiz_data.background_image : undefined;
 	let show_final_results = false;
@@ -152,9 +161,34 @@
 	{#if JSON.stringify(final_results) !== JSON.stringify([null])}
 		{#if control_visible}
 			<div class="w-screen flex justify-center mt-16">
-				<button on:click={request_answer_export} class="admin-button"
-					>{$t('admin_page.export_results')}</button
-				>
+				<div class="w-fit">
+					<GrayButton on:click={request_answer_export}
+						>{$t('admin_page.export_results')}</GrayButton
+					>
+				</div>
+			</div>
+			<div class="w-screen flex justify-center mt-2">
+				<div class="w-fit">
+					<GrayButton on:click={save_quiz} flex={true} disabled={results_saved}>
+						{#if results_saved}
+							<svg
+								class="w-4 h-4"
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M5 13l4 4L19 7"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						{:else}{$t('admin_page.save_results')}{/if}
+					</GrayButton>
+				</div>
 			</div>
 		{/if}
 		<FinalResults bind:data={player_scores} bind:show_final_results />

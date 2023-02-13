@@ -103,7 +103,7 @@
 			<div class="w-full grid grid-cols-4 gap-2">
 				<BrownButton href="/create">{$t('words.create')}</BrownButton>
 				<BrownButton href="/import">{$t('words.import')}</BrownButton>
-				<BrownButton href="/api/v1/users/logout">{$t('words.logout')}</BrownButton>
+				<BrownButton href="/results">{$t('words.results')}</BrownButton>
 				<BrownButton href="/account/settings">
 					{$t('words.settings')}
 				</BrownButton>

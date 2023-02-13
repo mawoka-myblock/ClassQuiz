@@ -55,7 +55,7 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
     worksheet.write(0, 5, "Wrong answers")
     for i, _ in enumerate(quiz_results):
         question = quiz.questions[i]
-        print(quiz_results)
+        # print(quiz_results)
         try:
             answer_data = quiz_results[str(i)]
         except KeyError:
