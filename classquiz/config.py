@@ -6,11 +6,18 @@ from functools import lru_cache
 
 from redis import asyncio as redis_lib
 import redis as redis_base_lib
-from pydantic import BaseSettings, RedisDsn, PostgresDsn
+from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
 import meilisearch as MeiliSearch
 from typing import Optional
 
 from classquiz.storage import Storage
+
+
+class CustomOpenIDProvider(BaseModel):
+    scopes: str = "openid email profile"
+    server_metadata_url: str
+    client_id: str
+    client_secret: str
 
 
 class Settings(BaseSettings):
@@ -39,6 +46,7 @@ class Settings(BaseSettings):
     google_client_secret: Optional[str]
     github_client_id: Optional[str]
     github_client_secret: Optional[str]
+    custom_openid_provider: CustomOpenIDProvider | None = None
     telemetry_enabled: bool = True
 
     # storage_backend

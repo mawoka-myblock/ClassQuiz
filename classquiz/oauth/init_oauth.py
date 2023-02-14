@@ -31,4 +31,11 @@ def init_oauth() -> OAuth:
         client_id=settings.github_client_id,
         client_secret=settings.github_client_secret,
     )
+    oauth.register(
+        name="custom",
+        client_kwargs={"scope": settings.custom_openid_provider.scopes},
+        server_metadata_url=settings.custom_openid_provider,
+        client_id=settings.custom_openid_provider.client_id,
+        client_secret=settings.custom_openid_provider.client_secret,
+    )
     return oauth
