@@ -34,7 +34,7 @@
 </script>
 
 <div class="flex justify-center">
-	<div class="bg-white p-2 -z-10 w-10/12 rounded">
+	<div class="bg-white p-2 -z-10 w-10/12 rounded dark:bg-gray-700">
 		{#if question.type !== QuizQuestionType.ORDER && question.type !== QuizQuestionType.RANGE}
 			<div class="flex flex-col mb-4">
 				{#each question.answers as answer}

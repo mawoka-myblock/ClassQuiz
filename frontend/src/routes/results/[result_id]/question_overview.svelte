@@ -55,7 +55,9 @@
 	<div class="w-11/12 flex flex-col w-full gap-4">
 		{#each questions as question, i}
 			<div class="transition-all">
-				<div class="w-full bg-white bg-opacity-60 p-2 rounded grid grid-cols-3 z-40">
+				<div
+					class="w-full bg-white p-2 rounded grid grid-cols-3 z-40 dark:bg-gray-700 bg-opacity-60 dark:bg-opacity-80"
+				>
 					<button
 						class="text-center underline text-xl"
 						on:click={() => {
