@@ -11,6 +11,7 @@
 	import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const { t } = getLocalization();
 	export let game_pin: string;
@@ -190,13 +191,9 @@
 			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
 
 			<br />
-			<button
-				class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-				type="submit"
-				disabled={game_pin.length < 6}
-			>
-				{$t('words.submit')}
-			</button>
+			<div class="mt-2">
+				<BrownButton disabled={game_pin.length < 6}>{$t('words.submit')}</BrownButton>
+			</div>
 		</form>
 	</div>
 {:else}
@@ -218,13 +215,12 @@
 					bind:value={custom_field_value}
 				/>
 			{/if}
-			<button
-				class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 mt-2"
-				type="submit"
-				disabled={username.length <= 3}
-			>
-				{$t('words.submit')}
-			</button>
+
+			<div class="mt-2">
+				<BrownButton disabled={username.length <= 3} on:click={setUsername}
+					>{$t('words.submit')}</BrownButton
+				>
+			</div>
 		</form>
 	</div>
 {/if}

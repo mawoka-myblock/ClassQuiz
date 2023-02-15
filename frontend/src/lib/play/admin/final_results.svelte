@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 
 	export let data;
+	export let username;
 	export let show_final_results: boolean;
 	import { fly } from 'svelte/transition';
 	import confetti from 'canvas-confetti';
@@ -58,4 +59,11 @@
 			{/if}
 		{/each}
 	</div>
+	{#if data[username]}
+		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
+			<div class="mx-auto p-2 border-[#B07156] border-4 rounded">
+				<p>Your score: <b>{data[username]}</b></p>
+			</div>
+		</div>
+	{/if}
 {/if}
