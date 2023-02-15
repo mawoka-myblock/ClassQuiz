@@ -203,11 +203,13 @@
 	{:else if !game_started}
 		<div class="w-full h-full">
 			<AudioPlayer bind:play={play_music} />
-			<img
-				alt="QR code to join the game"
-				src="/api/v1/utils/qr/{quiz_data.game_pin}?dark_mode={bg_color ? false : darkMode}"
-				class="block mx-auto w-1/6 mt-12"
-			/>
+			<div>
+				<img
+					alt="QR code to join the game"
+					src="/api/v1/utils/qr/{quiz_data.game_pin}"
+					class="block mx-auto w-1/6 mt-12 dark:bg-white"
+				/>
+			</div>
 			<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
 			<div class="flex justify-center w-full mt-4">
 				<ul class="list-disc pl-8">
