@@ -177,7 +177,7 @@
 					{#each question.answers as answer, i}
 						<button
 							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-							style="background-color: {answer.color ?? '#B45309'}"
+							style="background-color: {answer.color ?? '#B07156'}"
 							disabled={selected_answer !== undefined}
 							on:click={() => selectAnswer(answer.answer)}
 						>
