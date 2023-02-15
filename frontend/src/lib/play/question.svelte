@@ -12,6 +12,7 @@
 	import { kahoot_icons } from './kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import { flip } from 'svelte/animate';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const { t } = getLocalization();
 
@@ -74,6 +75,7 @@
 	};
 
 	const select_complex_answer = (data) => {
+		selected_answer = 'a';
 		const new_array = [];
 		for (let i = 0; i < data.length; i++) {
 			new_array.push({ answer: data[i].answer });
@@ -162,7 +164,7 @@
 		{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.VOTING}
 			<div class="w-full relative" style="height: {get_div_height()}%">
 				<div
-					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl"
+					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-50"
 				>
 					<CircularTimer
 						bind:text={timer_res}
@@ -171,11 +173,11 @@
 					/>
 				</div>
 
-				<div class="grid grid-cols-2 gap-2 w-full p-4 h-full">
+				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
 					{#each question.answers as answer, i}
 						<button
 							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-							style="background-color: {answer.color ?? '#B45309'}"
+							style="background-color: {answer.color ?? '#B07156'}"
 							disabled={selected_answer !== undefined}
 							on:click={() => selectAnswer(answer.answer)}
 						>
@@ -202,18 +204,20 @@
 						bind:values={slider_value}
 						bind:min={question.answers.min}
 						bind:max={question.answers.max}
+						id="pips-slider"
 						pips
 						float
 						all="label"
 					/>
 				</div>
 				<div class="flex justify-center">
-					<button
-						class="w-1/2 text-3xl bg-[#B07156] my-2 disabled:opacity-60 border border-white"
-						disabled={selected_answer !== undefined}
-						on:click={() => selectAnswer(slider_value[0])}
-						>{$t('words.submit')}
-					</button>
+					<div class="w-1/2">
+						<BrownButton
+							disabled={selected_answer !== undefined}
+							on:click={() => selectAnswer(slider_value[0])}
+							>{$t('words.submit')}
+						</BrownButton>
+					</div>
 				</div>
 			{/await}
 		{:else if question.type === QuizQuestionType.TEXT}
@@ -224,21 +228,23 @@
 				<input
 					type="text"
 					bind:value={text_input}
-					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center"
+					disabled={selected_answer}
+					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 				/>
 			</div>
 
-			<div class="flex justify-center">
-				<button
-					class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-					type="button"
-					disabled={!text_input}
-					on:click={() => {
-						selectAnswer(text_input);
-					}}
-				>
-					{$t('words.submit')}
-				</button>
+			<div class="flex justify-center mt-2">
+				<div class="w-1/3">
+					<BrownButton
+						type="button"
+						disabled={selected_answer}
+						on:click={() => {
+							selectAnswer(text_input);
+						}}
+					>
+						{$t('words.submit')}
+					</BrownButton>
+				</div>
 			</div>
 		{:else if question.type === QuizQuestionType.ABCD}
 			{#if solution === undefined}
@@ -295,7 +301,7 @@
 							}}
 							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
 							type="button"
-							disabled={i === 0}
+							disabled={i === 0 || selected_answer}
 						>
 							<svg
 								class="w-8 h-8"
@@ -322,7 +328,7 @@
 							}}
 							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
 							type="button"
-							disabled={i === question.answers.length - 1}
+							disabled={i === question.answers.length - 1 || selected_answer}
 						>
 							<svg
 								class="w-8 h-8"
@@ -343,15 +349,15 @@
 						</button>
 					</div>
 				{/each}
-				<button
-					class="bg-[#B07156] hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-lg mt-2 transition w-full"
-					type="button"
-					on:click={() => {
-						select_complex_answer(question.answers);
-					}}
-				>
-					{$t('words.submit')}
-				</button>
+				<div class="w-full mt-2">
+					<BrownButton
+						type="button"
+						disabled={selected_answer}
+						on:click={() => {
+							select_complex_answer(question.answers);
+						}}>{$t('words.submit')}</BrownButton
+					>
+				</div>
 			</div>
 			<!--{/if}-->
 		{/if}

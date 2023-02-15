@@ -10,6 +10,8 @@
 	export let href: undefined | string = undefined;
 
 	export let target: undefined | string = '_self';
+
+	export let type: undefined | string = 'button';
 </script>
 
 {#if href}
@@ -26,6 +28,7 @@
 {:else}
 	<button
 		{disabled}
+		{type}
 		class="text-black hover:opacity-80 w-full px-4 py-2 leading-5 text-black transition-all duration-200 transform bg-[#B07156] rounded text-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 outline-none"
 		on:click
 		class:flex

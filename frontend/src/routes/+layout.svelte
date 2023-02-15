@@ -126,6 +126,11 @@
 		background-color: #4e6e58;
 		background-size: cover;
 		color: white;
+
+		:global(#pips-slider) {
+			--pip: white;
+			--pip-active: white;
+		}
 	}
 
 	@keyframes background_animation {

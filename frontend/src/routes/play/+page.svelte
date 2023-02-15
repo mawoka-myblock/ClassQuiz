@@ -151,7 +151,7 @@
 		{#if !gameMeta.started && gameData === undefined}
 			<JoinGame {game_pin} bind:game_mode bind:username />
 		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
-			<ShowEndScreen bind:data={scores} show_final_results={true} />
+			<ShowEndScreen bind:data={scores} show_final_results={true} bind:username />
 		{:else if gameData !== undefined && question_index === ''}
 			<ShowTitle
 				bind:title={gameData.title}
