@@ -12,15 +12,37 @@ from classquiz.auth import check_token
 from classquiz.helpers.avatar import gzipped_user_avatar
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from classquiz.oauth.init_oauth import init_oauth
+from pydantic import BaseModel, ValidationError
 
 settings = settings()
 
 router = APIRouter()
 
 
+class Userinfo(BaseModel):
+    exp: int
+    iat: int
+    iss: str
+    aud: str
+    sub: uuid.UUID
+    nonce: str
+    email: str
+    email_verified: bool
+
+
+class OpenIDResponse(BaseModel):
+    access_token: str
+    expires_in: int
+    token_type: str
+    scope: str
+    refresh_token: str
+    id_token: str
+    expires_at: int
+    userinfo: Userinfo
+
+
 @router.get("/login")
 async def openid_login(req: Request):
-    print(settings.custom_openid_provider)
     if settings.google_client_secret is None or settings.google_client_id is None:
         raise HTTPException(status_code=501, detail="Custom-OAuth-Login isn't available on this server")
     oauth = init_oauth()
@@ -45,12 +67,12 @@ async def auth(request: Request, response: Response):
         return await rememberme_check(rememberme_token=rememberme_token, response=response)
     oauth = init_oauth()
 
-    user_data = await oauth.google.authorize_access_token(request)
+    user_data = await oauth.custom.authorize_access_token(request)
+    try:
+        user_data = OpenIDResponse(**user_data).userinfo
+    except (TypeError, ValidationError):
+        raise HTTPException(status_code=401, detail="Something went wrong.")
     print(user_data)
-    # try:
-    #     user_data = OauthGoogleResponse(**user_data).userinfo
-    # except (TypeError, ValidationError):
-    #     raise HTTPException(status_code=401, detail="Something went wrong.")
     user_in_db = await User.objects.get_or_none(email=user_data.email)
     if user_in_db is None:
         # REGISTER USER
@@ -60,7 +82,7 @@ async def auth(request: Request, response: Response):
                 email=user_data.email,
                 username=user_data.name,
                 verified=user_data.email_verified,
-                auth_type=UserAuthTypes.GOOGLE,
+                auth_type=UserAuthTypes.CUSTOM,
                 google_uid=user_data.sub,
                 avatar=gzipped_user_avatar(),
             )
