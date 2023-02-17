@@ -28,6 +28,8 @@ class Userinfo(BaseModel):
     nonce: str
     email: str
     email_verified: bool
+    preferred_username: str
+    name: str
 
 
 class OpenIDResponse(BaseModel):
@@ -43,7 +45,7 @@ class OpenIDResponse(BaseModel):
 
 @router.get("/login")
 async def openid_login(req: Request):
-    if settings.google_client_secret is None or settings.google_client_id is None:
+    if settings.custom_openid_provider.client_id is None or settings.custom_openid_provider.client_secret is None:
         raise HTTPException(status_code=501, detail="Custom-OAuth-Login isn't available on this server")
     oauth = init_oauth()
 
@@ -53,7 +55,7 @@ async def openid_login(req: Request):
 @router.get("/auth")
 async def auth(request: Request, response: Response):
     if settings.custom_openid_provider.client_id is None or settings.custom_openid_provider.client_secret is None:
-        raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
+        raise HTTPException(status_code=501, detail="Custom-OAuth-Login isn't available on this server")
     access_token = request.cookies.get("access_token")
     rememberme_token = request.cookies.get("rememberme_token")
     if access_token is not None:
@@ -72,7 +74,7 @@ async def auth(request: Request, response: Response):
         user_data = OpenIDResponse(**user_data).userinfo
     except (TypeError, ValidationError):
         raise HTTPException(status_code=401, detail="Something went wrong.")
-    print(user_data)
+
     user_in_db = await User.objects.get_or_none(email=user_data.email)
     if user_in_db is None:
         # REGISTER USER
@@ -80,10 +82,10 @@ async def auth(request: Request, response: Response):
             await User.objects.create(
                 id=uuid.uuid4(),
                 email=user_data.email,
-                username=user_data.name,
+                username=user_data.preferred_username,
                 verified=user_data.email_verified,
                 auth_type=UserAuthTypes.CUSTOM,
-                google_uid=user_data.sub,
+                google_uid=user_data.sub.hex,
                 avatar=gzipped_user_avatar(),
             )
         except Exception as e:
@@ -95,10 +97,10 @@ async def auth(request: Request, response: Response):
                         await User.objects.create(
                             id=uuid.uuid4(),
                             email=user_data.email,
-                            username=f"{user_data.name}{counter}",
+                            username=f"{user_data.preferred_username}{counter}",
                             verified=user_data.email_verified,
-                            auth_type=UserAuthTypes.GOOGLE,
-                            google_uid=user_data.sub,
+                            auth_type=UserAuthTypes.CUSTOM,
+                            google_uid=user_data.sub.hex,
                             avatar=gzipped_user_avatar(),
                         )
                         error = False
@@ -108,8 +110,9 @@ async def auth(request: Request, response: Response):
             else:
                 raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
-        email=user_data.email, google_uid=user_data.sub, auth_type=UserAuthTypes.GOOGLE, verified=True
+        email=user_data.email, google_uid=user_data.sub.hex, auth_type=UserAuthTypes.CUSTOM, verified=True
     )
+    print(user_data)
 
     await log_user_in(user=user, request=request, response=response)
     response.headers.append("Location", "/account/login")

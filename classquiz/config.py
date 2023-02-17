@@ -14,7 +14,7 @@ from classquiz.storage import Storage
 
 
 class CustomOpenIDProvider(BaseModel):
-    scopes: str = "openid email"
+    scopes: str = "openid email profile"
     server_metadata_url: str
     client_id: str
     client_secret: str
