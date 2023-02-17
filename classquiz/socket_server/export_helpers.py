@@ -18,7 +18,7 @@ async def save_quiz_to_storage(game_pin: str):
         redis_res = await redis.get(f"game_session:{game_pin}:{i}")
         try:
             answers.append(json.loads(redis_res))
-        except ValidationError:
+        except (ValidationError, TypeError):
             answers.append([])
     player_scores = await redis.hgetall(f"game_session:{game_pin}:player_scores")
     custom_field_data = await redis.hgetall(f"game:{game_pin}:players:custom_fields")
