@@ -18,6 +18,7 @@ class UserAuthTypes(Enum):
     LOCAL = "LOCAL"
     GOOGLE = "GOOGLE"
     GITHUB = "GITHUB"
+    CUSTOM = "CUSTOM"
 
 
 class User(ormar.Model):

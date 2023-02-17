@@ -9,7 +9,7 @@ from jose import jws, jwt, JWTError, JWSError
 
 from classquiz.auth import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 from classquiz.db.models import UserSession
-from classquiz.oauth import google, github
+from classquiz.oauth import google, github, custom
 from classquiz.config import settings
 
 settings = settings()
@@ -17,6 +17,7 @@ settings = settings()
 router = APIRouter()
 router.include_router(google.router, prefix="/google")
 router.include_router(github.router, prefix="/github")
+router.include_router(custom.router, prefix="/custom")
 
 
 async def rememberme_middleware(request: Request, call_next):
