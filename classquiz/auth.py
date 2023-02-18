@@ -127,6 +127,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 
+async def get_admin_user(token: str = Depends(oauth2_scheme)) -> User:
+    user = await get_current_user(token)
+    admin_user = await User.objects.order_by(User.created_at.asc()).get()
+    if admin_user.id == user.id:
+        return user
+    else:
+        raise credentials_exception
+
+
 async def get_current_user_optional(token: str = Depends(oauth2_scheme)) -> User | None:
     try:
         payload = jwt.decode(token, settings.secret_key, algorithms=[ALGORITHM])

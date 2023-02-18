@@ -31,6 +31,7 @@ from classquiz.routers import (
     community,
     avatar,
     results,
+    admin,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
@@ -104,5 +105,5 @@ app.include_router(eximport.router, tags=["export", "import"], prefix="/api/v1/e
 app.include_router(sitemap.router, tags=["sitemap"], prefix="/api/v1/sitemap", include_in_schema=True)
 app.include_router(community.router, tags=["community"], prefix="/api/v1/community", include_in_schema=True)
 app.include_router(avatar.router, tags=["avatar"], prefix="/api/v1/avatar", include_in_schema=True)
-
+app.include_router(admin.router, tags=["admin"], prefix="/api/v1/admin", include_in_schema=True)
 app.mount("/", ASGIApp(sio))

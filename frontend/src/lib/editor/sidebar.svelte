@@ -271,7 +271,7 @@
 		</div>
 	{/each}
 	<div
-		class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
+		class="bg-white shadow rounded-lg h-40 p-2 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
 	>
 		<button
 			type="button"
@@ -282,7 +282,7 @@
 		>
 			<span class="w-full text-center">Question</span>
 			<svg
-				class="h-full"
+				class="w-5/6 m-auto"
 				fill="none"
 				stroke="currentColor"
 				viewBox="0 0 24 24"
@@ -305,7 +305,7 @@
 		>
 			<span class="w-full text-center">Slide</span>
 			<svg
-				class="h-full"
+				class="w-5/6 m-auto"
 				fill="none"
 				stroke="currentColor"
 				viewBox="0 0 24 24"
