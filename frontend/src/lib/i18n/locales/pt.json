@@ -1,1 +1,166 @@
-{}
+{
+    "words": {
+        "dashboard": "Painel",
+        "search": "Pesquisa",
+        "screenshot": "Captura de ecrã",
+        "screenshot_plural": "Capturas de Ecrã",
+        "question_plural": "Perguntas",
+        "note": "Nota",
+        "question": "Pergunta",
+        "answer": "Resposta",
+        "stats": "Estatísticas",
+        "features": "Características",
+        "login": "Iniciar sessão",
+        "email": "Email",
+        "password": "Password",
+        "edit": "Editar",
+        "delete": "Apagar",
+        "public": "Público",
+        "start": "Iniciar",
+        "create": "Criar",
+        "import": "Importar",
+        "logout": "Encerrar a sessão",
+        "title": "Título",
+        "url": "URL",
+        "submit": "Submeter",
+        "connect": "Conectar",
+        "pin": "PIN",
+        "register": "Registar-se",
+        "docs": "Documentos",
+        "close": "Fechar",
+        "image": "Imagem",
+        "settings": "Definições",
+        "repeat_password": "Repetir password",
+        "overview": "Resumo",
+        "explore": "Explorar",
+        "browser": "Navegador",
+        "view": "Ver",
+        "correct": "Correto",
+        "result": "Resultado",
+        "count": "Conta",
+        "range": "Intervalo",
+        "multiple_choice": "Escolha múltipla",
+        "private": "Privado",
+        "other": "outro",
+        "other_plural": "Outros",
+        "donating": "Doar",
+        "find": "Localizar",
+        "practice": "Praticar",
+        "error": "Erro",
+        "voting": "Votar",
+        "download": "Descarregar",
+        "continue": "Continuar",
+        "totp": "password de uso único (Totp)",
+        "text": "Texto",
+        "order": "solicitar",
+        "results": "Resultados",
+        "player_plural": "Jogadores",
+        "score": "Pontuação",
+        "username": "Username",
+        "play": "Jogar",
+        "save": "Guardar",
+        "description": "Descrição"
+    },
+    "index_page": {
+        "meta": {
+            "title": "Início",
+            "description": "ClassQuiz é uma aplicação de quiz para estudantes, semelhante ao Kahoot!, de código-aberto e uso livre"
+        },
+        "features_description": {
+            "1": "ClassQuiz é uma plataforma de quiz que permite criar e gerir quizzes.",
+            "2": "A principal funcionalidade é uma função de importação Kahoot! que permite importar questionários Kahoot!",
+            "3": "O editor e a função de exportação Excel dos resultados quiz são pontos de destaque deste programa."
+        },
+        "stats": "Existem já {{user_count}} utilizadores e {{quiz_count}} questionários no ClassQuiz.",
+        "see_what_true_and_false": "Ver o que estava certo ou errado",
+        "see_how_many_true_and_false": "Ver quantos estavam certos ou errados",
+        "create_or_import": "Criar ou importar",
+        "see_all_quizzes": "Ver todos os teus questionários",
+        "teachers_site": "Portal do professor",
+        "students_site": "Portal do estudante",
+        "self_hostable": "Auto hospedagem",
+        "german_server": "Servidor na Alemanha",
+        "no_tracking": "Sem deixar rasto",
+        "user_friendly": "Fácil de usar",
+        "completely_free": "Completamente grátis",
+        "quiz_results_downloadable": "Os resultados dos quizzes podem ser descarregados",
+        "multilingual": "Multilingue",
+        "dark_mode": "Modo escuro",
+        "get_a_quiz": "1. Obter um quiz",
+        "create_a_quiz_from_scratch": "Criar um quiz do zero com o editor, incluir imagens e mais",
+        "find_or_explore": "Pesquisar (ou explorar) quizzes criados ou importados por outros",
+        "import_quiz_from_kahoot_and_edit": "importar um quiz Kahoot! e editá-lo em ClassQuiz",
+        "play_quiz": "2. Preencher o quiz",
+        "select_answer": "Selecionar a resposta",
+        "choose_answer_wisely": "Escolha a resposta cuidadosamente",
+        "view_results": "Ver os resultados",
+        "check_if_chosen_wisely": "Verifica, se escolheste bem",
+        "list_winners": "Listar vencedores",
+        "get_ranking_and_winners": "Obter classificação final e ver os vencedores",
+        "why_classquiz": "Porquê ClassQuiz?",
+        "self_hostable_content": "ClassQuiz pode facilmente ser auto-alojado, para que os dados fiquem sob o seu controle!",
+        "user_friendly_content": "ClassQuiz está desenhado para ser simples e fácil de usar para todos.",
+        "quiz_results_downloadable_content": "Os resultados dos questionários podem ser facilmente exportados em Excel. (Não sabia que os outro não o podiam fazer)",
+        "multilingual_content": "ClassQuiz está traduzido para inglês, francês, alemão, italiano, norueguês bokmål, turco, e parcialmente traduzido em indonésio e catalão.",
+        "dark_mode_content": "Uma das funcionalidade mais importantes que um site pode ter!",
+        "download_quizzes": "Descarregar questionários",
+        "community_driven": "Guiado pela comunidade",
+        "community_driven_content": "ClassQuiz depende da sua comunidade para o financiamento, testes, solicitação de funções, traduções e mais! Podes também fazer parte da comunidade ativa ClassQuiz!",
+        "slogan": "A plataforma de quiz código-aberto!",
+        "no_tracking_content": "Kahoot! grava e partilha o seu perfil com terceiros, mas ClassQuiz não o faz.",
+        "completely_free_content": "ClassQuiz é gratuito para o utilizador, sem planos pagos nem redirecionamentos irritantes para versões paga.\nPortanto os donativos são bem-vindos.",
+        "german_server_content": "Os servidores de ClassQuiz encontram-se na Alemanha e estão alojados com netcup.",
+        "download_quizzes_content": "Os questionários podem em qualquer altura, ser descarregados como um ficheiro único. Isto permite fácil migração para outras instâncias ClassQuiz."
+    },
+    "overview_page": {
+        "created_at": "Criado em",
+        "question_count": "Contador de pergunta",
+        "no_quizzes": "Clicar no botão \"Criar\", ou importar um quiz Kahoot! para arrancar."
+    },
+    "edit_page": {
+        "success_update_title": "Questionário atualizado.",
+        "success_update_body": "Ninguém estava à espera da Inquisição."
+    },
+    "create_page": {
+        "success": {
+            "title": "Questionário criado.",
+            "body": "Que os jogos arranquem."
+        }
+    },
+    "register_page": {
+        "greeting": "Muito gosto em conhecê-lo!",
+        "create_account": "Criar uma conta",
+        "already_have_account?": "Já tem conta?",
+        "forgot_password?": "Esqueceu-se da password?"
+    },
+    "login_page": {
+        "welcome_back": "Benvindo de volta.",
+        "login_or_create_account": "Login ou criar uma conta",
+        "already_have_account": "Ainda não tem conta?",
+        "email_or_username": "Email ou Username",
+        "modal": {
+            "success": {
+                "success": "Conectado.",
+                "description": {
+                    "success_check_mail": "Verifique a sua caixa de correio para uma mensagem com um link para iniciar sessão.",
+                    "success": "Conectado."
+                },
+                "success_check_mail": "Conetado. Verifique a sua caixa de correio."
+            },
+            "error": {
+                "wrong_creds": "Username ou password incorretos.",
+                "unexpected": "Erro inesperado!",
+                "description": {
+                    "wrong_creds": "Por favor verifique que a sua password e endereço email estejam corretos.",
+                    "unexpected": "Ocorreu o típico erro inesperado!"
+                }
+            }
+        }
+    },
+    "editor": {
+        "time_in_seconds": "Tempo em segundos",
+        "right_or_true?": "Certo?",
+        "add_new_answer": "Juntar nova resposta",
+        "add_new_question": "Juntar nova questão"
+    }
+}
