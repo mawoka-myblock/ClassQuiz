@@ -1,1 +1,243 @@
-{}
+{
+    "index_page": {
+        "slogan": "Platforma quizowa o otwartym kodzie źródłowym!",
+        "meta": {
+            "title": "Strona główna",
+            "description": "ClassQuiz to aplikacja do tworzenia quizów, taka jak Kahoot! dla studentów, która jest darmowa i ma otwarty kod źródłowy"
+        },
+        "features_description": {
+            "1": "ClassQuiz to platforma quizów, która umożliwia tworzenie quizów i zarządzanie nimi.",
+            "3": "Szczególną zaletą programu jest edytor oraz funkcja eksportu wyników quizu w postaci plików Excel.",
+            "2": "Główną cechą jest funkcja importu z Kahoot!, która umożliwia importowanie quizów z Kahoot!."
+        },
+        "stats": "Na ClassQuiz jest już {{user_count}} użytkowników i {{quiz_count}} quizów.",
+        "see_what_true_and_false": "Zobacz, co było dobre lub złe",
+        "see_how_many_true_and_false": "Zobacz, ile osób miało rację, a ile nie",
+        "create_or_import": "Utwórz lub zaimportuj",
+        "see_all_quizzes": "Zobacz wszystkie swoje quizy",
+        "teachers_site": "Strona nauczyciela",
+        "no_tracking": "Bez śledzenia",
+        "self_hostable": "Samoobsługowy",
+        "german_server": "Serwer niemiecki",
+        "user_friendly": "Przyjazny użytkownikowi",
+        "completely_free": "Całkowicie za darmo",
+        "quiz_results_downloadable": "Wyniki quizu można pobrać",
+        "multilingual": "Wielojęzyczny",
+        "dark_mode": "Tryb ciemny",
+        "get_a_quiz": "1. Pobierz quiz",
+        "find_or_explore": "Znajdź (lub odkryj) quizy stworzone lub zaimportowane przez innych ludzi",
+        "import_quiz_from_kahoot_and_edit": "Zaimportuj quiz z Kahoot! i edytuj go w ClassQuiz",
+        "play_quiz": "2. Uruchom quiz",
+        "select_answer": "Wybierz odpowiedź",
+        "choose_answer_wisely": "Wybierz mądrze swoją odpowiedź",
+        "view_results": "Pokaż wyniki",
+        "check_if_chosen_wisely": "Sprawdź, czy dobrze wybrałeś",
+        "list_winners": "Lista zwycięzców",
+        "get_ranking_and_winners": "Poznaj ranking i zobacz kto wygrał",
+        "why_classquiz": "Dlaczego ClassQuiz?",
+        "no_tracking_content": "Kahoot! śledzi użytkownika i wysyła te informacje do osób trzecich, a ClassQuiz tego nie robi.",
+        "self_hostable_content": "ClassQuiz może być łatwo hostowany samodzielnie, więc dane są tylko pod Twoją kontrolą!",
+        "user_friendly_content": "ClassQuiz jest prosty, więc może być używany przez każdego.",
+        "completely_free_content": "ClassQuiz jest całkowicie darmowy (dla użytkownika), bez żadnych płatnych planów czy irytujących przekierowań do strony z aktualizacjami. Darowizny są bardzo mile widziane.",
+        "german_server_content": "Serwery ClassQuiz znajdują się w Niemczech i są hostowane przez netcup.",
+        "download_quizzes": "Pobierz quizy",
+        "download_quizzes_content": "Quizy mogą być pobierane jako jeden plik i importowane w dowolnym momencie. Pozwala to również na przenoszenie quizów do innych instancji ClassQuiz.",
+        "community_driven_content": "ClassQuiz polega na swojej społeczności w zakresie finansowania, testowania pomysłów, próśb o nowe funkcje, tłumaczeń i nie tylko! Ty też możesz być częścią społeczności ClassQuiz!",
+        "community_driven": "Napędzane przez społeczność",
+        "students_site": "Strona ucznia",
+        "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
+        "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
+        "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)"
+    },
+    "overview_page": {
+        "question_count": "Liczba pytań",
+        "no_quizzes": "Kliknij przycisk \"Utwórz\" lub zaimportuj quiz z Kahoot!."
+    },
+    "edit_page": {
+        "success_update_title": "Zaktualizowano quiz.",
+        "success_update_body": "Nikt nie będzie się spodziewał inkwizycji."
+    },
+    "create_page": {
+        "success": {
+            "title": "Utworzono quiz."
+        }
+    },
+    "register_page": {
+        "greeting": "Miło cię poznać!",
+        "create_account": "Utwórz konto",
+        "forgot_password?": "Zapomniałeś hasła?",
+        "already_have_account?": "Masz już konto?"
+    },
+    "login_page": {
+        "welcome_back": "Witaj ponownie.",
+        "login_or_create_account": "Zaloguj się lub utwórz konto",
+        "already_have_account": "Nie masz konta?",
+        "email_or_username": "Adres e-mail lub nazwa użytkownika",
+        "modal": {
+            "success": {
+                "success_check_mail": "Zalogowany. Sprawdź swoją skrzynkę e-mail.",
+                "success": "Zalogowany.",
+                "description": {
+                    "success_check_mail": "Sprawdź swoją skrzynkę e-mail i poszukaj wiadomości z linkiem, który możesz kliknąć, aby się zalogować.",
+                    "success": "Zalogowany."
+                }
+            },
+            "error": {
+                "unexpected": "Nieoczekiwany błąd!",
+                "description": {
+                    "wrong_creds": "Upewnij się, że Twoje hasło i adres e-mail są poprawne."
+                },
+                "wrong_creds": "Nieprawidłowy adres e-mail lub hasło."
+            }
+        }
+    },
+    "words": {
+        "start": "Rozpocznij",
+        "create": "Utwórz",
+        "import": "Importuj",
+        "logout": "Wyloguj",
+        "title": "Tytuł",
+        "url": "URL",
+        "connect": "Połącz",
+        "pin": "PIN",
+        "question": "Pytanie",
+        "answer": "Odpowiedź",
+        "stats": "Statystyki",
+        "features": "Funkcje",
+        "login": "Zaloguj się",
+        "delete": "Usuń",
+        "search": "Szukaj",
+        "screenshot": "Zrzut ekranu",
+        "screenshot_plural": "Zrzuty ekranu",
+        "browser": "Przeglądarka",
+        "view": "Widok",
+        "result": "Wyniki",
+        "result_plural": "Wyniki",
+        "range": "Zakres",
+        "multiple_choice": "Wielokrotny wybór",
+        "dashboard": "Pulpit nawigacyjny",
+        "question_plural": "Pytania",
+        "game_pin": "PIN do gry",
+        "other": "inne",
+        "other_plural": "inni",
+        "donating": "darowizna",
+        "find": "Szukaj",
+        "practice": "Ćwiczenia",
+        "error": "Błąd",
+        "register": "Zarejestruj",
+        "docs": "Dokumentacja",
+        "close": "Zamknij",
+        "save": "Zapisz",
+        "description": "Opis",
+        "settings": "Ustawienia",
+        "repeat_password": "Powtórz hasło",
+        "voting": "Głosowanie",
+        "download": "Pobierz",
+        "continue": "Kontynuuj",
+        "totp": "Hasło jednorazowe oparte na czasie",
+        "text": "Tekst",
+        "results": "Wyniki",
+        "note": "Uwaga",
+        "player_plural": "Gracze",
+        "score": "Wynik",
+        "username": "Nazwa użytkownika",
+        "password": "Hasło",
+        "email": "Adres e-mail"
+    },
+    "settings_page": {
+        "last_seen": "Ostatnio widziany",
+        "check_location": "Sprawdź lokalizację",
+        "delete_this_session": "Usuń tę sesję",
+        "old_password": "Stare hasło",
+        "new_password": "Nowe hasło",
+        "repeat_password": "Powtórz hasło",
+        "this_session?": "Ta sesja?"
+    },
+    "editor_page": {
+        "add_an_answer": "Dodaj odpowiedź",
+        "right_click_to_delete": "Kliknij prawym przyciskiem myszy na odpowiedź, aby ją usunąć!"
+    },
+    "footer": {
+        "self_ads": "Wykonane z ❤️ przez {{mawoka_link}} i z pomocą {{others_link}}.",
+        "more_details_here": "Więcej szczegółów tutaj",
+        "donate": "Jeśli uznasz to za przydatne, rozważ {{donate_link}}."
+    },
+    "error_page": {
+        "404_text": "Strona, której szukałeś, zniknęła lub nawet nigdy nie istniała. Kto wie?",
+        "unknown_error_text": "To nie powinno się zdarzyć. To pewnie moja wina, nie twoja, ale może masz magiczną moc niszczenia rzeczy..."
+    },
+    "uploader": {
+        "add_image": "Dodaj obraz"
+    },
+    "editor": {
+        "time_in_seconds": "Czas w sekundach",
+        "add_new_answer": "Dodaj nową odpowiedź",
+        "add_new_question": "Dodaj nowe pytanie",
+        "delete_question": "Usuń pytanie",
+        "delete_answer": "Usuń odpowiedź",
+        "not_all_links_imgur_links": "Nie wszystkie linki są linkami Imgur!"
+    },
+    "import_page": {
+        "need_help": "Potrzebujesz pomocy?",
+        "visit_docs": "Zapoznaj się z dokumentacją",
+        "url_should_look_like_this": "Adres URL powinien wyglądać tak: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "Na tej stronie możesz importować quizy, które są dostępne w Kahoot!.",
+        "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa",
+        "this_side_classquiz": "Na tej stronie można importować quizy, które zostały wyeksportowane z ClassQuiz."
+    },
+    "admin_page": {
+        "time_left": "Pozostały czas",
+        "get_results": "Wyniki",
+        "already_registered_as_admin": "W tej grze jest już zarejestrowany administrator.",
+        "start_game": "Rozpocznij grę",
+        "export_results": "Eksportuj wyniki",
+        "show_next_question": "Pokaż następne pytanie",
+        "start_by_showing_first_question": "Zacznij od pokazania pierwszego pytania.",
+        "no_answers": "Brak odpowiedzi!",
+        "stop_time": "Zatrzymaj czas",
+        "save_results": "Zapisz wyniki"
+    },
+    "password_reset_page": {
+        "reset_password": "Zresetuj hasło"
+    },
+    "search_page": {
+        "nothing_here": "Nic tu nie ma...",
+        "at_least_3_characters": "Wpisz co najmniej 3 znaki..."
+    },
+    "play_page": {
+        "1st_place": "1. miejsce",
+        "2nd_place": "2. miejsce",
+        "3rd place": "3. miejsce",
+        "with_out_of": "obliczenia {{correct_questions}} na podstawie {{total_question_count}}"
+    },
+    "explore_page": {
+        "made_by": "Wykonane przez",
+        "imported_by": "Importowane przez"
+    },
+    "avatar_settings": {
+        "skin_color": "Kolorystyka",
+        "mouth_type": "Usta",
+        "eyebrow_type": "Brwi",
+        "accessories_type": "Okulary",
+        "hat_color": "Kolor kapelusza",
+        "clothe_type": "Odzież",
+        "clothe_graphic_type": "Grafika",
+        "start_over": "Zacznij od nowa",
+        "thats_you": "To ty!",
+        "clothe_color": "Kolor odzieży"
+    },
+    "results_page": {
+        "quiz_title": "Tytuł quizu",
+        "player_count": "Liczba graczy",
+        "no_results_so_far": "Do tej pory nie zapisano żadnych wyników...",
+        "date_played": "Data gry"
+    },
+    "result_page": {
+        "player_name": "Nazwa gracza",
+        "custom_field": "Pole dodatkowe",
+        "average_score": "Średni wynik: {{average_score}}",
+        "correct_answer": "{{count}} poprawna odpowiedź",
+        "correct_answer_plural": "{count}} poprawne odpowiedzi",
+        "time_taken": "Czas trwania"
+    }
+}
