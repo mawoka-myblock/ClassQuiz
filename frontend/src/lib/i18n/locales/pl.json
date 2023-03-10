@@ -47,11 +47,13 @@
         "students_site": "Strona ucznia",
         "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
-        "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)"
+        "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
+        "dark_mode_content": "Jedna z najważniejszych cech, jakie może posiadać strona internetowa!"
     },
     "overview_page": {
         "question_count": "Liczba pytań",
-        "no_quizzes": "Kliknij przycisk \"Utwórz\" lub zaimportuj quiz z Kahoot!."
+        "no_quizzes": "Kliknij przycisk \"Utwórz\" lub zaimportuj quiz z Kahoot!.",
+        "created_at": "Utworzony w"
     },
     "edit_page": {
         "success_update_title": "Zaktualizowano quiz.",
@@ -59,7 +61,8 @@
     },
     "create_page": {
         "success": {
-            "title": "Utworzono quiz."
+            "title": "Utworzono quiz.",
+            "body": "Niech rozpocznie się gra."
         }
     },
     "register_page": {
@@ -85,11 +88,13 @@
             "error": {
                 "unexpected": "Nieoczekiwany błąd!",
                 "description": {
-                    "wrong_creds": "Upewnij się, że Twoje hasło i adres e-mail są poprawne."
+                    "wrong_creds": "Upewnij się, że Twoje hasło i adres e-mail są poprawne.",
+                    "unexpected": "Pojawił się stary nieoczekiwany błąd!"
                 },
                 "wrong_creds": "Nieprawidłowy adres e-mail lub hasło."
             }
-        }
+        },
+        "use_backup_code": "Użyj kodu zapasowego"
     },
     "words": {
         "start": "Rozpocznij",
@@ -142,7 +147,18 @@
         "score": "Wynik",
         "username": "Nazwa użytkownika",
         "password": "Hasło",
-        "email": "Adres e-mail"
+        "email": "Adres e-mail",
+        "play": "Zagraj",
+        "edit": "Zmodyfikuj",
+        "public": "Publiczne",
+        "image": "Obraz",
+        "overview": "Przegląd",
+        "report": "Raport",
+        "explore": "Odkryj",
+        "correct": "Prawidłowo",
+        "count": "Liczba",
+        "private": "Prywatny",
+        "backup_code": "Kod zapasowy"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -151,7 +167,8 @@
         "old_password": "Stare hasło",
         "new_password": "Nowe hasło",
         "repeat_password": "Powtórz hasło",
-        "this_session?": "Ta sesja?"
+        "this_session?": "Ta sesja?",
+        "change_password_submit": "Zmień hasło"
     },
     "editor_page": {
         "add_an_answer": "Dodaj odpowiedź",
@@ -195,7 +212,9 @@
         "start_by_showing_first_question": "Zacznij od pokazania pierwszego pytania.",
         "no_answers": "Brak odpowiedzi!",
         "stop_time": "Zatrzymaj czas",
-        "save_results": "Zapisz wyniki"
+        "save_results": "Zapisz wyniki",
+        "get_results_and_stop_time": "Wyniki i czas trwania",
+        "get_final_results": "Wyniki ostateczne"
     },
     "password_reset_page": {
         "reset_password": "Zresetuj hasło"
@@ -208,7 +227,8 @@
         "1st_place": "1. miejsce",
         "2nd_place": "2. miejsce",
         "3rd place": "3. miejsce",
-        "with_out_of": "obliczenia {{correct_questions}} na podstawie {{total_question_count}}"
+        "with_out_of": "obliczenia {{correct_questions}} na podstawie {{total_question_count}}",
+        "end_sentence": "To jest to! To był quiz."
     },
     "explore_page": {
         "made_by": "Wykonane przez",
@@ -224,7 +244,10 @@
         "clothe_graphic_type": "Grafika",
         "start_over": "Zacznij od nowa",
         "thats_you": "To ty!",
-        "clothe_color": "Kolor odzieży"
+        "clothe_color": "Kolor odzieży",
+        "hair_color": "Kolor włosów",
+        "facial_hair_type": "Zarost",
+        "facial_hair_color": "Kolor zarostu"
     },
     "results_page": {
         "quiz_title": "Tytuł quizu",
@@ -239,5 +262,8 @@
         "correct_answer": "{{count}} poprawna odpowiedź",
         "correct_answer_plural": "{count}} poprawne odpowiedzi",
         "time_taken": "Czas trwania"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Wyszukaj własne quizy"
     }
 }
