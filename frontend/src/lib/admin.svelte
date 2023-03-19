@@ -84,12 +84,8 @@
 	});
 
 	socket.on('question_results', (data) => {
-		try {
-			question_results = JSON.parse(data);
-			timer_res = '0';
-		} catch {
-			question_results = undefined;
-		}
+		question_results = data;
+		timer_res = '0';
 	});
 
 	const timer = (time: string) => {

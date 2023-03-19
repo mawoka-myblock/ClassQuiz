@@ -161,7 +161,9 @@ class DebugScreen extends StatelessWidget {
                               time: 20.0,
                               answers: [
                                 AbcdQuizAnswerWithoutSolution(answer: "answer 1"),
-                                AbcdQuizAnswerWithoutSolution(answer: "answer 2", color: "#aa0000")
+                                AbcdQuizAnswerWithoutSolution(answer: "answer 2", color: "#aa0000"),
+                                AbcdQuizAnswerWithoutSolution(answer: "answer 3"),
+                                AbcdQuizAnswerWithoutSolution(answer: "answer 4")
                               ],
                               type: QuizQuestionTypes.abcd,
                               image: null));

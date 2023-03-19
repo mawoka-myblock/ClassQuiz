@@ -93,11 +93,7 @@
 
 	socket.on('question_results', (data) => {
 		restart();
-		try {
-			answer_results = JSON.parse(data);
-		} catch {
-			answer_results = null;
-		}
+		answer_results = data;
 	});
 
 	socket.on('username_already_exists', () => {

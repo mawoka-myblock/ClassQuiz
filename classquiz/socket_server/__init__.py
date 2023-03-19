@@ -206,7 +206,7 @@ async def get_question_results(sid: str, data: dict):
     if session["admin"]:
         redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
         game_pin = session["game_pin"]
-        await sio.emit("question_results", redis_res, room=game_pin)
+        await sio.emit("question_results", json.loads(redis_res), room=game_pin)
 
 
 class ABCDQuizAnswerWithoutSolution(BaseModel):

@@ -133,12 +133,8 @@
 	});
 
 	socket.on('question_results', (data) => {
-		try {
-			question_results = JSON.parse(data);
-			timer_res = '0';
-		} catch {
-			question_results = undefined;
-		}
+		question_results = data;
+		timer_res = '0';
 	});
 	socket.on('set_question_number', (data) => {
 		timer_res = '0';
@@ -179,7 +175,7 @@
 {#if game_started}
 	{#if selected_question + 1 === game_data.questions.length && ((timer_res === '0' && question_results !== null) || game_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 		{#if JSON.stringify(final_results) === JSON.stringify([null])}
-			<button on:click={get_final_results} class="admin-button">Get final results </button>
+			<button on:click={get_final_results} class="admin-button">Get final results</button>
 		{:else}
 			<div class="w-screen flex justify-center mt-16">
 				<button on:click={request_answer_export} class="admin-button"
@@ -207,7 +203,7 @@
 					>Next Question ({selected_question + 2})
 				</button>
 			{:else}
-				<button on:click={get_question_results} class="admin-button">Show results </button>
+				<button on:click={get_question_results} class="admin-button">Show results</button>
 			{/if}
 		{/if}
 	{:else if selected_question !== -1}

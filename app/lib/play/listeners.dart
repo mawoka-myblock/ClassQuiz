@@ -116,8 +116,7 @@ class QuestionResults {
   List<AnswerData> get data => _data;
 
   void handleEvent(dynamic data, DataManager dm) {
-    final json = jsonDecode(data) as List;
-    _data = json.map((e) => AnswerData.fromJson(e)).toList().cast<AnswerData>();
+    _data = data.map((e) => AnswerData.fromJson(e)).toList().cast<AnswerData>();
     String? username = dm.username.value;
     for (var d in _data) {
       if (d.username == username) {

@@ -39,6 +39,7 @@ dependencies:
   socket_io_client: ^2.0.1
   http: ^0.13.5
   circular_countdown_timer: ^0.2.3
+  dynamic_color: ^1.6.2
 
 dev_dependencies:
   flutter_test:
