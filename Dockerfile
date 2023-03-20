@@ -1,8 +1,8 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 COPY Pipfile* /app/
 WORKDIR /app/
-RUN apt update && apt install -y jq && jq -r '.default | to_entries[] | .key + .value.version' Pipfile.lock > requirements.txt
+RUN apt update && apt install -y jq gcc && jq -r '.default | to_entries[] | .key + .value.version' Pipfile.lock > requirements.txt
 RUN pip install -r requirements.txt
 
 COPY classquiz/ /app/classquiz/
