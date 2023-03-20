@@ -1,9 +1,9 @@
-FROM python:3.10-slim
+FROM python:3.10
 
 COPY Pipfile* /app/
 WORKDIR /app/
-RUN pip install pipenv packaging \
-&& pipenv install --system
+RUN apt update && apt install -y jq && jq -r '.default | to_entries[] | .key + .value.version' Pipfile.lock > requirements.txt
+RUN pip install -r requirements.txt
 
 COPY classquiz/ /app/classquiz/
 COPY image_cleanup.py /app/image_cleanup.py

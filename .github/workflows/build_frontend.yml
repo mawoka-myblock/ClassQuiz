@@ -1,21 +1,21 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: "[CI] Backend / Build"
+name: "[CI] Frontend / Build"
 
 on:
   workflow_dispatch:
   push:
     branches: [ master ]
     paths:
-      - "classquiz/**"
+      - "frontend/**"
 #  pull_request:
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: mawoka-myblock/classquiz-frontend
 
 
 jobs:
@@ -31,6 +31,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set correct options in Dockerfile
+        run: |
+          sed -i "s/VITE_GOOGLE_AUTH_ENABLED=true/VITE_GOOGLE_AUTH_ENABLED=false/g" frontend/Dockerfile
+          sed -i "s/VITE_GITHUB_AUTH_ENABLED=true/VITE_GITHUB_AUTH_ENABLED=false/g" frontend/Dockerfile
+          sed -i "s/VITE_CAPTCHA_ENABLED=true/VITE_CAPTCHA_ENABLED=false/g" frontend/Dockerfile
+
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
@@ -69,6 +76,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v4.0.0
         with:
+          context: "./frontend"
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
