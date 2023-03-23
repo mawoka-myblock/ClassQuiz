@@ -36,6 +36,7 @@ cryptography = "*"
 scheduler = "*"
 webauthn = "*"
 pyotp = "*"
+stripe = "*"
 
 [dev-packages]
 coverage = "*"

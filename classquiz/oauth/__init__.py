@@ -72,7 +72,10 @@ async def rememberme_middleware(request: Request, call_next):
             return response
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         # access_token_expires = timedelta(seconds=1)
-        access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
+        access_token = create_access_token(
+            data={"sub": user_session.user.email, "premium": user_session.user.premium},
+            expires_delta=access_token_expires,
+        )
         await user_session.update(last_seen=datetime.now())
         request.state.access_token = f"Bearer {access_token}"
         request.cookies.pop("access_token")

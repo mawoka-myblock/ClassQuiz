@@ -70,6 +70,7 @@ specifiers:
     svelte-check: ^3.0.3
     svelte-preprocess: ^5.0.1
     svelte-range-slider-pips: ^2.1.1
+    svelte-stripe: ^0.0.22
     svelte-tippy: ^1.3.2
     swiper: ^8.4.6
     tailwindcss: ^3.2.4
@@ -153,6 +154,7 @@ devDependencies:
     svelte-check: 3.0.3_mraflicfyjy3x4taxigiwsr23i
     svelte-preprocess: 5.0.1_uaodilper24tejwwmnc3sygxui
     svelte-range-slider-pips: 2.1.1
+    svelte-stripe: 0.0.22
     svelte-tippy: 1.3.2
     swiper: 8.4.6
     tailwindcss: 3.2.4_postcss@8.4.21
@@ -1210,6 +1212,13 @@ packages:
         resolution:
             {
                 integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
+            }
+        dev: true
+
+    /@stripe/stripe-js/1.50.0:
+        resolution:
+            {
+                integrity: sha512-7j52eB98l/oJL1ywREs7UJAKEavM1HTtS8LUHt1dso8TJN8kNz561/847Xqbafe0yCReET8WFeIBvMeewug8xQ==
             }
         dev: true
 
@@ -5243,6 +5252,15 @@ packages:
             {
                 integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==
             }
+        dev: true
+
+    /svelte-stripe/0.0.22:
+        resolution:
+            {
+                integrity: sha512-ZLt55XNWrytsMfaMUUxEknLjphYWqhRkRNcHmmkp7gbENKSB8rp6o6hZP5zWEoUGwYNiPGqpM/DgbXy27BdVIQ==
+            }
+        dependencies:
+            '@stripe/stripe-js': 1.50.0
         dev: true
 
     /svelte-tippy/1.3.2:

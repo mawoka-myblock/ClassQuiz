@@ -36,6 +36,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 	event.locals.email = jwt.payload.sub;
+	event.locals.premium = jwt.payload.premium ?? false;
 	return resolve(event);
 };
 

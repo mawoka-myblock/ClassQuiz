@@ -29,19 +29,21 @@ from classquiz.auth import (
     get_current_user,
 )
 from classquiz.cache import clear_cache_for_account
-from classquiz.config import redis, settings, meilisearch
+from classquiz.config import redis, settings, meilisearch, stripe_enabled
 import uuid
 import bleach
 from pydantic import BaseModel
 from classquiz.db.models import User, UserSession, UpdatePassword, Token, Quiz, ApiKey
 from classquiz.emails import send_register_email, send_forgotten_password_email
-from classquiz.routers.users import webauthn, twofa
+from classquiz.routers.users import webauthn, twofa, billing
 
 settings = settings()
 router = APIRouter()
 
 router.include_router(webauthn.router, prefix="/webauthn")
 router.include_router(twofa.router, prefix="/2fa")
+if stripe_enabled:
+    router.include_router(billing.router, prefix="/billing")
 
 
 class RouteUser(pydantic.BaseModel):

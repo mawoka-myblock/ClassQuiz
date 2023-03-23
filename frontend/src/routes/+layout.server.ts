@@ -1,4 +1,4 @@
-import { signedIn } from '$lib/stores';
+import { signedIn, premium } from '$lib/stores';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
@@ -7,7 +7,9 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	} else {
 		signedIn.set(false);
 	}
+	premium.set(locals.premium);
 	return {
-		email: locals.email
+		email: locals.email,
+		premium: locals.premium
 	};
 };
