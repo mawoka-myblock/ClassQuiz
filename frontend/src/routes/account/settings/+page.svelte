@@ -192,6 +192,11 @@ SPDX-License-Identifier: MPL-2.0
 						<BrownButton href="/account/controllers">ClassQuizController</BrownButton>
 						<BrownButton href="/user/{user.id}">Public profile page</BrownButton>
 					</div>
+					<div class="m-auto">
+						<BrownButton href="/api/v1/users/billing/portal-session"
+							>Payment-Settings
+						</BrownButton>
+					</div>
 				</div>
 			</div>
 			<div>

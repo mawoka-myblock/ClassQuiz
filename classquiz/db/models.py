@@ -44,6 +44,8 @@ class User(ormar.Model):
     backup_code: str = ormar.String(max_length=64, min_length=64, nullable=False, default=os.urandom(32).hex())
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
     storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
+    stripe_id: str | None = ormar.Text(nullable=True, default=None)
+    premium: bool = ormar.Boolean(default=False, nullable=False)
 
     class Meta:
         tablename = "users"
@@ -308,6 +310,27 @@ class GameResults(ormar.Model):
 
     class Meta:
         tablename = "game_results"
+        metadata = metadata
+        database = database
+
+
+class SubscriptionPlans(Enum):
+    ANNUAL = "ANNUAL"
+    MONTHLY = "MONTHLY"
+
+
+class Subscription(ormar.Model):
+    subscription_id: str = ormar.Text(nullable=False, primary_key=True)
+    user: uuid.UUID | User = ormar.ForeignKey(User)
+    active: bool = ormar.Boolean(nullable=False)
+    subscription_status: str = ormar.Text(nullable=False)
+    product_id: str = ormar.Text(nullable=False)
+    type: SubscriptionPlans = ormar.Enum(enum_class=SubscriptionPlans)
+    created_at: datetime = ormar.DateTime(nullable=False)
+    updated_at: datetime = ormar.DateTime(nullable=False)
+
+    class Meta:
+        tablename = "subscriptions"
         metadata = metadata
         database = database
 

@@ -10,6 +10,7 @@ import redis as redis_base_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
 import meilisearch as MeiliSearch
 from typing import Optional
+import stripe as stripe_lib
 from arq import create_pool
 from arq.connections import RedisSettings, ArqRedis
 
@@ -21,6 +22,13 @@ class CustomOpenIDProvider(BaseModel):
     server_metadata_url: str
     client_id: str
     client_secret: str
+
+
+class StripeConfig(BaseModel):
+    api_key: str
+    annual_id: str
+    monthly_id: str
+    webhook_secret: str
 
 
 class Settings(BaseSettings):
@@ -53,6 +61,7 @@ class Settings(BaseSettings):
     telemetry_enabled: bool = True
     free_storage_limit: int = 1074000000
     pixabay_api_key: str | None = None
+    stripe: StripeConfig | None
 
     # storage_backend
     storage_backend: str | None = "local"
@@ -101,3 +110,10 @@ meilisearch = MeiliSearch.Client(settings().meilisearch_url)
 ALLOWED_TAGS_FOR_QUIZ = ["b", "strong", "i", "em", "small", "mark", "del", "sub", "sup"]
 
 server_regex = rf"^{re.escape(settings().root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"
+
+stripe = None
+stripe_enabled = False
+if settings().stripe is not None:
+    stripe_enabled = True
+    stripe = stripe_lib
+    stripe.api_key = settings().stripe.api_key

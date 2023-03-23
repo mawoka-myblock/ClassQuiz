@@ -37,7 +37,9 @@ async def log_user_in(user: User, request: Request, response: Response):
     await user_session.save()
     # await user_session.save()
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
-    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
+    access_token = create_access_token(
+        data={"sub": user.email, "premium": user.premium}, expires_delta=access_token_expires
+    )
     await redis.set(access_token, user.email, ex=settings.access_token_expire_minutes * 60)
     response.set_cookie(
         key="access_token",
@@ -59,7 +61,9 @@ async def rememberme_check(rememberme_token: str, response: Response):
     if (user_session is None) or (user_session.user is None):
         raise HTTPException(status_code=401, detail="No user session")
     access_token_expires = timedelta(minutes=settings.access_token_expire_minutes * 60)
-    access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
+    access_token = create_access_token(
+        data={"sub": user_session.user.email, "premium": user_session.user.premium}, expires_delta=access_token_expires
+    )
     response.set_cookie(
         key="access_token",
         value=f"Bearer {access_token}",
