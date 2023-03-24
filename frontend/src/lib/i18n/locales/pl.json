@@ -17,7 +17,7 @@
         "see_all_quizzes": "Zobacz wszystkie swoje quizy",
         "teachers_site": "Strona nauczyciela",
         "no_tracking": "Bez śledzenia",
-        "self_hostable": "Samoobsługowy",
+        "self_hostable": "Możliwość samodzielnego hostowania",
         "german_server": "Serwer niemiecki",
         "user_friendly": "Przyjazny użytkownikowi",
         "completely_free": "Całkowicie za darmo",
@@ -48,7 +48,7 @@
         "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
         "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
-        "dark_mode_content": "Jedna z najważniejszych cech, jakie może posiadać strona internetowa!"
+        "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!"
     },
     "overview_page": {
         "question_count": "Liczba pytań",
@@ -158,7 +158,10 @@
         "correct": "Prawidłowo",
         "count": "Liczba",
         "private": "Prywatny",
-        "backup_code": "Kod zapasowy"
+        "backup_code": "Kod zapasowy",
+        "submit": "Prześlij",
+        "kick": "Wykop",
+        "order": "kolejność"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -168,7 +171,7 @@
         "new_password": "Nowe hasło",
         "repeat_password": "Powtórz hasło",
         "this_session?": "Ta sesja?",
-        "change_password_submit": "Zmień hasło"
+        "change_password_submit": "Zmień hasło!"
     },
     "editor_page": {
         "add_an_answer": "Dodaj odpowiedź",
@@ -192,7 +195,8 @@
         "add_new_question": "Dodaj nowe pytanie",
         "delete_question": "Usuń pytanie",
         "delete_answer": "Usuń odpowiedź",
-        "not_all_links_imgur_links": "Nie wszystkie linki są linkami Imgur!"
+        "not_all_links_imgur_links": "Nie wszystkie linki prowadzą do Imgur!",
+        "right_or_true?": "Prawda?"
     },
     "import_page": {
         "need_help": "Potrzebujesz pomocy?",
@@ -200,7 +204,9 @@
         "url_should_look_like_this": "Adres URL powinien wyglądać tak: https://create.kahoot.it/details/...",
         "side_import_kahoot": "Na tej stronie możesz importować quizy, które są dostępne w Kahoot!.",
         "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa",
-        "this_side_classquiz": "Na tej stronie można importować quizy, które zostały wyeksportowane z ClassQuiz."
+        "this_side_classquiz": "Na tej stronie można importować quizy, które zostały wyeksportowane z ClassQuiz.",
+        "a_kahoot_quiz": "Quiz Kahoot",
+        "classquiz_quiz": "Quiz ClassQuiz"
     },
     "admin_page": {
         "time_left": "Pozostały czas",
@@ -213,7 +219,7 @@
         "no_answers": "Brak odpowiedzi!",
         "stop_time": "Zatrzymaj czas",
         "save_results": "Zapisz wyniki",
-        "get_results_and_stop_time": "Wyniki i czas trwania",
+        "get_results_and_stop_time": "Uzyskaj wyniki i zatrzymaj czas",
         "get_final_results": "Wyniki ostateczne"
     },
     "password_reset_page": {
@@ -227,7 +233,7 @@
         "1st_place": "1. miejsce",
         "2nd_place": "2. miejsce",
         "3rd place": "3. miejsce",
-        "with_out_of": "obliczenia {{correct_questions}} na podstawie {{total_question_count}}",
+        "with_out_of": "z {{correct_questions}} na {{total_question_count}}",
         "end_sentence": "To jest to! To był quiz."
     },
     "explore_page": {
@@ -247,7 +253,8 @@
         "clothe_color": "Kolor odzieży",
         "hair_color": "Kolor włosów",
         "facial_hair_type": "Zarost",
-        "facial_hair_color": "Kolor zarostu"
+        "facial_hair_color": "Kolor zarostu",
+        "top_type": "Góra"
     },
     "results_page": {
         "quiz_title": "Tytuł quizu",
