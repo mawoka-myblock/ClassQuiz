@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import json
+import random
 import re
 import uuid
 from datetime import datetime
@@ -98,12 +99,31 @@ async def get_public_quiz(quiz_id: str):
         return PublicQuizResponse(**quiz.dict())
 
 
+def generate_code() -> str:
+    specified_length = 6
+    buttons = [
+        "B",
+        "b",
+        "G",
+        "g",
+        "Y",
+        "y",
+        "R",
+        "r",
+    ]  # Capital stands for long press, lowercase letter for short press
+    resulting_code = ""
+    for i in range(specified_length):
+        resulting_code += random.choice(buttons)
+    return resulting_code
+
+
 @router.post("/start/{quiz_id}")
 async def start_quiz(
     quiz_id: str,
     game_mode: str,
     captcha_enabled: bool = True,
     custom_field: str | None = None,
+    cqcs_enabled: bool = False,
     user: User = Depends(get_current_user),
 ):
     try:
@@ -138,14 +158,19 @@ async def start_quiz(
         custom_field=custom_field,
         background_image=quiz.background_image,
     )
+    code = None
+    if cqcs_enabled:
+        code = generate_code()
+        await redis.set(f"game:cqc:code:{code}", game_pin, ex=3600)
     await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
     await redis.set(f"game_pin:{user.id}:{quiz_id}", game_pin, ex=18000)
+
     await redis.set(
         f"game_in_lobby:{user.id.hex}",
         GameInLobby(game_id=game.game_id, game_pin=str(game_pin), quiz_title=quiz.title).json(),
         ex=900,
     )
-    return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"})}
+    return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"}), "cqc_code": code}
 
 
 class CheckIfCaptchaEnabledResponse(BaseModel):

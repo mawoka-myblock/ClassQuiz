@@ -11,11 +11,12 @@
 	import { navbarVisible } from '$lib/stores';
 	import type { PlayerAnswer, Player } from '$lib/admin.ts';
 	import SomeAdminScreen from '$lib/admin.svelte';
-	import AudioPlayer from '$lib/play/audio_player.svelte';
+	import GameNotStarted from '$lib/play/admin/game_not_started.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import FinalResults from '$lib/play/admin/final_results.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
+	import { page } from '$app/stores';
 
 	navbarVisible.set(false);
 
@@ -41,7 +42,6 @@
 	let success = false;
 	let dataexport_download_a;
 	let warnToLeave = true;
-	let play_music = false;
 
 	const connect = async () => {
 		socket.emit('register_as_admin', {
@@ -127,17 +127,6 @@
 				window.matchMedia('(prefers-color-scheme: dark)').matches);
 	}
 
-	const kick_player = (username: string) => {
-		socket.emit('kick_player', { username: username });
-		for (let i = 0; i < players.length; i++) {
-			console.log(players[i].username, username);
-			if (players[i].username === username) {
-				players.splice(i, 1);
-				break;
-			}
-		}
-		players = players;
-	};
 	let bg_color;
 	let bg_image;
 	let results_saved = false;
@@ -201,46 +190,12 @@
 			<p class="text-red-700">{errorMessage}</p>
 		{/if}
 	{:else if !game_started}
-		<div class="w-full h-full">
-			<AudioPlayer bind:play={play_music} />
-			<div>
-				<img
-					alt="QR code to join the game"
-					src="/api/v1/utils/qr/{quiz_data.game_pin}"
-					class="block mx-auto w-1/6 mt-12 dark:bg-white"
-				/>
-			</div>
-			<p class="text-3xl text-center ">{$t('words.pin')}: {quiz_data.game_pin}</p>
-			<div class="flex justify-center w-full mt-4">
-				<ul class="list-disc pl-8">
-					{#if players.length > 0}
-						{#each players as player}
-							<li>
-								<span
-									class="hover:line-through"
-									on:click={() => {
-										kick_player(player.username);
-									}}>{player.username}</span
-								>
-								<!--					<button>{$t('words.kick')}</button>-->
-							</li>
-						{/each}
-					{/if}
-				</ul>
-			</div>
-			{#if players.length > 0}
-				<div class="flex justify-center w-full mt-4">
-					<button
-						class="ml-4 admin-button"
-						id="startGame"
-						on:click={() => {
-							socket.emit('start_game', '');
-						}}
-						>{$t('admin_page.start_game')}
-					</button>
-				</div>
-			{/if}
-		</div>
+		<GameNotStarted
+			{game_pin}
+			bind:players
+			{socket}
+			cqc_code={$page.url.searchParams.get('cqc_code')}
+		/>
 	{:else}
 		<SomeAdminScreen
 			bind:final_results

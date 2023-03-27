@@ -32,6 +32,7 @@ from classquiz.routers import (
     avatar,
     results,
     admin,
+    box_controller,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
@@ -85,6 +86,9 @@ async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
 
+app.include_router(
+    box_controller.router, tags=["boxcontroller"], prefix="/api/v1/box-controller", include_in_schema=True
+)
 app.include_router(results.router, tags=["results"], prefix="/api/v1/results", include_in_schema=True)
 app.include_router(remote.router, tags=["remote"], prefix="/api/v1/remote", include_in_schema=True)
 app.include_router(login.router, tags=["auth"], prefix="/api/v1/login", include_in_schema=True)

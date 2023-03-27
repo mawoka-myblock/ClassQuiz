@@ -122,3 +122,9 @@ Holds the custom-field data, but is only set if the custom-field is enabled.
 
 
 data: `{PLAYER_NAME} = {CUSTOM_FIELD_VALUE}`
+
+## game:cqb:code:{cqc_code} [string]
+
+{cqc_code} is the code used to join with a **C**lass**Q**uiz**C**ontroller
+
+Only holds the game-pin

@@ -10,12 +10,21 @@
 	import { fade } from 'svelte/transition';
 	import Spinner from '$lib/Spinner.svelte';
 	import { onMount } from 'svelte';
+	import { createTippy } from 'svelte-tippy';
 
 	export let quiz_id;
 	let captcha_selected = false;
 	let selected_game_mode = 'kahoot';
 	let loading = false;
 	let custom_field = '';
+	let cqcs_enabled = false;
+
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle',
+		placement: 'top-start',
+		allowHTML: true
+	});
 
 	onMount(() => {
 		const ls_data = localStorage.getItem('custom_field');
@@ -26,16 +35,17 @@
 		let res;
 		loading = true;
 		localStorage.setItem('custom_field', custom_field);
+		const cqcs_enabled_parsed = cqcs_enabled ? 'True' : 'False';
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}`,
 				{
 					method: 'POST'
 				}
 			);
 		} else {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}`,
 				{
 					method: 'POST'
 				}
@@ -54,7 +64,9 @@
 			const data = await res.json();
 			// eslint-disable-next-line no-undef
 			plausible('Started Game', { props: { quiz_id: id, game_id: data.game_id } });
-			window.location.assign(`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1`);
+			window.location.assign(
+				`/admin?token=${data.game_id}&pin=${data.game_pin}&connect=1&cqc_code=${data.cqc_code}`
+			);
 		}
 	};
 </script>
@@ -89,7 +101,7 @@
 			</label>
 		</div>
 		{#if captcha_selected}
-			<div class="flex justify-center mt-2" transition:fade>
+			<div class="flex justify-center mt-2" in:fade>
 				<p class="w-1/3">
 					If enabled, Google's ReCaptcha will load in the browser of players. Only enable
 					if you really need it, since you need the consent of <b>EVERY</b> player to load
@@ -128,13 +140,43 @@
 				</p>
 			</div>
 		</div>
-		<div class="flex justify-center items-center">
+		<div class="flex justify-center items-center my-auto">
 			<label class="mr-4">Custom Field</label>
 			<input
 				bind:value={custom_field}
 				class="rounded-lg p-2 outline-none placeholder:italic"
 				placeholder="Phone Number or Email"
 			/>
+		</div>
+		<div class="flex justify-center w-full my-auto">
+			<label
+				for="cqc-toggle"
+				class="inline-flex relative items-center cursor-pointer"
+				class:pointer-events-none={!captcha_enabled}
+				class:opacity-50={!captcha_enabled}
+			>
+				<input
+					type="checkbox"
+					bind:checked={cqcs_enabled}
+					id="cqc-toggle"
+					class="sr-only peer"
+				/>
+				<span
+					class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+				/>
+				<span class="ml-3 text-sm font-medium text-gray-900"
+					><a
+						href="/controller"
+						target="_blank"
+						use:tippy={{
+							content:
+								'ClassQuizControllers are small physical devices to play ClassQuiz. Click to learn more.'
+						}}
+						class="decoration-dashed underline cursor-help">ClassQuizControllers</a
+					>
+					are {cqcs_enabled ? 'enabled' : 'disabled'}</span
+				>
+			</label>
 		</div>
 
 		<button
