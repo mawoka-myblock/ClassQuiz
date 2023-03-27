@@ -139,7 +139,7 @@
     },
     "footer": {
         "more_details_here": "更多詳細資訊",
-        "self_ads": "由 {{mawoka_link}} 在 {{other_lnk}} 的協助下以 ❤️ 製作。",
+        "self_ads": "由 {{mawoka_link}} 在 {{other_link}} 的協助下以 ❤️ 製作。",
         "donate": "若你覺得這很實用，請考慮 {{donate_link}}。"
     },
     "uploader": {
