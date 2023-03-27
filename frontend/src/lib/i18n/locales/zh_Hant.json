@@ -60,10 +60,11 @@
         "already_have_account": "沒有帳戶？",
         "modal": {
             "error": {
-                "wrong_creds": "電子郵件地址或密碼錯誤。",
+                "wrong_creds": "電子信箱地址或密碼錯誤。",
                 "unexpected": "非預期錯誤！",
                 "description": {
-                    "wrong_creds": "請確認你的密碼和電子郵件地址是否正確。"
+                    "wrong_creds": "請確認你的密碼和電子信箱地址是否正確。",
+                    "unexpected": "非預期錯誤！"
                 }
             },
             "success": {
@@ -75,16 +76,25 @@
             }
         },
         "welcome_back": "歡迎回來。",
-        "use_backup_code": "使用備用代碼"
+        "use_backup_code": "使用備用代碼",
+        "email_or_username": "電子信箱或使用者名稱"
     },
     "editor": {
         "delete_question": "刪除問題",
         "add_new_question": "新增問題",
         "delete_answer": "刪除答案",
-        "add_new_answer": "新增答案"
+        "add_new_answer": "新增答案",
+        "not_all_links_imgur_links": "不是所有連結都是 Imgur 連結！"
     },
     "import_page": {
-        "need_help": "需要幫助？"
+        "need_help": "需要幫助？",
+        "visit_docs": "檢視說明文件",
+        "url_should_look_like_this": "URL 看起來應該像這樣：https://create.kahoot.it/details/...",
+        "a_kahoot_quiz": "一個 Kahoot! 測驗",
+        "this_side_classquiz": "你可以在這邊匯入 ClassQuiz 測驗。",
+        "side_import_kahoot": "你可以在這邊匯入 Kahoot! 測驗。",
+        "upload_file_ending": "上傳副檔名為 cqa 的檔案",
+        "classquiz_quiz": "一個 ClassQui 測驗"
     },
     "admin_page": {
         "start_game": "開始遊戲",
@@ -94,7 +104,11 @@
         "export_results": "匯出結果",
         "show_next_question": "顯示下一個問題",
         "time_left": "剩餘時間",
-        "stop_time": "停止計時"
+        "stop_time": "停止計時",
+        "no_answers": "沒有答案！",
+        "start_by_showing_first_question": "開始時顯示第一個問題。",
+        "save_results": "儲存結果",
+        "already_registered_as_admin": "此遊戲已有一位管理員。"
     },
     "password_reset_page": {
         "reset_password": "重設密碼"
@@ -104,7 +118,9 @@
         "new_password": "新密碼",
         "repeat_password": "再次輸入密碼",
         "change_password_submit": "變更密碼！",
-        "check_location": "檢查位置"
+        "check_location": "檢查位置",
+        "delete_this_session": "刪除此工作階段",
+        "this_session?": "這個工作階段？"
     },
     "explore_page": {
         "made_by": "作者為",
@@ -114,14 +130,17 @@
         "2nd_place": "第二名",
         "3rd place": "第三名",
         "with_out_of": "{{total_question_count}} 題中答對 {{correct_questions}} 題",
-        "1st_place": "第一名"
+        "1st_place": "第一名",
+        "end_sentence": "完成！本次測驗結束。"
     },
     "editor_page": {
         "add_an_answer": "新增一個答案",
         "right_click_to_delete": "右鍵點擊一個答案即可將它刪除！"
     },
     "footer": {
-        "more_details_here": "更多詳細資訊"
+        "more_details_here": "更多詳細資訊",
+        "self_ads": "由 {{mawoka_link}} 在 {{other_link}} 的協助下以 ❤️ 製作。",
+        "donate": "若你覺得這很實用，請考慮 {{donate_link}}。"
     },
     "uploader": {
         "add_image": "新增圖片"
@@ -133,7 +152,7 @@
         "stats": "統計資料",
         "features": "功能",
         "login": "登入",
-        "email": "電子郵件地址",
+        "email": "電子信箱地址",
         "username": "使用者名稱",
         "password": "密碼",
         "edit": "編輯",
@@ -169,7 +188,7 @@
         "game_pin": "遊戲 PIN",
         "other": "其他",
         "search": "搜尋",
-        "other_plural": "其他",
+        "other_plural": "其他人",
         "download": "下載",
         "voting": "投票",
         "docs": "文件",
@@ -178,13 +197,18 @@
         "error": "錯誤",
         "continue": "繼續",
         "backup_code": "備用代碼",
-        "totp": "",
+        "totp": "基於時間的一次性密碼演算法 (TOTP)",
         "play": "遊玩",
         "text": "文字",
-        "start": "開始"
+        "start": "開始",
+        "connect": "連線",
+        "results": "結果",
+        "score": "分數",
+        "player_plural": "玩家"
     },
     "search_page": {
-        "at_least_3_characters": "輸入至少 3 個字元..."
+        "at_least_3_characters": "輸入至少 3 個字元...",
+        "nothing_here": "這裡空無一物..."
     },
     "dashboard": {
         "search_for_own_quizzes": "搜尋你的測驗"
@@ -193,5 +217,37 @@
         "created_at": "建立於",
         "question_count": "問題數",
         "no_quizzes": "點擊「建立」按鈕或從 Kahoot! 匯入測驗。"
+    },
+    "error_page": {
+        "unknown_error_text": "這不應該發生。這可能是我的問題而不是你的，不過說不定你擁有破壞東西的魔法能力...",
+        "404_text": "你正在尋找的頁面以刪除或不存在。誰知道發生了什麼事？"
+    },
+    "avatar_settings": {
+        "skin_color": "膚色",
+        "eyebrow_type": "睫毛",
+        "accessories_type": "眼鏡",
+        "facial_hair_color": "鬍子顏色",
+        "mouth_type": "嘴巴",
+        "start_over": "重新開始",
+        "thats_you": "這是你！",
+        "hair_color": "髮色",
+        "facial_hair_type": "鬍子",
+        "hat_color": "帽子顏色",
+        "clothe_type": "服裝",
+        "clothe_color": "服裝顏色"
+    },
+    "results_page": {
+        "quiz_title": "測驗標題",
+        "player_count": "玩家人數",
+        "date_played": "測驗日期",
+        "no_results_so_far": "尚未儲存任何結果..."
+    },
+    "result_page": {
+        "player_name": "玩家名稱",
+        "custom_field": "自訂欄位",
+        "average_score": "平均分數：{{average_score}}",
+        "time_taken": "花費時間",
+        "correct_answer": "{{count}} 個正確答案",
+        "correct_answer_plural": "{{count}} 個正確答案"
     }
 }

@@ -157,7 +157,11 @@
         "backup_code": "Código de la copia de seguridad",
         "totp": "contraseña de un solo uso (Totp)",
         "text": "Texto",
-        "order": "solicitar"
+        "order": "solicitar",
+        "results": "Resultados",
+        "note": "Nota",
+        "player_plural": "Jugadores",
+        "score": "Puntuación"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -170,7 +174,8 @@
         "time_left": "Tiempo restante",
         "get_final_results": "Ver los resultados finales",
         "start_by_showing_first_question": "Comienza mostrando la primera pregunta.",
-        "no_answers": "¡No hay respuestas!"
+        "no_answers": "¡No hay respuestas!",
+        "save_results": "Guardar los resultados"
     },
     "settings_page": {
         "check_location": "Comprobar ubicación",
@@ -184,7 +189,7 @@
     },
     "play_page": {
         "2nd_place": "2º puesto",
-        "end_sentence": "¡Ya está! ¡Este era el quiz!",
+        "end_sentence": "¡Eso es todo! Este fue el cuestionario.",
         "1st_place": "1er puesto",
         "3rd place": "3er puesto",
         "with_out_of": "con {{correct_questions}} de {{total_question_count}}"
@@ -253,5 +258,19 @@
         "eyebrow_type": "Cejas",
         "clothe_graphic_type": "Gráficos",
         "start_over": "Empezar de nuevo"
+    },
+    "results_page": {
+        "quiz_title": "Título del cuestionario",
+        "date_played": "Fecha del juego",
+        "player_count": "Número de jugadores",
+        "no_results_so_far": "No hay resultados guardados hasta ahora..."
+    },
+    "result_page": {
+        "player_name": "Nombre del jugador",
+        "custom_field": "Campo personalizado",
+        "correct_answer": "{{count}} respuesta correcta",
+        "correct_answer_plural": "{{count}} respuestas correctas",
+        "time_taken": "Tiempo invertido",
+        "average_score": "Puntuación media: {{average_score}}"
     }
 }
