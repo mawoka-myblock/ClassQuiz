@@ -77,7 +77,7 @@
 		<div class="flex justify-center align-middle items-center">
 			<div class="h-[15vh] m-auto w-auto my-3">
 				<img
-					class="max-h-full max-w-full  block"
+					class="max-h-full max-w-full block"
 					src={quiz.cover_image}
 					alt="Not provided"
 				/>

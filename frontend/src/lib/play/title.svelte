@@ -15,7 +15,7 @@
 	{#if cover_image}
 		<div class="flex justify-center align-middle items-center">
 			<div class="h-[30vh] m-auto w-auto mt-12">
-				<img class="max-h-full max-w-full  block" src={cover_image} alt="Not provided" />
+				<img class="max-h-full max-w-full block" src={cover_image} alt="Not provided" />
 			</div>
 		</div>
 	{/if}

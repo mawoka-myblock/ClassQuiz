@@ -71,7 +71,7 @@
 			</div>
 		{/if}
 	</div>
-	<p class="text-3xl text-center ">{$t('words.pin')}: {game_pin}</p>
+	<p class="text-3xl text-center">{$t('words.pin')}: {game_pin}</p>
 	<div class="flex justify-center w-full mt-4">
 		<ul class="list-disc pl-8">
 			{#if players.length > 0}
