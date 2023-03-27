@@ -230,7 +230,7 @@
 				</div>
 			{/if}
 			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
-				<div class="grid grid-cols-2 gap-2 w-full p-4">
+				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
 					{#each quiz_data.questions[selected_question].answers as answer, i}
 						<div
 							class="rounded-lg h-fit flex"
