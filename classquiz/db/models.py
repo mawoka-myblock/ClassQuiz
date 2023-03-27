@@ -241,11 +241,12 @@ class PlayGame(BaseModel):
     background_color: str | None
     background_image: str | None
     custom_field: str | None
+    question_show: bool = False
 
 
 class GamePlayer(BaseModel):
     username: str
-    sid: str
+    sid: str | None
 
 
 class GameAnswer2(BaseModel):

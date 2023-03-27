@@ -51,6 +51,26 @@ async def generate_final_results(game_data: PlayGame, game_pin: str) -> dict:
     return results
 
 
+def calculate_score(z: float, t: int) -> int:
+    t = t * 1000
+    res = (t - z) / t
+    return int(res * 1000)
+
+
+async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
+    if answers is None:
+        answers = AnswerDataList(__root__=[data])
+    else:
+        answers = AnswerDataList.parse_raw(answers)
+        answers.__root__.append(data)
+    await redis.set(
+        f"game_session:{game_pin}:{q_index}",
+        answers.json(),
+        ex=7200,
+    )
+    return answers
+
+
 class _JoinGameData(BaseModel):
     username: str
     game_pin: str
@@ -205,6 +225,9 @@ async def get_question_results(sid: str, data: dict):
     session = await sio.get_session(sid)
     if session["admin"]:
         redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
+        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        game_data.question_show = False
+        await redis.set(f"game:{session['game_pin']}", game_data.json())
         game_pin = session["game_pin"]
         await sio.emit("question_results", redis_res, room=game_pin)
 
@@ -244,6 +267,7 @@ async def set_question_number(sid, data: str):
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
         game_data.current_question = int(float(data))
+        game_data.question_show = True
         await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
         await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
         temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
@@ -323,7 +347,6 @@ async def submit_answer(sid: str, data: dict):
             data.answer = ", ".join(answer_order)
             if correct_answers == data.dict()["complex_answer"]:
                 answer_right = True
-        # TODO Set data.answer to a real value for export
 
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
         answer_right = False
@@ -344,10 +367,6 @@ async def submit_answer(sid: str, data: dict):
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
 
     # print(abs(diff) - latency, latency, abs(diff))
-    def calculate_score(z: float, t: int) -> int:
-        t = t * 1000
-        res = (t - z) / t
-        return int(res * 1000)
 
     score = 0
     if answer_right:
@@ -355,39 +374,16 @@ async def submit_answer(sid: str, data: dict):
             abs(diff) - latency, int(float(game_data.questions[int(float(data.question_index))].time))
         )
     await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
-    if answers is None:
-        await redis.set(
-            f"game_session:{session['game_pin']}:{data.question_index}",
-            AnswerDataList(
-                __root__=[
-                    AnswerData(
-                        username=session["username"],
-                        answer=data.answer,
-                        right=answer_right,
-                        time_taken=abs(diff) - latency,
-                        score=score,
-                    )
-                ]
-            ).json(),
-            ex=7200,
-        )
-    else:
-        answers = AnswerDataList.parse_raw(answers)
-        answers.__root__.append(
-            AnswerData(
-                username=session["username"],
-                answer=data.answer,
-                right=answer_right,
-                time_taken=abs(diff) - latency,
-                score=score,
-            )
-        )
-        await redis.set(
-            f"game_session:{session['game_pin']}:{data.question_index}",
-            answers.json(),
-            ex=7200,
-        )
-    answers = AnswerDataList.parse_raw(await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"))
+    answer_data = AnswerData(
+        username=session["username"],
+        answer=data.answer,
+        right=answer_right,
+        time_taken=abs(diff) - latency,
+        score=score,
+    )
+    answers = await set_answer(
+        answers, game_pin=session["game_pin"], data=answer_data, q_index=int(float(data.question_index))
+    )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     if len(answers.__root__) == player_count:
         # await sio.emit(
@@ -395,6 +391,9 @@ async def submit_answer(sid: str, data: dict):
         #     await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"),
         #     room=session["game_pin"],
         # )
+        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        game_data.question_show = False
+        await redis.set(f"game:{session['game_pin']}", game_data.json())
         await sio.emit("everyone_answered", {})
 
 

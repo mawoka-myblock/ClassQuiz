@@ -163,7 +163,7 @@
 											>
 												<div class="h-[20vh] m-auto w-auto">
 													<img
-														class="max-h-full max-w-full  block"
+														class="max-h-full max-w-full block"
 														src={quiz.cover_image}
 														alt="Not provided"
 														loading="lazy"
@@ -307,7 +307,7 @@
 												<div class="h-[30vh] m-auto w-auto">
 													{#if visibleImages?.[i]?.[q]}
 														<img
-															class="max-h-full max-w-full  block"
+															class="max-h-full max-w-full block"
 															src={question.image}
 															alt="Not provided"
 														/>
