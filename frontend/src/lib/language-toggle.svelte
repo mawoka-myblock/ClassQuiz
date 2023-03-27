@@ -102,6 +102,21 @@
 			code: 'zh_Hant',
 			name: 'Chinese (traditional)',
 			flag: '🇨🇳'
+		},
+		{
+			code: 'pl',
+			name: 'Polski',
+			flag: '🇵🇱'
+		},
+		{
+			code: 'pt',
+			name: 'Português',
+			flag: '🇵🇹'
+		},
+		{
+			code: 'uk',
+			name: 'Українська',
+			flag: '🇺🇦'
 		}
 	];
 	const get_selected_language = (): string => {

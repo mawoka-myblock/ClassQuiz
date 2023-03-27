@@ -16,6 +16,11 @@ import it from './locales/it.json';
 import es from './locales/es.json';
 import nb_no from './locales/nb_NO.json';
 import zh_Hant from './locales/zh_Hant.json';
+import pl from './locales/pl.json';
+import pt from './locales/pt.json';
+import uk from './locales/uk.json';
+// import uz from './locales/uz.json'
+// import zh_Hans from './locales/zh_Hans.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import type { i18n, Resource } from 'i18next';
@@ -70,6 +75,11 @@ export class I18nService {
 		this.i18n.addResourceBundle('es', 'translation', es);
 		this.i18n.addResourceBundle('nb_NO', 'translation', nb_no);
 		this.i18n.addResourceBundle('zh_Hant', 'translation', zh_Hant);
+		this.i18n.addResourceBundle('zh_Hant', 'translation', zh_Hant);
+		this.i18n.addResourceBundle('pl', 'translation', pl);
+		this.i18n.addResourceBundle('pt', 'translation', pt);
+		this.i18n.addResourceBundle('uk', 'translation', uk);
+		// this.i18n.addResourceBundle('uz', 'translation', uz);
 	}
 
 	changeLanguage(language: string): void {
