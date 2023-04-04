@@ -318,3 +318,19 @@ class GameResults(ormar.Model):
         tablename = "game_results"
         metadata = metadata
         database = database
+
+
+class Controllers(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    user: uuid.UUID | User = ormar.ForeignKey(User)
+    secret_key: str = ormar.String(nullable=False, max_length=24, min_length=24)
+    player_name: str = ormar.Text(nullable=False)
+    last_seen: datetime | None = ormar.DateTime(nullable=True)
+    first_seen: datetime | None = ormar.DateTime(nullable=True)
+    name: str = ormar.Text(nullable=False)
+    os_version: str | None = ormar.Text(nullable=True)
+
+    class Meta:
+        tablename = "controllers"
+        metadata = metadata
+        database = database

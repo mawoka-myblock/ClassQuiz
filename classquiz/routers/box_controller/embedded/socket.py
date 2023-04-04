@@ -2,7 +2,6 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import enum
-import os
 import typing
 from datetime import datetime
 
@@ -13,34 +12,6 @@ from classquiz.db.models import PlayGame, QuizQuestionType, AnswerData, GamePlay
 from classquiz.socket_server import sio, calculate_score, set_answer
 
 router = APIRouter()
-
-
-class JoinGameInput(BaseModel):
-    code: str
-    name: str
-
-
-class JoinGameResponse(BaseModel):
-    id: str
-
-
-@router.post("/join")
-async def join_game(data: JoinGameInput):
-    game_pin = await redis.get(f"game:cqc:code:{data.code}")
-    if game_pin is None:
-        raise HTTPException(status_code=404, detail="Game not found")
-    game = await redis.get(f"game:{game_pin}")
-    game = PlayGame.parse_raw(game)
-    # Check if game is already running
-    if game.started:
-        raise HTTPException(status_code=400, detail="Game started already")
-    # check if username already exists
-    if await redis.get(f"game_session:{game_pin}:players:{data.name}") is not None:
-        raise HTTPException(status_code=409, detail="Username already exists")
-
-    player_id = os.urandom(5).hex()
-    await redis.set(f"game:cqc:player:{player_id}", data.name)
-    return JoinGameResponse(id=f"{player_id}:{game_pin}")
 
 
 class SubmitAnswerInput(BaseModel):
@@ -91,6 +62,9 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
         await sio.emit("everyone_answered", {})
 
 
+button_to_index_map = {"b": 0, "g": 2, "y": 1, "r": 3}
+
+
 class WebSocketTypes(enum.Enum):
     ButtonPress = "bp"
     Error = "e"
@@ -103,10 +77,8 @@ class WebSocketRequest(BaseModel):
 
 wss_clients = {}
 
-button_to_index_map = {"b": 0, "g": 1, "y": 2, "r": 3}
 
-
-@router.websocket("/socket/{id}")
+@router.websocket("/{id}")
 async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
     try:
         if id in wss_clients.keys():
