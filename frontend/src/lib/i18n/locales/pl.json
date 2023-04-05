@@ -43,7 +43,7 @@
         "download_quizzes": "Pobierz quizy",
         "download_quizzes_content": "Quizy mogą być pobierane jako jeden plik i importowane w dowolnym momencie. Pozwala to również na przenoszenie quizów do innych instancji ClassQuiz.",
         "community_driven_content": "ClassQuiz polega na swojej społeczności w zakresie finansowania, testowania pomysłów, próśb o nowe funkcje, tłumaczeń i nie tylko! Ty też możesz być częścią społeczności ClassQuiz!",
-        "community_driven": "Napędzane przez społeczność",
+        "community_driven": "Napędzany przez społeczność",
         "students_site": "Strona ucznia",
         "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
@@ -78,11 +78,11 @@
         "email_or_username": "Adres e-mail lub nazwa użytkownika",
         "modal": {
             "success": {
-                "success_check_mail": "Zalogowany. Sprawdź swoją skrzynkę e-mail.",
-                "success": "Zalogowany.",
+                "success_check_mail": "Zalogowano. Sprawdź swoją skrzynkę e-mail.",
+                "success": "Zalogowano.",
                 "description": {
                     "success_check_mail": "Sprawdź swoją skrzynkę e-mail i poszukaj wiadomości z linkiem, który możesz kliknąć, aby się zalogować.",
-                    "success": "Zalogowany."
+                    "success": "Zalogowano."
                 }
             },
             "error": {
@@ -116,7 +116,7 @@
         "screenshot_plural": "Zrzuty ekranu",
         "browser": "Przeglądarka",
         "view": "Widok",
-        "result": "Wyniki",
+        "result": "Wynik",
         "result_plural": "Wyniki",
         "range": "Zakres",
         "multiple_choice": "Wielokrotny wybór",
@@ -124,12 +124,12 @@
         "question_plural": "Pytania",
         "game_pin": "PIN do gry",
         "other": "inne",
-        "other_plural": "inni",
-        "donating": "darowizna",
+        "other_plural": "innych",
+        "donating": "dotację",
         "find": "Szukaj",
         "practice": "Ćwiczenia",
         "error": "Błąd",
-        "register": "Zarejestruj",
+        "register": "Zarejestruj się",
         "docs": "Dokumentacja",
         "close": "Zamknij",
         "save": "Zapisz",
@@ -154,8 +154,8 @@
         "image": "Obraz",
         "overview": "Przegląd",
         "report": "Raport",
-        "explore": "Odkryj",
-        "correct": "Prawidłowo",
+        "explore": "Przeglądaj",
+        "correct": "Poprawnie",
         "count": "Liczba",
         "private": "Prywatny",
         "backup_code": "Kod zapasowy",
@@ -179,8 +179,8 @@
     },
     "footer": {
         "self_ads": "Wykonane z ❤️ przez {{mawoka_link}} i z pomocą {{others_link}}.",
-        "more_details_here": "Więcej szczegółów tutaj",
-        "donate": "Jeśli uznasz to za przydatne, rozważ {{donate_link}}."
+        "more_details_here": "Więcej szczegółów znajdziesz tutaj",
+        "donate": "Jeśli uznasz to za użyteczne, rozważ {{donate_link}}."
     },
     "error_page": {
         "404_text": "Strona, której szukałeś, zniknęła lub nawet nigdy nie istniała. Kto wie?",
@@ -238,7 +238,7 @@
     },
     "explore_page": {
         "made_by": "Wykonane przez",
-        "imported_by": "Importowane przez"
+        "imported_by": "Zaimportowane przez"
     },
     "avatar_settings": {
         "skin_color": "Kolorystyka",
@@ -249,7 +249,7 @@
         "clothe_type": "Odzież",
         "clothe_graphic_type": "Grafika",
         "start_over": "Zacznij od nowa",
-        "thats_you": "To ty!",
+        "thats_you": "To Ty!",
         "clothe_color": "Kolor odzieży",
         "hair_color": "Kolor włosów",
         "facial_hair_type": "Zarost",
