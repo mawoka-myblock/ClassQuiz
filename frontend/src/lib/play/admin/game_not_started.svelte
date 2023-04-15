@@ -5,6 +5,7 @@
 -->
 <script lang="ts">
 	import AudioPlayer from '$lib/play/audio_player.svelte';
+	import ControllerCodeDisplay from '$lib/components/controller/code.svelte';
 	import { getLocalization } from '$lib/i18n';
 
 	export let game_pin: string;
@@ -30,12 +31,6 @@
 		}
 		players = players;
 	};
-	const color_map = {
-		r: 'red',
-		g: 'green',
-		y: 'yellow',
-		b: 'blue'
-	};
 </script>
 
 <div class="w-full h-full">
@@ -55,18 +50,7 @@
 			<div class="m-auto">
 				<div class="flex-col flex justify-center">
 					<p class="mx-auto">Join by entering the following code</p>
-					<div class="flex flex-row gap-2 mx-auto">
-						{#each cqc_code as c}
-							<div class="flex flex-col">
-								<p class="text-center">{c}</p>
-								<span
-									style="background-color: {color_map[
-										c.toLowerCase()
-									]}; width: 2rem; height: {c.toLowerCase() == c ? '2' : '4'}rem"
-								/>
-							</div>
-						{/each}
-					</div>
+					<ControllerCodeDisplay code={cqc_code} />
 				</div>
 			</div>
 		{/if}

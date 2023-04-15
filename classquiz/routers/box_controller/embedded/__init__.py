@@ -7,6 +7,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import os
 import uuid
+from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -29,7 +30,7 @@ class JoinGameResponse(BaseModel):
 
 
 @router.post("/join")
-async def join_game(data: JoinGameInput):
+async def join_game(data: JoinGameInput) -> JoinGameResponse:
     controller = await Controllers.objects.get_or_none(id=data.id, secret_key=data.secret_key)
     game_pin = await redis.get(f"game:cqc:code:{data.code}")
     if game_pin is None:
@@ -65,4 +66,17 @@ async def register_with_code(data: RegisterWithCodeInput) -> RegisterWithCodeRes
     await redis.delete(f"controller_setup:{data.code}")
     c_id = uuid.UUID(c_id)
     controller = await Controllers.objects.get(id=c_id)
+    controller.first_seen = datetime.now()
+    controller.last_seen = datetime.now()
+    await controller.update()
     return RegisterWithCodeResponse(id=controller.id, secret_key=controller.secret_key)
+
+
+@router.get("/ping")
+async def ping_server(id: uuid.UUID, secret_key: str, version: str):
+    controller = await Controllers.objects.get_or_none(id=id, secret_key=secret_key)
+    if controller is None:
+        raise HTTPException(status_code=404, detail="Key and/or id invalid")
+    controller.last_seen = datetime.now()
+    controller.os_version = version
+    await controller.update()

@@ -149,12 +149,7 @@
 			/>
 		</div>
 		<div class="flex justify-center w-full my-auto">
-			<label
-				for="cqc-toggle"
-				class="inline-flex relative items-center cursor-pointer"
-				class:pointer-events-none={!captcha_enabled}
-				class:opacity-50={!captcha_enabled}
-			>
+			<label for="cqc-toggle" class="inline-flex relative items-center cursor-pointer">
 				<input
 					type="checkbox"
 					bind:checked={cqcs_enabled}

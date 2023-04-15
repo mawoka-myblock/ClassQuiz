@@ -78,16 +78,16 @@ class WebSocketRequest(BaseModel):
 wss_clients = {}
 
 
-@router.websocket("/{id}")
-async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
+@router.websocket("/{game_id}")
+async def websocket_endpoint(ws: WebSocket, game_id: str):
     try:
-        if id in wss_clients.keys():
+        if game_id in wss_clients.keys():
             await ws.close(code=status.WS_1001_GOING_AWAY)
-            print("Client {} already exists.".format(id))
+            print("Client {} already exists.".format(game_id))
             return
-
+        print("hI!")
         await ws.accept()
-        wss_clients[id] = ws
+        wss_clients[game_id] = ws
 
         player_id, game_pin = game_id.split(":")
         if player_id is None or game_pin is None:
@@ -105,7 +105,10 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
             raw_data = await ws.receive_text()
             try:
                 data = WebSocketRequest.parse_raw(raw_data)
-            except ValidationError:
+            except ValidationError as e:
+                print("ValError")
+                print(e)
+                print(raw_data)
                 await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="ValidationError").json())
                 continue
 
@@ -116,10 +119,10 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
                 except (KeyError, AttributeError):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
-
+                print(data)
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print("Data from client {}: {}".format(id, data))
+            print("Data from client {}: {}".format(game_id, data))
 
     except WebSocketDisconnect as ex:
-        print("Client {} is disconnected: {}".format(id, ex))
-        wss_clients.pop(id, None)
+        print("Client {} is disconnected: {}".format(game_id, ex))
+        wss_clients.pop(game_id, None)

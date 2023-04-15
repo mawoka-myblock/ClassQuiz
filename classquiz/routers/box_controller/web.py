@@ -75,3 +75,14 @@ async def modify_controller(
     controller.name = data.name
     await controller.update()
     return GetControllerResponse(**controller.dict())
+
+
+@router.get("/list")
+async def get_all_controllers(user: User = Depends(get_current_user)) -> list[GetControllerResponse]:
+    controllers = await Controllers.objects.all(user=user.id)
+    if len(controllers) == 0:
+        return []
+    return_list = []
+    for controller in controllers:
+        return_list.append(GetControllerResponse(**controller.dict()))
+    return return_list
