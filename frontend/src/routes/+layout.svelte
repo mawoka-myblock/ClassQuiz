@@ -91,9 +91,12 @@
 {:else}
 	<slot />
 {/if}
-{#if $alertModal.open}
+{#if $alertModal.open ?? false}
 	<div
-		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 flex items-center justify-center content-center"
+		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 items-center justify-center content-center"
+		class:hidden={!$alertModal.open}
+		class:flex={$alertModal.open}
+		class:visible={$alertModal.open}
 	>
 		<Alert
 			bind:title={$alertModal.title}
