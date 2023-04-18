@@ -58,6 +58,12 @@ class Settings(BaseSettings):
     # if storage_backend == "local":
     storage_path: str | None
 
+    # if storage_backend == "s3":
+    s3_access_key: str | None
+    s3_secret_key: str | None
+    s3_bucket_name: str = "classquiz"
+    s3_base_url: str | None
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
@@ -75,6 +81,10 @@ storage: Storage = Storage(
     deta_key=settings().deta_project_key,
     deta_id=settings().deta_project_id,
     storage_path=settings().storage_path,
+    access_key=settings().s3_access_key,
+    secret_key=settings().s3_secret_key,
+    bucket_name=settings().s3_bucket_name,
+    base_url=settings().s3_base_url,
 )
 
 meilisearch = MeiliSearch.Client(settings().meilisearch_url)

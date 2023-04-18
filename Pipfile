@@ -36,6 +36,7 @@ cryptography = "*"
 scheduler = "*"
 webauthn = "*"
 pyotp = "*"
+minio = "*"
 
 [dev-packages]
 coverage = "*"

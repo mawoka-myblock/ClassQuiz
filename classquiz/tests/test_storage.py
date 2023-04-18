@@ -54,3 +54,21 @@ async def test_deta():
 async def test_local():
     storage: Storage = Storage(backend="local", storage_path=settings.storage_path, deta_key=None, deta_id=None)
     await storage_tester(storage)
+
+
+@pytest.mark.asyncio
+async def test_minio():
+    storage: Storage = Storage(
+        backend="s3",
+        access_key="Q3AM3UQ867SPQQA43P2F",
+        secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
+        bucket_name="classquiz",
+        base_url="https://play.min.io",
+        deta_key=None,
+        deta_id=None,
+        storage_path=None,
+    )
+    await storage_tester(storage)
+    await storage.upload(file_name="test.txt", file_data=file_contents)
+    url = await storage.get_url(file_name="test.txt", expiry=20)
+    assert url is not None

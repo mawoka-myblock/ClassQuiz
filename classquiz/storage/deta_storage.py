@@ -21,7 +21,7 @@ class DetaStorage:
         """
 
         :param file_name: The name of the file to be downloaded
-        :return: Either bytes f successfull download or None if failed
+        :return: Either bytes if successful download or None if failed
         """
         async with ClientSession(headers=self.headers) as session, session.get(
             f"{self.deta_url}/files/download?name={file_name}"

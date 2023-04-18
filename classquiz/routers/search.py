@@ -8,7 +8,7 @@ from fastapi import APIRouter
 from classquiz.config import settings, meilisearch
 from uuid import UUID
 from typing import Optional, List, Any
-from meilisearch.errors import MeiliSearchApiError
+from meilisearch.errors import MeilisearchApiError
 from classquiz.helpers import meilisearch_init
 
 settings = settings()
@@ -53,7 +53,7 @@ async def _perform_search(query: str, params: dict) -> dict[str, Any]:
     try:
         index = meilisearch.get_index(settings.meilisearch_index)
         return index.search(query, params)
-    except MeiliSearchApiError:
+    except MeilisearchApiError:
         await meilisearch_init()
         index = meilisearch.get_index(settings.meilisearch_index)
         return index.search(query, params)
