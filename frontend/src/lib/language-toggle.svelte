@@ -117,6 +117,11 @@
 			code: 'uk',
 			name: 'Українська',
 			flag: '🇺🇦'
+		},
+		{
+			code: 'nl',
+			name: 'Nederlands',
+			flag: '🇳🇱'
 		}
 	];
 	const get_selected_language = (): string => {
