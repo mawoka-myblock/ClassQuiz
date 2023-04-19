@@ -163,7 +163,12 @@
         "results": "Ergebnisse",
         "note": "Notiz",
         "player_plural": "Spieler",
-        "slide": "Folie"
+        "slide": "Folie",
+        "back": "Zurück",
+        "finish": "Fertig",
+        "name": "Name",
+        "point_plural": "Punkte",
+        "point": "Punkt"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -175,7 +180,15 @@
         "not_all_links_imgur_links": "Nicht alle Links sind Imgur-Links!",
         "no_title": "Kein Titel...",
         "empty": "Leer...",
-        "bg_image": "Hintergrundbild"
+        "bg_image": "Hintergrundbild",
+        "slide": {
+            "text": "Text",
+            "text_description": "Kleiner langer Text",
+            "rectangle": "Rechteck",
+            "headline": "Überschrift",
+            "rectangle_description": "Nur ein Rechteck",
+            "headline_description": "Ein fetter Text als Überschrift"
+        }
     },
     "import": {
         "need_help": "",
@@ -196,7 +209,11 @@
         "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!",
         "no_answers": "Keine Antworten!",
         "stop_time": "Zeit stoppen",
-        "save_results": "Ergebnisse speichern"
+        "save_results": "Ergebnisse speichern",
+        "next_question": "Nächste Frage ({{question}})",
+        "show_results": "Ergebnisse anzeigen",
+        "enter_answer_into_field": "Gib die Antwort in das Eingabefeld ein!",
+        "stop_time_and_solutions": "Zeit stoppen und Ergebnisse zeigen"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
@@ -219,7 +236,9 @@
         "delete_this_session": "Diese Sitzung löschen",
         "this_session?": "Diese Sitzung?",
         "old_password": "Altes Passwort",
-        "new_password": "Neues Passwort"
+        "new_password": "Neues Passwort",
+        "change_avatar": "Avatar ändern",
+        "security_settings": "Sicherheitseinstellungen"
     },
     "explore_page": {
         "made_by": "Erstellt von",
@@ -234,7 +253,12 @@
         "end_sentence": "Das war's! Das war das Quiz.",
         "1st_place": "1. Platz",
         "2nd_place": "2. Platz",
-        "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}"
+        "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}",
+        "final_result_rank": "{{place}}. Platz: {{username}} mit {{points}} Punkten",
+        "your_score": "Deine Punktzahl: {{score}}",
+        "join_description": "Tritt bei unter {{url}} und gib {{pin}} ein.",
+        "join_by_entering_code": "Tritt bei, indem du folgenden Code eingibst",
+        "points_added": "Hinzugefügte Punkte"
     },
     "editor_page": {
         "add_an_answer": "Antwort hinzufügen",
@@ -269,7 +293,8 @@
         "clothe_graphic_type": "Grafik",
         "thats_you": "Das bist du!",
         "start_over": "Neu anfangen",
-        "clothe_type": "Kleidung"
+        "clothe_type": "Kleidung",
+        "go_back": "Zurückkehren"
     },
     "results_page": {
         "quiz_title": "Quiz-Titel",
@@ -287,5 +312,32 @@
     },
     "navbar": {
         "donate": "Spenden"
+    },
+    "security_settings": {
+        "activate_2fa": "Zwei-Faktor-Authentifizierung aktivieren",
+        "2fa_activated": "Zwei-Faktor-Authentifizierung ist aktiviert",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn ist verfügbar",
+        "webauthn_unavailable": "Webauthn ist nicht verfügbar",
+        "add_security_key": "Sicherheitsschlüssel hinzufügen",
+        "totp": "Totp",
+        "totp_available": "Totp ist verfügbar",
+        "enable_totp": "Totp aktivieren",
+        "backup_codes": {
+            "your_backup_code": "Dein Backup-Code",
+            "save_somewhere_save": "Speichere ihn an einem sicheren Ort!",
+            "download_code": "Code herunterladen"
+        },
+        "totp_setup": {
+            "do_not_forget_backup_code": "Vergiss nicht, deinen Backup-Code zu speichern!",
+            "scan_to_set_up": "Scanne diesen QR-Code um Totp einzurichten",
+            "enter_as_secret_if_no_see_code": "Gib dieses Geheimnis ein, wenn du den QR-Code nicht scannen kannst",
+            "totp_setup": "Totp-Einrichtung"
+        },
+        "backup_code": "Backup-Code",
+        "get_backup_code": "Backup-Code erhalten",
+        "2fa_deactivated": "Zwei-Faktor-Authentifizierung ist deaktiviert",
+        "totp_unavailable": "Totp ist nicht verfügbar",
+        "disable_totp": "Totp deaktivieren"
     }
 }
