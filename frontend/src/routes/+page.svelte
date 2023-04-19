@@ -208,7 +208,7 @@
 		</div>
 	</section>
 	<section>
-		<h2 class="text-center text-5xl mb-6">How does ClassQuiz even work?</h2>
+		<h2 class="text-center text-5xl mb-6">{$t('index_page.how_does_classquiz_work')}</h2>
 
 		<div class="flex justify-center w-full">
 			<h3 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">

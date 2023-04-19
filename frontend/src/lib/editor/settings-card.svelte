@@ -180,7 +180,7 @@
 				</div>
 			</div>
 			<div class="flex justify-center pt-10">
-				<h3>Background-Image</h3>
+				<h3>{$t('editor.bg_image')}</h3>
 			</div>
 			<div class="w-full flex justify-center -mt-8">
 				{#if data.background_image}

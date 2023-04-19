@@ -42,9 +42,15 @@
 				.toString()
 				.slice(0, 3);
 		}
+	};
+	const set_unique = () => {
 		unique = {};
 	};
 	$: correctTimeInput(data.questions[selected_question].time);
+	$: {
+		selected_question;
+		set_unique();
+	}
 	/*
 	if (typeof data.questions[selected_question].type !== QuizQuestionType) {
 		console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)

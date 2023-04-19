@@ -80,7 +80,7 @@
 					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
 					style="background-color: {answer.color ?? 'transparent'}"
-					placeholder="Empty..."
+					placeholder={$t('editor.empty')}
 				/>
 				<button
 					type="button"

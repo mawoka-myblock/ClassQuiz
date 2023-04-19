@@ -4,6 +4,9 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 	export let backup_code;
 
 	let already_downloaded = false;
@@ -30,12 +33,12 @@
 			on:click={() => {
 				backup_code = undefined;
 			}}
-			>Close
+			>{$t('words.close')}
 		</button>
 		<div
 			class="bg-white dark:bg-gray-700 rounded-b-lg rounded-tr-lg w-full h-full flex flex-col"
 		>
-			<h2 class="text-3xl m-auto">Your Backup-Code</h2>
+			<h2 class="text-3xl m-auto">{$t('security_settings.backup_codes.your_backup_code')}</h2>
 			<p
 				class="select-all font-mono text-xl m-auto"
 				on:click={() => {
@@ -44,13 +47,14 @@
 			>
 				{backup_code}
 			</p>
-			<p class="m-auto">Save this somewhere safe!</p>
+			<p class="m-auto">{$t('security_settings.backup_codes.save_somewhere_save')}</p>
 			<button
 				on:click={() => {
 					download_code(true);
 				}}
-				class="m-auto p-2 bg-[#B07156] rounded-lg">Download code</button
-			>
+				class="m-auto p-2 bg-[#B07156] rounded-lg"
+				>{$t('security_settings.backup_codes.download_code')}
+			</button>
 		</div>
 	</div>
 </div>

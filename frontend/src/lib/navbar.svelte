@@ -109,7 +109,7 @@
 	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row" class:hidden={openMenu}>
 		<li class="py-2 lg:hidden">
 			<BrownButton href="https://mawoka.eu/donate" target="_blank"
-				>Donate <span class="">❤️</span></BrownButton
+				>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
 			>
 		</li>
 		{#if $signedIn}
@@ -183,7 +183,7 @@
 	>
 		<div class="whitespace-nowrap hidden lg:block">
 			<BrownButton href="https://mawoka.eu/donate" target="_blank"
-				>Donate <span class="">❤️</span></BrownButton
+				>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
 			>
 		</div>
 		{#if darkMode}

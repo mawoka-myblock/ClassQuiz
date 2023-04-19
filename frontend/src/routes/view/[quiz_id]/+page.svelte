@@ -71,7 +71,8 @@
 		<p>{@html quiz.description}</p>
 	</div>
 	<p class="text-center">
-		Made by <a href="/user/{quiz.user_id.id}" class="underline">@{quiz.user_id.username}</a>
+		{$t('view_quiz_page.made_by')}
+		<a href="/user/{quiz.user_id.id}" class="underline">@{quiz.user_id.username}</a>
 	</p>
 	{#if quiz.cover_image}
 		<div class="flex justify-center align-middle items-center">
@@ -95,7 +96,7 @@
 						href="https://create.kahoot.it/details/{quiz.kahoot_id}"
 						target="_blank"
 					>
-						View on <i>Kahoot!</i>
+						{$t('view_quiz_page.view_on_kahoot')}
 					</GrayButton>
 				</div>
 			{/if}

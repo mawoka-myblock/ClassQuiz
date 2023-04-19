@@ -6,6 +6,9 @@
 <script lang="ts">
 	import QRCode from 'qrcode';
 	import Spinner from '$lib/Spinner.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	export let totp_data: { url: string; secret: string } | undefined;
 
@@ -21,23 +24,25 @@
 			on:click={() => {
 				totp_data = undefined;
 			}}
-			>Close
+			>{$t('words.close')}
 		</button>
 		<div class="bg-white dark:bg-gray-700 rounded-b-lg rounded-tr-lg w-full h-full">
 			<div class="grid grid-cols-3 w-full h-full">
 				<div class="flex flex-col justify-center w-full h-5/6">
 					<span class="m-auto" />
 					<div class="h-5/6 flex">
-						<p class="my-auto ml-auto">Scan this to set up the code</p>
+						<p class="my-auto ml-auto">
+							{$t('security_settings.totp_setup.scan_to_set_up')}
+						</p>
 					</div>
 					<div class="flex">
 						<p class="my-auto ml-auto">
-							Enter this as the secret if you can't scan the code
+							{$t('security_settings.totp_setup.enter_as_secret_if_no_see_code')}
 						</p>
 					</div>
 				</div>
 				<div class="flex flex-col justify-start w-full h-5/6">
-					<h2 class="text-2xl m-auto">Totp-Setup</h2>
+					<h2 class="text-2xl m-auto">{$t('security_settings.totp_setup.totp_setup')}</h2>
 					{#await get_image_url()}
 						<Spinner my_20={false} />
 					{:then data}
@@ -52,7 +57,9 @@
 					<p class="m-auto select-all font-mono">{totp_data.secret}</p>
 				</div>
 				<div class="flex justify-center h-5/6 w-full">
-					<p class="m-auto text-3xl p-4">Do not forget to save your recovery-code!</p>
+					<p class="m-auto text-3xl p-4">
+						{$t('security_settings.totp_setup.do_not_forget_backup_code')}
+					</p>
 				</div>
 			</div>
 		</div>

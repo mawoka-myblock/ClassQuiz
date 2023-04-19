@@ -48,7 +48,8 @@
         "community_driven_content": "ClassQuiz hängt von der Community ab, die ClassQuiz mit Spenden, Feature-Requests, Übersetzungen und mehr versorgt! Du kannst auch ein Teil der ClassQuiz-Community werden!",
         "download_quizzes_content": "Quiz können als einzige Datei heruntergeladen werden und jederzeit importiert werden, sodass du auch einfach auf eine andere Instanz von ClassQuiz umziehen kannst!",
         "community_driven": "Von der Community betrieben",
-        "download_quizzes": "Quiz herunterladen"
+        "download_quizzes": "Quiz herunterladen",
+        "how_does_classquiz_work": "Wie funktioniert ClassQuiz überhaupt?"
     },
     "overview_page": {
         "created_at": "Erstellt am",
@@ -161,7 +162,8 @@
         "score": "Punkte",
         "results": "Ergebnisse",
         "note": "Notiz",
-        "player_plural": "Spieler"
+        "player_plural": "Spieler",
+        "slide": "Folie"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -170,7 +172,10 @@
         "add_new_question": "Neue Frage hinzufügen",
         "delete_question": "Frage löschen",
         "delete_answer": "Antwort löschen",
-        "not_all_links_imgur_links": "Nicht alle Links sind Imgur-Links!"
+        "not_all_links_imgur_links": "Nicht alle Links sind Imgur-Links!",
+        "no_title": "Kein Titel...",
+        "empty": "Leer...",
+        "bg_image": "Hintergrundbild"
     },
     "import": {
         "need_help": "",
@@ -279,5 +284,8 @@
         "time_taken": "benötigte Zeit",
         "player_name": "Spielername",
         "correct_answer_plural": "{{count}} richtige Antworten"
+    },
+    "navbar": {
+        "donate": "Spenden"
     }
 }

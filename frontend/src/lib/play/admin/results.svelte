@@ -7,6 +7,8 @@
 	import { flip } from 'svelte/animate';
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	export let data;
 
@@ -91,11 +93,13 @@
 		<div>
 			<table class="table-auto text-xl">
 				<tr>
-					<th class="p-2 border-r border-r-black border-b-2 border-b-black">Name</th>
-					<th class="p-2 border-b-2 border-b-black">Points</th>
+					<th class="p-2 border-r border-r-black border-b-2 border-b-black"
+						>{$t('words.name')}</th
+					>
+					<th class="p-2 border-b-2 border-b-black">{$t('words.point', { count: 2 })}</th>
 					{#if show_new_score_clicked}
 						<th in:fly={{ x: 300 }} class="p-2 border-b-2 border-b-black"
-							>Points added
+							>{$t('play_page.points_added')}
 						</th>
 					{/if}
 				</tr>

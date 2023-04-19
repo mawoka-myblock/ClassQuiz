@@ -9,6 +9,8 @@
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema, dataSchema } from '../yupSchemas';
 	import { createTippy } from 'svelte-tippy';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	export let data: EditorData;
 	export let selected_question = -1;
@@ -78,7 +80,7 @@
 				{#if data.title}
 					{@html data.title}
 				{:else}
-					<i>No title...</i>
+					<i>{$t('editor.no_title')}</i>
 				{/if}
 			</p>
 		</div>
@@ -121,7 +123,7 @@
 							d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
 					</svg>
-					<span>Public</span>
+					<span>{$t('words.public')}</span>
 				{:else}
 					<svg
 						class="w-5 h-5 inline-block"
@@ -137,7 +139,7 @@
 							d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
 						/>
 					</svg>
-					<span>Private</span>
+					<span>{$t('words.private')}</span>
 				{/if}
 			</button>
 		</div>
@@ -190,7 +192,7 @@
 					class:dark:text-black={index === selected_question}
 				>
 					{#if question.question === ''}
-						<span class="italic text-gray-500">No title...</span>
+						<span class="italic text-gray-500">{$t('editor.no_title')}</span>
 					{:else}
 						{@html question.question}
 					{/if}
@@ -222,10 +224,11 @@
 									'answer'
 								).isValidSync(answer.answer)}
 								use:tippy={{
-									content: answer.answer === '' ? 'Empty...' : answer.answer
+									content:
+										answer.answer === '' ? $t('editor.empty') : answer.answer
 								}}
 								>{#if answer.answer === ''}
-									<i>Empty...</i>
+									<i>{$t('editor.empty')}</i>
 								{:else}
 									{answer.answer}
 								{/if}</span
@@ -252,10 +255,11 @@
 									'answer'
 								).isValidSync(answer.answer)}
 								use:tippy={{
-									content: answer.answer === '' ? 'Empty...' : answer.answer
+									content:
+										answer.answer === '' ? $t('editor.empty') : answer.answer
 								}}
 								>{#if answer.answer === ''}
-									<i>Empty...</i>
+									<i>{$t('editor.empty')}</i>
 								{:else}
 									{answer.answer}
 								{/if}</span
@@ -280,7 +284,7 @@
 				data.questions = [...data.questions, { ...empty_question }];
 			}}
 		>
-			<span class="w-full text-center">Question</span>
+			<span class="w-full text-center">{$t('words.question')}</span>
 			<svg
 				class="w-5/6 m-auto"
 				fill="none"
@@ -303,7 +307,7 @@
 				data.questions = [...data.questions, { ...empy_slide }];
 			}}
 		>
-			<span class="w-full text-center">Slide</span>
+			<span class="w-full text-center">{$t('words.slide')}</span>
 			<svg
 				class="w-5/6 m-auto"
 				fill="none"

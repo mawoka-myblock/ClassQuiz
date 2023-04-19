@@ -5,6 +5,9 @@
   -->
 <script lang="ts">
 	import type { Question } from '$lib/quiz_types';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	export let questions: Question[];
 	export let answers: {
@@ -41,10 +44,12 @@
 <div class="w-full">
 	<div class="flex justify-center w-full">
 		<p class="text-3xl w-5/6 text-center">
-			The quiz with the title '<strong>{title}</strong>' was played on
-			<strong>{new Date(timestamp).toLocaleString()}</strong>
-			with <strong>{usernames.length}</strong> players. The players achieved an average score
-			of <strong>{get_average_final_score()}</strong>.
+			{$t('results_page.general_overview.sentence', {
+				title,
+				date: new Date(timestamp).toLocaleString(),
+				player_count: usernames.length,
+				average_score: get_average_final_score()
+			})}
 		</p>
 	</div>
 </div>

@@ -43,7 +43,10 @@
 	<div class="grid grid-cols-3 mt-12">
 		<div class="flex justify-center">
 			<p class="m-auto text-2xl">
-				Join at <b>{window.location.host}/play</b> and enter <b>{game_pin}</b>.
+				{$t('play_page.join_description', {
+					url: `${window.location.host}/play`,
+					pin: game_pin
+				})}
 			</p>
 		</div>
 		<img
@@ -54,7 +57,7 @@
 		{#if cqc_code}
 			<div class="m-auto">
 				<div class="flex-col flex justify-center">
-					<p class="mx-auto">Join by entering the following code</p>
+					<p class="mx-auto">{$t('play_page.join_by_entering_code')}</p>
 					<div class="flex flex-row gap-2 mx-auto">
 						{#each cqc_code as c}
 							<div class="flex flex-col">

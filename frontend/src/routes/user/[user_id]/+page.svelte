@@ -40,7 +40,7 @@
 	<div class="grid grid-cols-6 h-full">
 		<div class="pl-2">
 			{#if data.user.username === undefined}
-				<h2 class="text-4xl text-center p-4">User not found</h2>
+				<h2 class="text-4xl text-center p-4">{$t('public_user_page.user_not_found')}</h2>
 			{:else}
 				<div class="flex justify-center">
 					<img src={`/api/v1/users/avatar/${data.user.id}`} alt="profile" />
@@ -49,7 +49,9 @@
 					@{data.user.username}
 				</h2>
 				<p class="italic text-center">
-					Joined on {new Date(data.user.created_at).toLocaleDateString()}
+					{$t('public_user_page.joined_on', {
+						date: new Date(data.user.created_at).toLocaleDateString()
+					})}
 				</p>
 			{/if}
 		</div>
@@ -57,7 +59,7 @@
 			class="col-start-2 col-end-7 border-l border-black h-full p-4 overflow-y-scroll flex flex-col gap-4"
 		>
 			{#if data.quizzes.length === 0}
-				<p class="text-center text-4xl">No original quizzes found...</p>
+				<p class="text-center text-4xl">{$t('public_user_page.no_original_quizzes')}</p>
 			{:else}
 				{#each data.quizzes as quiz}
 					<div

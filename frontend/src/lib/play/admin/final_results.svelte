@@ -5,6 +5,9 @@
   -->
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	export let data;
 	export let username;
@@ -53,8 +56,11 @@
 					style="font-size: {player_count_or_five - i / 2}rem"
 					class="text-center"
 				>
-					{i + 1}
-					: {player} with {data[player]} points
+					{$t('play_page.final_result_rank', {
+						place: i + 1,
+						username: player,
+						points: data[player]
+					})}
 				</p>
 			{/if}
 		{/each}
@@ -62,7 +68,7 @@
 	{#if data[username]}
 		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
 			<div class="mx-auto p-2 border-[#B07156] border-4 rounded">
-				<p>Your score: <b>{data[username]}</b></p>
+				<p>{$t('play_page.your_score', { score: data[username] })}</p>
 			</div>
 		</div>
 	{/if}

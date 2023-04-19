@@ -48,7 +48,8 @@
         "download_quizzes": "Download Quizzes",
         "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time. This also lets you move your quizzes to other ClassQuiz instances.",
         "community_driven": "Community-driven",
-        "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!"
+        "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!",
+        "how_does_classquiz_work": "How does ClassQuiz even work?"
     },
     "overview_page": {
         "created_at": "Created at",
@@ -161,7 +162,13 @@
         "results": "Results",
         "note": "Note",
         "player_plural": "Players",
-        "score": "Score"
+        "score": "Score",
+        "slide": "Slide",
+        "name": "Name",
+        "point": "Point",
+        "point_plural": "Points",
+        "back": "Back",
+        "finish": "Finish"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -170,7 +177,18 @@
         "add_new_question": "Add new question",
         "delete_question": "Delete question",
         "delete_answer": "Delete answer",
-        "not_all_links_imgur_links": "Not all links are Imgur-links!"
+        "not_all_links_imgur_links": "Not all links are Imgur-links!",
+        "no_title": "No title...",
+        "empty": "Empty...",
+        "bg_image": "Background image",
+        "slide": {
+            "headline": "Headline",
+            "headline_description": "A bold text for headlines",
+            "text": "Text",
+            "text_description": "Smaller longer text",
+            "rectangle": "Rectangle",
+            "rectangle_description": "Just a rectangle"
+        }
     },
     "import_page": {
         "need_help": "Need help?",
@@ -194,7 +212,11 @@
         "start_by_showing_first_question": "Start by showing the first question.",
         "no_answers": "No answers!",
         "stop_time": "Stop time",
-        "save_results": "Save results"
+        "save_results": "Save results",
+        "next_question": "Next Question ({{question}})",
+        "show_results": "Show results",
+        "stop_time_and_solutions": "Stop time and show solutions",
+        "enter_answer_into_field": "Enter your answer into the input field!"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -207,7 +229,9 @@
         "last_seen": "Last seen",
         "check_location": "Check location",
         "delete_this_session": "Delete this session",
-        "this_session?": "This session?"
+        "this_session?": "This session?",
+        "change_avatar": "Change avatar",
+        "security_settings": "Security-Settings"
     },
     "explore_page": {
         "made_by": "Made by",
@@ -222,7 +246,12 @@
         "1st_place": "1st Place",
         "2nd_place": "2nd Place",
         "3rd place": "3rd Place",
-        "with_out_of": "with {{correct_questions}} out of {{total_question_count}}"
+        "with_out_of": "with {{correct_questions}} out of {{total_question_count}}",
+        "final_result_rank": "{{place}}: {{username}} with {{points}} points",
+        "your_score": "Your score: {{score}}",
+        "join_description": "Join at {{url}} and enter {{pin}}.",
+        "join_by_entering_code": "Join by entering the following code",
+        "points_added": "Points added"
     },
     "editor_page": {
         "add_an_answer": "Add an answer",
@@ -257,7 +286,8 @@
         "clothe_color": "Clothing color",
         "clothe_graphic_type": "Graphic",
         "thats_you": "That's You!",
-        "start_over": "Start over"
+        "start_over": "Start over",
+        "go_back": "Go back"
     },
     "results_page": {
         "no_results_so_far": "No results saved so far...",
@@ -272,5 +302,35 @@
         "correct_answer": "{{count}} correct answer",
         "correct_answer_plural": "{{count}} correct answers",
         "time_taken": "Time taken"
+    },
+    "navbar": {
+        "donate": "Donate"
+    },
+    "security_settings": {
+        "backup_code": "Backup-Code",
+        "get_backup_code": "Get Backup-Code",
+        "activate_2fa": "Activate Two Factor Authentication",
+        "2fa_activated": "Two Factor authentication is activated",
+        "2fa_deactivated": "Two Factor authentication is deactivated",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn is available",
+        "webauthn_unavailable": "Webauthn is not available",
+        "add_security_key": "Add Security-Key",
+        "totp": "Totp",
+        "totp_available": "Totp is available",
+        "totp_unavailable": "Totp is not available",
+        "disable_totp": "Disable Totp",
+        "enable_totp": "Enable Totp",
+        "backup_codes": {
+            "your_backup_code": "Your Backup-Code",
+            "save_somewhere_save": "Save this somewhere safe!",
+            "download_code": "Download code"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Scan this QR-code to set up the code",
+            "enter_as_secret_if_no_see_code": "Enter this as the secret if you can't scan the QR-code",
+            "totp_setup": "Totp-Setup",
+            "do_not_forget_backup_code": "Do not forget to save your recovery-code!"
+        }
     }
 }

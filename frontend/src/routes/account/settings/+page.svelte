@@ -170,7 +170,9 @@
 				alt="Profile image of {user.username}"
 			/>
 			<div class="m-2 flex justify-center">
-				<BrownButton href="/account/settings/avatar">Change avatar</BrownButton>
+				<BrownButton href="/account/settings/avatar"
+					>{$t('settings_page.change_avatar')}</BrownButton
+				>
 			</div>
 		</div>
 		<div class="grid grid-rows-2 col-start-2 col-end-7">
@@ -184,7 +186,7 @@
 				<div class="p-4 flex justify-center">
 					<div class="m-auto">
 						<BrownButton href="/account/settings/security"
-							>Security-Settings
+							>{$t('settings_page.security_settings')}
 						</BrownButton>
 					</div>
 				</div>
@@ -219,7 +221,7 @@
 					</div>
 				</form>
 				<div>
-					<button on:click={add_api_key}>Add API-Key</button>
+					<button on:click={add_api_key}>{$t('settings_page.security_settings')}</button>
 					{#await api_keys}
 						<Spinner />
 					{:then keys}
@@ -231,7 +233,7 @@
 										delete_api_key(key.key);
 									}}
 									class="admin-button"
-									>Delete
+									>{$t('words.delete')}
 								</button>
 							</div>
 						{/each}

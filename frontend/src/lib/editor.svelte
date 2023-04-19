@@ -11,6 +11,9 @@
 	import SettingsCard from '$lib/editor/settings-card.svelte';
 	import QuizCard from '$lib/editor/card.svelte';
 	import Spinner from './Spinner.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	let schemaInvalid = false;
 	let yupErrorMessage = '';
@@ -152,10 +155,10 @@
 						</p>
 					{/if}
 					<button
-						class="pr-2 align-middle bg-purple-400 pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
+						class="pr-2 align-middle bg-[#B07156] pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
 						disabled={schemaInvalid}
 					>
-						<span>Save</span>
+						<span>{$t('words.save')}</span>
 						<svg
 							class="w-6 h-6 inline-block"
 							fill="none"
