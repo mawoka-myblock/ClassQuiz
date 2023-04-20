@@ -339,5 +339,9 @@
         "2fa_deactivated": "Zwei-Faktor-Authentifizierung ist deaktiviert",
         "totp_unavailable": "Totp ist nicht verfügbar",
         "disable_totp": "Totp deaktivieren"
+    },
+    "view_quiz_page": {
+        "made_by": "Erstellt von",
+        "view_on_kahoot": "Auf Kahoot! ansehen"
     }
 }
