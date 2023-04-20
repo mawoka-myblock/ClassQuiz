@@ -38,7 +38,8 @@
         "no_tracking_content": "Kahoot! 會追蹤並將你的資料分享給第三方，但 ClassQuiz 不會。",
         "user_friendly_content": "ClassQuiz 旨在簡單，每個人都可以輕鬆使用。",
         "dark_mode_content": "一個網站最重要的功能之一！",
-        "german_server_content": "ClassQuiz 的伺服器位於德國，並由 netcup 提供。"
+        "german_server_content": "ClassQuiz 的伺服器位於德國，並由 netcup 提供。",
+        "how_does_classquiz_work": "ClassQuiz 是如何運作的？"
     },
     "edit_page": {
         "success_update_title": "測驗已更新。"
@@ -84,7 +85,13 @@
         "add_new_question": "新增問題",
         "delete_answer": "刪除答案",
         "add_new_answer": "新增答案",
-        "not_all_links_imgur_links": "不是所有連結都是 Imgur 連結！"
+        "not_all_links_imgur_links": "不是所有連結都是 Imgur 連結！",
+        "right_or_true?": "正確？",
+        "no_title": "沒有標題...",
+        "bg_image": "背景圖片",
+        "slide": {
+            "rectangle": "長方形"
+        }
     },
     "import_page": {
         "need_help": "需要幫助？",
@@ -108,7 +115,11 @@
         "no_answers": "沒有答案！",
         "start_by_showing_first_question": "開始時顯示第一個問題。",
         "save_results": "儲存結果",
-        "already_registered_as_admin": "此遊戲已有一位管理員。"
+        "already_registered_as_admin": "此遊戲已有一位管理員。",
+        "stop_time_and_solutions": "停止計時並顯示解答",
+        "enter_answer_into_field": "在輸入欄內輸入你的答案！",
+        "show_results": "顯示結果",
+        "next_question": "下個問題 ({{question}})"
     },
     "password_reset_page": {
         "reset_password": "重設密碼"
@@ -120,7 +131,8 @@
         "change_password_submit": "變更密碼！",
         "check_location": "檢查位置",
         "delete_this_session": "刪除此工作階段",
-        "this_session?": "這個工作階段？"
+        "this_session?": "這個工作階段？",
+        "security_settings": "安全性設定"
     },
     "explore_page": {
         "made_by": "作者為",
@@ -131,7 +143,9 @@
         "3rd place": "第三名",
         "with_out_of": "{{total_question_count}} 題中答對 {{correct_questions}} 題",
         "1st_place": "第一名",
-        "end_sentence": "完成！本次測驗結束。"
+        "end_sentence": "完成！本次測驗結束。",
+        "your_score": "",
+        "join_description": "在 {{url}} 加入並輸入 {{pin}}。"
     },
     "editor_page": {
         "add_an_answer": "新增一個答案",
@@ -204,7 +218,14 @@
         "connect": "連線",
         "results": "結果",
         "score": "分數",
-        "player_plural": "玩家"
+        "player_plural": "玩家",
+        "finish": "完成",
+        "point": "",
+        "name": "姓名",
+        "slide": "投影片",
+        "note": "筆記",
+        "back": "返回",
+        "point_plural": ""
     },
     "search_page": {
         "at_least_3_characters": "輸入至少 3 個字元...",
@@ -234,7 +255,8 @@
         "facial_hair_type": "鬍子",
         "hat_color": "帽子顏色",
         "clothe_type": "服裝",
-        "clothe_color": "服裝顏色"
+        "clothe_color": "服裝顏色",
+        "go_back": "返回"
     },
     "results_page": {
         "quiz_title": "測驗標題",
@@ -249,5 +271,10 @@
         "time_taken": "花費時間",
         "correct_answer": "{{count}} 個正確答案",
         "correct_answer_plural": "{{count}} 個正確答案"
+    },
+    "security_settings": {
+        "activate_2fa": "啟用兩步驟驗證",
+        "2fa_deactivated": "兩步驟驗證未啟用",
+        "2fa_activated": "兩步驟驗證已啟用"
     }
 }
