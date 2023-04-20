@@ -332,5 +332,9 @@
             "totp_setup": "Totp-Setup",
             "do_not_forget_backup_code": "Do not forget to save your recovery-code!"
         }
+    },
+    "view_quiz_page": {
+        "made_by": "Made by",
+        "view_on_kahoot": "View on Kahoot!"
     }
 }
