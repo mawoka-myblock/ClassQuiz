@@ -48,7 +48,8 @@
         "completely_free_content": "ClassQuiz is volledig gratis (voor de gebruiker), zonder betaalde abonnementen of vervelende doorverwijzingen naar de upgrade-pagina. Donaties worden zeer op prijs gesteld.",
         "download_quizzes": "Download Quizzen",
         "download_quizzes_content": "Quizzen kunnen als één bestand worden gedownload en op elk moment worden geïmporteerd. Zo kun je ook je testen verplaatsen naar andere ClassQuiz instanties.",
-        "quiz_results_downloadable_content": "Quiz-resultaten kunnen gemakkelijk worden geëxporteerd naar een Excel-spreadsheet. (Wist niet dat anderen dat niet konden)"
+        "quiz_results_downloadable_content": "Quiz-resultaten kunnen gemakkelijk worden geëxporteerd naar een Excel-spreadsheet. (Wist niet dat anderen dat niet konden)",
+        "how_does_classquiz_work": "Hoe werkt ClassQuiz eigenlijk?"
     },
     "overview_page": {
         "created_at": "Gemaakt op",
@@ -161,7 +162,13 @@
         "game_pin": "Spel PIN",
         "dashboard": "Dashboard",
         "question_plural": "Vragen",
-        "score": "Score"
+        "score": "Score",
+        "name": "Naam",
+        "point": "Punt",
+        "slide": "Dia",
+        "finish": "Afronden",
+        "point_plural": "Punten",
+        "back": "Terug"
     },
     "editor": {
         "not_all_links_imgur_links": "Niet alle links zijn Imgur-links!",
@@ -170,7 +177,18 @@
         "right_or_true?": "Juist?",
         "add_new_answer": "Nieuw antwoord toevoegen",
         "add_new_question": "Nieuwe vraag toevoegen",
-        "delete_question": "Verwijder vraag"
+        "delete_question": "Verwijder vraag",
+        "bg_image": "Achtergrondafbeelding",
+        "no_title": "Geen titel...",
+        "slide": {
+            "headline_description": "Een vetgedrukte tekst voor koppen",
+            "headline": "Kop",
+            "text_description": "Kleinere langere tekst",
+            "rectangle_description": "Gewoon een rechthoek",
+            "text": "Tekst",
+            "rectangle": "Rechthoek"
+        },
+        "empty": "Leeg..."
     },
     "import_page": {
         "url_should_look_like_this": "De URL zou er als volgt uit moeten zien: https://create.kahoot.it/details/...",
@@ -194,7 +212,11 @@
         "already_registered_as_admin": "Er is al een beheerder geregistreerd voor dit spel.",
         "get_results_and_stop_time": "Verkrijg resultaten en stop de tijd",
         "get_final_results": "Verkrijg definitieve resultaten",
-        "export_results": "Exporteer resultaten"
+        "export_results": "Exporteer resultaten",
+        "next_question": "Volgende Vraag ({{question}})",
+        "show_results": "Toon resultaten",
+        "enter_answer_into_field": "Typ je antwoord in het invoerveld!",
+        "stop_time_and_solutions": "Stop de tijd en toon oplossingen"
     },
     "password_reset_page": {
         "reset_password": "Wachtwoord resetten"
@@ -207,7 +229,9 @@
         "last_seen": "Laatst gezien",
         "check_location": "Check locatie",
         "delete_this_session": "Verwijder deze sessie",
-        "this_session?": "Deze sessie?"
+        "this_session?": "Deze sessie?",
+        "change_avatar": "Verander avatar",
+        "security_settings": "Beveiligingsinstellingen"
     },
     "explore_page": {
         "made_by": "Gemaakt door",
@@ -222,7 +246,12 @@
         "1st_place": "1ste Plek",
         "2nd_place": "2de Plek",
         "3rd place": "3de Plek",
-        "with_out_of": "met {{correct_questions}} van de {{total_question_count}}"
+        "with_out_of": "met {{correct_questions}} van de {{total_question_count}}",
+        "final_result_rank": "{{place}}: {{username}} met {{points}} punten",
+        "points_added": "Punten toegevoegd",
+        "your_score": "Jouw score: {{score}}",
+        "join_by_entering_code": "Neem deel door de volgende code in te voeren",
+        "join_description": "Neem deel via {{url}} en voer {{pin}} in."
     },
     "editor_page": {
         "add_an_answer": "Voeg een antwoord toe",
@@ -254,7 +283,8 @@
         "clothe_graphic_type": "Grafisch",
         "thats_you": "Dat ben jij!",
         "start_over": "Opnieuw beginnen",
-        "top_type": "Top"
+        "top_type": "Top",
+        "go_back": "Ga terug"
     },
     "results_page": {
         "no_results_so_far": "Geen resultaten opgeslagen tot nu toe...",
@@ -272,5 +302,35 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Zoek voor je eigen quizzen"
+    },
+    "security_settings": {
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn is beschikbaar",
+        "webauthn_unavailable": "Webauthn is niet beschikbaar",
+        "backup_codes": {
+            "your_backup_code": "Jouw back-up-code",
+            "download_code": "Download code",
+            "save_somewhere_save": "Bewaar dit ergens veilig!"
+        },
+        "backup_code": "Backup Code",
+        "get_backup_code": "Verkrijg Backup Code",
+        "activate_2fa": "Activeer Tweestapsauthenticatie",
+        "2fa_activated": "Tweestapsauthenticatie is geactiveerd",
+        "totp_setup": {
+            "enter_as_secret_if_no_see_code": "Voer dit in als de 'secret' als u de QR-code niet kunt scannen",
+            "scan_to_set_up": "Scan deze QR-code om de code in te stellen",
+            "totp_setup": "Totp-Setup",
+            "do_not_forget_backup_code": "Vergeet niet je herstelcode op te slaan!"
+        },
+        "2fa_deactivated": "Tweestapsauthenticatie is gedeactiveerd",
+        "add_security_key": "Beveiligingssleutel toevoegen",
+        "totp": "Totp",
+        "totp_available": "Totp is beschikbaar",
+        "totp_unavailable": "Totp is niet beschikbaar",
+        "disable_totp": "Totp uitschakelen",
+        "enable_totp": "Totp inschakelen"
+    },
+    "navbar": {
+        "donate": "Doneer"
     }
 }
