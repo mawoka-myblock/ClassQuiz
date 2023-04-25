@@ -33,7 +33,6 @@ async def cache_account(criteria: str, content: str) -> Union[User, None]:
         await insert_into_redis(res, content)
         return res
     elif criteria == "id":
-
         try:
             res = await User.objects.get(id=uuid.UUID(content), verified=True)
         except ormar.exceptions.NoMatch:
