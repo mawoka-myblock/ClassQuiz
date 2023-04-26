@@ -68,10 +68,10 @@
 				/>
 			</svg>
 			<a
-				href="https://mastodon.online/@Mawoka"
+				href="https://fosstodon.org/@classquiz"
 				rel="me"
 				class="underline text-blue-300 hover:text-blue-500 transition"
-				>@Mawoka@mastodon.online</a
+				>@classquiz@fosstodon.org</a
 			> for updates!
 		</p>
 	</div>
