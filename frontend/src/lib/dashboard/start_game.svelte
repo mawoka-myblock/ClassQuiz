@@ -105,7 +105,7 @@
 		{#if captcha_selected}
 			<div class="flex justify-center mt-2" in:fade>
 				<p class="w-1/3">
-					{$t("start_game.captcha_message")}
+					{$t('start_game.captcha_message')}
 				</p>
 				<!-- Todo: Add translation  -->
 			</div>
@@ -119,9 +119,9 @@
 					selected_game_mode = 'kahoot';
 				}}
 			>
-				<h2 class="text-center text-2xl">{$t("words.normal")}</h2>
+				<h2 class="text-center text-2xl">{$t('words.normal')}</h2>
 				<p>
-					{$t("start_game.normal_mode_description")}
+					{$t('start_game.normal_mode_description')}
 				</p>
 			</div>
 			<div
@@ -131,14 +131,14 @@
 					selected_game_mode = 'normal';
 				}}
 			>
-				<h2 class="text-center text-2xl">{$t("start_game.old_school_mode")}</h2>
+				<h2 class="text-center text-2xl">{$t('start_game.old_school_mode')}</h2>
 				<p>
-					{$t("start_game.old_school_mode_description")}
+					{$t('start_game.old_school_mode_description')}
 				</p>
 			</div>
 		</div>
 		<div class="flex justify-center items-center my-auto">
-			<label class="mr-4">{$t("result_page.custom_field")}</label>
+			<label class="mr-4">{$t('result_page.custom_field')}</label>
 			<input
 				bind:value={custom_field}
 				class="rounded-lg p-2 outline-none placeholder:italic"
@@ -185,7 +185,7 @@
 			{#if loading}
 				<Spinner my_20={false} />
 			{:else}
-			{$t("start_game.start_game")}
+				{$t('start_game.start_game')}
 			{/if}
 		</button>
 	</div>

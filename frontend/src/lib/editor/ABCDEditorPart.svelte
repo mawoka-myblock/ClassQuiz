@@ -9,8 +9,13 @@
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
 	import { getLocalization } from '$lib/i18n';
+	import { get_foreground_color } from '$lib/helpers';
 
 	const { t } = getLocalization();
+
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
+
+	console.log(get_foreground_color(default_colors[0]));
 
 	export let selected_question: number;
 	export let data: EditorData;
@@ -29,10 +34,9 @@
 	};
 
 	const get_empty_answer = (i: number): Answer => {
-		const color = localStorage.getItem(`quiz_color:${i}:${data.title}`);
 		return {
 			answer: '',
-			color: color,
+			color: default_colors[i],
 			right: false
 		};
 	};
@@ -79,7 +83,9 @@
 					bind:value={answer.answer}
 					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
-					style="background-color: {answer.color ?? 'transparent'}"
+					style="background-color: {answer.color}; color: {get_foreground_color(
+						answer.color
+					)}"
 					placeholder={$t('editor.empty')}
 				/>
 				<button
@@ -126,7 +132,7 @@
 					type="color"
 					bind:value={answer.color}
 					on:contextmenu|preventDefault={() => {
-						answer.color = null;
+						answer.color = default_colors[index];
 					}}
 				/>
 			</div>

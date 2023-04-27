@@ -4,18 +4,16 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { EditorData, VotingAnswer } from '../quiz_types';
+	import type { EditorData } from '../quiz_types';
 	import { fade } from 'svelte/transition';
 	import { reach } from 'yup';
 	import { getLocalization } from '$lib/i18n';
 	import { VotingQuestionSchema } from '$lib/yupSchemas';
+	import { get_foreground_color } from '$lib/helpers';
 
 	const { t } = getLocalization();
 
-	const empty_answer: VotingAnswer = {
-		answer: '',
-		image: undefined
-	};
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 	export let selected_question: number;
 	export let data: EditorData;
 
@@ -30,12 +28,12 @@
 	} catch {}
 
 	/*console.log(data.questions[selected_question].answers, 'moIn!', data.questions[selected_question].answers.length);
-	onMount(() => {
-		for (let i = 0; i < data.questions[selected_question].answers; i++) {
-			console.log(data.questions[selected_question].answers[i], 'iterate');
-			data.questions[selected_question].answers[i].right = undefined;
-		}
-	});*/
+    onMount(() => {
+        for (let i = 0; i < data.questions[selected_question].answers; i++) {
+            console.log(data.questions[selected_question].answers[i], 'iterate');
+            data.questions[selected_question].answers[i].right = undefined;
+        }
+    });*/
 </script>
 
 <div class="grid grid-cols-2 gap-4 w-full px-10">
@@ -78,7 +76,8 @@
 					bind:value={answer.answer}
 					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg"
-					style="background-color: {answer.color ?? 'transparent'}"
+					style="background-color: {answer.color ??
+						'transparent'}; color: {get_foreground_color(answer.color)}"
 					placeholder={$t('editor.empty')}
 				/>
 				<input
@@ -86,7 +85,7 @@
 					type="color"
 					bind:value={answer.color}
 					on:contextmenu|preventDefault={() => {
-						answer.color = null;
+						answer.color = default_colors[index];
 					}}
 				/>
 			</div>
@@ -100,7 +99,13 @@
 			on:click={() => {
 				data.questions[selected_question].answers = [
 					...data.questions[selected_question].answers,
-					{ ...empty_answer }
+					{
+						...{
+							answer: '',
+							image: undefined,
+							color: default_colors[data.questions[selected_question].answers.length]
+						}
+					}
 				];
 			}}
 		>

@@ -13,6 +13,7 @@
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import { flip } from 'svelte/animate';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { get_foreground_color } from '../helpers';
 
 	const { t } = getLocalization();
 
@@ -138,6 +139,7 @@
 		}
 	};
 	$: console.log(slider_value, 'values');
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 </script>
 
 <div class="h-screen w-screen">
@@ -176,14 +178,17 @@
 				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
 					{#each question.answers as answer, i}
 						<button
-							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-							style="background-color: {answer.color ?? '#B07156'}"
+							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black"
+							style="background-color: {answer.color ??
+								default_colors[i]}; color: {get_foreground_color(
+								answer.color ?? default_colors[i]
+							)}"
 							disabled={selected_answer !== undefined}
 							on:click={() => selectAnswer(answer.answer)}
 						>
 							{#if game_mode === 'kahoot'}
 								<img
-									class="w-10 inline-block m-auto"
+									class="h-2/3 inline-block m-auto"
 									alt="Icon"
 									src={kahoot_icons[i]}
 								/>
