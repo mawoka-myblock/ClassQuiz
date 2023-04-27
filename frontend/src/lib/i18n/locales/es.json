@@ -48,7 +48,8 @@
         "download_quizzes": "Descargar cuestionarios",
         "community_driven_content": "¡ClassQuiz depende de la comunidad que proporciona ClassQuiz con donaciones, solicitudes de funciones, traducciones y más! ¡También puede convertirse en parte de la comunidad de ClassQuiz!",
         "community_driven": "Impulsado por la comunidad",
-        "download_quizzes_content": "Los cuestionarios se pueden descargar como un solo archivo e importar en cualquier momento, lo que le permite mover fácilmente sus cuestionarios a otra instancia de ClassQuiz."
+        "download_quizzes_content": "Los cuestionarios se pueden descargar como un solo archivo e importar en cualquier momento, lo que le permite mover fácilmente sus cuestionarios a otra instancia de ClassQuiz.",
+        "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?"
     },
     "create_page": {
         "success": {
@@ -161,7 +162,13 @@
         "results": "Resultados",
         "note": "Nota",
         "player_plural": "Jugadores",
-        "score": "Puntuación"
+        "score": "Puntuación",
+        "slide": "Deslizar",
+        "name": "Nombre",
+        "point": "Punto",
+        "point_plural": "Puntos",
+        "back": "Atrás",
+        "finish": "Finalizar"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -175,7 +182,11 @@
         "get_final_results": "Ver los resultados finales",
         "start_by_showing_first_question": "Comienza mostrando la primera pregunta.",
         "no_answers": "¡No hay respuestas!",
-        "save_results": "Guardar los resultados"
+        "save_results": "Guardar los resultados",
+        "next_question": "Siguiente pregunta ({{question}})",
+        "show_results": "Mostrar los resultados",
+        "stop_time_and_solutions": "Detener el tiempo y mostrar los resultados",
+        "enter_answer_into_field": "¡Ingresa tu respuesta en el campo de entrada!"
     },
     "settings_page": {
         "check_location": "Comprobar ubicación",
@@ -185,14 +196,21 @@
         "last_seen": "Visto por última vez",
         "delete_this_session": "Borrar esta sesión",
         "this_session?": "¿Esta sesión?",
-        "old_password": "Contraseña antigua"
+        "old_password": "Contraseña antigua",
+        "change_avatar": "Cambiar el avatar",
+        "security_settings": "Configuraciones de seguridad"
     },
     "play_page": {
         "2nd_place": "2º puesto",
         "end_sentence": "¡Eso es todo! Este fue el cuestionario.",
         "1st_place": "1er puesto",
         "3rd place": "3er puesto",
-        "with_out_of": "con {{correct_questions}} de {{total_question_count}}"
+        "with_out_of": "con {{correct_questions}} de {{total_question_count}}",
+        "final_result_rank": "{{place}}: {{username}} con {{points}} puntos",
+        "your_score": "Tú puntuación: {{score}}",
+        "join_description": "Únete en {{url}} e ingresa {{pin}}.",
+        "join_by_entering_code": "Únete ingresando el siguiente código",
+        "points_added": "Puntos agregados"
     },
     "editor_page": {
         "right_click_to_delete": "Haz clic con el botón derecho en una respuesta para eliminarla!",
@@ -214,7 +232,18 @@
         "not_all_links_imgur_links": "¡No todos los enlaces son de Imgur!",
         "right_or_true?": "¿Cierto?",
         "add_new_answer": "Añadir nueva respuesta",
-        "time_in_seconds": "Tiempo en segundos"
+        "time_in_seconds": "Tiempo en segundos",
+        "slide": {
+            "headline": "Titular",
+            "headline_description": "Texto en negrita para los titulares",
+            "text": "Texto",
+            "text_description": "Texto más corto y largo",
+            "rectangle": "Rectángulo",
+            "rectangle_description": "Solo un rectangulo"
+        },
+        "no_title": "Sin título...",
+        "empty": "Vacío...",
+        "bg_image": "Imagen de fondo"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
@@ -257,7 +286,8 @@
         "clothe_type": "Ropa",
         "eyebrow_type": "Cejas",
         "clothe_graphic_type": "Gráficos",
-        "start_over": "Empezar de nuevo"
+        "start_over": "Empezar de nuevo",
+        "go_back": "Regresar"
     },
     "results_page": {
         "quiz_title": "Título del cuestionario",
@@ -272,5 +302,39 @@
         "correct_answer_plural": "{{count}} respuestas correctas",
         "time_taken": "Tiempo invertido",
         "average_score": "Puntuación media: {{average_score}}"
+    },
+    "navbar": {
+        "donate": "Donar"
+    },
+    "security_settings": {
+        "2fa_deactivated": "La verificación en dos pasos está desactivada",
+        "backup_codes": {
+            "your_backup_code": "Tu código de seguridad",
+            "download_code": "Descargar el código",
+            "save_somewhere_save": "¡Guárdalo en un lugar seguro!"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Escanea este código QR para configurar el código",
+            "enter_as_secret_if_no_see_code": "Introduce este secreto si no puedes escanear el código QR",
+            "totp_setup": "Configuración de Totp",
+            "do_not_forget_backup_code": "¡No olvides guardar tu código de recuperación!"
+        },
+        "backup_code": "Código de seguridad",
+        "get_backup_code": "Obtener el código de la copia de seguridad",
+        "activate_2fa": "Habilitar la verificación en dos pasos",
+        "2fa_activated": "La verificación en dos pasos está activada",
+        "webauthn": "WebAuthn",
+        "webauthn_unavailable": "WebAuthn no está disponible",
+        "webauthn_available": "WebAuthn está disponible",
+        "add_security_key": "Agregar una clave de seguridad",
+        "totp": "Totp",
+        "totp_available": "Totp está disponible",
+        "totp_unavailable": "Totp no está disponible",
+        "disable_totp": "Desactivar Totp",
+        "enable_totp": "Activar Totp"
+    },
+    "view_quiz_page": {
+        "made_by": "Hecho por",
+        "view_on_kahoot": "¡Ver en Kahoot!"
     }
 }
