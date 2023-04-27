@@ -7,7 +7,7 @@
         },
         "features_description": {
             "1": "ClassQuiz es una plataforma de quiz que permite crear y gestionar quiz.",
-            "2": "La principal funcionalidad es una función de importación de Kahoot! que permite importar cuestionarios de Kahoot!",
+            "2": "La característica principal es una función de importación de Kahoot! que le permite importar cuestionarios desde Kahoot!-quizzes.",
             "3": "El editor fácil de usar es un punto destacado, al igual que la función de exportación para descargar los resultados de las pruebas como archivos de Excel."
         },
         "stats": "Ya hay {{user_count}} usuarios y {{quiz_count}} cuestionarios en ClassQuiz.",
@@ -168,7 +168,8 @@
         "point": "Punto",
         "point_plural": "Puntos",
         "back": "Atrás",
-        "finish": "Finalizar"
+        "finish": "Finalizar",
+        "normal": "Normal"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -327,7 +328,7 @@
         "webauthn_unavailable": "WebAuthn no está disponible",
         "webauthn_available": "WebAuthn está disponible",
         "add_security_key": "Agregar una clave de seguridad",
-        "totp": "Totp",
+        "totp": "contraseña de un solo uso (OTP)",
         "totp_available": "Totp está disponible",
         "totp_unavailable": "Totp no está disponible",
         "disable_totp": "Desactivar Totp",
@@ -336,5 +337,12 @@
     "view_quiz_page": {
         "made_by": "Hecho por",
         "view_on_kahoot": "¡Ver en Kahoot!"
+    },
+    "start_game": {
+        "captcha_message": "Si está habilitado, ReCaptcha de Google se cargará en los navegadores de los jugadores. Habilita esto solo si realmente lo necesita, ya que necesita el consentimiento de CADA JUGADOR para cargar el captcha.",
+        "normal_mode_description": "¡La pregunta y la respuesta solo se mostrarán en la pantalla de administración como en Kahoot! Los jugadores solo tendrán botones de colores con símbolos correspondientes a los de la pantalla de administración.",
+        "old_school_mode_description": "Las preguntas y las imágenes se muestran tanto en la pantalla del administrador como en la pantalla del jugador",
+        "old_school_mode": "De la vieja escuela",
+        "start_game": "Iniciar el Juego"
     }
 }
