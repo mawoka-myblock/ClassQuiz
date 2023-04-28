@@ -339,7 +339,7 @@
         "view_on_kahoot": "¡Ver en Kahoot!"
     },
     "start_game": {
-        "captcha_message": "Si está habilitado, ReCaptcha de Google se cargará en los navegadores de los jugadores. Habilita esto solo si realmente lo necesita, ya que necesita el consentimiento de CADA JUGADOR para cargar el captcha.",
+        "captcha_message": "Si está habilitado, el ReCaptcha de Google se cargará en el navegador de los jugadores. Habilítalo solo si realmente lo necesitas, ya que necesitas el consentimiento de TODOS los jugadores para cargar el captcha.",
         "normal_mode_description": "¡La pregunta y la respuesta solo se mostrarán en la pantalla de administración como en Kahoot! Los jugadores solo tendrán botones de colores con símbolos correspondientes a los de la pantalla de administración.",
         "old_school_mode_description": "Las preguntas y las imágenes se muestran tanto en la pantalla del administrador como en la pantalla del jugador",
         "old_school_mode": "De la vieja escuela",
