@@ -48,7 +48,8 @@
         "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
         "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
-        "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!"
+        "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!",
+        "how_does_classquiz_work": "Jak działa ClassQuiz?"
     },
     "overview_page": {
         "question_count": "Liczba pytań",
@@ -161,7 +162,13 @@
         "backup_code": "Kod zapasowy",
         "submit": "Prześlij",
         "kick": "Wykop",
-        "order": "kolejność"
+        "order": "kolejność",
+        "name": "Nazwa",
+        "point": "Punkt",
+        "slide": "Slajd",
+        "point_plural": "Punkty",
+        "back": "Wróć",
+        "finish": "Zakończ"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -171,7 +178,9 @@
         "new_password": "Nowe hasło",
         "repeat_password": "Powtórz hasło",
         "this_session?": "Ta sesja?",
-        "change_password_submit": "Zmień hasło!"
+        "change_password_submit": "Zmień hasło!",
+        "change_avatar": "Zmień awatar",
+        "security_settings": "Ustawienia bezpieczeństwa"
     },
     "editor_page": {
         "add_an_answer": "Dodaj odpowiedź",
@@ -196,7 +205,18 @@
         "delete_question": "Usuń pytanie",
         "delete_answer": "Usuń odpowiedź",
         "not_all_links_imgur_links": "Nie wszystkie linki prowadzą do Imgur!",
-        "right_or_true?": "Prawda?"
+        "right_or_true?": "Prawda?",
+        "no_title": "Brak tytułu...",
+        "empty": "Pusto...",
+        "bg_image": "Obraz tła",
+        "slide": {
+            "headline": "Nagłówek",
+            "headline_description": "Pogrubiony tekst dla nagłówków",
+            "text": "Tekst",
+            "text_description": "Mniejszy dłuższy tekst",
+            "rectangle": "Prostokąt",
+            "rectangle_description": "Tylko prostokąt"
+        }
     },
     "import_page": {
         "need_help": "Potrzebujesz pomocy?",
@@ -220,7 +240,11 @@
         "stop_time": "Zatrzymaj czas",
         "save_results": "Zapisz wyniki",
         "get_results_and_stop_time": "Uzyskaj wyniki i zatrzymaj czas",
-        "get_final_results": "Wyniki ostateczne"
+        "get_final_results": "Wyniki ostateczne",
+        "next_question": "Następne pytanie ({{question}})",
+        "show_results": "Pokaż wyniki",
+        "stop_time_and_solutions": "Zatrzymaj czas i pokaż rozwiązania",
+        "enter_answer_into_field": "Wprowadź swoją odpowiedź w pole wejściowe!"
     },
     "password_reset_page": {
         "reset_password": "Zresetuj hasło"
@@ -234,7 +258,12 @@
         "2nd_place": "2. miejsce",
         "3rd place": "3. miejsce",
         "with_out_of": "z {{correct_questions}} na {{total_question_count}}",
-        "end_sentence": "To jest to! To był quiz."
+        "end_sentence": "To jest to! To był quiz.",
+        "your_score": "Twój wynik: {{score}}",
+        "join_description": "Dołącz na {{url}} i wpisz {{pin}}.",
+        "join_by_entering_code": "Dołącz do nas wpisując następujący kod",
+        "points_added": "Dodane punkty",
+        "final_result_rank": "{{place}}: {{username}} z {{points}} punktów"
     },
     "explore_page": {
         "made_by": "Wykonane przez",
@@ -254,7 +283,8 @@
         "hair_color": "Kolor włosów",
         "facial_hair_type": "Zarost",
         "facial_hair_color": "Kolor zarostu",
-        "top_type": "Góra"
+        "top_type": "Góra",
+        "go_back": "Wstecz"
     },
     "results_page": {
         "quiz_title": "Tytuł quizu",
@@ -272,5 +302,27 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Wyszukaj własne quizy"
+    },
+    "navbar": {
+        "donate": "Darowizna"
+    },
+    "security_settings": {
+        "backup_code": "Kod zapasowy",
+        "get_backup_code": "Pobierz kod zapasowy",
+        "activate_2fa": "Aktywuj uwierzytelnianie dwuskładnikowe",
+        "2fa_activated": "Uaktywniono uwierzytelnianie dwuskładnikowe",
+        "2fa_deactivated": "Uwierzytelnianie dwuskładnikowe jest wyłączone",
+        "backup_codes": {
+            "your_backup_code": "Twój kod zapasowy",
+            "save_somewhere_save": "Zapisz to gdzieś w bezpiecznym miejscu!",
+            "download_code": "Pobierz kod"
+        },
+        "totp_setup": {
+            "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Wykonane przez",
+        "view_on_kahoot": "Zobacz na Kahoot!"
     }
 }
