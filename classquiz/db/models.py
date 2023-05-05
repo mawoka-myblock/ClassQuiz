@@ -11,7 +11,9 @@ import ormar
 from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
+from .quiztivity import QuizTivityPage
 from ..config import server_regex
+from sqlalchemy import func
 
 
 class UserAuthTypes(Enum):
@@ -316,5 +318,23 @@ class GameResults(ormar.Model):
 
     class Meta:
         tablename = "game_results"
+        metadata = metadata
+        database = database
+
+
+class QuizTivityInput(BaseModel):
+    title: str
+    pages: list[QuizTivityPage]
+
+
+class QuizTivity(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    title: str = ormar.Text(nullable=False)
+    created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
+    user: User | None = ormar.ForeignKey(User)
+    pages: list[QuizTivityPage] = ormar.JSON(nullable=False)
+
+    class Meta:
+        tablename = "quiztivitys"
         metadata = metadata
         database = database
