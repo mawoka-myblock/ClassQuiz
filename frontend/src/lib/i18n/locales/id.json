@@ -1,14 +1,32 @@
 {
     "index_page": {
         "meta": {
-            "title": "Beranda"
+            "title": "Beranda",
+            "description": "ClassQuiz adalah aplikasi kuis seperti Kahoot! untuk siswa, yang bersifat open source dan gratis untuk digunakan"
         },
         "features_description": {
-            "2": "Fitur utamanya adalah fungsi impor KAHOOT! yang memungkinkan kamu untuk mengimpor kuis dari kuis KAHOOT!.",
-            "1": "ClassQuiz adalah platform kuis yang memungkinkan kamu untuk membuat dan mengelola kuis."
+            "2": "Fitur utamanya adalah fungsi impor Kahoot!- ini memungkinkan Anda mengimpor kuis dari Kahoot!-kuis.",
+            "1": "ClassQuiz adalah platform kuis yang memungkinkan kamu untuk membuat dan mengelola kuis.",
+            "3": "Editor dan fungsi mengekspor hasil kuis sebagai file Excel adalah fitur khusus dari perangkat lunak ini."
         },
         "slogan": "Platform kuis sumber-terbuka!",
-        "stats": "Sudah ada {{user_count}} pengguna dan {{quiz_count}} kuis di ClassQuiz."
+        "stats": "Sudah ada {{user_count}} pengguna dan {{quiz_count}} kuis di ClassQuiz.",
+        "no_tracking": "Tanpa pelacakan",
+        "self_hostable": "Dapat Dihosting Sendiri",
+        "german_server": "Server Jerman",
+        "user_friendly": "Mudah digunakan",
+        "create_a_quiz_from_scratch": "Buat kuis dari awal dengan editor dan sertakan gambar dan lainnya",
+        "see_all_quizzes": "Lihat semua kuis Anda",
+        "teachers_site": "Situs guru",
+        "see_how_many_true_and_false": "Lihat berapa banyak yang benar atau salah",
+        "students_site": "Situs siswa",
+        "see_what_true_and_false": "Lihat mana yang benar atau salah",
+        "create_or_import": "Buat atau Impor",
+        "completely_free": "Gratis",
+        "quiz_results_downloadable": "Hasil kuis dapat diunduh",
+        "multilingual": "Multibahasa",
+        "dark_mode": "Mode gelap",
+        "get_a_quiz": "1. Dapatkan kuis"
     },
     "overview_page": {
         "question_count": "Jumlah pertanyaan"

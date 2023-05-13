@@ -168,7 +168,8 @@
         "slide": "Slajd",
         "point_plural": "Punkty",
         "back": "Wróć",
-        "finish": "Zakończ"
+        "finish": "Zakończ",
+        "normal": "Normalny"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -324,5 +325,11 @@
     "view_quiz_page": {
         "made_by": "Wykonane przez",
         "view_on_kahoot": "Zobacz na Kahoot!"
+    },
+    "start_game": {
+        "captcha_message": "Jeśli ta opcja jest włączona, Google ReCaptcha będzie ładować się w przeglądarce graczy. Włącz tylko jeśli naprawdę tego potrzebujesz, ponieważ będziesz potrzebował zgody KAŻDEGO gracza na załadowanie captcha.",
+        "normal_mode_description": "Pytanie i odpowiedź będą wyświetlane tylko na ekranie administratora, jak w Kahoot! Gracze będą mieli do dyspozycji jedynie kolorowe przyciski z symbolami odpowiadającymi tym na ekranie administratora.",
+        "old_school_mode_description": "Pytania i obrazy będą wyświetlane zarówno na ekranie administratora, jak i na ekranie graczy",
+        "start_game": "Rozpocznij grę"
     }
 }

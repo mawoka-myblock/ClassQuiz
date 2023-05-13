@@ -168,7 +168,8 @@
         "finish": "Fertig",
         "name": "Name",
         "point_plural": "Punkte",
-        "point": "Punkt"
+        "point": "Punkt",
+        "normal": "Normal"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -343,5 +344,12 @@
     "view_quiz_page": {
         "made_by": "Erstellt von",
         "view_on_kahoot": "Auf Kahoot! ansehen"
+    },
+    "start_game": {
+        "start_game": "Spiel starten",
+        "old_school_mode": "Old-School",
+        "captcha_message": "Wenn aktiviert, Googles ReCaptcha wird in den Browsern der Spielerinnen und Spieler geladen. Aktiviere dies nur, wenn du es wirklich brauchst, da du die Einverständniserklärung JEDEN SPIELERS brauchst um die Captcha zu laden.",
+        "old_school_mode_description": "Fragen und Bilder werden sowohl auf dem Bildschirm des Admins als auch auf dem Bildschirm der Spielerinnen und Spieler angezeigt",
+        "normal_mode_description": "Fragen und Antwortmöglichkeiten werden nur auf dem Bildschirm des Admins angezeigt, wie bei Kahoot!. Die Spielerinnen und Spieler werden nur gefärbte Knöpfe mit passenden Symbolen haben."
     }
 }

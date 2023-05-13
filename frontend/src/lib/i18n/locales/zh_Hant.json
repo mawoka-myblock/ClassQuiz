@@ -31,7 +31,8 @@
         "stats": "ClassQuiz 上已有 {{user_count}} 位使用者和 {{quiz_count}} 個測驗。",
         "features_description": {
             "1": "ClassQuiz 是一個可以讓你建立和管理測驗的測驗平台。",
-            "2": "最主要的功能之一是允許你匯入 Kahoot! 上的測驗。"
+            "2": "最主要的功能之一是允許你匯入 Kahoot! 上的測驗。",
+            "3": "編輯器和可將測驗結果匯出為 Excel 檔為此軟體的幾個亮點。"
         },
         "quiz_results_downloadable": "可被下載的測驗結果",
         "find_or_explore": "搜尋 (或瀏覽) 其他人建立和匯入的測驗",
@@ -39,7 +40,14 @@
         "user_friendly_content": "ClassQuiz 旨在簡單，每個人都可以輕鬆使用。",
         "dark_mode_content": "一個網站最重要的功能之一！",
         "german_server_content": "ClassQuiz 的伺服器位於德國，並由 netcup 提供。",
-        "how_does_classquiz_work": "ClassQuiz 是如何運作的？"
+        "how_does_classquiz_work": "ClassQuiz 是如何運作的？",
+        "see_how_many_true_and_false": "看看有多少人是對的或錯的",
+        "completely_free_content": "ClassQuiz 完全免費 (對用戶而言)，沒有任何訂閱機制，也不會惱人地重新定向至升級頁面。你的捐贈我們不勝感激。",
+        "see_what_true_and_false": "看看什麼是對的，什麼是錯的",
+        "self_hostable_content": "輕鬆地自行架設 ClassQuiz ，資料只由你掌控！",
+        "quiz_results_downloadable_content": "測驗結果可以簡單地被匯出為 Excel 試算表。(不知道其他類似的服務沒有提供此功能)",
+        "community_driven": "社群驅動",
+        "community_driven_content": "ClassQuiz 依靠它的社群提供金援、測試想法、功能請求、翻譯...等！你也可以成為 ClassQuiz 的社群成員之一！"
     },
     "edit_page": {
         "success_update_title": "測驗已更新。"
