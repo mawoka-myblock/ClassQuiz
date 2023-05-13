@@ -5,12 +5,8 @@
   -->
 <script lang="ts">
 	import type { Markdown } from '../../types';
-	import { getLocalization } from '$lib/i18n';
-	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
-
-	const { t } = getLocalization();
 
 	export let data: Markdown | undefined;
 

@@ -42,3 +42,9 @@ async def delete_quiztivity(uuid: UUID):
     if quiztivity is None:
         raise HTTPException(status_code=404, detail="QuizTivity not found")
     await quiztivity.delete()
+
+
+@router.get("/")
+async def get_all_quiztivities(user: User = Depends(get_current_user)) -> list[QuizTivity]:
+    quiztivities = await QuizTivity.objects.filter(user=user).order_by(QuizTivity.created_at.desc()).all()
+    return quiztivities

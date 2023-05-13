@@ -20,6 +20,7 @@ specifiers:
     '@tailwindcss/typography': ^0.5.9
     '@types/canvas-confetti': ^1.6.0
     '@types/cookie': ^0.5.1
+    '@types/dompurify': ^3.0.2
     '@types/js-cookie': ^3.0.3
     '@types/luxon': ^3.3.0
     '@types/marked': ^4.3.0
@@ -43,6 +44,7 @@ specifiers:
     cookie: ^0.5.0
     crypto-js: ^4.1.1
     cssnano: ^6.0.0
+    dompurify: ^3.0.3
     eslint: ^8.38.0
     eslint-config-prettier: ^8.8.0
     eslint-plugin-svelte3: ^4.0.0
@@ -106,6 +108,7 @@ devDependencies:
     '@tailwindcss/typography': 0.5.9_tailwindcss@3.3.1
     '@types/canvas-confetti': 1.6.0
     '@types/cookie': 0.5.1
+    '@types/dompurify': 3.0.2
     '@types/js-cookie': 3.0.3
     '@types/luxon': 3.3.0
     '@types/marked': 4.3.0
@@ -129,6 +132,7 @@ devDependencies:
     cookie: 0.5.0
     crypto-js: 4.1.1
     cssnano: 6.0.0_postcss@8.4.22
+    dompurify: 3.0.3
     eslint: 8.38.0
     eslint-config-prettier: 8.8.0_eslint@8.38.0
     eslint-plugin-svelte3: 4.0.0_a4ckjr7darsrglbip3svgxgxc4
@@ -1438,6 +1442,15 @@ packages:
             }
         dev: true
 
+    /@types/dompurify/3.0.2:
+        resolution:
+            {
+                integrity: sha512-YBL4ziFebbbfQfH5mlC+QTJsvh0oJUrWbmxKMyEdL7emlHJqGR2Qb34TEFKj+VCayBvjKy3xczMFNhugThUsfQ==
+            }
+        dependencies:
+            '@types/trusted-types': 2.0.3
+        dev: true
+
     /@types/estree/1.0.1:
         resolution:
             {
@@ -1514,6 +1527,13 @@ packages:
         resolution:
             {
                 integrity: sha512-g/JwBNToh6oCTAwNS8UGVmjO7NLDKsejVhvE4x1eWiPTC3uCuNsa/TD4ssvX3du+MLiM+SHPNDuijp8y76JzLQ==
+            }
+        dev: true
+
+    /@types/trusted-types/2.0.3:
+        resolution:
+            {
+                integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==
             }
         dev: true
 
@@ -2618,6 +2638,13 @@ packages:
         engines: { node: '>= 4' }
         dependencies:
             domelementtype: 2.3.0
+        dev: true
+
+    /dompurify/3.0.3:
+        resolution:
+            {
+                integrity: sha512-axQ9zieHLnAnHh0sfAamKYiqXMJAVwu+LM/alQ7WDagoWessyWvMSFyW65CqF3owufNu8HBcE4cM2Vflu7YWcQ==
+            }
         dev: true
 
     /domutils/3.0.1:

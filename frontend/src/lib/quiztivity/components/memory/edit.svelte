@@ -7,6 +7,7 @@
 	import type { Memory } from '../../types';
 	import { getLocalization } from '$lib/i18n';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { flip } from 'svelte/animate';
 
 	const { t } = getLocalization();
 
@@ -21,6 +22,20 @@
 			cards: []
 		};
 	}
+	const arraymove = (arr: any[], fromI: number, toI: number) => {
+		const el = arr[fromI];
+		arr.splice(fromI, 1);
+		arr.splice(toI, 0, el);
+	};
+	const move_card_left = (selected_slide: number) => {
+		arraymove(data.cards, selected_slide, selected_slide - 1);
+		data.cards = data.cards;
+	};
+
+	const move_card_right = (selected_slide: number) => {
+		arraymove(data.cards, selected_slide, selected_slide + 1);
+		data.cards = data.cards;
+	};
 
 	const add_card = () => {
 		if (!new_pair_data.text_1 || !new_pair_data.text_2) {
@@ -81,14 +96,32 @@
 				>
 			</div>
 		</div>
-		{#each data.cards as card_pair}
-			<div class="border-[#B07156] border-2 rounded">
+		{#each data.cards as card_pair, i (card_pair[0].id)}
+			<div
+				class="border-[#B07156] border-2 rounded group flex flex-col"
+				animate:flip={{ duration: 200 }}
+			>
 				<div class="grid grid-cols-2 py-2 h-full">
 					{#each card_pair as card}
 						<div class="px-2 flex h-full">
 							<p class="m-auto">{card.text}</p>
 						</div>
 					{/each}
+				</div>
+				<div class="grid grid-cols-2 p-2 gap-2">
+					<BrownButton
+						on:click={() => {
+							move_card_left(i);
+						}}
+						disabled={i === 0}>{$t('quiztivity.editor.move_left')}</BrownButton
+					>
+					<BrownButton
+						on:click={() => {
+							move_card_right(i);
+						}}
+						disabled={i + 1 === data.cards.length}
+						>{$t('quiztivity.editor.move_right')}</BrownButton
+					>
 				</div>
 			</div>
 		{/each}

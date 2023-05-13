@@ -19,7 +19,7 @@ export interface Pdf {
 	url: string;
 }
 
-interface MemoryCard {
+export interface MemoryCard {
 	image?: string;
 	text?: string;
 	id: string;

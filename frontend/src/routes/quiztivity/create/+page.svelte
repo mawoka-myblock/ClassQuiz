@@ -4,9 +4,8 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { Data } from '../../../lib/quiztivity/types';
-	import Editor from '../../../lib/quiztivity/editor.svelte';
-	import { goto } from '$app/navigation';
+	import type { Data } from '$lib/quiztivity/types';
+	import Editor from '$lib/quiztivity/editor.svelte';
 
 	let data: Data = { pages: [], id: undefined, title: '' };
 	let saving = false;

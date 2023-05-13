@@ -109,7 +109,7 @@
 			</div>
 		</div>
 		<div class="flex justify-center mt-6">
-			<div class="grid grid-cols-6  gap-6 w-11/12">
+			<div class="grid grid-cols-6 gap-6 w-11/12">
 				{#each data.pages as page, i (page.id)}
 					<div
 						class="border-[#B07156] border-2 rounded aspect-square flex flex-col group"
