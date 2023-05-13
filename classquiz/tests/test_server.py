@@ -510,7 +510,6 @@ class TestEditor:
 class TestExImport:
     @pytest.mark.asyncio
     async def test_export_quiz(self, test_client):  # noqa : F811
-
         resp = test_client.get("/api/v1/eximport/jgfgufgfgfzftzi")
         assert resp.status_code == 422
         resp = test_client.get("/api/v1/eximport/8bd77201-65ed-46fe-9160-cfe71dad501f")
