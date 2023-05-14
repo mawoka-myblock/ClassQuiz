@@ -12,12 +12,12 @@
 	export let type: QuizTivityTypes | undefined;
 
 	const PageTypes = [
-		{
+		/*		{
 			name: 'Pdf',
 			description: 'Upload a PDF!',
 			type: QuizTivityTypes.PDF,
 			svg: undefined
-		},
+		},*/
 		{
 			name: 'Memory',
 			description: 'Matching Pairs game',

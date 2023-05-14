@@ -6,6 +6,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Editor from '../../../lib/quiztivity/editor.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -25,7 +26,7 @@
 			body: stringification
 		});
 		if (res.ok) {
-			// await goto("/dashboard")
+			await goto('/dashboard');
 		} else {
 			alert("Couldn't save");
 		}

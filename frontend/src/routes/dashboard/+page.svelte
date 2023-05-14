@@ -11,6 +11,8 @@
 	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import type { PageData } from './$types';
+	import { fly } from 'svelte/transition';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
@@ -25,60 +27,73 @@
 		questions: Question[];
 	}
 
+	export let data: PageData;
 	let search_term = '';
 	let start_game = null;
 	signedIn.set(true);
 	navbarVisible.set(true);
 	const { t } = getLocalization();
 
-	let quizzes_to_show = [];
-	let quizzes: Array<any>;
+	let items_to_show = [];
+	let all_items: Array<any>;
 	let fuse;
-	/*	const minisearch = new MiniSearch({
-                fields: ['title', 'description'],
-                idField: 'id',
-                storeFields: ['id']
-            })*/
 
 	let id_to_position_map = {};
 
 	const getData = async (): Promise<Array<QuizData>> => {
-		const res = await fetch('/api/v1/quiz/list?page_size=100');
-		quizzes_to_show = await res.json();
-		fuse = new Fuse(quizzes_to_show, {
-			keys: ['title', 'description', 'questions.question'],
+		items_to_show = [];
+		for (let i = 0; i < data.quizzes.length; i++) {
+			items_to_show.push({ ...data.quizzes[i], type: 'quiz' });
+		}
+		for (let i = 0; i < data.quiztivities.length; i++) {
+			items_to_show.push({ ...data.quiztivities[i], type: 'quiztivity' });
+		}
+		fuse = new Fuse(items_to_show, {
+			keys: ['title', 'description', 'questions.title'],
 			findAllMatches: true
 		});
-		quizzes = quizzes_to_show;
-		for (let i = 0; i < quizzes.length; i++) {
-			id_to_position_map[quizzes[i].id] = i;
+		all_items = items_to_show;
+		for (let i = 0; i < all_items.length; i++) {
+			id_to_position_map[all_items[i].id] = i;
 		}
-		return quizzes_to_show;
+		return all_items;
 	};
-
-	let suggestions = [];
 
 	const search = () => {
 		if (search_term === '') {
-			quizzes_to_show = [];
-			quizzes_to_show = quizzes;
-			quizzes_to_show = quizzes_to_show;
+			items_to_show = all_items;
 		} else {
 			const res = fuse.search(search_term);
 			console.log(res, 'search_res');
-			quizzes_to_show = [];
+			items_to_show = [];
 			for (const quiz_data of res) {
-				quizzes_to_show.push(quiz_data.item);
+				items_to_show.push(quiz_data.item);
 			}
 
-			quizzes_to_show = quizzes_to_show;
+			items_to_show = items_to_show;
 		}
 	};
 	$: {
 		search_term;
-		// console.log(search_term);
 		search();
 	}
+
+	const deleteQuiz = async (to_delete: string, type: 'quiz' | 'quiztivity') => {
+		if (!confirm('Do you really want to delete this quiz?')) {
+			return;
+		}
+		if (type === 'quiz') {
+			await fetch(`/api/v1/quiz/delete/${to_delete}`, {
+				method: 'DELETE'
+			});
+		} else {
+			await fetch(`/api/v1/quiztivity/${to_delete}`, {
+				method: 'DELETE'
+			});
+		}
+		window.location.reload();
+	};
+	let create_button_clicked = false;
 </script>
 
 <svelte:head>
@@ -104,7 +119,19 @@
                     Primary
                 </button>-->
 			<div class="w-full grid lg:grid-cols-4 gap-2 grid-cols-2 px-4">
-				<BrownButton href="/create">{$t('words.create')}</BrownButton>
+				{#if create_button_clicked}
+					<div class="flex gap-2" transition:fly={{ y: 10 }}>
+						<BrownButton href="/create">{$t('words.quiz')}</BrownButton>
+						<BrownButton href="/quiztivity/create">{$t('words.quiztivity')}</BrownButton
+						>
+					</div>
+				{:else}
+					<BrownButton
+						on:click={() => {
+							create_button_clicked = true;
+						}}>{$t('words.create')}</BrownButton
+					>
+				{/if}
 				<BrownButton href="/import">{$t('words.import')}</BrownButton>
 				<BrownButton href="/results">{$t('words.results')}</BrownButton>
 				<BrownButton href="/account/settings">
@@ -123,8 +150,7 @@
 							<button
 								on:click={() => {
 									search_term = '';
-									quizzes_to_show = quizzes;
-									suggestions = [];
+									items_to_show = all_items;
 								}}
 							>
 								<svg
@@ -146,7 +172,7 @@
 					</div>
 				</div>
 				<div class="flex flex-col gap-4 mt-4 px-2">
-					{#each quizzes_to_show as quiz}
+					{#each items_to_show as quiz}
 						<div
 							class="grid grid-cols-2 lg:grid-cols-3 w-full rounded border-[#B07156] border-2 p-2 h-[20vh] overflow-hidden max-h-[20vh]"
 						>
@@ -160,28 +186,38 @@
 									/>
 								{/if}
 							</div>
-							<div class="my-auto mx-auto max-h-full">
+							<div class="my-auto mx-auto max-h-full overflow-hidden">
 								<p class="text-xl text-center">{@html quiz.title}</p>
 								<p class="text-sm text-center text-clip overflow-hidden">
-									{@html quiz.description}
+									{@html quiz.description ?? ''}
 								</p>
 							</div>
 							<div
 								class="grid grid-cols-2 grid-rows-2 ml-auto gap-2 w-fit self-end my-auto"
 							>
-								<BrownButton href="/edit?quiz_id={quiz.id}"
+								<BrownButton
+									href={quiz.type === 'quiz'
+										? `/edit?quiz_id=${quiz.id}`
+										: `/quiztivity/edit?id=${quiz.id}`}
 									>{$t('words.edit')}</BrownButton
 								>
+								{#if quiz.type === 'quiz'}
+									<BrownButton
+										on:click={() => {
+											start_game = quiz.id;
+										}}
+									>
+										{$t('words.start')}
+									</BrownButton>
+								{:else}
+									<BrownButton href="/quiztivity/play?id={quiz.id}">
+										{$t('words.play')}
+									</BrownButton>
+								{/if}
+
 								<BrownButton
 									on:click={() => {
-										start_game = quiz.id;
-									}}
-								>
-									{$t('words.start')}
-								</BrownButton>
-								<BrownButton
-									on:click={() => {
-										// deleteQuiz(quiz.id);
+										deleteQuiz(quiz.id, quiz.type);
 									}}
 									flex={true}
 								>
@@ -201,7 +237,10 @@
 										/>
 									</svg>
 								</BrownButton>
-								<BrownButton href="/api/v1/eximport/{quiz.id}" flex={true}
+								<BrownButton
+									href="/api/v1/eximport/{quiz.id}"
+									flex={true}
+									disabled={quiz.type !== 'quiz'}
 									><!-- heroicons/download -->
 									<svg
 										class="w-5 h-5"

@@ -41,7 +41,8 @@
 	$: handle_slide_add(selected_type);
 
 	const delete_slide = () => {
-		data.pages.slice(selected_slide, 1);
+		console.log(selected_slide);
+		data.pages.splice(selected_slide, 1);
 		data.pages = data.pages;
 	};
 
