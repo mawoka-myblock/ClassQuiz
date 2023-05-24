@@ -36,7 +36,7 @@
     });*/
 </script>
 
-<div class="grid grid-cols-2 gap-4 w-full px-10">
+<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">
 	{#if Array.isArray(data.questions[selected_question].answers)}
 		{#each data.questions[selected_question].answers as answer, index}
 			<div
