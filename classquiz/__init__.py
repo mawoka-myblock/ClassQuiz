@@ -33,6 +33,7 @@ from classquiz.routers import (
     results,
     admin,
     box_controller,
+    quiztivity,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
@@ -85,6 +86,8 @@ async def shutdown() -> None:
 async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
+
+app.include_router(quiztivity.router, tags=["quiztivity"], prefix="/api/v1/quiztivity", include_in_schema=True)
 
 app.include_router(
     box_controller.router, tags=["boxcontroller"], prefix="/api/v1/box-controller", include_in_schema=True

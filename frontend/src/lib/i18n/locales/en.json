@@ -169,7 +169,12 @@
         "point_plural": "Points",
         "back": "Back",
         "finish": "Finish",
-        "normal": "Normal"
+        "normal": "Normal",
+        "selected": "Selected",
+        "select": "Select",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity",
+        "next": "Next"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -344,5 +349,39 @@
         "old_school_mode": "Old-School",
         "old_school_mode_description": "Questions and images will be shown on both admins screen and on the screen of the players",
         "start_game": "Start Game"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Select Page Type",
+            "move_left": "Move left",
+            "move_right": "Move right",
+            "title_placeholder": "Enter title here",
+            "add_new": "Add new",
+            "delete": "Delete",
+            "open_shares_menu": "Open Shares menu",
+            "shares": {
+                "add_new_share": "Add new Share",
+                "expires_on": "Expires on {{date}}",
+                "never_expires": "Never expires"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Add card",
+                "upload_image": "Upload image",
+                "add_pair": "Add pair"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Tries: {{try_count}}"
+            }
+        },
+        "share_expired": "Share expired"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Copied to clipboard!"
+        }
     }
 }

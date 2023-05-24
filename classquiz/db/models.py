@@ -11,7 +11,9 @@ import ormar
 from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
+from .quiztivity import QuizTivityPage
 from ..config import server_regex
+from sqlalchemy import func
 
 
 class UserAuthTypes(Enum):
@@ -318,3 +320,59 @@ class GameResults(ormar.Model):
         tablename = "game_results"
         metadata = metadata
         database = database
+
+
+class QuizTivityInput(BaseModel):
+    title: str
+    pages: list[QuizTivityPage]
+
+
+class QuizTivity(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    title: str = ormar.Text(nullable=False)
+    created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
+    user: User | None = ormar.ForeignKey(User)
+    pages: list[QuizTivityPage] = ormar.JSON(nullable=False)
+
+    class Meta:
+        tablename = "quiztivitys"
+        metadata = metadata
+        database = database
+
+
+class QuizTivityShare(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    name: str | None = ormar.Text(nullable=True)
+    expire_at: datetime | None = ormar.DateTime(nullable=True)
+    quiztivity: QuizTivity | None = ormar.ForeignKey(QuizTivity)
+    user: User | None = ormar.ForeignKey(User)
+
+    class Meta:
+        tablename = "quiztivityshares"
+        metadata = metadata
+        database = database
+
+
+class OnlyId(BaseModel):
+    id: uuid.UUID
+
+
+class PublicQuizTivityShare(BaseModel):
+    id: uuid.UUID
+    name: str | None
+    expire_in: int | None
+    quiztivity: OnlyId
+    user: OnlyId
+
+    @classmethod
+    def from_db_model(cls, data: QuizTivityShare):
+        expire_in = None
+        if data.expire_at is not None:
+            expire_in = int((data.expire_at - datetime.now()).seconds / 60)
+        return cls(
+            id=data.id,
+            name=data.name,
+            expire_in=expire_in,
+            quiztivity=OnlyId(id=data.quiztivity.id),
+            user=OnlyId(id=data.user.id),
+        )
