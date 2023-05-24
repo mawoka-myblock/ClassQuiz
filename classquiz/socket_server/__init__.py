@@ -359,6 +359,15 @@ async def submit_answer(sid: str, data: dict):
                 if data.answer.lower() == q.answer.lower():
                     answer_right = True
                     break
+    elif game_data.questions[int(data.question_index)].type == QuizQuestionType.CHECK:
+        correct_string = ""
+        for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
+            if a.right:
+                correct_string += str(i)
+        if correct_string == data.answer:
+            answer_right = True
+        else:
+            answer_right = False
     else:
         raise NotImplementedError
     latency = int(float((await sio.get_session(sid))["ping"]))

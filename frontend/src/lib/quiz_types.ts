@@ -31,7 +31,8 @@ export enum QuizQuestionType {
 	VOTING = 'VOTING', // eslint-disable-line no-unused-vars
 	SLIDE = 'SLIDE', // eslint-disable-line no-unused-vars
 	TEXT = 'TEXT', // eslint-disable-line no-unused-vars
-	ORDER = 'ORDER' // eslint-disable-line no-unused-vars
+	ORDER = 'ORDER', // eslint-disable-line no-unused-vars
+	CHECK = 'CHECK' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {

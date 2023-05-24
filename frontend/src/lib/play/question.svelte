@@ -32,10 +32,10 @@
 	}
 
 	/*	if (typeof question_index === 'string') {
-			question_index = parseInt(question_index);
-		} else {
-			throw new Error('question_index must be a string or number');
-		}*/
+            question_index = parseInt(question_index);
+        } else {
+            throw new Error('question_index must be a string or number');
+        }*/
 
 	let timer_res = question.time;
 	let selected_answer: string;
@@ -251,30 +251,6 @@
 					</BrownButton>
 				</div>
 			</div>
-		{:else if question.type === QuizQuestionType.ABCD}
-			{#if solution === undefined}
-				<Spinner />
-			{:else}
-				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
-					{#each solution.answers as answer}
-						{#if answer.right}
-							<button
-								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-green-600"
-								disabled
-								class:opacity-30={answer.answer !== selected_answer}
-								>{answer.answer}</button
-							>
-						{:else}
-							<button
-								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-red-500"
-								disabled
-								class:opacity-30={answer.answer !== selected_answer}
-								>{answer.answer}</button
-							>
-						{/if}
-					{/each}
-				</div>
-			{/if}
 		{:else if question.type === QuizQuestionType.RANGE}
 			{#if solution === undefined}
 				<Spinner />
@@ -291,8 +267,8 @@
 			{/if}
 		{:else if question.type === QuizQuestionType.ORDER}
 			<!--			{#if solution === undefined}
-							<Spinner />
-						{:else}-->
+                            <Spinner />
+                        {:else}-->
 			<div class="flex flex-col w-full h-full gap-4 px-4 py-6">
 				{#each question.answers as answer, i (answer.id)}
 					<div
@@ -365,14 +341,34 @@
 				</div>
 			</div>
 			<!--{/if}-->
+		{:else if question.type === QuizQuestionType.CHECK}
+			{#await import('./questions/check.svelte')}
+				<Spinner />
+			{:then c}
+				<svelte:component
+					this={c.default}
+					bind:question
+					bind:selected_answer
+					bind:game_mode
+				/>
+				<div class="flex justify-center h-[5%]">
+					<div class="w-1/2">
+						<BrownButton
+							disabled={!selected_answer}
+							on:click={() => selectAnswer(selected_answer)}
+							>{$t('words.submit')}
+						</BrownButton>
+					</div>
+				</div>
+			{/await}
 		{/if}
 
 		<!--{:else if question.type === QuizQuestionType.VOTING}
-	{#await import('$lib/play/admin/voting_results.svelte')}
-		<Spinner />
-	{:then c}
-		<svelte:component this={c.default} bind:data={question_results}
-						  bind:question={quiz_data.questions[selected_question]} />
-	{/await}-->
+    {#await import('$lib/play/admin/voting_results.svelte')}
+        <Spinner />
+    {:then c}
+        <svelte:component this={c.default} bind:data={question_results}
+                          bind:question={quiz_data.questions[selected_question]} />
+    {/await}-->
 	{/if}
 </div>

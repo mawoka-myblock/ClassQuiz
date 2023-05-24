@@ -120,6 +120,7 @@ class QuizQuestionType(str, Enum):
     SLIDE = "SLIDE"
     TEXT = "TEXT"
     ORDER = "ORDER"
+    CHECK = "CHECK"
 
 
 class TextQuizAnswer(BaseModel):
@@ -136,6 +137,7 @@ class QuizQuestion(BaseModel):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
+        print(values)
         # print(values)
         if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswer:
             raise ValueError("Answers can't be none if type is ABCD")
@@ -149,6 +151,8 @@ class QuizQuestion(BaseModel):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
         if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != str:
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
+        if values["type"] == QuizQuestionType.CHECK and type(v[0]) != ABCDQuizAnswer:
+            raise ValueError("Answers can't be none if type is CHECK")
         return v
 
 

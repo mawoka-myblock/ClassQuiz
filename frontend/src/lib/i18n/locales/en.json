@@ -174,7 +174,8 @@
         "select": "Select",
         "quiz": "Quiz",
         "quiztivity": "Quiztivity",
-        "next": "Next"
+        "next": "Next",
+        "check_choice": "Check Choice"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",

@@ -4,7 +4,8 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { EditorData, Answer } from '../quiz_types';
+	import type { Answer, EditorData } from '../quiz_types';
+	import { QuizQuestionType } from '../quiz_types';
 	import { fade } from 'svelte/transition';
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
@@ -18,6 +19,7 @@
 	console.log(get_foreground_color(default_colors[0]));
 
 	export let selected_question: number;
+	export let check_choice = false;
 	export let data: EditorData;
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
@@ -41,6 +43,9 @@
 		};
 	};
 	$: save_colors(data);
+	data.questions[selected_question].type = check_choice
+		? QuizQuestionType.ABCD
+		: QuizQuestionType.CHECK;
 </script>
 
 <div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">

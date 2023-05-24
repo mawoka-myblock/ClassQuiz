@@ -211,7 +211,7 @@
 					/>
 				</div>
 			{/if}
-			{#if question.type === QuizQuestionType.ABCD}
+			{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.CHECK}
 				<div class="grid grid-cols-2 gap-2">
 					{#if Array.isArray(question.answers)}
 						{#each question.answers as answer}

@@ -52,11 +52,11 @@
 		set_unique();
 	}
 	/*
-	if (typeof data.questions[selected_question].type !== QuizQuestionType) {
-		console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)
-		data.questions[selected_question].type = QuizQuestionType.ABCD;
-	}
-	 */
+    if (typeof data.questions[selected_question].type !== QuizQuestionType) {
+        console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)
+        data.questions[selected_question].type = QuizQuestionType.ABCD;
+    }
+     */
 </script>
 
 <div class="w-full max-h-full pb-20 px-20 h-full">
@@ -81,6 +81,7 @@
 				<svelte:component this={c.default} bind:data={data.questions[selected_question]} />
 			{/await}
 		{:else}
+			{@const type = data.questions[selected_question].type}
 			<div class="flex flex-col">
 				<div class="flex justify-center pt-10 w-full">
 					{#key unique}
@@ -194,30 +195,36 @@
 						<option value={QuizQuestionType.VOTING}>{$t('words.voting')}</option>
 						<option value={QuizQuestionType.TEXT}>{$t('words.text')}</option>
 						<option value={QuizQuestionType.ORDER}>{$t('words.order')}</option>
+						<option value={QuizQuestionType.CHECK}>{$t('words.check_choice')}</option>
 					</select>
 				</div>
 				<div class="flex justify-center py-10 w-full">
-					{#if data.questions[selected_question].type === QuizQuestionType.ABCD}
+					{#if type === QuizQuestionType.ABCD || QuizQuestionType.CHECK}
 						{#await import('$lib/editor/ABCDEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
-							<svelte:component this={c.default} bind:data bind:selected_question />
+							<svelte:component
+								this={c.default}
+								bind:data
+								bind:selected_question
+								check_choice={type === QuizQuestionType.CHECK}
+							/>
 						{/await}
-					{:else if data.questions[selected_question].type === QuizQuestionType.RANGE}
+					{:else if type === QuizQuestionType.RANGE}
 						<RangeEditor bind:selected_question bind:data />
-					{:else if data.questions[selected_question].type === QuizQuestionType.VOTING}
+					{:else if type === QuizQuestionType.VOTING}
 						{#await import('$lib/editor/VotingEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
 							<svelte:component this={c.default} bind:data bind:selected_question />
 						{/await}
-					{:else if data.questions[selected_question].type === QuizQuestionType.TEXT}
+					{:else if type === QuizQuestionType.TEXT}
 						{#await import('$lib/editor/TextEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
 							<svelte:component this={c.default} bind:data bind:selected_question />
 						{/await}
-					{:else if data.questions[selected_question].type === QuizQuestionType.ORDER}
+					{:else if type === QuizQuestionType.ORDER}
 						{#await import('$lib/editor/OrderEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
