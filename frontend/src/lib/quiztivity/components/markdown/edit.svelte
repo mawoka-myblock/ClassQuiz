@@ -4,7 +4,7 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { Markdown } from '../../types';
+	import type { Markdown } from '$lib/quiztivity/types';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
 

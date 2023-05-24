@@ -7,7 +7,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
-	import { QuizQuestionType } from '../../lib/quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
 
 	navbarVisible.set(false);
 

@@ -4,7 +4,7 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { Memory } from '../../types';
+	import type { Memory } from '$lib/quiztivity/types';
 	import { getLocalization } from '$lib/i18n';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { flip } from 'svelte/animate';

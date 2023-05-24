@@ -96,30 +96,25 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex justify-center">
-			<div>
-				<div class="flex flex-row gap-2">
-					<BrownButton
-						on:click={() => {
-							selected_type = null;
-						}}>{$t('quiztivity.editor.add_new')}</BrownButton
-					>
-					<BrownButton on:click={delete_slide} disabled={selected_slide === null}
-						>{$t('quiztivity.editor.delete')}</BrownButton
-					>
-					<BrownButton
-						on:click={move_slide_left}
-						disabled={selected_slide === null || selected_slide === 0}
-						>{$t('quiztivity.editor.move_left')}</BrownButton
-					>
-					<BrownButton
-						on:click={move_slide_right}
-						disabled={selected_slide === null ||
-							selected_slide === data.pages.length - 1}
-						>{$t('quiztivity.editor.move_right')}</BrownButton
-					>
-				</div>
-			</div>
+		<div class="flex flex-row gap-2 w-full p-2">
+			<BrownButton
+				on:click={() => {
+					selected_type = null;
+				}}>{$t('quiztivity.editor.add_new')}</BrownButton
+			>
+			<BrownButton on:click={delete_slide} disabled={selected_slide === null}
+				>{$t('quiztivity.editor.delete')}</BrownButton
+			>
+			<BrownButton
+				on:click={move_slide_left}
+				disabled={selected_slide === null || selected_slide === 0}
+				>{$t('quiztivity.editor.move_left')}</BrownButton
+			>
+			<BrownButton
+				on:click={move_slide_right}
+				disabled={selected_slide === null || selected_slide === data.pages.length - 1}
+				>{$t('quiztivity.editor.move_right')}</BrownButton
+			>
 		</div>
 		<div class="flex justify-center mt-6">
 			<div class="grid grid-cols-6 gap-6 w-11/12">
