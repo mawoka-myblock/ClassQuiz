@@ -77,4 +77,6 @@ async def get_share(uuid: UUID) -> QuizTivity:
     share = await QuizTivityShare.objects.select_related("quiztivity").get_or_none(id=uuid)
     if share is None:
         raise HTTPException(status_code=404, detail="Share not found")
+    if share.expire_at < datetime.now():
+        raise HTTPException(status_code=410, detail="Already expired")
     return share.quiztivity

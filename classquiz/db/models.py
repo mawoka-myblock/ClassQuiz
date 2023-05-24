@@ -360,13 +360,15 @@ class OnlyId(BaseModel):
 class PublicQuizTivityShare(BaseModel):
     id: uuid.UUID
     name: str | None
-    expire_in: int
+    expire_in: int | None
     quiztivity: OnlyId
     user: OnlyId
 
     @classmethod
     def from_db_model(cls, data: QuizTivityShare):
-        expire_in = int((data.expire_at - datetime.now()).seconds / 60)
+        expire_in = None
+        if data.expire_at is not None:
+            expire_in = int((data.expire_at - datetime.now()).seconds / 60)
         return cls(
             id=data.id,
             name=data.name,

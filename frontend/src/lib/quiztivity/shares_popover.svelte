@@ -12,7 +12,7 @@
 	import SmallPopover from '$lib/components/popover/smalltop.svelte';
 	import { PopoverTypes } from '$lib/components/popover/smalltop';
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	const { t } = getLocalization();
 	export let open = false;
@@ -72,6 +72,38 @@
 	onMount(() => {
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
+	let never_expires_checked = true;
+	let selected_date = undefined;
+	const create_share = async () => {
+		if (!selected_date && !never_expires_checked) {
+			return;
+		}
+		console.log(selected_date);
+		await fetch('/api/v1/quiztivity/shares/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: undefined,
+				quiztivity: id,
+				expire_in: never_expires_checked
+					? undefined
+					: Math.floor(Math.abs(new Date() - new Date(selected_date)) / 1000 / 60)
+			})
+		});
+		loaded_shares = load_shares();
+	};
+	let loaded_shares = load_shares();
+
+	const delete_share = async (id: string) => {
+		if (!confirm('Do you really want to delete this Share?')) {
+			return;
+		}
+		await fetch(`/api/v1/quiztivity/shares/${id}`, { method: 'DELETE' });
+		loaded_shares = load_shares();
+	};
+	let add_shares_open = false;
 </script>
 
 <SmallPopover bind:open={popover_open} type={PopoverTypes.Copy} />
@@ -83,14 +115,41 @@
 	<div
 		class="m-auto bg-white dark:bg-gray-600 rounded shadow-2xl flex p-4 flex-col w-2/3 h-5/6 gap-2 overflow-scroll"
 	>
-		<div class="flex justify-center">
-			<BrownButton>{$t('quiztivity.editor.shares.add_new_share')}</BrownButton>
+		<div class="flex justify-center flex-col">
+			<BrownButton
+				on:click={() => {
+					add_shares_open = !add_shares_open;
+				}}>{$t('quiztivity.editor.shares.add_new_share')}</BrownButton
+			>
+			{#if add_shares_open}
+				<form
+					class="flex justify-center p-2 border-b-2 border-l-2 border-r-2 border-[#B07156] flex-col gap-2"
+					transition:fly|local={{ duration: 100, y: -10 }}
+					on:submit|preventDefault={create_share}
+				>
+					<div class="grid grid-cols-2">
+						<input
+							type="datetime-local"
+							class="dark:text-black transition-all mx-auto"
+							disabled={never_expires_checked}
+							bind:value={selected_date}
+						/>
+						<div class="mx-auto">
+							<label for="cb">{$t('quiztivity.editor.shares.never_expires')}</label>
+							<input type="checkbox" id="cb" bind:checked={never_expires_checked} />
+						</div>
+					</div>
+					<BrownButton type="submit" disabled={!selected_date && !never_expires_checked}
+						>{$t('words.submit')}</BrownButton
+					>
+				</form>
+			{/if}
 		</div>
-		{#await load_shares()}
+		{#await loaded_shares}
 			<Spinner />
 		{:then shares}
 			{#each shares as share}
-				<div class="grid grid-cols-4 w-full gap-2">
+				<div class="grid grid-cols-4 w-full gap-2" in:fade={{ duration: 50 }}>
 					<!--                    <p>{share.name ?? "..."}</p>-->
 					<div class="w-full mx-auto">
 						<BrownButton
@@ -102,12 +161,6 @@
 								  })
 								: false}
 							on:click={() => {
-								console.log(
-									navigator.canShare({
-										title: 'title',
-										url: `${window.location.origin}/quiztivity`
-									})
-								);
 								navigator.share({
 									title: 'Quiztivity on ClassQuiz',
 									text: 'Play this Quiztivity now on ClassQuiz!',
@@ -173,7 +226,11 @@
 						{/if}
 					</p>
 					<div class="w-fit my-auto ml-auto">
-						<BrownButton>{$t('words.delete')}</BrownButton>
+						<BrownButton
+							on:click={() => {
+								delete_share(share.id);
+							}}>{$t('words.delete')}</BrownButton
+						>
 					</div>
 				</div>
 			{/each}

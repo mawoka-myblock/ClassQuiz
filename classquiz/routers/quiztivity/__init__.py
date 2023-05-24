@@ -56,7 +56,9 @@ async def get_all_quiztivities(user: User = Depends(get_current_user)) -> list[Q
 
 @router.get("/{uuid}/shares")
 async def get_shares(uuid: UUID, user: User = Depends(get_current_user)) -> list[PublicQuizTivityShare]:
-    shares = await QuizTivityShare.objects.filter(quiztivity=uuid, user=user).all()
+    shares = (
+        await QuizTivityShare.objects.filter(quiztivity=uuid, user=user).order_by(QuizTivityShare.expire_at.asc()).all()
+    )
     resp_shares = []
     for share in shares:
         resp_shares.append(PublicQuizTivityShare.from_db_model(share))
