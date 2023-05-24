@@ -255,7 +255,7 @@
 			{#if solution === undefined}
 				<Spinner />
 			{:else}
-				<div class="grid grid-cols-2 gap-2 w-full p-4">
+				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
 					{#each solution.answers as answer}
 						{#if answer.right}
 							<button
