@@ -23,6 +23,9 @@ async def _download_image(url: str) -> bytes:
         return await resp.read()
 
 
+DEFAULT_COLORS = ["#D6EDC9", "#B07156", "#7F7057", "#4E6E58"]
+
+
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     """
     Imports a quiz from Kahoot.
@@ -47,9 +50,15 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
             image_name = f"{quiz_id}--{uuid.uuid4()}"
             image = await storage.upload(file_name=image_name, file_data=image_bytes)
             image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
-        for a in q.choices:
+        for i, a in enumerate(q.choices):
             answers.append(
-                (ABCDQuizAnswer(right=a.correct, answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True))))
+                (
+                    ABCDQuizAnswer(
+                        right=a.correct,
+                        answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True)),
+                        color=DEFAULT_COLORS[i],
+                    )
+                )
             )
 
         quiz_questions.append(
