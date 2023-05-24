@@ -10,6 +10,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
 	import { flip } from 'svelte/animate';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	export let question: Question;
 
@@ -43,6 +44,8 @@
 	let text_input;
 	timer(question.time);
 
+	let check_choice_selected = [false, false, false, false];
+
 	function shuffleArray(a) {
 		for (let i = a.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -73,13 +76,13 @@
 	let order_corrected = false;
 	const select_complex_answer = () => {
 		/*		const correct_order_ids = []
-				for (const e of original_order) {
-					correct_order_ids.push(e.id)
-				}
-				const user_set_ids = []
-				for (const e of answer) {
-					correct_order_ids.push(e.id)
-				}*/
+                for (const e of original_order) {
+                    correct_order_ids.push(e.id)
+                }
+                const user_set_ids = []
+                for (const e of answer) {
+                    correct_order_ids.push(e.id)
+                }*/
 		question.answers = original_order;
 		order_corrected = true;
 		timer_res = '0';
@@ -303,5 +306,45 @@
 				{$t('words.submit')}
 			</button>
 		</div>
+	{:else if question.type === QuizQuestionType.CHECK}
+		{#if show_results}
+			<div>
+				{#each question.answers as answer, i}
+					<button
+						disabled
+						class:bg-green-500={question.answers[i].right}
+						class:bg-red-500={!question.answers[i].right}
+						class="p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
+						>{answer.answer}</button
+					>
+				{/each}
+			</div>
+		{:else}
+			<div>
+				{#each question.answers as answer, i}
+					<button
+						disabled={selected_answer !== undefined || timer_res === '0'}
+						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black opacity-50"
+						class:opacity-100={check_choice_selected[i]}
+						on:click={() => {
+							check_choice_selected[i] = !check_choice_selected[i];
+						}}>{answer.answer}</button
+					>
+				{/each}
+				<BrownButton
+					on:click={() => {
+						timer_res = '0';
+					}}>{$t('words.submit')}</BrownButton
+				>
+				{#if timer_res === '0'}
+					<button
+						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
+						on:click={() => {
+							show_results = true;
+						}}>{$t('admin_page.get_results')}</button
+					>
+				{/if}
+			</div>
+		{/if}
 	{/if}
 </div>
