@@ -13,6 +13,7 @@
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import type { PageData } from './$types';
 	import { fly } from 'svelte/transition';
+	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
@@ -272,3 +273,6 @@
 	{/await}
 </div>
 <Footer />
+{#if start_game !== null}
+	<StartGamePopup bind:quiz_id={start_game} />
+{/if}
