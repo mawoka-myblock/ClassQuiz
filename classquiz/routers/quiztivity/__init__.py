@@ -1,15 +1,19 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException
 
 from classquiz.auth import get_current_user
 from datetime import datetime
-from classquiz.db.models import User, QuizTivityInput, QuizTivity
+from classquiz.db.models import User, QuizTivityInput, QuizTivity, QuizTivityShare, PublicQuizTivityShare
+from classquiz.routers.quiztivity.shares import router as shares_router
 
 router = APIRouter()
+
+router.include_router(shares_router, prefix="/shares")
 
 
 @router.post("/create")
@@ -48,3 +52,12 @@ async def delete_quiztivity(uuid: UUID):
 async def get_all_quiztivities(user: User = Depends(get_current_user)) -> list[QuizTivity]:
     quiztivities = await QuizTivity.objects.filter(user=user).order_by(QuizTivity.created_at.desc()).all()
     return quiztivities
+
+
+@router.get("/{uuid}/shares")
+async def get_shares(uuid: UUID, user: User = Depends(get_current_user)) -> list[PublicQuizTivityShare]:
+    shares = await QuizTivityShare.objects.filter(quiztivity=uuid, user=user).all()
+    resp_shares = []
+    for share in shares:
+        resp_shares.append(PublicQuizTivityShare.from_db_model(share))
+    return resp_shares

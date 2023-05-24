@@ -338,3 +338,39 @@ class QuizTivity(ormar.Model):
         tablename = "quiztivitys"
         metadata = metadata
         database = database
+
+
+class QuizTivityShare(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    name: str | None = ormar.Text(nullable=True)
+    expire_at: datetime | None = ormar.DateTime(nullable=True)
+    quiztivity: QuizTivity | None = ormar.ForeignKey(QuizTivity)
+    user: User | None = ormar.ForeignKey(User)
+
+    class Meta:
+        tablename = "quiztivityshares"
+        metadata = metadata
+        database = database
+
+
+class OnlyId(BaseModel):
+    id: uuid.UUID
+
+
+class PublicQuizTivityShare(BaseModel):
+    id: uuid.UUID
+    name: str | None
+    expire_in: int
+    quiztivity: OnlyId
+    user: OnlyId
+
+    @classmethod
+    def from_db_model(cls, data: QuizTivityShare):
+        expire_in = int((data.expire_at - datetime.now()).seconds / 60)
+        return cls(
+            id=data.id,
+            name=data.name,
+            expire_in=expire_in,
+            quiztivity=OnlyId(id=data.quiztivity.id),
+            user=OnlyId(id=data.user.id),
+        )

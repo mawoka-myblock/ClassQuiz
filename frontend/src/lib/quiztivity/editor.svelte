@@ -14,6 +14,7 @@
 	import MarkdownEdit from './components/markdown/edit.svelte';
 	import { flip } from 'svelte/animate';
 	import { createEventDispatcher } from 'svelte';
+	import SharesPopover from '$lib/quiztivity/shares_popover.svelte';
 
 	const { t } = getLocalization();
 	const dispatch = createEventDispatcher();
@@ -24,6 +25,7 @@
 	let selected_slide = null;
 	let opened_slide = null;
 	let selected_type = undefined;
+	let shares_menu_open = false;
 
 	for (let i = 0; i < data.pages.length; i++) {
 		const id = (Math.random() + 1).toString(36).substring(7);
@@ -67,7 +69,17 @@
 {#if opened_slide === null}
 	<div>
 		<div class="grid grid-cols-3">
-			<span />
+			{#if data.id}
+				<div class="mr-auto w-fit pl-2">
+					<BrownButton
+						on:click={() => {
+							shares_menu_open = true;
+						}}>{$t('quiztivity.editor.open_shares_menu')}</BrownButton
+					>
+				</div>
+			{:else}
+				<span />
+			{/if}
 			<input
 				class="bg-transparent outline-none text-center mx-auto"
 				placeholder={$t('quiztivity.editor.title_placeholder')}
@@ -165,4 +177,7 @@
 
 {#if selected_type === null}
 	<AddNewSlide bind:type={selected_type} />
+{/if}
+{#if shares_menu_open}
+	<SharesPopover id={data.id} bind:open={shares_menu_open} />
 {/if}
