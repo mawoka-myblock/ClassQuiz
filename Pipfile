@@ -37,6 +37,8 @@ scheduler = "*"
 webauthn = "*"
 pyotp = "*"
 minio = "*"
+xxhash = "*"
+arq = "*"
 
 [dev-packages]
 coverage = "*"

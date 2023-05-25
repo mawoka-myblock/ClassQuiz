@@ -378,3 +378,23 @@ class PublicQuizTivityShare(BaseModel):
             quiztivity=OnlyId(id=data.quiztivity.id),
             user=OnlyId(id=data.user.id),
         )
+
+
+class StorageItem(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    uploaded_at: datetime = ormar.DateTime(nullable=False, default=datetime.now())
+    mime_type: str = ormar.Text(nullable=False)
+    hash: bytes | None = ormar.LargeBinary(nullable=True, min_length=16, max_length=16)
+    user: User | None = ormar.ForeignKey(User)
+    size: int = ormar.BigInteger(nullable=False)
+    storage_path: str | None = ormar.Text(nullable=True)
+    deleted_at: datetime | None = ormar.DateTime(nullable=True, default=None)
+    quiztivities: list[QuizTivity] | None = ormar.ManyToMany(QuizTivity)
+    quizzes: list[Quiz] | None = ormar.ManyToMany(Quiz)
+    alt_text: str | None = ormar.Text(default=None, nullable=True)
+    filename: str | None = ormar.Text(default=None, nullable=True)
+
+    class Meta:
+        tablename = "storage_items"
+        metadata = metadata
+        database = database

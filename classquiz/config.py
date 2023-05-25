@@ -9,6 +9,8 @@ import redis as redis_base_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
 import meilisearch as MeiliSearch
 from typing import Optional
+from arq import create_pool
+from arq.connections import RedisSettings, ArqRedis
 
 from classquiz.storage import Storage
 
@@ -70,12 +72,22 @@ class Settings(BaseSettings):
         env_nested_delimiter = "__"
 
 
+async def initialize_arq():
+    global arq
+    arq = await create_pool(RedisSettings.from_dsn(settings.redis))
+
+
 @lru_cache()
 def settings() -> Settings:
     return Settings()
 
 
-redis: redis_base_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
+# asyncio.run(initialize_arq())
+
+pool = redis_lib.ConnectionPool().from_url(settings().redis)
+
+redis: redis_base_lib.client.Redis = redis_lib.Redis(connection_pool=pool)
+arq: ArqRedis = ArqRedis(pool_or_conn=pool)
 storage: Storage = Storage(
     backend=settings().storage_backend,
     deta_key=settings().deta_project_key,
