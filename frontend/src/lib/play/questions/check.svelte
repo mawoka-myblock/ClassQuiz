@@ -44,13 +44,14 @@
 	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
 		{#each question.answers as answer, i}
 			<button
-				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black opacity-50 transition-all"
+				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black transition-all"
 				style="background-color: {answer.color ??
 					default_colors[i]}; color: {get_foreground_color(
 					answer.color ?? default_colors[i]
 				)}"
 				on:click={() => selectAnswer(i)}
 				class:opacity-100={_selected_answers[i]}
+				class:opacity-50={!_selected_answers[i]}
 			>
 				{#if game_mode === 'kahoot'}
 					<img class="h-2/3 inline-block m-auto" alt="Icon" src={kahoot_icons[i]} />
