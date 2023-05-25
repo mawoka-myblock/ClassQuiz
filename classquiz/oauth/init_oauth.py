@@ -33,7 +33,8 @@ def init_oauth() -> OAuth:
             client_secret=settings.github_client_secret,
         )
     if (
-        settings.custom_openid_provider.client_id is not None
+        settings.custom_openid_provider is not None
+        and settings.custom_openid_provider.client_id is not None
         and settings.custom_openid_provider.client_secret is not None
     ):
         oauth.register(
