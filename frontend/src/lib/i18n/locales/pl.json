@@ -169,7 +169,13 @@
         "point_plural": "Punkty",
         "back": "Wróć",
         "finish": "Zakończ",
-        "normal": "Normalny"
+        "normal": "Normalny",
+        "select": "wybierz",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity",
+        "check_choice": "Sprawdź wybór",
+        "selected": "Wybrano",
+        "next": "Następny"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -331,5 +337,36 @@
         "normal_mode_description": "Pytanie i odpowiedź będą wyświetlane tylko na ekranie administratora, jak w Kahoot! Gracze będą mieli do dyspozycji jedynie kolorowe przyciski z symbolami odpowiadającymi tym na ekranie administratora.",
         "old_school_mode_description": "Pytania i obrazy będą wyświetlane zarówno na ekranie administratora, jak i na ekranie graczy",
         "start_game": "Rozpocznij grę"
+    },
+    "quiztivity": {
+        "editor": {
+            "move_right": "Przesuń w prawo",
+            "shares": {
+                "expires_on": "Wygasa w dniu {{date}}",
+                "never_expires": "Nigdy nie wygasa"
+            },
+            "add_new": "Dodaj nowy",
+            "move_left": "Przesuń w lewo",
+            "delete": "Usuń",
+            "select_page_type": "Wybierz typ strony",
+            "title_placeholder": "Wpisz tytuł"
+        },
+        "memory": {
+            "editor": {
+                "upload_image": "Wyślij obraz",
+                "add_pair": "Dodaj parę",
+                "add_card": "Dodaj kartę"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Próby: {{try_count}}"
+            }
+        }
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Skopiowano do schowka!"
+        }
     }
 }
