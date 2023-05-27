@@ -169,7 +169,12 @@
         "name": "Name",
         "point_plural": "Punkte",
         "point": "Punkt",
-        "normal": "Normal"
+        "normal": "Normal",
+        "selected": "Ausgewählt",
+        "select": "Auswählen",
+        "next": "Weiter",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -351,5 +356,39 @@
         "captcha_message": "Wenn aktiviert, Googles ReCaptcha wird in den Browsern der Spielerinnen und Spieler geladen. Aktiviere dies nur, wenn du es wirklich brauchst, da du die Einverständniserklärung JEDEN SPIELERS brauchst um die Captcha zu laden.",
         "old_school_mode_description": "Fragen und Bilder werden sowohl auf dem Bildschirm des Admins als auch auf dem Bildschirm der Spielerinnen und Spieler angezeigt",
         "normal_mode_description": "Fragen und Antwortmöglichkeiten werden nur auf dem Bildschirm des Admins angezeigt, wie bei Kahoot!. Die Spielerinnen und Spieler werden nur gefärbte Knöpfe mit passenden Symbolen haben."
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Seitentyp auswählen",
+            "move_left": "Nach links bewegen",
+            "add_new": "Hinzufügen",
+            "delete": "Löschen",
+            "open_shares_menu": "Teilen-Menü öffnen",
+            "shares": {
+                "add_new_share": "Neue Veröffentlichung hinzufügen",
+                "never_expires": "Läuft nie ab",
+                "expires_on": "Läuft ab am {{date}}"
+            },
+            "move_right": "Nach rechts bewegen",
+            "title_placeholder": "Titel hier eingeben"
+        },
+        "share_expired": "Veröffentlichung abgelaufen",
+        "memory": {
+            "editor": {
+                "add_card": "Karte hinzufügen",
+                "upload_image": "Bild hochladen",
+                "add_pair": "Paar hinzufügen"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Versuche: {{try_count}}"
+            }
+        }
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "In die Zwischenablage kopiert!"
+        }
     }
 }
