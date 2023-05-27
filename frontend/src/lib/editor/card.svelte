@@ -129,7 +129,8 @@
 								</svg>
 							</button>
 							<img
-								src={data.questions[selected_question].image}
+								src="/api/v1/storage/download/{data.questions[selected_question]
+									.image}"
 								alt="not available"
 								class="max-h-64 h-auto w-auto"
 							/>

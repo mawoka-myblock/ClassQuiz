@@ -398,3 +398,35 @@ class StorageItem(ormar.Model):
         tablename = "storage_items"
         metadata = metadata
         database = database
+
+
+class PublicStorageItem(BaseModel):
+    id: uuid.UUID
+    uploaded_at: datetime
+    mime_type: str
+    hash: str | None
+    size: int
+    deleted_at: datetime | None
+    alt_text: str | None
+    filename: str | None
+
+    @classmethod
+    def from_db_model(cls, data: StorageItem):
+        hash_data = None
+        if data.hash is not None:
+            hash_data = data.hash.hex()
+        return cls(
+            id=data.id,
+            uploaded_at=data.uploaded_at,
+            mime_type=data.mime_type,
+            hash=hash_data,
+            size=data.size,
+            deleted_at=data.deleted_at,
+            alt_text=data.alt_text,
+            filename=data.filename,
+        )
+
+
+class UpdateStorageItem(BaseModel):
+    filename: str
+    alt_text: str

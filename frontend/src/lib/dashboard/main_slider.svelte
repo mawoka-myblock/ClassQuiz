@@ -158,7 +158,7 @@
 												<div class="h-[20vh] m-auto w-auto">
 													<img
 														class="max-h-full max-w-full block"
-														src={quiz.cover_image}
+														src="/api/v1/storage/download/{quiz.cover_image}"
 														alt="Not provided"
 														loading="lazy"
 													/>
@@ -302,7 +302,7 @@
 													{#if visibleImages?.[i]?.[q]}
 														<img
 															class="max-h-full max-w-full block"
-															src={question.image}
+															src="/api/v1/storage/download/{question.image}"
 															alt="Not provided"
 														/>
 													{/if}

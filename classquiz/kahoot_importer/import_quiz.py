@@ -48,8 +48,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         if q.image is not None and q.image != "":
             image_bytes = await _download_image(q.image)
             image_name = f"{quiz_id}--{uuid.uuid4()}"
-            image = await storage.upload(file_name=image_name, file_data=image_bytes)
-            image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
+            await storage.upload(file_name=image_name, file_data=image_bytes)
+            image = image_name
         for i, a in enumerate(q.choices):
             answers.append(
                 (
@@ -74,7 +74,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         image_bytes = await _download_image(quiz.kahoot.cover)
         image_name = f"{quiz_id}--{uuid.uuid4()}"
         await storage.upload(file_name=image_name, file_data=image_bytes)
-        cover = f"{settings.root_address}/api/v1/storage/download/{image_name}"
+        cover = image_name
     quiz_data = Quiz(
         id=quiz_id,
         public=True,

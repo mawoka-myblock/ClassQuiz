@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import asyncio
+import uuid
 from typing import Optional
 
 import ormar.exceptions
@@ -175,3 +176,23 @@ def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -
         return False
     some_error = [version == "1", claim == claim_in, res == input_data, ext == ""]
     return all(el is True for el in some_error)
+
+
+def check_image_string(image: str) -> (bool, uuid.UUID | None):
+    # Valid formats: {uuid} and {uuid}--{uuid}
+    try:
+        parsed_uuid = uuid.UUID(image)
+        return True, parsed_uuid
+    except ValueError:
+        pass
+
+    split_image = image.split("--")
+    if len(split_image) != 2:
+        return False, None
+
+    try:
+        uuid.UUID(split_image[0])
+        uuid.UUID(split_image[1])
+        return True, None
+    except ValueError:
+        return False, None

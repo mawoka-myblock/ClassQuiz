@@ -384,5 +384,9 @@
         "popover": {
             "copied_to_clipboard": "Copied to clipboard!"
         }
+    },
+    "public_user_page": {
+        "joined_on": "Joined on {{date}}",
+        "no_original_quizzes": "This user doesn't have any original quizzes"
     }
 }

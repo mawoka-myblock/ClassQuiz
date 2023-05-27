@@ -9,9 +9,9 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 
 from classquiz.auth import get_current_user
 from classquiz.config import settings, storage, arq
-from classquiz.db.models import User, StorageItem
+from classquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem
 from classquiz.storage.errors import DownloadingFailedError
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 settings = settings()
 
@@ -45,7 +45,7 @@ async def download_file(file_name: str):
 
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(), user: User = Depends(get_current_user)):
+async def upload_file(file: UploadFile = File(), user: User = Depends(get_current_user)) -> PublicStorageItem:
     file_id = uuid4()
 
     size = 0
@@ -71,3 +71,39 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
     await storage.upload(file_name=file_id.hex, file_data=file_data)
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
+    return PublicStorageItem.from_db_model(file_obj)
+
+
+@router.get("/meta/{file_id}")
+async def get_file_info(file_id: UUID, user: User = Depends(get_current_user)) -> PublicStorageItem:
+    file_data = await StorageItem.objects.get_or_none(id=file_id, user=user, deleted_at=None)
+    if file_data is None:
+        raise HTTPException(status_code=404, detail="File not found")
+    return PublicStorageItem.from_db_model(file_data)
+
+
+@router.delete("/meta/{file_id}")
+async def mark_file_as_deleted(file_id: UUID, user: User = Depends(get_current_user)):
+    file_data = await StorageItem.objects.get_or_none(id=file_id, user=user, deleted_at=None)
+    if file_data is None:
+        raise HTTPException(status_code=404, detail="File not found")
+    storage_path = file_data.storage_path
+    if storage_path is None:
+        storage_path = file_data.id.hex
+    await storage.delete(storage_path)
+    file_data.deleted_at = datetime.now()
+    await file_data.update()
+    return
+
+
+@router.put("/meta/{file_id}")
+async def update_image_data(
+    file_id: UUID, data: UpdateStorageItem, user: User = Depends(get_current_user)
+) -> PublicStorageItem:
+    file_data = await StorageItem.objects.get_or_none(id=file_id, user=user, deleted_at=None)
+    if file_data is None:
+        raise HTTPException(status_code=404, detail="File not found")
+    file_data.filename = data.filename
+    file_data.alt_text = data.alt_text
+    await file_data.update()
+    return PublicStorageItem.from_db_model(file_data)

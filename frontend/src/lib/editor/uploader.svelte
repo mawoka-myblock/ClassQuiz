@@ -45,33 +45,29 @@
 			quality: 0.6
 		})
 		.use(XHRUpload, {
-			endpoint: `/api/v1/editor/image?edit_id=${edit_id}&pow_data=${pow_data}`
+			endpoint: `/api/v1/storage/`
 		});
 	const props = {
 		inline: true,
 		restrictions: {
-			maxFileSize: 2_000_000,
-			maxNumberOfFiles: 1,
-			allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
+			maxFileSize: 10_000_000,
+			maxNumberOfFiles: 1
+			// allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
 		}
 	};
 	let image_id;
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;
-		pow_salt = response.body.pow_data;
-		console.log(pow_salt, response.body);
 		pow_data = undefined;
 	});
 	uppy.on('complete', (_) => {
 		console.log(pow_data);
 		if (selected_question === undefined) {
-			data.cover_image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+			data.cover_image = image_id;
 		} else if (selected_question === -1) {
-			data.background_image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+			data.background_image = image_id;
 		} else {
-			data.questions[
-				selected_question
-			].image = `${window.location.origin}/api/v1/storage/download/${image_id}`;
+			data.questions[selected_question].image = image_id;
 		}
 		console.log(selected_question, data);
 

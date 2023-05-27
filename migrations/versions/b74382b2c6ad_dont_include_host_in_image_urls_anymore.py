@@ -31,15 +31,19 @@ def upgrade() -> None:
     session = Session(bind=conn)
     all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
     for cover_image, id in all_cover_images:
-        new_cover_image = re.search(magic_regex, cover_image).group(1)
-        # print(new_cover_image, id)
-        session.execute(f"UPDATE quiz SET cover_image = '{new_cover_image}' WHERE id='{id}';")
+        try:
+            new_cover_image = re.search(magic_regex, cover_image).group(1)
+            session.execute(f"UPDATE quiz SET cover_image = '{new_cover_image}' WHERE id='{id}';")
+        except AttributeError:
+            continue
 
     all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
     for bg_image, id in all_background_images:
-        new_bg_image = re.search(magic_regex, bg_image).group(1)
-        # print(new_cover_image, id)
-        session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
+        try:
+            new_bg_image = re.search(magic_regex, bg_image).group(1)
+            session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
+        except AttributeError:
+            continue
 
     all_questions = session.execute("SELECT questions, id from quiz;")
     question_image_regex = rf"{settings.root_address}/api/v1/storage/download/(?=.{{36}}--.{{36}})"
@@ -71,5 +75,5 @@ def downgrade() -> None:
     question_image_regex = r"(?=.{36}--.{36})"
     for question, id in all_questions:
         question_as_json = json.dumps(question)
-        result = re.sub(question_image_regex, f"{settings.root_address}/api/v1/storage/download", question_as_json)
+        result = re.sub(question_image_regex, f"{settings.root_address}/api/v1/storage/download/", question_as_json)
         session.execute(f"UPDATE quiz SET questions = '{result}' WHERE id='{id}';")

@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import uuid
 
+from arq.worker import Retry
 import xxhash
 
 from classquiz.config import redis, storage
@@ -36,7 +37,11 @@ async def calculate_hash(ctx, file_id_as_str: str):
     if file_data.storage_path is not None:
         file_path = file_data.storage_path
     file = SpooledTemporaryFile()
-    file.write((await storage.download(file_path)).getbuffer().tobytes())
+    file_bytes = await storage.download(file_path)
+    if file_bytes is None:
+        print("Retry raised!")
+        raise Retry(defer=ctx["job_try"] * 10)
+    file.write(file_bytes.getbuffer().tobytes())
     hash_obj = xxhash.xxh3_128()
     # assert hash_obj.block_size == 64
     while chunk := file.read(6400):

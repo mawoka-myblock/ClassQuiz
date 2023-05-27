@@ -180,7 +180,7 @@
 							<div class="hidden lg:flex w-auto h-full items-center relative">
 								{#if quiz.cover_image}
 									<img
-										src={quiz.cover_image}
+										src="/api/v1/storage/download/{quiz.cover_image}"
 										alt="user provided"
 										loading="lazy"
 										class="shrink-0 max-w-full max-h-full absolute"

@@ -4,24 +4,22 @@
 
 import asyncio
 import html
-import re
 import uuid
 from typing import Optional
 
 import asyncpg.exceptions
 import bleach
-from fastapi import APIRouter, File, UploadFile, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
-from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, server_regex
+from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ
 from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType
-import puremagic
 from classquiz.auth import get_current_user
 import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data, check_hashcash
+from classquiz.helpers import get_meili_data, check_image_string
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()
@@ -86,37 +84,6 @@ class UploadImageReturn(BaseModel):
     pow_data: str
 
 
-@router.post("/image", response_model=UploadImageReturn)
-async def upload_image(edit_id: str, pow_data: str, file: UploadFile = File()):
-    session_data = await redis.get(f"edit_session:{edit_id}")
-    pow_data_server = await redis.get(f"edit_session:{edit_id}:pow")
-    uploaded_images = await redis.llen(f"edit_session:{edit_id}:images")
-    if pow_data_server is None:
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if session_data is None:
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if uploaded_images == 0 and not check_hashcash(pow_data, pow_data_server, "8"):
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    if uploaded_images != 0 and not check_hashcash(pow_data, pow_data_server, "8"):
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    file_bytes = await file.read()
-    if len(file_bytes) > 2000000:
-        raise HTTPException(status_code=400, detail="File too large")
-    try:
-        pm_data = puremagic.magic_string(file_bytes)[0]
-    except puremagic.PureError:
-        raise HTTPException(status_code=400, detail="Image couldn't be identified!")
-    if pm_data.extension not in allowed_image_extensions:
-        raise HTTPException(status_code=400, detail="Image-type now allowed!")
-    session_data = EditSessionData.parse_raw(session_data)
-    file_name = f"{session_data.quiz_id}--{uuid.uuid4()}"
-    await storage.upload(file_name=file_name, file_data=file_bytes)
-    await redis.lpush(f"edit_session:{edit_id}:images", file_name)
-    random_str = os.urandom(8).hex()
-    await redis.set(f"edit_session:{edit_id}:pow", random_str, ex=3800)
-    return UploadImageReturn(id=file_name, pow_data=random_str)
-
-
 @router.post("/finish")
 async def finish_edit(edit_id: str, quiz_input: QuizInput):
     session_data = await redis.get(f"edit_session:{edit_id}")
@@ -141,10 +108,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                     quiz_input.questions[i].answers[i2].answer = html.unescape(
                         bleach.clean(answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
                     )
-    image_id_regex = r"^.{36}--.{36}$"
-    imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
 
-    extract_file_name_re = r"^.*/api/v1/storage/download/(.{36}--.{36})$"
     images_to_delete = []
     old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
 
@@ -167,15 +131,9 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         )
         if image == "":
             question.image = None
+        if image is None:
             mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif image is None:
-            mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif bool(re.match(image_id_regex, question.image)):
-            question.image = f"{settings.root_address}/api/v1/storage/download/{image}"
-            mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif bool(re.match(imgur_regex, image)):
-            mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif bool(re.match(server_regex, image)):
+        elif check_image_string(quiz_input.cover_image)[0]:
             mark_image_for_deletion(question.image, i, old_quiz_data)
         else:
             raise HTTPException(status_code=400, detail="Image URL(s) aren't valid!")
@@ -186,7 +144,10 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     # if quiz_input.background_image is None and old_quiz_data.background_image is not None:
     #     mark_image_for_deletion(quiz_input.background_image)
 
-    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
+    if quiz_input.cover_image is not None and not check_image_string(quiz_input.cover_image)[0]:
+        raise HTTPException(status_code=400, detail="image url is not valid")
+
+    if quiz_input.background_image is not None and not check_image_string(quiz_input.background_image)[0]:
         raise HTTPException(status_code=400, detail="image url is not valid")
 
     if session_data.edit:
@@ -207,7 +168,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         for image in images_to_delete:
             if image is not None:
                 try:
-                    await storage.delete([re.search(extract_file_name_re, image).group(1)])
+                    await storage.delete([image])
                 except DeletionFailedError:
                     pass
         await redis.srem("edit_sessions", edit_id)

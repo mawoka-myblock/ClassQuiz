@@ -79,7 +79,7 @@
 			<div class="h-[15vh] m-auto w-auto my-3">
 				<img
 					class="max-h-full max-w-full block"
-					src={quiz.cover_image}
+					src="/api/v1/storage/download/{quiz.cover_image}"
 					alt="Not provided"
 				/>
 			</div>
@@ -189,7 +189,11 @@
 					<!--					</label>-->
 					{#if question.image}
 						<span>
-							<img class="pl-8" src={question.image} alt="Not provided" />
+							<img
+								class="pl-8"
+								src="/api/v1/storage/download/{question.image}"
+								alt="Not provided"
+							/>
 						</span>
 					{/if}
 					<p

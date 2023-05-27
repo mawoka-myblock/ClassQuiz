@@ -94,7 +94,7 @@
 	{#if question.image !== null}
 		<div>
 			<img
-				src={question.image}
+				src="/api/v1/storage/download/{question.image}"
 				class="max-h-[40vh] object-cover mx-auto mb-8 w-auto"
 				alt="Content for Question"
 			/>

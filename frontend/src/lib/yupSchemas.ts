@@ -65,14 +65,7 @@ export const dataSchema = yup.object({
 			yup.object({
 				question: yup.string().required('A question-title is required').max(299),
 				time: yup.number().required().positive('The time has to be positive'),
-				image: yup
-					.string()
-					.nullable()
-					.matches(
-						/^(http(|s):\/\/.*(|:)\d*\/api\/v1\/storage\/download\/.{36}--.{36}|https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif))$|^$/,
-						"The image-url isn't valid"
-					)
-					.lowercase(),
+				image: yup.string().nullable().lowercase(),
 				answers: yup.lazy((v) => {
 					if (Array.isArray(v)) {
 						if (typeof v[0].right === 'boolean') {

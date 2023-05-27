@@ -154,7 +154,7 @@
 			{#if question.image !== null && game_mode !== 'kahoot'}
 				<div class="max-h-full">
 					<img
-						src={question.image}
+						src="/api/v1/storage/download/{question.image}"
 						class="object-cover mx-auto mb-8 max-h-[90%]"
 						alt="Content for Question"
 					/>

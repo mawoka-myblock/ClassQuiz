@@ -42,7 +42,7 @@
 		<div
 			class="dark:bg-gray-700 h-full"
 			style="background-repeat: no-repeat;background-size: 100% 100%;background-image: {data.background_image
-				? `url("${data.background_image}")`
+				? `url("/api/v1/storage/download/${data.background_image}")`
 				: `unset`}"
 		>
 			<div class="flex justify-center pt-10 w-full">
@@ -68,7 +68,7 @@
 			{#if data.cover_image != undefined && data.cover_image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
 					<img
-						src={data.cover_image}
+						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
 						on:contextmenu|preventDefault={() => {

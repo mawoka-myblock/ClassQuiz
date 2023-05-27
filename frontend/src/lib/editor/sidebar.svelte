@@ -201,11 +201,11 @@
 			{#if question.image}
 				<div class="flex justify-center align-middle pb-0.5">
 					<img
-						src={question.image}
+						src="/api/v1/storage/download/{question.image}"
 						class="h-10 border rounded-lg"
 						alt="Not available"
 						use:tippy={{
-							content: `<img src='${question.image}' alt='Not available' class='rounded'>`,
+							content: `<img src='/api/v1/storage/download/${question.image}' alt='Not available' class='rounded'>`,
 							allowHTML: true
 						}}
 					/>

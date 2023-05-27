@@ -225,7 +225,8 @@
 			{#if quiz_data.questions[selected_question].image !== null}
 				<div>
 					<img
-						src={quiz_data.questions[selected_question].image}
+						src="/api/v1/storage/download/{quiz_data.questions[selected_question]
+							.image}"
 						class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 						alt="Content for Question"
 					/>
@@ -320,7 +321,7 @@
 					<div class="h-[30vh] m-auto w-auto mt-12">
 						<img
 							class="max-h-full max-w-full block"
-							src={quiz_data.cover_image}
+							src="/api/v1/storage/download/{quiz_data.cover_image}"
 							alt="Not provided"
 						/>
 					</div>
