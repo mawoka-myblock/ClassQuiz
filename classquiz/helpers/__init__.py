@@ -204,7 +204,6 @@ def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
         quiz_images.append(quiz.background_image)
     if quiz.cover_image is not None:
         quiz_images.append(quiz.cover_image)
-
     for question in quiz.questions:
         if question["image"] is None:
             continue

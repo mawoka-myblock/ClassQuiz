@@ -54,14 +54,16 @@
 			);
 		}
 		if (res.status !== 200) {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Start failed',
 				body: `Failed to start game, ${await res.text()}`
-			});
-			alertModal.subscribe((_) => {
+			});*/
+			/*alertModal.subscribe((_) => {
 				window.location.assign('/account/login?returnTo=/dashboard');
-			});
+			});*/
+			alert('Starting game failed');
+			window.location.assign('/account/login?returnTo=/dashboard');
 		} else {
 			const data = await res.json();
 			// eslint-disable-next-line no-undef

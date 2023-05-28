@@ -8,9 +8,6 @@
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
 
-	export let pow_data;
-	export let pow_salt;
-
 	const { t } = getLocalization();
 
 	let uppyOpen = false;
@@ -76,10 +73,6 @@
 						}}
 					/>
 				</div>
-			{:else if pow_data === undefined}
-				<a href="/docs/pow" target="_blank" class="cursor-help">
-					<Spinner my_20={false} />
-				</a>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner my_20={false} />
@@ -89,8 +82,6 @@
 						bind:modalOpen={uppyOpen}
 						bind:edit_id
 						bind:data
-						bind:pow_data
-						bind:pow_salt
 					/>
 				{/await}
 			{/if}
@@ -191,10 +182,6 @@
 						class="mt-10 bg-red-500 p-2 rounded-lg border-2 border-black transition hover:bg-red-400"
 						>Remove Background-Image</button
 					>
-				{:else if pow_data === undefined}
-					<a href="/docs/pow" target="_blank" class="cursor-help pt-10">
-						<Spinner my_20={false} />
-					</a>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<div class="pt-10">
@@ -207,8 +194,6 @@
 							bind:edit_id
 							bind:data
 							selected_question={-1}
-							bind:pow_data
-							bind:pow_salt
 						/>
 					{/await}
 				{/if}

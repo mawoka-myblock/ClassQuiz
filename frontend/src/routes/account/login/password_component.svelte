@@ -37,19 +37,16 @@
 			try {
 				data = await res.json();
 			} catch {
-				alertModal.set({
-					open: true,
-					body: "This shouldn't happen. Please try again.",
-					title: 'Unknown error'
-				});
+				alert("This shouldn't happen");
 				window.location.reload();
 			}
 			if (data.detail === 'wrong credentials') {
-				alertModal.set({
+				/*				alertModal.set({
 					open: true,
 					body: 'Please try again. Your email and or password were incorrect.',
 					title: 'Wrong Credentials'
-				});
+				});*/
+				alert('Wrong credentials');
 			}
 		}
 	};

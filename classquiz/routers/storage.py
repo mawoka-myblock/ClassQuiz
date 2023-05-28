@@ -17,8 +17,6 @@ settings = settings()
 
 router = APIRouter()
 
-file_regex = r"^[a-z0-9]{8}-[a-z0-9-]{27}--[a-z0-9-]{36}$"
-
 
 @router.get("/download/{file_name}")
 async def download_file(file_name: str):

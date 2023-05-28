@@ -24,8 +24,6 @@
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
-	export let pow_data;
-	export let pow_salt: string;
 
 	let uppyOpen = false;
 	let unique = {};
@@ -136,15 +134,6 @@
 							/>
 						</div>
 					</div>
-				{:else if pow_data === undefined}
-					<a
-						href="/docs/pow"
-						target="_blank"
-						use:tippy={{ content: "Click to learn why it's loading so long." }}
-						class="cursor-help"
-					>
-						<Spinner my_20={false} />
-					</a>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<Spinner my_20={false} />
@@ -155,8 +144,6 @@
 							bind:edit_id
 							bind:data
 							bind:selected_question
-							bind:pow_data
-							bind:pow_salt
 						/>
 					{/await}
 				{/if}

@@ -72,20 +72,22 @@
 			custom_field = json.custom_field;
 		}
 		if (res.status === 404) {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Game not found',
 				body: 'The game pin you entered seems invalid.'
-			});
+			});*/
+			alert('Game not found');
 			game_pin = '';
 			return;
 		}
 		if (res.status !== 200) {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				body: `Unknown error with response-code ${res.status}`,
 				title: 'Unknown Error'
-			});
+			});*/
+			alert('Unknown error');
 			return;
 		}
 	};
@@ -122,16 +124,13 @@
 					if (import.meta.env.VITE_SENTRY !== null) {
 						Sentry.captureException(e);
 					}
-					alertModal.set({
+					/*					alertModal.set({
 						open: true,
 						body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
 						title: 'Captcha failed'
-					});
-					alertModal.subscribe((data) => {
-						if (!data.open) {
-							window.location.reload();
-						}
-					});
+					});*/
+					alert('Captcha failed!');
+					window.location.reload();
 				}
 			} else if (import.meta.env.VITE_RECAPTCHA) {
 				// eslint-disable-next-line no-undef

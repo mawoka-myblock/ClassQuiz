@@ -22,22 +22,6 @@
 	export let quiz_id: string | null;
 	let selected_question = -1;
 	let imgur_links_valid = false;
-	let pow_salt;
-
-	const computePOW = async (salt: string) => {
-		if (pow_salt === undefined) {
-			return;
-		}
-		console.log('Computing POW');
-		pow_data = await mint(salt, 16, '', 8, false);
-		pow_salt = undefined;
-		return;
-	};
-
-	$: {
-		pow_salt;
-		computePOW(pow_salt);
-	}
 
 	const validateInput = async (data: EditorData) => {
 		// console.log("input", data)
@@ -72,7 +56,6 @@
 	$: imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
 	let edit_id;
 	let confirm_to_leave = true;
-	let pow_data;
 
 	const getEditID = async () => {
 		let res;
@@ -88,7 +71,6 @@
 		if (res.status === 200) {
 			const json = await res.json();
 			edit_id = json.token;
-			setPOWdata();
 		} else {
 			alert('Error!');
 		}
@@ -122,13 +104,6 @@
 		} else {
 			alert('Error');
 		}
-	};
-	const setPOWdata = async () => {
-		const res = await fetch(`/api/v1/editor/pow?edit_id=${edit_id}`);
-		const data = (await res.json()).data;
-		console.log(data);
-		pow_data = await mint(data, 16);
-		console.log(pow_data);
 	};
 </script>
 
@@ -177,15 +152,9 @@
 				</div>
 				<div class="w-full h-full">
 					{#if selected_question === -1}
-						<SettingsCard bind:data bind:pow_salt bind:edit_id bind:pow_data />
+						<SettingsCard bind:data bind:edit_id />
 					{:else}
-						<QuizCard
-							bind:data
-							bind:selected_question
-							bind:edit_id
-							bind:pow_data
-							bind:pow_salt
-						/>
+						<QuizCard bind:data bind:selected_question bind:edit_id />
 					{/if}
 				</div>
 			</div>

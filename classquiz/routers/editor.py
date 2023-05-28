@@ -13,13 +13,13 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
 from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, arq
-from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType
+from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType, StorageItem
 from classquiz.auth import get_current_user
 import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data, check_image_string
+from classquiz.helpers import get_meili_data, check_image_string, extract_image_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()
@@ -111,19 +111,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
 
     images_to_delete = []
     old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
-    print(old_quiz_data)
-
-    def mark_image_for_deletion(new: str | None, index: int, old_quiz: Quiz | None):
-        if old_quiz is None:
-            return
-        try:
-            # Why does this work or not throw an error (TODO)
-            if new == old_quiz.questions[index]["image"]:
-                return
-            else:
-                images_to_delete.append(old_quiz.questions[index]["image"])
-        except IndexError:
-            pass
 
     for i, question in enumerate(quiz_input.questions):
         image = question.image
@@ -132,11 +119,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         )
         if image == "":
             question.image = None
-        if image is None:
-            mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif check_image_string(question.image)[0]:
-            mark_image_for_deletion(question.image, i, old_quiz_data)
-        else:
+        if image is not None and not check_image_string(image)[0]:
             raise HTTPException(status_code=400, detail="Image URL(s) aren't valid!")
 
     if quiz_input.cover_image == "":
@@ -186,6 +169,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
             created_at=datetime.now(),
             updated_at=datetime.now(),
         )
+
         await redis.delete("global_quiz_count")
         if quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
@@ -193,6 +177,12 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
             await redis.srem("edit_sessions", edit_id)
             await redis.delete(f"edit_session:{edit_id}")
             await redis.delete(f"edit_session:{edit_id}:images")
-            return await quiz.save()
+            await quiz.save()
         except asyncpg.exceptions.UniqueViolationError:
             raise HTTPException(status_code=400, detail="The quiz already exists")
+        new_images = extract_image_ids_from_quiz(quiz)
+        for image in new_images:
+            item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
+            if item is None:
+                continue
+            await quiz.storageitems.add(item)

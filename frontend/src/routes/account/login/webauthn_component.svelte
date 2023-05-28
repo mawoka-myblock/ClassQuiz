@@ -24,11 +24,12 @@
 			asseResp = await startAuthentication(data);
 		} catch (e) {
 			console.error(e);
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				body: e,
 				title: 'Unknown error'
-			});
+			});*/
+			alert('Unknown error');
 			isLoading = false;
 		}
 		const res = await fetch(
@@ -51,19 +52,21 @@
 			try {
 				data = await res.json();
 			} catch {
-				alertModal.set({
+				/*				alertModal.set({
 					open: true,
 					body: "This shouldn't happen. Please try again.",
 					title: 'Unknown error'
-				});
+				});*/
+				alert('Unknown error');
 				window.location.reload();
 			}
 			if (data.detail === 'webauthn failed') {
-				alertModal.set({
+				/*				alertModal.set({
 					open: true,
 					body: 'Webauthn failed. Please try again.',
 					title: 'Webauthn Error'
-				});
+				});*/
+				alert('Webauthn failed');
 			}
 		}
 		isLoading = false;

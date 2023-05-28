@@ -28,10 +28,7 @@
 	export let edit_id: string;
 	export let data: EditorData;
 	export let selected_question: number;
-	export let pow_data;
-	export let pow_salt: string;
 
-	console.log(pow_data);
 	const uppy = new Uppy()
 		.use(DropTarget, {
 			target: document.body
@@ -58,10 +55,8 @@
 	let image_id;
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;
-		pow_data = undefined;
 	});
 	uppy.on('complete', (_) => {
-		console.log(pow_data);
 		if (selected_question === undefined) {
 			data.cover_image = image_id;
 		} else if (selected_question === -1) {

@@ -91,7 +91,8 @@
 {:else}
 	<slot />
 {/if}
-{#if $alertModal.open ?? false}
+
+<!--{#if $alertModal.open ?? false}
 	<div
 		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 items-center justify-center content-center"
 		class:hidden={!$alertModal.open}
@@ -104,7 +105,7 @@
 			bind:open={$alertModal.open}
 		/>
 	</div>
-{/if}
+{/if}-->
 
 <style lang="scss">
 	:global(html:not(.dark)) {
