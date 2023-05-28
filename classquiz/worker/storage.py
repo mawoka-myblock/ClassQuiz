@@ -3,13 +3,15 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import uuid
 
+import ormar.exceptions
 from arq.worker import Retry
 import xxhash
 
 from classquiz.config import redis, storage
 from tempfile import SpooledTemporaryFile
 
-from classquiz.db.models import StorageItem
+from classquiz.db.models import StorageItem, Quiz
+from classquiz.helpers import extract_image_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
 
 
@@ -50,3 +52,43 @@ async def calculate_hash(ctx, file_id_as_str: str):
     print("Got hash!")
     await file_data.update()
     file.close()
+
+
+async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
+    new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
+    old_images = extract_image_ids_from_quiz(old_quiz)
+    new_images = extract_image_ids_from_quiz(new_quiz)
+
+    # If images are identical, then return
+    if sorted(old_images) == sorted(new_images):
+        print("Nothing's changed")
+        return
+    print("Change detected")
+    removed_images = list(set(old_images) - set(new_images))
+    added_images = list(set(new_images) - set(old_images))
+    change_made = False
+    # print("added:", added_images)
+    # print("removed:", removed_images)
+    for image in removed_images:
+        if "--" in image:
+            await storage.delete([image])
+        else:
+            item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
+            if item is None:
+                continue
+            # print("removed item")
+            try:
+                await new_quiz.storageitems.remove(item)
+            except ormar.exceptions.NoMatch:
+                continue
+            change_made = True
+    for image in added_images:
+        if "--" not in image:
+            item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
+            if item is None:
+                continue
+            # print("added item")
+            await new_quiz.storageitems.add(item)
+            change_made = True
+    if change_made:
+        await new_quiz.update()

@@ -72,7 +72,7 @@
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
 						on:contextmenu|preventDefault={() => {
-							data.cover_image = '';
+							data.cover_image = null;
 						}}
 					/>
 				</div>

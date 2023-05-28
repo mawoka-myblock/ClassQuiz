@@ -6,7 +6,7 @@ from arq.connections import RedisSettings
 
 from classquiz import settings
 from classquiz.db import database
-from classquiz.worker.storage import clean_editor_images_up, calculate_hash
+from classquiz.worker.storage import clean_editor_images_up, calculate_hash, quiz_update
 
 
 async def startup(ctx):
@@ -22,7 +22,7 @@ async def shutdown(ctx):
 
 class WorkerSettings:
     # functions = [add_track]
-    functions = [calculate_hash]
+    functions = [calculate_hash, quiz_update]
     cron_jobs = [cron(clean_editor_images_up, hour={0, 6, 12, 18}, minute=0)]
     on_startup = startup
     on_shutdown = shutdown

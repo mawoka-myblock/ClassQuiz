@@ -196,3 +196,17 @@ def check_image_string(image: str) -> (bool, uuid.UUID | None):
         return True, None
     except ValueError:
         return False, None
+
+
+def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
+    quiz_images = []
+    if quiz.background_image is not None:
+        quiz_images.append(quiz.background_image)
+    if quiz.cover_image is not None:
+        quiz_images.append(quiz.cover_image)
+
+    for question in quiz.questions:
+        if question["image"] is None:
+            continue
+        quiz_images.append(question["image"])
+    return quiz_images

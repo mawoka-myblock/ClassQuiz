@@ -12,7 +12,7 @@ import bleach
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 
-from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ
+from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, arq
 from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType
 from classquiz.auth import get_current_user
 import os
@@ -111,6 +111,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
 
     images_to_delete = []
     old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
+    print(old_quiz_data)
 
     def mark_image_for_deletion(new: str | None, index: int, old_quiz: Quiz | None):
         if old_quiz is None:
@@ -133,7 +134,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
             question.image = None
         if image is None:
             mark_image_for_deletion(question.image, i, old_quiz_data)
-        elif check_image_string(quiz_input.cover_image)[0]:
+        elif check_image_string(question.image)[0]:
             mark_image_for_deletion(question.image, i, old_quiz_data)
         else:
             raise HTTPException(status_code=400, detail="Image URL(s) aren't valid!")
@@ -151,6 +152,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         raise HTTPException(status_code=400, detail="image url is not valid")
 
     if session_data.edit:
+        await arq.enqueue_job("quiz_update", old_quiz_data, old_quiz_data.id, _defer_by=2)
         quiz = old_quiz_data
         meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
         if not quiz_input.public:
@@ -174,7 +176,8 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         await redis.srem("edit_sessions", edit_id)
         await redis.delete(f"edit_session:{edit_id}")
         await redis.delete(f"edit_session:{edit_id}:images")
-        return await quiz.update()
+        await quiz.update()
+        return quiz
     else:
         quiz = Quiz(
             **quiz_input.dict(),

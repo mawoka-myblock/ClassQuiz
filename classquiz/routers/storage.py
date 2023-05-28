@@ -1,7 +1,6 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-import re
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
@@ -10,6 +9,7 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 from classquiz.auth import get_current_user
 from classquiz.config import settings, storage, arq
 from classquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem
+from classquiz.helpers import check_image_string
 from classquiz.storage.errors import DownloadingFailedError
 from uuid import uuid4, UUID
 
@@ -22,10 +22,17 @@ file_regex = r"^[a-z0-9]{8}-[a-z0-9-]{27}--[a-z0-9-]{36}$"
 
 @router.get("/download/{file_name}")
 async def download_file(file_name: str):
-    if not re.match(file_regex, file_name):
+    checked_image_string = check_image_string(file_name)
+    if not checked_image_string[0]:
         raise HTTPException(status_code=400, detail="Invalid file name")
+    if checked_image_string[1] is not None:
+        item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
+        if item is None:
+            raise HTTPException(status_code=404, detail="File not found")
+        file_name = item.storage_path
+        if file_name is None:
+            file_name = item.id.hex
     if storage.backend == "s3":
-        print("redir")
         return RedirectResponse(url=await storage.get_url(file_name, 300))
     try:
         download = await storage.download(file_name)
