@@ -1,0 +1,11 @@
+# Check Choice
+
+## Summary
+- Interface similar to [Multiple Choice](/docs/quiz/question-types/multiple-choice)
+- Up to 4 answers
+- All answers marked as correct have to be selected
+- No points if only one correct one is selected
+
+## Use case
+- Select all correct statements
+- Select all correct nicknames

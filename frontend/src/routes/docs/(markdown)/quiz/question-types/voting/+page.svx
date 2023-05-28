@@ -1,0 +1,10 @@
+# Voting
+
+## Summary
+- Like [Multiple Choice](/docs/quiz/question-types/multiple-choice)
+- No points
+- No correct answers
+- Bar graph shows how many voted for what
+
+## Use case
+- Get the opinion of the audience
