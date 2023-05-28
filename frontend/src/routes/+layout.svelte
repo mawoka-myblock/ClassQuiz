@@ -6,12 +6,12 @@
 <script>
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
-	import { navbarVisible, pathname, alertModal } from '$lib/stores';
+	import { navbarVisible, pathname } from '$lib/stores';
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
-	import Alert from '$lib/modals/alert.svelte';
+	// import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {
 		if (browser) {

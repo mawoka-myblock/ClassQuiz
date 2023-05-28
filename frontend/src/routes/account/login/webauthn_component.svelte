@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { startAuthentication } from '@simplewebauthn/browser';
 	import { getLocalization } from '$lib/i18n';
-	import { alertModal } from '$lib/stores';
+	// import { alertModal } from '$lib/stores';
 
 	const { t } = getLocalization();
 	export let session_data;

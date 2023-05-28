@@ -5,7 +5,7 @@
   -->
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible, alertModal } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores';
 
 	navbarVisible.set(true);
 

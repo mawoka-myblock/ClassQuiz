@@ -4,7 +4,7 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 <script lang="ts">
-	import { alertModal } from '$lib/stores';
+	// import { alertModal } from '$lib/stores';
 	import { captcha_enabled } from '$lib/config';
 	import StartGameBackground from './start_game_background.svg';
 	import { fade } from 'svelte/transition';

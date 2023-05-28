@@ -10,16 +10,16 @@
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
-	import { createTippy } from 'svelte-tippy';
+	// import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
 
-	const tippy = createTippy({
+	/*	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle',
 		placement: 'top'
-	});
+	});*/
 
 	export let data: EditorData;
 	export let selected_question: number;

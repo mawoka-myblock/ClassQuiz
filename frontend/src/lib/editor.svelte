@@ -4,7 +4,7 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import { mint } from '$lib/hashcash';
+	// import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData, Question } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';

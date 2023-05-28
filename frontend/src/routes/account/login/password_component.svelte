@@ -5,7 +5,6 @@
   -->
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import { alertModal } from '../../../lib/stores';
 
 	export let session_data;
 	export let selected_method;

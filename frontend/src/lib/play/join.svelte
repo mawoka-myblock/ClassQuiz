@@ -8,7 +8,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as Sentry from '@sentry/browser';
-	import { alertModal } from '../stores';
+	// import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
