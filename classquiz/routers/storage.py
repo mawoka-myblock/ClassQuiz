@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
 from fastapi.responses import StreamingResponse, RedirectResponse
+from pydantic import BaseModel
 
 from classquiz.auth import get_current_user
 from classquiz.config import settings, storage, arq
@@ -134,3 +135,18 @@ async def list_images(
         # print(item.quizzes)
         return_items.append(PrivateStorageItem.from_db_model(item))
     return return_items
+
+
+class ReturnStorageUsage(BaseModel):
+    usage: int
+
+
+@router.get("/usage")
+async def get_storage_usage(user: User = Depends(get_current_user)) -> ReturnStorageUsage:
+    files: list[StorageItem] = await StorageItem.objects.filter(user=user).filter(deleted_at=None).all()
+    counted_size = 0
+    if len(files) == 0:
+        raise HTTPException(status_code=404, detail="No file found")
+    for file in files:
+        counted_size += file.size
+    return ReturnStorageUsage(usage=counted_size)
