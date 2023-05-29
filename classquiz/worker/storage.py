@@ -10,7 +10,7 @@ import xxhash
 from classquiz.config import redis, storage
 from tempfile import SpooledTemporaryFile
 
-from classquiz.db.models import StorageItem, Quiz
+from classquiz.db.models import StorageItem, Quiz, User
 from classquiz.helpers import extract_image_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
 from thumbhash import image_to_thumbhash
@@ -34,7 +34,7 @@ async def clean_editor_images_up(ctx):
 
 async def calculate_hash(ctx, file_id_as_str: str):
     file_id = uuid.UUID(file_id_as_str)
-    file_data: StorageItem = await StorageItem.objects.get(id=file_id)
+    file_data: StorageItem = await StorageItem.objects.select_related(StorageItem.user).get(id=file_id)
     file_path = file_id.hex
     if file_data.storage_path is not None:
         file_path = file_data.storage_path
@@ -61,6 +61,11 @@ async def calculate_hash(ctx, file_id_as_str: str):
     print("Got hash!")
     await file_data.update()
     file.close()
+    user: User | None = await User.objects.get_or_none(id=file_data.user.id)
+    if user is None:
+        return
+    user.storage_used += file_data.size
+    await user.update()
 
 
 async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):

@@ -42,6 +42,7 @@ class User(ormar.Model):
     require_password: bool = ormar.Boolean(default=True, nullable=False)
     backup_code: str = ormar.String(max_length=64, min_length=64, nullable=False, default=os.urandom(32).hex())
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
+    storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
 
     class Meta:
         tablename = "users"
