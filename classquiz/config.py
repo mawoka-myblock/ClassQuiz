@@ -90,8 +90,6 @@ redis: redis_base_lib.client.Redis = redis_lib.Redis(connection_pool=pool)
 arq: ArqRedis = ArqRedis(pool_or_conn=pool)
 storage: Storage = Storage(
     backend=settings().storage_backend,
-    deta_key=settings().deta_project_key,
-    deta_id=settings().deta_project_id,
     storage_path=settings().storage_path,
     access_key=settings().s3_access_key,
     secret_key=settings().s3_secret_key,

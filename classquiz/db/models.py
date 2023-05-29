@@ -393,6 +393,9 @@ class StorageItem(ormar.Model):
     quizzes: list[Quiz] | None = ormar.ManyToMany(Quiz)
     alt_text: str | None = ormar.Text(default=None, nullable=True)
     filename: str | None = ormar.Text(default=None, nullable=True)
+    thumbhash: str | None = ormar.Text(default=None, nullable=True)
+    server: str | None = ormar.Text(default=None, nullable=True)
+    imported: bool = ormar.Boolean(default=False, nullable=True)
 
     class Meta:
         tablename = "storage_items"
@@ -409,6 +412,9 @@ class PublicStorageItem(BaseModel):
     deleted_at: datetime | None
     alt_text: str | None
     filename: str | None
+    thumbhash: str | None
+    server: str | None
+    imported: bool
 
     @classmethod
     def from_db_model(cls, data: StorageItem):
@@ -424,6 +430,41 @@ class PublicStorageItem(BaseModel):
             deleted_at=data.deleted_at,
             alt_text=data.alt_text,
             filename=data.filename,
+            thumbhash=data.thumbhash,
+            server=data.server,
+            imported=data.imported,
+        )
+
+
+class PrivateStorageItem(PublicStorageItem):
+    quizzes: list[OnlyId]
+    quiztivities: list[OnlyId]
+
+    @classmethod
+    def from_db_model(cls, data: StorageItem):
+        hash_data = None
+        if data.hash is not None:
+            hash_data = data.hash.hex()
+        quiztivities = []
+        quizzes = []
+        for quiz in data.quizzes:
+            quizzes.append(OnlyId(id=quiz.id))
+        for quiztivity in data.quizzes:
+            quiztivities.append(OnlyId(id=quiztivity.id))
+        return cls(
+            id=data.id,
+            uploaded_at=data.uploaded_at,
+            mime_type=data.mime_type,
+            hash=hash_data,
+            size=data.size,
+            deleted_at=data.deleted_at,
+            alt_text=data.alt_text,
+            filename=data.filename,
+            quiztivities=quiztivities,
+            quizzes=quizzes,
+            thumbhash=data.thumbhash,
+            server=data.server,
+            imported=data.imported,
         )
 
 

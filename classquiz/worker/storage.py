@@ -13,6 +13,7 @@ from tempfile import SpooledTemporaryFile
 from classquiz.db.models import StorageItem, Quiz
 from classquiz.helpers import extract_image_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
+from thumbhash import image_to_thumbhash
 
 
 async def clean_editor_images_up(ctx):
@@ -32,19 +33,27 @@ async def clean_editor_images_up(ctx):
 
 
 async def calculate_hash(ctx, file_id_as_str: str):
-    print("Calculating hash")
     file_id = uuid.UUID(file_id_as_str)
-    file_data = await StorageItem.objects.get(id=file_id)
+    file_data: StorageItem = await StorageItem.objects.get(id=file_id)
     file_path = file_id.hex
     if file_data.storage_path is not None:
         file_path = file_data.storage_path
     file = SpooledTemporaryFile()
-    file_bytes = await storage.download(file_path)
+    file_data.size = await storage.get_file_size(file_name=file_path)
+    if file_data.size is None:
+        file_data.size = 0
+    file_bytes = storage.download(file_path)
     if file_bytes is None:
         print("Retry raised!")
         raise Retry(defer=ctx["job_try"] * 10)
-    file.write(file_bytes.getbuffer().tobytes())
+    async for chunk in file_bytes:
+        async for c in chunk:
+            file.write(c)
+
+    if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
+        file_data.thumbhash = image_to_thumbhash(file)
     hash_obj = xxhash.xxh3_128()
+
     # assert hash_obj.block_size == 64
     while chunk := file.read(6400):
         hash_obj.update(chunk)

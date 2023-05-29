@@ -39,6 +39,7 @@ pyotp = "*"
 minio = "*"
 xxhash = "*"
 arq = "*"
+thumbhash-python = "==1.0.0"
 
 [dev-packages]
 coverage = "*"

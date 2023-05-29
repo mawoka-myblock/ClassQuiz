@@ -1,14 +1,14 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
 from fastapi.responses import StreamingResponse, RedirectResponse
 
 from classquiz.auth import get_current_user
 from classquiz.config import settings, storage, arq
-from classquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem
+from classquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem, PrivateStorageItem
 from classquiz.helpers import check_image_string
 from classquiz.storage.errors import DownloadingFailedError
 from uuid import uuid4, UUID
@@ -112,3 +112,25 @@ async def update_image_data(
     file_data.alt_text = data.alt_text
     await file_data.update()
     return PublicStorageItem.from_db_model(file_data)
+
+
+@router.get("/list")
+async def list_images(
+    since: datetime | None = None, user: User = Depends(get_current_user)
+) -> list[PrivateStorageItem]:
+    if since is None:
+        since = datetime.now() - timedelta(days=2)
+    storage_items = (
+        await StorageItem.objects.filter(user=user)
+        .filter(StorageItem.uploaded_at > since)
+        .order_by(StorageItem.uploaded_at.desc())
+        .select_related([StorageItem.quizzes, StorageItem.quiztivities])
+        .all()
+    )
+    if len(storage_items) == 0:
+        raise HTTPException(status_code=404, detail="No items found")
+    return_items: list[PrivateStorageItem] = []
+    for item in storage_items:
+        # print(item.quizzes)
+        return_items.append(PrivateStorageItem.from_db_model(item))
+    return return_items
