@@ -50,6 +50,7 @@ class Settings(BaseSettings):
     github_client_secret: Optional[str]
     custom_openid_provider: CustomOpenIDProvider | None = None
     telemetry_enabled: bool = True
+    free_storage_limit: int = 1074000000
 
     # storage_backend
     storage_backend: str | None = "deta"

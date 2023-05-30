@@ -65,25 +65,6 @@ async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = D
     return InitEditorResponse(token=edit_id)
 
 
-class GetPowData(BaseModel):
-    data: str
-
-
-@router.get("/pow", response_model=GetPowData)
-async def get_pow_data(edit_id: str):
-    session_data = await redis.get(f"edit_session:{edit_id}")
-    if session_data is None:
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    random_str = os.urandom(8).hex()
-    await redis.set(f"edit_session:{edit_id}:pow", random_str, ex=3800)
-    return GetPowData(data=random_str)
-
-
-class UploadImageReturn(BaseModel):
-    id: str
-    pow_data: str
-
-
 @router.post("/finish")
 async def finish_edit(edit_id: str, quiz_input: QuizInput):
     session_data = await redis.get(f"edit_session:{edit_id}")

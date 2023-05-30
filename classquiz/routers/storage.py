@@ -52,17 +52,11 @@ async def download_file(file_name: str):
 
 @router.post("/")
 async def upload_file(file: UploadFile = File(), user: User = Depends(get_current_user)) -> PublicStorageItem:
+    if user.storage_used > settings.free_storage_limit:
+        raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
 
     size = 0
-    # if file.file.name is None:
-    #     size = len(await file.read())
-    #     print("MemorySize", size)
-    # else:
-    #     f = file.file
-    #     a = file.file.fileno()
-    #     os.path.getsize(file.file.name)
-    #     print("DiskSize", size, "name:", file.file.name, "a:", file.file.tell(), "size")
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),
@@ -137,16 +131,16 @@ async def list_images(
     return return_items
 
 
-class ReturnStorageUsage(BaseModel):
-    usage: int
+class ReturnGetStorageLimit(BaseModel):
+    limit: int
+    limit_reached: bool
+    used: int
 
 
-@router.get("/usage")
-async def get_storage_usage(user: User = Depends(get_current_user)) -> ReturnStorageUsage:
-    files: list[StorageItem] = await StorageItem.objects.filter(user=user).filter(deleted_at=None).all()
-    counted_size = 0
-    if len(files) == 0:
-        raise HTTPException(status_code=404, detail="No file found")
-    for file in files:
-        counted_size += file.size
-    return ReturnStorageUsage(usage=counted_size)
+@router.get("/limit")
+async def get_storage_limit(user: User = Depends(get_current_user)) -> ReturnGetStorageLimit:
+    user = await User.objects.get_or_none(id=user.id)
+    if user.storage_used > settings.free_storage_limit:
+        return ReturnGetStorageLimit(limit=settings.free_storage_limit, limit_reached=True, used=user.storage_used)
+    else:
+        return ReturnGetStorageLimit(limit=settings.free_storage_limit, limit_reached=False, used=user.storage_used)
