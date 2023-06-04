@@ -169,7 +169,13 @@
         "point_plural": "Puntos",
         "back": "Atrás",
         "finish": "Finalizar",
-        "normal": "Normal"
+        "normal": "Normal",
+        "selected": "Seleccionado",
+        "select": "Seleccionar",
+        "quiz": "Cuestionario",
+        "quiztivity": "Quiztivity",
+        "next": "Siguiente",
+        "check_choice": "Comprobar la elección"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -344,5 +350,39 @@
         "old_school_mode_description": "Las preguntas y las imágenes se muestran tanto en la pantalla del administrador como en la pantalla del jugador",
         "old_school_mode": "De la vieja escuela",
         "start_game": "Iniciar el Juego"
+    },
+    "quiztivity": {
+        "memory": {
+            "editor": {
+                "upload_image": "Subir una imagen",
+                "add_card": "Añadir una tarjeta",
+                "add_pair": "Añadir un par"
+            }
+        },
+        "editor": {
+            "title_placeholder": "Escribe el título aquí",
+            "shares": {
+                "expires_on": "Caduca el {{date}}",
+                "add_new_share": "Añadir una nueva acción",
+                "never_expires": "No caduca nunca"
+            },
+            "select_page_type": "Selecciona el tipo de página",
+            "move_left": "Mover hacia la izquierda",
+            "move_right": "Mover hacia la derecha",
+            "add_new": "Añadir nuevo",
+            "delete": "Borrar",
+            "open_shares_menu": "Abrir el menú Acciones"
+        },
+        "play": {
+            "memory": {
+                "try_count": "Intentos: {{try_count}}"
+            }
+        },
+        "share_expired": "Expiró lo compartido"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "¡Copiado al portapapeles!"
+        }
     }
 }
