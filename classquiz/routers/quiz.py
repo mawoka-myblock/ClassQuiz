@@ -209,7 +209,9 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     for question in quiz.questions:
         try:
             if question["image"] is not None and not str(question["image"]).startswith("https://i.imgur.com/"):
-                pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
+                old_image_to_delete = pic_name_regex.match(question["image"])
+                if old_image_to_delete is not None:
+                    pics_to_delete.append(old_image_to_delete.group(1))
         except KeyError:
             pass
     if len(pics_to_delete) != 0:

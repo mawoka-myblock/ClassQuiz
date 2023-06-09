@@ -5,11 +5,17 @@
   -->
 
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	export let src: string;
 	export let css_classes = 'max-h-64 h-auto w-auto';
+	export let muted = true;
 	let type: 'img' | 'video' | undefined = undefined;
 
 	const get_media = async () => {
+		if (!browser) {
+			return;
+		}
 		const res = await fetch(`/api/v1/storage/info/${src}`);
 		console.log('Headers', res.headers);
 		const fileType = res.headers.get('Content-Type');
@@ -46,13 +52,11 @@
 		<video
 			class={css_classes}
 			disablepictureinpicture
-			disableremoteplayback
 			x-webkit-airplay="deny"
 			controls
 			autoplay
 			loop
-			controlslist="nofullscreen,noremoteplayback"
-			muted
+			{muted}
 			preload="metadata"
 		>
 			<source src="/api/v1/storage/download/{src}" />

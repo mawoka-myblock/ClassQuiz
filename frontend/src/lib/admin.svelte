@@ -227,6 +227,7 @@
 				<div class="flex w-full">
 					<MediaComponent
 						src={quiz_data.questions[selected_question].image}
+						muted={false}
 						css_classes="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 					/>
 				</div>

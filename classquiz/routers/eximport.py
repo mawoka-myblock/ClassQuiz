@@ -1,6 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+import io
 import json
 import uuid
 from datetime import datetime
@@ -10,10 +11,11 @@ from aiohttp import ClientSession
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from classquiz.auth import get_current_user
-from classquiz.config import storage, settings
-from classquiz.db.models import Quiz, User
+from classquiz.config import storage, settings, arq
+from classquiz.db.models import Quiz, User, StorageItem
 import gzip
 import urllib.parse
+import magic
 
 router = APIRouter()
 settings = settings()
@@ -49,7 +51,9 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
     for image_key in image_urls.keys():
         bin_data = bin_data + image_delimiter + str(image_key).encode("utf-8") + image_index_delimiter
         image_data = None
-        async with ClientSession() as session, session.get(image_urls[image_key]) as resp:
+        async with ClientSession() as session, session.get(
+            f"{settings.root_address}/api/v1/storage/download/{image_urls[image_key]}"
+        ) as resp:
             image_data = await resp.read()
         bin_data = bin_data + image_data
 
@@ -68,6 +72,8 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
 
 @router.post("/")
 async def import_quiz(file: UploadFile = File(), user: User = Depends(get_current_user)):
+    if user.storage_used > settings.free_storage_limit:
+        raise HTTPException(status_code=409, detail="Storage limit reached")
     data = await file.read()
     [split_data, images] = data.split(quiz_delimiter)
     decompressed_quiz = gzip.decompress(split_data)
@@ -75,15 +81,32 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
     image_splits = images.split(image_delimiter)
     quiz_id = uuid.uuid4()
     image_urls = {}
+    print(len(data))
     for image_split in image_splits:
         res = image_split.split(image_index_delimiter)
         if len(res) != 2:
             continue
         [index, image_data] = res
+        print(len(image_data))
+        img_data = io.BytesIO(image_data)
+        mime_type = magic.from_buffer(img_data.read(2048), mime=True)
+        print(mime_type)
         index = int(index.decode("utf-8"))
-        image_name = f"{quiz_id}--{uuid.uuid4()}"
-        await storage.upload(file_name=image_name, file_data=image_data)
-        image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
+        file_id = uuid.uuid4()
+        file_obj = StorageItem(
+            id=file_id,
+            uploaded_at=datetime.now(),
+            mime_type=mime_type,
+            hash=None,
+            user=user,
+            size=0,
+            deleted_at=None,
+            alt_text=None,
+        )
+        await storage.upload(file_name=file_id.hex, file_data=img_data, mime_type=mime_type)
+        await file_obj.save()
+        await arq.enqueue_job("calculate_hash", file_id.hex)
+        image = file_id.hex
         image_urls[index] = image
     quiz_dict["created_at"] = datetime.fromisoformat(quiz_dict["created_at"])
     quiz_dict["updated_at"] = datetime.fromisoformat(quiz_dict["updated_at"])

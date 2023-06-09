@@ -65,12 +65,15 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
         worksheet.write(i + 1, 1, question["time"])
 
         try:
-            async with ClientSession() as session, session.get(question["image"]) as response:
-                img_data = BytesIO(await response.read())
-                worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
-                image = Image.open(img_data)
-                worksheet.set_row(i + 1, image.height)
-                worksheet.set_column(2, 2, image.width)
+            async with ClientSession() as session, session.get(
+                f"{settings.root_address}/api/v1/storage/download/{question['image']}"
+            ) as response:
+                if "image" in response.headers.get("Content-Type"):
+                    img_data = BytesIO(await response.read())
+                    worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
+                    image = Image.open(img_data)
+                    worksheet.set_row(i + 1, image.height)
+                    worksheet.set_column(2, 2, image.width)
         except TypeError:
             pass
         answer_amount = len(answer_data)

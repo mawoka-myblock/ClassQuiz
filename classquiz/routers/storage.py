@@ -131,7 +131,7 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
         deleted_at=None,
         alt_text=None,
     )
-    await storage.upload(file_name=file_id.hex, file_data=file.file)
+    await storage.upload(file_name=file_id.hex, file_data=file.file, mime_type=file.content_type)
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
     return PublicStorageItem.from_db_model(file_obj)
@@ -157,7 +157,9 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
         alt_text=None,
     )
     # https://github.com/VirusTotal/vt-py/issues/119#issuecomment-1261246867
-    await storage.upload(file_name=file_id.hex, file_data=data_file._file)
+    await storage.upload(
+        file_name=file_id.hex, file_data=data_file._file, mime_type=request.headers.get("Content-Type")
+    )
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
     return PublicStorageItem.from_db_model(file_obj)

@@ -187,7 +187,7 @@
 	</div>
 	<div class="flex relative my-2">
 		<div class="w-full">
-			<BrownButton disabled={stats.progress !== 1} on:click={upload_video}>
+			<BrownButton disabled={status !== Status.CompressDone} on:click={upload_video}>
 				Upload {file_size_in_mi ? `${file_size_in_mi.toFixed(2)}Mi` : ''}</BrownButton
 			>
 		</div>
