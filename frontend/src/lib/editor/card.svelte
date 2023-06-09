@@ -53,7 +53,7 @@
 	let image_url = '';
 
 	const update_image_url = () => {
-		image_url = `/api/v1/storage/download/${data.questions[selected_question].image}`;
+		image_url = data.questions[selected_question].image;
 		console.log('updated!');
 	};
 	$: {

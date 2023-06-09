@@ -72,6 +72,25 @@ async def download_file(file_name: str):
     )
 
 
+@router.get("/info/{file_name}")
+async def get_basic_file_info(file_name: str) -> Response:
+    checked_image_string = check_image_string(file_name)
+    if not checked_image_string[0]:
+        raise HTTPException(status_code=404, detail="Invalid file name")
+    if checked_image_string[1] is not None:
+        item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
+        if item is None:
+            raise HTTPException(status_code=404, detail="File not found")
+        # return PublicStorageItem.from_db_model(item)
+        storage_file_name = item.storage_path
+        if storage_file_name is None:
+            storage_file_name = item.id.hex
+        resp = Response(status_code=200, headers=headers_from_storage_item(item))
+    else:
+        resp = Response(status_code=200, headers={"Content-Type": "image/*"})
+    return resp
+
+
 @router.head("/download/{file_name}")
 async def download_file_head(file_name: str) -> Response:
     checked_image_string = check_image_string(file_name)

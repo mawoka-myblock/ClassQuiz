@@ -143,6 +143,7 @@
 		localStorage.setItem('video_upload_id', json.id);
 		console.log(json, 'done');
 		status = Status.Done;
+		window.close();
 	};
 </script>
 

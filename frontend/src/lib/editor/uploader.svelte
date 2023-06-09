@@ -29,7 +29,7 @@
 	export let edit_id: string;
 	export let data: EditorData;
 	export let selected_question: number;
-	export let video_upload: boolean = false;
+	export let video_upload = false;
 
 	// eslint-disable-next-line no-undef
 	let video_popup: undefined | WindowProxy = undefined;

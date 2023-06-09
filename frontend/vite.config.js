@@ -1,5 +1,4 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import crossOriginIsolation from 'vite-plugin-cross-origin-isolation';
 
 /** @type {import("vite").UserConfig} */
 const config = {

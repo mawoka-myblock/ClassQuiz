@@ -6,10 +6,12 @@
 
 <script lang="ts">
 	export let src: string;
+	export let css_classes = 'max-h-64 h-auto w-auto';
 	let type: 'img' | 'video' | undefined = undefined;
 
 	const get_media = async () => {
-		const res = await fetch(src, { method: 'HEAD' });
+		const res = await fetch(`/api/v1/storage/info/${src}`);
+		console.log('Headers', res.headers);
 		const fileType = res.headers.get('Content-Type');
 		console.log(fileType, 'fileType');
 		if (fileType.includes('video')) {
@@ -18,8 +20,9 @@
 		} else {
 			type = 'img';
 			console.log(res);
+			const data = await fetch(`/api/v1/storage/download/${src}`);
 			return {
-				data: URL.createObjectURL(await res.blob()),
+				data: URL.createObjectURL(await data.blob()),
 				alt_text: res.headers.get('X-Alt-Text')
 			};
 		}
@@ -38,17 +41,21 @@
 	<p>Placeholder</p>
 {:then data}
 	{#if type === 'img'}
-		<img src={data.data} alt={data.alt_text ?? 'Not available'} />
+		<img src={data.data} alt={data.alt_text ?? 'Not available'} class={css_classes} />
 	{:else if type === 'video'}
-		<p>Video!</p>
 		<video
+			class={css_classes}
 			disablepictureinpicture
 			disableremoteplayback
 			x-webkit-airplay="deny"
+			controls
+			autoplay
 			loop
+			controlslist="nofullscreen,noremoteplayback"
+			muted
 			preload="metadata"
 		>
-			<source {src} />
+			<source src="/api/v1/storage/download/{src}" />
 		</video>
 	{:else}
 		<p>Unknown media type</p>
