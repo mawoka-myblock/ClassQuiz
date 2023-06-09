@@ -1,0 +1,9 @@
+# Multiple Choice
+
+## Summary
+- The standard question type everyone knows
+- 1-4 answers can be correct
+- User can only choose one answer
+
+## Use case
+Nothing specific; Main component of a quiz

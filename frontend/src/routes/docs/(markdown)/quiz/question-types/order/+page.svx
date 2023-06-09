@@ -1,0 +1,9 @@
+# Order
+
+## Summary
+- Bring the answers in a correct order
+- The order gets randomized before the quiz so that every player has the same random order
+- Remember to give some time, since it's kinda slow to move the answers up and down
+
+## Use case
+- Order historic events

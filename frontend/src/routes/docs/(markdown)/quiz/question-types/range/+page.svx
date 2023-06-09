@@ -1,0 +1,10 @@
+# Range Answers
+
+## Summary
+- The player has a slider where a number can be set
+- The creator can choose the range and the correct range
+
+## Use case
+- Guessing a year
+- Guessing the population of a country
+- Guessing in general

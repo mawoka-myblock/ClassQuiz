@@ -1,0 +1,9 @@
+# Text
+
+## Summary
+- Players can enter text
+- 4 different correct solutions can be given
+- case sensitivity can be set per answer
+
+## Use case
+- Test if a name is remembered correctly
