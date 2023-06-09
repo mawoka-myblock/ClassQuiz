@@ -21,6 +21,7 @@
 	import '@uppy/image-editor/dist/style.css';
 	import type { EditorData } from '../quiz_types';
 	import { getLocalization } from '$lib/i18n';
+	import { onMount } from 'svelte';
 
 	const { t } = getLocalization();
 
@@ -28,6 +29,10 @@
 	export let edit_id: string;
 	export let data: EditorData;
 	export let selected_question: number;
+	export let video_upload: boolean = false;
+
+	// eslint-disable-next-line no-undef
+	let video_popup: undefined | WindowProxy = undefined;
 
 	const uppy = new Uppy()
 		.use(DropTarget, {
@@ -47,8 +52,9 @@
 	const props = {
 		inline: true,
 		restrictions: {
-			maxFileSize: 10_000_000,
-			maxNumberOfFiles: 1
+			maxFileSize: 10_490_000,
+			maxNumberOfFiles: 1,
+			allowedFileTypes: ['image/*']
 			// allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
 		}
 	};
@@ -69,6 +75,28 @@
 		modalOpen = false;
 	});
 	console.log(edit_id);
+
+	onMount(() => {
+		window.addEventListener('storage', (e) => {
+			if (e.key !== 'video_upload_id') {
+				return;
+			}
+			localStorage.removeItem('video_upload_id');
+			data.questions[selected_question].image = e.newValue;
+		});
+	});
+
+	const upload_video = async () => {
+		video_popup = window.open(
+			'/edit/videos',
+			'_blank',
+			'popup=true,toolbar=false,menubar=false,location=false,'
+		);
+		video_popup.addEventListener('beforeunload', () => {
+			console.log('Unloaded');
+			video_popup = undefined;
+		});
+	};
 </script>
 
 {#if modalOpen}
@@ -77,17 +105,33 @@
 		transition:fade|local
 	>
 		<div>
-			<button
-				type="button"
-				class="rounded-t-lg bg-black text-white px-1"
-				on:click={() => {
-					modalOpen = false;
-				}}
-				>Close
-			</button>
 			<div>
-				<SvelteDashboard {uppy} width="100%" {props} />
+				<button
+					type="button"
+					class="rounded-t-lg bg-black text-white px-1"
+					on:click={() => {
+						modalOpen = false;
+					}}
+					>Close
+				</button>
+				{#if video_upload}
+					<button
+						class="rounded-t-lg bg-black text-white px-1"
+						on:click={upload_video}
+						type="button"
+						>Upload video
+					</button>
+				{/if}
 			</div>
+			{#if video_popup}
+				<div class="flex w-full h-1/3 bg-white dark:bg-gray-700 p-4">
+					<h2 class="text-4xl m-auto">Popup open</h2>
+				</div>
+			{:else}
+				<div>
+					<SvelteDashboard {uppy} width="100%" {props} />
+				</div>
+			{/if}
 		</div>
 	</div>
 {/if}

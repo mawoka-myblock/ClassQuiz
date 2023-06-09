@@ -82,6 +82,7 @@
 						bind:modalOpen={uppyOpen}
 						bind:edit_id
 						bind:data
+						video_upload={false}
 					/>
 				{/await}
 			{/if}
@@ -194,6 +195,7 @@
 							bind:edit_id
 							bind:data
 							selected_question={-1}
+							video_upload={false}
 						/>
 					{/await}
 				{/if}

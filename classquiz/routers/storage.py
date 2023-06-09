@@ -2,8 +2,9 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from datetime import datetime, timedelta
+from tempfile import SpooledTemporaryFile
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
+from fastapi import APIRouter, HTTPException, UploadFile, File, Depends, Request, Response
 from fastapi.responses import StreamingResponse, RedirectResponse
 from pydantic import BaseModel
 
@@ -19,8 +20,22 @@ settings = settings()
 router = APIRouter()
 
 
+def headers_from_storage_item(item: StorageItem) -> dict[str, str]:
+    base_headers = {"Content-Type": item.mime_type}
+    if item.hash is not None:
+        base_headers["X-Hash"] = item.hash.hex()
+    if item.thumbhash is not None:
+        base_headers["X-Thumbhash"] = item.thumbhash
+    if item.alt_text is not None:
+        base_headers["X-Alt-Text"] = item.alt_text
+    if item.size != 0:
+        base_headers["Content-Size"] = str(item.size)
+    return base_headers
+
+
 @router.get("/download/{file_name}")
 async def download_file(file_name: str):
+    item = None
     checked_image_string = check_image_string(file_name)
     if not checked_image_string[0]:
         raise HTTPException(status_code=400, detail="Invalid file name")
@@ -32,7 +47,7 @@ async def download_file(file_name: str):
         if file_name is None:
             file_name = item.id.hex
     if storage.backend == "s3":
-        return RedirectResponse(url=await storage.get_url(file_name, 300))
+        return RedirectResponse(url=await storage.get_url(file_name, 300), headers=headers_from_storage_item(item))
     try:
         download = await storage.download(file_name)
     except DownloadingFailedError:
@@ -43,11 +58,41 @@ async def download_file(file_name: str):
     def iter_file():
         yield from download
 
+    media_type = "image/*"
+    if item is not None:
+        media_type = item.mime_type
+    headers = {"Cache-Control": "public, immutable, max-age=31536000"}
+    if item is not None:
+        headers = {**headers, **headers_from_storage_item(item)}
+
     return StreamingResponse(
         iter_file(),
-        media_type="image/*",
-        headers={"Cache-Control": "public, immutable, max-age=31536000"},
+        media_type=media_type,
+        headers=headers,
     )
+
+
+@router.head("/download/{file_name}")
+async def download_file_head(file_name: str) -> Response:
+    checked_image_string = check_image_string(file_name)
+    if not checked_image_string[0]:
+        raise HTTPException(status_code=404, detail="Invalid file name")
+    if checked_image_string[1] is not None:
+        item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
+        if item is None:
+            raise HTTPException(status_code=404, detail="File not found")
+        # return PublicStorageItem.from_db_model(item)
+        storage_file_name = item.storage_path
+        if storage_file_name is None:
+            storage_file_name = item.id.hex
+        resp = Response(status_code=200, headers=headers_from_storage_item(item))
+    else:
+        resp = Response(status_code=200, headers={"Content-Type": "image/*"})
+        storage_file_name = file_name
+    if storage.backend == "s3":
+        resp.status_code = 307
+        resp.headers.append("Location", await storage.get_url(storage_file_name, 300))
+    return resp
 
 
 @router.post("/")
@@ -67,8 +112,33 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
         deleted_at=None,
         alt_text=None,
     )
-    file_data = await file.read()
-    await storage.upload(file_name=file_id.hex, file_data=file_data)
+    await storage.upload(file_name=file_id.hex, file_data=file.file)
+    await file_obj.save()
+    await arq.enqueue_job("calculate_hash", file_id.hex)
+    return PublicStorageItem.from_db_model(file_obj)
+
+
+@router.post("/raw")
+async def upload_raw_file(request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
+    if user.storage_used > settings.free_storage_limit:
+        raise HTTPException(status_code=409, detail="Storage limit reached")
+    file_id = uuid4()
+    data_file = SpooledTemporaryFile(max_size=1000)
+    async for chunk in request.stream():
+        data_file.write(chunk)
+    data_file.seek(0)
+    file_obj = StorageItem(
+        id=file_id,
+        uploaded_at=datetime.now(),
+        mime_type=request.headers.get("Content-Type"),
+        hash=None,
+        user=user,
+        size=0,
+        deleted_at=None,
+        alt_text=None,
+    )
+    # https://github.com/VirusTotal/vt-py/issues/119#issuecomment-1261246867
+    await storage.upload(file_name=file_id.hex, file_data=data_file._file)
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
     return PublicStorageItem.from_db_model(file_obj)

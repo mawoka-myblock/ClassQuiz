@@ -12,14 +12,15 @@
 	import Spinner from '../Spinner.svelte';
 	// import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
+	// import MediaComponent from "$lib/editor/MediaComponent.svelte";
 
 	const { t } = getLocalization();
 
 	/*	const tippy = createTippy({
-		arrow: true,
-		animation: 'perspective-subtle',
-		placement: 'top'
-	});*/
+        arrow: true,
+        animation: 'perspective-subtle',
+        placement: 'top'
+    });*/
 
 	export let data: EditorData;
 	export let selected_question: number;
@@ -48,6 +49,17 @@
 	$: {
 		selected_question;
 		set_unique();
+	}
+	let image_url = '';
+
+	const update_image_url = () => {
+		image_url = `/api/v1/storage/download/${data.questions[selected_question].image}`;
+		console.log('updated!');
+	};
+	$: {
+		update_image_url();
+		selected_question;
+		data.questions;
 	}
 	/*
     if (typeof data.questions[selected_question].type !== QuizQuestionType) {
@@ -126,12 +138,9 @@
 									/>
 								</svg>
 							</button>
-							<img
-								src="/api/v1/storage/download/{data.questions[selected_question]
-									.image}"
-								alt="not available"
-								class="max-h-64 h-auto w-auto"
-							/>
+							{#await import('$lib/editor/MediaComponent.svelte') then c}
+								<svelte:component this={c.default} bind:src={image_url} />
+							{/await}
 						</div>
 					</div>
 				{:else}
@@ -144,6 +153,7 @@
 							bind:edit_id
 							bind:data
 							bind:selected_question
+							video_upload={true}
 						/>
 					{/await}
 				{/if}

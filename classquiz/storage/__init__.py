@@ -50,8 +50,8 @@ class Storage:
         """
         yield self.instance.download(file_name)
 
-    async def upload(self, file_name: str, file_data: BinaryIO) -> None:
-        return await self.instance.upload(file=file_data, file_name=file_name)
+    async def upload(self, file_name: str, file_data: BinaryIO, mime_type: str | None = None) -> None:
+        return await self.instance.upload(file=file_data, file_name=file_name, mime_type=mime_type)
 
     async def delete(self, file_names: [str]) -> None:
         return await self.instance.delete(file_names=file_names)

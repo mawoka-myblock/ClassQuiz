@@ -27,7 +27,7 @@ class LocalStorage:
         except FileNotFoundError:
             yield None
 
-    async def upload(self, file_name: str, data: BinaryIO) -> None:
+    async def upload(self, file_name: str, data: BinaryIO, mime_type: str | None = None) -> None:
         async with aiofiles.open(file=os.path.join(self.base_path, file_name), mode="wb") as f:
             await aioshutil_copyfileobj(data, f)
 
