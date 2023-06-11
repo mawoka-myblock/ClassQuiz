@@ -451,7 +451,7 @@ class PrivateStorageItem(PublicStorageItem):
         quizzes = []
         for quiz in data.quizzes:
             quizzes.append(OnlyId(id=quiz.id))
-        for quiztivity in data.quizzes:
+        for quiztivity in data.quiztivities:
             quiztivities.append(OnlyId(id=quiztivity.id))
         return cls(
             id=data.id,

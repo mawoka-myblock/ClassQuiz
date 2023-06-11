@@ -190,7 +190,8 @@ async def import_quiz_route(quiz_id: str, user: User = Depends(get_current_user)
         raise HTTPException(status_code=409, detail="Storage limit reached")
     try:
         return await import_quiz(quiz_id, user)
-    except ValidationError:
+    except ValidationError as e:
+        print(e)
         raise HTTPException(status_code=400, detail="This quiz isn't (yet) supported")
 
 

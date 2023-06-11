@@ -27,7 +27,7 @@ async def _download_image(url: str) -> bytes:
 DEFAULT_COLORS = ["#D6EDC9", "#B07156", "#7F7057", "#4E6E58"]
 
 
-async def handle_image_upload(url: str, user: User) -> str:
+async def handle_image_upload(url: str, user: User) -> StorageItem:
     image_bytes = await _download_image(url)
     file_obj = StorageItem(
         id=uuid.uuid4(),
@@ -43,7 +43,7 @@ async def handle_image_upload(url: str, user: User) -> str:
     await file_obj.save()
     await storage.upload(file_name=file_obj.id.hex, file_data=io.BytesIO(image_bytes))
     await arq.enqueue_job("calculate_hash", file_obj.id.hex)
-    return file_obj.id.hex
+    return file_obj
 
 
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
@@ -61,12 +61,15 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_id = uuid.uuid4()
     meilisearch.delete_index(settings.meilisearch_index)
     meilisearch.create_index(settings.meilisearch_index)
+    uploaded_images: list[StorageItem] = []
 
     for q in quiz.kahoot.questions:
         answers: list[ABCDQuizAnswer] = []
         image = None
         if q.image is not None and q.image != "":
-            image = await handle_image_upload(q.image, user)
+            image_obj = await handle_image_upload(q.image, user)
+            uploaded_images.append(image_obj)
+            image = image_obj.id.hex
         for i, a in enumerate(q.choices):
             answers.append(
                 (
@@ -88,7 +91,9 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         )
     cover = None
     if quiz.kahoot.cover != "" and quiz.kahoot.cover is not None:
-        cover = await handle_image_upload(quiz.kahoot.cover, user)
+        img_obj = await handle_image_upload(quiz.kahoot.cover, user)
+        uploaded_images.append(img_obj)
+        cover = img_obj.id.hex
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
@@ -103,4 +108,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         kahoot_id=uuid.UUID(kahoot_quiz_id),
     )
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
-    return await quiz_data.save()
+    await quiz_data.save()
+    for img in uploaded_images:
+        await quiz_data.storageitems.add(img)
+    return quiz_data

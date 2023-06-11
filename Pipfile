@@ -54,7 +54,7 @@ pre-commit = "*"
 python-socketio = {extras = ["client"], version = "*"}
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
 
 [scripts]
 format = "black ."
