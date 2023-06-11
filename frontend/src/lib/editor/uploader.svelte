@@ -12,6 +12,7 @@
 	import Dashboard from '@uppy/dashboard';
 	import Compressor from '@uppy/compressor';
 	import { fade } from 'svelte/transition';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	// CSS imports
 	import '@uppy/core/dist/style.css';
@@ -22,6 +23,7 @@
 	import type { EditorData } from '../quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import { onMount } from 'svelte';
+	import Library from '$lib/editor/uploader/Library.svelte';
 
 	const { t } = getLocalization();
 
@@ -33,6 +35,18 @@
 
 	// eslint-disable-next-line no-undef
 	let video_popup: undefined | WindowProxy = undefined;
+
+	let selected_type: AvailableUploadTypes | null = null;
+
+	// eslint-disable-next-line no-unused-vars
+	enum AvailableUploadTypes {
+		// eslint-disable-next-line no-unused-vars
+		Image,
+		// eslint-disable-next-line no-unused-vars
+		Video,
+		// eslint-disable-next-line no-unused-vars
+		Library
+	}
 
 	const uppy = new Uppy()
 		.use(DropTarget, {
@@ -73,6 +87,7 @@
 		console.log(selected_question, data);
 
 		modalOpen = false;
+		selected_type = null;
 	});
 	console.log(edit_id);
 
@@ -83,6 +98,7 @@
 			}
 			localStorage.removeItem('video_upload_id');
 			data.questions[selected_question].image = e.newValue;
+			selected_type = null;
 		});
 	});
 
@@ -97,42 +113,84 @@
 			video_popup = undefined;
 		});
 	};
+
+	const handle_on_click = (e: Event) => {
+		if (e.target === e.currentTarget) {
+			modalOpen = false;
+			selected_type = null;
+		}
+	};
+	onMount(() => {
+		window.addEventListener('keydown', (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				modalOpen = false;
+				selected_type = null;
+			}
+		});
+	});
 </script>
 
 {#if modalOpen}
 	<div
-		class="w-full h-full absolute top-0 left-0 bg-opacity-60 z-20 flex justify-center"
-		transition:fade|local
+		class="w-screen h-screen fixed top-0 left-0 bg-opacity-50 bg-black z-20 flex justify-center"
+		on:click={handle_on_click}
+		transition:fade|local={{ duration: 100 }}
 	>
-		<div>
-			<div>
-				<button
-					type="button"
-					class="rounded-t-lg bg-black text-white px-1"
-					on:click={() => {
-						modalOpen = false;
-					}}
-					>Close
-				</button>
-				{#if video_upload}
-					<button
-						class="rounded-t-lg bg-black text-white px-1"
-						on:click={upload_video}
-						type="button"
-						>Upload video
-					</button>
-				{/if}
-			</div>
-			{#if video_popup}
-				<div class="flex w-full h-1/3 bg-white dark:bg-gray-700 p-4">
-					<h2 class="text-4xl m-auto">Popup open</h2>
+		{#if selected_type === null}
+			<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded">
+				<h1 class="text-3xl text-center mb-4">Select the Upload Type</h1>
+				<div class="flex flex-row gap-4">
+					<div class="w-full">
+						<BrownButton
+							on:click={() => {
+								selected_type = AvailableUploadTypes.Image;
+							}}>Image</BrownButton
+						>
+					</div>
+					<div class="w-full">
+						<BrownButton
+							disabled={!video_upload}
+							on:click={() => {
+								selected_type = AvailableUploadTypes.Video;
+							}}
+							>Video
+						</BrownButton>
+					</div>
+					<div class="w-full">
+						<BrownButton
+							on:click={() => {
+								selected_type = AvailableUploadTypes.Library;
+							}}
+							>Library
+						</BrownButton>
+					</div>
 				</div>
-			{:else}
+			</div>
+		{:else if selected_type === AvailableUploadTypes.Image}
+			<div class="m-auto w-1/3 h-5/6" transition:fade|local={{ duration: 100 }}>
 				<div>
 					<SvelteDashboard {uppy} width="100%" {props} />
 				</div>
-			{/if}
-		</div>
+			</div>
+		{:else if selected_type === AvailableUploadTypes.Video}
+			<div
+				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded"
+				transition:fade|local={{ duration: 100 }}
+			>
+				<h1 class="text-3xl text-center mb-4">Upload a Video</h1>
+				{#if video_popup}
+					<p class="text-center">
+						The popup is open; have a look at it for further information
+					</p>
+				{:else}
+					<BrownButton on:click={upload_video} type="button">Upload video</BrownButton>
+				{/if}
+			</div>
+		{:else if selected_type === AvailableUploadTypes.Library}
+			<div>
+				<Library bind:data {selected_question} bind:modalOpen />
+			</div>
+		{/if}
 	</div>
 {/if}
 <div class="flex justify-center w-full pt-10" transition:fade|local>

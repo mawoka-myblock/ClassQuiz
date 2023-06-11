@@ -222,6 +222,23 @@ async def list_images(
     return return_items
 
 
+@router.get("/list/last")
+async def get_latest_images(count: int = 50, user: User = Depends(get_current_user)) -> list[PrivateStorageItem]:
+    if count > 50:
+        count = 50
+    items = (
+        await StorageItem.objects.filter(user=user)
+        .limit(count)
+        .select_related([StorageItem.quizzes, StorageItem.quiztivities])
+        .order_by(StorageItem.uploaded_at.desc())
+        .all()
+    )
+    return_items: list[PrivateStorageItem] = []
+    for item in items:
+        return_items.append(PrivateStorageItem.from_db_model(item))
+    return return_items
+
+
 class ReturnGetStorageLimit(BaseModel):
     limit: int
     limit_reached: bool
