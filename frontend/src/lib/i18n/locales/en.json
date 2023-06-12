@@ -411,7 +411,8 @@
         "delete_image": "Delete image",
         "edit_the_image": "Edit the image",
         "filename_word": "Filename",
-        "alt_text": "Alt(ernate) text / Caption"
+        "alt_text": "Alt(ernate) text / Caption",
+        "storage_usage": "You've used {{used}} Mib out of {{total}} MiB of storage. That's equivalent to {{percent}}% of your storage."
     },
     "video_uploader": {
         "time_elapsed": "Time elapsed",

@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import Uploader from './uploader.svelte';
 	import { getLocalization } from '$lib/i18n';
+
 	const { t } = getLocalization();
 
 	export let data: PageData;
@@ -49,6 +50,13 @@
 </script>
 
 <div>
+	<h2 class="text-center text-4xl">
+		{$t('file_dashboard.storage_usage', {
+			used: (data.storage_usage.used / (1024 * 1024)).toFixed(2),
+			total: (data.storage_usage.limit / (1024 * 1024)).toFixed(0),
+			percent: ((data.storage_usage.used / data.storage_usage.limit) * 100).toFixed(0)
+		})}
+	</h2>
 	<Uploader />
 	<div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4">
 		{#each images as image}

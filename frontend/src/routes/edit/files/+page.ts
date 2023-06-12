@@ -8,8 +8,12 @@ import type { PrivateImageData } from '$lib/quiz_types';
 
 export const load = (async ({ fetch }) => {
 	const res = await fetch('/api/v1/storage/list');
+	const res2 = await fetch('/api/v1/storage/limit');
 	const json: PrivateImageData[] = await res.json();
+	const storage_usage: { limit: number; limit_reached: boolean; used: number } =
+		await res2.json();
 	return {
-		images: json
+		images: json,
+		storage_usage
 	};
 }) satisfies PageLoad;
