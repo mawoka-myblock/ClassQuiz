@@ -12,6 +12,7 @@ import re
 import json
 
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
 
 # revision identifiers, used by Alembic.
 revision = "89c4b5d547aa"
@@ -99,13 +100,14 @@ def upgrade() -> None:
             session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
         except AttributeError:
             continue
+    s = text("UPDATE quiz SET questions = ':q' WHERE id=':i';")
 
     all_questions = session.execute("SELECT questions, id from quiz;")
     question_image_regex = rf"{settings.root_address}/api/v1/storage/download/(?=.{{36}}--.{{36}})"
     for question, id in all_questions:
         question_as_json = json.dumps(question)
         result = re.sub(question_image_regex, "", question_as_json)
-        session.execute(f"UPDATE quiz SET questions = '{result}' WHERE id='{id}';")
+        session.execute(s, q=result, i=id)
 
     ## ADDED THUMBHASH AND SERVER STORAGE ITEM
     op.add_column("storage_items", sa.Column("thumbhash", sa.Text(), nullable=True))
