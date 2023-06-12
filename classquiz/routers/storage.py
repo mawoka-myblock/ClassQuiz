@@ -47,7 +47,10 @@ async def download_file(file_name: str):
         if file_name is None:
             file_name = item.id.hex
     if storage.backend == "s3":
-        return RedirectResponse(url=await storage.get_url(file_name, 300), headers=headers_from_storage_item(item))
+        if item is None:
+            return RedirectResponse(url=await storage.get_url(file_name, 300))
+        else:
+            return RedirectResponse(url=await storage.get_url(file_name, 300), headers=headers_from_storage_item(item))
     try:
         download = await storage.download(file_name)
     except DownloadingFailedError:
