@@ -180,7 +180,8 @@
         "library": "Library",
         "progress": "Progress",
         "speed": "Speed",
-        "upload": "Upload"
+        "upload": "Upload",
+        "files_library": "Files Library"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
