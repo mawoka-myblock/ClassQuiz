@@ -174,7 +174,14 @@
         "select": "Auswählen",
         "next": "Weiter",
         "quiz": "Quiz",
-        "quiztivity": "Quiztivity"
+        "quiztivity": "Quiztivity",
+        "check_choice": "Prüfauswahl",
+        "video": "Video",
+        "progress": "Fortschritt",
+        "files_library": "Dateien-Bibliothek",
+        "upload": "Upload",
+        "library": "Bibliothek",
+        "speed": "Geschwindigkeit"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -283,7 +290,11 @@
         "unknown_error_text": "Das sollte nicht passieren. Es ist wahrscheinlich meine Schuld, oder du hast eine magische Fähigkeit, Fehler zu erschaffen..."
     },
     "uploader": {
-        "add_image": "Bild hinzufügen"
+        "add_image": "Bild hinzufügen",
+        "upload_a_video": "Ein Video hochladen",
+        "upload_video": "Video hochladen",
+        "upload_video_popup_notice": "Das Popup ist offen; guck dir es für weitere Infos an",
+        "select_upload_type": "Wähle den Upload-Typen aus"
     },
     "avatar_settings": {
         "skin_color": "Hautfarbe",
@@ -390,5 +401,29 @@
         "popover": {
             "copied_to_clipboard": "In die Zwischenablage kopiert!"
         }
+    },
+    "public_user_page": {
+        "joined_on": "Beigetreten am {{date}}",
+        "no_original_quizzes": "Dieser Nutzer hat keine originellen Quiz"
+    },
+    "file_dashboard": {
+        "not_available": "Nicht verfügbar",
+        "missing": "NICHT VORHANDEN!",
+        "unset": "Unbestimmt",
+        "size": "Größe: {{size}} Mib",
+        "caption": "Beschreibung: {{caption}}",
+        "filename": "Dateiname: {{filename}}",
+        "uploaded": "Hochgeladen am: {{date}}",
+        "Imported": "Importiert: {{yes_or_no}}",
+        "edit_details": "Details bearbeiten",
+        "edit_the_image": "Bild bearbeiten",
+        "filename_word": "Dateiname",
+        "storage_usage": "Du hast {{used}} Mib von {{total}} Mib benutzt. Das entspricht {{percent}}% deines Speichers.",
+        "delete_image": "Bild löschen",
+        "alt_text": "Alternativtext / Beschreibung"
+    },
+    "video_uploader": {
+        "time_elapsed": "Abgelaufene Zeit",
+        "time_remaining": "Zeit übrig"
     }
 }
