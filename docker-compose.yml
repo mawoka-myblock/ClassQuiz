@@ -16,7 +16,7 @@ services:
     build: &build_cfg
       context: .
       dockerfile: Dockerfile
-    restart: always
+    restart: &restart always
     depends_on: &depends
       - db
       - redis
@@ -74,6 +74,7 @@ services:
     build: *build_cfg
     environment: *env_vars
     depends_on: *depends
+    restart: *restart
     command: arq classquiz.worker.WorkerSettings
 
 

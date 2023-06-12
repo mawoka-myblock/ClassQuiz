@@ -53,10 +53,7 @@ class Settings(BaseSettings):
     free_storage_limit: int = 1074000000
 
     # storage_backend
-    storage_backend: str | None = "deta"
-    # if storage_backend == "deta":
-    deta_project_key: str | None
-    deta_project_id: str | None
+    storage_backend: str | None = "local"
 
     # if storage_backend == "local":
     storage_path: str | None
