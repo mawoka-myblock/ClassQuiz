@@ -100,7 +100,7 @@ def upgrade() -> None:
             session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
         except AttributeError:
             continue
-    s = text("UPDATE quiz SET questions = ':q' WHERE id=':i';")
+    s = text("UPDATE quiz SET questions = :q WHERE id=:i;")
 
     all_questions = session.execute("SELECT questions, id from quiz;")
     question_image_regex = rf"{settings.root_address}/api/v1/storage/download/(?=.{{36}}--.{{36}})"
