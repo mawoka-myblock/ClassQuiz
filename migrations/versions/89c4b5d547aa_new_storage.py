@@ -107,7 +107,7 @@ def upgrade() -> None:
     for question, id in all_questions:
         question_as_json = json.dumps(question)
         result = re.sub(question_image_regex, "", question_as_json)
-        session.execute(s, q=result, i=id)
+        session.execute(s, {"q": result, "i": id})
 
     ## ADDED THUMBHASH AND SERVER STORAGE ITEM
     op.add_column("storage_items", sa.Column("thumbhash", sa.Text(), nullable=True))
