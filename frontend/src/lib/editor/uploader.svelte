@@ -32,6 +32,7 @@
 	export let data: EditorData;
 	export let selected_question: number;
 	export let video_upload = false;
+	export let library_enabled = true;
 
 	// eslint-disable-next-line no-undef
 	let video_popup: undefined | WindowProxy = undefined;
@@ -89,7 +90,6 @@
 		modalOpen = false;
 		selected_type = null;
 	});
-	console.log(edit_id);
 
 	onMount(() => {
 		window.addEventListener('storage', (e) => {
@@ -138,14 +138,15 @@
 	>
 		{#if selected_type === null}
 			<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded">
-				<h1 class="text-3xl text-center mb-4">Select the Upload Type</h1>
+				<h1 class="text-3xl text-center mb-4">{$t('uploader.select_upload_type')}</h1>
 				<div class="flex flex-row gap-4">
 					<div class="w-full">
 						<BrownButton
 							on:click={() => {
 								selected_type = AvailableUploadTypes.Image;
-							}}>Image</BrownButton
-						>
+							}}
+							>{$t('words.image')}
+						</BrownButton>
 					</div>
 					<div class="w-full">
 						<BrownButton
@@ -153,17 +154,19 @@
 							on:click={() => {
 								selected_type = AvailableUploadTypes.Video;
 							}}
-							>Video
+							>{$t('words.video')}
 						</BrownButton>
 					</div>
-					<div class="w-full">
-						<BrownButton
-							on:click={() => {
-								selected_type = AvailableUploadTypes.Library;
-							}}
-							>Library
-						</BrownButton>
-					</div>
+					{#if library_enabled}
+						<div class="w-full">
+							<BrownButton
+								on:click={() => {
+									selected_type = AvailableUploadTypes.Library;
+								}}
+								>{$t('words.library')}
+							</BrownButton>
+						</div>
+					{/if}
 				</div>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Image}
@@ -177,13 +180,15 @@
 				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded"
 				transition:fade|local={{ duration: 100 }}
 			>
-				<h1 class="text-3xl text-center mb-4">Upload a Video</h1>
+				<h1 class="text-3xl text-center mb-4">{$t('uploader.upload_a_video')}</h1>
 				{#if video_popup}
 					<p class="text-center">
-						The popup is open; have a look at it for further information
+						{$t('uploader.upload_video_popup_notice')}
 					</p>
 				{:else}
-					<BrownButton on:click={upload_video} type="button">Upload video</BrownButton>
+					<BrownButton on:click={upload_video} type="button"
+						>{$t('uploader.upload_video')}</BrownButton
+					>
 				{/if}
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Library}

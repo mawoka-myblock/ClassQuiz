@@ -209,6 +209,7 @@ async def list_images(
     storage_items = (
         await StorageItem.objects.filter(user=user)
         .filter(StorageItem.uploaded_at > since)
+        .filter(StorageItem.deleted_at == None)  # noqa: E711
         .order_by(StorageItem.uploaded_at.desc())
         .select_related([StorageItem.quizzes, StorageItem.quiztivities])
         .all()

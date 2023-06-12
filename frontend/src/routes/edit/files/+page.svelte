@@ -10,6 +10,9 @@
 	// import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { onMount } from 'svelte';
+	import Uploader from './uploader.svelte';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	export let data: PageData;
 	let edit_popup = null;
@@ -38,9 +41,15 @@
 		edit_popup = null;
 		window.location.reload();
 	};
+
+	const delete_image = async (id: string) => {
+		await fetch(`/api/v1/storage/meta/${id}`, { method: 'DELETE' });
+		window.location.reload();
+	};
 </script>
 
 <div>
+	<Uploader />
 	<div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4">
 		{#each images as image}
 			<div
@@ -51,19 +60,49 @@
 					src="/api/v1/storage/download/{image.id}"
 					class="m-auto h-auto w-auto max-h-[30vh]"
 					loading="lazy"
-					alt={image.alt_text || 'Not available'}
+					alt={image.alt_text || $t('file_dashboard.not_available')}
 				/>
 				<div class="flex flex-col my-auto ml-4">
-					<p>Size: {(image.size / (1024 * 1024)).toFixed(2)} Mib</p>
-					<p>Caption: {image.alt_text ?? 'MISSING!'}</p>
-					<p>Filename: {image.filename ?? 'Unset'}</p>
-					<p>Uploaded: {new Date(image.uploaded_at).toLocaleString()}</p>
-					<p>Imported: {image.imported ? 'Yes' : 'No'}</p>
-					<BrownButton
-						on:click={() => {
-							edit_popup = image;
-						}}>Edit Details</BrownButton
-					>
+					<p>
+						{$t('file_dashboard.size', {
+							size: (image.size / (1024 * 1024)).toFixed(2)
+						})}
+					</p>
+					<p>
+						{$t('file_dashboard.caption', {
+							caption: image.alt_text ?? $t('file_dashboard.missing')
+						})}
+					</p>
+					<p>
+						{$t('file_dashboard.filename', {
+							filename: image.filename ?? $t('file_dashboard.missing')
+						})}
+					</p>
+					<p>
+						{$t('file_dashboard.uploaded', {
+							date: new Date(image.uploaded_at).toLocaleString()
+						})}
+					</p>
+					<p>
+						{$t('file_dashboard.imported', {
+							yes_or_no: image.imported ? $t('words.yes') : $t('words.no')
+						})}
+					</p>
+					<div class="flex flex-col gap-2">
+						<BrownButton
+							on:click={() => {
+								edit_popup = image;
+							}}
+							>{$t('file_dashboard.edit_details')}
+						</BrownButton>
+						{#if image.quiztivities.length === 0 && image.quizzes.length === 0}
+							<BrownButton
+								on:click={() => {
+									delete_image(image.id);
+								}}>{$t('file_dashboard.delete_image')}</BrownButton
+							>
+						{/if}
+					</div>
 				</div>
 			</div>
 		{/each}
@@ -77,12 +116,13 @@
 		on:click={close_popup_handler}
 	>
 		<div class="w-auto h-auto m-auto rounded bg-white dark:bg-gray-700 p-4">
-			<h1 class="text-2xl text-center">Edit the image</h1>
+			<h1 class="text-2xl text-center">{$t('file_dashboard.edit_the_image')}</h1>
 			<form class="flex flex-col" on:submit|preventDefault={save_image_metadata}>
 				<div class="flex flex-row">
 					<div class="flex flex-col mr-4">
-						<label for="name" class="m-auto">Filename</label>
-						<label for="alt_text" class="m-auto">Alt Text</label>
+						<label for="name" class="m-auto">{$t('file_dashboard.filename_word')}</label
+						>
+						<label for="alt_text" class="m-auto">{$t('file_dashboard.alt_text')}</label>
 					</div>
 					<div class="flex flex-col gap-3">
 						<input
@@ -101,7 +141,7 @@
 					</div>
 				</div>
 				<div class="mt-4">
-					<BrownButton type="submit">Save</BrownButton>
+					<BrownButton type="submit">{$t('words.save')}</BrownButton>
 				</div>
 			</form>
 		</div>

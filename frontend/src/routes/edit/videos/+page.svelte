@@ -13,6 +13,8 @@
 	import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { navbarVisible } from '$lib/stores';
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 
 	let file_input: HTMLInputElement;
 	navbarVisible.set(false);
@@ -153,10 +155,10 @@
 		{#if status === Status.Compressing || status === Status.CompressDone}
 			<table>
 				<tr>
-					<th>Speed</th>
-					<th>Progress</th>
-					<th>Time elapsed</th>
-					<th>Time remaining</th>
+					<th>{$t('words.speed')}</th>
+					<th>{$t('words.progress')}</th>
+					<th>{$t('video_uploader.time_elapsed')}</th>
+					<th>{$t('video_uploader.time_remaining')}</th>
 				</tr>
 				<tr>
 					<td>{stats.speed}</td>
@@ -172,9 +174,9 @@
 		{:else if status === Status.Uploading}
 			<table>
 				<tr>
-					<th>Progress</th>
-					<th>Time elapsed</th>
-					<th>Time remaining</th>
+					<th>{$t('words.progress')}</th>
+					<th>{$t('video_uploader.time_elapsed')}</th>
+					<th>{$t('video_uploader.time_remaining')}</th>
 				</tr>
 				<tr>
 					<td>{Math.round(upload_stats.progress * 100)}%</td>
@@ -188,7 +190,8 @@
 	<div class="flex relative my-2">
 		<div class="w-full">
 			<BrownButton disabled={status !== Status.CompressDone} on:click={upload_video}>
-				Upload {file_size_in_mi ? `${file_size_in_mi.toFixed(2)}Mi` : ''}</BrownButton
+				{$t('words.upload')}
+				{file_size_in_mi ? `(${file_size_in_mi.toFixed(2)} Mi)` : ''}</BrownButton
 			>
 		</div>
 		<span
@@ -197,7 +200,8 @@
 		/>
 	</div>
 	<div class="flex justify-center">
-		<BrownButton on:click={compress_video} disabled={status !== Status.Idle}>Submit</BrownButton
+		<BrownButton on:click={compress_video} disabled={status !== Status.Idle}
+			>{$t('words.submit')}</BrownButton
 		>
 	</div>
 </div>

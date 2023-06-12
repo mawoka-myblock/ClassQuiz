@@ -9,10 +9,13 @@
 	import Spinner from '$lib/Spinner.svelte';
 	import type { EditorData } from '$lib/quiz_types';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { getLocalization } from '$lib/i18n';
 
 	export let data: EditorData;
 	export let selected_question: number;
 	export let modalOpen: boolean;
+
+	const { t } = getLocalization();
 
 	const fetch_images = async (): Promise<PrivateImageData> => {
 		const response = await fetch('/api/v1/storage/list/last?count=50');
@@ -53,7 +56,7 @@
 					<BrownButton
 						on:click={() => {
 							set_image(image.id);
-						}}>Select</BrownButton
+						}}>{$t('words.select')}</BrownButton
 					>
 				</div>
 			{/each}
