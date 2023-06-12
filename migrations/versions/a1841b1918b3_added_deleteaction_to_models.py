@@ -31,7 +31,10 @@ def upgrade() -> None:
         "fk_game_results_users_id_user", "game_results", "users", ["user"], ["id"], ondelete="CASCADE"
     )
     op.create_foreign_key("fk_game_results_quiz_id_quiz", "game_results", "quiz", ["quiz"], ["id"], ondelete="CASCADE")
-    op.drop_constraint("fk_quiz_users_id_user_id", "quiz", type_="foreignkey")
+    try:
+        op.drop_constraint("fk_quiz_users_id_user_id", "quiz", type_="foreignkey")
+    except:
+        pass
     op.create_foreign_key("fk_quiz_users_id_user_id", "quiz", "users", ["user_id"], ["id"], ondelete="CASCADE")
     op.drop_constraint("fk_quiztivitys_users_id_user", "quiztivitys", type_="foreignkey")
     op.create_foreign_key("fk_quiztivitys_users_id_user", "quiztivitys", "users", ["user"], ["id"], ondelete="CASCADE")
