@@ -10,22 +10,21 @@
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
-	import { createTippy } from 'svelte-tippy';
+	// import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
+	// import MediaComponent from "$lib/editor/MediaComponent.svelte";
 
 	const { t } = getLocalization();
 
-	const tippy = createTippy({
-		arrow: true,
-		animation: 'perspective-subtle',
-		placement: 'top'
-	});
+	/*	const tippy = createTippy({
+        arrow: true,
+        animation: 'perspective-subtle',
+        placement: 'top'
+    });*/
 
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
-	export let pow_data;
-	export let pow_salt: string;
 
 	let uppyOpen = false;
 	let unique = {};
@@ -51,6 +50,17 @@
 		selected_question;
 		set_unique();
 	}
+	let image_url = '';
+
+	const update_image_url = () => {
+		image_url = data.questions[selected_question].image;
+		console.log('updated!');
+	};
+	$: {
+		update_image_url();
+		selected_question;
+		data.questions;
+	}
 	/*
     if (typeof data.questions[selected_question].type !== QuizQuestionType) {
         console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)
@@ -60,7 +70,7 @@
 </script>
 
 <div class="w-full max-h-full pb-20 px-20 h-full">
-	<div class="rounded-lg bg-white w-full h-full border-gray-500 drop-shadow-2xl dark:bg-gray-700">
+	<div class="rounded-lg bg-white w-full h-full border-gray-500 dark:bg-gray-700 shadow-2xl">
 		<div class="h-12 bg-gray-300 rounded-t-lg dark:bg-gray-500">
 			<div class="flex align-middle p-4 gap-3">
 				<span
@@ -110,7 +120,7 @@
 								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 								type="button"
 								on:click={() => {
-									data.questions[selected_question].image = '';
+									data.questions[selected_question].image = null;
 								}}
 							>
 								<svg
@@ -128,22 +138,11 @@
 									/>
 								</svg>
 							</button>
-							<img
-								src={data.questions[selected_question].image}
-								alt="not available"
-								class="max-h-64 h-auto w-auto"
-							/>
+							{#await import('$lib/editor/MediaComponent.svelte') then c}
+								<svelte:component this={c.default} bind:src={image_url} />
+							{/await}
 						</div>
 					</div>
-				{:else if pow_data === undefined}
-					<a
-						href="/docs/pow"
-						target="_blank"
-						use:tippy={{ content: "Click to learn why it's loading so long." }}
-						class="cursor-help"
-					>
-						<Spinner my_20={false} />
-					</a>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<Spinner my_20={false} />
@@ -154,8 +153,7 @@
 							bind:edit_id
 							bind:data
 							bind:selected_question
-							bind:pow_data
-							bind:pow_salt
+							video_upload={true}
 						/>
 					{/await}
 				{/if}

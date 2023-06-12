@@ -82,7 +82,7 @@
 										<div class="h-[20vh] m-auto w-auto max-h-[18vh]">
 											<img
 												class="max-h-full max-w-full block"
-												src={quiz.cover_image}
+												src="/api/v1/storage/download/{quiz.cover_image}"
 												alt="Not provided"
 												loading="lazy"
 											/>

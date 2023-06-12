@@ -14,6 +14,7 @@
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import { get_foreground_color } from '$lib/helpers';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
@@ -223,11 +224,11 @@
 				</div>
 			</div>
 			{#if quiz_data.questions[selected_question].image !== null}
-				<div>
-					<img
+				<div class="flex w-full">
+					<MediaComponent
 						src={quiz_data.questions[selected_question].image}
-						class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
-						alt="Content for Question"
+						muted={false}
+						css_classes="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 					/>
 				</div>
 			{/if}
@@ -320,7 +321,7 @@
 					<div class="h-[30vh] m-auto w-auto mt-12">
 						<img
 							class="max-h-full max-w-full block"
-							src={quiz_data.cover_image}
+							src="/api/v1/storage/download/{quiz_data.cover_image}"
 							alt="Not provided"
 						/>
 					</div>

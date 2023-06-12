@@ -13,16 +13,17 @@ services:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:80
   api:
-    build:
+    build: &build_cfg
       context: .
       dockerfile: Dockerfile
-    restart: always
-    depends_on:
+    restart: &restart always
+    depends_on: &depends
       - db
       - redis
 
-    environment:
+    environment: &env_vars
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz"
+      REDIS: "redis://redis:6379/0?decode_responses=True"
       MAIL_ADDRESS: "email@email@email.email"
       MAIL_PASSWORD: "PASSWORT"
       MAIL_USERNAME: "email@email@email.email"
@@ -34,6 +35,8 @@ services:
       SKIP_EMAIL_VERIFICATION: True
       HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
       MEILISEARCH_URL: "http://meilisearch:7700"
+      STORAGE_BACKEND: "local"
+      STORAGE_PATH: "/app/data"
   redis:
     image: redis:alpine
     restart: always
@@ -67,6 +70,14 @@ services:
       MEILI_NO_ANALYTICS: true
     volumes:
       - meilisearch-data:/data.ms
+  worker:
+    build: *build_cfg
+    environment: *env_vars
+    depends_on: *depends
+    restart: *restart
+    command: arq classquiz.worker.WorkerSettings
+
+
 volumes:
   data:
   meilisearch-data:

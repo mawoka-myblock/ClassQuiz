@@ -46,7 +46,7 @@
 			{#if data.cover_image != undefined && data.cover_image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
 					<img
-						src={data.cover_image}
+						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
 						on:contextmenu|preventDefault={() => {

@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -79,7 +80,7 @@
 			<div class="h-[15vh] m-auto w-auto my-3">
 				<img
 					class="max-h-full max-w-full block"
-					src={quiz.cover_image}
+					src="/api/v1/storage/download/{quiz.cover_image}"
 					alt="Not provided"
 				/>
 			</div>
@@ -189,7 +190,12 @@
 					<!--					</label>-->
 					{#if question.image}
 						<span>
-							<img class="pl-8" src={question.image} alt="Not provided" />
+							<MediaComponent
+								css_classes="mx-auto"
+								src={question.image}
+								alt="Not provided"
+								muted={true}
+							/>
 						</span>
 					{/if}
 					<p

@@ -87,6 +87,10 @@
 					Start Caddy:
 					<pre><code>caddy run</code></pre>
 				</li>
+				<li>
+					Start the background-worker:
+					<pre><code>arq classquiz.worker.WorkerSettings</code></pre>
+				</li>
 			</ol>
 			<p>If you're done developing: <code>./run_tests.sh -</code></p>
 			<p>If you want to run all the tests: <code>./run_tests.sh a</code></p>

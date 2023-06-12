@@ -135,9 +135,12 @@
 				{/if}
 				<BrownButton href="/import">{$t('words.import')}</BrownButton>
 				<BrownButton href="/results">{$t('words.results')}</BrownButton>
-				<BrownButton href="/account/settings">
-					{$t('words.settings')}
-				</BrownButton>
+				<div class="flex gap-2">
+					<BrownButton href="/edit/files">{$t('words.files_library')}</BrownButton>
+					<BrownButton href="/account/settings">
+						{$t('words.settings')}
+					</BrownButton>
+				</div>
 			</div>
 			{#if quizzes.length !== 0}
 				<div class="flex justify-center pt-4 w-full">
@@ -180,7 +183,7 @@
 							<div class="hidden lg:flex w-auto h-full items-center relative">
 								{#if quiz.cover_image}
 									<img
-										src={quiz.cover_image}
+										src="/api/v1/storage/download/{quiz.cover_image}"
 										alt="user provided"
 										loading="lazy"
 										class="shrink-0 max-w-full max-h-full absolute"

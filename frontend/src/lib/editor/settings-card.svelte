@@ -8,9 +8,6 @@
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
 
-	export let pow_data;
-	export let pow_salt;
-
 	const { t } = getLocalization();
 
 	let uppyOpen = false;
@@ -42,7 +39,7 @@
 		<div
 			class="dark:bg-gray-700 h-full"
 			style="background-repeat: no-repeat;background-size: 100% 100%;background-image: {data.background_image
-				? `url("${data.background_image}")`
+				? `url("/api/v1/storage/download/${data.background_image}")`
 				: `unset`}"
 		>
 			<div class="flex justify-center pt-10 w-full">
@@ -68,18 +65,14 @@
 			{#if data.cover_image != undefined && data.cover_image !== ''}
 				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
 					<img
-						src={data.cover_image}
+						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
 						on:contextmenu|preventDefault={() => {
-							data.cover_image = '';
+							data.cover_image = null;
 						}}
 					/>
 				</div>
-			{:else if pow_data === undefined}
-				<a href="/docs/pow" target="_blank" class="cursor-help">
-					<Spinner my_20={false} />
-				</a>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner my_20={false} />
@@ -89,8 +82,7 @@
 						bind:modalOpen={uppyOpen}
 						bind:edit_id
 						bind:data
-						bind:pow_data
-						bind:pow_salt
+						video_upload={false}
 					/>
 				{/await}
 			{/if}
@@ -191,10 +183,6 @@
 						class="mt-10 bg-red-500 p-2 rounded-lg border-2 border-black transition hover:bg-red-400"
 						>Remove Background-Image</button
 					>
-				{:else if pow_data === undefined}
-					<a href="/docs/pow" target="_blank" class="cursor-help pt-10">
-						<Spinner my_20={false} />
-					</a>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<div class="pt-10">
@@ -207,8 +195,7 @@
 							bind:edit_id
 							bind:data
 							selected_question={-1}
-							bind:pow_data
-							bind:pow_salt
+							video_upload={false}
 						/>
 					{/await}
 				{/if}

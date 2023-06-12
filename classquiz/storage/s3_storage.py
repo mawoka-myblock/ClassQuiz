@@ -8,8 +8,7 @@
 import hashlib
 import hmac
 from datetime import datetime, timedelta
-from io import BytesIO
-from typing import Tuple
+from typing import Tuple, BinaryIO, Generator
 
 from aiohttp import ClientSession
 import minio
@@ -113,17 +112,7 @@ class S3Storage:
 
         return headers, request_url
 
-    async def download(self, file_name: str):
-        headers, url = self._generate_aws_signature_v4(method="GET", path=f"/{file_name}")
-        async with ClientSession() as session, session.get(url, headers=headers) as resp:
-            if resp.status == 200:
-                return BytesIO(await resp.read())
-            elif resp.status == 404:
-                return None
-            else:
-                raise DownloadingFailedError
-
-    async def upload(self, file: bytes, file_name: str, content_type: str | None = "application/octet-stream") -> None:
+    async def upload(self, file: BinaryIO, file_name: str, mime_type: str | None = "application/octet-stream") -> None:
         headers, url = self._generate_aws_signature_v4(method="PUT", path=f"/{file_name}")
         async with ClientSession() as session, session.put(url, headers=headers, data=file) as resp:
             if resp.status == 200:
@@ -145,3 +134,25 @@ class S3Storage:
         return self.client.presigned_get_object(
             object_name=file_name, bucket_name=self.bucket_name, expires=timedelta(seconds=expire)
         )
+
+    def size(self, file_name: str) -> int | None:
+        res = self.client.stat_object(bucket_name=self.bucket_name, object_name=file_name)
+        if res is None:
+            return None
+        return res.size
+
+    async def download(self, file_name: str) -> Generator:
+        headers, url = self._generate_aws_signature_v4(method="GET", path=f"/{file_name}")
+
+        async with ClientSession() as session, session.get(url, headers=headers) as resp:
+            if resp.status == 200:
+                async for i in resp.content.iter_chunked(1024):
+                    yield i
+            elif resp.status == 404:
+                yield None
+            else:
+                raise DownloadingFailedError
+        # client = httpx.AsyncClient()
+        # async with client.stream("GET", url, headers=headers) as resp:
+        #     if resp.status == 200:
+        #         yield resp.aiter_bytes()

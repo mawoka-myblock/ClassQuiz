@@ -9,6 +9,8 @@ import redis as redis_base_lib
 from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
 import meilisearch as MeiliSearch
 from typing import Optional
+from arq import create_pool
+from arq.connections import RedisSettings, ArqRedis
 
 from classquiz.storage import Storage
 
@@ -48,12 +50,10 @@ class Settings(BaseSettings):
     github_client_secret: Optional[str]
     custom_openid_provider: CustomOpenIDProvider | None = None
     telemetry_enabled: bool = True
+    free_storage_limit: int = 1074000000
 
     # storage_backend
-    storage_backend: str | None = "deta"
-    # if storage_backend == "deta":
-    deta_project_key: str | None
-    deta_project_id: str | None
+    storage_backend: str | None = "local"
 
     # if storage_backend == "local":
     storage_path: str | None
@@ -70,16 +70,24 @@ class Settings(BaseSettings):
         env_nested_delimiter = "__"
 
 
+async def initialize_arq():
+    global arq
+    arq = await create_pool(RedisSettings.from_dsn(settings.redis))
+
+
 @lru_cache()
 def settings() -> Settings:
     return Settings()
 
 
-redis: redis_base_lib.client.Redis = redis_lib.Redis().from_url(settings().redis)
+# asyncio.run(initialize_arq())
+
+pool = redis_lib.ConnectionPool().from_url(settings().redis)
+
+redis: redis_base_lib.client.Redis = redis_lib.Redis(connection_pool=pool)
+arq: ArqRedis = ArqRedis(pool_or_conn=pool)
 storage: Storage = Storage(
     backend=settings().storage_backend,
-    deta_key=settings().deta_project_key,
-    deta_id=settings().deta_project_id,
     storage_path=settings().storage_path,
     access_key=settings().s3_access_key,
     secret_key=settings().s3_secret_key,

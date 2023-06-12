@@ -175,7 +175,13 @@
         "quiz": "Quiz",
         "quiztivity": "Quiztivity",
         "next": "Next",
-        "check_choice": "Check Choice"
+        "check_choice": "Check Choice",
+        "video": "Video",
+        "library": "Library",
+        "progress": "Progress",
+        "speed": "Speed",
+        "upload": "Upload",
+        "files_library": "Files Library"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -277,7 +283,11 @@
         "unknown_error_text": "That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power to break stuff..."
     },
     "uploader": {
-        "add_image": "Add image"
+        "add_image": "Add image",
+        "select_upload_type": "Select the Upload Type",
+        "upload_a_video": "Upload a Video",
+        "upload_video_popup_notice": "The popup is open; have a look at it for further information",
+        "upload_video": "Upload Video"
     },
     "avatar_settings": {
         "skin_color": "Skin color",
@@ -384,5 +394,29 @@
         "popover": {
             "copied_to_clipboard": "Copied to clipboard!"
         }
+    },
+    "public_user_page": {
+        "joined_on": "Joined on {{date}}",
+        "no_original_quizzes": "This user doesn't have any original quizzes"
+    },
+    "file_dashboard": {
+        "not_available": "Not available",
+        "missing": "MISSING!",
+        "unset": "Unset",
+        "size": "Size: {{size}} Mib",
+        "caption": "Caption: {{caption}}",
+        "filename": "Filename: {{filename}}",
+        "uploaded": "Uploaded: {{date}}",
+        "Imported": "Imported: {{yes_or_no}}",
+        "edit_details": "Edit details",
+        "delete_image": "Delete image",
+        "edit_the_image": "Edit the image",
+        "filename_word": "Filename",
+        "alt_text": "Alt(ernate) text / Caption",
+        "storage_usage": "You've used {{used}} Mib out of {{total}} MiB of storage. That's equivalent to {{percent}}% of your storage."
+    },
+    "video_uploader": {
+        "time_elapsed": "Time elapsed",
+        "time_remaining": "Time remaining"
     }
 }

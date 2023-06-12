@@ -11,6 +11,7 @@
 	import Spinner from '$lib/Spinner.svelte';
 	import { flip } from 'svelte/animate';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	export let question: Question;
 
@@ -93,10 +94,9 @@
 	<h1 class="text-3xl text-center">{@html question.question}</h1>
 	{#if question.image !== null}
 		<div>
-			<img
+			<MediaComponent
 				src={question.image}
-				class="max-h-[40vh] object-cover mx-auto mb-8 w-auto"
-				alt="Content for Question"
+				css_classes="max-h-[40vh] object-cover mx-auto mb-8 w-auto"
 			/>
 		</div>
 	{/if}

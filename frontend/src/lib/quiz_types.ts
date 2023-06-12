@@ -88,3 +88,19 @@ export interface EditorData {
 	background_color?: string;
 	background_image?: string;
 }
+
+export interface PrivateImageData {
+	id: string;
+	uploaded_at: string;
+	mime_type: string;
+	hash?: string;
+	size?: number;
+	deleted_at?: string;
+	alt_text?: string;
+	filename?: string;
+	thumbhash?: string;
+	server?: string;
+	imported: boolean;
+	quizzes: { id: string }[];
+	quiztivities: { id: string }[];
+}

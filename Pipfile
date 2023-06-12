@@ -30,13 +30,15 @@ pillow = ">=9.1.1"
 authlib = "*"
 httpx = "*"
 itsdangerous = "*"
-puremagic = "*"
 py-avataaars-no-png = "*"
 cryptography = "*"
-scheduler = "*"
 webauthn = "*"
 pyotp = "*"
 minio = "*"
+xxhash = "*"
+arq = "*"
+thumbhash-python = "==1.0.0"
+python-magic = "*"
 
 [dev-packages]
 coverage = "*"
@@ -50,9 +52,10 @@ pre-commit = "*"
 python-socketio = {extras = ["client"], version = "*"}
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
 
 [scripts]
 format = "black ."
 lint = "flake8 classquiz"
 test = "coverage run -m pytest --lf -v --asyncio-mode=strict classquiz/tests"
+worker = "arq classquiz.worker.WorkerSettings"

@@ -5,7 +5,7 @@
   -->
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import { alertModal } from '$lib/stores';
+	// import { alertModal } from '$lib/stores';
 
 	export let session_data;
 	export let selected_method;
@@ -44,19 +44,21 @@
 			try {
 				data = await res.json();
 			} catch {
-				alertModal.set({
+				/*				alertModal.set({
 					open: true,
 					body: "This shouldn't happen. Please try again.",
 					title: 'Unknown error'
-				});
+				});*/
+				alert('Unknown error');
 				window.location.reload();
 			}
 			if (data.detail === 'totp wrong') {
-				alertModal.set({
+				/*				alertModal.set({
 					open: true,
 					body: 'Wrong Totp-Code. please try again.',
 					title: 'Totp Error'
-				});
+				});*/
+				alert('TOTP code was incorrect');
 				totp = '';
 			}
 		}
