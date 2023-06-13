@@ -49,9 +49,11 @@ async def calculate_hash(ctx, file_id_as_str: str):
     async for chunk in file_bytes:
         async for c in chunk:
             file.write(c)
-
-    if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
-        file_data.thumbhash = image_to_thumbhash(file)
+    try:
+        if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
+            file_data.thumbhash = image_to_thumbhash(file)
+    except Exception:
+        pass
     hash_obj = xxhash.xxh3_128()
 
     # assert hash_obj.block_size == 64
