@@ -175,7 +175,13 @@
         "quiz": "Cuestionario",
         "quiztivity": "Quiztivity",
         "next": "Siguiente",
-        "check_choice": "Comprobar la elección"
+        "check_choice": "Comprobar la elección",
+        "video": "Vídeo",
+        "library": "Biblioteca",
+        "progress": "Progreso",
+        "speed": "Velocidad",
+        "upload": "Subir",
+        "files_library": "Biblioteca de archivos"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -277,7 +283,11 @@
         "search_for_own_quizzes": "Busca tus propios quizzes"
     },
     "uploader": {
-        "add_image": "Añadir una imagen"
+        "add_image": "Añadir una imagen",
+        "select_upload_type": "Seleccione el tipo de carga",
+        "upload_a_video": "Cargar un vídeo",
+        "upload_video_popup_notice": "La ventana emergente está abierta; échale un vistazo para obtener más información",
+        "upload_video": "Subir un vídeo"
     },
     "avatar_settings": {
         "skin_color": "Color de la piel",
@@ -384,5 +394,29 @@
         "popover": {
             "copied_to_clipboard": "¡Copiado al portapapeles!"
         }
+    },
+    "public_user_page": {
+        "no_original_quizzes": "Este usuario no tiene cuestionarios originales",
+        "joined_on": "Ingresó el {{date}}"
+    },
+    "file_dashboard": {
+        "not_available": "No disponible",
+        "missing": "¡DESAPARECIDO!",
+        "unset": "Desactivar",
+        "size": "Tamaño: {{size}} Mib",
+        "uploaded": "Subido: {{date}}",
+        "Imported": "Importado: {{yes_or_no}}",
+        "edit_details": "Editar los detalles",
+        "delete_image": "Borrar la imagen",
+        "edit_the_image": "Editar la imagen",
+        "filename_word": "Nombre del archivo",
+        "alt_text": "Texto alternativo / Leyenda",
+        "caption": "Leyenda: {{caption}}",
+        "filename": "Nombre del archivo: {{filename}}",
+        "storage_usage": "Has utilizado {{used}} Mib de {{total}} MiB del almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento."
+    },
+    "video_uploader": {
+        "time_elapsed": "Tiempo transcurrido",
+        "time_remaining": "Duración restante"
     }
 }
