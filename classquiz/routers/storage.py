@@ -221,7 +221,6 @@ async def list_images(
         raise HTTPException(status_code=404, detail="No items found")
     return_items: list[PrivateStorageItem] = []
     for item in storage_items:
-        # print(item.quizzes)
         return_items.append(PrivateStorageItem.from_db_model(item))
     return return_items
 

@@ -49,6 +49,7 @@ async def set_note(id: UUID, data: _SetNoteInput, user: User = Depends(get_curre
     return await res.update()
 
 
+# skipcq: PYL-W0105
 """
 @router.get("/export/{result_id}", response_class=StreamingResponse)
 async def export_result(result_id: UUID, user: User = Depends(get_current_user)):

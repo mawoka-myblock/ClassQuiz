@@ -253,7 +253,7 @@ class ReturnQuestion(QuizQuestion):
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
-            # print("Answer must be from type VotingQuizAnswer if type is VOTING")
+            # skipcq: PTC-W0047
             pass
         return v
 
@@ -262,7 +262,6 @@ class ReturnQuestion(QuizQuestion):
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
     session = await sio.get_session(sid)
-    # print("set_question_number", data, session)
     if session["admin"]:
         game_pin = session["game_pin"]
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
@@ -286,7 +285,6 @@ async def set_question_number(sid, data: str):
         temp_return["type"] = game_data.questions[int(float(data))].type
         if temp_return["type"] == QuizQuestionType.ORDER:
             random.shuffle(temp_return["answers"])
-        # print("emitting")
         await sio.emit(
             "set_question_number",
             {
@@ -374,8 +372,6 @@ async def submit_answer(sid: str, data: dict):
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
-
-    # print(abs(diff) - latency, latency, abs(diff))
 
     score = 0
     if answer_right:

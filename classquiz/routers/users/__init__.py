@@ -79,7 +79,6 @@ async def create_user(user: RouteUser, background_task: BackgroundTasks) -> User
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()
-    # print(settings.skip_email_verification)
     if settings.skip_email_verification:
         user.verify_key = None
         user.verified = True

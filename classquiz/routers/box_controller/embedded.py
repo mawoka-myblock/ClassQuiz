@@ -109,7 +109,7 @@ button_to_index_map = {"b": 0, "g": 1, "y": 2, "r": 3}
 @router.websocket("/socket/{id}")
 async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
     try:
-        if id in wss_clients.keys():
+        if id in wss_clients:
             await ws.close(code=status.WS_1001_GOING_AWAY)
             print("Client {} already exists.".format(id))
             return

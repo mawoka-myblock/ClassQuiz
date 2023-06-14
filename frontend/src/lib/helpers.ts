@@ -10,8 +10,8 @@ export const invertColor = (hexTripletColor: string): string => {
 	let color_int = parseInt(color, 16); // convert to integer
 	color_int = 0xffffff ^ color_int; // invert three bytes
 	color = color_int.toString(16); // convert to hex
-	color = ('000000' + color).slice(-6); // pad with leading zeros
-	color = '#' + color; // prepend #
+	color = `000000${color}`.slice(-6); // pad with leading zeros
+	color = `#${color}`; // prepend #
 	return color;
 };
 
@@ -20,13 +20,6 @@ export const calculate_score = (q_time: number, time_taken: number): number => {
 };
 
 export type RGB = [number, number, number];
-export const getContrast = (foregroundColor: RGB, backgroundColor: RGB) => {
-	const foregroundLuminance = getLuminance(foregroundColor);
-	const backgroundLuminance = getLuminance(backgroundColor);
-	return backgroundLuminance < foregroundLuminance
-		? (backgroundLuminance + 0.05) / (foregroundLuminance + 0.05)
-		: (foregroundLuminance + 0.05) / (backgroundLuminance + 0.05);
-};
 
 export const getLuminance = (rgb: RGB): number => {
 	const [r, g, b] = rgb.map((v) => {
@@ -34,6 +27,14 @@ export const getLuminance = (rgb: RGB): number => {
 		return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
 	});
 	return r * 0.2126 + g * 0.7152 + b * 0.0722;
+};
+
+export const getContrast = (foregroundColor: RGB, backgroundColor: RGB) => {
+	const foregroundLuminance = getLuminance(foregroundColor);
+	const backgroundLuminance = getLuminance(backgroundColor);
+	return backgroundLuminance < foregroundLuminance
+		? (backgroundLuminance + 0.05) / (foregroundLuminance + 0.05)
+		: (foregroundLuminance + 0.05) / (backgroundLuminance + 0.05);
 };
 
 export const getRgbColorFromHex = (hex: string): RGB => {

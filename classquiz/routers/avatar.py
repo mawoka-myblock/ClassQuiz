@@ -80,6 +80,7 @@ async def get_customized_avatar(
         clothe_color=clothe_color,
         clothe_graphic_type=clothe_graphic_type,
     ).render_svg()
+    # skipcq: PY-W0069
     # print(f"skin_color: {len(AvatarItemsAsList.skin_color)},")
     # print(f"hair_color: {len(AvatarItemsAsList.hair_color)},")
     # print(f"facial_hair_type: {len(AvatarItemsAsList.facial_hair_type)},")
