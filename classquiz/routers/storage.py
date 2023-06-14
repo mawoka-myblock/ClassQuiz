@@ -197,6 +197,10 @@ async def update_image_data(
     file_data = await StorageItem.objects.get_or_none(id=file_id, user=user, deleted_at=None)
     if file_data is None:
         raise HTTPException(status_code=404, detail="File not found")
+    if data.alt_text == "":
+        data.alt_text = None
+    if data.filename == "":
+        data.filename = None
     file_data.filename = data.filename
     file_data.alt_text = data.alt_text
     await file_data.update()

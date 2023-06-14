@@ -390,6 +390,7 @@ async def submit_answer(sid: str, data: dict):
         answers, game_pin=session["game_pin"], data=answer_data, q_index=int(float(data.question_index))
     )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
+    await sio.emit("player_answer", {})
     if len(answers.__root__) == player_count:
         # await sio.emit(
         #     "question_results",

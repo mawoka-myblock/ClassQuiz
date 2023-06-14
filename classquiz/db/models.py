@@ -471,5 +471,5 @@ class PrivateStorageItem(PublicStorageItem):
 
 
 class UpdateStorageItem(BaseModel):
-    filename: str
-    alt_text: str
+    filename: str | None
+    alt_text: str | None

@@ -181,7 +181,10 @@
         "progress": "Progress",
         "speed": "Speed",
         "upload": "Upload",
-        "files_library": "Files Library"
+        "files_library": "Files Library",
+        "answer_plural": "Answers",
+        "yes": "Yes",
+        "no": "no"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -229,7 +232,8 @@
         "next_question": "Next Question ({{question}})",
         "show_results": "Show results",
         "stop_time_and_solutions": "Stop time and show solutions",
-        "enter_answer_into_field": "Enter your answer into the input field!"
+        "enter_answer_into_field": "Enter your answer into the input field!",
+        "answers_submitted": "{{answer_count}} Answers submitted"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -407,7 +411,7 @@
         "caption": "Caption: {{caption}}",
         "filename": "Filename: {{filename}}",
         "uploaded": "Uploaded: {{date}}",
-        "Imported": "Imported: {{yes_or_no}}",
+        "imported": "Imported: {{yes_or_no}}",
         "edit_details": "Edit details",
         "delete_image": "Delete image",
         "edit_the_image": "Edit the image",
