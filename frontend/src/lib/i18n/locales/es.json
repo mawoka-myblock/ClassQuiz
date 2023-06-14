@@ -8,7 +8,7 @@
         "features_description": {
             "1": "ClassQuiz es una plataforma de quiz que permite crear y gestionar quiz.",
             "2": "La característica principal es una función de importación de Kahoot! que le permite importar cuestionarios desde Kahoot!-quizzes.",
-            "3": "El editor fácil de usar es un punto destacado, al igual que la función de exportación para descargar los resultados de las pruebas como archivos de Excel."
+            "3": "El editor y la función de exportar los resultados de los cuestionarios como archivos Excel son aspectos especialmente destacados del programa."
         },
         "stats": "Ya hay {{user_count}} usuarios y {{quiz_count}} cuestionarios en ClassQuiz.",
         "see_what_true_and_false": "Ver lo que estaba correcto o incorrecto",
@@ -16,20 +16,20 @@
         "get_a_quiz": "1. Haz un quiz",
         "create_a_quiz_from_scratch": "Crea un quiz desde cero con el editor e incluye imágenes y más",
         "find_or_explore": "Encuentra (o explora) quizzes hechos o importados por otras personas",
-        "import_quiz_from_kahoot_and_edit": "¡Importa un cuestionario de Kahoot! y editarlo en ClassQuiz",
+        "import_quiz_from_kahoot_and_edit": "Importar un cuestionario de Kahoot! y editarlo en ClassQuiz",
         "no_tracking": "Sin rastreo",
         "german_server": "Servidor alemán",
         "user_friendly": "Fácil de usar",
         "completely_free": "Totalmente gratis",
         "quiz_results_downloadable": "Los resultados de los cuestionarios se pueden descargar",
         "multilingual": "Multilingüe",
-        "completely_free_content": "ClassQuiz es gratuito para el usuario, sin planes pagos ni redireccionamientos para una versión paga. Por lo tanto, cualquier donación es apreciada.",
+        "completely_free_content": "ClassQuiz es completamente gratuito (para el usuario), sin planes de pago ni molestas redirecciones a la página de actualización. Las donaciones son muy apreciadas.",
         "see_how_many_true_and_false": "Ver cuántos estaban correctos o equivocados",
         "create_or_import": "Crear o importar",
         "see_all_quizzes": "Ver todos tus cuestionarios",
         "teachers_site": "Portal de profesores",
         "students_site": "Portal estudiante",
-        "multilingual_content": "ClassQuiz ya está completamente disponible en inglés, alemán, turco, francés, bokmål noruego e italiano, mientras que también está disponible parcialmente en indonesio y catalán.",
+        "multilingual_content": "ClassQuiz está disponible en Inglés, Francés, Alemán, Italiano, Bokmål Noruego, Turco y, en parte, Indonesio y Catalán.",
         "select_answer": "Selecciona la respuesta",
         "view_results": "Ver los resultados",
         "check_if_chosen_wisely": "Comprueba, si has elegido bien",
@@ -37,18 +37,18 @@
         "get_ranking_and_winners": "Consigue la clasificación y mira quién ha ganado",
         "why_classquiz": "¿Por qué ClassQuiz?",
         "self_hostable_content": "ClassQuiz puede ser fácilmente auto-alojado, por lo que los datos sólo están bajo tu control!",
-        "user_friendly_content": "ClassQuiz está diseñado para ser simple y fácil de usar para todos.",
+        "user_friendly_content": "ClassQuiz pretende ser sencillo, para que todo el mundo pueda utilizarlo.",
         "quiz_results_downloadable_content": "Los resultados de los cuestionarios se pueden exportar fácilmente a una hoja de cálculo de Excel. (No sabía que otros no pudieran hacerlo)",
         "dark_mode_content": "Una de las funcionalidades más importantes que puede tener un sitio web!",
         "german_server_content": "Los servidores de ClassQuiz se encuentran en Alemania y están alojados con netcup.",
         "play_quiz": "2. Haz el quiz",
         "choose_answer_wisely": "Elige bien tu respuesta",
-        "no_tracking_content": "Kahoot! rastrea y comparte su perfil con terceros, pero ClassQuiz no lo hace.",
+        "no_tracking_content": "Kahoot! te rastrea y envía esa información a terceros, pero ClassQuiz no lo hace.",
         "self_hostable": "Autohospedable",
         "download_quizzes": "Descargar cuestionarios",
-        "community_driven_content": "¡ClassQuiz depende de la comunidad que proporciona ClassQuiz con donaciones, solicitudes de funciones, traducciones y más! ¡También puede convertirse en parte de la comunidad de ClassQuiz!",
+        "community_driven_content": "¡ClassQuiz depende de su comunidad para financiar, probar ideas, solicitar nuevas funciones, traducciones y más! ¡También puedes ser parte de la comunidad ClassQuiz!",
         "community_driven": "Impulsado por la comunidad",
-        "download_quizzes_content": "Los cuestionarios se pueden descargar como un solo archivo e importar en cualquier momento, lo que le permite mover fácilmente sus cuestionarios a otra instancia de ClassQuiz.",
+        "download_quizzes_content": "Los cuestionarios pueden descargarse como un archivo e importarse en cualquier momento. Esto también te permite mover tus cuestionarios a otras instancias de ClassQuiz.",
         "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?"
     },
     "create_page": {
@@ -60,7 +60,7 @@
     "login_page": {
         "modal": {
             "success": {
-                "success_check_mail": "Conectado. Por favor revise su bandeja de entrada de correo electrónico.",
+                "success_check_mail": "Conectado. Comprueba tu bandeja de entrada del correo electrónico.",
                 "description": {
                     "success_check_mail": "Verifique su buzón de correo ya que debería haber recibido un correo electrónico con un enlace para iniciar sesión.",
                     "success": "Conectado."
@@ -68,24 +68,24 @@
                 "success": "Conectado."
             },
             "error": {
-                "wrong_creds": "Dirección de correo electrónico o contraseña incorrecta.",
+                "wrong_creds": "Dirección de correo electrónico o contraseña incorrectas.",
                 "unexpected": "¡Error inesperado!",
                 "description": {
-                    "wrong_creds": "Por favor, asegúrese de que su contraseña y dirección de correo electrónico sean correctas.",
+                    "wrong_creds": "Por favor, asegúrate de que tu contraseña y tu dirección de correo electrónico son correctas.",
                     "unexpected": "Se produjo el típico error inesperado!"
                 }
             }
         },
         "welcome_back": "Bienvenido de nuevo.",
-        "login_or_create_account": "Ingresar o Crear una cuenta",
+        "login_or_create_account": "Conectarse o crear una cuenta",
         "already_have_account": "¿No tienes una cuenta?",
-        "use_backup_code": "Usar el código de la copia de seguridad",
-        "email_or_username": "Correo electrónico o nombre de usuario"
+        "use_backup_code": "Utilizar el código de seguridad",
+        "email_or_username": "Correo electrónico o nombre del usuario"
     },
     "overview_page": {
         "created_at": "Creado en",
         "question_count": "Recuento de preguntas",
-        "no_quizzes": "Haga clic en el botón \"Crear\" o importe un cuestionario de Kahoot. para ponerse en marcha."
+        "no_quizzes": "Haz clic en el botón \"Crear\" o importa un cuestionario de Kahoot! para empezar."
     },
     "edit_page": {
         "success_update_title": "Cuestionario actualizado.",
@@ -122,7 +122,7 @@
         "stats": "Estadísticas",
         "features": "Características",
         "login": "Iniciar sesión",
-        "email": "Dirección de correo electrónico",
+        "email": "Correo electrónico",
         "username": "Nombre de usuario",
         "count": "Cuenta",
         "range": "Zona",
