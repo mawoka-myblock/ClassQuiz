@@ -86,18 +86,20 @@ def upgrade() -> None:
     conn = op.get_bind()
     session = Session(bind=conn)
     all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for cover_image, id in all_cover_images:
         try:
             new_cover_image = re.search(magic_regex, cover_image).group(1)
-            session.execute(f"UPDATE quiz SET cover_image = '{new_cover_image}' WHERE id='{id}';")
+            session.execute(stmt, {"n": new_cover_image, "i": id})
         except AttributeError:
             continue
 
     all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for bg_image, id in all_background_images:
         try:
             new_bg_image = re.search(magic_regex, bg_image).group(1)
-            session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
+            session.execute(stmt, {"n": new_bg_image, "i": id})
         except AttributeError:
             continue
     s = text("UPDATE quiz SET questions = :q WHERE id=:i;")
