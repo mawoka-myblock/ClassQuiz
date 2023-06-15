@@ -12,7 +12,9 @@ export enum QuizTivityTypes {
 	// eslint-disable-next-line no-unused-vars
 	MEMORY = 'MEMORY',
 	// eslint-disable-next-line no-unused-vars
-	MARKDOWN = 'MARKDOWN'
+	MARKDOWN = 'MARKDOWN',
+	// eslint-disable-next-line no-unused-vars
+	ABCD = 'ABCD'
 }
 
 export interface Pdf {
@@ -32,6 +34,17 @@ export interface Memory {
 export interface Markdown {
 	markdown: string;
 }
+
+export interface AbcdAnswer {
+	answer: string;
+	correct: boolean;
+}
+
+export interface Abcd {
+	question: string;
+	answers: AbcdAnswer[];
+}
+
 export interface QuizTivityPage {
 	title?: string;
 	type: QuizTivityTypes;

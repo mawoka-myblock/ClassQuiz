@@ -12,6 +12,7 @@
 	import PdfEdit from './components/pdf/edit.svelte';
 	import MemoryEdit from './components/memory/edit.svelte';
 	import MarkdownEdit from './components/markdown/edit.svelte';
+	import AbcdEdit from './components/abcd/edit.svelte';
 	import { flip } from 'svelte/animate';
 	import { createEventDispatcher } from 'svelte';
 	import SharesPopover from '$lib/quiztivity/shares_popover.svelte';
@@ -46,6 +47,7 @@
 		console.log(selected_slide);
 		data.pages.splice(selected_slide, 1);
 		data.pages = data.pages;
+		selected_slide = null;
 	};
 
 	const arraymove = (arr: any[], fromI: number, toI: number) => {
@@ -164,6 +166,8 @@
 			<MemoryEdit bind:data={data.pages[opened_slide].data} />
 		{:else if sel_t === QuizTivityTypes.MARKDOWN}
 			<MarkdownEdit bind:data={data.pages[opened_slide].data} />
+		{:else if sel_t === QuizTivityTypes.ABCD}
+			<AbcdEdit bind:data={data.pages[opened_slide].data} />
 		{:else}
 			<h1 class="text-8xl">ERROR!</h1>
 		{/if}

@@ -29,6 +29,12 @@
 			description: 'Add content in Markdown format!',
 			type: QuizTivityTypes.MARKDOWN,
 			svg: undefined
+		},
+		{
+			name: 'Multiple Choice',
+			description: 'Multiple Choice Quiz',
+			type: QuizTivityTypes.ABCD,
+			svg: undefined
 		}
 	];
 </script>

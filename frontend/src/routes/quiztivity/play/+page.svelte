@@ -32,6 +32,10 @@
 			{#await import('$lib/quiztivity/components/memory/play.svelte') then c}
 				<svelte:component this={c.default} data={current_slide.data} />
 			{/await}
+		{:else if current_slide.type === QuizTivityTypes.ABCD}
+			{#await import('$lib/quiztivity/components/abcd/play.svelte') then c}
+				<svelte:component this={c.default} data={current_slide.data} />
+			{/await}
 		{/if}
 	</div>
 	<NavigationBar bind:current_slide_index question_count={quiztivity.pages.length} />

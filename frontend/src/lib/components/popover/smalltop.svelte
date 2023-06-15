@@ -22,8 +22,8 @@
 			role="alert"
 		>
 			<div class="ml-3 text-sm font-normal">
-				{#if type === PopoverTypes.Copy}{$t('components.popover.copied_to_clipboard')}Copied
-					to clipboard!
+				{#if type === PopoverTypes.Copy}
+					{$t('components.popover.copied_to_clipboard')}
 				{:else if type === PopoverTypes.GameInLobby}A game is currently in the lobby. Click <a
 						class="underline"
 						href="/remote?game_pin={data.game_pin}&game_id={data.game_id}">here</a

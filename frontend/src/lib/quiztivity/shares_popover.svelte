@@ -103,6 +103,19 @@
 		await fetch(`/api/v1/quiztivity/shares/${id}`, { method: 'DELETE' });
 		loaded_shares = load_shares();
 	};
+
+	const share_available = (): boolean => {
+		try {
+			return browser
+				? !navigator.canShare({
+						title: 'title',
+						url: `${window.location.origin}/quiztivity`
+				  })
+				: false;
+		} catch {
+			return false;
+		}
+	};
 	let add_shares_open = false;
 </script>
 
@@ -154,12 +167,7 @@
 					<div class="w-full mx-auto">
 						<BrownButton
 							flex={true}
-							disabled={browser
-								? !navigator.canShare({
-										title: 'title',
-										url: `${window.location.origin}/quiztivity`
-								  })
-								: false}
+							disabled={share_available()}
 							on:click={() => {
 								navigator.share({
 									title: 'Quiztivity on ClassQuiz',
