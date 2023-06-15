@@ -208,7 +208,7 @@ async def list_images(
     since: datetime | None = None, user: User = Depends(get_current_user)
 ) -> list[PrivateStorageItem]:
     if since is None:
-        since = datetime.now() - timedelta(days=2)
+        since = datetime.now() - timedelta(weeks=9999)
     storage_items = (
         await StorageItem.objects.filter(user=user)
         .filter(StorageItem.uploaded_at > since)
