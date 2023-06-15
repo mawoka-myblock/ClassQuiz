@@ -106,9 +106,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     if quiz_input.cover_image == "":
         quiz_input.cover_image = None
 
-    # if quiz_input.background_image is None and old_quiz_data.background_image is not None:
-    #     mark_image_for_deletion(quiz_input.background_image)
-
     if quiz_input.cover_image is not None and not check_image_string(quiz_input.cover_image)[0]:
         raise HTTPException(status_code=400, detail="image url is not valid")
 

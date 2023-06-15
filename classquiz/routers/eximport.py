@@ -46,9 +46,8 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
     quiz_dict["updated_at"] = quiz_dict["updated_at"].isoformat()
     quiz_json = json.dumps(quiz_dict)
     bin_data = gzip.compress(quiz_json.encode("utf-8"), compresslevel=9)
-    # bin_data = quiz_json.encode("utf-8")
     bin_data = bin_data + quiz_delimiter
-    for image_key in image_urls.keys():
+    for image_key in image_urls:
         bin_data = bin_data + image_delimiter + str(image_key).encode("utf-8") + image_index_delimiter
         image_data = None
         async with ClientSession() as session, session.get(

@@ -7,7 +7,5 @@ import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
 	const res = await fetch('/api/v1/storage/list');
-	if (res.ok) {
-		return { files: await res.json() };
-	}
+	return { files: await res.json() };
 }) satisfies PageLoad;

@@ -31,6 +31,7 @@
 	let shown_question_now: number;
 	let final_results_clicked = false;
 	let timer_interval;
+	let answer_count = 0;
 	export let control_visible: boolean;
 
 	export let player_scores;
@@ -53,6 +54,7 @@
 		shown_question_now = data.question_index;
 		timer_res = quiz_data.questions[data.question_index].time;
 		selected_question = selected_question + 1;
+		answer_count = 0;
 		timer(timer_res);
 	});
 	const get_question_results = () => {
@@ -93,6 +95,10 @@
 		} catch {
 			question_results = undefined;
 		}
+	});
+
+	socket.on('player_answer', (_) => {
+		answer_count += 1;
 	});
 
 	const timer = (time: string) => {
@@ -179,13 +185,13 @@
 				{/if}
 			{:else}
 				<!--				<button
-					on:click={() => {
-						set_question_number(selected_question + 1);
-					}}
-					class='admin-button'
-				>Next Question ({selected_question + 2}
-					)
-				</button>-->
+                    on:click={() => {
+                        set_question_number(selected_question + 1);
+                    }}
+                    class='admin-button'
+                >Next Question ({selected_question + 2}
+                    )
+                </button>-->
 			{/if}
 		</div>
 	</div>
@@ -215,12 +221,18 @@
 					{@html quiz_data.questions[selected_question].question}
 				</h1>
 				<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
-				<div class="mx-auto my-2">
-					<CircularTimer
-						bind:text={timer_res}
-						bind:progress={circular_progress}
-						color="#ef4444"
-					/>
+				<div class="grid grid-cols-3 my-2">
+					<span />
+					<div class="m-auto">
+						<CircularTimer
+							bind:text={timer_res}
+							bind:progress={circular_progress}
+							color="#ef4444"
+						/>
+					</div>
+					<p class="m-auto text-3xl">
+						{$t('admin_page.answers_submitted', { answer_count: answer_count })}
+					</p>
 				</div>
 			</div>
 			{#if quiz_data.questions[selected_question].image !== null}

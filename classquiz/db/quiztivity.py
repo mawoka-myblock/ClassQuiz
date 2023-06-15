@@ -41,10 +41,3 @@ class QuizTivityPage(BaseModel):
     title: str | None
     type: QuizTivityTypes
     data: Pdf | Memory | Markdown
-
-    # @validator("type")
-    # def match_type_to_data_type(cls, v, values, **kwargs):
-    #     print(values)
-    #     if TYPE_CLASS_LIST[v] != type(values["data"]):
-    #         raise ValueError("Specified Type doesn't match real data type")
-    #     pass

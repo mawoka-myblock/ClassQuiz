@@ -86,18 +86,20 @@ def upgrade() -> None:
     conn = op.get_bind()
     session = Session(bind=conn)
     all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for cover_image, id in all_cover_images:
         try:
             new_cover_image = re.search(magic_regex, cover_image).group(1)
-            session.execute(f"UPDATE quiz SET cover_image = '{new_cover_image}' WHERE id='{id}';")
+            session.execute(stmt, {"n": new_cover_image, "i": id})
         except AttributeError:
             continue
 
     all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for bg_image, id in all_background_images:
         try:
             new_bg_image = re.search(magic_regex, bg_image).group(1)
-            session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
+            session.execute(stmt, {"n": new_bg_image, "i": id})
         except AttributeError:
             continue
     s = text("UPDATE quiz SET questions = :q WHERE id=:i;")
@@ -138,23 +140,26 @@ def downgrade() -> None:
     conn = op.get_bind()
     session = Session(bind=conn)
     all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for cover_image, id in all_cover_images:
         new_cover_image = f"{settings.root_address}/api/v1/storage/download/{cover_image}"
         # print(new_cover_image, id)
-        session.execute(f"UPDATE quiz SET cover_image = '{new_cover_image}' WHERE id='{id}';")
+        session.execute(stmt, {"n": new_cover_image, "i": id})
 
     all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
+    stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for bg_image, id in all_background_images:
         new_bg_image = f"{settings.root_address}/api/v1/storage/download/{bg_image}"
         # print(new_cover_image, id)
-        session.execute(f"UPDATE quiz SET cover_image = '{new_bg_image}' WHERE id='{id}';")
+        session.execute(stmt, {"n": new_bg_image, "i": id})
 
     all_questions = session.execute("SELECT questions, id from quiz;")
+    stmt = text("UPDATE quiz SET questions = :r WHERE id=:i;")
     question_image_regex = r"(?=.{36}--.{36})"
     for question, id in all_questions:
         question_as_json = json.dumps(question)
         result = re.sub(question_image_regex, f"{settings.root_address}/api/v1/storage/download/", question_as_json)
-        session.execute(f"UPDATE quiz SET questions = '{result}' WHERE id='{id}';")
+        session.execute(stmt, {"r": result, "i": id})
 
     ## ADDED STORAGE ITEM
     op.drop_table("storageitems_quiztivitys")

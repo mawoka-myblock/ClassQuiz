@@ -42,10 +42,12 @@ export const mint = async (
 
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
+		// skipcq: JS-0003
 		const data = new TextEncoder().encode(`${challenge}:${counter.toString(16)}`);
 		const hashBuffer = await crypto.subtle.digest('SHA-1', data);
 		const hashArray = Array.from(new Uint8Array(hashBuffer));
 		const digest = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+		// skipcq: JS-0050
 		if (digest.slice(0, hex_digits) == zeros) {
 			result = counter.toString(16);
 			break;

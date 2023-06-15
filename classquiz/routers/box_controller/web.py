@@ -26,7 +26,7 @@ def generate_code() -> str:
         "r",
     ]  # Capital stands for long press, lowercase letter for short press
     resulting_code = ""
-    for i in range(specified_length):
+    for _ in range(specified_length):
         resulting_code += random.choice(buttons)
     return resulting_code
 

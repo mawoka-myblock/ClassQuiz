@@ -134,8 +134,6 @@ async def get_live_game_data(
 
 @router.get("/user_count")
 async def get_game_user_count(game_pin: str, api_key: str, as_string: bool = False, as_array: bool = False):
-    # if redis_res is None:
-    #     raise HTTPException(status_code=404, detail="Game not found")
     user_id = await check_api_key(api_key)
     redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None:
@@ -147,12 +145,6 @@ async def get_game_user_count(game_pin: str, api_key: str, as_string: bool = Fal
         return [{"players": {"count": player_count}}]
     else:
         return {"players": {"count": player_count}}
-
-
-# class _LivePlayersReturn(BaseModel):
-#     # players: list[GamePlayer | None]
-#     answers: list[GameAnswer1 | None]
-#     players: list[GamePlayer | None]
 
 
 @router.get(

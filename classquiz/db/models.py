@@ -297,7 +297,7 @@ class GameInLobby(BaseModel):
     game_id: uuid.UUID
 
 
-#
+# skipcq: PY-W0069
 # class UserProfileLinks(ormar.Model):
 #     id: int = ormar.Integer(primary_key=True, autoincrement=True)
 #     user: Optional[User] = ormar.ForeignKey(User)
@@ -471,5 +471,5 @@ class PrivateStorageItem(PublicStorageItem):
 
 
 class UpdateStorageItem(BaseModel):
-    filename: str
-    alt_text: str
+    filename: str | None
+    alt_text: str | None

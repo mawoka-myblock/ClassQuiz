@@ -103,15 +103,13 @@ class S3Storage:
             + "Signature="
             + signature
         )
-        # if expiry is not None:
-        #     authorization_header += f", Expires={expiry}"
-
         # Send the request with the authorization header
         headers = {"x-amz-date": amz_date, "Authorization": authorization_header}
         request_url = self.base_url + path + "?" + canonical_querystring
 
         return headers, request_url
 
+    # skipcq: PYL-W0613
     async def upload(self, file: BinaryIO, file_name: str, mime_type: str | None = "application/octet-stream") -> None:
         headers, url = self._generate_aws_signature_v4(method="PUT", path=f"/{file_name}")
         async with ClientSession() as session, session.put(url, headers=headers, data=file) as resp:

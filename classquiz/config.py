@@ -71,6 +71,7 @@ class Settings(BaseSettings):
 
 
 async def initialize_arq():
+    # skipcq: PYL-W0603
     global arq
     arq = await create_pool(RedisSettings.from_dsn(settings.redis))
 
@@ -79,8 +80,6 @@ async def initialize_arq():
 def settings() -> Settings:
     return Settings()
 
-
-# asyncio.run(initialize_arq())
 
 pool = redis_lib.ConnectionPool().from_url(settings().redis)
 

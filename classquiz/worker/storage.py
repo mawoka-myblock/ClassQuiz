@@ -16,6 +16,7 @@ from classquiz.storage.errors import DeletionFailedError
 from thumbhash import image_to_thumbhash
 
 
+# skipcq: PYL-W0613
 async def clean_editor_images_up(ctx):
     print("Cleaning images up")
     edit_sessions = await redis.smembers("edit_sessions")
@@ -52,10 +53,12 @@ async def calculate_hash(ctx, file_id_as_str: str):
     try:
         if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
             file_data.thumbhash = image_to_thumbhash(file)
+    # skipcq: PYL-W0703
     except Exception:
         pass
     hash_obj = xxhash.xxh3_128()
 
+    # skipcq: PY-W0069
     # assert hash_obj.block_size == 64
     while chunk := file.read(6400):
         hash_obj.update(chunk)
@@ -70,6 +73,7 @@ async def calculate_hash(ctx, file_id_as_str: str):
     await user.update()
 
 
+# skipcq: PYL-W0613
 async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
     new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
     old_images = extract_image_ids_from_quiz(old_quiz)
@@ -83,8 +87,6 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
     removed_images = list(set(old_images) - set(new_images))
     added_images = list(set(new_images) - set(old_images))
     change_made = False
-    # print("added:", added_images)
-    # print("removed:", removed_images)
     for image in removed_images:
         if "--" in image:
             await storage.delete([image])
@@ -92,7 +94,6 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
             if item is None:
                 continue
-            # print("removed item")
             try:
                 await new_quiz.storageitems.remove(item)
             except ormar.exceptions.NoMatch:
@@ -103,7 +104,6 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
             if item is None:
                 continue
-            # print("added item")
             await new_quiz.storageitems.add(item)
             change_made = True
     if change_made:
