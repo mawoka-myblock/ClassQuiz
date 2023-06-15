@@ -30,7 +30,7 @@
 				class:opacity-50={selected_answer !== undefined && !answer.correct}
 				class:text-2xl={selected_answer === i}
 			>
-				<span class="m-auto">{answer.answer}</span>
+				<span class="m-auto text-white">{answer.answer}</span>
 			</button>
 		{/each}
 	</div>

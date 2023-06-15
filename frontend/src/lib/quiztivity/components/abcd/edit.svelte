@@ -34,7 +34,7 @@
 			<div class="rounded p-6 bg-gray-700 flex">
 				<input
 					bind:value={answer.answer}
-					class="w-full my-auto bg-transparent outline-none text-center"
+					class="w-full my-auto bg-transparent outline-none text-center text-white"
 					placeholder="Enter answer here"
 				/>
 				<button
@@ -45,7 +45,7 @@
 				>
 					{#if answer.correct}
 						<svg
-							class="w-6 h-6 inline-block"
+							class="w-6 h-6 inline-block text-white"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -60,7 +60,7 @@
 						</svg>
 					{:else}
 						<svg
-							class="w-6 h-6 inline-block"
+							class="w-6 h-6 inline-block text-white"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
