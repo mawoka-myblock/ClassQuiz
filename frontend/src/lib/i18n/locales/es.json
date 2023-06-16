@@ -181,7 +181,10 @@
         "progress": "Progreso",
         "speed": "Velocidad",
         "upload": "Subir",
-        "files_library": "Biblioteca de archivos"
+        "files_library": "Biblioteca de archivos",
+        "yes": "Sí",
+        "answer_plural": "Respuestas",
+        "no": "no"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -199,7 +202,8 @@
         "next_question": "Siguiente pregunta ({{question}})",
         "show_results": "Mostrar los resultados",
         "stop_time_and_solutions": "Detener el tiempo y mostrar los resultados",
-        "enter_answer_into_field": "¡Ingresa tu respuesta en el campo de entrada!"
+        "enter_answer_into_field": "¡Ingresa tu respuesta en el campo de entrada!",
+        "answers_submitted": "{{answer_count}} Respuestas enviadas"
     },
     "settings_page": {
         "check_location": "Comprobar ubicación",
@@ -413,7 +417,8 @@
         "alt_text": "Texto alternativo / Leyenda",
         "caption": "Leyenda: {{caption}}",
         "filename": "Nombre del archivo: {{filename}}",
-        "storage_usage": "Has utilizado {{used}} Mib de {{total}} MiB del almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento."
+        "storage_usage": "Has utilizado {{used}} Mib de {{total}} MiB del almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento.",
+        "imported": "Importado: {{yes_or_no}}"
     },
     "video_uploader": {
         "time_elapsed": "Tiempo transcurrido",
