@@ -158,7 +158,7 @@
         "backup_code": "Backup-code",
         "totp": "Totp",
         "text": "Text",
-        "order": "order",
+        "order": "Order",
         "results": "Results",
         "note": "Note",
         "player_plural": "Players",
@@ -204,7 +204,13 @@
             "text_description": "Smaller longer text",
             "rectangle": "Rectangle",
             "rectangle_description": "Just a rectangle"
-        }
+        },
+        "abcd_description": "Only one answer can be chosen",
+        "voting_description": "Answers don't add any points",
+        "check_choice_description": "All correct answers have to be chosen to score points",
+        "order_description": "Answers can be brought into the correct order",
+        "text_description": "Players can enter text",
+        "range_description": "A number-range can be selected with a slider"
     },
     "import_page": {
         "need_help": "Need help?",

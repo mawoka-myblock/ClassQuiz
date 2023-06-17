@@ -36,38 +36,38 @@
 		type: QuizQuestionType;
 	}[] = [
 		{
-			name: 'Multiple Choice',
-			description: '',
+			name: $t('words.multiple_choice'),
+			description: $t('editor.abcd_description'),
 			answers: [],
 			type: QuizQuestionType.ABCD
 		},
 		{
-			name: 'Voting',
-			description: '',
+			name: $t('words.voting'),
+			description: $t('editor.voting_description'),
 			answers: [],
 			type: QuizQuestionType.VOTING
 		},
 		{
-			name: 'Check Choice',
-			description: '',
+			name: $t('words.check_choice'),
+			description: $t('editor.check_choice_description'),
 			answers: [],
 			type: QuizQuestionType.CHECK
 		},
 		{
-			name: 'Order',
-			description: '',
+			name: $t('words.order'),
+			description: $t('editor.order_description'),
 			answers: [],
 			type: QuizQuestionType.ORDER
 		},
 		{
-			name: 'Text',
-			description: '',
+			name: $t('words.text'),
+			description: $t('editor.text_description'),
 			answers: [],
 			type: QuizQuestionType.TEXT
 		},
 		{
-			name: 'Range',
-			description: '',
+			name: $t('words.range'),
+			description: $t('editor.range_description'),
 			answers: {
 				max: 10,
 				min: 0,
