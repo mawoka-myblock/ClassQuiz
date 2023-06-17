@@ -175,7 +175,13 @@
         "quiztivity": "Quiztivity",
         "check_choice": "Sprawdź wybór",
         "selected": "Wybrano",
-        "next": "Następny"
+        "next": "Następny",
+        "progress": "Postęp",
+        "video": "Film",
+        "library": "Biblioteka",
+        "speed": "Prędkość",
+        "upload": "Prześlij",
+        "files_library": "Biblioteka plików"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -203,7 +209,11 @@
         "unknown_error_text": "To nie powinno się zdarzyć. To pewnie moja wina, nie twoja, ale może masz magiczną moc niszczenia rzeczy..."
     },
     "uploader": {
-        "add_image": "Dodaj obraz"
+        "add_image": "Dodaj obraz",
+        "select_upload_type": "Wybierz typ przesyłania",
+        "upload_a_video": "Prześlij film",
+        "upload_video_popup_notice": "Wyskakujące okienko jest otwarte; spójrz na nie, aby uzyskać więcej informacji",
+        "upload_video": "Prześlij film"
     },
     "editor": {
         "time_in_seconds": "Czas w sekundach",
@@ -368,5 +378,24 @@
         "popover": {
             "copied_to_clipboard": "Skopiowano do schowka!"
         }
+    },
+    "public_user_page": {
+        "joined_on": "Dołączył {{date}}",
+        "no_original_quizzes": "Ten użytkownik nie ma jeszcze żadnych oryginalnych quizów"
+    },
+    "file_dashboard": {
+        "not_available": "Niedostępne",
+        "size": "Rozmiar: {{size}} Mib",
+        "uploaded": "Przesłano: {{date}}",
+        "Imported": "Importowane: {{yes_or_no}}",
+        "edit_details": "Edytuj szczegóły",
+        "delete_image": "Usuń obraz",
+        "edit_the_image": "Edytuj obraz",
+        "filename_word": "Nazwa pliku",
+        "storage_usage": "Użyłeś {{used}} Mib z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej."
+    },
+    "video_uploader": {
+        "time_elapsed": "Upłynęło",
+        "time_remaining": "Pozostały czas:"
     }
 }
