@@ -17,15 +17,11 @@
 			return;
 		}
 		const res = await fetch(`/api/v1/storage/info/${src}`);
-		console.log('Headers', res.headers);
 		const fileType = res.headers.get('Content-Type');
-		console.log(fileType, 'fileType');
 		if (fileType.includes('video')) {
-			console.log('Setting type to video');
 			type = 'video';
 		} else {
 			type = 'img';
-			console.log(res);
 			const data = await fetch(`/api/v1/storage/download/${src}`);
 			return {
 				data: URL.createObjectURL(await data.blob()),

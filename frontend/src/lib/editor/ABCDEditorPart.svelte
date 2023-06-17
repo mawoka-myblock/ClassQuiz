@@ -16,8 +16,6 @@
 
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
-	console.log(get_foreground_color(default_colors[0]));
-
 	export let selected_question: number;
 	export let check_choice = false;
 	export let data: EditorData;
@@ -43,9 +41,8 @@
 		};
 	};
 	$: save_colors(data);
-	data.questions[selected_question].type = check_choice
-		? QuizQuestionType.ABCD
-		: QuizQuestionType.CHECK;
+	data.questions[selected_question].type =
+		check_choice === true ? QuizQuestionType.CHECK : QuizQuestionType.ABCD;
 </script>
 
 <div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">
@@ -97,7 +94,6 @@
 					type="button"
 					on:click={() => {
 						answer.right = !answer.right;
-						console.log(answer.right);
 					}}
 				>
 					{#if answer.right}

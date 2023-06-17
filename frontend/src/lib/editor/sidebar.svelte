@@ -10,6 +10,8 @@
 	import { ABCDQuestionSchema, dataSchema } from '../yupSchemas';
 	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
+	import AddNewQuestionPopup from '$lib/editor/AddNewQuestionPopup.svelte';
+
 	const { t } = getLocalization();
 
 	export let data: EditorData;
@@ -22,13 +24,7 @@
 	});
 	let arr_of_cards = Array(data.questions.length);
 	let propertyCard;
-	const empty_question: Question = {
-		question: '',
-		time: '20',
-		image: '',
-		answers: [],
-		type: QuizQuestionType.ABCD
-	};
+	let add_new_question_popup_open = false;
 
 	const empy_slide: Question = {
 		type: QuizQuestionType.SLIDE,
@@ -51,10 +47,10 @@
 		}
 	};
 	/*	onMount(() => {
-			propertyCard.scrollIntoView({
-				behavior: 'smooth'
-			});
-		});*/
+            propertyCard.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });*/
 </script>
 
 <div class="h-screen border-r-2 pt-6 px-6 overflow-scroll">
@@ -205,7 +201,7 @@
 						class="h-10 border rounded-lg"
 						alt="Not available"
 						use:tippy={{
-							content: `<img src='/api/v1/storage/download/${question.image}' alt='Not available' class='rounded'>`,
+							content: `<img src="/api/v1/storage/download/${question.image}" alt="Not available" class="rounded">`,
 							allowHTML: true
 						}}
 					/>
@@ -281,7 +277,7 @@
 			type="button"
 			class="h-full flex justify-center w-full dark:text-black flex-col border-r border-black"
 			on:click={() => {
-				data.questions = [...data.questions, { ...empty_question }];
+				add_new_question_popup_open = true;
 			}}
 		>
 			<span class="w-full text-center">{$t('words.question')}</span>
@@ -325,3 +321,6 @@
 		</button>
 	</div>
 </div>
+{#if add_new_question_popup_open}
+	<AddNewQuestionPopup bind:questions={data.questions} bind:open={add_new_question_popup_open} />
+{/if}

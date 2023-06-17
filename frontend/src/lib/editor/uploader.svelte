@@ -85,7 +85,6 @@
 		} else {
 			data.questions[selected_question].image = image_id;
 		}
-		console.log(selected_question, data);
 
 		modalOpen = false;
 		selected_type = null;
@@ -109,7 +108,6 @@
 			'popup=true,toolbar=false,menubar=false,location=false,'
 		);
 		video_popup.addEventListener('beforeunload', () => {
-			console.log('Unloaded');
 			video_popup = undefined;
 		});
 	};

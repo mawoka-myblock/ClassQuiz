@@ -38,7 +38,6 @@
 
 	export let data;
 	let { quiz_id } = data;
-	console.log(quiz_id);
 	let quiz_data: Data;
 
 	const get_quiz = async (): Promise<void> => {

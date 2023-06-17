@@ -80,7 +80,6 @@
 					type="button"
 					on:click={() => {
 						answer.case_sensitive = !answer.case_sensitive;
-						console.log(answer.case_sensitive);
 					}}
 				>
 					{#if answer.case_sensitive}

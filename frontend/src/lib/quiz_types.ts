@@ -58,14 +58,16 @@ export interface Question {
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers:
-		| Answer[]
-		| RangeQuizAnswer
-		| VotingAnswer[]
-		| string
-		| TextQuizAnswer[]
-		| OrderQuizAnswer[];
+	answers: Answers;
 }
+
+export type Answers =
+	| Answer[]
+	| RangeQuizAnswer
+	| VotingAnswer[]
+	| string
+	| TextQuizAnswer[]
+	| OrderQuizAnswer[];
 
 export interface Answer {
 	right: boolean;

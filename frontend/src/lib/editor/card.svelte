@@ -54,13 +54,22 @@
 
 	const update_image_url = () => {
 		image_url = data.questions[selected_question].image;
-		console.log('updated!');
 	};
 	$: {
 		update_image_url();
 		selected_question;
 		data.questions;
 	}
+
+	const type_to_name = {
+		RANGE: $t('words.range'),
+		ABCD: $t('words.multiple_choice'),
+		VOTING: $t('words.voting'),
+		TEXT: $t('words.text'),
+		ORDER: $t('words.order'),
+		CHECK: $t('words.check_choice')
+	};
+
 	/*
     if (typeof data.questions[selected_question].type !== QuizQuestionType) {
         console.log(data.questions[selected_question].type !== QuizQuestionType.ABCD || data.questions[selected_question].type !== QuizQuestionType.RANGE)
@@ -183,21 +192,10 @@
 					</div>
 				</div>
 				<div class="flex justify-center pt-10">
-					<select
-						class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600 text-white"
-						name="Answer-Type"
-						bind:value={data.questions[selected_question].type}
-					>
-						<option value={QuizQuestionType.RANGE}>{$t('words.range')}</option>
-						<option value={QuizQuestionType.ABCD}>{$t('words.multiple_choice')}</option>
-						<option value={QuizQuestionType.VOTING}>{$t('words.voting')}</option>
-						<option value={QuizQuestionType.TEXT}>{$t('words.text')}</option>
-						<option value={QuizQuestionType.ORDER}>{$t('words.order')}</option>
-						<option value={QuizQuestionType.CHECK}>{$t('words.check_choice')}</option>
-					</select>
+					<p>{type_to_name[String(data.questions[selected_question].type)]}</p>
 				</div>
 				<div class="flex justify-center py-10 w-full">
-					{#if type === QuizQuestionType.ABCD || QuizQuestionType.CHECK}
+					{#if type === QuizQuestionType.ABCD || type === QuizQuestionType.CHECK}
 						{#await import('$lib/editor/ABCDEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
@@ -209,6 +207,7 @@
 							/>
 						{/await}
 					{:else if type === QuizQuestionType.RANGE}
+						<p>Range</p>
 						<RangeEditor bind:selected_question bind:data />
 					{:else if type === QuizQuestionType.VOTING}
 						{#await import('$lib/editor/VotingEditorPart.svelte')}

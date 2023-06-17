@@ -57,6 +57,8 @@
 	let edit_id;
 	let confirm_to_leave = true;
 
+	$: console.log('data', data);
+
 	const getEditID = async () => {
 		let res;
 		if (quiz_id === null) {
