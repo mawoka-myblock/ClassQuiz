@@ -181,7 +181,10 @@
         "files_library": "Dateien-Bibliothek",
         "upload": "Upload",
         "library": "Bibliothek",
-        "speed": "Geschwindigkeit"
+        "speed": "Geschwindigkeit",
+        "answer_plural": "Antworten",
+        "yes": "ja",
+        "no": "Nein"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -201,7 +204,13 @@
             "headline": "Überschrift",
             "rectangle_description": "Nur ein Rechteck",
             "headline_description": "Ein fetter Text als Überschrift"
-        }
+        },
+        "abcd_description": "Nur eine Antwort kann ausgewählt werden",
+        "voting_description": "Antworten geben keine Punkte",
+        "order_description": "Antworten müssen in die richtige Reihenfolge gebracht werden",
+        "text_description": "Spieler können text eingeben",
+        "range_description": "Ein Zahlenbereich kann mit einem Schieberegler ausgewählt werden",
+        "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden"
     },
     "import": {
         "need_help": "",
@@ -226,7 +235,8 @@
         "next_question": "Nächste Frage ({{question}})",
         "show_results": "Ergebnisse anzeigen",
         "enter_answer_into_field": "Gib die Antwort in das Eingabefeld ein!",
-        "stop_time_and_solutions": "Zeit stoppen und Ergebnisse zeigen"
+        "stop_time_and_solutions": "Zeit stoppen und Ergebnisse zeigen",
+        "answers_submitted": "{{answer_count}} Antworten abgegen"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
@@ -420,7 +430,8 @@
         "filename_word": "Dateiname",
         "storage_usage": "Du hast {{used}} Mib von {{total}} Mib benutzt. Das entspricht {{percent}}% deines Speichers.",
         "delete_image": "Bild löschen",
-        "alt_text": "Alternativtext / Beschreibung"
+        "alt_text": "Alternativtext / Beschreibung",
+        "imported": "Importiert: {{yes_or_no}}"
     },
     "video_uploader": {
         "time_elapsed": "Abgelaufene Zeit",
