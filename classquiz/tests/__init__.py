@@ -34,6 +34,7 @@ class ValueStorage:
     edit_id = None
     image_id = None
     cookies = None
+    file_id = None
 
 
 example_quiz = {

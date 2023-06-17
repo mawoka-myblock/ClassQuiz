@@ -1,6 +1,7 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+import io
 
 import pytest
 
@@ -25,13 +26,17 @@ def test_storage_init():
 
 
 async def storage_tester(storage: Storage):
-    res = await storage.upload(file_name="test.txt", file_data=file_contents)
+    res = await storage.upload(file_name="test.txt", file_data=io.BytesIO(initial_bytes=file_contents))
     assert res is None
-    res = await storage.download(file_name="test.txt")
-    assert res.read() == file_contents
+    res = storage.download(file_name="test.txt")
+    file = io.BytesIO()
+    async for chunk in res:
+        async for c in chunk:
+            file.write(c)
+    assert file.read() == file_contents
     res = await storage.delete(file_names=["test.txt"])
     assert res is None
-    res = await storage.download(file_name="test.txt")
+    res = storage.download(file_name="test.txt")
     assert res is None
     res = await storage.delete(file_names=["test.txt"])
     assert res is None
