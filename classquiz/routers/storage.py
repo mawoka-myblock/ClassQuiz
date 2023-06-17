@@ -161,8 +161,8 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     )
     # https://github.com/VirusTotal/vt-py/issues/119#issuecomment-1261246867
     await storage.upload(
-        # skipcq: PYL-W0212
         file_name=file_id.hex,
+        # skipcq: PYL-W0212
         file_data=data_file._file,
         mime_type=request.headers.get("Content-Type"),
     )
