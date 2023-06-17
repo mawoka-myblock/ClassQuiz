@@ -44,7 +44,10 @@
 		<div class="flex justify-center">
 			<p class="m-auto text-2xl">
 				{$t('play_page.join_description', {
-					url: `${window.location.host}/play`,
+					url:
+						window.location.host === 'classquiz.de'
+							? 'cquiz.de'
+							: `${window.location.host}/play`,
 					pin: game_pin
 				})}
 			</p>
