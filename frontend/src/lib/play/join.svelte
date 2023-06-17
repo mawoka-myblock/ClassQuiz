@@ -33,6 +33,7 @@
 
 	onMount(() => {
 		if (browser) {
+			prefetch_username();
 			hcaptcha = window.hcaptcha;
 			if (hcaptcha.render) {
 				hcaptchaWidgetID = hcaptcha.render('hcaptcha', {
@@ -54,6 +55,15 @@
 		}
 	});
 
+	const prefetch_username = async () => {
+		const res = await fetch('/api/v1/users/me');
+		if (res.status !== 200) {
+			return;
+		}
+		const json = await res.json();
+		username = json.username;
+	};
+
 	const set_game_pin = async () => {
 		let process_var;
 		try {
@@ -73,20 +83,20 @@
 		}
 		if (res.status === 404) {
 			/*			alertModal.set({
-				open: true,
-				title: 'Game not found',
-				body: 'The game pin you entered seems invalid.'
-			});*/
+                open: true,
+                title: 'Game not found',
+                body: 'The game pin you entered seems invalid.'
+            });*/
 			alert('Game not found');
 			game_pin = '';
 			return;
 		}
 		if (res.status !== 200) {
 			/*			alertModal.set({
-				open: true,
-				body: `Unknown error with response-code ${res.status}`,
-				title: 'Unknown Error'
-			});*/
+                open: true,
+                body: `Unknown error with response-code ${res.status}`,
+                title: 'Unknown Error'
+            });*/
 			alert('Unknown error');
 			return;
 		}
@@ -125,10 +135,10 @@
 						Sentry.captureException(e);
 					}
 					/*					alertModal.set({
-						open: true,
-						body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
-						title: 'Captcha failed'
-					});*/
+                        open: true,
+                        body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
+                        title: 'Captcha failed'
+                    });*/
 					alert('Captcha failed!');
 					window.location.reload();
 				}
