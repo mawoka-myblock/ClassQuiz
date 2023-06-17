@@ -40,8 +40,11 @@ export const getContrast = (foregroundColor: RGB, backgroundColor: RGB) => {
 export const getRgbColorFromHex = (hex: string): RGB => {
 	hex = hex.slice(1);
 	const value = parseInt(hex, 16);
+	// skipcq: JS-C1002
 	const r = (value >> 16) & 255;
+	// skipcq: JS-C1002
 	const g = (value >> 8) & 255;
+	// skipcq: JS-C1002
 	const b = value & 255;
 
 	return [r, g, b] as RGB;

@@ -111,7 +111,7 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
     try:
         if id in wss_clients:
             await ws.close(code=status.WS_1001_GOING_AWAY)
-            print("Client {} already exists.".format(id))
+            print(f"Client {id} already exists.")
             return
 
         await ws.accept()
@@ -146,8 +146,8 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
                     continue
 
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print("Data from client {}: {}".format(id, data))
+            print(f"Data from client {id}: {data}")
 
     except WebSocketDisconnect as ex:
-        print("Client {} is disconnected: {}".format(id, ex))
+        print(f"Client {id} is disconnected: {ex}")
         wss_clients.pop(id, None)

@@ -21,7 +21,6 @@ async def shutdown(ctx):
 
 
 class WorkerSettings:
-    # functions = [add_track]
     functions = [calculate_hash, quiz_update]
     cron_jobs = [cron(clean_editor_images_up, hour={0, 6, 12, 18}, minute=0)]
     on_startup = startup

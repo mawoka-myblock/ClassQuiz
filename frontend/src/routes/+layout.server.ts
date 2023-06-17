@@ -1,7 +1,7 @@
 import { signedIn } from '$lib/stores';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = ({ locals }) => {
 	if (locals.email) {
 		signedIn.set(true);
 	} else {

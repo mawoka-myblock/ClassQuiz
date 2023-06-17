@@ -252,8 +252,8 @@ class ReturnQuestion(QuizQuestion):
             raise ValueError("Answers can't be none if type is ABCD")
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
+        # skipcq: PTC-W0047
         if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
-            # skipcq: PTC-W0047
             pass
         return v
 
@@ -362,10 +362,7 @@ async def submit_answer(sid: str, data: dict):
         for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
             if a.right:
                 correct_string += str(i)
-        if correct_string == data.answer:
-            answer_right = True
-        else:
-            answer_right = False
+        answer_right = bool(correct_string == data.answer)
     else:
         raise NotImplementedError
     latency = int(float((await sio.get_session(sid))["ping"]))

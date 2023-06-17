@@ -20,6 +20,7 @@ class Memory(BaseModel):
 
 
 class Markdown(BaseModel):
+    # skipcq: PTC-W0052
     markdown: str
 
 

@@ -161,7 +161,10 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     )
     # https://github.com/VirusTotal/vt-py/issues/119#issuecomment-1261246867
     await storage.upload(
-        file_name=file_id.hex, file_data=data_file._file, mime_type=request.headers.get("Content-Type")
+        # skipcq: PYL-W0212
+        file_name=file_id.hex,
+        file_data=data_file._file,
+        mime_type=request.headers.get("Content-Type"),
     )
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
@@ -231,8 +234,7 @@ async def list_images(
 
 @router.get("/list/last")
 async def get_latest_images(count: int = 50, user: User = Depends(get_current_user)) -> list[PrivateStorageItem]:
-    if count > 50:
-        count = 50
+    count = min(count, 50)
     items = (
         await StorageItem.objects.filter(user=user)
         .limit(count)
