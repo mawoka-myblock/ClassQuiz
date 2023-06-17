@@ -275,7 +275,7 @@
 	>
 		<button
 			type="button"
-			class="h-full flex justify-center w-full dark:text-black flex-col border-r border-black"
+			class="h-full flex justify-center w-full flex-col border-r border-black dark:text-white"
 			on:click={() => {
 				add_new_question_popup_open = true;
 			}}
@@ -298,7 +298,7 @@
 		</button>
 		<button
 			type="button"
-			class="h-full flex justify-center w-full dark:text-black flex-col"
+			class="h-full flex justify-center w-full dark:text-white flex-col"
 			on:click={() => {
 				data.questions = [...data.questions, { ...empy_slide }];
 			}}
