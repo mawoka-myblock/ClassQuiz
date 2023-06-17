@@ -221,20 +221,25 @@
 					</div>
 				</form>
 				<div>
-					<button on:click={add_api_key}>{$t('settings_page.security_settings')}</button>
+					<div class="w-fit">
+						<BrownButton on:click={add_api_key}
+							>{$t('settings_page.add_api_key')}</BrownButton
+						>
+					</div>
 					{#await api_keys}
 						<Spinner />
 					{:then keys}
 						{#each keys as key}
 							<div>
 								{key.key}
-								<button
-									on:click={() => {
-										delete_api_key(key.key);
-									}}
-									class="admin-button"
-									>{$t('words.delete')}
-								</button>
+								<div class="inline-block">
+									<BrownButton
+										on:click={() => {
+											delete_api_key(key.key);
+										}}
+										>{$t('words.delete')}
+									</BrownButton>
+								</div>
 							</div>
 						{/each}
 					{/await}

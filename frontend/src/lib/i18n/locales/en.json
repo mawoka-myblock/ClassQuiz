@@ -254,7 +254,8 @@
         "delete_this_session": "Delete this session",
         "this_session?": "This session?",
         "change_avatar": "Change avatar",
-        "security_settings": "Security-Settings"
+        "security_settings": "Security-Settings",
+        "add_api_key": "Add API key"
     },
     "explore_page": {
         "made_by": "Made by",
@@ -320,7 +321,10 @@
         "no_results_so_far": "No results saved so far...",
         "quiz_title": "Quiz Title",
         "date_played": "Date Played",
-        "player_count": "Player count"
+        "player_count": "Player count",
+        "general_overview": {
+            "sentence": "The quiz \"{{title}}\", which was played on {{date}} had {{player_count}} players with an average score of {{average_score}}."
+        }
     },
     "result_page": {
         "player_name": "Player name",
@@ -328,7 +332,8 @@
         "average_score": "Average score: {{average_score}}",
         "correct_answer": "{{count}} correct answer",
         "correct_answer_plural": "{{count}} correct answers",
-        "time_taken": "Time taken"
+        "time_taken": "Time taken",
+        "player_score": "Player Score"
     },
     "navbar": {
         "donate": "Donate"
