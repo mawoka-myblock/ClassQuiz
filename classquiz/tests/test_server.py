@@ -24,7 +24,8 @@ from fastapi.testclient import TestClient
 
 
 class TestUsers:
-    def log_in(self, tc: TestClient, email=test_user_email, password=test_user_password) -> int:
+    @staticmethod
+    def log_in(tc: TestClient, email=test_user_email, password=test_user_password) -> int:
         resp = tc.post("/api/v1/login/start", json={"email": email})
         session_id = resp.json()["session_id"]
         resp = tc.post(
@@ -409,7 +410,7 @@ class TestCommunity:
         user_id = user.json()["id"]
         resp = test_client.get(f"/api/v1/community/quizzes/{user_id}")
         data = resp.json()
-        assert type(data) == list
+        assert type(data) is list
 
 
 class TestSitemap:
@@ -482,7 +483,7 @@ class TestStorage:
         resp = test_client.get("/api/v1/storage/list", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
         data = resp.json()
-        assert type(data) == list
+        assert type(data) is list
         assert len(data) >= 2
 
     @pytest.mark.asyncio
@@ -490,7 +491,7 @@ class TestStorage:
         resp = test_client.get("/api/v1/storage/list/last", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
         data = resp.json()
-        assert type(data) == list
+        assert type(data) is list
         assert len(data) >= 2
         resp = test_client.get("/api/v1/storage/list/last?count=1", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
@@ -502,7 +503,7 @@ class TestStorage:
         assert resp.status_code == 200
         data = resp.json()
         assert data["limit_reached"] is False
-        assert type(data["limit"]) == int
+        assert type(data["limit"]) is int
         assert data["used"] == 0
 
 
