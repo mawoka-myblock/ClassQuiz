@@ -52,14 +52,11 @@ async def download_file(file_name: str):
         else:
             return RedirectResponse(url=await storage.get_url(file_name, 300), headers=headers_from_storage_item(item))
     try:
-        download = await storage.download(file_name)
+        download = storage.download(file_name)
     except DownloadingFailedError:
         raise HTTPException(status_code=404, detail="File not found")
     if download is None:
         raise HTTPException(status_code=404, detail="File not found")
-
-    def iter_file():
-        yield from download
 
     media_type = "image/*"
     if item is not None:
@@ -69,7 +66,7 @@ async def download_file(file_name: str):
         headers = {**headers, **headers_from_storage_item(item)}
 
     return StreamingResponse(
-        iter_file(),
+        download,
         media_type=media_type,
         headers=headers,
     )

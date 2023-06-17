@@ -16,14 +16,12 @@ def test_storage_init():
     with pytest.raises(NotImplementedError):
         Storage(
             backend="asdsad",
-            deta_key=settings.deta_project_key,
-            deta_id=settings.deta_project_id,
             storage_path=settings.storage_path,
         )
     with pytest.raises(ValueError):
-        Storage(backend="deta", deta_key=None, deta_id=None, storage_path=None)
+        Storage(backend="s3", base_url=None, secret_key=None, access_key=None, storage_path=None)
     with pytest.raises(ValueError):
-        Storage(backend="local", storage_path=None, deta_key=None, deta_id=None)
+        Storage(backend="local", storage_path=None)
 
 
 async def storage_tester(storage: Storage):
@@ -40,19 +38,8 @@ async def storage_tester(storage: Storage):
 
 
 @pytest.mark.asyncio
-async def test_deta():
-    storage: Storage = Storage(
-        backend="deta",
-        deta_key=settings.deta_project_key,
-        deta_id=settings.deta_project_id,
-        storage_path=settings.storage_path,
-    )
-    await storage_tester(storage)
-
-
-@pytest.mark.asyncio
 async def test_local():
-    storage: Storage = Storage(backend="local", storage_path=settings.storage_path, deta_key=None, deta_id=None)
+    storage: Storage = Storage(backend="local", storage_path=settings.storage_path)
     await storage_tester(storage)
 
 
@@ -64,8 +51,6 @@ async def test_minio():
         secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
         bucket_name="classquiz",
         base_url="https://play.min.io",
-        deta_key=None,
-        deta_id=None,
         storage_path=None,
     )
     await storage_tester(storage)
