@@ -7,7 +7,7 @@ import uuid
 import pytest
 from redis import Redis
 from classquiz.config import settings
-from classquiz.tests import test_user_email, test_user_password
+from classquiz.tests import test_user_email, test_user_password, example_quiztivity
 from classquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
 from fastapi.testclient import TestClient
 
@@ -506,6 +506,176 @@ class TestStorage:
         assert data["limit_reached"] is False
         assert type(data["limit"]) is int
         assert data["used"] == 0
+
+
+class TestQuizivity:
+    @pytest.mark.asyncio
+    async def test_create_quiztivity(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.post("/api/v1/quiztivity/create", cookies=ValueStorage.cookies, json=example_quiztivity)
+        assert resp.status_code == 200
+        data = resp.json()
+        ValueStorage.quiztivity_id = data["id"]
+
+    @pytest.mark.asyncio
+    async def test_get_quiztivity(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/quiztivity/8bd77201-65ed-46fe-9160-cfe71dad501f", cookies=ValueStorage.cookies)
+        assert resp.status_code == 404
+        resp = test_client.get(f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["id"] == ValueStorage.quiztivity_id
+
+    @pytest.mark.asyncio
+    async def test_put_quiztivity(self, test_client: TestClient):  # noqa : F811
+        example_quiztivity["title"] = "New title"
+        resp = test_client.put(
+            f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}", json=example_quiztivity, cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 200
+        resp = test_client.put(
+            "/api/v1/quiztivity/8bd77201-65ed-46fe-9160-cfe71dad501f",
+            json=example_quiztivity,
+            cookies=ValueStorage.cookies,
+        )
+        assert resp.status_code == 404
+
+    @pytest.mark.asyncio
+    async def test_get_all_quiztivities(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/quiztivity/", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert type(data) is list
+        assert data[0]["id"] == ValueStorage.quiztivity_id
+
+    @pytest.mark.asyncio
+    async def test_create_share(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.post(
+            "/api/v1/quiztivity/shares/",
+            cookies=ValueStorage.cookies,
+            json={"quiztivity": ValueStorage.quiztivity_id, "expire_in": None},
+        )
+        assert resp.status_code == 200
+        data = resp.json()
+        ValueStorage.share_id = data["id"]
+        resp = test_client.post(
+            "/api/v1/quiztivity/shares/",
+            cookies=ValueStorage.cookies,
+            json={"quiztivity": "a090077f-9059-42bc-9783-f2cd01e069b8", "expire_in": None},
+        )
+        assert resp.status_code == 400
+        resp = test_client.post(
+            "/api/v1/quiztivity/shares/",
+            cookies=ValueStorage.cookies,
+            json={"quiztivity": ValueStorage.quiztivity_id, "expire_in": 0},
+        )
+        data = resp.json()
+        ValueStorage.expired_share_id = data["id"]
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_share(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get(
+            "/api/v1/quiztivity/shares/8bd77201-65ed-46fe-9160-cfe71dad501f", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 404
+        resp = test_client.get(f"/api/v1/quiztivity/shares/{ValueStorage.share_id}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["id"] == ValueStorage.quiztivity_id
+        resp = test_client.get(
+            f"/api/v1/quiztivity/shares/{ValueStorage.expired_share_id}", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 410
+
+    @pytest.mark.asyncio
+    async def test_update_share(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.put(
+            "/api/v1/quiztivity/shares/8bd77201-65ed-46fe-9160-cfe71dad501f",
+            cookies=ValueStorage.cookies,
+            json={"expire_in": 50},
+        )
+        assert resp.status_code == 404
+        resp = test_client.put(
+            f"/api/v1/quiztivity/shares/{ValueStorage.share_id}", cookies=ValueStorage.cookies, json={"expire_in": 50}
+        )
+        assert resp.status_code == 200
+
+    async def test_delete_share(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.delete(
+            "/api/v1/quiztivity/shares/8bd77201-65ed-46fe-9160-cfe71dad501f", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 404
+        resp = test_client.delete(
+            f"/api/v1/quiztivity/shares/{ValueStorage.expired_share_id}", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_shares(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/quiztivity/shares/", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert type(data) is list
+        assert data[0]["id"] == ValueStorage.share_id
+        assert data[0]["expire_in"] == 49
+
+    @pytest.mark.asyncio
+    async def test_get_shares_by_quiztivity(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get(f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}/shares", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert type(data) is list
+        assert data[0]["id"] == ValueStorage.share_id
+
+    @pytest.mark.asyncio
+    async def test_get_shares(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/quiztivity/shares/", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        data = resp.json()
+        assert type(data) is list
+        assert data[0]["id"] == ValueStorage.share_id
+
+    @pytest.mark.asyncio
+    async def test_delete_quiztivity(self, test_client: TestClient):  # noqa : F811
+        test_client.delete(f"/api/v1/quiztivity/shares/{ValueStorage.share_id}", cookies=ValueStorage.cookies)
+        resp = test_client.delete(
+            "/api/v1/quiztivity/8bd77201-65ed-46fe-9160-cfe71dad501f", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 404
+        resp = test_client.delete(f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+
+
+class TestAvatar:
+    @pytest.mark.asyncio
+    async def test_get_customized_avatar(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/avatar/custom?skin_color=69", cookies=ValueStorage.cookies)
+        assert resp.status_code == 400
+        resp = test_client.get("/api/v1/avatar/custom", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        assert "image/svg+xml" in resp.headers.get("Content-Type")
+
+    @pytest.mark.asyncio
+    async def test_save_avatar(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.post("/api/v1/avatar/save?skin_color=69", cookies=ValueStorage.cookies)
+        assert resp.status_code == 400
+        resp = test_client.post("/api/v1/avatar/save", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_own_avatar(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get("/api/v1/users/avatar", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_other_avatar(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get(
+            "/api/v1/users/8bd77201-65ed-46fe-9160-cfe71dad501f/avatar", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 404
+        user_id = test_client.get("/api/v1/users/me", cookies=ValueStorage.cookies).json()["id"]
+        resp = test_client.get(f"/api/v1/users/avatar/{user_id}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
 
 
 class TestExImport:

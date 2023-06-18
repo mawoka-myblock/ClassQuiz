@@ -12,11 +12,6 @@ import aiofiles.os
 _DEFAULT_CHUNK_SIZE = 32768  # bytes; arbitrary
 
 
-async def aioshutil_copyfileobj(async_fsrc, async_fdst, *, chunksize: int = _DEFAULT_CHUNK_SIZE) -> None:
-    while (chunk := await async_fsrc.read(chunksize)) != b"":
-        await async_fdst.write(chunk)
-
-
 class LocalStorage:
     def __init__(self, base_path: str):
         self.base_path = base_path

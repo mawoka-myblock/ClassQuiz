@@ -31,6 +31,10 @@ async def storage_tester(storage: Storage):
     res = storage.download(file_name="test.txt")
     async for chunk in res:
         assert bytes(chunk) == file_contents
+    res = await storage.get_file_size(file_name="test.txt")
+    assert res == len(file_contents)
+    res = await storage.get_file_size(file_name="asdsadasdasdadfdsf.txt")
+    assert res is None
     res = await storage.delete(file_names=["test.txt"])
     assert res is None
     res = storage.download(file_name="test.txt")

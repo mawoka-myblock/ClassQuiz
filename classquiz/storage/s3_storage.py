@@ -134,8 +134,9 @@ class S3Storage:
         )
 
     def size(self, file_name: str) -> int | None:
-        res = self.client.stat_object(bucket_name=self.bucket_name, object_name=file_name)
-        if res is None:
+        try:
+            res = self.client.stat_object(bucket_name=self.bucket_name, object_name=file_name)
+        except minio.error.S3Error:
             return None
         return res.size
 

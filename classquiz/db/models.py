@@ -2,7 +2,6 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import os
-import re
 import uuid
 from datetime import datetime
 from typing import Optional
@@ -13,7 +12,6 @@ from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
 from .quiztivity import QuizTivityPage
-from ..config import server_regex
 from sqlalchemy import func
 
 
@@ -165,15 +163,6 @@ class QuizInput(BaseModel):
     questions: list[QuizQuestion]
     background_image: str | None
 
-    @validator("background_image")
-    def must_come_from_local_cdn(cls, v):
-        if v is None:
-            return v
-        elif bool(re.match(server_regex, v)):
-            return v
-        else:
-            raise ValueError("does not match url scheme")
-
 
 class Quiz(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
@@ -189,15 +178,6 @@ class Quiz(ormar.Model):
     background_color: str | None = ormar.Text(nullable=True, unique=False)
     background_image: str | None = ormar.Text(nullable=True, unique=False)
     kahoot_id: uuid.UUID | None = ormar.UUID(nullable=True, default=None)
-
-    @validator("background_image")
-    def must_come_from_local_cdn(cls, v):
-        if v is None:
-            return v
-        elif bool(re.match(server_regex, v)):
-            return v
-        else:
-            raise ValueError("does not match url scheme")
 
     class Meta:
         tablename = "quiz"
