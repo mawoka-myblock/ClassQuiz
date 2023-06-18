@@ -158,7 +158,7 @@
         "backup_code": "Código de la copia de seguridad",
         "totp": "contraseña de un solo uso (Totp)",
         "text": "Texto",
-        "order": "solicitar",
+        "order": "Ordenar",
         "results": "Resultados",
         "note": "Nota",
         "player_plural": "Jugadores",
@@ -260,7 +260,13 @@
         },
         "no_title": "Sin título...",
         "empty": "Vacío...",
-        "bg_image": "Imagen de fondo"
+        "bg_image": "Imagen de fondo",
+        "abcd_description": "Solo se puede seleccionar una respuesta",
+        "voting_description": "Las respuestas no suman puntos",
+        "order_description": "Las respuestas se pueden poner en el orden correcto",
+        "text_description": "Los jugadores pueden ingresar texto",
+        "range_description": "Se puede seleccionar un rango de números con un control deslizante",
+        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
