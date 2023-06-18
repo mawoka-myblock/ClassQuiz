@@ -57,7 +57,6 @@ async def download_file(file_name: str):
         raise HTTPException(status_code=404, detail="File not found")
     if download is None:
         raise HTTPException(status_code=404, detail="File not found")
-
     media_type = "image/*"
     if item is not None:
         media_type = item.mime_type

@@ -24,7 +24,11 @@ class LocalStorage:
     async def download(self, file_name: str) -> Generator | None:
         try:
             async with aiofiles.open(file=os.path.join(self.base_path, file_name), mode="rb") as f:
-                yield f.read()
+                while True:
+                    chunk = await f.read(8192)
+                    if not chunk:
+                        break
+                    yield chunk
         except FileNotFoundError:
             yield None
 
@@ -43,6 +47,6 @@ class LocalStorage:
 
     def size(self, file_name: str) -> int | None:
         try:
-            return os.stat(os.path.join(self.base_path, file_name))
+            return os.stat(os.path.join(self.base_path, file_name)).st_size
         except FileNotFoundError:
             return None

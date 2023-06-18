@@ -42,13 +42,8 @@ class Storage:
         else:
             raise NotImplementedError(f"Backend {backend} not implemented")
 
-    async def download(self, file_name: str) -> Generator | None:
-        """
-        No support for s3 since it doesn't make sense relaying the traffic through this backend
-        :param file_name:
-        :return:
-        """
-        yield self.instance.download(file_name)
+    def download(self, file_name: str) -> Generator | None:
+        return self.instance.download(file_name)
 
     async def upload(self, file_name: str, file_data: BinaryIO, mime_type: str | None = None) -> None:
         return await self.instance.upload(file=file_data, file_name=file_name, mime_type=mime_type)

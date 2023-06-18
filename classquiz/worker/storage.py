@@ -48,8 +48,7 @@ async def calculate_hash(ctx, file_id_as_str: str):
         print("Retry raised!")
         raise Retry(defer=ctx["job_try"] * 10)
     async for chunk in file_bytes:
-        async for c in chunk:
-            file.write(c)
+        file.write(chunk)
     try:
         if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
             file_data.thumbhash = image_to_thumbhash(file)
@@ -63,7 +62,6 @@ async def calculate_hash(ctx, file_id_as_str: str):
     while chunk := file.read(6400):
         hash_obj.update(chunk)
     file_data.hash = hash_obj.digest()
-    print("Got hash!")
     await file_data.update()
     file.close()
     user: User | None = await User.objects.get_or_none(id=file_data.user.id)
