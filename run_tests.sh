@@ -9,9 +9,9 @@ run_tests() {
 }
 
 stop() {
+  docker container stop classquiz_db
   docker container stop test_redis
   docker container stop test_meili
-  docker container stop classquiz_db
 }
 
 init() {

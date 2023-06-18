@@ -40,8 +40,10 @@ async def download_file(file_name: str):
     if not checked_image_string[0]:
         raise HTTPException(status_code=400, detail="Invalid file name")
     if checked_image_string[1] is not None:
+        print(checked_image_string)
         item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
         if item is None:
+            print("Item not found")
             raise HTTPException(status_code=404, detail="File not found")
         file_name = item.storage_path
         if file_name is None:
@@ -54,8 +56,10 @@ async def download_file(file_name: str):
     try:
         download = storage.download(file_name)
     except DownloadingFailedError:
+        print("error")
         raise HTTPException(status_code=404, detail="File not found")
     if download is None:
+        print("dload is none")
         raise HTTPException(status_code=404, detail="File not found")
     media_type = "image/*"
     if item is not None:

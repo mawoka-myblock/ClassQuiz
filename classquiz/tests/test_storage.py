@@ -29,15 +29,13 @@ async def storage_tester(storage: Storage):
     res = await storage.upload(file_name="test.txt", file_data=io.BytesIO(initial_bytes=file_contents))
     assert res is None
     res = storage.download(file_name="test.txt")
-    file = io.BytesIO()
     async for chunk in res:
-        async for c in chunk:
-            file.write(c)
-    assert file.read() == file_contents
+        assert bytes(chunk) == file_contents
     res = await storage.delete(file_names=["test.txt"])
     assert res is None
     res = storage.download(file_name="test.txt")
-    assert res is None
+    async for chunk in res:
+        assert chunk is None
     res = await storage.delete(file_names=["test.txt"])
     assert res is None
 
@@ -59,6 +57,6 @@ async def test_minio():
         storage_path=None,
     )
     await storage_tester(storage)
-    await storage.upload(file_name="test.txt", file_data=file_contents)
+    await storage.upload(file_name="test.txt", file_data=io.BytesIO(initial_bytes=file_contents))
     url = await storage.get_url(file_name="test.txt", expiry=20)
     assert url is not None
