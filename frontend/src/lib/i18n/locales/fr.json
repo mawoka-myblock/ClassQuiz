@@ -20,7 +20,9 @@
         },
         "welcome_back": "Bon retour parmi nous.",
         "login_or_create_account": "Se connecter ou créer un compte",
-        "already_have_account": "Pas encore de compte ?"
+        "already_have_account": "Pas encore de compte ?",
+        "email_or_username": "Email ou Nom d'utilisateur",
+        "use_backup_code": "Utilisez un code de sauvegarde"
     },
     "words": {
         "question": "Question",
@@ -78,7 +80,26 @@
         "practice": "Pratiquer",
         "error": "Erreur",
         "voting": "Vote",
-        "download": "Télécharger"
+        "download": "Télécharger",
+        "text": "Texte",
+        "order": "Ordre",
+        "normal": "Normal",
+        "totp": "https://fr.wikipedia.org/wiki/Mot_de_passe_%C3%A0_usage_unique_bas%C3%A9_sur_le_temps",
+        "player_plural": "Joueurs",
+        "name": "Nom",
+        "point": "Point",
+        "continue": "Continuer",
+        "backup_code": "Code de sauvegarde",
+        "results": "Résultats",
+        "note": "Note",
+        "score": "Score",
+        "slide": "Diapositive",
+        "point_plural": "Points",
+        "back": "Retour",
+        "finish": "Finir",
+        "selected": "Séléctionné",
+        "select": "Sélectionner",
+        "quiz": "Quiz"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -116,7 +137,7 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Si Kahoot! vous espionne avec au moins 2 outils tiers étatsuniens, Classquiz lui ne vous trace pas du tout !",
+        "no_tracking_content": "Kahoot! vous trace et envoie vos données à des services tiers, mais pas Classquiz.",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
@@ -129,7 +150,8 @@
         "download_quizzes": "Télécharger des quiz",
         "community_driven": "Piloté par la communauté",
         "download_quizzes_content": "Les quiz peuvent être téléchargés en un seul fichier et importés à tout moment, ce qui vous permet de déplacer facilement vos quiz vers une autre instance de ClassQuiz.",
-        "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !"
+        "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !",
+        "how_does_classquiz_work": "Comment fonctionne ClassQuiz ?"
     },
     "overview_page": {
         "created_at": "Crée le",
