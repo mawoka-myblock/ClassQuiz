@@ -28,7 +28,8 @@
 	// };
 	export let data;
 	let game_mode;
-	let { game_pin, auto_connect, game_token } = data;
+	let { auto_connect, game_token } = data;
+	const game_pin = data.game_pin;
 
 	let players: Array<Player> = [];
 	let player_scores = {};
@@ -42,6 +43,7 @@
 	let success = false;
 	let dataexport_download_a;
 	let warnToLeave = true;
+	let export_token = undefined;
 
 	const connect = async () => {
 		socket.emit('register_as_admin', {
@@ -81,18 +83,17 @@
 	});
 
 	/*	socket.on('question_results', (int_data) => {
-		try {
-			int_data = JSON.parse(int_data);
-		} catch (e) {
-			console.error('Failed to parse question results');
-			return;
-		}
-		question_results = int_data;
-	});*/
+        try {
+            int_data = JSON.parse(int_data);
+        } catch (e) {
+            console.error('Failed to parse question results');
+            return;
+        }
+        question_results = int_data;
+    });*/
 	socket.on('export_token', (int_data) => {
 		warnToLeave = false;
-		dataexport_download_a.href = `/api/v1/quiz/export_data/${int_data}?ts=${new Date().getTime()}&game_pin=${game_pin}`;
-		dataexport_download_a.click();
+		export_token = int_data;
 
 		setTimeout(() => {
 			warnToLeave = true;
@@ -151,9 +152,17 @@
 		{#if control_visible}
 			<div class="w-screen flex justify-center mt-16">
 				<div class="w-fit">
-					<GrayButton on:click={request_answer_export}
-						>{$t('admin_page.export_results')}</GrayButton
-					>
+					{#if export_token === undefined}
+						<GrayButton on:click={request_answer_export}
+							>{$t('admin_page.request_export_results')}</GrayButton
+						>
+					{:else}
+						<GrayButton
+							target="_blank"
+							href="/api/v1/quiz/export_data/{export_token}?ts={new Date().getTime()}&game_pin={game_pin}"
+							>{$t('admin_page.download_export_results')}</GrayButton
+						>
+					{/if}
 				</div>
 			</div>
 			<div class="w-screen flex justify-center mt-2">
@@ -183,9 +192,6 @@
 		<FinalResults bind:data={player_scores} bind:show_final_results />
 	{/if}
 	{#if !success}
-		<input placeholder="game id" bind:value={game_token} />
-		<input placeholder="game pin" bind:value={game_pin} />
-		<button on:click={connect}>{$t('words.connect')}!</button>
 		{#if errorMessage !== ''}
 			<p class="text-red-700">{errorMessage}</p>
 		{/if}
@@ -199,7 +205,7 @@
 	{:else}
 		<SomeAdminScreen
 			bind:final_results
-			bind:game_pin
+			{game_pin}
 			bind:game_token
 			bind:quiz_data
 			bind:game_mode
@@ -212,6 +218,8 @@
 <a
 	on:click|preventDefault={request_answer_export}
 	href="#"
+	target="_blank"
 	bind:this={dataexport_download_a}
+	download=""
 	class="absolute -top-3/4 -left-3/4 opacity-0">Download</a
 >

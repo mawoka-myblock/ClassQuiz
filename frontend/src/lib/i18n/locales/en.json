@@ -229,7 +229,6 @@
         "get_results": "Get results",
         "get_results_and_stop_time": "Get results and stop time",
         "get_final_results": "Get final results",
-        "export_results": "Export results",
         "show_next_question": "Show next question",
         "start_by_showing_first_question": "Start by showing the first question.",
         "no_answers": "No answers!",
@@ -239,7 +238,9 @@
         "show_results": "Show results",
         "stop_time_and_solutions": "Stop time and show solutions",
         "enter_answer_into_field": "Enter your answer into the input field!",
-        "answers_submitted": "{{answer_count}} Answers submitted"
+        "answers_submitted": "{{answer_count}} Answers submitted",
+        "request_export_results": "Request result download",
+        "download_export_results": "Download results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
