@@ -72,7 +72,7 @@
 			<ol>
 				<li>
 					Prepare all the containers:
-					<pre><code>./run_tests.sh +</code></pre>
+					<pre><code>./scripts/run_tests.sh +</code></pre>
 				</li>
 				<li>
 					Start the Python-server:
@@ -92,8 +92,8 @@
 					<pre><code>arq classquiz.worker.WorkerSettings</code></pre>
 				</li>
 			</ol>
-			<p>If you're done developing: <code>./run_tests.sh -</code></p>
-			<p>If you want to run all the tests: <code>./run_tests.sh a</code></p>
+			<p>If you're done developing: <code>./scripts/run_tests.sh -</code></p>
+			<p>If you want to run all the tests: <code>./scripts/run_tests.sh a</code></p>
 		</li>
 		<li>
 			Add the following line to your <code>/etc/hosts</code>-file, so you can visit ClassQuiz
@@ -157,5 +157,5 @@
 	<pre><code>pnpm run format && pnpm run lint</code></pre>
 
 	<h4>Backend</h4>
-	<p>Run the tests: <code>./run_tests.sh a</code></p>
+	<p>Run the tests: <code>./scripts/run_tests.sh a</code></p>
 </article>
