@@ -84,7 +84,7 @@
         "text": "Texte",
         "order": "Ordre",
         "normal": "Normal",
-        "totp": "https://fr.wikipedia.org/wiki/Mot_de_passe_%C3%A0_usage_unique_bas%C3%A9_sur_le_temps",
+        "totp": "TOTP",
         "player_plural": "Joueurs",
         "name": "Nom",
         "point": "Point",
