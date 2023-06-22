@@ -24,6 +24,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { onMount } from 'svelte';
 	import Library from '$lib/editor/uploader/Library.svelte';
+	import Pixabay from '$lib/editor/uploader/Pixabay.svelte';
 
 	const { t } = getLocalization();
 
@@ -46,7 +47,9 @@
 		// eslint-disable-next-line no-unused-vars
 		Video,
 		// eslint-disable-next-line no-unused-vars
-		Library
+		Library,
+		// eslint-disable-next-line no-unused-vars
+		Pixabay
 	}
 
 	const uppy = new Uppy()
@@ -165,6 +168,14 @@
 							</BrownButton>
 						</div>
 					{/if}
+					<div class="w-full">
+						<BrownButton
+							on:click={() => {
+								selected_type = AvailableUploadTypes.Pixabay;
+							}}
+							>Pixabay
+						</BrownButton>
+					</div>
 				</div>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Image}
@@ -192,6 +203,10 @@
 		{:else if selected_type === AvailableUploadTypes.Library}
 			<div>
 				<Library bind:data {selected_question} bind:modalOpen />
+			</div>
+		{:else if selected_type === AvailableUploadTypes.Pixabay}
+			<div>
+				<Pixabay bind:data {selected_question} bind:modalOpen />
 			</div>
 		{/if}
 	</div>
