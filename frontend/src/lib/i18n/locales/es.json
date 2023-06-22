@@ -158,7 +158,7 @@
         "backup_code": "Código de la copia de seguridad",
         "totp": "contraseña de un solo uso (Totp)",
         "text": "Texto",
-        "order": "solicitar",
+        "order": "Ordenar",
         "results": "Resultados",
         "note": "Nota",
         "player_plural": "Jugadores",
@@ -203,7 +203,9 @@
         "show_results": "Mostrar los resultados",
         "stop_time_and_solutions": "Detener el tiempo y mostrar los resultados",
         "enter_answer_into_field": "¡Ingresa tu respuesta en el campo de entrada!",
-        "answers_submitted": "{{answer_count}} Respuestas enviadas"
+        "answers_submitted": "{{answer_count}} Respuestas enviadas",
+        "download_export_results": "Descargar los resultados",
+        "request_export_results": "Solicitar la descarga de los resultados"
     },
     "settings_page": {
         "check_location": "Comprobar ubicación",
@@ -215,7 +217,8 @@
         "this_session?": "¿Esta sesión?",
         "old_password": "Contraseña antigua",
         "change_avatar": "Cambiar el avatar",
-        "security_settings": "Configuraciones de seguridad"
+        "security_settings": "Configuraciones de seguridad",
+        "add_api_key": "Añadir la clave de la API"
     },
     "play_page": {
         "2nd_place": "2º puesto",
@@ -260,7 +263,13 @@
         },
         "no_title": "Sin título...",
         "empty": "Vacío...",
-        "bg_image": "Imagen de fondo"
+        "bg_image": "Imagen de fondo",
+        "abcd_description": "Solo se puede seleccionar una respuesta",
+        "voting_description": "Las respuestas no suman puntos",
+        "order_description": "Las respuestas se pueden poner en el orden correcto",
+        "text_description": "Los jugadores pueden ingresar texto",
+        "range_description": "Se puede seleccionar un rango de números con un control deslizante",
+        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
@@ -314,7 +323,10 @@
         "quiz_title": "Título del cuestionario",
         "date_played": "Fecha del juego",
         "player_count": "Número de jugadores",
-        "no_results_so_far": "No hay resultados guardados hasta ahora..."
+        "no_results_so_far": "No hay resultados guardados hasta ahora...",
+        "general_overview": {
+            "sentence": "El cuestionario \"{{title}}\", al que se jugó el {{date}}, tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
+        }
     },
     "result_page": {
         "player_name": "Nombre del jugador",
@@ -322,7 +334,8 @@
         "correct_answer": "{{count}} respuesta correcta",
         "correct_answer_plural": "{{count}} respuestas correctas",
         "time_taken": "Tiempo invertido",
-        "average_score": "Puntuación media: {{average_score}}"
+        "average_score": "Puntuación media: {{average_score}}",
+        "player_score": "Puntuación del jugador"
     },
     "navbar": {
         "donate": "Donar"

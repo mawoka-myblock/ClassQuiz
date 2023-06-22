@@ -20,7 +20,9 @@
         },
         "welcome_back": "Bon retour parmi nous.",
         "login_or_create_account": "Se connecter ou créer un compte",
-        "already_have_account": "Pas encore de compte ?"
+        "already_have_account": "Pas encore de compte ?",
+        "email_or_username": "Email ou Nom d'utilisateur",
+        "use_backup_code": "Utilisez un code de sauvegarde"
     },
     "words": {
         "question": "Question",
@@ -78,7 +80,38 @@
         "practice": "Pratiquer",
         "error": "Erreur",
         "voting": "Vote",
-        "download": "Télécharger"
+        "download": "Télécharger",
+        "text": "Texte",
+        "order": "Ordre",
+        "normal": "Normal",
+        "totp": "TOTP",
+        "player_plural": "Joueurs",
+        "name": "Nom",
+        "point": "Point",
+        "continue": "Continuer",
+        "backup_code": "Code de sauvegarde",
+        "results": "Résultats",
+        "note": "Note",
+        "score": "Score",
+        "slide": "Diapositive",
+        "point_plural": "Points",
+        "back": "Retour",
+        "finish": "Finir",
+        "selected": "Séléctionné",
+        "select": "Sélectionner",
+        "quiz": "Quiz",
+        "answer_plural": "Réponses",
+        "yes": "Oui",
+        "no": "Non",
+        "quiztivity": "Quiztivité",
+        "next": "Suivant",
+        "check_choice": "Choix unique",
+        "progress": "Progrès",
+        "video": "Vidéo",
+        "library": "Bibliothèque",
+        "speed": "Vitesse",
+        "upload": "Charger",
+        "files_library": "Bibliothèque de fichiers"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -116,7 +149,7 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Si Kahoot! vous espionne avec au moins 2 outils tiers étatsuniens, Classquiz lui ne vous trace pas du tout !",
+        "no_tracking_content": "Kahoot! vous trace et envoie vos données à des services tiers, mais pas Classquiz.",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
@@ -129,7 +162,8 @@
         "download_quizzes": "Télécharger des quiz",
         "community_driven": "Piloté par la communauté",
         "download_quizzes_content": "Les quiz peuvent être téléchargés en un seul fichier et importés à tout moment, ce qui vous permet de déplacer facilement vos quiz vers une autre instance de ClassQuiz.",
-        "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !"
+        "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !",
+        "how_does_classquiz_work": "Comment fonctionne ClassQuiz ?"
     },
     "overview_page": {
         "created_at": "Crée le",
@@ -159,7 +193,24 @@
         "delete_question": "Supprimer la question",
         "delete_answer": "Supprimer la réponse",
         "right_or_true?": "Vrai ?",
-        "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur !"
+        "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur !",
+        "bg_image": "Image d'arrière plan",
+        "slide": {
+            "rectangle": "Rectangle",
+            "rectangle_description": "Juste un rectangle",
+            "text_description": "Texte plus petit et plus long",
+            "headline": "Titre",
+            "headline_description": "Un texte en gras pour les titres",
+            "text": "Texte"
+        },
+        "abcd_description": "Une seule réponse peut être choisie",
+        "voting_description": "Les réponses n'ajoutent aucun point",
+        "order_description": "Les réponses peuvent être mises dans le bon ordre",
+        "text_description": "Les joueurs peuvent saisir du texte",
+        "range_description": "Une plage de chiffres peut être sélectionnée à l'aide d'un curseur.",
+        "empty": "Vide...",
+        "no_title": "Aucun titre...",
+        "check_choice_description": "Toutes les réponses correctes doivent être choisies pour marquer des points."
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
@@ -182,7 +233,15 @@
         "show_next_question": "Montrer la prochaine question",
         "start_by_showing_first_question": "Démarrer en montrant la première question.",
         "no_answers": "Pas de réponses !",
-        "stop_time": "Arrêter le temps"
+        "stop_time": "Arrêter le temps",
+        "next_question": "Question suivante ({{question}})",
+        "show_results": "Montrer les résultats",
+        "stop_time_and_solutions": "Arrêter le temps et montrer des solutions",
+        "enter_answer_into_field": "Saisissez votre réponse dans le champ de saisie !",
+        "answers_submitted": "{{answer_count}} Réponses soumises",
+        "request_export_results": "Demande de téléchargement des résultats",
+        "save_results": "Sauvegarder les résultats",
+        "download_export_results": "Télécharger les résultats"
     },
     "password_reset_page": {
         "reset_password": "Réinitialiser le mot de passe"
@@ -195,7 +254,10 @@
         "last_seen": "Dernière consultation",
         "check_location": "Vérifier la localisation",
         "delete_this_session": "Supprimer cette session",
-        "this_session?": "Cette session ?"
+        "this_session?": "Cette session ?",
+        "security_settings": "Paramètres de sécurité",
+        "change_avatar": "Changer d'avatar",
+        "add_api_key": "Ajouter une clé API"
     },
     "explore_page": {
         "made_by": "Créé par",
@@ -210,7 +272,12 @@
         "end_sentence": "C'est terminé ! Voilà le quizz.",
         "2nd_place": "2ème place",
         "3rd place": "3ème place",
-        "with_out_of": "avec {{correct_questions}} sur {{total_question_count}}"
+        "with_out_of": "avec {{correct_questions}} sur {{total_question_count}}",
+        "join_description": "Inscrivez-vous sur {{url}} et entrez {{pin}}.",
+        "join_by_entering_code": "Participez en entrant le code suivant",
+        "points_added": "Points ajoutés",
+        "your_score": "Votre score : {{score}}",
+        "final_result_rank": "{{place}} : {{nom d'utilisateur}} avec {{points}} points"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
@@ -229,6 +296,144 @@
         "unknown_error_text": "Cela ne devrait pas arriver. C'est probablement ma faute, pas la tienne, mais peut-être que tu as un pouvoir magique pour casser les choses..."
     },
     "uploader": {
-        "add_image": "Ajouter une image"
+        "add_image": "Ajouter une image",
+        "select_upload_type": "Sélectionnez le type de téléchargement",
+        "upload_a_video": "Télécharger une vidéo",
+        "upload_video": "Télécharger la vidéo",
+        "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations."
+    },
+    "quiztivity": {
+        "editor": {
+            "delete": "Supprimer",
+            "shares": {
+                "never_expires": "N'expire jamais",
+                "add_new_share": "Ajouter un nouveau partage",
+                "expires_on": "Expire le {{date}}"
+            },
+            "move_left": "Déplacer vers la gauche",
+            "move_right": "Déplacer à droite",
+            "select_page_type": "Sélectionner le type de page",
+            "add_new": "Ajouter un nouveau",
+            "title_placeholder": "Saisir le titre ici",
+            "open_shares_menu": "Ouvrir le menu Partage"
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Ajouter une carte",
+                "upload_image": "Charger une image",
+                "add_pair": "Ajouter une paire"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Essais : {{try_count}}"
+            }
+        },
+        "share_expired": "Partage expiré"
+    },
+    "file_dashboard": {
+        "size": "Taille : {{size}} Mo",
+        "filename": "Nom de fichier : {{filename}}",
+        "uploaded": "Chargé le : {{date}}",
+        "imported": "Importé : {{yes_or_no}}",
+        "edit_details": "Éditer",
+        "alt_text": "Texte alternatif / Légende",
+        "delete_image": "Supprimer l'image",
+        "caption": "Légende : {{caption}}",
+        "not_available": "Non disponible",
+        "edit_the_image": "Modifier l'image",
+        "filename_word": "Nom du fichier",
+        "storage_usage": "Vous avez utilisé {{used}} Mo sur un total de {{total}} Mo de stockage. Cela équivaut à {{percent}}% de votre espace de stockage.",
+        "missing": "MANQUANT !",
+        "unset": "Indéfini"
+    },
+    "avatar_settings": {
+        "skin_color": "Couleur de la peau",
+        "accessories_type": "Lunettes",
+        "hat_color": "Couleur du chapeau",
+        "start_over": "Recommencer",
+        "facial_hair_type": "Pilosité faciale",
+        "mouth_type": "Bouche",
+        "eyebrow_type": "Sourcils",
+        "clothe_type": "Vêtements",
+        "clothe_graphic_type": "Graphique",
+        "facial_hair_color": "Couleur de pilosité faciale",
+        "thats_you": "C'est vous !",
+        "top_type": "Haut",
+        "hair_color": "Couleur des cheveux",
+        "clothe_color": "Couleur de vêtement",
+        "go_back": "Retour"
+    },
+    "results_page": {
+        "no_results_so_far": "Aucun résultat enregistré jusqu'à présent...",
+        "general_overview": {
+            "sentence": "Le quiz \"{{titre}}\", qui a été joué le {{date}} a eu {{player_count}} joueurs avec un score moyen de {{average_score}}."
+        },
+        "quiz_title": "Titre du quiz",
+        "date_played": "Date jouée",
+        "player_count": "Nombre de joueurs"
+    },
+    "start_game": {
+        "old_school_mode": "Classique",
+        "start_game": "Lancer le jeu",
+        "captcha_message": "Si cette option est activée, le ReCaptcha de Google se chargera dans le navigateur des joueurs. N'activez cette option que si vous en avez vraiment besoin, car vous avez besoin du consentement de CHAQUE joueur pour charger le captcha.",
+        "old_school_mode_description": "Les questions et les images seront affichées à la fois sur l'écran des administrateurs et sur l'écran des joueurs.",
+        "normal_mode_description": "Questions et réponses ne seront affichées que sur l'écran de l'administrateur, comme dans Kahoot! Les joueurs n'auront que des boutons de couleur avec des symboles correspondants sur l'écran de l'administrateur."
+    },
+    "result_page": {
+        "average_score": "Score moyen : {{average score}}",
+        "player_name": "Nom du joueur",
+        "custom_field": "Champ personnalisé",
+        "time_taken": "Durée de l'opération",
+        "player_score": "Score du joueur",
+        "correct_answer": "{{count}} réponse correcte",
+        "correct_answer_plural": "{{count}} réponses correctes"
+    },
+    "security_settings": {
+        "totp_setup": {
+            "enter_as_secret_if_no_see_code": "Entrez ceci comme secret si vous ne pouvez pas scanner le QR-code.",
+            "scan_to_set_up": "Scanner ce QR-code pour configurer le code",
+            "totp_setup": "Paramètrage Totp",
+            "do_not_forget_backup_code": "N'oubliez pas de sauvegarder votre code de récupération !"
+        },
+        "activate_2fa": "Activer l'authentification à deux facteurs",
+        "webauthn_available": "Webauthn est disponible",
+        "totp": "Totp",
+        "totp_available": "Totp est disponible",
+        "totp_unavailable": "Totp n'est pas disponible",
+        "disable_totp": "Désactiver Totp",
+        "enable_totp": "Activer Totp",
+        "backup_codes": {
+            "your_backup_code": "Votre code de sauvegarde",
+            "save_somewhere_save": "Sauvegardez-le dans un endroit sûr !",
+            "download_code": "Télécharger le code"
+        },
+        "get_backup_code": "Obtenir le code de sauvegarde",
+        "2fa_activated": "L'authentification à deux facteurs est activée",
+        "2fa_deactivated": "L'authentification à deux facteurs est désactivée",
+        "webauthn": "Webauthn",
+        "add_security_key": "Ajouter une clé de sécurité",
+        "webauthn_unavailable": "Webauthn n'est pas disponible",
+        "backup_code": "Code de sauvegarde"
+    },
+    "view_quiz_page": {
+        "made_by": "Créé par",
+        "view_on_kahoot": "Voir sur Kahoot!"
+    },
+    "video_uploader": {
+        "time_elapsed": "Temps écoulé",
+        "time_remaining": "Temps restant"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Copié dans le presse-papiers !"
+        }
+    },
+    "public_user_page": {
+        "no_original_quizzes": "Cet utilisateur n'a pas de quiz original",
+        "joined_on": "Rejoint le {{date}}"
+    },
+    "navbar": {
+        "donate": "Faire un don"
     }
 }
