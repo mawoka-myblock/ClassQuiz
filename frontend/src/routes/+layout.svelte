@@ -11,6 +11,7 @@
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
+	import CommandPalette from '$lib/components/commandpalette.svelte';
 	// import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {
@@ -91,6 +92,7 @@
 {:else}
 	<slot />
 {/if}
+<CommandPalette />
 
 <!--{#if $alertModal.open ?? false}
 	<div

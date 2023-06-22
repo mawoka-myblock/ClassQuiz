@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
     autoInstallPeers: true
@@ -247,6 +247,9 @@ devDependencies:
     thumbhash:
         specifier: ^0.1.1
         version: 0.1.1
+    tinykeys:
+        specifier: ^2.1.0
+        version: 2.1.0
     tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -5672,6 +5675,13 @@ packages:
         dependencies:
             globalyzer: 0.1.0
             globrex: 0.1.2
+        dev: true
+
+    /tinykeys@2.1.0:
+        resolution:
+            {
+                integrity: sha512-/MESnqBD1xItZJn5oGQ4OsNORQgJfPP96XSGoyu4eLpwpL0ifO0SYR5OD76u0YMhMXsqkb0UqvI9+yXTh4xv8Q==
+            }
         dev: true
 
     /tinyqueue@2.0.3:

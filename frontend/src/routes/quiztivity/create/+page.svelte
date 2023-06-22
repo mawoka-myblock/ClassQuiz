@@ -7,8 +7,12 @@
 	import type { Data } from '$lib/quiztivity/types';
 	import Editor from '$lib/quiztivity/editor.svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
-	let data: Data = { pages: [], id: undefined, title: '' };
+	let title = $page.url.searchParams.get('title');
+	title ??= '';
+
+	let data: Data = { pages: [], id: undefined, title };
 	let saving = false;
 
 	const save_quiztivity = async () => {

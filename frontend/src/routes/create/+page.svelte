@@ -9,6 +9,7 @@
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
 	import type { Question } from '$lib/quiz_types';
+	import { page } from '$app/stores';
 
 	navbarVisible.set(false);
 
@@ -30,10 +31,12 @@
 	onMount(() => {
 		const from_localstorage = localStorage.getItem('create_game');
 		if (from_localstorage === null) {
+			let title = $page.url.searchParams.get('title');
+			title ??= '';
 			data = {
 				description: '',
 				public: false,
-				title: '',
+				title,
 				questions: [
 					/*					{
 						type: QuizQuestionType.ABCD,

@@ -6,6 +6,8 @@
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	navbarVisible.set(true);
 
@@ -74,6 +76,14 @@
 	};
 
 	$: console.log(file_input);
+
+	onMount(() => {
+		let url_from_path = $page.url.searchParams.get('url');
+		if (url_from_path === '') {
+			url_from_path = null;
+		}
+		url_input = url_from_path ?? '';
+	});
 </script>
 
 <svelte:head>
