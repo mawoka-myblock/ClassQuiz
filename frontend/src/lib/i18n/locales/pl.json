@@ -24,7 +24,7 @@
         "quiz_results_downloadable": "Wyniki quizu można pobrać",
         "multilingual": "Wielojęzyczny",
         "dark_mode": "Tryb ciemny",
-        "get_a_quiz": "1. Pobierz quiz",
+        "get_a_quiz": "1. Pozyskaj quiz",
         "find_or_explore": "Znajdź (lub odkryj) quizy stworzone lub zaimportowane przez innych ludzi",
         "import_quiz_from_kahoot_and_edit": "Zaimportuj quiz z Kahoot! i edytuj go w ClassQuiz",
         "play_quiz": "2. Uruchom quiz",
@@ -45,7 +45,7 @@
         "community_driven_content": "ClassQuiz polega na swojej społeczności w zakresie finansowania, testowania pomysłów, próśb o nowe funkcje, tłumaczeń i nie tylko! Ty też możesz być częścią społeczności ClassQuiz!",
         "community_driven": "Napędzany przez społeczność",
         "students_site": "Strona ucznia",
-        "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
+        "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora, dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
         "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
         "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!",
@@ -162,7 +162,7 @@
         "backup_code": "Kod zapasowy",
         "submit": "Prześlij",
         "kick": "Wykop",
-        "order": "kolejność",
+        "order": "Kolejność",
         "name": "Nazwa",
         "point": "Punkt",
         "slide": "Slajd",
@@ -181,7 +181,10 @@
         "library": "Biblioteka",
         "speed": "Prędkość",
         "upload": "Prześlij",
-        "files_library": "Biblioteka plików"
+        "files_library": "Biblioteka plików",
+        "answer_plural": "Odpowiedzi",
+        "no": "nie",
+        "yes": "Tak"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -193,7 +196,8 @@
         "this_session?": "Ta sesja?",
         "change_password_submit": "Zmień hasło!",
         "change_avatar": "Zmień awatar",
-        "security_settings": "Ustawienia bezpieczeństwa"
+        "security_settings": "Ustawienia bezpieczeństwa",
+        "add_api_key": "Dodaj klucz API"
     },
     "editor_page": {
         "add_an_answer": "Dodaj odpowiedź",
@@ -233,7 +237,13 @@
             "text_description": "Mniejszy dłuższy tekst",
             "rectangle": "Prostokąt",
             "rectangle_description": "Tylko prostokąt"
-        }
+        },
+        "abcd_description": "Można wybrać tylko jedną odpowiedź",
+        "voting_description": "Odpowiedzi nie dodają żadnych punktów",
+        "check_choice_description": "Aby zdobyć punkty, należy wybrać wszystkie poprawne odpowiedzi",
+        "order_description": "Odpowiedzi można ustawić w odpowiedniej kolejności",
+        "text_description": "Gracze mogą wprowadzać tekst",
+        "range_description": "Zakres liczbowy można wybrać za pomocą suwaka"
     },
     "import_page": {
         "need_help": "Potrzebujesz pomocy?",
@@ -261,7 +271,10 @@
         "next_question": "Następne pytanie ({{question}})",
         "show_results": "Pokaż wyniki",
         "stop_time_and_solutions": "Zatrzymaj czas i pokaż rozwiązania",
-        "enter_answer_into_field": "Wprowadź swoją odpowiedź w pole wejściowe!"
+        "enter_answer_into_field": "Wprowadź swoją odpowiedź w pole wejściowe!",
+        "answers_submitted": "{{answer_count}} Przesłane odpowiedzi",
+        "request_export_results": "Żądanie pobrania wyników",
+        "download_export_results": "Wyniki pobierania"
     },
     "password_reset_page": {
         "reset_password": "Zresetuj hasło"
@@ -307,7 +320,10 @@
         "quiz_title": "Tytuł quizu",
         "player_count": "Liczba graczy",
         "no_results_so_far": "Do tej pory nie zapisano żadnych wyników...",
-        "date_played": "Data gry"
+        "date_played": "Data gry",
+        "general_overview": {
+            "sentence": "W quizie \"{{title}}\", który został rozegrany {{date}} wzięło udział {{player_count}} graczy ze średnim wynikiem {{average_score}}."
+        }
     },
     "result_page": {
         "player_name": "Nazwa gracza",
@@ -315,7 +331,8 @@
         "average_score": "Średni wynik: {{average_score}}",
         "correct_answer": "{{count}} poprawna odpowiedź",
         "correct_answer_plural": "{count}} poprawne odpowiedzi",
-        "time_taken": "Czas trwania"
+        "time_taken": "Czas trwania",
+        "player_score": "Wynik gracza"
     },
     "dashboard": {
         "search_for_own_quizzes": "Wyszukaj własne quizy"
@@ -335,7 +352,8 @@
             "download_code": "Pobierz kod"
         },
         "totp_setup": {
-            "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!"
+            "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
+            "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod"
         }
     },
     "view_quiz_page": {
@@ -353,13 +371,15 @@
             "move_right": "Przesuń w prawo",
             "shares": {
                 "expires_on": "Wygasa w dniu {{date}}",
-                "never_expires": "Nigdy nie wygasa"
+                "never_expires": "Nigdy nie wygasa",
+                "add_new_share": "Dodaj nowy udział"
             },
             "add_new": "Dodaj nowy",
             "move_left": "Przesuń w lewo",
             "delete": "Usuń",
             "select_page_type": "Wybierz typ strony",
-            "title_placeholder": "Wpisz tytuł"
+            "title_placeholder": "Wpisz tytuł",
+            "open_shares_menu": "Otwórz menu Udziały"
         },
         "memory": {
             "editor": {
@@ -372,7 +392,8 @@
             "memory": {
                 "try_count": "Próby: {{try_count}}"
             }
-        }
+        },
+        "share_expired": "Udział wygasł"
     },
     "components": {
         "popover": {
@@ -392,7 +413,13 @@
         "delete_image": "Usuń obraz",
         "edit_the_image": "Edytuj obraz",
         "filename_word": "Nazwa pliku",
-        "storage_usage": "Użyłeś {{used}} Mib z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej."
+        "storage_usage": "Użyłeś {{used}} Mib z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej.",
+        "imported": "Importowane: {{yes_or_no}}",
+        "missing": "ZAGINIONY!",
+        "unset": "Nieustawiony",
+        "caption": "Napis: {{caption}}",
+        "filename": "Nazwa pliku: {{nazwa pliku}}",
+        "alt_text": "Tekst alternatywny / Napis"
     },
     "video_uploader": {
         "time_elapsed": "Upłynęło",
