@@ -18,7 +18,7 @@ def __main__():
     for i in range(NUMBER_OF_PLAYERS):
         arr_of_sio_instances.append(socketio.Client())
 
-    def joined_game(data):
+    def joined_game():
         print("JOINED!!!!")
 
     def time_sync(data):
@@ -32,8 +32,6 @@ def __main__():
         global q_index
 
         for i in arr_of_sio_instances:
-            # print(int(data))
-            # print("hi!", data)
             random_num = random.randint(0, len(data["question"]["answers"]) - 1)
             print(random_num, q_index)
             i.emit(

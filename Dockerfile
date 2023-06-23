@@ -11,10 +11,10 @@ RUN pip install -r requirements.txt && \
     apt remove -y jq gcc
 
 COPY classquiz/ /app/classquiz/
-COPY image_cleanup.py /app/image_cleanup.py
+COPY docs/image_cleanup.py /app/image_cleanup.py
 COPY alembic.ini /app/
 COPY migrations/ /app/migrations/
-COPY *start.sh /app/
+COPY *scripts/start.sh /app/
 COPY gunicorn_conf.py /app/
 
 
