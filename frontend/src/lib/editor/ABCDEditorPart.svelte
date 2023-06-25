@@ -43,6 +43,18 @@
 	$: save_colors(data);
 	data.questions[selected_question].type =
 		check_choice === true ? QuizQuestionType.CHECK : QuizQuestionType.ABCD;
+	const set_colors_if_unset = () => {
+		for (let i = 0; i < data.questions[selected_question].answers.length; i++) {
+			if (!data.questions[selected_question].answers[i].color) {
+				data.questions[selected_question].answers[i].color = default_colors[i];
+			}
+		}
+	};
+	$: {
+		set_colors_if_unset();
+		data;
+		selected_question;
+	}
 </script>
 
 <div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">

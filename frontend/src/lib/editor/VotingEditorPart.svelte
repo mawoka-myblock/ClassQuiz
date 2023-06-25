@@ -27,6 +27,18 @@
 		// eslint-disable-next-line no-empty
 	} catch {}
 
+	const set_colors_if_unset = () => {
+		for (let i = 0; i < data.questions[selected_question].answers.length; i++) {
+			if (!data.questions[selected_question].answers[i].color) {
+				data.questions[selected_question].answers[i].color = default_colors[i];
+			}
+		}
+	};
+	$: {
+		set_colors_if_unset();
+		data;
+		selected_question;
+	}
 	/*console.log(data.questions[selected_question].answers, 'moIn!', data.questions[selected_question].answers.length);
     onMount(() => {
         for (let i = 0; i < data.questions[selected_question].answers; i++) {
