@@ -301,7 +301,8 @@
         "upload_video_popup_notice": "The popup is open; have a look at it for further information",
         "upload_video": "Upload Video",
         "visit_pixabay": "Visit Pixabay",
-        "images_by_pixabay": "Images provided by Pixabay"
+        "images_by_pixabay": "Images provided by Pixabay",
+        "search_english_only": "The search works in English only"
     },
     "avatar_settings": {
         "skin_color": "Skin color",

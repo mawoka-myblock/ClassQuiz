@@ -56,21 +56,26 @@
 				class="flex flex-col w-1/3 m-auto overflow-scroll h-full rounded p-4 gap-2 bg-white dark:bg-gray-700"
 			>
 				<h1 class="text-2xl text-center">{$t('uploader.images_by_pixabay')}</h1>
-				<a href="https://pixabay.com" target="_blank" class="underline text-center"
-					>{$t('uploader.visit_pixabay')}</a
-				>
+				<div class="flex">
+					<a href="https://pixabay.com" target="_blank" class="underline mx-auto"
+						>{$t('uploader.visit_pixabay')}</a
+					>
+				</div>
+
 				<form
 					class="w-full flex gap-2"
 					on:submit|preventDefault={() => (fetched_data = fetch_data())}
 				>
 					<input
-						class="w-full outline-none p-1 rounded bg-gray-500"
+						class="w-full outline-none p-1 rounded dark:bg-gray-500 bg-gray-300"
 						bind:value={search_term}
 					/>
 					<div class="w-fit">
 						<BrownButton type="submit">{$t('words.search')}</BrownButton>
 					</div>
 				</form>
+				<span class="italic text-center text-sm">{$t('uploader.search_english_only')}</span>
+
 				{#each data.hits as image}
 					<div class="rounded border-2 border-[#B07156] p-2 flex-col flex gap-2">
 						<div>
