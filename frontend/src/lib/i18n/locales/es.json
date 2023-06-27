@@ -300,7 +300,10 @@
         "select_upload_type": "Seleccione el tipo de carga",
         "upload_a_video": "Cargar un vídeo",
         "upload_video_popup_notice": "La ventana emergente está abierta; échale un vistazo para obtener más información",
-        "upload_video": "Subir un vídeo"
+        "upload_video": "Subir un vídeo",
+        "images_by_pixabay": "Imágenes cedidas por Pixabay",
+        "visit_pixabay": "Visita Pixabay",
+        "search_english_only": "La búsqueda sólo funciona en inglés"
     },
     "avatar_settings": {
         "skin_color": "Color de la piel",
