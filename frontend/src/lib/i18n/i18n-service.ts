@@ -5,7 +5,6 @@
  */
 
 import i18next from 'i18next';
-import translations from './translations';
 import en from './locales/en.json';
 import de from './locales/de.json';
 import fr from './locales/fr.json';
@@ -50,7 +49,6 @@ export class I18nService {
 			fallbackLng: 'en',
 			debug: false,
 			defaultNS: 'translation',
-			resources: translations as Resource,
 			interpolation: {
 				escapeValue: false
 			},
