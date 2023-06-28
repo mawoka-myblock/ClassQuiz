@@ -23,7 +23,7 @@ import nl from './locales/nl.json';
 // import zh_Hans from './locales/zh_Hans.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import type { i18n, Resource } from 'i18next';
+import type { i18n } from 'i18next';
 
 export class I18nService {
 	// expose i18next
