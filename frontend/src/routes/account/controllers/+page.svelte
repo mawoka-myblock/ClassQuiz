@@ -10,7 +10,6 @@
 	const { t } = getLocalization();
 	export let data: PageData;
 
-	console.log(data.controllers);
 	const controllers: [] = data.controllers;
 </script>
 
