@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ url }) => {
+export const load = (({ url }) => {
 	const code = url.searchParams.get('code');
 	const id = url.searchParams.get('id');
 	if (!id || !code) {
