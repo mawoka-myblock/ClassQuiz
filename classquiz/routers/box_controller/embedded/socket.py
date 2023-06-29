@@ -62,7 +62,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
         await sio.emit("everyone_answered", {})
 
 
-button_to_index_map = {"b": 0, "g": 2, "y": 1, "r": 3}
+button_to_index_map = {"y": 0, "r": 2, "g": 1, "b": 3}
 
 
 class WebSocketTypes(enum.Enum):
@@ -85,7 +85,6 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
             await ws.close(code=status.WS_1001_GOING_AWAY)
             print("Client {} already exists.".format(game_id))
             return
-        print("hI!")
         await ws.accept()
         wss_clients[game_id] = ws
 
@@ -119,9 +118,7 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                 except (KeyError, AttributeError):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
-                print(data)
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print("Data from client {}: {}".format(game_id, data))
 
     except WebSocketDisconnect as ex:
         print("Client {} is disconnected: {}".format(game_id, ex))

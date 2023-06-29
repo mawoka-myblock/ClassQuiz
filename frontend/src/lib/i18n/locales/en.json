@@ -161,7 +161,12 @@
         "results": "Results",
         "note": "Note",
         "player_plural": "Players",
-        "score": "Score"
+        "score": "Score",
+        "version": "Version",
+        "never": "Never",
+        "unknown": "Unknown",
+        "name": "Name",
+        "update": "Update"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -272,5 +277,16 @@
         "correct_answer": "{{count}} correct answer",
         "correct_answer_plural": "{{count}} correct answers",
         "time_taken": "Time taken"
+    },
+    "controllers": {
+        "add_new_controller": "Add new controller",
+        "player_name": "Player name",
+        "first_seen": "First seen",
+        "last_seen": "Last seen",
+        "controller_name": "Controller Name",
+        "version_overview": "The newest version available is {{newest_version}} and version {{current_version}} is installed.",
+        "already_latest_version": "You're already on the latest version",
+        "cancel_update": "Cancel Update!",
+        "update_from_to": "Update from {{current_version}} to {{newest_version}}"
     }
 }

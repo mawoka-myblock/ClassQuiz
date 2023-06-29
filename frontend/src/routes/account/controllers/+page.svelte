@@ -1,7 +1,13 @@
+<!--
+  - This Source Code Form is subject to the terms of the Mozilla Public
+  - License, v. 2.0. If a copy of the MPL was not distributed with this
+  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+  -->
 <script lang="ts">
 	import type { PageData } from './$types';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
-
+	import { getLocalization } from '$lib/i18n';
+	const { t } = getLocalization();
 	export let data: PageData;
 
 	console.log(data.controllers);
@@ -12,24 +18,35 @@
 	{#if controllers.length === 0}
 		<div class="w-full h-full flex">
 			<div class="m-auto">
-				<BrownButton>Add new controller</BrownButton>
+				<BrownButton href="/account/controllers/add"
+					>{$t('controllers.add_new_controller')}</BrownButton
+				>
 			</div>
 		</div>
 	{:else}
 		<div class="p-2">
+			<div class="flex">
+				<div class="mx-auto">
+					<BrownButton href="/account/controllers/add"
+						>{$t('controllers.add_new_controller')}</BrownButton
+					>
+				</div>
+			</div>
 			<table class="w-full">
 				<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
-					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300">Name</th>
 					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>Player name</th
+						>{$t('words.name')}</th
 					>
 					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>First seen</th
-					>
+						>{$t('controllers.player_name')}
+					</th>
 					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>Last seen</th
-					>
-					<th class="mx-auto p-1">Version</th>
+						>{$t('controllers.first_seen')}
+					</th>
+					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+						>{$t('controllers.last_seen')}
+					</th>
+					<th class="mx-auto p-1">{$t('words.version')}</th>
 				</tr>
 				{#each data.controllers as controller}
 					<tr class="text-left">
@@ -45,14 +62,14 @@
 						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
 							>{controller.first_seen
 								? new Date(controller.first_seen).toLocaleString()
-								: 'Never'}</td
+								: $t('words.never')}</td
 						>
 						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
 							>{controller.last_seen
 								? new Date(controller.last_seen).toLocaleString()
-								: 'Never'}</td
+								: $t('words.never')}</td
 						>
-						<td class="mx-auto p-1">{controller.os_version ?? 'Unknown'}</td>
+						<td class="mx-auto p-1">{controller.os_version ?? $t('words.unknown')}</td>
 					</tr>
 				{/each}
 			</table>
