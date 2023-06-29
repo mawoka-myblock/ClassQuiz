@@ -2,7 +2,7 @@
     "index_page": {
         "slogan": "¡La plataforma de quiz open-source!",
         "meta": {
-            "description": "ClassQuiz es una aplicación de quiz como Kahoot! para estudiantes, que es open source y de uso gratuito",
+            "description": "ClassQuiz es una aplicación de aprendizaje interactivo para estudiantes, de código abierto y de uso gratuito",
             "title": "Inicio"
         },
         "features_description": {
@@ -43,7 +43,7 @@
         "german_server_content": "Los servidores de ClassQuiz se encuentran en Alemania y están alojados con netcup.",
         "play_quiz": "2. Haz el quiz",
         "choose_answer_wisely": "Elige bien tu respuesta",
-        "no_tracking_content": "Kahoot! te rastrea y envía esa información a terceros, pero ClassQuiz no lo hace.",
+        "no_tracking_content": "Otros te rastrean y envían esa información a terceros, pero ClassQuiz no lo hace.",
         "self_hostable": "Autohospedable",
         "download_quizzes": "Descargar cuestionarios",
         "community_driven_content": "¡ClassQuiz depende de su comunidad para financiar, probar ideas, solicitar nuevas funciones, traducciones y más! ¡También puedes ser parte de la comunidad ClassQuiz!",
@@ -85,7 +85,7 @@
     "overview_page": {
         "created_at": "Creado en",
         "question_count": "Recuento de preguntas",
-        "no_quizzes": "Haz clic en el botón \"Crear\" o importa un cuestionario de Kahoot! para empezar."
+        "no_quizzes": "Haz clic en el botón \"Crear\" o importa un cuestionario para empezar."
     },
     "edit_page": {
         "success_update_title": "Cuestionario actualizado.",
@@ -372,11 +372,11 @@
     },
     "view_quiz_page": {
         "made_by": "Hecho por",
-        "view_on_kahoot": "¡Ver en Kahoot!"
+        "view_on_kahoot": "Ver en el original"
     },
     "start_game": {
         "captcha_message": "Si está habilitado, el ReCaptcha de Google se cargará en el navegador de los jugadores. Habilítalo solo si realmente lo necesitas, ya que necesitas el consentimiento de TODOS los jugadores para cargar el captcha.",
-        "normal_mode_description": "¡La pregunta y la respuesta solo se mostrarán en la pantalla de administración como en Kahoot! Los jugadores solo tendrán botones de colores con símbolos correspondientes a los de la pantalla de administración.",
+        "normal_mode_description": "La pregunta y la respuesta solo se mostrarán en la pantalla de administración. Los jugadores solo tendrán botones de colores con símbolos que coincidan con estos en la pantalla del administrador.",
         "old_school_mode_description": "Las preguntas y las imágenes se muestran tanto en la pantalla del administrador como en la pantalla del jugador",
         "old_school_mode": "De la vieja escuela",
         "start_game": "Iniciar el Juego"
