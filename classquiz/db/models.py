@@ -453,3 +453,20 @@ class PrivateStorageItem(PublicStorageItem):
 class UpdateStorageItem(BaseModel):
     filename: str | None
     alt_text: str | None
+
+
+class Controller(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    user: uuid.UUID | User = ormar.ForeignKey(User)
+    secret_key: str = ormar.String(nullable=False, max_length=24, min_length=24)
+    player_name: str = ormar.Text(nullable=False)
+    last_seen: datetime | None = ormar.DateTime(nullable=True)
+    first_seen: datetime | None = ormar.DateTime(nullable=True)
+    name: str = ormar.Text(nullable=False)
+    os_version: str | None = ormar.Text(nullable=True)
+    wanted_os_version: str = ormar.Text(nullable=True, default=None)
+
+    class Meta:
+        tablename = "controller"
+        metadata = metadata
+        database = database

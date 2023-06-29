@@ -3,7 +3,6 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import json
-import random
 import re
 import uuid
 from datetime import datetime
@@ -19,6 +18,7 @@ from pydantic import ValidationError, BaseModel
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion
+from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import urllib.parse
 
@@ -70,24 +70,6 @@ async def get_public_quiz(quiz_id: str):
         return PublicQuizResponse(**quiz.dict())
 
 
-def generate_code() -> str:
-    specified_length = 6
-    buttons = [
-        "B",
-        "b",
-        "G",
-        "g",
-        "Y",
-        "y",
-        "R",
-        "r",
-    ]  # Capital stands for long press, lowercase letter for short press
-    resulting_code = ""
-    for _ in range(specified_length):
-        resulting_code += random.choice(buttons)
-    return resulting_code
-
-
 @router.post("/start/{quiz_id}")
 async def start_quiz(
     quiz_id: str,
@@ -131,7 +113,7 @@ async def start_quiz(
     )
     code = None
     if cqcs_enabled:
-        code = generate_code()
+        code = generate_code(6)
         await redis.set(f"game:cqc:code:{code}", game_pin, ex=3600)
     await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
     await redis.set(f"game_pin:{user.id}:{quiz_id}", game_pin, ex=18000)

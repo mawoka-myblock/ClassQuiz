@@ -188,6 +188,7 @@
 						<BrownButton href="/account/settings/security"
 							>{$t('settings_page.security_settings')}
 						</BrownButton>
+						<BrownButton href="/account/controllers">ClassQuizController</BrownButton>
 					</div>
 				</div>
 			</div>

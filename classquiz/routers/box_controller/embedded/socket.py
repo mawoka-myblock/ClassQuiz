@@ -2,7 +2,6 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import enum
-import os
 import typing
 from datetime import datetime
 
@@ -13,34 +12,6 @@ from classquiz.db.models import PlayGame, QuizQuestionType, AnswerData, GamePlay
 from classquiz.socket_server import sio, calculate_score, set_answer
 
 router = APIRouter()
-
-
-class JoinGameInput(BaseModel):
-    code: str
-    name: str
-
-
-class JoinGameResponse(BaseModel):
-    id: str
-
-
-@router.post("/join")
-async def join_game(data: JoinGameInput):
-    game_pin = await redis.get(f"game:cqc:code:{data.code}")
-    if game_pin is None:
-        raise HTTPException(status_code=404, detail="Game not found")
-    game = await redis.get(f"game:{game_pin}")
-    game = PlayGame.parse_raw(game)
-    # Check if game is already running
-    if game.started:
-        raise HTTPException(status_code=400, detail="Game started already")
-    # check if username already exists
-    if await redis.get(f"game_session:{game_pin}:players:{data.name}") is not None:
-        raise HTTPException(status_code=409, detail="Username already exists")
-
-    player_id = os.urandom(5).hex()
-    await redis.set(f"game:cqc:player:{player_id}", data.name)
-    return JoinGameResponse(id=f"{player_id}:{game_pin}")
 
 
 class SubmitAnswerInput(BaseModel):
@@ -86,9 +57,12 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     answers = await redis.get(f"game_session:{game_pin}:{game.current_question}")
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
-    print(player_count, answers)
+    await sio.emit("player_answer", {})
     if answers is not None and len(answers.__root__) == player_count:
         await sio.emit("everyone_answered", {})
+
+
+button_to_index_map = {"y": 0, "r": 3, "g": 1, "b": 2}
 
 
 class WebSocketTypes(enum.Enum):
@@ -103,19 +77,16 @@ class WebSocketRequest(BaseModel):
 
 wss_clients = {}
 
-button_to_index_map = {"b": 0, "g": 1, "y": 2, "r": 3}
 
-
-@router.websocket("/socket/{id}")
-async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
+@router.websocket("/{game_id}")
+async def websocket_endpoint(ws: WebSocket, game_id: str):
     try:
-        if id in wss_clients:
+        if game_id in wss_clients:
             await ws.close(code=status.WS_1001_GOING_AWAY)
-            print(f"Client {id} already exists.")
+            print(f"Client {game_id} already exists.")
             return
-
         await ws.accept()
-        wss_clients[id] = ws
+        wss_clients[game_id] = ws
 
         player_id, game_pin = game_id.split(":")
         if player_id is None or game_pin is None:
@@ -133,7 +104,10 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
             raw_data = await ws.receive_text()
             try:
                 data = WebSocketRequest.parse_raw(raw_data)
-            except ValidationError:
+            except ValidationError as e:
+                print("ValError")
+                print(e)
+                print(raw_data)
                 await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="ValidationError").json())
                 continue
 
@@ -144,10 +118,9 @@ async def websocket_endpoint(ws: WebSocket, game_id: str, id: str):
                 except (KeyError, AttributeError):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
-
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print(f"Data from client {id}: {data}")
+            print(f"Data from client {game_id}: {data}")
 
     except WebSocketDisconnect as ex:
-        print(f"Client {id} is disconnected: {ex}")
-        wss_clients.pop(id, None)
+        print(f"Client {game_id} is disconnected: {ex}")
+        wss_clients.pop(game_id, None)
