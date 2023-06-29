@@ -68,20 +68,11 @@
 				/>
 			</svg>
 			<a
-				href="https://mastodon.online/@Mawoka"
+				href="https://fosstodon.org/@classquiz"
 				rel="me"
 				class="underline text-blue-300 hover:text-blue-500 transition"
-				>@Mawoka@mastodon.online</a
+				>@classquiz@fosstodon.org</a
 			> for updates!
-		</p>
-	</div>
-
-	<!-- to-[#8dc63f]-->
-	<span class="w-full h-0.5 bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] block" />
-
-	<div class="flex justify-center bg-gray-700">
-		<p class="text-gray-400 text-center">
-			<i>Kahoot! and the K! logo are trademarks of Kahoot! AS</i>
 		</p>
 	</div>
 </footer>

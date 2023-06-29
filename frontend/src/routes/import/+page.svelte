@@ -5,7 +5,9 @@
   -->
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible, alertModal } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	navbarVisible.set(true);
 
@@ -35,17 +37,19 @@
 		if (res.status === 200) {
 			window.location.href = '/dashboard';
 		} else if (res.status === 400) {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Import failed',
 				body: "This quiz isn't (yet) supported!"
-			});
+			});*/
+			alert("This quiz isn't (yet) supported!");
 		} else {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Import failed',
 				body: 'Unknown error while importing the quiz!'
-			});
+			});*/
+			alert('Import failed with unknown reason');
 		}
 		is_loading = false;
 	};
@@ -61,16 +65,25 @@
 		if (res.status === 200) {
 			window.location.href = '/dashboard';
 		} else {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Import failed',
 				body: 'Something went wrong!'
-			});
+			});*/
+			alert('Something went wrong!');
 		}
 		is_loading = false;
 	};
 
 	$: console.log(file_input);
+
+	onMount(() => {
+		let url_from_path = $page.url.searchParams.get('url');
+		if (url_from_path === '') {
+			url_from_path = null;
+		}
+		url_input = url_from_path ?? '';
+	});
 </script>
 
 <svelte:head>

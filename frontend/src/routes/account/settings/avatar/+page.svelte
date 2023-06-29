@@ -94,7 +94,7 @@
 						on:click={() => {
 							index = index - 1;
 						}}
-						disabled={index < 1}>Back</BrownButton
+						disabled={index < 1}>{$t('words.back')}</BrownButton
 					>
 				</div>
 				<div class="mx-auto">
@@ -103,7 +103,7 @@
 					</h2>
 				</div>
 				<div class="ml-auto">
-					<BrownButton disabled={index < 11}>Finish</BrownButton>
+					<BrownButton disabled={index < 11}>{$t('words.finish')}</BrownButton>
 				</div>
 			</div>
 			<div class="grid grid-cols-4">
@@ -167,11 +167,11 @@
 					<Spinner my_20={false} />
 				{/if}
 			</BrownButton>
-			<BrownButton href="/account/settings">Go back</BrownButton>
+			<BrownButton href="/account/settings">{$t('avatar_settings.go_back')}</BrownButton>
 			<BrownButton
 				on:click={() => {
 					finished = false;
-				}}>Close</BrownButton
+				}}>{$t('words.close')}</BrownButton
 			>
 		</div>
 	</div>

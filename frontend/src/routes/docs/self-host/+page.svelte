@@ -96,18 +96,20 @@
 	<h3>Storage Provider</h3>
 	<p>
 		You'll have to set up a storage provider for some pictures (these getting imported from
-		KAHOOT!). For now, you can use <a href="https://deta.sh">Deta</a> or the local filesystem.
-		Please note that I would <b>NOT</b> use the local file system because of
-		<a href="https://wiki.owasp.org/index.php/Path_Traversal">Path Traversals</a>. I tried to
-		prevent these attacks, but I really wouldn't trust it, because it's a regex! You'll have to
-		set the
-		<code>STORAGE_BACKEND</code>-environment-variable to either <code>deta</code> or
-		<code>local</code>.
+		Kahoot!). For now, you can use <a href="https://min.io/" target="_blank">Minio (S3)</a> or
+		the local filesystem. Please not that I'd recommend Minio for larger instances, since it can
+		be scaled and the media doesn't have to streamed through the (comparatively) slow ClassQuiz
+		server. Now, that you've decided on a storage backend, you can set the
+		<code>STORAGE_BACKEND</code>-environment-variable to either <code>s3</code> or
+		<code>local</code>. If you ask yourself what happened with deta, I've decided to remove it,
+		since the went all-in with their spaces and I think that hardly anyone used it anyway.
 	</p>
-	<h4>If you chose Deta...</h4>
+	<h4>If you chose Minio (S3)...</h4>
 	<p>
-		...you'll also have to set the <code>DETA_PROJECT_KEY</code> and the
-		<code>DETA_PROJECT_ID</code>.
+		...you'll also have to set the <code>S3_ACCESS_KEY</code>, <code>S3_SECRET_KEY</code> and
+		the
+		<code>S3_BASE_URL</code>. The <code>S3_BUCKET_NAME</code> can also be set, but defaults to
+		<code>classquiz</code>.
 	</p>
 	<h4>If you chose the local filesystem...</h4>
 	<p>
@@ -165,15 +167,15 @@ services:
 	  REDIS_URL: redis://redis:6379/0?decode_responses=True # don't change
       API_URL: http://api:80 # don't change
   api:
-    build:
+    build: &build_cfg
       context: .
       dockerfile: Dockerfile
-    restart: always
-    depends_on:
+    restart: &restart always
+    depends_on: &depends
       - db
       - redis
 
-    environment:
+    environment: &env_vars
       ROOT_ADDRESS: "https://classquiz.de" # Base-URL (change it)
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # don't change
       MAIL_ADDRESS: "classquiz@mawoka.eu" # Email-Address (change it)
@@ -188,11 +190,13 @@ services:
 	  MEILISEARCH_URL: "http://meilisearch:7700" # don't change
       ACCESS_TOKEN_EXPIRE_MINUTES: 30 # don't change
       HCAPTCHA_KEY: "" # Private hCaptcha key for verification (change it)
-	  STORAGE_BACKEND: "deta" # MUST BE EITHER "deta" OR "local"
+	  STORAGE_BACKEND: "local" # MUST BE EITHER "s3" OR "local"
+	  FREE_STORAGE_LIMIT: "1074000000" # Free storage limit in bytes (default: 1GB)
 
-	  # If STORAGE_BACKEND is "deta"
-	  DETA_PROJECT_KEY: "YOUR_DETA_PROJECT_KEY"
-	  DETA_PROJECT_ID: "YOUR_DETA_PROJECT_ID"
+	  # If STORAGE_BACKEND is "s3"
+	  S3_ACCESS_KEY=YOUR_ACCESS_KEY
+	  S3_SECRET_KEY=YOUR_SECRET_KEY
+	  S3_BASE_URL=YOUR_S3_BASE_URL
 
 	  # If STORAGE_BACKEND is "local"
 	  STORAGE_PATH: "/var/storage"
@@ -205,6 +209,8 @@ services:
 	  GITHUB_CLIENT_ID: # Your GitHub-Client ID, or leave it unset if you don't want it.
       GITHUB_CLIENT_SECRET: # Your GitHub-Client Secret, or leave it unset if you don't want it.
 
+    volumes: # Only needed if you chose the "local" storage-backend
+	  - ./uploads:/var/storage
 
   redis:
     image: redis:alpine
@@ -241,6 +247,14 @@ services:
       MEILI_NO_ANALYTICS: true
     volumes:
       - meilisearch-data:/data.ms
+  worker:
+    build: *build_cfg
+    environment: *env_vars
+    restart: *restart
+    depends_on: *depends
+    command: arq classquiz.worker.WorkerSettings
+
+
 volumes:
   data:
   meilisearch-data:

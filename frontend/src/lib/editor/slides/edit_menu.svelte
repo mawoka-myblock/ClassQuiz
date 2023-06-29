@@ -15,7 +15,6 @@
 
 	const set_available_modifiers = () => {
 		available_modifiers = [];
-		console.log(selected_el, 'sel_el');
 		if (!selected_el) {
 			return;
 		}
@@ -43,19 +42,16 @@
 
 	const change_color = (e: Event) => {
 		if (available_modifiers.includes('text_color')) {
-			console.log('text color');
 			selected_el.updateText({
 				fill: e.target.value
 			});
 		} else if (available_modifiers.includes('fill_color')) {
-			console.log('fill color');
 			selected_el.update({ fill: e.target.value });
 		}
 		opened_dropdown = null;
 	};
 
 	const change_fontsize = (e: Event) => {
-		console.log(selected_el.node.children[1].attrs.fontSize);
 		selected_el.updateText({
 			fontSize: e.target.value
 		});

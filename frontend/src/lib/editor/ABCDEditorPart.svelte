@@ -4,15 +4,20 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import type { EditorData, Answer } from '../quiz_types';
+	import type { Answer, EditorData } from '../quiz_types';
+	import { QuizQuestionType } from '../quiz_types';
 	import { fade } from 'svelte/transition';
 	import { reach } from 'yup';
 	import { ABCDQuestionSchema } from '$lib/yupSchemas';
 	import { getLocalization } from '$lib/i18n';
+	import { get_foreground_color } from '$lib/helpers';
 
 	const { t } = getLocalization();
 
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
+
 	export let selected_question: number;
+	export let check_choice = false;
 	export let data: EditorData;
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
@@ -29,17 +34,30 @@
 	};
 
 	const get_empty_answer = (i: number): Answer => {
-		const color = localStorage.getItem(`quiz_color:${i}:${data.title}`);
 		return {
 			answer: '',
-			color: color,
+			color: default_colors[i],
 			right: false
 		};
 	};
 	$: save_colors(data);
+	data.questions[selected_question].type =
+		check_choice === true ? QuizQuestionType.CHECK : QuizQuestionType.ABCD;
+	const set_colors_if_unset = () => {
+		for (let i = 0; i < data.questions[selected_question].answers.length; i++) {
+			if (!data.questions[selected_question].answers[i].color) {
+				data.questions[selected_question].answers[i].color = default_colors[i];
+			}
+		}
+	};
+	$: {
+		set_colors_if_unset();
+		data;
+		selected_question;
+	}
 </script>
 
-<div class="grid grid-cols-2 gap-4 w-full px-10">
+<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">
 	{#if Array.isArray(data.questions[selected_question].answers)}
 		{#each data.questions[selected_question].answers as answer, index}
 			<div
@@ -79,14 +97,15 @@
 					bind:value={answer.answer}
 					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
-					style="background-color: {answer.color ?? 'transparent'}"
-					placeholder="Empty..."
+					style="background-color: {answer.color}; color: {get_foreground_color(
+						answer.color
+					)}"
+					placeholder={$t('editor.empty')}
 				/>
 				<button
 					type="button"
 					on:click={() => {
 						answer.right = !answer.right;
-						console.log(answer.right);
 					}}
 				>
 					{#if answer.right}
@@ -126,7 +145,7 @@
 					type="color"
 					bind:value={answer.color}
 					on:contextmenu|preventDefault={() => {
-						answer.color = null;
+						answer.color = default_colors[index];
 					}}
 				/>
 			</div>

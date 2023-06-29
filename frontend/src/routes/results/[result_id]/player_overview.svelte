@@ -25,7 +25,7 @@
 				<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
 					>{$t('result_page.player_name')}
 				</th>
-				<th class="p-1 mx-auto">Player Score</th>
+				<th class="p-1 mx-auto">{$t('result_page.player_score')}</th>
 				{#if Object.keys(custom_field).length !== 0}
 					<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
 						>{$t('result_page.custom_field')}

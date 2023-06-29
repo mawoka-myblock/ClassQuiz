@@ -24,7 +24,7 @@
         "quiz_results_downloadable": "Wyniki quizu można pobrać",
         "multilingual": "Wielojęzyczny",
         "dark_mode": "Tryb ciemny",
-        "get_a_quiz": "1. Pobierz quiz",
+        "get_a_quiz": "1. Pozyskaj quiz",
         "find_or_explore": "Znajdź (lub odkryj) quizy stworzone lub zaimportowane przez innych ludzi",
         "import_quiz_from_kahoot_and_edit": "Zaimportuj quiz z Kahoot! i edytuj go w ClassQuiz",
         "play_quiz": "2. Uruchom quiz",
@@ -43,12 +43,13 @@
         "download_quizzes": "Pobierz quizy",
         "download_quizzes_content": "Quizy mogą być pobierane jako jeden plik i importowane w dowolnym momencie. Pozwala to również na przenoszenie quizów do innych instancji ClassQuiz.",
         "community_driven_content": "ClassQuiz polega na swojej społeczności w zakresie finansowania, testowania pomysłów, próśb o nowe funkcje, tłumaczeń i nie tylko! Ty też możesz być częścią społeczności ClassQuiz!",
-        "community_driven": "Napędzane przez społeczność",
+        "community_driven": "Napędzany przez społeczność",
         "students_site": "Strona ucznia",
-        "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora i dołącz zdjęcia i więcej",
+        "create_a_quiz_from_scratch": "Stwórz quiz od podstaw za pomocą edytora, dołącz zdjęcia i więcej",
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
         "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
-        "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!"
+        "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!",
+        "how_does_classquiz_work": "Jak działa ClassQuiz?"
     },
     "overview_page": {
         "question_count": "Liczba pytań",
@@ -78,11 +79,11 @@
         "email_or_username": "Adres e-mail lub nazwa użytkownika",
         "modal": {
             "success": {
-                "success_check_mail": "Zalogowany. Sprawdź swoją skrzynkę e-mail.",
-                "success": "Zalogowany.",
+                "success_check_mail": "Zalogowano. Sprawdź swoją skrzynkę e-mail.",
+                "success": "Zalogowano.",
                 "description": {
                     "success_check_mail": "Sprawdź swoją skrzynkę e-mail i poszukaj wiadomości z linkiem, który możesz kliknąć, aby się zalogować.",
-                    "success": "Zalogowany."
+                    "success": "Zalogowano."
                 }
             },
             "error": {
@@ -116,7 +117,7 @@
         "screenshot_plural": "Zrzuty ekranu",
         "browser": "Przeglądarka",
         "view": "Widok",
-        "result": "Wyniki",
+        "result": "Wynik",
         "result_plural": "Wyniki",
         "range": "Zakres",
         "multiple_choice": "Wielokrotny wybór",
@@ -124,12 +125,12 @@
         "question_plural": "Pytania",
         "game_pin": "PIN do gry",
         "other": "inne",
-        "other_plural": "inni",
-        "donating": "darowizna",
+        "other_plural": "innych",
+        "donating": "dotację",
         "find": "Szukaj",
         "practice": "Ćwiczenia",
         "error": "Błąd",
-        "register": "Zarejestruj",
+        "register": "Zarejestruj się",
         "docs": "Dokumentacja",
         "close": "Zamknij",
         "save": "Zapisz",
@@ -154,14 +155,36 @@
         "image": "Obraz",
         "overview": "Przegląd",
         "report": "Raport",
-        "explore": "Odkryj",
-        "correct": "Prawidłowo",
+        "explore": "Przeglądaj",
+        "correct": "Poprawnie",
         "count": "Liczba",
         "private": "Prywatny",
         "backup_code": "Kod zapasowy",
         "submit": "Prześlij",
         "kick": "Wykop",
-        "order": "kolejność"
+        "order": "Kolejność",
+        "name": "Nazwa",
+        "point": "Punkt",
+        "slide": "Slajd",
+        "point_plural": "Punkty",
+        "back": "Wróć",
+        "finish": "Zakończ",
+        "normal": "Normalny",
+        "select": "wybierz",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity",
+        "check_choice": "Sprawdź wybór",
+        "selected": "Wybrano",
+        "next": "Następny",
+        "progress": "Postęp",
+        "video": "Film",
+        "library": "Biblioteka",
+        "speed": "Prędkość",
+        "upload": "Prześlij",
+        "files_library": "Biblioteka plików",
+        "answer_plural": "Odpowiedzi",
+        "no": "nie",
+        "yes": "Tak"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -171,7 +194,10 @@
         "new_password": "Nowe hasło",
         "repeat_password": "Powtórz hasło",
         "this_session?": "Ta sesja?",
-        "change_password_submit": "Zmień hasło!"
+        "change_password_submit": "Zmień hasło!",
+        "change_avatar": "Zmień awatar",
+        "security_settings": "Ustawienia bezpieczeństwa",
+        "add_api_key": "Dodaj klucz API"
     },
     "editor_page": {
         "add_an_answer": "Dodaj odpowiedź",
@@ -179,15 +205,19 @@
     },
     "footer": {
         "self_ads": "Wykonane z ❤️ przez {{mawoka_link}} i z pomocą {{others_link}}.",
-        "more_details_here": "Więcej szczegółów tutaj",
-        "donate": "Jeśli uznasz to za przydatne, rozważ {{donate_link}}."
+        "more_details_here": "Więcej szczegółów znajdziesz tutaj",
+        "donate": "Jeśli uznasz to za użyteczne, rozważ {{donate_link}}."
     },
     "error_page": {
         "404_text": "Strona, której szukałeś, zniknęła lub nawet nigdy nie istniała. Kto wie?",
         "unknown_error_text": "To nie powinno się zdarzyć. To pewnie moja wina, nie twoja, ale może masz magiczną moc niszczenia rzeczy..."
     },
     "uploader": {
-        "add_image": "Dodaj obraz"
+        "add_image": "Dodaj obraz",
+        "select_upload_type": "Wybierz typ przesyłania",
+        "upload_a_video": "Prześlij film",
+        "upload_video_popup_notice": "Wyskakujące okienko jest otwarte; spójrz na nie, aby uzyskać więcej informacji",
+        "upload_video": "Prześlij film"
     },
     "editor": {
         "time_in_seconds": "Czas w sekundach",
@@ -196,7 +226,24 @@
         "delete_question": "Usuń pytanie",
         "delete_answer": "Usuń odpowiedź",
         "not_all_links_imgur_links": "Nie wszystkie linki prowadzą do Imgur!",
-        "right_or_true?": "Prawda?"
+        "right_or_true?": "Prawda?",
+        "no_title": "Brak tytułu...",
+        "empty": "Pusto...",
+        "bg_image": "Obraz tła",
+        "slide": {
+            "headline": "Nagłówek",
+            "headline_description": "Pogrubiony tekst dla nagłówków",
+            "text": "Tekst",
+            "text_description": "Mniejszy dłuższy tekst",
+            "rectangle": "Prostokąt",
+            "rectangle_description": "Tylko prostokąt"
+        },
+        "abcd_description": "Można wybrać tylko jedną odpowiedź",
+        "voting_description": "Odpowiedzi nie dodają żadnych punktów",
+        "check_choice_description": "Aby zdobyć punkty, należy wybrać wszystkie poprawne odpowiedzi",
+        "order_description": "Odpowiedzi można ustawić w odpowiedniej kolejności",
+        "text_description": "Gracze mogą wprowadzać tekst",
+        "range_description": "Zakres liczbowy można wybrać za pomocą suwaka"
     },
     "import_page": {
         "need_help": "Potrzebujesz pomocy?",
@@ -220,7 +267,14 @@
         "stop_time": "Zatrzymaj czas",
         "save_results": "Zapisz wyniki",
         "get_results_and_stop_time": "Uzyskaj wyniki i zatrzymaj czas",
-        "get_final_results": "Wyniki ostateczne"
+        "get_final_results": "Wyniki ostateczne",
+        "next_question": "Następne pytanie ({{question}})",
+        "show_results": "Pokaż wyniki",
+        "stop_time_and_solutions": "Zatrzymaj czas i pokaż rozwiązania",
+        "enter_answer_into_field": "Wprowadź swoją odpowiedź w pole wejściowe!",
+        "answers_submitted": "{{answer_count}} Przesłane odpowiedzi",
+        "request_export_results": "Żądanie pobrania wyników",
+        "download_export_results": "Wyniki pobierania"
     },
     "password_reset_page": {
         "reset_password": "Zresetuj hasło"
@@ -234,11 +288,16 @@
         "2nd_place": "2. miejsce",
         "3rd place": "3. miejsce",
         "with_out_of": "z {{correct_questions}} na {{total_question_count}}",
-        "end_sentence": "To jest to! To był quiz."
+        "end_sentence": "To jest to! To był quiz.",
+        "your_score": "Twój wynik: {{score}}",
+        "join_description": "Dołącz na {{url}} i wpisz {{pin}}.",
+        "join_by_entering_code": "Dołącz do nas wpisując następujący kod",
+        "points_added": "Dodane punkty",
+        "final_result_rank": "{{place}}: {{username}} z {{points}} punktów"
     },
     "explore_page": {
         "made_by": "Wykonane przez",
-        "imported_by": "Importowane przez"
+        "imported_by": "Zaimportowane przez"
     },
     "avatar_settings": {
         "skin_color": "Kolorystyka",
@@ -249,18 +308,22 @@
         "clothe_type": "Odzież",
         "clothe_graphic_type": "Grafika",
         "start_over": "Zacznij od nowa",
-        "thats_you": "To ty!",
+        "thats_you": "To Ty!",
         "clothe_color": "Kolor odzieży",
         "hair_color": "Kolor włosów",
         "facial_hair_type": "Zarost",
         "facial_hair_color": "Kolor zarostu",
-        "top_type": "Góra"
+        "top_type": "Góra",
+        "go_back": "Wstecz"
     },
     "results_page": {
         "quiz_title": "Tytuł quizu",
         "player_count": "Liczba graczy",
         "no_results_so_far": "Do tej pory nie zapisano żadnych wyników...",
-        "date_played": "Data gry"
+        "date_played": "Data gry",
+        "general_overview": {
+            "sentence": "W quizie \"{{title}}\", który został rozegrany {{date}} wzięło udział {{player_count}} graczy ze średnim wynikiem {{average_score}}."
+        }
     },
     "result_page": {
         "player_name": "Nazwa gracza",
@@ -268,9 +331,98 @@
         "average_score": "Średni wynik: {{average_score}}",
         "correct_answer": "{{count}} poprawna odpowiedź",
         "correct_answer_plural": "{count}} poprawne odpowiedzi",
-        "time_taken": "Czas trwania"
+        "time_taken": "Czas trwania",
+        "player_score": "Wynik gracza"
     },
     "dashboard": {
         "search_for_own_quizzes": "Wyszukaj własne quizy"
+    },
+    "navbar": {
+        "donate": "Darowizna"
+    },
+    "security_settings": {
+        "backup_code": "Kod zapasowy",
+        "get_backup_code": "Pobierz kod zapasowy",
+        "activate_2fa": "Aktywuj uwierzytelnianie dwuskładnikowe",
+        "2fa_activated": "Uaktywniono uwierzytelnianie dwuskładnikowe",
+        "2fa_deactivated": "Uwierzytelnianie dwuskładnikowe jest wyłączone",
+        "backup_codes": {
+            "your_backup_code": "Twój kod zapasowy",
+            "save_somewhere_save": "Zapisz to gdzieś w bezpiecznym miejscu!",
+            "download_code": "Pobierz kod"
+        },
+        "totp_setup": {
+            "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
+            "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Wykonane przez",
+        "view_on_kahoot": "Zobacz na Kahoot!"
+    },
+    "start_game": {
+        "captcha_message": "Jeśli ta opcja jest włączona, Google ReCaptcha będzie ładować się w przeglądarce graczy. Włącz tylko jeśli naprawdę tego potrzebujesz, ponieważ będziesz potrzebował zgody KAŻDEGO gracza na załadowanie captcha.",
+        "normal_mode_description": "Pytanie i odpowiedź będą wyświetlane tylko na ekranie administratora, jak w Kahoot! Gracze będą mieli do dyspozycji jedynie kolorowe przyciski z symbolami odpowiadającymi tym na ekranie administratora.",
+        "old_school_mode_description": "Pytania i obrazy będą wyświetlane zarówno na ekranie administratora, jak i na ekranie graczy",
+        "start_game": "Rozpocznij grę"
+    },
+    "quiztivity": {
+        "editor": {
+            "move_right": "Przesuń w prawo",
+            "shares": {
+                "expires_on": "Wygasa w dniu {{date}}",
+                "never_expires": "Nigdy nie wygasa",
+                "add_new_share": "Dodaj nowy udział"
+            },
+            "add_new": "Dodaj nowy",
+            "move_left": "Przesuń w lewo",
+            "delete": "Usuń",
+            "select_page_type": "Wybierz typ strony",
+            "title_placeholder": "Wpisz tytuł",
+            "open_shares_menu": "Otwórz menu Udziały"
+        },
+        "memory": {
+            "editor": {
+                "upload_image": "Wyślij obraz",
+                "add_pair": "Dodaj parę",
+                "add_card": "Dodaj kartę"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Próby: {{try_count}}"
+            }
+        },
+        "share_expired": "Udział wygasł"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Skopiowano do schowka!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Dołączył {{date}}",
+        "no_original_quizzes": "Ten użytkownik nie ma jeszcze żadnych oryginalnych quizów"
+    },
+    "file_dashboard": {
+        "not_available": "Niedostępne",
+        "size": "Rozmiar: {{size}} Mib",
+        "uploaded": "Przesłano: {{date}}",
+        "Imported": "Importowane: {{yes_or_no}}",
+        "edit_details": "Edytuj szczegóły",
+        "delete_image": "Usuń obraz",
+        "edit_the_image": "Edytuj obraz",
+        "filename_word": "Nazwa pliku",
+        "storage_usage": "Użyłeś {{used}} Mib z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej.",
+        "imported": "Importowane: {{yes_or_no}}",
+        "missing": "ZAGINIONY!",
+        "unset": "Nieustawiony",
+        "caption": "Napis: {{caption}}",
+        "filename": "Nazwa pliku: {{nazwa pliku}}",
+        "alt_text": "Tekst alternatywny / Napis"
+    },
+    "video_uploader": {
+        "time_elapsed": "Upłynęło",
+        "time_remaining": "Pozostały czas:"
     }
 }

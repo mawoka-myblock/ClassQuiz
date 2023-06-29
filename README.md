@@ -27,18 +27,14 @@
     </p>
 </div>
 
-## License Note
-
-This repository is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/), so you
-
-**MUST PUBLISH ANY CHANGES YOU MAKE!!!**[^1]
 
 ## About ClassQuiz
 
-ClassQuiz is a quiz-application like KAHOOT!, but open-source which is very important if it is a product for educational
+ClassQuiz is a quiz app to learn interactively for students,
+but open-source which is very important if it is a product for educational
 purposes.
 You can create quizzes and play them remotely with other people.
-It is mainly made for teachers, who create a
+It is mainly made for teachers who create a
 quiz, so students can compete with their knowledge against each other.
 
 ## Try it
@@ -114,7 +110,12 @@ Closed-Source 3rd parties:
 - [hCaptcha](https://www.hcaptcha.com/) (captcha)
 
 ---
-*Kahoot! and the K! logo are trademarks of Kahoot! AS*
+
+## License Note
+
+This repository is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/), so you
+
+**MUST PUBLISH ANY CHANGES YOU MAKE!!!**[^1]
 
 [^1]: _I added this note, since people are stealing my software and changing it without providing the source-code. Maybe
 they

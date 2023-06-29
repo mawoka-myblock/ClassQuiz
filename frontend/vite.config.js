@@ -1,8 +1,21 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 
-/** @type {import('vite').UserConfig} */
+/** @type {import("vite").UserConfig} */
 const config = {
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit(),
+		{
+			name: 'configure-response-headers',
+			configureServer: (server) => {
+				server.middlewares.use((_req, res, next) => {
+					/*        res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+        res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+        res.setHeader("Access-Control-Allow-Origin", "https://ncs3.classquiz.de");*/
+					next();
+				});
+			}
+		}
+	],
 	server: {
 		port: 3000
 	},

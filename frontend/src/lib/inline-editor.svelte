@@ -73,7 +73,6 @@
 		})
 			.then((newEditor) => {
 				editor = newEditor;
-				console.log(editor);
 				editor.setData(text);
 				editor.model.document.on('change:data', () => {
 					triggerChange();

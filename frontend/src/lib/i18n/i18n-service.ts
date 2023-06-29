@@ -5,7 +5,6 @@
  */
 
 import i18next from 'i18next';
-import translations from './translations';
 import en from './locales/en.json';
 import de from './locales/de.json';
 import fr from './locales/fr.json';
@@ -19,11 +18,12 @@ import zh_Hant from './locales/zh_Hant.json';
 import pl from './locales/pl.json';
 import pt from './locales/pt.json';
 import uk from './locales/uk.json';
+import nl from './locales/nl.json';
 // import uz from './locales/uz.json'
 // import zh_Hans from './locales/zh_Hans.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-import type { i18n, Resource } from 'i18next';
+import type { i18n } from 'i18next';
 
 export class I18nService {
 	// expose i18next
@@ -49,7 +49,6 @@ export class I18nService {
 			fallbackLng: 'en',
 			debug: false,
 			defaultNS: 'translation',
-			resources: translations as Resource,
 			interpolation: {
 				escapeValue: false
 			},
@@ -79,6 +78,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('pl', 'translation', pl);
 		this.i18n.addResourceBundle('pt', 'translation', pt);
 		this.i18n.addResourceBundle('uk', 'translation', uk);
+		this.i18n.addResourceBundle('nl', 'translation', nl);
 		// this.i18n.addResourceBundle('uz', 'translation', uz);
 	}
 

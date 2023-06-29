@@ -10,6 +10,9 @@
 	import TotpSetup from './totp_setup.svelte';
 	import BackupCodes from './backup_codes.svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	let user_data: object | undefined;
 	let security_keys: Array<{ id: number }> | undefined;
@@ -101,15 +104,17 @@
 	<div class="grid grid-rows-2 h-screen">
 		<div class="grid grid-cols-2 h-full border-b-2 border-black">
 			<div class="h-full w-full border-r-2 border-black">
-				<h2 class="text-center text-2xl">Backup-Code</h2>
+				<h2 class="text-center text-2xl">{$t('security_settings.backup_code')}</h2>
 				<div class="flex h-full w-full justify-center">
 					<div class="m-auto">
-						<BrownButton on:click={get_backup_code}>Get Backup-Codes</BrownButton>
+						<BrownButton on:click={get_backup_code}
+							>{$t('security_settings.get_backup_code')}</BrownButton
+						>
 					</div>
 				</div>
 			</div>
 			<div class="h-full w-full">
-				<h2 class="text-center text-2xl">Activate 2 Factor</h2>
+				<h2 class="text-center text-2xl">{$t('security_settings.activate_2fa')}</h2>
 				<div class="flex h-full w-full justify-center flex-col">
 					<div class="m-auto">
 						{#if user_data.require_password}
@@ -130,7 +135,7 @@
 									/>
 								</button>
 								<span class="text-sm font-medium text-gray-700 dark:text-white"
-									>Two Factor authentication is activated</span
+									>{$t('security_settings.2fa_activated')}</span
 								>
 							</div>
 						{:else}
@@ -151,7 +156,7 @@
 									/>
 								</button>
 								<span class="text-sm font-medium text-gray-700 dark:text-white"
-									>Two Factor authentication is deactivated</span
+									>{$t('security_settings.2fa_deactivated')}</span
 								>
 							</div>
 						{/if}
@@ -161,17 +166,19 @@
 		</div>
 		<div class="grid grid-cols-2 h-full">
 			<div class="h-full w-full flex flex-col border-r-2 border-black">
-				<h2 class="text-center text-2xl">Webauthn</h2>
+				<h2 class="text-center text-2xl">{$t('security_settings.webauthn')}</h2>
 				<div class="flex justify-center">
 					{#if security_keys.length > 0}
-						<p>Webauthn is available</p>
+						<p>{$t('security_settings.webauthn_available')}</p>
 					{:else}
-						<p>Webauthn is not available</p>
+						<p>{$t('security_settings.webauthn_unavailable')}</p>
 					{/if}
 				</div>
 				<div class="flex justify-center">
 					<div class="m-auto">
-						<BrownButton on:click={add_security_key}>Add Security-Key</BrownButton>
+						<BrownButton on:click={add_security_key}
+							>{$t('security_settings.add_security_key')}</BrownButton
+						>
 					</div>
 				</div>
 				<div class="flex justify-center">
@@ -190,21 +197,25 @@
 				</div>
 			</div>
 			<div class="h-full w-full flex flex-col">
-				<h2 class="text-center text-2xl">Totp</h2>
+				<h2 class="text-center text-2xl">{$t('security_settings.totp')}</h2>
 				<div class="flex justify-center">
 					{#if totp_activated}
-						<p>Totp is available</p>
+						<p>{$t('security_settings.totp_available')}</p>
 					{:else}
-						<p>Totp is not available</p>
+						<p>{$t('security_settings.totp_unavailable')}</p>
 					{/if}
 				</div>
 
 				<div class="flex justify-center">
 					<div class="m-auto">
 						{#if totp_activated}
-							<BrownButton on:click={disable_totp}>Disable Totp</BrownButton>
+							<BrownButton on:click={disable_totp}
+								>{$t('security_settings.disable_totp')}</BrownButton
+							>
 						{:else}
-							<BrownButton on:click={enable_totp}>Enable Totp</BrownButton>
+							<BrownButton on:click={enable_totp}
+								>{$t('security_settings.enable_totp')}</BrownButton
+							>
 						{/if}
 					</div>
 				</div>

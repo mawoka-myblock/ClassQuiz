@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import html
+import io
 import json
 import uuid
 from datetime import datetime
@@ -10,8 +11,8 @@ from datetime import datetime
 import bleach
 from aiohttp import ClientSession
 
-from classquiz.config import settings, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ
-from classquiz.db.models import Quiz, ABCDQuizAnswer, QuizQuestion, User
+from classquiz.config import settings, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, arq
+from classquiz.db.models import Quiz, ABCDQuizAnswer, QuizQuestion, User, StorageItem
 from classquiz.kahoot_importer.get import get as get_quiz
 from classquiz.helpers import get_meili_data
 
@@ -21,6 +22,28 @@ settings = settings()
 async def _download_image(url: str) -> bytes:
     async with ClientSession() as session, session.get(url) as resp:
         return await resp.read()
+
+
+DEFAULT_COLORS = ["#D6EDC9", "#B07156", "#7F7057", "#4E6E58"]
+
+
+async def handle_image_upload(url: str, user: User) -> StorageItem:
+    image_bytes = await _download_image(url)
+    file_obj = StorageItem(
+        id=uuid.uuid4(),
+        uploaded_at=datetime.now(),
+        mime_type="application/octet-stream",
+        hash=None,
+        user=user,
+        size=0,
+        deleted_at=None,
+        alt_text=None,
+        imported=True,
+    )
+    await file_obj.save()
+    await storage.upload(file_name=file_obj.id.hex, file_data=io.BytesIO(image_bytes))
+    await arq.enqueue_job("calculate_hash", file_obj.id.hex)
+    return file_obj
 
 
 async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
@@ -38,18 +61,24 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     quiz_id = uuid.uuid4()
     meilisearch.delete_index(settings.meilisearch_index)
     meilisearch.create_index(settings.meilisearch_index)
+    uploaded_images: list[StorageItem] = []
 
     for q in quiz.kahoot.questions:
         answers: list[ABCDQuizAnswer] = []
         image = None
         if q.image is not None and q.image != "":
-            image_bytes = await _download_image(q.image)
-            image_name = f"{quiz_id}--{uuid.uuid4()}"
-            image = await storage.upload(file_name=image_name, file_data=image_bytes)
-            image = f"{settings.root_address}/api/v1/storage/download/{image_name}"
-        for a in q.choices:
+            image_obj = await handle_image_upload(q.image, user)
+            uploaded_images.append(image_obj)
+            image = image_obj.id.hex
+        for i, a in enumerate(q.choices):
             answers.append(
-                (ABCDQuizAnswer(right=a.correct, answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True))))
+                (
+                    ABCDQuizAnswer(
+                        right=a.correct,
+                        answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True)),
+                        color=DEFAULT_COLORS[i],
+                    )
+                )
             )
 
         quiz_questions.append(
@@ -62,10 +91,9 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         )
     cover = None
     if quiz.kahoot.cover != "" and quiz.kahoot.cover is not None:
-        image_bytes = await _download_image(quiz.kahoot.cover)
-        image_name = f"{quiz_id}--{uuid.uuid4()}"
-        await storage.upload(file_name=image_name, file_data=image_bytes)
-        cover = f"{settings.root_address}/api/v1/storage/download/{image_name}"
+        img_obj = await handle_image_upload(quiz.kahoot.cover, user)
+        uploaded_images.append(img_obj)
+        cover = img_obj.id.hex
     quiz_data = Quiz(
         id=quiz_id,
         public=True,
@@ -80,4 +108,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         kahoot_id=uuid.UUID(kahoot_quiz_id),
     )
     meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz_data)])
-    return await quiz_data.save()
+    await quiz_data.save()
+    for img in uploaded_images:
+        await quiz_data.storageitems.add(img)
+    return quiz_data

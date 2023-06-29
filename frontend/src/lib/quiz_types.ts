@@ -31,7 +31,8 @@ export enum QuizQuestionType {
 	VOTING = 'VOTING', // eslint-disable-line no-unused-vars
 	SLIDE = 'SLIDE', // eslint-disable-line no-unused-vars
 	TEXT = 'TEXT', // eslint-disable-line no-unused-vars
-	ORDER = 'ORDER' // eslint-disable-line no-unused-vars
+	ORDER = 'ORDER', // eslint-disable-line no-unused-vars
+	CHECK = 'CHECK' // eslint-disable-line no-unused-vars
 }
 
 export interface RangeQuizAnswer {
@@ -57,14 +58,16 @@ export interface Question {
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
-	answers:
-		| Answer[]
-		| RangeQuizAnswer
-		| VotingAnswer[]
-		| string
-		| TextQuizAnswer[]
-		| OrderQuizAnswer[];
+	answers: Answers;
 }
+
+export type Answers =
+	| Answer[]
+	| RangeQuizAnswer
+	| VotingAnswer[]
+	| string
+	| TextQuizAnswer[]
+	| OrderQuizAnswer[];
 
 export interface Answer {
 	right: boolean;
@@ -86,4 +89,20 @@ export interface EditorData {
 	cover_image?: string;
 	background_color?: string;
 	background_image?: string;
+}
+
+export interface PrivateImageData {
+	id: string;
+	uploaded_at: string;
+	mime_type: string;
+	hash?: string;
+	size?: number;
+	deleted_at?: string;
+	alt_text?: string;
+	filename?: string;
+	thumbhash?: string;
+	server?: string;
+	imported: boolean;
+	quizzes: { id: string }[];
+	quiztivities: { id: string }[];
 }

@@ -8,7 +8,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as Sentry from '@sentry/browser';
-	import { alertModal } from '../stores';
+	// import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -33,6 +33,7 @@
 
 	onMount(() => {
 		if (browser) {
+			prefetch_username();
 			hcaptcha = window.hcaptcha;
 			if (hcaptcha.render) {
 				hcaptchaWidgetID = hcaptcha.render('hcaptcha', {
@@ -54,6 +55,15 @@
 		}
 	});
 
+	const prefetch_username = async () => {
+		const res = await fetch('/api/v1/users/me');
+		if (res.status !== 200) {
+			return;
+		}
+		const json = await res.json();
+		username = json.username;
+	};
+
 	const set_game_pin = async () => {
 		let process_var;
 		try {
@@ -72,20 +82,22 @@
 			custom_field = json.custom_field;
 		}
 		if (res.status === 404) {
-			alertModal.set({
-				open: true,
-				title: 'Game not found',
-				body: 'The game pin you entered seems invalid.'
-			});
+			/*			alertModal.set({
+                open: true,
+                title: 'Game not found',
+                body: 'The game pin you entered seems invalid.'
+            });*/
+			alert('Game not found');
 			game_pin = '';
 			return;
 		}
 		if (res.status !== 200) {
-			alertModal.set({
-				open: true,
-				body: `Unknown error with response-code ${res.status}`,
-				title: 'Unknown Error'
-			});
+			/*			alertModal.set({
+                open: true,
+                body: `Unknown error with response-code ${res.status}`,
+                title: 'Unknown Error'
+            });*/
+			alert('Unknown error');
 			return;
 		}
 	};
@@ -122,16 +134,13 @@
 					if (import.meta.env.VITE_SENTRY !== null) {
 						Sentry.captureException(e);
 					}
-					alertModal.set({
-						open: true,
-						body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
-						title: 'Captcha failed'
-					});
-					alertModal.subscribe((data) => {
-						if (!data.open) {
-							window.location.reload();
-						}
-					});
+					/*					alertModal.set({
+                        open: true,
+                        body: "The captcha failed, which is normal, but most of the time it's fixed by reloading!",
+                        title: 'Captcha failed'
+                    });*/
+					alert('Captcha failed!');
+					window.location.reload();
 				}
 			} else if (import.meta.env.VITE_RECAPTCHA) {
 				// eslint-disable-next-line no-undef

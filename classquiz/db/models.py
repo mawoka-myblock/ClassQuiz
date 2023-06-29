@@ -2,16 +2,17 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 import os
-import re
 import uuid
 from datetime import datetime
 from typing import Optional
 
 import ormar
+from ormar import ReferentialAction
 from pydantic import BaseModel, Json, validator
 from enum import Enum
 from . import metadata, database
-from ..config import server_regex
+from .quiztivity import QuizTivityPage
+from sqlalchemy import func
 
 
 class UserAuthTypes(Enum):
@@ -40,6 +41,7 @@ class User(ormar.Model):
     require_password: bool = ormar.Boolean(default=True, nullable=False)
     backup_code: str = ormar.String(max_length=64, min_length=64, nullable=False, default=os.urandom(32).hex())
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
+    storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
 
     class Meta:
         tablename = "users"
@@ -55,7 +57,7 @@ class FidoCredentials(ormar.Model):
     id: bytes = ormar.LargeBinary(max_length=256)
     public_key: bytes = ormar.LargeBinary(max_length=256)
     sign_count: int = ormar.Integer()
-    user: Optional[User] = ormar.ForeignKey(User)
+    user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
     class Meta:
         tablename = "fido_credentials"
@@ -65,7 +67,7 @@ class FidoCredentials(ormar.Model):
 
 class ApiKey(ormar.Model):
     key: str = ormar.String(max_length=48, min_length=48, primary_key=True)
-    user: Optional[User] = ormar.ForeignKey(User)
+    user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
     class Meta:
         tablename = "api_keys"
@@ -79,7 +81,7 @@ class UserSession(ormar.Model):
     """
 
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4())
-    user: Optional[User] = ormar.ForeignKey(User)
+    user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
     session_key: str = ormar.String(unique=True, max_length=64)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     ip_address: str = ormar.String(max_length=100, nullable=True)
@@ -118,6 +120,7 @@ class QuizQuestionType(str, Enum):
     SLIDE = "SLIDE"
     TEXT = "TEXT"
     ORDER = "ORDER"
+    CHECK = "CHECK"
 
 
 class TextQuizAnswer(BaseModel):
@@ -134,7 +137,6 @@ class QuizQuestion(BaseModel):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
-        # print(values)
         if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswer:
             raise ValueError("Answers can't be none if type is ABCD")
         if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
@@ -147,6 +149,8 @@ class QuizQuestion(BaseModel):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
         if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != str:
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
+        if values["type"] == QuizQuestionType.CHECK and type(v[0]) != ABCDQuizAnswer:
+            raise ValueError("Answers can't be none if type is CHECK")
         return v
 
 
@@ -159,15 +163,6 @@ class QuizInput(BaseModel):
     questions: list[QuizQuestion]
     background_image: str | None
 
-    @validator("background_image")
-    def must_come_from_local_cdn(cls, v):
-        if v is None:
-            return v
-        elif bool(re.match(server_regex, v)):
-            return v
-        else:
-            raise ValueError("does not match url scheme")
-
 
 class Quiz(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
@@ -176,22 +171,13 @@ class Quiz(ormar.Model):
     description: str = ormar.Text(nullable=True)
     created_at: datetime = ormar.DateTime(default=datetime.now())
     updated_at: datetime = ormar.DateTime(default=datetime.now())
-    user_id: uuid.UUID = ormar.ForeignKey(User)
+    user_id: uuid.UUID = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
     imported_from_kahoot: Optional[bool] = ormar.Boolean(default=False, nullable=True)
     cover_image: Optional[str] = ormar.Text(nullable=True, unique=False)
     background_color: str | None = ormar.Text(nullable=True, unique=False)
     background_image: str | None = ormar.Text(nullable=True, unique=False)
     kahoot_id: uuid.UUID | None = ormar.UUID(nullable=True, default=None)
-
-    @validator("background_image")
-    def must_come_from_local_cdn(cls, v):
-        if v is None:
-            return v
-        elif bool(re.match(server_regex, v)):
-            return v
-        else:
-            raise ValueError("does not match url scheme")
 
     class Meta:
         tablename = "quiz"
@@ -291,7 +277,7 @@ class GameInLobby(BaseModel):
     game_id: uuid.UUID
 
 
-#
+# skipcq: PY-W0069
 # class UserProfileLinks(ormar.Model):
 #     id: int = ormar.Integer(primary_key=True, autoincrement=True)
 #     user: Optional[User] = ormar.ForeignKey(User)
@@ -302,8 +288,8 @@ class GameInLobby(BaseModel):
 
 class GameResults(ormar.Model):
     id: uuid.UUID = ormar.UUID(primary_key=True)
-    quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz)
-    user: uuid.UUID | User = ormar.ForeignKey(User)
+    quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz, ondelete=ReferentialAction.CASCADE)
+    user: uuid.UUID | User = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
     timestamp: datetime = ormar.DateTime(default=datetime.now(), nullable=False)
     player_count: int = ormar.Integer(nullable=False, default=0)
     note: str | None = ormar.Text(nullable=True)
@@ -318,6 +304,155 @@ class GameResults(ormar.Model):
         tablename = "game_results"
         metadata = metadata
         database = database
+
+
+class QuizTivityInput(BaseModel):
+    title: str
+    pages: list[QuizTivityPage]
+
+
+class QuizTivity(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    title: str = ormar.Text(nullable=False)
+    created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
+    user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
+    pages: list[QuizTivityPage] = ormar.JSON(nullable=False)
+
+    class Meta:
+        tablename = "quiztivitys"
+        metadata = metadata
+        database = database
+
+
+class QuizTivityShare(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    name: str | None = ormar.Text(nullable=True)
+    expire_at: datetime | None = ormar.DateTime(nullable=True)
+    quiztivity: QuizTivity | None = ormar.ForeignKey(QuizTivity, ondelete=ReferentialAction.CASCADE)
+    user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
+
+    class Meta:
+        tablename = "quiztivityshares"
+        metadata = metadata
+        database = database
+
+
+class OnlyId(BaseModel):
+    id: uuid.UUID
+
+
+class PublicQuizTivityShare(BaseModel):
+    id: uuid.UUID
+    name: str | None
+    expire_in: int | None
+    quiztivity: OnlyId
+    user: OnlyId
+
+    @classmethod
+    def from_db_model(cls, data: QuizTivityShare):
+        expire_in = None
+        if data.expire_at is not None:
+            expire_in = int((data.expire_at - datetime.now()).seconds / 60)
+        return cls(
+            id=data.id,
+            name=data.name,
+            expire_in=expire_in,
+            quiztivity=OnlyId(id=data.quiztivity.id),
+            user=OnlyId(id=data.user.id),
+        )
+
+
+class StorageItem(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    uploaded_at: datetime = ormar.DateTime(nullable=False, default=datetime.now())
+    mime_type: str = ormar.Text(nullable=False)
+    hash: bytes | None = ormar.LargeBinary(nullable=True, min_length=16, max_length=16)
+    user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.SET_NULL)
+    size: int = ormar.BigInteger(nullable=False)
+    storage_path: str | None = ormar.Text(nullable=True)
+    deleted_at: datetime | None = ormar.DateTime(nullable=True, default=None)
+    quiztivities: list[QuizTivity] | None = ormar.ManyToMany(QuizTivity)
+    quizzes: list[Quiz] | None = ormar.ManyToMany(Quiz)
+    alt_text: str | None = ormar.Text(default=None, nullable=True)
+    filename: str | None = ormar.Text(default=None, nullable=True)
+    thumbhash: str | None = ormar.Text(default=None, nullable=True)
+    server: str | None = ormar.Text(default=None, nullable=True)
+    imported: bool = ormar.Boolean(default=False, nullable=True)
+
+    class Meta:
+        tablename = "storage_items"
+        metadata = metadata
+        database = database
+
+
+class PublicStorageItem(BaseModel):
+    id: uuid.UUID
+    uploaded_at: datetime
+    mime_type: str
+    hash: str | None
+    size: int
+    deleted_at: datetime | None
+    alt_text: str | None
+    filename: str | None
+    thumbhash: str | None
+    server: str | None
+    imported: bool
+
+    @classmethod
+    def from_db_model(cls, data: StorageItem):
+        hash_data = None
+        if data.hash is not None:
+            hash_data = data.hash.hex()
+        return cls(
+            id=data.id,
+            uploaded_at=data.uploaded_at,
+            mime_type=data.mime_type,
+            hash=hash_data,
+            size=data.size,
+            deleted_at=data.deleted_at,
+            alt_text=data.alt_text,
+            filename=data.filename,
+            thumbhash=data.thumbhash,
+            server=data.server,
+            imported=data.imported,
+        )
+
+
+class PrivateStorageItem(PublicStorageItem):
+    quizzes: list[OnlyId]
+    quiztivities: list[OnlyId]
+
+    @classmethod
+    def from_db_model(cls, data: StorageItem):
+        hash_data = None
+        if data.hash is not None:
+            hash_data = data.hash.hex()
+        quiztivities = []
+        quizzes = []
+        for quiz in data.quizzes:
+            quizzes.append(OnlyId(id=quiz.id))
+        for quiztivity in data.quiztivities:
+            quiztivities.append(OnlyId(id=quiztivity.id))
+        return cls(
+            id=data.id,
+            uploaded_at=data.uploaded_at,
+            mime_type=data.mime_type,
+            hash=hash_data,
+            size=data.size,
+            deleted_at=data.deleted_at,
+            alt_text=data.alt_text,
+            filename=data.filename,
+            quiztivities=quiztivities,
+            quizzes=quizzes,
+            thumbhash=data.thumbhash,
+            server=data.server,
+            imported=data.imported,
+        )
+
+
+class UpdateStorageItem(BaseModel):
+    filename: str | None
+    alt_text: str | None
 
 
 class Controller(ormar.Model):

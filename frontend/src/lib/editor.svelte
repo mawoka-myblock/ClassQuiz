@@ -4,13 +4,16 @@
   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
   -->
 <script lang="ts">
-	import { mint } from '$lib/hashcash';
+	// import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData, Question } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';
 	import SettingsCard from '$lib/editor/settings-card.svelte';
 	import QuizCard from '$lib/editor/card.svelte';
 	import Spinner from './Spinner.svelte';
+	import { getLocalization } from '$lib/i18n';
+
+	const { t } = getLocalization();
 
 	let schemaInvalid = false;
 	let yupErrorMessage = '';
@@ -19,22 +22,6 @@
 	export let quiz_id: string | null;
 	let selected_question = -1;
 	let imgur_links_valid = false;
-	let pow_salt;
-
-	const computePOW = async (salt: string) => {
-		if (pow_salt === undefined) {
-			return;
-		}
-		console.log('Computing POW');
-		pow_data = await mint(salt, 16, '', 8, false);
-		pow_salt = undefined;
-		return;
-	};
-
-	$: {
-		pow_salt;
-		computePOW(pow_salt);
-	}
 
 	const validateInput = async (data: EditorData) => {
 		// console.log("input", data)
@@ -69,7 +56,8 @@
 	$: imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
 	let edit_id;
 	let confirm_to_leave = true;
-	let pow_data;
+
+	$: console.log('data', data);
 
 	const getEditID = async () => {
 		let res;
@@ -85,7 +73,6 @@
 		if (res.status === 200) {
 			const json = await res.json();
 			edit_id = json.token;
-			setPOWdata();
 		} else {
 			alert('Error!');
 		}
@@ -120,13 +107,6 @@
 			alert('Error');
 		}
 	};
-	const setPOWdata = async () => {
-		const res = await fetch(`/api/v1/editor/pow?edit_id=${edit_id}`);
-		const data = (await res.json()).data;
-		console.log(data);
-		pow_data = await mint(data, 16);
-		console.log(pow_data);
-	};
 </script>
 
 <svelte:window on:beforeunload={confirmUnload} />
@@ -152,10 +132,10 @@
 						</p>
 					{/if}
 					<button
-						class="pr-2 align-middle bg-purple-400 pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
+						class="pr-2 align-middle bg-[#B07156] pl-2 ml-auto whitespace-nowrap disabled:opacity-60 rounded-br-lg"
 						disabled={schemaInvalid}
 					>
-						<span>Save</span>
+						<span>{$t('words.save')}</span>
 						<svg
 							class="w-6 h-6 inline-block"
 							fill="none"
@@ -174,15 +154,9 @@
 				</div>
 				<div class="w-full h-full">
 					{#if selected_question === -1}
-						<SettingsCard bind:data bind:pow_salt bind:edit_id bind:pow_data />
+						<SettingsCard bind:data bind:edit_id />
 					{:else}
-						<QuizCard
-							bind:data
-							bind:selected_question
-							bind:edit_id
-							bind:pow_data
-							bind:pow_salt
-						/>
+						<QuizCard bind:data bind:selected_question bind:edit_id />
 					{/if}
 				</div>
 			</div>

@@ -1,0 +1,8 @@
+# Question Types
+
+- [Range](/docs/quiz/question-types/range)
+- [Multiple Choice](/docs/quiz/question-types/multiple-choice)
+- [Voting](/docs/quiz/question-types/voting)
+- [Text](/docs/quiz/question-types/text)
+- [Order](/docs/quiz/question-types/order)
+- [Check Choice](/docs/quiz/question-types/check-choice)

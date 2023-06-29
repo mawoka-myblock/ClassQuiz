@@ -24,16 +24,6 @@ async def rememberme_middleware(request: Request, call_next):
     rememberme_cookie = request.cookies.get("rememberme_token")
     bearer_token = request.cookies.get("access_token")
     conditions_to_handle_met = True
-    # print(bearer_token)
-    # if bearer_token is not None:
-    #     bearer_token = bearer_token.replace("Bearer ", "")
-    #     test = jws.verify(bearer_token, settings.secret_key, algorithms=["HS256"])
-    #     try:
-    #         jwt.decode(bearer_token, settings.secret_key, algorithms=["HS256"])
-    #         print("jwt ok")
-    #     except JWTError as e:
-    #         print("jwt failed")
-    #     print(test)
 
     scheme, param = get_authorization_scheme_param(bearer_token)
 
@@ -71,7 +61,6 @@ async def rememberme_middleware(request: Request, call_next):
             response: Response = await call_next(request)
             return response
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        # access_token_expires = timedelta(seconds=1)
         access_token = create_access_token(data={"sub": user_session.user.email}, expires_delta=access_token_expires)
         await user_session.update(last_seen=datetime.now())
         request.state.access_token = f"Bearer {access_token}"

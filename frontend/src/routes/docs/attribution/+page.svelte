@@ -50,6 +50,15 @@
 		<li>
 			<a href="https://github.com/RicoLaaa">RicoLaaa</a> (Spanish)
 		</li>
+		<li>
+			<a href="https://github.com/WaldiSt">Waldemar Stoczkowski</a> (Polish)
+		</li>
+		<li>
+			<a href="https://github.com/OptimisticSean">OptimisticSean</a> (Chinese)
+		</li>
+		<li>
+			<a href="https://github.com/OptimisticSean">Miniontoby</a> (Dutch)
+		</li>
 	</ul>
 
 	<p><i>...Maybe you?</i></p>

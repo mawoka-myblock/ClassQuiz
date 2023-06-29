@@ -1,7 +1,6 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-import asyncio
 
 import sentry_sdk
 from fastapi import FastAPI, Request
@@ -11,7 +10,6 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from classquiz.config import settings
 from classquiz.db import database
-from datetime import timedelta
 
 from classquiz.oauth import rememberme_middleware
 from classquiz.routers import (
@@ -33,10 +31,11 @@ from classquiz.routers import (
     results,
     admin,
     box_controller,
+    quiztivity,
+    pixabay,
 )
 from classquiz.socket_server import sio
-from classquiz.helpers import meilisearch_init, telemetry_ping, bg_tasks
-from scheduler.asyncio import Scheduler
+from classquiz.helpers import meilisearch_init, telemetry_ping
 
 settings = settings()
 if settings.sentry_dsn:
@@ -57,13 +56,6 @@ async def sentry_exception(request: Request, call_next):
         raise e
 
 
-async def background_tasks():
-    schedule = Scheduler()
-    schedule.cyclic(timedelta(hours=6), bg_tasks.clean_editor_images_up)
-    while True:
-        await asyncio.sleep(1)
-
-
 @app.on_event("startup")
 async def startup() -> None:
     database_ = app.state.database
@@ -71,7 +63,6 @@ async def startup() -> None:
         await database_.connect()
     await meilisearch_init()
     await telemetry_ping()
-    asyncio.create_task(background_tasks())
 
 
 @app.on_event("shutdown")
@@ -85,6 +76,9 @@ async def shutdown() -> None:
 async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
+
+app.include_router(pixabay.router, tags=["pixabay"], prefix="/api/v1/pixabay", include_in_schema=True)
+app.include_router(quiztivity.router, tags=["quiztivity"], prefix="/api/v1/quiztivity", include_in_schema=True)
 
 app.include_router(
     box_controller.router, tags=["boxcontroller"], prefix="/api/v1/box-controller", include_in_schema=True

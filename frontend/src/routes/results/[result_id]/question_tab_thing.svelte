@@ -6,10 +6,11 @@
 <script lang="ts">
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
+	import type { Question } from '$lib/quiz_types';
 
 	const { t } = getLocalization();
 
-	export let question;
+	export let question: Question;
 
 	interface Answer {
 		username: string;
@@ -24,8 +25,23 @@
 
 	const get_answer_count_for_answer = (answer: string): number => {
 		let count = 0;
-		for (const a of answers) {
-			if (a.answer === answer) {
+		let answer_id = 0;
+		if (question.type === QuizQuestionType.CHECK) {
+			for (let i = 0; i < question.answers.length; i++) {
+				if (answer === question.answers[i].answer) {
+					answer_id = i;
+					break;
+				}
+			}
+		}
+		for (let i = 0; i < answers.length; i++) {
+			const a = answers[i];
+			if (question.type === QuizQuestionType.CHECK) {
+				console.log(a.answer.includes('2'), answer_id);
+				if (a.answer.includes(String(answer_id))) {
+					count++;
+				}
+			} else if (a.answer === answer) {
 				count++;
 			}
 		}
@@ -79,8 +95,8 @@
 					<th class="p-1 mx-auto">{$t('words.answer')} </th>
 					{#if question.type !== QuizQuestionType.VOTING}
 						<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
-							>{$t('words.correct')}?</th
-						>
+							>{$t('words.correct')}?
+						</th>
 					{/if}
 				</tr>
 				{#each answers as answer}

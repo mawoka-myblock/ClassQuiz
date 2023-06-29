@@ -149,7 +149,7 @@ class StepInput(BaseModel):
 
 
 @router.post("/step/{step_id}")
-async def step_1(session_id: str, data: StepInput, request: Request, response: Response, step_id: int):
+async def step_1_endpoint(session_id: str, data: StepInput, request: Request, response: Response, step_id: int):
     if step_id < 0 or step_id > 2:
         raise HTTPException(status_code=401)
     redis_res = await redis.get(f"login_session:{session_id}")

@@ -10,7 +10,6 @@
 	if (!data) {
 		data = '#ed333b';
 	}
-	$: console.log(data);
 </script>
 
 <div class="rounded-full w-full h-full flex justify-center p-2" style="background-color: {data}">

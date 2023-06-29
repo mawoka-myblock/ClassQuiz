@@ -48,7 +48,8 @@
         "community_driven_content": "ClassQuiz hängt von der Community ab, die ClassQuiz mit Spenden, Feature-Requests, Übersetzungen und mehr versorgt! Du kannst auch ein Teil der ClassQuiz-Community werden!",
         "download_quizzes_content": "Quiz können als einzige Datei heruntergeladen werden und jederzeit importiert werden, sodass du auch einfach auf eine andere Instanz von ClassQuiz umziehen kannst!",
         "community_driven": "Von der Community betrieben",
-        "download_quizzes": "Quiz herunterladen"
+        "download_quizzes": "Quiz herunterladen",
+        "how_does_classquiz_work": "Wie funktioniert ClassQuiz überhaupt?"
     },
     "overview_page": {
         "created_at": "Erstellt am",
@@ -161,7 +162,29 @@
         "score": "Punkte",
         "results": "Ergebnisse",
         "note": "Notiz",
-        "player_plural": "Spieler"
+        "player_plural": "Spieler",
+        "slide": "Folie",
+        "back": "Zurück",
+        "finish": "Fertig",
+        "name": "Name",
+        "point_plural": "Punkte",
+        "point": "Punkt",
+        "normal": "Normal",
+        "selected": "Ausgewählt",
+        "select": "Auswählen",
+        "next": "Weiter",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity",
+        "check_choice": "Prüfauswahl",
+        "video": "Video",
+        "progress": "Fortschritt",
+        "files_library": "Dateien-Bibliothek",
+        "upload": "Upload",
+        "library": "Bibliothek",
+        "speed": "Geschwindigkeit",
+        "answer_plural": "Antworten",
+        "yes": "ja",
+        "no": "Nein"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -170,7 +193,24 @@
         "add_new_question": "Neue Frage hinzufügen",
         "delete_question": "Frage löschen",
         "delete_answer": "Antwort löschen",
-        "not_all_links_imgur_links": "Nicht alle Links sind Imgur-Links!"
+        "not_all_links_imgur_links": "Nicht alle Links sind Imgur-Links!",
+        "no_title": "Kein Titel...",
+        "empty": "Leer...",
+        "bg_image": "Hintergrundbild",
+        "slide": {
+            "text": "Text",
+            "text_description": "Kleiner langer Text",
+            "rectangle": "Rechteck",
+            "headline": "Überschrift",
+            "rectangle_description": "Nur ein Rechteck",
+            "headline_description": "Ein fetter Text als Überschrift"
+        },
+        "abcd_description": "Nur eine Antwort kann ausgewählt werden",
+        "voting_description": "Antworten geben keine Punkte",
+        "order_description": "Antworten müssen in die richtige Reihenfolge gebracht werden",
+        "text_description": "Spieler können text eingeben",
+        "range_description": "Ein Zahlenbereich kann mit einem Schieberegler ausgewählt werden",
+        "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden"
     },
     "import": {
         "need_help": "",
@@ -191,7 +231,12 @@
         "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!",
         "no_answers": "Keine Antworten!",
         "stop_time": "Zeit stoppen",
-        "save_results": "Ergebnisse speichern"
+        "save_results": "Ergebnisse speichern",
+        "next_question": "Nächste Frage ({{question}})",
+        "show_results": "Ergebnisse anzeigen",
+        "enter_answer_into_field": "Gib die Antwort in das Eingabefeld ein!",
+        "stop_time_and_solutions": "Zeit stoppen und Ergebnisse zeigen",
+        "answers_submitted": "{{answer_count}} Antworten abgegen"
     },
     "import_page": {
         "need_help": "Brauchst du Hilfe?",
@@ -214,7 +259,9 @@
         "delete_this_session": "Diese Sitzung löschen",
         "this_session?": "Diese Sitzung?",
         "old_password": "Altes Passwort",
-        "new_password": "Neues Passwort"
+        "new_password": "Neues Passwort",
+        "change_avatar": "Avatar ändern",
+        "security_settings": "Sicherheitseinstellungen"
     },
     "explore_page": {
         "made_by": "Erstellt von",
@@ -229,7 +276,12 @@
         "end_sentence": "Das war's! Das war das Quiz.",
         "1st_place": "1. Platz",
         "2nd_place": "2. Platz",
-        "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}"
+        "with_out_of": "mit {{correct_questions}} von insgesamt {{total_question_count}}",
+        "final_result_rank": "{{place}}. Platz: {{username}} mit {{points}} Punkten",
+        "your_score": "Deine Punktzahl: {{score}}",
+        "join_description": "Tritt bei unter {{url}} und gib {{pin}} ein.",
+        "join_by_entering_code": "Tritt bei, indem du folgenden Code eingibst",
+        "points_added": "Hinzugefügte Punkte"
     },
     "editor_page": {
         "add_an_answer": "Antwort hinzufügen",
@@ -248,7 +300,11 @@
         "unknown_error_text": "Das sollte nicht passieren. Es ist wahrscheinlich meine Schuld, oder du hast eine magische Fähigkeit, Fehler zu erschaffen..."
     },
     "uploader": {
-        "add_image": "Bild hinzufügen"
+        "add_image": "Bild hinzufügen",
+        "upload_a_video": "Ein Video hochladen",
+        "upload_video": "Video hochladen",
+        "upload_video_popup_notice": "Das Popup ist offen; guck dir es für weitere Infos an",
+        "select_upload_type": "Wähle den Upload-Typen aus"
     },
     "avatar_settings": {
         "skin_color": "Hautfarbe",
@@ -264,7 +320,8 @@
         "clothe_graphic_type": "Grafik",
         "thats_you": "Das bist du!",
         "start_over": "Neu anfangen",
-        "clothe_type": "Kleidung"
+        "clothe_type": "Kleidung",
+        "go_back": "Zurückkehren"
     },
     "results_page": {
         "quiz_title": "Quiz-Titel",
@@ -279,5 +336,105 @@
         "time_taken": "benötigte Zeit",
         "player_name": "Spielername",
         "correct_answer_plural": "{{count}} richtige Antworten"
+    },
+    "navbar": {
+        "donate": "Spenden"
+    },
+    "security_settings": {
+        "activate_2fa": "Zwei-Faktor-Authentifizierung aktivieren",
+        "2fa_activated": "Zwei-Faktor-Authentifizierung ist aktiviert",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn ist verfügbar",
+        "webauthn_unavailable": "Webauthn ist nicht verfügbar",
+        "add_security_key": "Sicherheitsschlüssel hinzufügen",
+        "totp": "Totp",
+        "totp_available": "Totp ist verfügbar",
+        "enable_totp": "Totp aktivieren",
+        "backup_codes": {
+            "your_backup_code": "Dein Backup-Code",
+            "save_somewhere_save": "Speichere ihn an einem sicheren Ort!",
+            "download_code": "Code herunterladen"
+        },
+        "totp_setup": {
+            "do_not_forget_backup_code": "Vergiss nicht, deinen Backup-Code zu speichern!",
+            "scan_to_set_up": "Scanne diesen QR-Code um Totp einzurichten",
+            "enter_as_secret_if_no_see_code": "Gib dieses Geheimnis ein, wenn du den QR-Code nicht scannen kannst",
+            "totp_setup": "Totp-Einrichtung"
+        },
+        "backup_code": "Backup-Code",
+        "get_backup_code": "Backup-Code erhalten",
+        "2fa_deactivated": "Zwei-Faktor-Authentifizierung ist deaktiviert",
+        "totp_unavailable": "Totp ist nicht verfügbar",
+        "disable_totp": "Totp deaktivieren"
+    },
+    "view_quiz_page": {
+        "made_by": "Erstellt von",
+        "view_on_kahoot": "Auf Kahoot! ansehen"
+    },
+    "start_game": {
+        "start_game": "Spiel starten",
+        "old_school_mode": "Old-School",
+        "captcha_message": "Wenn aktiviert, Googles ReCaptcha wird in den Browsern der Spielerinnen und Spieler geladen. Aktiviere dies nur, wenn du es wirklich brauchst, da du die Einverständniserklärung JEDEN SPIELERS brauchst um die Captcha zu laden.",
+        "old_school_mode_description": "Fragen und Bilder werden sowohl auf dem Bildschirm des Admins als auch auf dem Bildschirm der Spielerinnen und Spieler angezeigt",
+        "normal_mode_description": "Fragen und Antwortmöglichkeiten werden nur auf dem Bildschirm des Admins angezeigt, wie bei Kahoot!. Die Spielerinnen und Spieler werden nur gefärbte Knöpfe mit passenden Symbolen haben."
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Seitentyp auswählen",
+            "move_left": "Nach links bewegen",
+            "add_new": "Hinzufügen",
+            "delete": "Löschen",
+            "open_shares_menu": "Teilen-Menü öffnen",
+            "shares": {
+                "add_new_share": "Neue Veröffentlichung hinzufügen",
+                "never_expires": "Läuft nie ab",
+                "expires_on": "Läuft ab am {{date}}"
+            },
+            "move_right": "Nach rechts bewegen",
+            "title_placeholder": "Titel hier eingeben"
+        },
+        "share_expired": "Veröffentlichung abgelaufen",
+        "memory": {
+            "editor": {
+                "add_card": "Karte hinzufügen",
+                "upload_image": "Bild hochladen",
+                "add_pair": "Paar hinzufügen"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Versuche: {{try_count}}"
+            }
+        }
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "In die Zwischenablage kopiert!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Beigetreten am {{date}}",
+        "no_original_quizzes": "Dieser Nutzer hat keine originellen Quiz"
+    },
+    "file_dashboard": {
+        "not_available": "Nicht verfügbar",
+        "missing": "NICHT VORHANDEN!",
+        "unset": "Unbestimmt",
+        "size": "Größe: {{size}} Mib",
+        "caption": "Beschreibung: {{caption}}",
+        "filename": "Dateiname: {{filename}}",
+        "uploaded": "Hochgeladen am: {{date}}",
+        "Imported": "Importiert: {{yes_or_no}}",
+        "edit_details": "Details bearbeiten",
+        "edit_the_image": "Bild bearbeiten",
+        "filename_word": "Dateiname",
+        "storage_usage": "Du hast {{used}} Mib von {{total}} Mib benutzt. Das entspricht {{percent}}% deines Speichers.",
+        "delete_image": "Bild löschen",
+        "alt_text": "Alternativtext / Beschreibung",
+        "imported": "Importiert: {{yes_or_no}}"
+    },
+    "video_uploader": {
+        "time_elapsed": "Abgelaufene Zeit",
+        "time_remaining": "Zeit übrig"
     }
 }

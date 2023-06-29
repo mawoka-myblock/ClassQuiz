@@ -13,6 +13,7 @@
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import { flip } from 'svelte/animate';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { get_foreground_color } from '../helpers';
 
 	const { t } = getLocalization();
 
@@ -31,10 +32,10 @@
 	}
 
 	/*	if (typeof question_index === 'string') {
-			question_index = parseInt(question_index);
-		} else {
-			throw new Error('question_index must be a string or number');
-		}*/
+            question_index = parseInt(question_index);
+        } else {
+            throw new Error('question_index must be a string or number');
+        }*/
 
 	let timer_res = question.time;
 	let selected_answer: string;
@@ -138,6 +139,7 @@
 		}
 	};
 	$: console.log(slider_value, 'values');
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 </script>
 
 <div class="h-screen w-screen">
@@ -152,7 +154,7 @@
 			{#if question.image !== null && game_mode !== 'kahoot'}
 				<div class="max-h-full">
 					<img
-						src={question.image}
+						src="/api/v1/storage/download/{question.image}"
 						class="object-cover mx-auto mb-8 max-h-[90%]"
 						alt="Content for Question"
 					/>
@@ -176,14 +178,17 @@
 				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
 					{#each question.answers as answer, i}
 						<button
-							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3"
-							style="background-color: {answer.color ?? '#B07156'}"
+							class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black"
+							style="background-color: {answer.color ??
+								default_colors[i]}; color: {get_foreground_color(
+								answer.color ?? default_colors[i]
+							)}"
 							disabled={selected_answer !== undefined}
 							on:click={() => selectAnswer(answer.answer)}
 						>
 							{#if game_mode === 'kahoot'}
 								<img
-									class="w-10 inline-block m-auto"
+									class="h-2/3 inline-block m-auto"
 									alt="Icon"
 									src={kahoot_icons[i]}
 								/>
@@ -246,30 +251,6 @@
 					</BrownButton>
 				</div>
 			</div>
-		{:else if question.type === QuizQuestionType.ABCD}
-			{#if solution === undefined}
-				<Spinner />
-			{:else}
-				<div class="grid grid-cols-2 gap-2 w-full p-4">
-					{#each solution.answers as answer}
-						{#if answer.right}
-							<button
-								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-green-600"
-								disabled
-								class:opacity-30={answer.answer !== selected_answer}
-								>{answer.answer}</button
-							>
-						{:else}
-							<button
-								class="text-3xl rounded-lg h-fit flex align-middle justify-center p-3 bg-red-500"
-								disabled
-								class:opacity-30={answer.answer !== selected_answer}
-								>{answer.answer}</button
-							>
-						{/if}
-					{/each}
-				</div>
-			{/if}
 		{:else if question.type === QuizQuestionType.RANGE}
 			{#if solution === undefined}
 				<Spinner />
@@ -286,8 +267,8 @@
 			{/if}
 		{:else if question.type === QuizQuestionType.ORDER}
 			<!--			{#if solution === undefined}
-							<Spinner />
-						{:else}-->
+                            <Spinner />
+                        {:else}-->
 			<div class="flex flex-col w-full h-full gap-4 px-4 py-6">
 				{#each question.answers as answer, i (answer.id)}
 					<div
@@ -360,14 +341,34 @@
 				</div>
 			</div>
 			<!--{/if}-->
+		{:else if question.type === QuizQuestionType.CHECK}
+			{#await import('./questions/check.svelte')}
+				<Spinner />
+			{:then c}
+				<svelte:component
+					this={c.default}
+					bind:question
+					bind:selected_answer
+					bind:game_mode
+				/>
+				<div class="flex justify-center h-[5%]">
+					<div class="w-1/2">
+						<BrownButton
+							disabled={!selected_answer}
+							on:click={() => selectAnswer(selected_answer)}
+							>{$t('words.submit')}
+						</BrownButton>
+					</div>
+				</div>
+			{/await}
 		{/if}
 
 		<!--{:else if question.type === QuizQuestionType.VOTING}
-	{#await import('$lib/play/admin/voting_results.svelte')}
-		<Spinner />
-	{:then c}
-		<svelte:component this={c.default} bind:data={question_results}
-						  bind:question={quiz_data.questions[selected_question]} />
-	{/await}-->
+    {#await import('$lib/play/admin/voting_results.svelte')}
+        <Spinner />
+    {:then c}
+        <svelte:component this={c.default} bind:data={question_results}
+                          bind:question={quiz_data.questions[selected_question]} />
+    {/await}-->
 	{/if}
 </div>

@@ -12,14 +12,14 @@ from classquiz.db.models import User, GameResults
 router = APIRouter()
 
 
-@router.get("/list", response_model=list[GameResults])
-async def list_game_results(user: User = Depends(get_current_user)):
-    results = await GameResults.objects.all(user=user.id)
+@router.get("/list")
+async def list_game_results(user: User = Depends(get_current_user)) -> list[GameResults]:
+    results = await GameResults.objects.select_related(GameResults.quiz).all(user=user.id)
     return results
 
 
-@router.get("/list/{quiz_id}", response_model=list[GameResults])
-async def get_results_by_quiz(quiz_id: UUID, user: User = Depends(get_current_user)):
+@router.get("/list/{quiz_id}")
+async def get_results_by_quiz(quiz_id: UUID, user: User = Depends(get_current_user)) -> list[GameResults]:
     res = await GameResults.objects.all(user=user.id, quiz=quiz_id)
     if res is None:
         raise HTTPException(status_code=404, detail="Game Result not found")
@@ -27,9 +27,9 @@ async def get_results_by_quiz(quiz_id: UUID, user: User = Depends(get_current_us
         return res
 
 
-@router.get("/{game_id}", response_model=GameResults)
-async def get_game_result(game_id: UUID, user: User = Depends(get_current_user)):
-    res = await GameResults.objects.get_or_none(user=user.id, id=game_id)
+@router.get("/{game_id}")
+async def get_game_result(game_id: UUID, user: User = Depends(get_current_user)) -> GameResults:
+    res = await GameResults.objects.select_related(GameResults.quiz).get_or_none(user=user.id, id=game_id)
     if res is None:
         raise HTTPException(status_code=404, detail="Game Result not found")
     else:
@@ -40,8 +40,8 @@ class _SetNoteInput(BaseModel):
     note: str
 
 
-@router.post("/set_note", response_model=GameResults)
-async def set_note(id: UUID, data: _SetNoteInput, user: User = Depends(get_current_user)):
+@router.post("/set_note")
+async def set_note(id: UUID, data: _SetNoteInput, user: User = Depends(get_current_user)) -> GameResults:
     res = await GameResults.objects.get_or_none(user=user.id, id=id)
     if res is None:
         raise HTTPException(status_code=404, detail="Game Result not found")
@@ -49,6 +49,7 @@ async def set_note(id: UUID, data: _SetNoteInput, user: User = Depends(get_curre
     return await res.update()
 
 
+# skipcq: PYL-W0105
 """
 @router.get("/export/{result_id}", response_class=StreamingResponse)
 async def export_result(result_id: UUID, user: User = Depends(get_current_user)):

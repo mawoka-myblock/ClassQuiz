@@ -14,6 +14,7 @@
 			min_correct: 3
 		};
 	}
+
 	/*
 	const correct_numbers = (data: number[]) => {
 		console.log(data, data[1] <= data[0])

@@ -170,7 +170,9 @@
 				alt="Profile image of {user.username}"
 			/>
 			<div class="m-2 flex justify-center">
-				<BrownButton href="/account/settings/avatar">Change avatar</BrownButton>
+				<BrownButton href="/account/settings/avatar"
+					>{$t('settings_page.change_avatar')}</BrownButton
+				>
 			</div>
 		</div>
 		<div class="grid grid-rows-2 col-start-2 col-end-7">
@@ -184,7 +186,7 @@
 				<div class="p-4 flex justify-center">
 					<div class="m-auto">
 						<BrownButton href="/account/settings/security"
-							>Security-Settings
+							>{$t('settings_page.security_settings')}
 						</BrownButton>
 						<BrownButton href="/account/controllers">ClassQuizController</BrownButton>
 					</div>
@@ -220,20 +222,25 @@
 					</div>
 				</form>
 				<div>
-					<button on:click={add_api_key}>Add API-Key</button>
+					<div class="w-fit">
+						<BrownButton on:click={add_api_key}
+							>{$t('settings_page.add_api_key')}</BrownButton
+						>
+					</div>
 					{#await api_keys}
 						<Spinner />
 					{:then keys}
 						{#each keys as key}
 							<div>
 								{key.key}
-								<button
-									on:click={() => {
-										delete_api_key(key.key);
-									}}
-									class="admin-button"
-									>Delete
-								</button>
+								<div class="inline-block">
+									<BrownButton
+										on:click={() => {
+											delete_api_key(key.key);
+										}}
+										>{$t('words.delete')}
+									</BrownButton>
+								</div>
 							</div>
 						{/each}
 					{/await}

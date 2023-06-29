@@ -253,7 +253,8 @@
 			{#if game_data.questions[selected_question].image !== null}
 				<div>
 					<img
-						src={game_data.questions[selected_question].image}
+						src="/api/v1/storage/download/{game_data.questions[selected_question]
+							.image}"
 						class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 						alt="Content for Question"
 					/>

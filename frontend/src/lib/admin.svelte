@@ -13,6 +13,8 @@
 	import { kahoot_icons } from './play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import Spinner from '$lib/Spinner.svelte';
+	import { get_foreground_color } from '$lib/helpers';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
@@ -20,6 +22,7 @@
 	export let bg_color;
 
 	const { t } = getLocalization();
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
 	let question_results = null;
 	export let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
@@ -28,6 +31,7 @@
 	let shown_question_now: number;
 	let final_results_clicked = false;
 	let timer_interval;
+	let answer_count = 0;
 	export let control_visible: boolean;
 
 	export let player_scores;
@@ -50,6 +54,7 @@
 		shown_question_now = data.question_index;
 		timer_res = quiz_data.questions[data.question_index].time;
 		selected_question = selected_question + 1;
+		answer_count = 0;
 		timer(timer_res);
 	});
 	const get_question_results = () => {
@@ -92,6 +97,10 @@
 		}
 	});
 
+	socket.on('player_answer', (_) => {
+		answer_count += 1;
+	});
+
 	const timer = (time: string) => {
 		let seconds = Number(time);
 		timer_interval = setInterval(() => {
@@ -132,7 +141,7 @@
 			{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 				{#if JSON.stringify(final_results) === JSON.stringify([null])}
 					<button on:click={get_final_results} class="admin-button"
-						>Get final results
+						>{$t('admin_page.get_final_results')}
 					</button>
 				{/if}
 			{:else if timer_res === '0' || selected_question === -1}
@@ -142,7 +151,7 @@
 							set_question_number(selected_question + 1);
 						}}
 						class="admin-button"
-						>Next Question ({selected_question + 2})
+						>{$t('admin_page.next_question', { question: selected_question + 2 })}
 					</button>
 				{/if}
 				{#if question_results === null && selected_question !== -1}
@@ -152,11 +161,11 @@
 								set_question_number(selected_question + 1);
 							}}
 							class="admin-button"
-							>Next Question ({selected_question + 2})
+							>{$t('admin_page.next_question', { question: selected_question + 2 })}
 						</button>
 					{:else}
 						<button on:click={get_question_results} class="admin-button"
-							>Show results
+							>{$t('admin_page.show_results')}
 						</button>
 					{/if}
 				{/if}
@@ -167,22 +176,22 @@
 							set_question_number(selected_question + 1);
 						}}
 						class="admin-button"
-						>Next Question ({selected_question + 2})
+						>{$t('admin_page.next_question', { question: selected_question + 2 })}
 					</button>
 				{:else}
 					<button on:click={show_solutions} class="admin-button"
-						>Stop time and show solutions
+						>{$t('admin_page.stop_time_and_solutions')}
 					</button>
 				{/if}
 			{:else}
 				<!--				<button
-					on:click={() => {
-						set_question_number(selected_question + 1);
-					}}
-					class='admin-button'
-				>Next Question ({selected_question + 2}
-					)
-				</button>-->
+                    on:click={() => {
+                        set_question_number(selected_question + 1);
+                    }}
+                    class='admin-button'
+                >Next Question ({selected_question + 2}
+                    )
+                </button>-->
 			{/if}
 		</div>
 	</div>
@@ -212,37 +221,53 @@
 					{@html quiz_data.questions[selected_question].question}
 				</h1>
 				<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
-				<div class="mx-auto my-2">
-					<CircularTimer
-						bind:text={timer_res}
-						bind:progress={circular_progress}
-						color="#ef4444"
-					/>
+				<div class="grid grid-cols-3 my-2">
+					<span />
+					<div class="m-auto">
+						<CircularTimer
+							bind:text={timer_res}
+							bind:progress={circular_progress}
+							color="#ef4444"
+						/>
+					</div>
+					<p class="m-auto text-3xl">
+						{$t('admin_page.answers_submitted', { answer_count: answer_count })}
+					</p>
 				</div>
 			</div>
 			{#if quiz_data.questions[selected_question].image !== null}
-				<div>
-					<img
+				<div class="flex w-full">
+					<MediaComponent
 						src={quiz_data.questions[selected_question].image}
-						class="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
-						alt="Content for Question"
+						muted={false}
+						css_classes="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
 					/>
 				</div>
 			{/if}
-			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING}
+			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING || quiz_data.questions[selected_question].type === QuizQuestionType.CHECK}
 				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
 					{#each quiz_data.questions[selected_question].answers as answer, i}
 						<div
-							class="rounded-lg h-fit flex"
-							style="background-color: {answer.color ?? '#B45309'}"
+							class="rounded-lg h-fit flex border-2 border-black"
+							style="background-color: {answer.color ?? default_colors[i]};"
 							class:opacity-50={!answer.right &&
 								timer_res === '0' &&
 								quiz_data.questions[selected_question].type ===
 									QuizQuestionType.ABCD}
 						>
-							<img class="w-14 inline-block pl-4" alt="icon" src={kahoot_icons[i]} />
-							<span class="text-center text-2xl px-2 py-4 w-full text-black"
-								>{answer.answer}</span
+							<img
+								class="w-14 inline-block pl-4"
+								alt="icon"
+								style="color: {get_foreground_color(
+									answer.color ?? default_colors[i]
+								)}"
+								src={kahoot_icons[i]}
+							/>
+							<span
+								class="text-center text-2xl px-2 py-4 w-full"
+								style="color: {get_foreground_color(
+									answer.color ?? default_colors[i]
+								)}">{answer.answer}</span
 							>
 							<span class="pl-4 w-10" />
 						</div>
@@ -262,7 +287,7 @@
 					</div>
 				{:else}
 					<div class="flex justify-center">
-						<p class="text-2xl">Enter your answer into the input field!</p>
+						<p class="text-2xl">{$t('admin_page.enter_answer_into_field')}</p>
 					</div>
 				{/if}
 			{/if}
@@ -308,7 +333,7 @@
 					<div class="h-[30vh] m-auto w-auto mt-12">
 						<img
 							class="max-h-full max-w-full block"
-							src={quiz_data.cover_image}
+							src="/api/v1/storage/download/{quiz_data.cover_image}"
 							alt="Not provided"
 						/>
 					</div>

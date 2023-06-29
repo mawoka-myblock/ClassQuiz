@@ -208,7 +208,7 @@
 		</div>
 	</section>
 	<section>
-		<h2 class="text-center text-5xl mb-6">How does ClassQuiz even work?</h2>
+		<h2 class="text-center text-5xl mb-6">{$t('index_page.how_does_classquiz_work')}</h2>
 
 		<div class="flex justify-center w-full">
 			<h3 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
@@ -258,7 +258,7 @@
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Create}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							aria-label="Pencil-Icon"
@@ -288,7 +288,7 @@
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Find}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							class="w-8 h-8 text-black"
@@ -309,7 +309,7 @@
 					<h5 class="text-xl dark:text-black">{$t('words.find')}</h5>
 					<p class="dark:text-black">{$t('index_page.find_or_explore')}</p>
 				</div>
-				<div
+				<!--<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_create_thing = SelectedCreateThing.Import;
@@ -318,7 +318,7 @@
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Import}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							class="w-8 h-8 text-black"
@@ -340,7 +340,7 @@
 					<p class="dark:text-black">
 						{$t('index_page.import_quiz_from_kahoot_and_edit')}
 					</p>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</section>

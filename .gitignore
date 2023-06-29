@@ -7,3 +7,4 @@ node_modules/
 *.rdb
 survey.json
 .coverage
+export_deta.py

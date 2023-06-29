@@ -7,6 +7,7 @@
 	import { getLocalization } from '$lib/i18n';
 	const { t } = getLocalization();
 	import SearchCard from '$lib/search-card.svelte';
+	import { onMount } from 'svelte';
 	let search_term = '';
 	let resp_data = null;
 
@@ -26,10 +27,18 @@
 			resp_data_temp = resp_data_temp.replaceAll('<em>', '<mark>');
 			resp_data_temp = resp_data_temp.replaceAll('</em>', '</mark>');
 			resp_data = JSON.parse(resp_data_temp);
+			const url = new URLSearchParams(window.location.search);
+			url.set('q', search_term);
+			history.pushState(null, null, '?' + url.toString());
 		} else {
 			console.error('Error!', res.status);
 		}
 	};
+	onMount(() => {
+		const url = new URLSearchParams(window.location.search);
+		search_term = url.get('q') ?? '';
+		submit();
+	});
 </script>
 
 <svelte:head>
@@ -52,7 +61,7 @@
 					bind:value={search_term}
 				/>
 				<button
-					class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+					class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
 					id="button-addon2"
 					disabled={search_term.length <= 2}
 					type="submit"
@@ -94,9 +103,9 @@
 				Not finding what you are looking for? Search on <a
 					class="underline"
 					href="https://create.kahoot.it/search?query={search_term}&tags=test&filter=filter%3D1"
-					target="_blank">KAHOOT!</a
+					target="_blank">Kahoot!</a
 				>
-				and <a href="/import" class="underline">Import</a> it!
+				and <a href="/import" class="underline">import</a> it!
 			</p>
 		</div>
 	{/if}

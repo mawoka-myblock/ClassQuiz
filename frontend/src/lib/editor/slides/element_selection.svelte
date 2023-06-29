@@ -7,7 +7,9 @@
 	import { ElementTypes } from '$lib/quiz_types';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { getLocalization } from '$lib/i18n';
 
+	const { t } = getLocalization();
 	export let selected_element;
 	const keybinding_list = {
 		t: ElementTypes.Text,
@@ -40,22 +42,22 @@
 		shortcut: string;
 	}> = [
 		{
-			name: 'Headline',
-			description: 'A bold text for headlines',
+			name: $t('editor.slide.headline'),
+			description: $t('editor.slide.headline_description'),
 			type: ElementTypes.Headline,
 			icon: undefined,
 			shortcut: 'h'
 		},
 		{
-			name: 'Text',
-			description: 'Smaller longer text',
+			name: $t('editor.slide.text'),
+			description: $t('editor.slide.text_description'),
 			type: ElementTypes.Text,
 			icon: undefined,
 			shortcut: 't'
 		},
 		{
-			name: 'Rectangle',
-			description: 'Just a rectangle',
+			name: $t('editor.slide.rectangle'),
+			description: $t('editor.slide.rectangle_description'),
 			type: ElementTypes.Rectangle,
 			icon: undefined,
 			shortcut: 'r'

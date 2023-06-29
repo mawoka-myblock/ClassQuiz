@@ -4,6 +4,7 @@
 
 import random
 import time
+import sys
 
 import socketio
 
@@ -63,4 +64,4 @@ if __name__ == "__main__":
     try:
         __main__()
     except KeyboardInterrupt:
-        exit(1)
+        sys.exit(1)

@@ -3,6 +3,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import asyncio
+import uuid
 from typing import Optional
 
 import ormar.exceptions
@@ -64,12 +65,15 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
         worksheet.write(i + 1, 1, question["time"])
 
         try:
-            async with ClientSession() as session, session.get(question["image"]) as response:
-                img_data = BytesIO(await response.read())
-                worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
-                image = Image.open(img_data)
-                worksheet.set_row(i + 1, image.height)
-                worksheet.set_column(2, 2, image.width)
+            async with ClientSession() as session, session.get(
+                f"{settings.root_address}/api/v1/storage/download/{question['image']}"
+            ) as response:
+                if "image" in response.headers.get("Content-Type"):
+                    img_data = BytesIO(await response.read())
+                    worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
+                    image = Image.open(img_data)
+                    worksheet.set_row(i + 1, image.height)
+                    worksheet.set_column(2, 2, image.width)
         except TypeError:
             pass
         answer_amount = len(answer_data)
@@ -175,3 +179,36 @@ def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -
         return False
     some_error = [version == "1", claim == claim_in, res == input_data, ext == ""]
     return all(el is True for el in some_error)
+
+
+def check_image_string(image: str) -> (bool, uuid.UUID | None):
+    # Valid formats: {uuid} and {uuid}--{uuid}
+    try:
+        parsed_uuid = uuid.UUID(image)
+        return True, parsed_uuid
+    except ValueError:
+        pass
+
+    split_image = image.split("--")
+    if len(split_image) != 2:
+        return False, None
+
+    try:
+        uuid.UUID(split_image[0])
+        uuid.UUID(split_image[1])
+        return True, None
+    except ValueError:
+        return False, None
+
+
+def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
+    quiz_images = []
+    if quiz.background_image is not None:
+        quiz_images.append(quiz.background_image)
+    if quiz.cover_image is not None:
+        quiz_images.append(quiz.cover_image)
+    for question in quiz.questions:
+        if question["image"] is None:
+            continue
+        quiz_images.append(question["image"])
+    return quiz_images

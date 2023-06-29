@@ -4,14 +4,16 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 <script lang="ts">
-	import { alertModal } from '$lib/stores';
+	// import { alertModal } from '$lib/stores';
 	import { captcha_enabled } from '$lib/config';
 	import StartGameBackground from './start_game_background.svg';
 	import { fade } from 'svelte/transition';
 	import Spinner from '$lib/Spinner.svelte';
 	import { onMount } from 'svelte';
 	import { createTippy } from 'svelte-tippy';
+	import { getLocalization } from '$lib/i18n';
 
+	const { t } = getLocalization();
 	export let quiz_id;
 	let captcha_selected = false;
 	let selected_game_mode = 'kahoot';
@@ -52,14 +54,16 @@
 			);
 		}
 		if (res.status !== 200) {
-			alertModal.set({
+			/*			alertModal.set({
 				open: true,
 				title: 'Start failed',
 				body: `Failed to start game, ${await res.text()}`
-			});
-			alertModal.subscribe((_) => {
+			});*/
+			/*alertModal.subscribe((_) => {
 				window.location.assign('/account/login?returnTo=/dashboard');
-			});
+			});*/
+			alert('Starting game failed');
+			window.location.assign('/account/login?returnTo=/dashboard');
 		} else {
 			const data = await res.json();
 			// eslint-disable-next-line no-undef
@@ -103,9 +107,7 @@
 		{#if captcha_selected}
 			<div class="flex justify-center mt-2" in:fade>
 				<p class="w-1/3">
-					If enabled, Google's ReCaptcha will load in the browser of players. Only enable
-					if you really need it, since you need the consent of <b>EVERY</b> player to load
-					the captcha.
+					{$t('start_game.captcha_message')}
 				</p>
 				<!-- Todo: Add translation  -->
 			</div>
@@ -119,11 +121,9 @@
 					selected_game_mode = 'kahoot';
 				}}
 			>
-				<h2 class="text-center text-2xl">Normal</h2>
+				<h2 class="text-center text-2xl">{$t('words.normal')}</h2>
 				<p>
-					Question and answer will only be shown on admins screen, like Kahoot!. The
-					players will only have colored buttons with symbols matching these on the screen
-					of the admin.
+					{$t('start_game.normal_mode_description')}
 				</p>
 			</div>
 			<div
@@ -133,15 +133,14 @@
 					selected_game_mode = 'normal';
 				}}
 			>
-				<h2 class="text-center text-2xl">Old-School</h2>
+				<h2 class="text-center text-2xl">{$t('start_game.old_school_mode')}</h2>
 				<p>
-					Questions and images will be shown on both admins screen and on the screen of
-					the players
+					{$t('start_game.old_school_mode_description')}
 				</p>
 			</div>
 		</div>
 		<div class="flex justify-center items-center my-auto">
-			<label class="mr-4">Custom Field</label>
+			<label class="mr-4">{$t('result_page.custom_field')}</label>
 			<input
 				bind:value={custom_field}
 				class="rounded-lg p-2 outline-none placeholder:italic"
@@ -183,7 +182,7 @@
 			{#if loading}
 				<Spinner my_20={false} />
 			{:else}
-				Start Game
+				{$t('start_game.start_game')}
 			{/if}
 		</button>
 	</div>

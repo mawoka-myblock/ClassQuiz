@@ -13,7 +13,7 @@
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import { getLocalization } from '$lib/i18n';
 	import StartGamePopup from './start_game.svelte';
-	import { onMount } from 'svelte';
+	// import { onMount } from 'svelte';
 	import viewport from './useViewportAction.js';
 	import Spinner from '$lib/Spinner.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
@@ -34,12 +34,6 @@
 	};
 	let visibleImages = Array.from(Array(quizzes.length), () => []);
 
-	const close_start_game_if_esc_is_pressed = (key: KeyboardEvent) => {
-		if (key.code === 'Escape') {
-			start_game = null;
-		}
-	};
-
 	const copy_id = (quiz_id: string) => {
 		navigator.clipboard.writeText(quiz_id);
 		copy_toast_open = true;
@@ -58,9 +52,9 @@
 			game_in_lobby = await res.json();
 		}
 	};
-	onMount(() => {
-		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
-	});
+	// onMount(() => {
+	// 	document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
+	// });
 
 	get_game_in_lobby_fn();
 </script>
@@ -164,7 +158,7 @@
 												<div class="h-[20vh] m-auto w-auto">
 													<img
 														class="max-h-full max-w-full block"
-														src={quiz.cover_image}
+														src="/api/v1/storage/download/{quiz.cover_image}"
 														alt="Not provided"
 														loading="lazy"
 													/>
@@ -308,7 +302,7 @@
 													{#if visibleImages?.[i]?.[q]}
 														<img
 															class="max-h-full max-w-full block"
-															src={question.image}
+															src="/api/v1/storage/download/{question.image}"
 															alt="Not provided"
 														/>
 													{/if}

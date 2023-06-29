@@ -10,50 +10,21 @@ from random import randint
 
 import ormar.exceptions
 
-from classquiz.helpers import get_meili_data, generate_spreadsheet
+from classquiz.helpers import generate_spreadsheet
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
-import bleach
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, QuizInput, User, PlayGame, GameInLobby, QuizQuestion
+from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion
 from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
-import html
 import urllib.parse
 
 settings = settings()
 
 router = APIRouter()
-
-
-@router.post("/create", deprecated=True)
-async def create_quiz_lol(quiz_input: QuizInput, user: User = Depends(get_current_user)):
-    imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
-    server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{36}--.{36}$"
-    quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
-    quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
-    for question in quiz_input.questions:
-        if question.image == "":
-            question.image = None
-        if (
-            question.image is not None
-            and not re.match(imgur_regex, question.image)
-            and not re.match(server_regex, question.image)
-        ):
-            raise HTTPException(status_code=400, detail="image url is not valid")
-    if quiz_input.cover_image == "":
-        quiz_input.cover_image = None
-
-    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
-        raise HTTPException(status_code=400, detail="image url is not valid")
-    quiz = Quiz(**quiz_input.dict(), user_id=user.id, id=uuid.uuid4())
-    await redis.delete("global_quiz_count")
-    if quiz_input.public:
-        meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
-    return await quiz.save()
 
 
 @router.get("/get/{quiz_id}")
@@ -195,57 +166,14 @@ async def get_quiz_list(user: User = Depends(get_current_user), page_size: int |
         raise HTTPException(status_code=400, detail="Invalid page(size). page(size) have to be greater than 0.")
 
 
-@router.put("/update/{quiz_id}", deprecated=True)
-async def update_quiz(quiz_id: str, quiz_input: QuizInput, user: User = Depends(get_current_user)):
-    imgur_regex = r"^https://i\.imgur\.com\/.{7}.(jpg|png|gif)$"
-    server_regex = rf"^{re.escape(settings.root_address)}/api/v1/storage/download/.{{36}}--.{{36}}$"
-    for question in quiz_input.questions:
-        if question.image == "":
-            question.image = None
-        if (
-            question.image is not None
-            and not bool(re.match(server_regex, question.image))
-            and not bool(re.match(imgur_regex, question.image))
-        ):
-            raise HTTPException(status_code=400, detail="image url is not valid")
-    try:
-        quiz_id = uuid.UUID(quiz_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="badly formed quiz id")
-    # Check Cover-Image
-
-    if quiz_input.cover_image == "":
-        quiz_input.cover_image = None
-
-    if quiz_input.cover_image is not None and not bool(re.match(server_regex, quiz_input.cover_image)):
-        raise HTTPException(status_code=400, detail="image url is not valid")
-
-    quiz = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
-    if quiz is None:
-        return JSONResponse(status_code=404, content={"detail": "quiz not found"})
-    else:
-        quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=[], strip=True))
-        quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=[], strip=True))
-        meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
-        if quiz.public and not quiz_input.public:
-            meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
-        if not quiz.public and quiz_input.public:
-            meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
-        quiz.title = quiz_input.title
-        quiz.cover_image = quiz_input.cover_image
-        quiz.public = quiz_input.public
-        quiz.description = quiz_input.description
-        quiz.updated_at = datetime.now()
-        quiz.questions = quiz_input.dict()["questions"]
-
-        return await quiz.update()
-
-
 @router.post("/import/{quiz_id}")
 async def import_quiz_route(quiz_id: str, user: User = Depends(get_current_user)):
+    if user.storage_used > settings.free_storage_limit:
+        raise HTTPException(status_code=409, detail="Storage limit reached")
     try:
         return await import_quiz(quiz_id, user)
-    except ValidationError:
+    except ValidationError as e:
+        print(e)
         raise HTTPException(status_code=400, detail="This quiz isn't (yet) supported")
 
 
@@ -264,7 +192,9 @@ async def delete_quiz(quiz_id: str, user: User = Depends(get_current_user)):
     for question in quiz.questions:
         try:
             if question["image"] is not None and not str(question["image"]).startswith("https://i.imgur.com/"):
-                pics_to_delete.append(pic_name_regex.match(question["image"]).group(1))
+                old_image_to_delete = pic_name_regex.match(question["image"])
+                if old_image_to_delete is not None:
+                    pics_to_delete.append(old_image_to_delete.group(1))
         except KeyError:
             pass
     if len(pics_to_delete) != 0:

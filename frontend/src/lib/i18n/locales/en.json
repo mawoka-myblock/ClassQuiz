@@ -2,13 +2,8 @@
     "index_page": {
         "slogan": "The open-source quiz-platform!",
         "meta": {
-            "description": "ClassQuiz is a quiz app like Kahoot! for students, which is open source and free to use",
+            "description": "ClassQuiz is a quiz app to learn interactively for students, which is open source and free to use",
             "title": "Home"
-        },
-        "features_description": {
-            "1": "ClassQuiz is a quiz-platform that allows you to create and manage quizzes.",
-            "2": "The main feature is a Kahoot!-import function that allows you to import quizzes from Kahoot!-quizzes.",
-            "3": "The editor and function of exporting quiz results as Excel files are particular highlights of the software."
         },
         "stats": "There are already {{user_count}} users and {{quiz_count}} quizzes on ClassQuiz.",
         "see_what_true_and_false": "See what was right or wrong",
@@ -28,7 +23,6 @@
         "get_a_quiz": "1. Get a quiz",
         "create_a_quiz_from_scratch": "Create a quiz from scratch with the editor and include pictures and more",
         "find_or_explore": "Find (or explore) quizzes made or imported by other people",
-        "import_quiz_from_kahoot_and_edit": "Import a quiz from Kahoot! and edit it in ClassQuiz",
         "play_quiz": "2. Play the quiz",
         "select_answer": "Select the answer",
         "choose_answer_wisely": "Choose your answer wisely",
@@ -37,7 +31,7 @@
         "list_winners": "List winners",
         "get_ranking_and_winners": "Get the ranking and see who won",
         "why_classquiz": "Why ClassQuiz?",
-        "no_tracking_content": "Kahoot! tracks you and sends that info to third-parties, but ClassQuiz doesn't.",
+        "no_tracking_content": "Others track you and sends that info to third-parties, but ClassQuiz doesn't.",
         "self_hostable_content": "ClassQuiz can easily be self-hosted, so the data is only in your control!",
         "user_friendly_content": "ClassQuiz aims to be simple, so it is can be used by everyone.",
         "completely_free_content": "ClassQuiz is completely cost free (for the user), without any paid plans or annoying redirects to the upgrade-page. Donations are highly appreciated.",
@@ -48,12 +42,13 @@
         "download_quizzes": "Download Quizzes",
         "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time. This also lets you move your quizzes to other ClassQuiz instances.",
         "community_driven": "Community-driven",
-        "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!"
+        "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!",
+        "how_does_classquiz_work": "How does ClassQuiz even work?"
     },
     "overview_page": {
         "created_at": "Created at",
         "question_count": "Question count",
-        "no_quizzes": "Click the \"Create\"-button, or import a quiz from Kahoot! to get going."
+        "no_quizzes": "Click the \"Create\"-button, or import a quiz to get going."
     },
     "edit_page": {
         "success_update_title": "Quiz updated.",
@@ -157,16 +152,37 @@
         "backup_code": "Backup-code",
         "totp": "Totp",
         "text": "Text",
-        "order": "order",
+        "order": "Order",
         "results": "Results",
         "note": "Note",
         "player_plural": "Players",
-        "score": "Score",
         "version": "Version",
         "never": "Never",
         "unknown": "Unknown",
+        "update": "Update",
+        "score": "Score",
+        "slide": "Slide",
         "name": "Name",
-        "update": "Update"
+        "point": "Point",
+        "point_plural": "Points",
+        "back": "Back",
+        "finish": "Finish",
+        "normal": "Normal",
+        "selected": "Selected",
+        "select": "Select",
+        "quiz": "Quiz",
+        "quiztivity": "Quiztivity",
+        "next": "Next",
+        "check_choice": "Check Choice",
+        "video": "Video",
+        "library": "Library",
+        "progress": "Progress",
+        "speed": "Speed",
+        "upload": "Upload",
+        "files_library": "Files Library",
+        "answer_plural": "Answers",
+        "yes": "Yes",
+        "no": "no"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -175,7 +191,24 @@
         "add_new_question": "Add new question",
         "delete_question": "Delete question",
         "delete_answer": "Delete answer",
-        "not_all_links_imgur_links": "Not all links are Imgur-links!"
+        "not_all_links_imgur_links": "Not all links are Imgur-links!",
+        "no_title": "No title...",
+        "empty": "Empty...",
+        "bg_image": "Background image",
+        "slide": {
+            "headline": "Headline",
+            "headline_description": "A bold text for headlines",
+            "text": "Text",
+            "text_description": "Smaller longer text",
+            "rectangle": "Rectangle",
+            "rectangle_description": "Just a rectangle"
+        },
+        "abcd_description": "Only one answer can be chosen",
+        "voting_description": "Answers don't add any points",
+        "check_choice_description": "All correct answers have to be chosen to score points",
+        "order_description": "Answers can be brought into the correct order",
+        "text_description": "Players can enter text",
+        "range_description": "A number-range can be selected with a slider"
     },
     "import_page": {
         "need_help": "Need help?",
@@ -194,12 +227,18 @@
         "get_results": "Get results",
         "get_results_and_stop_time": "Get results and stop time",
         "get_final_results": "Get final results",
-        "export_results": "Export results",
         "show_next_question": "Show next question",
         "start_by_showing_first_question": "Start by showing the first question.",
         "no_answers": "No answers!",
         "stop_time": "Stop time",
-        "save_results": "Save results"
+        "save_results": "Save results",
+        "next_question": "Next Question ({{question}})",
+        "show_results": "Show results",
+        "stop_time_and_solutions": "Stop time and show solutions",
+        "enter_answer_into_field": "Enter your answer into the input field!",
+        "answers_submitted": "{{answer_count}} Answers submitted",
+        "request_export_results": "Request result download",
+        "download_export_results": "Download results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -212,7 +251,10 @@
         "last_seen": "Last seen",
         "check_location": "Check location",
         "delete_this_session": "Delete this session",
-        "this_session?": "This session?"
+        "this_session?": "This session?",
+        "change_avatar": "Change avatar",
+        "security_settings": "Security-Settings",
+        "add_api_key": "Add API key"
     },
     "explore_page": {
         "made_by": "Made by",
@@ -227,7 +269,12 @@
         "1st_place": "1st Place",
         "2nd_place": "2nd Place",
         "3rd place": "3rd Place",
-        "with_out_of": "with {{correct_questions}} out of {{total_question_count}}"
+        "with_out_of": "with {{correct_questions}} out of {{total_question_count}}",
+        "final_result_rank": "{{place}}: {{username}} with {{points}} points",
+        "your_score": "Your score: {{score}}",
+        "join_description": "Join at {{url}} and enter {{pin}}.",
+        "join_by_entering_code": "Join by entering the following code",
+        "points_added": "Points added"
     },
     "editor_page": {
         "add_an_answer": "Add an answer",
@@ -246,7 +293,14 @@
         "unknown_error_text": "That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power to break stuff..."
     },
     "uploader": {
-        "add_image": "Add image"
+        "add_image": "Add image",
+        "select_upload_type": "Select the Upload Type",
+        "upload_a_video": "Upload a Video",
+        "upload_video_popup_notice": "The popup is open; have a look at it for further information",
+        "upload_video": "Upload Video",
+        "visit_pixabay": "Visit Pixabay",
+        "images_by_pixabay": "Images provided by Pixabay",
+        "search_english_only": "The search works in English only"
     },
     "avatar_settings": {
         "skin_color": "Skin color",
@@ -262,13 +316,17 @@
         "clothe_color": "Clothing color",
         "clothe_graphic_type": "Graphic",
         "thats_you": "That's You!",
-        "start_over": "Start over"
+        "start_over": "Start over",
+        "go_back": "Go back"
     },
     "results_page": {
         "no_results_so_far": "No results saved so far...",
         "quiz_title": "Quiz Title",
         "date_played": "Date Played",
-        "player_count": "Player count"
+        "player_count": "Player count",
+        "general_overview": {
+            "sentence": "The quiz \"{{title}}\", which was played on {{date}} had {{player_count}} players with an average score of {{average_score}}."
+        }
     },
     "result_page": {
         "player_name": "Player name",
@@ -276,7 +334,8 @@
         "average_score": "Average score: {{average_score}}",
         "correct_answer": "{{count}} correct answer",
         "correct_answer_plural": "{{count}} correct answers",
-        "time_taken": "Time taken"
+        "time_taken": "Time taken",
+        "player_score": "Player Score"
     },
     "controllers": {
         "add_new_controller": "Add new controller",
@@ -288,5 +347,104 @@
         "already_latest_version": "You're already on the latest version",
         "cancel_update": "Cancel Update!",
         "update_from_to": "Update from {{current_version}} to {{newest_version}}"
+    },
+    "navbar": {
+        "donate": "Donate"
+    },
+    "security_settings": {
+        "backup_code": "Backup-Code",
+        "get_backup_code": "Get Backup-Code",
+        "activate_2fa": "Activate Two Factor Authentication",
+        "2fa_activated": "Two Factor authentication is activated",
+        "2fa_deactivated": "Two Factor authentication is deactivated",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn is available",
+        "webauthn_unavailable": "Webauthn is not available",
+        "add_security_key": "Add Security-Key",
+        "totp": "Totp",
+        "totp_available": "Totp is available",
+        "totp_unavailable": "Totp is not available",
+        "disable_totp": "Disable Totp",
+        "enable_totp": "Enable Totp",
+        "backup_codes": {
+            "your_backup_code": "Your Backup-Code",
+            "save_somewhere_save": "Save this somewhere safe!",
+            "download_code": "Download code"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Scan this QR-code to set up the code",
+            "enter_as_secret_if_no_see_code": "Enter this as the secret if you can't scan the QR-code",
+            "totp_setup": "Totp-Setup",
+            "do_not_forget_backup_code": "Do not forget to save your recovery-code!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Made by",
+        "view_on_kahoot": "View on the original"
+    },
+    "start_game": {
+        "captcha_message": "If enabled, Google's ReCaptcha will load in the browser of players. Only enable if you really need it, since you need the consent of EVERY player to load the captcha.",
+        "normal_mode_description": "Question and answer will only be shown on admins screen. The players will only have colored buttons with symbols matching these on the screen of the admin.",
+        "old_school_mode": "Old-School",
+        "old_school_mode_description": "Questions and images will be shown on both admins screen and on the screen of the players",
+        "start_game": "Start Game"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Select Page Type",
+            "move_left": "Move left",
+            "move_right": "Move right",
+            "title_placeholder": "Enter title here",
+            "add_new": "Add new",
+            "delete": "Delete",
+            "open_shares_menu": "Open Shares menu",
+            "shares": {
+                "add_new_share": "Add new Share",
+                "expires_on": "Expires on {{date}}",
+                "never_expires": "Never expires"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Add card",
+                "upload_image": "Upload image",
+                "add_pair": "Add pair"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Tries: {{try_count}}"
+            }
+        },
+        "share_expired": "Share expired"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Copied to clipboard!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Joined on {{date}}",
+        "no_original_quizzes": "This user doesn't have any original quizzes"
+    },
+    "file_dashboard": {
+        "not_available": "Not available",
+        "missing": "MISSING!",
+        "unset": "Unset",
+        "size": "Size: {{size}} Mib",
+        "caption": "Caption: {{caption}}",
+        "filename": "Filename: {{filename}}",
+        "uploaded": "Uploaded: {{date}}",
+        "imported": "Imported: {{yes_or_no}}",
+        "edit_details": "Edit details",
+        "delete_image": "Delete image",
+        "edit_the_image": "Edit the image",
+        "filename_word": "Filename",
+        "alt_text": "Alt(ernate) text / Caption",
+        "storage_usage": "You've used {{used}} Mib out of {{total}} MiB of storage. That's equivalent to {{percent}}% of your storage."
+    },
+    "video_uploader": {
+        "time_elapsed": "Time elapsed",
+        "time_remaining": "Time remaining"
     }
 }

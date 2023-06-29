@@ -90,8 +90,9 @@ async def auth(request: Request, response: Response):
                 google_uid=user_data.sub,
                 avatar=gzipped_user_avatar(),
             )
+        # skipcq: PYL-W0703
         except Exception as e:
-            if type(e) == asyncpg.exceptions.UniqueViolationError:
+            if type(e) is asyncpg.exceptions.UniqueViolationError:
                 error = True
                 counter = 1
                 while error:

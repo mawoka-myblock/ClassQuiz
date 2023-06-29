@@ -33,6 +33,11 @@ class ValueStorage:
     exported_quiz_data = None
     edit_id = None
     image_id = None
+    cookies = None
+    file_id = None
+    quiztivity_id = None
+    share_id = None
+    expired_share_id = None
 
 
 example_quiz = {
@@ -41,14 +46,16 @@ example_quiz = {
     "description": "A description",
     "questions": [
         {
+            "type": "ABCD",
             "question": "Is ClassQuiz cool?",
             "time": 10,
             "answers": [{"right": True, "answer": "Yes"}, {"right": False, "answer": "No"}],
         },
         {
+            "type": "ABCD",
             "question": "Do you like open source?",
             "time": 5,
-            "image": "https://i.imgur.com/sSNSy77.png",
+            "image": None,
             "answers": [
                 {"right": True, "answer": "Yes"},
                 {"right": False, "answer": "No"},
@@ -59,6 +66,20 @@ example_quiz = {
 }
 test_user_email = "sth@byom.de"
 test_user_password = "test"
+
+example_quiztivity = {
+    "title": "Some test Quiztivity",
+    "pages": [
+        {
+            "title": "Some test question",
+            "type": "ABCD",
+            "data": {
+                "question": "Is ClassQuiz cool?",
+                "answers": [{"correct": True, "answer": "Yes"}, {"correct": False, "answer": "No"}],
+            },
+        }
+    ],
+}
 
 # mock_test_results = {'0': [{'username': 'Player 1', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False},
 # {'username': 'Player 2', 'answer': 'Byte, Bit, KB, MB, GB, TB', 'right': False}, {'username': 'Player 3',

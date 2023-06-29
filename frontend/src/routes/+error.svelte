@@ -29,7 +29,7 @@
 		{$t('error_page.404_text')}
 	</p>
 {:else}
-	<p>
+	<p class="text-center">
 		{$t('error_page.unknown_error_text')}
 	</p>
 {/if}

@@ -57,12 +57,12 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     answers = await redis.get(f"game_session:{game_pin}:{game.current_question}")
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
-    print(player_count, answers)
+    await sio.emit("player_answer", {})
     if answers is not None and len(answers.__root__) == player_count:
         await sio.emit("everyone_answered", {})
 
 
-button_to_index_map = {"y": 0, "r": 2, "g": 1, "b": 3}
+button_to_index_map = {"y": 0, "r": 3, "g": 1, "b": 2}
 
 
 class WebSocketTypes(enum.Enum):
@@ -81,9 +81,9 @@ wss_clients = {}
 @router.websocket("/{game_id}")
 async def websocket_endpoint(ws: WebSocket, game_id: str):
     try:
-        if game_id in wss_clients.keys():
+        if game_id in wss_clients:
             await ws.close(code=status.WS_1001_GOING_AWAY)
-            print("Client {} already exists.".format(game_id))
+            print(f"Client {game_id} already exists.")
             return
         await ws.accept()
         wss_clients[game_id] = ws
@@ -119,7 +119,8 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
+            print(f"Data from client {game_id}: {data}")
 
     except WebSocketDisconnect as ex:
-        print("Client {} is disconnected: {}".format(game_id, ex))
+        print(f"Client {game_id} is disconnected: {ex}")
         wss_clients.pop(game_id, None)

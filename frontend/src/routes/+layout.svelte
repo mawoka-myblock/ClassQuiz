@@ -6,12 +6,13 @@
 <script>
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
-	import { navbarVisible, pathname, alertModal } from '$lib/stores';
+	import { navbarVisible, pathname } from '$lib/stores';
 	import * as Sentry from '@sentry/browser';
 	import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
-	import Alert from '$lib/modals/alert.svelte';
+	import CommandPalette from '$lib/components/commandpalette.svelte';
+	// import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {
 		if (browser) {
@@ -91,9 +92,14 @@
 {:else}
 	<slot />
 {/if}
-{#if $alertModal.open}
+<CommandPalette />
+
+<!--{#if $alertModal.open ?? false}
 	<div
-		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 flex items-center justify-center content-center"
+		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 items-center justify-center content-center"
+		class:hidden={!$alertModal.open}
+		class:flex={$alertModal.open}
+		class:visible={$alertModal.open}
 	>
 		<Alert
 			bind:title={$alertModal.title}
@@ -101,7 +107,7 @@
 			bind:open={$alertModal.open}
 		/>
 	</div>
-{/if}
+{/if}-->
 
 <style lang="scss">
 	:global(html:not(.dark)) {

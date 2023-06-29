@@ -74,13 +74,12 @@
 					bind:value={answer.answer}
 					type="text"
 					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
-					placeholder="Empty..."
+					placeholder={$t('editor.empty')}
 				/>
 				<button
 					type="button"
 					on:click={() => {
 						answer.case_sensitive = !answer.case_sensitive;
-						console.log(answer.case_sensitive);
 					}}
 				>
 					{#if answer.case_sensitive}

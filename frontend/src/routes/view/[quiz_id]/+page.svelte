@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import Spinner from '$lib/Spinner.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -71,14 +72,15 @@
 		<p>{@html quiz.description}</p>
 	</div>
 	<p class="text-center">
-		Made by <a href="/user/{quiz.user_id.id}" class="underline">@{quiz.user_id.username}</a>
+		{$t('view_quiz_page.made_by')}
+		<a href="/user/{quiz.user_id.id}" class="underline">@{quiz.user_id.username}</a>
 	</p>
 	{#if quiz.cover_image}
 		<div class="flex justify-center align-middle items-center">
 			<div class="h-[15vh] m-auto w-auto my-3">
 				<img
 					class="max-h-full max-w-full block"
-					src={quiz.cover_image}
+					src="/api/v1/storage/download/{quiz.cover_image}"
 					alt="Not provided"
 				/>
 			</div>
@@ -95,7 +97,7 @@
 						href="https://create.kahoot.it/details/{quiz.kahoot_id}"
 						target="_blank"
 					>
-						View on <i>Kahoot!</i>
+						{$t('view_quiz_page.view_on_kahoot')}
 					</GrayButton>
 				</div>
 			{/if}
@@ -188,7 +190,12 @@
 					<!--					</label>-->
 					{#if question.image}
 						<span>
-							<img class="pl-8" src={question.image} alt="Not provided" />
+							<MediaComponent
+								css_classes="mx-auto"
+								src={question.image}
+								alt="Not provided"
+								muted={true}
+							/>
 						</span>
 					{/if}
 					<p
@@ -210,7 +217,7 @@
 						</svg>
 						<span class="text-lg">{question.time}s</span>
 					</p>
-					{#if question.type === QuizQuestionType.ABCD || question.type === undefined}
+					{#if question.type === QuizQuestionType.ABCD || question.type === undefined || question.type === QuizQuestionType.CHECK}
 						<div class="grid grid-cols-2 gap-4 m-4 p-6">
 							{#each question.answers as answer, index_answer}
 								<div

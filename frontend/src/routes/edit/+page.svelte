@@ -7,7 +7,7 @@
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores';
-	import { QuizQuestionType } from '../../lib/quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
 
 	navbarVisible.set(false);
 
@@ -38,7 +38,6 @@
 
 	export let data;
 	let { quiz_id } = data;
-	console.log(quiz_id);
 	let quiz_data: Data;
 
 	const get_quiz = async (): Promise<void> => {

@@ -8,9 +8,14 @@
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
-	import Spinner from '$lib/Spinner.svelte';
+	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import type { PageData } from './$types';
+	import { fly } from 'svelte/transition';
+	import StartGamePopup from '$lib/dashboard/start_game.svelte';
+
+	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
 	interface QuizData {
 		id: string;
@@ -23,59 +28,73 @@
 		questions: Question[];
 	}
 
+	export let data: PageData;
 	let search_term = '';
+	let start_game = null;
 	signedIn.set(true);
 	navbarVisible.set(true);
 	const { t } = getLocalization();
 
-	let quizzes_to_show = [];
-	let quizzes: Array<any>;
+	let items_to_show = [];
+	let all_items: Array<any>;
 	let fuse;
-	/*	const minisearch = new MiniSearch({
-				fields: ['title', 'description'],
-				idField: 'id',
-				storeFields: ['id']
-			})*/
 
 	let id_to_position_map = {};
 
 	const getData = async (): Promise<Array<QuizData>> => {
-		const res = await fetch('/api/v1/quiz/list');
-		quizzes_to_show = await res.json();
-		fuse = new Fuse(quizzes_to_show, {
-			keys: ['title', 'description', 'questions.question'],
+		items_to_show = [];
+		for (let i = 0; i < data.quizzes.length; i++) {
+			items_to_show.push({ ...data.quizzes[i], type: 'quiz' });
+		}
+		for (let i = 0; i < data.quiztivities.length; i++) {
+			items_to_show.push({ ...data.quiztivities[i], type: 'quiztivity' });
+		}
+		fuse = new Fuse(items_to_show, {
+			keys: ['title', 'description', 'questions.title'],
 			findAllMatches: true
 		});
-		quizzes = quizzes_to_show;
-		for (let i = 0; i < quizzes.length; i++) {
-			id_to_position_map[quizzes[i].id] = i;
+		all_items = items_to_show;
+		for (let i = 0; i < all_items.length; i++) {
+			id_to_position_map[all_items[i].id] = i;
 		}
-		return quizzes_to_show;
+		return all_items;
 	};
-
-	let suggestions = [];
 
 	const search = () => {
 		if (search_term === '') {
-			quizzes_to_show = [];
-			quizzes_to_show = quizzes;
-			quizzes_to_show = quizzes_to_show;
+			items_to_show = all_items;
 		} else {
 			const res = fuse.search(search_term);
 			console.log(res, 'search_res');
-			quizzes_to_show = [];
+			items_to_show = [];
 			for (const quiz_data of res) {
-				quizzes_to_show.push(quiz_data.item);
+				items_to_show.push(quiz_data.item);
 			}
 
-			quizzes_to_show = quizzes_to_show;
+			items_to_show = items_to_show;
 		}
 	};
 	$: {
 		search_term;
-		// console.log(search_term);
 		search();
 	}
+
+	const deleteQuiz = async (to_delete: string, type: 'quiz' | 'quiztivity') => {
+		if (!confirm('Do you really want to delete this quiz?')) {
+			return;
+		}
+		if (type === 'quiz') {
+			await fetch(`/api/v1/quiz/delete/${to_delete}`, {
+				method: 'DELETE'
+			});
+		} else {
+			await fetch(`/api/v1/quiztivity/${to_delete}`, {
+				method: 'DELETE'
+			});
+		}
+		window.location.reload();
+	};
+	let create_button_clicked = false;
 </script>
 
 <svelte:head>
@@ -95,40 +114,120 @@
 			/>
 		</svg>
 	{:then quizzes}
-		<div class="flex flex-col w-fit mx-auto">
+		<div class="flex flex-col w-full mx-auto">
 			<!--		<button
-					class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-[#B07156] rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
-					Primary
-				</button>-->
-			<div class="w-full grid grid-cols-4 gap-2">
-				<BrownButton href="/create">{$t('words.create')}</BrownButton>
+                    class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-[#B07156] rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
+                    Primary
+                </button>-->
+			<div class="w-full grid lg:grid-cols-4 gap-2 grid-cols-2 px-4">
+				{#if create_button_clicked}
+					<div class="flex gap-2" transition:fly={{ y: 10 }}>
+						<BrownButton href="/create">{$t('words.quiz')}</BrownButton>
+						<BrownButton href="/quiztivity/create">{$t('words.quiztivity')}</BrownButton
+						>
+					</div>
+				{:else}
+					<BrownButton
+						on:click={() => {
+							create_button_clicked = true;
+						}}>{$t('words.create')}</BrownButton
+					>
+				{/if}
 				<BrownButton href="/import">{$t('words.import')}</BrownButton>
 				<BrownButton href="/results">{$t('words.results')}</BrownButton>
-				<BrownButton href="/account/settings">
-					{$t('words.settings')}
-				</BrownButton>
+				<div class="flex gap-2">
+					<BrownButton href="/edit/files">{$t('words.files_library')}</BrownButton>
+					<BrownButton href="/account/settings">
+						{$t('words.settings')}
+					</BrownButton>
+				</div>
 			</div>
 			{#if quizzes.length !== 0}
-				{#await import('$lib/dashboard/main_slider.svelte')}
-					<Spinner />
-				{:then c}
-					<div class="flex justify-center pt-4 w-full">
+				<div class="flex justify-center pt-4 w-full">
+					<div>
 						<div>
-							<div>
-								<input
-									bind:value={search_term}
-									class="p-2 rounded-lg outline-none text-center w-96 dark:bg-gray-700"
-									placeholder={$t('dashboard.search_for_own_quizzes')}
-								/>
-								<button
-									on:click={() => {
-										search_term = '';
-										quizzes_to_show = quizzes;
-										suggestions = [];
-									}}
+							<input
+								bind:value={search_term}
+								class="p-2 rounded-lg outline-none text-center w-96 dark:bg-gray-700"
+								placeholder={$t('dashboard.search_for_own_quizzes')}
+							/>
+							<button
+								on:click={() => {
+									search_term = '';
+									items_to_show = all_items;
+								}}
+							>
+								<svg
+									class="h-8 inline-block"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
 								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col gap-4 mt-4 px-2">
+					{#each items_to_show as quiz}
+						<div
+							class="grid grid-cols-2 lg:grid-cols-3 w-full rounded border-[#B07156] border-2 p-2 h-[20vh] overflow-hidden max-h-[20vh]"
+						>
+							<div class="hidden lg:flex w-auto h-full items-center relative">
+								{#if quiz.cover_image}
+									<img
+										src="/api/v1/storage/download/{quiz.cover_image}"
+										alt="user provided"
+										loading="lazy"
+										class="shrink-0 max-w-full max-h-full absolute"
+									/>
+								{/if}
+							</div>
+							<div class="my-auto mx-auto max-h-full overflow-hidden">
+								<p class="text-xl text-center">{@html quiz.title}</p>
+								<p class="text-sm text-center text-clip overflow-hidden">
+									{@html quiz.description ?? ''}
+								</p>
+							</div>
+							<div
+								class="grid grid-cols-2 grid-rows-2 ml-auto gap-2 w-fit self-end my-auto"
+							>
+								<BrownButton
+									href={quiz.type === 'quiz'
+										? `/edit?quiz_id=${quiz.id}`
+										: `/quiztivity/edit?id=${quiz.id}`}
+									>{$t('words.edit')}</BrownButton
+								>
+								{#if quiz.type === 'quiz'}
+									<BrownButton
+										on:click={() => {
+											start_game = quiz.id;
+										}}
+									>
+										{$t('words.start')}
+									</BrownButton>
+								{:else}
+									<BrownButton href="/quiztivity/play?id={quiz.id}">
+										{$t('words.play')}
+									</BrownButton>
+								{/if}
+
+								<BrownButton
+									on:click={() => {
+										deleteQuiz(quiz.id, quiz.type);
+									}}
+									flex={true}
+								>
+									<!-- heroicons/trash -->
 									<svg
-										class="h-8 inline-block"
+										class="w-5 h-5"
 										fill="none"
 										stroke="currentColor"
 										viewBox="0 0 24 24"
@@ -138,15 +237,34 @@
 											stroke-linecap="round"
 											stroke-linejoin="round"
 											stroke-width="2"
-											d="M6 18L18 6M6 6l12 12"
+											d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
 										/>
 									</svg>
-								</button>
+								</BrownButton>
+								<BrownButton
+									href="/api/v1/eximport/{quiz.id}"
+									flex={true}
+									disabled={quiz.type !== 'quiz'}
+									><!-- heroicons/download -->
+									<svg
+										class="w-5 h-5"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+										/>
+									</svg>
+								</BrownButton>
 							</div>
 						</div>
-					</div>
-					<svelte:component this={c.default} bind:quizzes={quizzes_to_show} />
-				{/await}
+					{/each}
+				</div>
 			{:else}
 				<p>
 					{$t('overview_page.no_quizzes')}
@@ -158,3 +276,6 @@
 	{/await}
 </div>
 <Footer />
+{#if start_game !== null}
+	<StartGamePopup bind:quiz_id={start_game} />
+{/if}

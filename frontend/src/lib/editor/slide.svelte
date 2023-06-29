@@ -84,7 +84,6 @@
 				fill: '#ff000d'
 			});
 		}
-		console.log(canvas.export.toJson());
 	};
 
 	$: {
@@ -146,7 +145,6 @@
 							interactive: false
 						}*/
 		});
-		console.log(data.answers);
 		if (data.answers) {
 			if (typeof data.answers === 'string') {
 				canvas.import.json(JSON.parse(data.answers));
