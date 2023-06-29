@@ -186,6 +186,7 @@
 						<BrownButton href="/account/settings/security"
 							>Security-Settings
 						</BrownButton>
+						<BrownButton href="/account/controllers">ClassQuizController</BrownButton>
 					</div>
 				</div>
 			</div>
