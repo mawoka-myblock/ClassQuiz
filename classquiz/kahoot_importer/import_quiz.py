@@ -96,7 +96,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
         cover = img_obj.id.hex
     quiz_data = Quiz(
         id=quiz_id,
-        public=True,
+        public=False,
         title=html.unescape(bleach.clean(quiz.kahoot.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
         description=html.unescape(bleach.clean(quiz.kahoot.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
         created_at=datetime.now(),

@@ -300,7 +300,9 @@
         "upload_video": "Upload Video",
         "visit_pixabay": "Visit Pixabay",
         "images_by_pixabay": "Images provided by Pixabay",
-        "search_english_only": "The search works in English only"
+        "search_english_only": "The search works in English only",
+        "next_page": "Next page",
+        "previous_page": "Previous page"
     },
     "avatar_settings": {
         "skin_color": "Skin color",

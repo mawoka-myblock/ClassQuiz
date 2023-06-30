@@ -93,6 +93,22 @@
 						>
 					</div>
 				{/each}
+				<div class="flex gap-2">
+					<BrownButton
+						disabled={page < 2}
+						on:click={() => {
+							page -= 1;
+							fetched_data = fetch_data();
+						}}
+						>{$t('uploader.previous_page')}
+					</BrownButton>
+					<BrownButton
+						on:click={() => {
+							page += 1;
+							fetched_data = fetch_data();
+						}}>{$t('uploader.next_page')}</BrownButton
+					>
+				</div>
 			</div>
 		</div>
 	{/if}
