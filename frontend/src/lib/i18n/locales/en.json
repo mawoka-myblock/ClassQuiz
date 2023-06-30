@@ -130,6 +130,7 @@
         "screenshot_plural": "Screenshots",
         "browser": "Browser",
         "view": "View",
+        "view_plural": "Views",
         "correct": "Correct",
         "result": "Result",
         "result_plural": "Results",
@@ -182,7 +183,15 @@
         "files_library": "Files Library",
         "answer_plural": "Answers",
         "yes": "Yes",
-        "no": "no"
+        "no": "no",
+        "analytics": "Analytics",
+        "rating": "Rating",
+        "like": "Like",
+        "like_plural": "Likes",
+        "dislike": "Dislike",
+        "dislike_plural": "Dislikes",
+        "play_plural": "Plays",
+        "info": "Info"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -281,7 +290,9 @@
         "right_click_to_delete": "Right-click on an answer to delete it!"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Search for your own quizzes"
+        "search_for_own_quizzes": "Search for your own quizzes",
+        "views_n_plays": "Views & Plays",
+        "info_analytics": "The \"Plays\" only show how often the quiz was started (you included), whereas the \"Views\" count how often the \"View\"-page was visited, so it also counts bots (sorry for that)."
     },
     "footer": {
         "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",

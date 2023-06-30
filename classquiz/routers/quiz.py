@@ -56,18 +56,20 @@ class PublicQuizResponseUser(BaseModel):
 class PublicQuizResponse(Quiz.get_pydantic()):
     user_id: PublicQuizResponseUser
     questions: list[QuizQuestion]
+    likes: int
+    dislikes: int
+    views: int
+    plays: int
 
 
 @router.get("/get/public/{quiz_id}")
-async def get_public_quiz(quiz_id: str):
-    try:
-        quiz_id = uuid.UUID(quiz_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="badly formed quiz id")
+async def get_public_quiz(quiz_id: uuid.UUID):
     quiz = await Quiz.objects.select_related("user_id").get_or_none(id=quiz_id)
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
     else:
+        quiz.views += 1
+        await quiz.update()
         return PublicQuizResponse(**quiz.dict())
 
 
@@ -89,6 +91,8 @@ async def start_quiz(
         quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
         if quiz is None:
             return JSONResponse(status_code=404, content={"detail": "quiz not found"})
+    quiz.plays += 1
+    await quiz.update()
     game_pin = randint(100000, 999999)
     if custom_field == "":
         custom_field = None

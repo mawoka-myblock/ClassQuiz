@@ -15,6 +15,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
+	import RatingComponent from '$lib/view_quiz/RatingComponent.svelte';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -90,6 +91,9 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="text-center text-sm pt-1 mb-4">
 		<ImportedOrNot imported={quiz.imported_from_kahoot} />
 	</div>
+	<div class="flex justify-center mb-2">
+		<RatingComponent bind:quiz />
+	</div>
 	<div class="flex flex-col justify-center">
 		<div class="mx-auto flex flex-col gap-2 justify-center w-fit">
 			{#if quiz.imported_from_kahoot && quiz.kahoot_id}
@@ -108,15 +112,56 @@ SPDX-License-Identifier: MPL-2.0
 						on:click={() => {
 							start_game = quiz.id;
 						}}
+						flex={true}
 					>
-						{$t('words.start')}
+						<!-- heroicons/legacy-outline/Play -->
+						<svg
+							class="w-5 h-5"
+							aria-hidden="true"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+							<path
+								d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
 					</GrayButton>
 				</div>
 			{:else}
 				<div use:tippy={{ content: 'You need to be logged in to start a game' }}>
 					<div class="w-full">
-						<GrayButton disabled={true}>
-							{$t('words.start')}
+						<GrayButton disabled={true} flex={true}>
+							<!-- heroicons/legacy-outline/Play -->
+							<svg
+								class="w-5 h-5"
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path
+									d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
 						</GrayButton>
 					</div>
 				</div>

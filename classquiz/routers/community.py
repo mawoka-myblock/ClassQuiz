@@ -1,12 +1,17 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 #
 # SPDX-License-Identifier: MPL-2.0
+import enum
+import uuid
+from datetime import datetime
 
-
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from uuid import UUID
 
-from classquiz.db.models import User, Quiz
+from pydantic import BaseModel
+
+from classquiz.auth import get_current_user
+from classquiz.db.models import User, Quiz, Rating
 
 router = APIRouter()
 
@@ -35,3 +40,38 @@ async def get_quizzes_from_user(user_id: UUID, imported: bool | None = None):
         raise HTTPException(status_code=404, detail="no quizzes found")
     else:
         return quizzes
+
+
+class RateQuizInputType(str, enum.Enum):
+    LIKE = "LIKE"
+    DISLIKE = "DISLIKE"
+
+
+class RateQuizInput(BaseModel):
+    type: RateQuizInputType
+
+
+@router.post("/rate/{quiz_id}")
+async def rate_quiz(data: RateQuizInput, quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
+    quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
+    if quiz is None:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    rating = await Rating.objects.get_or_none(quiz=quiz, user=user)
+    positive = True
+    if data.type == RateQuizInputType.DISLIKE:
+        positive = False
+    if rating is not None and rating.positive == positive:
+        raise HTTPException(status_code=409, detail="Rating already submitted")
+    elif rating.positive != positive:
+        await rating.delete()
+        if rating.positive:
+            quiz.likes -= 1
+        else:
+            quiz.dislikes -= 1
+    rating = Rating(id=uuid.uuid4(), user=user, positive=positive, quiz=quiz, created_at=datetime.now())
+    await rating.save()
+    if positive:
+        quiz.likes += 1
+    else:
+        quiz.dislikes += 1
+    await quiz.update()

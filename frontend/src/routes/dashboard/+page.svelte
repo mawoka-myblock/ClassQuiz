@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import type { Question } from '$lib/quiz_types';
+	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
@@ -15,19 +15,9 @@ SPDX-License-Identifier: MPL-2.0
 	import type { PageData } from './$types';
 	import { fly } from 'svelte/transition';
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
+	import Analytics from './Analytics.svelte';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
-
-	interface QuizData {
-		id: string;
-		public: boolean;
-		title: string;
-		description: string;
-		created_at: string;
-		updated_at: string;
-		user_id: string;
-		questions: Question[];
-	}
 
 	export let data: PageData;
 	let search_term = '';
@@ -96,12 +86,16 @@ SPDX-License-Identifier: MPL-2.0
 		window.location.reload();
 	};
 	let create_button_clicked = false;
+
+	let analytics_quiz_selected: undefined | QuizData = undefined;
 </script>
 
 <svelte:head>
 	<title>ClassQuiz - Dashboard</title>
 </svelte:head>
-
+{#if analytics_quiz_selected}
+	<Analytics bind:quiz={analytics_quiz_selected} />
+{/if}
 <div class="min-h-screen flex flex-col">
 	{#await getData()}
 		<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
@@ -198,25 +192,133 @@ SPDX-License-Identifier: MPL-2.0
 								</p>
 							</div>
 							<div
-								class="grid grid-cols-2 grid-rows-2 ml-auto gap-2 w-fit self-end my-auto"
+								class="grid grid-rows-2 ml-auto gap-2 w-fit self-end my-auto"
+								class:grid-cols-3={quiz.type === 'quiz'}
+								class:grid-cols-2={quiz.type !== 'quiztivity'}
 							>
+								<BrownButton
+									flex={true}
+									disabled={!quiz.public}
+									href="/view/{quiz.id}"
+								>
+									<!-- heroicons/legacy-outline/Eye -->
+									<svg
+										class="w-5 h-5"
+										aria-hidden="true"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+										<path
+											d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</BrownButton>
+								<BrownButton
+									flex={true}
+									on:click={() => (analytics_quiz_selected = quiz)}
+								>
+									<!-- heroicons/legacy-outline/ChartBar -->
+									<svg
+										class="w-5 h-5"
+										aria-hidden="true"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</BrownButton>
 								<BrownButton
 									href={quiz.type === 'quiz'
 										? `/edit?quiz_id=${quiz.id}`
 										: `/quiztivity/edit?id=${quiz.id}`}
-									>{$t('words.edit')}</BrownButton
+									flex={true}
 								>
+									<!-- heroicons/legacy-outline/Pencil -->
+									<svg
+										class="w-5 h-5"
+										aria-hidden="true"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</BrownButton>
 								{#if quiz.type === 'quiz'}
 									<BrownButton
 										on:click={() => {
 											start_game = quiz.id;
 										}}
+										flex={true}
 									>
-										{$t('words.start')}
+										<!-- heroicons/legacy-outline/Play -->
+										<svg
+											class="w-5 h-5"
+											aria-hidden="true"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											viewBox="0 0 24 24"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+											<path
+												d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
 									</BrownButton>
 								{:else}
-									<BrownButton href="/quiztivity/play?id={quiz.id}">
-										{$t('words.play')}
+									<BrownButton href="/quiztivity/play?id={quiz.id}" flex={true}>
+										<!-- heroicons/legacy-outline/Play -->
+										<svg
+											class="w-5 h-5"
+											aria-hidden="true"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											viewBox="0 0 24 24"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+											<path
+												d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
 									</BrownButton>
 								{/if}
 

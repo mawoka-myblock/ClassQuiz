@@ -180,6 +180,10 @@ class Quiz(ormar.Model):
     background_color: str | None = ormar.Text(nullable=True, unique=False)
     background_image: str | None = ormar.Text(nullable=True, unique=False)
     kahoot_id: uuid.UUID | None = ormar.UUID(nullable=True, default=None)
+    likes: int = ormar.Integer(nullable=False, default=0, server_default="0")
+    dislikes: int = ormar.Integer(nullable=False, default=0, server_default="0")
+    plays: int = ormar.Integer(nullable=False, default=0, server_default="0")
+    views: int = ormar.Integer(nullable=False, default=0, server_default="0")
 
     class Meta:
         tablename = "quiz"
@@ -470,5 +474,18 @@ class Controller(ormar.Model):
 
     class Meta:
         tablename = "controller"
+        metadata = metadata
+        database = database
+
+
+class Rating(ormar.Model):
+    id: uuid.UUID = ormar.UUID(primary_key=True)
+    user: uuid.UUID | User = ormar.ForeignKey(User)
+    positive: bool = ormar.Boolean(nullable=False)
+    created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
+    quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz)
+
+    class Meta:
+        tablename = "rating"
         metadata = metadata
         database = database

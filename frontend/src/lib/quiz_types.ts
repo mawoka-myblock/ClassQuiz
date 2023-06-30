@@ -21,6 +21,10 @@ export interface QuizData {
 	cover_image?: string;
 	background_color?: string;
 	background_image?: string;
+	likes: number;
+	dislikes: number;
+	plays: number;
+	views: number;
 }
 
 export enum QuizQuestionType {
