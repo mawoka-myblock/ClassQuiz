@@ -128,7 +128,6 @@ async def meilisearch_init():
     for i in meilisearch.index(settings.meilisearch_index).get_stats():
         number_of_docs = i[1]["numberOfDocuments"]
         break
-    # if meilisearch.index(settings.meilisearch_index).get_stats()["numberOfDocuments"] != quiz_count:
     if number_of_docs != quiz_count:
         print("MeiliSearch and Database got out of sync, syncthing them")
         meilisearch.delete_index(settings.meilisearch_index)

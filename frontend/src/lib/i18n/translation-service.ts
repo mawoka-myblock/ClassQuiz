@@ -29,6 +29,7 @@ export class I18NextTranslationService implements TranslationService {
 	// 2. Create a new set function that changes the i18n locale.
 	// 3. Create a new update function that changes the i18n locale.
 	// 4. Return modified writable.
+	// skipcq: JS-0105
 	private createLocale(i18n: I18nService) {
 		const { subscribe, set, update } = writable<string>(i18n.i18n.language);
 

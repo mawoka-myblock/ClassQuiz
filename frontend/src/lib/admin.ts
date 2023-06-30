@@ -37,8 +37,7 @@ export const getWinnersSorted = (
 			if (q_res === null) {
 				continue;
 			}
-			for (let j = 0; j < q_res.length; j++) {
-				const res = q_res[j];
+			for (const res of q_res) {
 				if (res['right']) {
 					if (winners[res['username']] === undefined) {
 						winners[res['username']] = 0;

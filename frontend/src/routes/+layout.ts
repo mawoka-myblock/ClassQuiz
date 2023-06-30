@@ -6,7 +6,7 @@
 import { signedIn } from '$lib/stores';
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ data }) => {
+export const load: LayoutLoad = ({ data }) => {
 	const { email } = data;
 	if (email) {
 		signedIn.set(true);

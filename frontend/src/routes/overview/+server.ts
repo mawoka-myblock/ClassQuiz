@@ -4,7 +4,7 @@
 
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = () => {
 	return new Response(undefined, {
 		status: 301,
 		headers: {

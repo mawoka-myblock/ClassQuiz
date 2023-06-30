@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-export async function load({ url }) {
+export function load({ url }) {
 	const token = url.searchParams.get('token');
 
 	return {

@@ -13,7 +13,7 @@ export const load = async ({ params, parent }) => {
 	} else if (res.status === 200) {
 		const quiz = await res.json();
 		return {
-			quiz: quiz,
+			quiz,
 			logged_in: Boolean(email)
 		};
 	} else {

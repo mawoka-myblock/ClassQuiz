@@ -18,6 +18,6 @@ export async function load({ parent, url }) {
 	return {
 		game_pin: pin === null ? '' : pin,
 		game_token: token === null ? '' : token,
-		auto_connect: auto_connect
+		auto_connect
 	};
 }

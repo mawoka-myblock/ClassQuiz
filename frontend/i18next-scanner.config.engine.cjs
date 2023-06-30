@@ -28,7 +28,7 @@ module.exports = {
 
 		// Put a blank string as initial translation
 		// (useful for Weblate be marked as 'not yet translated', see later)
-		defaultValue: (lng, ns, key) => '',
+		defaultValue: () => '',
 
 		// Location of translation files
 		resource: {
