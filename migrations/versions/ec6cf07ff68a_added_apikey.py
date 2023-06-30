@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
 """added apikey
 
 Revision ID: ec6cf07ff68a

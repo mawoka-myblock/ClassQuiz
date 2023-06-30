@@ -1,8 +1,9 @@
 <!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 <script lang="ts">
 	import { navbarVisible } from '$lib/stores';
 	import { page } from '$app/stores';
@@ -12,18 +13,6 @@
 	let status = $page.status;
 	const { t } = getLocalization();
 </script>
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
 
 <svelte:head>
 	<title>{$t('words.error')} - {status}</title>

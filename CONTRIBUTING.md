@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
 # Contribute to ClassQuiz
 
 For the development-setup, please check out the

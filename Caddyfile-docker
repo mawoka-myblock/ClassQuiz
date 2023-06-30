@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
 :8080 {
 	reverse_proxy * http://frontend:3000
 	reverse_proxy /api/* http://api:80

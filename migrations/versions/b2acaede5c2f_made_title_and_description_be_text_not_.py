@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
 """Made title and description be text not string
 
 Revision ID: b2acaede5c2f

@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
 Welcome to the ClassQuiz community
 
 Grant and indulge critique constructively, within desired privacy.

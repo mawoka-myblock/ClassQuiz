@@ -1,8 +1,7 @@
-/*
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- */
+// SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+//
+// SPDX-License-Identifier: MPL-2.0
+
 // Stolen from https://svelte.dev/repl/c6a402704224403f96a3db56c2f48dfc?version=3.55.0
 // skipcq: JS-0119
 let intersectionObserver;

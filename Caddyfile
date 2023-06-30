@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
 #* {
 :8080 {
 #	tls /home/mawoka/certs/cert.pem /home/mawoka/certs/key.pem

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 ## Basic Request
 
 Every request is a json-object: `{"type": "SOME_TYPE", "data": "ANY_DATA"}`

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
 version = 1
 test_patterns = ["classquiz/tests/**", "test_*.py"]
 

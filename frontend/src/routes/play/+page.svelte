@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 <!--suppress ALL -->
 <script lang="ts">
 	import { socket } from '$lib/socket';
@@ -124,12 +130,6 @@
 	$: bg_color = gameData ? gameData.background_color : undefined;
 	// The rest
 </script>
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
 
 <svelte:window on:beforeunload={confirmUnload} />
 <svelte:head>

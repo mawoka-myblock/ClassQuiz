@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 ## game_session:{GAME_PIN}:players:{PLAYER_NAME} [string]
 
 Contains only the sid (socket.io session-id) of {PLAYER_NAME}

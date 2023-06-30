@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
 ---
 name: Project refactoring
 about: All issues concerning CI/CD, improvements of documentation, development setup etc. 🔧

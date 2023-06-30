@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 <script lang="ts">
 	import type { PageData } from './$types';
 	import CodeDisplay from '$lib/components/controller/code.svelte';

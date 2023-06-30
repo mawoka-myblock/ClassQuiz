@@ -1,4 +1,9 @@
 #!/usr/bin/env python2.3
+
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
 """Implement Hashcash version 1 protocol in Python
 +-------------------------------------------------------+
 | Written by David Mertz; released to the Public Domain |
@@ -33,9 +38,7 @@ Notice that '_mint()' behaves deterministically, finding the same suffix
 every time it is passed the same arguments.  'mint()' incorporates a random
 salt in stamps (as per the hashcash v.1 protocol).
 """
-#  This Source Code Form is subject to the terms of the Mozilla Public
-#  License, v. 2.0. If a copy of the MPL was not distributed with this
-#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 
 from string import ascii_letters
 from math import ceil, floor

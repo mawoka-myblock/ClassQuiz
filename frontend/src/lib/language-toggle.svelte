@@ -1,4 +1,10 @@
 <!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+<!--
 <script context='module' lang='ts'>
 	export const prerender = true;
 	export const load = async ({}) => {
@@ -139,12 +145,6 @@
 		}
 	};
 </script>
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
 
 <div>
 	<select

@@ -1,4 +1,10 @@
 <!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+<!--
 By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-modal
 -->
 <script lang="ts">
@@ -8,12 +14,6 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 	console.log(open, title, body);
 	open = true;
 </script>
-
-<!--
-  - This Source Code Form is subject to the terms of the Mozilla Public
-  - License, v. 2.0. If a copy of the MPL was not distributed with this
-  - file, You can obtain one at https://mozilla.org/MPL/2.0/.
-  -->
 
 <!-- Main modal -->
 {#if open}

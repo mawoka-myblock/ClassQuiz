@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+//
+// SPDX-License-Identifier: MPL-2.0
+
 import { redirect, error } from '@sveltejs/kit';
 import { signedIn } from '$lib/stores';
 

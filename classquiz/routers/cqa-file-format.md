@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
 # .cqa - ClassQuizArchive
 
 A file-format for ClassQuiz-quizzes which stores images and the quiz in one compact file
