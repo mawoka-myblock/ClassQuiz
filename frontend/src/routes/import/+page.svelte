@@ -44,13 +44,15 @@ SPDX-License-Identifier: MPL-2.0
 				body: "This quiz isn't (yet) supported!"
 			});*/
 			alert("This quiz isn't (yet) supported!");
-		} else {
+		} else if (res.status === 403) {
 			/*			alertModal.set({
 				open: true,
 				title: 'Import failed',
 				body: 'Unknown error while importing the quiz!'
 			});*/
-			alert('Import failed with unknown reason');
+			alert('Quiz is probably private!');
+		} else {
+			alert(`Kahoot replied with ${res.status}`);
 		}
 		is_loading = false;
 	};

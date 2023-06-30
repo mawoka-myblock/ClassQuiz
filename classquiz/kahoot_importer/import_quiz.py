@@ -47,7 +47,7 @@ async def handle_image_upload(url: str, user: User) -> StorageItem:
     return file_obj
 
 
-async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
+async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
     """
     Imports a quiz from Kahoot.
     :param user: The user object
@@ -56,8 +56,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | str:
     """
     kahoot_quiz_id = quiz_id
     quiz = await get_quiz(kahoot_quiz_id)
-    if quiz is None:
-        return "quiz not found"
+    if type(quiz) is int:
+        return quiz
     quiz_questions: list[dict] = []
     quiz_id = uuid.uuid4()
     meilisearch.delete_index(settings.meilisearch_index)
