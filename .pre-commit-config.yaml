@@ -33,3 +33,7 @@ repos:
         # flake8 is passed in all tracked python files
         # so --exclude in .flake8 does not work
         exclude: ^migrations/versions/
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v2.0.0
+    hooks:
+      - id: reuse
