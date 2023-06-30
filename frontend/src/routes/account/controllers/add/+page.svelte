@@ -129,7 +129,7 @@ SPDX-License-Identifier: MPL-2.0
 				</span>
 
 				<a
-					href="/account/login"
+					href="/controller"
 					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
 					>Read more here.</a
 				>

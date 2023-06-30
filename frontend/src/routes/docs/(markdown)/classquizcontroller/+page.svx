@@ -1,0 +1,20 @@
+<!--
+SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+# ClassQuizController
+
+## Setup
+
+At first, you plug it into power, and after some seconds a WLAN-hotspot should be available, called
+**ClassQuizController** with no password, which you can connect to. You're getting asked to sign in, and on this page,
+you can enter your Wi-Fi SSID and your Wi-Fi password.
+
+After that, wait two minutes and [add the controller](/account/controllers/add). Give it a name and a player name. The
+player name is used in-game and the name is jus used for knowing which controller is which.
+
+You're getting presented with a code. The code consists of upper- and lowercase letters and colored bars under these. A
+long bar (or uppercase letter) stands for along press and a lowercase letter (short bar) stands, respectively, for a
+short press. If everything worked, the controller should be connected.
