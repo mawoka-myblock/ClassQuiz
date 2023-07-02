@@ -93,9 +93,7 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:head>
 	<title>ClassQuiz - Dashboard</title>
 </svelte:head>
-{#if analytics_quiz_selected}
-	<Analytics bind:quiz={analytics_quiz_selected} />
-{/if}
+<Analytics bind:quiz={analytics_quiz_selected} />
 <div class="min-h-screen flex flex-col">
 	{#await getData()}
 		<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
