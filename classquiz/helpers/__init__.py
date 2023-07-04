@@ -111,14 +111,23 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
     return storage
 
 
-async def handle_import_from_excel(data: BinaryIO, user: User):
+def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     try:
         wb = load_workbook(filename=data)
     except KeyError:
         raise HTTPException(status_code=400, detail="File not in excel format")
-    print(wb)
     ws = wb.active
-    questions: list[QuizQuestion] = []
+    questions: list[dict] = []
+    title = ws["C5"].value
+    description = ws["C6"].value
+    if title is None:
+        raise HTTPException(status_code=400, detail="Title missing")
+    if description is None:
+        raise HTTPException(status_code=400, detail="Description missing")
+    if not 3 <= len(description) <= 500:
+        raise HTTPException(status_code=400, detail="Description doesn't have the correct length")
+    if not 3 <= len(title) <= 500:
+        raise HTTPException(status_code=400, detail="Title doesn't have the correct length")
     for i, row in enumerate(ws.iter_rows(min_row=14, min_col=2, max_row=100, max_col=8, values_only=True)):
         if row[0] is None:
             continue
@@ -144,8 +153,10 @@ async def handle_import_from_excel(data: BinaryIO, user: User):
         answers_list: list[ABCDQuizAnswer] = []
         for a, answer in enumerate(answers):
             answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
-        questions.append(QuizQuestion(question=question, answers=answers_list, time=str(time)))
+        questions.append(QuizQuestion(question=question, answers=answers_list, time=str(time)).dict())
     quiz = Quiz(
+        title=title,
+        description=description,
         id=uuid.uuid4(),
         created_at=datetime.now(),
         updated_at=datetime.now(),

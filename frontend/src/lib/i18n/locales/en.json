@@ -226,8 +226,10 @@
         "url_should_look_like_this": "The URL should look like this: https://create.kahoot.it/details/...",
         "side_import_kahoot": "On this side you can import quizzes, which live on Kahoot!.",
         "classquiz_quiz": "A ClassQuiz-Quiz",
-        "upload_file_ending": "Upload the file ending in .cqa",
-        "this_side_classquiz": "On this side you can import quizzes, which were exported from ClassQuiz."
+        "upload_file_ending": "Upload the file ending in .cqa or .xlsx",
+        "this_side_classquiz": "On this side you can import quizzes, which were exported from ClassQuiz.",
+        "this_side_classquiz_excel": "You can also upload excel files, if you've filled out the following template.",
+        "download_template_here": "Download the template"
     },
     "admin_page": {
         "already_registered_as_admin": "There is already an admin registered for this game.",

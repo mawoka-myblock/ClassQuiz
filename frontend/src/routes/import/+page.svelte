@@ -14,7 +14,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 	let url_input = '';
-	let file_input;
+	let file_input: File[];
 
 	let url_valid = false;
 	let kahoot_regex = /^https:\/\/create\.kahoot\.it\/details\/([a-zA-Z-\d]{36})\/?$/;
@@ -61,10 +61,23 @@ SPDX-License-Identifier: MPL-2.0
 		is_loading = true;
 		const formdata = new FormData();
 		formdata.append('file', file_input[0]);
-		const res = await fetch('/api/v1/eximport/', {
-			method: 'POST',
-			body: formdata
-		});
+		let res;
+		if (file_input[0].name.includes('.xlsx')) {
+			res = await fetch('/api/v1/quiz/excel-import', {
+				method: 'POST',
+				body: formdata
+			});
+		} else if (file_input[0].name.includes('.cqa')) {
+			res = await fetch('/api/v1/eximport/', {
+				method: 'POST',
+				body: formdata
+			});
+		} else {
+			alert('Wrong file type');
+			is_loading = false;
+			return;
+		}
+
 		if (res.status === 200) {
 			window.location.href = '/dashboard';
 		} else {
@@ -199,7 +212,7 @@ SPDX-License-Identifier: MPL-2.0
 										bind:files={file_input}
 										name="file"
 										type="file"
-										accept=".cqa"
+										accept=".cqa,.xlsx"
 										class="w-full peer bg-transparent h-10 rounded-lg py-1.5 text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
 										class:ring-red-700={!file_input}
 										class:ring-green-600={file_input}
@@ -208,7 +221,15 @@ SPDX-License-Identifier: MPL-2.0
 								</div>
 								<p class="mt-2">
 									{$t('import_page.this_side_classquiz')}
+									<br />
+									{$t('import_page.this_side_classquiz_excel')}
 								</p>
+								<a
+									class="text-sm underline font-bold text-blue-500 dark:text-blue-400"
+									download
+									href="https://ncs3.classquiz.de/blog/classquiz/ClassQuizImportTemplate.xlsx"
+									>{$t('import_page.download_template_here')}</a
+								>
 							</div>
 
 							<div class="flex items-center justify-center mt-auto">
@@ -251,7 +272,7 @@ SPDX-License-Identifier: MPL-2.0
 
 				<a
 					href="/docs/import-from-kahoot"
-					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
+					class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline transition-all"
 					>{$t('import_page.visit_docs')}</a
 				>
 			</div>

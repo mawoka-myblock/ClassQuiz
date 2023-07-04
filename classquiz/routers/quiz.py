@@ -249,5 +249,6 @@ async def export_quiz_answers(export_token: str, game_pin: str):
 
 
 @router.post("/excel-import")
-async def import_from_excel(data: UploadFile = File(), user: User = Depends(get_current_user)):
-    await handle_import_from_excel(data.file, user)
+async def import_from_excel(file: UploadFile = File(), user: User = Depends(get_current_user)) -> Quiz:
+    quiz = handle_import_from_excel(file.file, user)
+    return Quiz.parse_obj((await quiz.save()).dict(exclude={"user_id": ...}))
