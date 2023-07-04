@@ -12,8 +12,8 @@ from random import randint
 
 import ormar.exceptions
 
-from classquiz.helpers import generate_spreadsheet
-from fastapi import APIRouter, Depends, HTTPException
+from classquiz.helpers import generate_spreadsheet, handle_import_from_excel
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
 
@@ -246,3 +246,8 @@ async def export_quiz_answers(export_token: str, game_pin: str):
             "Content-Disposition": f"attachment;filename=ClassQuiz-{urllib.parse.quote(quiz.title)}-{datetime.now().strftime('%m-%d-%Y')}.xlsx"  # noqa: E501
         },
     )
+
+
+@router.post("/excel-import")
+async def import_from_excel(data: UploadFile = File(), user: User = Depends(get_current_user)):
+    await handle_import_from_excel(data.file, user)

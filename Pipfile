@@ -43,6 +43,7 @@ xxhash = "*"
 arq = "*"
 thumbhash-python = "==1.0.0"
 python-magic = "*"
+openpyxl = "*"
 
 [dev-packages]
 coverage = "*"
