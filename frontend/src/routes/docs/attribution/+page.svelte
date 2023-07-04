@@ -58,7 +58,7 @@ SPDX-License-Identifier: MPL-2.0
 			<a href="https://github.com/OptimisticSean">OptimisticSean</a> (Chinese)
 		</li>
 		<li>
-			<a href="https://github.com/OptimisticSean">Miniontoby</a> (Dutch)
+			<a href="https://github.com/Miniontoby">Miniontoby</a> (Dutch)
 		</li>
 	</ul>
 
