@@ -184,7 +184,20 @@
         "files_library": "Biblioteca de archivos",
         "yes": "Sí",
         "answer_plural": "Respuestas",
-        "no": "no"
+        "no": "no",
+        "like": "Me gusta",
+        "unknown": "Desconocido",
+        "update": "Actualizar",
+        "rating": "Valoración",
+        "view_plural": "Vistas",
+        "never": "Nunca",
+        "analytics": "Analítica",
+        "dislike": "No me gusta",
+        "dislike_plural": "No me gustan",
+        "info": "Información",
+        "play_plural": "Reproducciones",
+        "like_plural": "Me gustan",
+        "version": "Versión"
     },
     "admin_page": {
         "export_results": "Exportar resultados",
@@ -293,7 +306,9 @@
         "reset_password": "Restablecer contraseña"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Busca tus propios quizzes"
+        "search_for_own_quizzes": "Busca tus propios quizzes",
+        "views_n_plays": "Vistas y reproducciones",
+        "info_analytics": "Las \"Reproducciones\" sólo muestran la frecuencia con la que se ha iniciado el cuestionario (tú incluido), mientras que las \"Vistas\" cuentan la frecuencia con la que se ha visitado la página \"Vista\", por lo que también cuenta los bots (lo siento)."
     },
     "uploader": {
         "add_image": "Añadir una imagen",
@@ -303,7 +318,9 @@
         "upload_video": "Subir un vídeo",
         "images_by_pixabay": "Imágenes cedidas por Pixabay",
         "visit_pixabay": "Visita Pixabay",
-        "search_english_only": "La búsqueda sólo funciona en inglés"
+        "search_english_only": "La búsqueda sólo funciona en inglés",
+        "next_page": "Siguiente página",
+        "previous_page": "Página anterior"
     },
     "avatar_settings": {
         "skin_color": "Color de la piel",
@@ -439,5 +456,16 @@
     "video_uploader": {
         "time_elapsed": "Tiempo transcurrido",
         "time_remaining": "Duración restante"
+    },
+    "controllers": {
+        "first_seen": "Visto por primera vez",
+        "add_new_controller": "Añadir un nuevo controlador",
+        "player_name": "Nombre del jugador",
+        "controller_name": "Nombre del controlador",
+        "version_overview": "La versión más reciente disponible es {{newest_version}} y la versión {{current_version}} está instalada.",
+        "last_seen": "Visto por última vez",
+        "cancel_update": "¡Cancelar la actualización!",
+        "already_latest_version": "Ya estás en la última versión",
+        "update_from_to": "Actualizar de {{current_version}} a {{newest_version}}"
     }
 }
