@@ -122,6 +122,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#each question.answers as answer, i}
 					<button
 						disabled={selected_answer !== undefined || timer_res === '0'}
+						type="button"
 						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black"
 						on:click={() => {
 							selected_answer = i;
@@ -132,6 +133,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#if timer_res === '0'}
 					<button
 						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
+						type="button"
 						on:click={() => {
 							show_results = true;
 						}}>{$t('admin_page.get_results')}</button
@@ -173,6 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div class="flex justify-center">
 					<button
+						type="button"
 						class="w-1/3 text-3xl bg-[#B07156] my-2 disabled:opacity-60 rounded-lg p-1 transition"
 						disabled={selected_answer !== undefined}
 						on:click={() => {
@@ -187,6 +190,7 @@ SPDX-License-Identifier: MPL-2.0
 	{:else if question.type === QuizQuestionType.VOTING}
 		{#each question.answers as answer, i}
 			<button
+				type="button"
 				disabled={selected_answer !== undefined || timer_res === '0'}
 				class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black"
 				on:click={() => {
@@ -225,6 +229,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="flex justify-center">
 				<button
+					type="button"
 					disabled={!text_input}
 					class="w-1/3 text-3xl bg-[#B07156] my-2 disabled:opacity-60 rounded-lg p-1 transition"
 					on:click={() => {
@@ -312,6 +317,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div>
 				{#each question.answers as answer, i}
 					<button
+						type="button"
 						disabled
 						class:bg-green-500={question.answers[i].right}
 						class:bg-red-500={!question.answers[i].right}
@@ -324,6 +330,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div>
 				{#each question.answers as answer, i}
 					<button
+						type="button"
 						disabled={selected_answer !== undefined || timer_res === '0'}
 						class="p-2 rounded-lg flex justify-center w-full transition bg-amber-300 my-5 disabled:grayscale text-black opacity-50"
 						class:opacity-100={check_choice_selected[i]}
@@ -333,12 +340,14 @@ SPDX-License-Identifier: MPL-2.0
 					>
 				{/each}
 				<BrownButton
+					type="button"
 					on:click={() => {
 						timer_res = '0';
 					}}>{$t('words.submit')}</BrownButton
 				>
 				{#if timer_res === '0'}
 					<button
+						type="button"
 						class="bg-orange-500 p-2 rounded-lg flex justify-center w-full transition my-5 text-black"
 						on:click={() => {
 							show_results = true;
