@@ -3,7 +3,7 @@
         "slogan": "Platforma quizowa o otwartym kodzie źródłowym!",
         "meta": {
             "title": "Strona główna",
-            "description": "ClassQuiz to aplikacja do tworzenia quizów, taka jak Kahoot! dla studentów, która jest darmowa i ma otwarty kod źródłowy"
+            "description": "ClassQuiz to aplikacja quizowa do interaktywnej nauki dla studentów, która jest open source i darmowa w użyciu"
         },
         "features_description": {
             "1": "ClassQuiz to platforma quizów, która umożliwia tworzenie quizów i zarządzanie nimi.",
@@ -35,7 +35,7 @@
         "list_winners": "Lista zwycięzców",
         "get_ranking_and_winners": "Poznaj ranking i zobacz kto wygrał",
         "why_classquiz": "Dlaczego ClassQuiz?",
-        "no_tracking_content": "Kahoot! śledzi użytkownika i wysyła te informacje do osób trzecich, a ClassQuiz tego nie robi.",
+        "no_tracking_content": "Inni śledzą Cię i wysyłają te informacje do stron trzecich, ale ClassQuiz tego nie robi.",
         "self_hostable_content": "ClassQuiz może być łatwo hostowany samodzielnie, więc dane są tylko pod Twoją kontrolą!",
         "user_friendly_content": "ClassQuiz jest prosty, więc może być używany przez każdego.",
         "completely_free_content": "ClassQuiz jest całkowicie darmowy (dla użytkownika), bez żadnych płatnych planów czy irytujących przekierowań do strony z aktualizacjami. Darowizny są bardzo mile widziane.",
@@ -53,7 +53,7 @@
     },
     "overview_page": {
         "question_count": "Liczba pytań",
-        "no_quizzes": "Kliknij przycisk \"Utwórz\" lub zaimportuj quiz z Kahoot!.",
+        "no_quizzes": "Kliknij przycisk \"Utwórz\" lub zaimportuj quiz, aby rozpocząć.",
         "created_at": "Utworzony w"
     },
     "edit_page": {
@@ -217,7 +217,10 @@
         "select_upload_type": "Wybierz typ przesyłania",
         "upload_a_video": "Prześlij film",
         "upload_video_popup_notice": "Wyskakujące okienko jest otwarte; spójrz na nie, aby uzyskać więcej informacji",
-        "upload_video": "Prześlij film"
+        "upload_video": "Prześlij film",
+        "visit_pixabay": "Odwiedź Pixabay",
+        "search_english_only": "Wyszukiwanie działa tylko w języku angielskim",
+        "images_by_pixabay": "Obrazy dostarczone przez Pixabay"
     },
     "editor": {
         "time_in_seconds": "Czas w sekundach",
@@ -354,11 +357,14 @@
         "totp_setup": {
             "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
             "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod"
-        }
+        },
+        "webauthn_unavailable": "Webauthn nie jest dostępny",
+        "add_security_key": "Dodaj Security-Key",
+        "webauthn_available": "Webauthn jest dostępny"
     },
     "view_quiz_page": {
         "made_by": "Wykonane przez",
-        "view_on_kahoot": "Zobacz na Kahoot!"
+        "view_on_kahoot": "Zobacz oryginał"
     },
     "start_game": {
         "captcha_message": "Jeśli ta opcja jest włączona, Google ReCaptcha będzie ładować się w przeglądarce graczy. Włącz tylko jeśli naprawdę tego potrzebujesz, ponieważ będziesz potrzebował zgody KAŻDEGO gracza na załadowanie captcha.",

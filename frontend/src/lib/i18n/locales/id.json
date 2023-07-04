@@ -2,7 +2,7 @@
     "index_page": {
         "meta": {
             "title": "Beranda",
-            "description": "ClassQuiz adalah aplikasi kuis seperti Kahoot! untuk siswa, yang bersifat open source dan gratis untuk digunakan"
+            "description": "ClassQuiz adalah aplikasi kuis untuk belajar interaktif bagi siswa, yang bersifat open source dan gratis untuk digunakan"
         },
         "features_description": {
             "2": "Fitur utamanya adalah fungsi impor Kahoot!- ini memungkinkan Anda mengimpor kuis dari Kahoot!-kuis.",
