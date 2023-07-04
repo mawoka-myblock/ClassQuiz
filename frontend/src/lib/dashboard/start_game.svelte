@@ -21,6 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 	let loading = false;
 	let custom_field = '';
 	let cqcs_enabled = false;
+	let randomized_answers = false;
 
 	const tippy = createTippy({
 		arrow: true,
@@ -39,6 +40,7 @@ SPDX-License-Identifier: MPL-2.0
 		loading = true;
 		localStorage.setItem('custom_field', custom_field);
 		const cqcs_enabled_parsed = cqcs_enabled ? 'True' : 'False';
+		const randomized_answers_parsed = randomized_answers ? 'True' : 'False';
 		if (captcha_enabled && captcha_selected) {
 			res = await fetch(
 				`/api/v1/quiz/start/${id}?captcha_enabled=True&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}`,
@@ -48,7 +50,7 @@ SPDX-License-Identifier: MPL-2.0
 			);
 		} else {
 			res = await fetch(
-				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}`,
+				`/api/v1/quiz/start/${id}?captcha_enabled=False&game_mode=${selected_game_mode}&custom_field=${custom_field}&cqcs_enabled=${cqcs_enabled_parsed}&randomize_answers=${randomized_answers_parsed}`,
 				{
 					method: 'POST'
 				}
@@ -171,6 +173,23 @@ SPDX-License-Identifier: MPL-2.0
 					>
 					are {cqcs_enabled ? 'enabled' : 'disabled'}</span
 				>
+			</label>
+		</div>
+		<div class="flex justify-center w-full my-auto">
+			<label
+				for="randomized-answers-toggle"
+				class="inline-flex relative items-center cursor-pointer"
+			>
+				<input
+					type="checkbox"
+					bind:checked={randomized_answers}
+					id="randomized-answers-toggle"
+					class="sr-only peer"
+				/>
+				<span
+					class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+				/>
+				<span class="ml-3 text-sm font-medium text-gray-900"> Randomize answers</span>
 			</label>
 		</div>
 

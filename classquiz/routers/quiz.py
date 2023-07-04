@@ -4,6 +4,7 @@
 
 
 import json
+import random
 import re
 import uuid
 from datetime import datetime
@@ -80,6 +81,7 @@ async def start_quiz(
     captcha_enabled: bool = True,
     custom_field: str | None = None,
     cqcs_enabled: bool = False,
+    randomize_answers: bool = False,
     user: User = Depends(get_current_user),
 ):
     try:
@@ -100,6 +102,10 @@ async def start_quiz(
     while game is not None:
         game_pin = randint(100000, 999999)
         game = await redis.get(f"game:{game_pin}")
+
+    if randomize_answers:
+        for question in quiz.questions:
+            random.shuffle(question["answers"])
 
     game = PlayGame(
         quiz_id=quiz_id,
