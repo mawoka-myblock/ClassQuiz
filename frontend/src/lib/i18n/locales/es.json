@@ -291,8 +291,10 @@
         "a_kahoot_quiz": "¡Un Kahoot! Prueba",
         "side_import_kahoot": "¡En este lado puedes importar cuestionarios, que viven en Kahoot!.",
         "classquiz_quiz": "Un ClassQuiz-Quiz",
-        "upload_file_ending": "Cargue el archivo que termina en .cqa",
-        "this_side_classquiz": "Desde aquí puede importar cuestionarios exportados desde ClassQuiz."
+        "upload_file_ending": "Sube el archivo que termina en .cqa o .xlsx",
+        "this_side_classquiz": "Desde aquí puede importar cuestionarios exportados desde ClassQuiz.",
+        "this_side_classquiz_excel": "También puedes cargar archivos Excel, si has rellenado la siguiente plantilla.",
+        "download_template_here": "Descargar la plantilla"
     },
     "explore_page": {
         "made_by": "Hecho por",
