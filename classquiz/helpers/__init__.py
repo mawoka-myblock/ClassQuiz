@@ -111,7 +111,7 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
     return storage
 
 
-def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
+async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     try:
         wb = load_workbook(filename=data)
     except KeyError:
@@ -154,16 +154,24 @@ def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         for a, answer in enumerate(answers):
             answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
         questions.append(QuizQuestion(question=question, answers=answers_list, time=str(time)).dict())
-    quiz = Quiz(
-        title=title,
-        description=description,
-        id=uuid.uuid4(),
-        created_at=datetime.now(),
-        updated_at=datetime.now(),
-        user_id=user,
-        questions=questions,
-        imported_from_kahoot=False,
-    )
+    existing_quiz: Quiz | None = await Quiz.objects.get_or_none(user_id=user, title=title)
+    if existing_quiz is None:
+        quiz = Quiz(
+            title=title,
+            description=description,
+            id=uuid.uuid4(),
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            user_id=user,
+            questions=questions,
+            imported_from_kahoot=False,
+        )
+        await quiz.save()
+    else:
+        existing_quiz.questions = [*existing_quiz.questions, *questions]
+        existing_quiz.updated_at = datetime.now()
+        await existing_quiz.update()
+        quiz = existing_quiz
     return quiz
 
 
