@@ -48,7 +48,7 @@ def upgrade() -> None:
     # op.drop_constraint('fk_quiztivityshares_quiztivitys_id_quiztivity', 'quiztivityshares', type_='foreignkey')
     op.execute("ALTER TABLE quiztivityshares DROP CONSTRAINT IF EXISTS fk_quiztivityshares_quiztivitys_id_quiztivity")
     # op.drop_constraint('fk_quiztivityshares_users_id_user', 'quiztivityshares', type_='foreignkey')
-    op.execute("ALTER TABLE quiztivitys DROP CONSTRAINT IF EXISTS fk_quiztivitys_users_id_user")
+    op.execute("ALTER TABLE quiztivitys DROP CONSTRAINT IF EXISTS fk_quiztivityshares_users_id_user")
     op.create_foreign_key(
         "fk_quiztivityshares_users_id_user", "quiztivityshares", "users", ["user"], ["id"], ondelete="CASCADE"
     )
