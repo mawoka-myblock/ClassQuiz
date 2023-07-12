@@ -26,6 +26,14 @@ image_delimiter = b"\xc6\xc6\xc6\x00"
 image_index_delimiter = b"\xc5\xc5\x00"
 
 
+class UUIDEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, uuid.UUID):
+            # if the obj is uuid, we simply return the value of uuid
+            return obj.hex
+        return json.JSONEncoder.default(self, obj)
+
+
 @router.get("/{quiz_id}")
 async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
     try:
@@ -46,7 +54,7 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
     del quiz_dict["user_id"], quiz_dict["id"]
     quiz_dict["created_at"] = quiz_dict["created_at"].isoformat()
     quiz_dict["updated_at"] = quiz_dict["updated_at"].isoformat()
-    quiz_json = json.dumps(quiz_dict)
+    quiz_json = json.dumps(quiz_dict, cls=UUIDEncoder)
     bin_data = gzip.compress(quiz_json.encode("utf-8"), compresslevel=9)
     bin_data = bin_data + quiz_delimiter
     for image_key in image_urls:
