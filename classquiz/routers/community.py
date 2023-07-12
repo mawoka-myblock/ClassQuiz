@@ -62,7 +62,7 @@ async def rate_quiz(data: RateQuizInput, quiz_id: uuid.UUID, user: User = Depend
         positive = False
     if rating is not None and rating.positive == positive:
         raise HTTPException(status_code=409, detail="Rating already submitted")
-    elif rating.positive != positive:
+    elif rating is not None and rating.positive != positive:
         await rating.delete()
         if rating.positive:
             quiz.likes -= 1
