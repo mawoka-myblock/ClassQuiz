@@ -197,6 +197,11 @@ SPDX-License-Identifier: MPL-2.0
 							>Payment-Settings
 						</BrownButton>
 					</div>
+					<div class="m-auto">
+						<BrownButton href="/api/v1/users/billing/portal-session"
+							>Payment-Settings
+						</BrownButton>
+					</div>
 				</div>
 			</div>
 			<div>

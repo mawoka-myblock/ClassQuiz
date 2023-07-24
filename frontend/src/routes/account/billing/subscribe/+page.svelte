@@ -8,7 +8,6 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { page } from '$app/stores';
-	import Spinner from '$lib/Spinner.svelte';
 
 	const clientSecret = $page.url.searchParams.get('clientSecret');
 	const subscription_type = $page.url.searchParams.get('type');
