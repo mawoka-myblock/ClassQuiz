@@ -235,6 +235,9 @@ devDependencies:
     svelte-range-slider-pips:
         specifier: ^2.1.1
         version: 2.1.1
+    svelte-stripe:
+        specifier: ^0.0.22
+        version: 0.0.22
     svelte-tippy:
         specifier: ^1.3.2
         version: 1.3.2
@@ -1433,6 +1436,13 @@ packages:
         resolution:
             {
                 integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
+            }
+        dev: true
+
+    /@stripe/stripe-js@1.54.1:
+        resolution:
+            {
+                integrity: sha512-smEXPu1GKMcAj9g2luT16+oXfg2jAwyc68t2Dm5wdtYl3p8PqQaZEiI8tQmboaQAjgF8pIGma6byz1T1vgmpbA==
             }
         dev: true
 
@@ -5542,6 +5552,15 @@ packages:
             {
                 integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==
             }
+        dev: true
+
+    /svelte-stripe@0.0.22:
+        resolution:
+            {
+                integrity: sha512-ZLt55XNWrytsMfaMUUxEknLjphYWqhRkRNcHmmkp7gbENKSB8rp6o6hZP5zWEoUGwYNiPGqpM/DgbXy27BdVIQ==
+            }
+        dependencies:
+            '@stripe/stripe-js': 1.54.1
         dev: true
 
     /svelte-tippy@1.3.2:
