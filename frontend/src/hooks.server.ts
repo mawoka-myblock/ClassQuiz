@@ -12,6 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.email = null;
 		return resolve(event);
 	}
+
 	const jwt = jws.decode(access_token.replace('Bearer ', ''));
 	// if token expires, do a request to get a new one and set the response-cookies on the response
 	if (Date.now() >= jwt.payload.exp * 1000) {

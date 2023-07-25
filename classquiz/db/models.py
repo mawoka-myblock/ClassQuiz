@@ -45,7 +45,7 @@ class User(ormar.Model):
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
     storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
     stripe_id: str | None = ormar.Text(nullable=True, default=None)
-    premium: bool = ormar.Boolean(default=False, nullable=False)
+    premium: bool = ormar.Boolean(default=False, nullable=False, server_default="0")
 
     class Meta:
         tablename = "users"

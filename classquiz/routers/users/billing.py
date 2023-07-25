@@ -2,14 +2,13 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 import enum
-import uuid
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
 from classquiz.auth import get_current_user
-from classquiz.config import stripe, settings
+from classquiz.config import stripe, settings, redis
 from fastapi.responses import RedirectResponse
 from classquiz.db.models import User, Subscription, SubscriptionPlans
 from typing import Any
@@ -57,6 +56,7 @@ async def subscribe_to_plan(data: BillingInput, user: User = Depends(get_current
             subscription_id=subscription.id, client_secret=subscription.latest_invoice.payment_intent.client_secret
         )
     except Exception as e:
+        print(type(e))
         raise HTTPException(status_code=400, detail=e.user_message)
 
 
@@ -93,6 +93,7 @@ async def receive_stripe_webhook(request: Request, request_data: StripeWebhookEv
         else:
             user.premium = False
         await user.update()
+        await redis.delete(user.email)
     if request_data.type == "customer.subscription.updated":
         print("subscription updated")
         user = await User.objects.get_or_none(stripe_id=data["object"]["customer"])
@@ -105,13 +106,13 @@ async def receive_stripe_webhook(request: Request, request_data: StripeWebhookEv
         else:
             user.premium = False
         await user.update()
+        await redis.delete(user.email)
         price_id = data["object"]["items"]["data"][0]["plan"]["id"]
         if price_id == settings.stripe.annual_id:
             sub_type = SubscriptionPlans.ANNUAL
         elif price_id == settings.stripe.monthly_id:
             sub_type = SubscriptionPlans.MONTHLY
         Subscription(
-            id=uuid.uuid4(),
             user=user.id,
             active=user.premium,
             subscription_id=data["object"]["id"],
@@ -130,10 +131,12 @@ async def receive_stripe_webhook(request: Request, request_data: StripeWebhookEv
 
 
 @router.get("/portal-session")
-async def generate_customer_portal_session(user: User = Depends(get_current_user)):
-    print(user)
+async def generate_customer_portal_session(
+    return_url: str = "/account/settings", user: User = Depends(get_current_user)
+):
+    if user.stripe_id is None:
+        raise HTTPException(status_code=424, detail="No stripe id connected to your account")
     session = stripe.billing_portal.Session.create(
-        customer=user.stripe_id, return_url=f"{settings.root_address}/account/settings"
+        customer=user.stripe_id, return_url=f"{settings.root_address}{return_url}"
     )
-    print(session)
     return RedirectResponse(session.url)

@@ -37,7 +37,7 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("subscription_id"),
     )
     op.add_column("users", sa.Column("stripe_id", sa.Text(), nullable=True))
-    op.add_column("users", sa.Column("premium", sa.Boolean(), nullable=False))
+    op.add_column("users", sa.Column("premium", sa.Boolean(), server_default="0", nullable=False))
     # ### end Alembic commands ###
 
 
