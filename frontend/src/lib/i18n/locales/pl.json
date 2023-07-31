@@ -30,7 +30,7 @@
         "play_quiz": "2. Uruchom quiz",
         "select_answer": "Wybierz odpowiedź",
         "choose_answer_wisely": "Wybierz mądrze swoją odpowiedź",
-        "view_results": "Pokaż wyniki",
+        "view_results": "Zobacz wyniki",
         "check_if_chosen_wisely": "Sprawdź, czy dobrze wybrałeś",
         "list_winners": "Lista zwycięzców",
         "get_ranking_and_winners": "Poznaj ranking i zobacz kto wygrał",
@@ -127,7 +127,7 @@
         "other": "inne",
         "other_plural": "innych",
         "donating": "dotację",
-        "find": "Szukaj",
+        "find": "Znajdź",
         "practice": "Ćwiczenia",
         "error": "Błąd",
         "register": "Zarejestruj się",
@@ -267,7 +267,7 @@
         "visit_docs": "Zapoznaj się z dokumentacją",
         "url_should_look_like_this": "Adres URL powinien wyglądać tak: https://create.kahoot.it/details/...",
         "side_import_kahoot": "Na tej stronie możesz importować quizy, które są dostępne w Kahoot!.",
-        "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa lub .xlsx.",
+        "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa lub .xlsx",
         "this_side_classquiz": "Na tej stronie można importować quizy, które zostały wyeksportowane z ClassQuiz.",
         "a_kahoot_quiz": "Quiz Kahoot",
         "classquiz_quiz": "Quiz ClassQuiz",
@@ -449,7 +449,7 @@
     },
     "video_uploader": {
         "time_elapsed": "Upłynęło",
-        "time_remaining": "Pozostały czas:"
+        "time_remaining": "Pozostały czas"
     },
     "controllers": {
         "add_new_controller": "Dodaj nowy kontroler",
@@ -459,7 +459,7 @@
         "controller_name": "Nazwa kontrolera",
         "version_overview": "Najnowsza dostępna wersja to {{newest_version}}, a zainstalowana jest wersja {{current_version}}.",
         "cancel_update": "Anuluj aktualizację!",
-        "update_from_to": "Aktualizacja z {{current_version}} do {{newest_version}}.",
+        "update_from_to": "Aktualizacja z {{current_version}} do {{newest_version}}",
         "already_latest_version": "Masz już najnowszą wersję"
     }
 }
