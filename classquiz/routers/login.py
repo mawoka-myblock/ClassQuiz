@@ -110,7 +110,7 @@ async def start_login(data: StartLoginInput):
     step_2: set[StartLoginResponseTypes] = set()
     webauthn_data = None
     webauthn_challenge = None
-    if user is None:
+    if user is None or not user.verified:
         step_1.add(StartLoginResponseTypes.PASSWORD)
         return StartLoginResponse(step_1=step_1, step_2=step_2, session_id=os.urandom(16).hex(), webauthn_data=None)
     if user.password is not None:
