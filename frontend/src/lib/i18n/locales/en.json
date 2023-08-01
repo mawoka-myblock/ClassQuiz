@@ -306,7 +306,7 @@
         "unknown_error_text": "That shouldn't happen. It's probably my fault, not yours, but maybe you have a magical power to break stuff..."
     },
     "uploader": {
-        "add_image": "Add image",
+        "add_image": "Add Media",
         "select_upload_type": "Select the Upload Type",
         "upload_a_video": "Upload a Video",
         "upload_video_popup_notice": "The popup is open; have a look at it for further information",
