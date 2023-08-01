@@ -7,7 +7,7 @@ SPDX-License-Identifier: MPL-2.0
 <script>
 	export let headerText;
 
-	let expanded = false;
+	export let expanded = false;
 </script>
 
 <div>

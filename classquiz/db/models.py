@@ -184,6 +184,7 @@ class Quiz(ormar.Model):
     dislikes: int = ormar.Integer(nullable=False, default=0, server_default="0")
     plays: int = ormar.Integer(nullable=False, default=0, server_default="0")
     views: int = ormar.Integer(nullable=False, default=0, server_default="0")
+    mod_rating: int | None = ormar.SmallInteger(nullable=True)
 
     class Meta:
         tablename = "quiz"

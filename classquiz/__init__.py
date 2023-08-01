@@ -33,6 +33,7 @@ from classquiz.routers import (
     box_controller,
     quiztivity,
     pixabay,
+    moderation,
 )
 from classquiz.socket_server import sio
 from classquiz.helpers import meilisearch_init, telemetry_ping
@@ -77,6 +78,7 @@ async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
 
+app.include_router(moderation.router, tags=["moderation"], prefix="/api/v1/moderation", include_in_schema=True)
 app.include_router(pixabay.router, tags=["pixabay"], prefix="/api/v1/pixabay", include_in_schema=True)
 app.include_router(quiztivity.router, tags=["quiztivity"], prefix="/api/v1/quiztivity", include_in_schema=True)
 

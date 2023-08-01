@@ -128,6 +128,23 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 
+async def get_current_moderator(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, settings.secret_key, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+        token_data = TokenData(email=email)
+    except JWTError:
+        raise credentials_exception
+    user = await get_user_from_mail(email=token_data.email)
+    if user is None:
+        raise credentials_exception
+    if user.username not in settings.mods:
+        raise credentials_exception
+    return user
+
+
 async def get_admin_user(token: str = Depends(oauth2_scheme)) -> User:
     user = await get_current_user(token)
     admin_user = await User.objects.order_by(User.created_at.asc()).get()

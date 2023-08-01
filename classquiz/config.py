@@ -53,6 +53,7 @@ class Settings(BaseSettings):
     telemetry_enabled: bool = True
     free_storage_limit: int = 1074000000
     pixabay_api_key: str | None = None
+    mods: list[str] = []
 
     # storage_backend
     storage_backend: str | None = "local"

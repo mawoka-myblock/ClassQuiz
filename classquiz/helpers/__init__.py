@@ -170,6 +170,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     else:
         existing_quiz.questions = [*existing_quiz.questions, *questions]
         existing_quiz.updated_at = datetime.now()
+        existing_quiz.mod_rating = None
         await existing_quiz.update()
         quiz = existing_quiz
     return quiz

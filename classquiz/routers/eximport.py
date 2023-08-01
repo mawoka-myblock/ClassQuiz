@@ -128,5 +128,6 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
     quiz = Quiz.parse_obj(quiz_dict)
     quiz.user_id = user.id
     quiz.imported_from_kahoot = None
+    quiz.mod_rating = None
     await quiz.save()
     return quiz
