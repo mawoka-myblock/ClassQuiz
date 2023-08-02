@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 #
 # SPDX-License-Identifier: MPL-2.0
-
-
+from base64 import b64encode
 from datetime import datetime, timedelta
 from tempfile import SpooledTemporaryFile
 
@@ -29,7 +28,7 @@ def headers_from_storage_item(item: StorageItem) -> dict[str, str]:
     if item.thumbhash is not None:
         base_headers["X-Thumbhash"] = item.thumbhash
     if item.alt_text is not None:
-        base_headers["X-Alt-Text"] = item.alt_text
+        base_headers["X-Alt-Text"] = b64encode(item.alt_text.encode("utf-8")).decode()
     if item.size != 0:
         base_headers["Content-Size"] = str(item.size)
     return base_headers
