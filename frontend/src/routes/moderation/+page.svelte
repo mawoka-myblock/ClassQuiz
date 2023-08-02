@@ -50,7 +50,7 @@ SPDX-License-Identifier: MPL-2.0
 		>
 		<p class="m-auto">Page {data.page}</p>
 		<BrownButton
-			disabled={data.quizzes.length !== 10}
+			disabled={data.quizzes.length !== 20}
 			href="/moderation?page={parseInt(data.page) - 1}">Next Page</BrownButton
 		>
 	</div>
