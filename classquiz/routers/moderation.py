@@ -23,7 +23,7 @@ async def get_mod_status(resp: Response, user: User = Depends(get_current_modera
 
 @router.get("/quizzes")
 async def get_newest_quizzes(
-    page: int = 1, all: bool = False, user: User = Depends(get_current_moderator)
+    page: int = 1, all: bool = False, user: User = Depends(get_current_moderator)  # skipcq: PYL-W0622
 ) -> list[Quiz]:
     if page < 1:
         raise HTTPException(status_code=400, detail="page 1 is the first")

@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script lang='ts'>
+<script lang="ts">
 	import { browser } from '$app/environment';
 	import { fade } from 'svelte/transition';
 
@@ -71,14 +71,14 @@ SPDX-License-Identifier: MPL-2.0
 		<video
 			class={css_classes}
 			disablepictureinpicture
-			x-webkit-airplay='deny'
+			x-webkit-airplay="deny"
 			controls
 			autoplay
 			loop
 			{muted}
-			preload='metadata'
+			preload="metadata"
 		>
-			<source src='/api/v1/storage/download/{src}' />
+			<source src="/api/v1/storage/download/{src}" />
 		</video>
 	{:else}
 		<p>Unknown media type</p>
@@ -87,14 +87,14 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if fullscreen_open}
 	<div
-		class='fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 fle p-2'
+		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 fle p-2"
 		transition:fade={{ duration: 80 }}
 		on:click={() => (fullscreen_open = false)}
 	>
 		<img
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
-			class='object-cover rounded m-auto max-h-full max-w-full'
+			class="object-cover rounded m-auto max-h-full max-w-full"
 		/>
 	</div>
 {/if}
