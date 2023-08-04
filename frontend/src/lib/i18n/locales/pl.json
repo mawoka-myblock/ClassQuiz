@@ -30,7 +30,7 @@
         "play_quiz": "2. Uruchom quiz",
         "select_answer": "Wybierz odpowiedź",
         "choose_answer_wisely": "Wybierz mądrze swoją odpowiedź",
-        "view_results": "Pokaż wyniki",
+        "view_results": "Zobacz wyniki",
         "check_if_chosen_wisely": "Sprawdź, czy dobrze wybrałeś",
         "list_winners": "Lista zwycięzców",
         "get_ranking_and_winners": "Poznaj ranking i zobacz kto wygrał",
@@ -127,7 +127,7 @@
         "other": "inne",
         "other_plural": "innych",
         "donating": "dotację",
-        "find": "Szukaj",
+        "find": "Znajdź",
         "practice": "Ćwiczenia",
         "error": "Błąd",
         "register": "Zarejestruj się",
@@ -184,7 +184,19 @@
         "files_library": "Biblioteka plików",
         "answer_plural": "Odpowiedzi",
         "no": "nie",
-        "yes": "Tak"
+        "yes": "Tak",
+        "view_plural": "Wyświetlenia",
+        "version": "Wersja",
+        "never": "Nigdy",
+        "unknown": "Nieznana",
+        "update": "Aktualizuj",
+        "like_plural": "Lubię",
+        "dislike": "Nie lubię",
+        "play_plural": "Zabawy",
+        "info": "Informacje",
+        "analytics": "Analityka",
+        "dislike_plural": "Nie lubię",
+        "rating": "Ocena"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -220,7 +232,9 @@
         "upload_video": "Prześlij film",
         "visit_pixabay": "Odwiedź Pixabay",
         "search_english_only": "Wyszukiwanie działa tylko w języku angielskim",
-        "images_by_pixabay": "Obrazy dostarczone przez Pixabay"
+        "images_by_pixabay": "Obrazy dostarczone przez Pixabay",
+        "next_page": "Następna strona",
+        "previous_page": "Poprzednia strona"
     },
     "editor": {
         "time_in_seconds": "Czas w sekundach",
@@ -253,10 +267,12 @@
         "visit_docs": "Zapoznaj się z dokumentacją",
         "url_should_look_like_this": "Adres URL powinien wyglądać tak: https://create.kahoot.it/details/...",
         "side_import_kahoot": "Na tej stronie możesz importować quizy, które są dostępne w Kahoot!.",
-        "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa",
+        "upload_file_ending": "Prześlij plik z rozszerzeniem .cqa lub .xlsx",
         "this_side_classquiz": "Na tej stronie można importować quizy, które zostały wyeksportowane z ClassQuiz.",
         "a_kahoot_quiz": "Quiz Kahoot",
-        "classquiz_quiz": "Quiz ClassQuiz"
+        "classquiz_quiz": "Quiz ClassQuiz",
+        "download_template_here": "Pobierz szablon",
+        "this_side_classquiz_excel": "Możesz również przesłać pliki Excel, jeśli wypełniłeś poniższy szablon."
     },
     "admin_page": {
         "time_left": "Pozostały czas",
@@ -338,7 +354,9 @@
         "player_score": "Wynik gracza"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Wyszukaj własne quizy"
+        "search_for_own_quizzes": "Wyszukaj własne quizy",
+        "views_n_plays": "Widoki i gry",
+        "info_analytics": "\"Odtworzenia\" pokazują tylko, jak często quiz był uruchamiany (w tym ty), podczas gdy \"Wyświetlenia\" liczą, jak często strona \"Wyświetlenia\" była odwiedzana, więc liczy również boty (przepraszam za to)."
     },
     "navbar": {
         "donate": "Darowizna"
@@ -356,11 +374,13 @@
         },
         "totp_setup": {
             "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
-            "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod"
+            "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod",
+            "enter_as_secret_if_no_see_code": "Wpisz kod, jeśli nie możesz zeskanować kodu QR"
         },
         "webauthn_unavailable": "Webauthn nie jest dostępny",
         "add_security_key": "Dodaj Security-Key",
-        "webauthn_available": "Webauthn jest dostępny"
+        "webauthn_available": "Webauthn jest dostępny",
+        "webauthn": "Webauthn"
     },
     "view_quiz_page": {
         "made_by": "Wykonane przez",
@@ -429,6 +449,17 @@
     },
     "video_uploader": {
         "time_elapsed": "Upłynęło",
-        "time_remaining": "Pozostały czas:"
+        "time_remaining": "Pozostały czas"
+    },
+    "controllers": {
+        "add_new_controller": "Dodaj nowy kontroler",
+        "player_name": "Nazwa gracza",
+        "first_seen": "Widziany po raz pierwszy",
+        "last_seen": "Ostatnio widziany",
+        "controller_name": "Nazwa kontrolera",
+        "version_overview": "Najnowsza dostępna wersja to {{newest_version}}, a zainstalowana jest wersja {{current_version}}.",
+        "cancel_update": "Anuluj aktualizację!",
+        "update_from_to": "Aktualizacja z {{current_version}} do {{newest_version}}",
+        "already_latest_version": "Masz już najnowszą wersję"
     }
 }
