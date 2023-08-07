@@ -128,6 +128,11 @@ SPDX-License-Identifier: MPL-2.0
 			code: 'nl',
 			name: 'Nederlands',
 			flag: '🇳🇱'
+		},
+		{
+			code: "hu",
+			name: "Magyar",
+			flag: '🇭🇺'
 		}
 	];
 	const get_selected_language = (): string => {
