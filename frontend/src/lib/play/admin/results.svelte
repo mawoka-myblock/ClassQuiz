@@ -5,13 +5,16 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import VotingResults from './voting_results.svelte';
 	import { flip } from 'svelte/animate';
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
+	import type { Question } from '$lib/quiz_types';
 	const { t } = getLocalization();
 
 	export let data;
+	export let question: Question;
 
 	export let new_data: Array<{
 		username: string;
@@ -89,7 +92,7 @@ SPDX-License-Identifier: MPL-2.0
 	// https://svelte.dev/repl/96a58afdea2248a5b7e489160ffba887?version=3.44.2
 </script>
 
-<main>
+<div class="h-full flex flex-col">
 	<div class="flex justify-center">
 		<div>
 			<table class="table-auto text-xl">
@@ -124,4 +127,7 @@ SPDX-License-Identifier: MPL-2.0
 			</table>
 		</div>
 	</div>
-</main>
+	<div class="mt-12">
+		<VotingResults data={new_data} {question} />
+	</div>
+</div>

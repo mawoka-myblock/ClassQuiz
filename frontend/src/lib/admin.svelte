@@ -44,10 +44,6 @@ SPDX-License-Identifier: MPL-2.0
 	socket.on('get_question_results', () => {
 		console.log('get_question_results');
 	});
-	socket.on('question_results', (_) => {
-		timer_res = '0';
-		clearInterval(timer_interval);
-	});
 	socket.on('set_question_number', (data) => {
 		timer_res = '0';
 		clearInterval(timer_interval);
@@ -90,12 +86,9 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	socket.on('question_results', (data) => {
-		try {
-			question_results = JSON.parse(data);
-			timer_res = '0';
-		} catch {
-			question_results = undefined;
-		}
+		console.log('question_results:', data);
+		question_results = data;
+		timer_res = '0';
 	});
 
 	socket.on('player_answer', (_) => {
@@ -295,8 +288,8 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	{/if}
 	<br />
-	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify( [null] ) && quiz_data.questions[selected_question].type !== QuizQuestionType.SLIDE}
-		{#if question_results === null}{:else if question_results === undefined}
+	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify( [null] ) && quiz_data.questions[selected_question].type !== QuizQuestionType.SLIDE && question_results !== null}
+		{#if question_results === undefined}
 			{#if !final_results_clicked}
 				<div class="w-full flex justify-center">
 					<h1 class="text-3xl">{$t('admin_page.no_answers')}</h1>
@@ -319,13 +312,14 @@ SPDX-License-Identifier: MPL-2.0
 				<svelte:component
 					this={c.default}
 					bind:data={player_scores}
+					question={quiz_data.questions[selected_question]}
 					bind:new_data={question_results}
 				/>
 			{/await}
 		{/if}
-	{:else if timer_res !== undefined}{/if}
+	{/if}
 	<br />
-	{#if get_question_title(selected_question + 1, quiz_data) !== '' && selected_question + 1 !== 0}{:else if selected_question + 1 === 0}
+	{#if get_question_title(selected_question + 1, quiz_data) === '' && selected_question + 1 === 0}
 		<div class="flex flex-col justify-center w-screen h-full">
 			<h1 class="text-7xl text-center">{@html quiz_data.title}</h1>
 			<p class="text-3xl pt-8 text-center">{@html quiz_data.description}</p>

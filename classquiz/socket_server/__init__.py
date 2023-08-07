@@ -226,12 +226,14 @@ async def register_as_admin(sid: str, data: dict):
 async def get_question_results(sid: str, data: dict):
     session = await sio.get_session(sid)
     if session["admin"]:
-        redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
+        redis_res = AnswerDataList.parse_raw(
+            await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
+        )
         game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
         game_data.question_show = False
         await redis.set(f"game:{session['game_pin']}", game_data.json())
         game_pin = session["game_pin"]
-        await sio.emit("question_results", redis_res, room=game_pin)
+        await sio.emit("question_results", redis_res.dict()["__root__"], room=game_pin)
 
 
 class ABCDQuizAnswerWithoutSolution(BaseModel):
