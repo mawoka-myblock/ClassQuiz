@@ -27,7 +27,7 @@ repos:
           - "prettier-plugin-svelte@latest"
           - "prettier@latest"
   - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
         # flake8 is passed in all tracked python files
