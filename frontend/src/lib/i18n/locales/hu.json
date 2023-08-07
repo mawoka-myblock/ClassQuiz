@@ -1,0 +1,465 @@
+{
+    "index_page": {
+        "slogan": "A nyílt forráskódú kvíz-platform!",
+        "meta": {
+            "description": "A ClassQuiz egy nyílt forráskódú és ingyenesen használható kvízalkalmazás, amellyel interaktívan tanulhatnak a diákok",
+            "title": "Kezdőoldal"
+        },
+        "see_how_many_true_and_false": "Nézze meg, hánynat hibázott",
+        "create_or_import": "Létrehozás vagy importálás",
+        "teachers_site": "Tanári oldal",
+        "students_site": "Diák oldal",
+        "no_tracking": "Nyomkövetés mentesség",
+        "self_hostable": "Önállóan üzemeltethető",
+        "get_a_quiz": "1. Készíts kvízt",
+        "find_or_explore": "Keressen (vagy fedezzen fel) mások által készített vagy importált kvízeket",
+        "select_answer": "Jelölje ki a választ",
+        "check_if_chosen_wisely": "Ellenőrizd, hogy jól választottál-e",
+        "get_ranking_and_winners": "Rangsor megtekintése, nézd meg ki nyert",
+        "why_classquiz": "Miért a ClassQuiz?",
+        "self_hostable_content": "A ClassQuiz könnyen futtatható saját szerveren, így az adatai felett Ön rendelkezik!",
+        "quiz_results_downloadable_content": "A kvíz eredményei könnyen exportálhatók Excel-táblázatba. (Nem tudtuk, hogy mások ezt nem tehetik meg)",
+        "dark_mode_content": "Az egyik legfontosabb funkció, amellyel egy weboldal rendelkezhet!",
+        "german_server_content": "A ClassQuiz szerverei Németországban találhatók, és a netcup üzemelteti őket.",
+        "download_quizzes": "Kvízek letöltése",
+        "community_driven": "Közösségvezérelt",
+        "how_does_classquiz_work": "Hogyan is működik a ClassQuiz?",
+        "german_server": "Német Szerver",
+        "dark_mode": "Sötét mód (darkmode)",
+        "user_friendly": "Felhasználóbarát",
+        "quiz_results_downloadable": "A kvíz eredmények letölthetők",
+        "completely_free": "Teljesen költségmentes",
+        "multilingual": "Többnyelvű",
+        "play_quiz": "2. Tölts ki a kvízt",
+        "stats": "Már {{user_count}} felhasználó és {{quiz_count}} kvíz van a ClassQuizben.",
+        "see_what_true_and_false": "Nézze meg, mi volt helyes vagy helytelen",
+        "create_a_quiz_from_scratch": "Készítsen kvízt a semmiből a szerkesztővel, és adjon hozzá képeket és egyebeket",
+        "see_all_quizzes": "Tekintse meg az összes kvízt",
+        "choose_answer_wisely": "Válaszd meg bölcsen a választ",
+        "view_results": "Eredmények megtekintése",
+        "list_winners": "Nyertesek listázása",
+        "no_tracking_content": "Mások követhetik önt, és kiadhatják személyes adatait harmadik feleknek, de a ClassQuiz nem.",
+        "user_friendly_content": "A ClassQuiz célja, hogy egyszerű legyen, így mindenki használhassa.",
+        "completely_free_content": "A ClassQuiz teljesen ingyenes (a felhasználók számára), fizetős csomagok vagy bosszantó átirányítások nélkül a \"prémium előfizetés\" oldalakra. Az adományokat nagyra értékeljük.",
+        "multilingual_content": "A ClassQuiz angol, francia, német, olasz, norvég bokmål, török, valamint részben indonéz és katalán nyelven érhető el.",
+        "download_quizzes_content": "A kvízek egy fájlként letölthetők és bármikor importálhatók. Ez lehetővé teszi a kvízek más ClassQuiz-példányokba való áthelyezését is.",
+        "community_driven_content": "A ClassQuiz a közösségétől függ a finanszírozás, az ötletek tesztelése, a funkciókérések, a fordítások és egyebek tekintetében! Te is tagja lehetsz a ClassQuiz-közösségnek!"
+    },
+    "overview_page": {
+        "created_at": "Létrehozva",
+        "no_quizzes": "Kattintson a \"Létrehozás\" gombra, vagy importáljon egy kvízt a kezdéshez.",
+        "question_count": "Kérdés száma"
+    },
+    "edit_page": {
+        "success_update_title": "A kvíz frissítve.",
+        "success_update_body": "Senki nem számított a vizsgálatra."
+    },
+    "create_page": {
+        "success": {
+            "body": "Kezdődhet a játék.",
+            "title": "Kvíz létrejött."
+        }
+    },
+    "register_page": {
+        "create_account": "Fiók létrehozása",
+        "already_have_account?": "Már van fiókja?",
+        "greeting": "Örülök, hogy találkoztunk!",
+        "forgot_password?": "Elfelejtetted a jelszavad?"
+    },
+    "login_page": {
+        "already_have_account": "Nincs fiókod?",
+        "email_or_username": "E-mail vagy felhasználónév",
+        "modal": {
+            "success": {
+                "success": "Bejelentkezve.",
+                "success_check_mail": "Bejelentkezve. Ellenőrizze az e-mail postafiókját.",
+                "description": {
+                    "success_check_mail": "Kérjük, ellenőrizze e-mail postafiókjában, hogy megkapta-e a megerősítő linket tartalmazó levelet.",
+                    "success": "Bejelentkezett."
+                }
+            },
+            "error": {
+                "wrong_creds": "Rossz e-mail cím vagy jelszó.",
+                "unexpected": "Nem várt hiba!",
+                "description": {
+                    "wrong_creds": "Kérjük, ellenőrizze jelszavának és e-mail címének helyességét.",
+                    "unexpected": "Ott volt a jó öreg váratlan hiba!"
+                }
+            }
+        },
+        "use_backup_code": "Használjon biztonsági kódot",
+        "welcome_back": "Üdvözöljük.",
+        "login_or_create_account": "Jelentkezzen be vagy hozzon létre fiókot"
+    },
+    "words": {
+        "features": "Funkciók",
+        "username": "Felhasználónév",
+        "password": "Jelszó",
+        "delete": "Törlés",
+        "public": "Nyilvános",
+        "import": "Importálás",
+        "logout": "Kijelentkezés",
+        "url": "URL",
+        "connect": "Kapcsolódás",
+        "pin": "PIN-kód",
+        "kick": "Kirúgás",
+        "register": "Regisztrálás",
+        "description": "Magyarázat",
+        "image": "Kép",
+        "settings": "Beállítások",
+        "explore": "Böngészés",
+        "search": "Keresés",
+        "screenshot": "Képernyőmentés",
+        "screenshot_plural": "Képernyőképek",
+        "browser": "Böngésző",
+        "view": "Nézet",
+        "result_plural": "Eredmények",
+        "count": "Darab",
+        "multiple_choice": "Feleletválasztós",
+        "private": "Privát",
+        "dashboard": "Vezérlőpult",
+        "question_plural": "Kérdések",
+        "other": "Egyéb",
+        "donating": "adományozás",
+        "find": "Keresés",
+        "error": "Hiba",
+        "voting": "Szavazás",
+        "continue": "Tovább",
+        "backup_code": "Tartalék kód",
+        "totp": "TOTP",
+        "order": "Rendelés",
+        "results": "Eredmények",
+        "player_plural": "Lejátszók",
+        "version": "Verzió",
+        "never": "Soha",
+        "score": "Eredmény",
+        "slide": "Csúszka",
+        "name": "Név",
+        "point": "Pont",
+        "point_plural": "Pontok",
+        "normal": "Normál",
+        "select": "Kijelöl",
+        "quiz": "Kvíz",
+        "quiztivity": "Kvízjáték",
+        "next": "Következő",
+        "check_choice": "Feleletválasztós válasz",
+        "library": "Könyvtár",
+        "progress": "Haladás",
+        "speed": "Sebesség",
+        "files_library": "Fájl könyvtár",
+        "no": "Nem",
+        "analytics": "Analitika",
+        "rating": "Értékelés",
+        "like": "Kedvelés",
+        "like_plural": "Kedvelt",
+        "dislike": "Nem kedvel",
+        "play_plural": "lejátszás",
+        "close": "Bezár",
+        "question": "Kérdés",
+        "answer": "Válasz",
+        "stats": "Statisztika",
+        "login": "Bejelentkezés",
+        "email": "E-mail cím",
+        "play": "Lejátszás",
+        "edit": "Szerkesztés",
+        "start": "Kezdés",
+        "docs": "Dokumentáció",
+        "create": "Létrehozás",
+        "title": "Cím",
+        "submit": "Elküldés",
+        "save": "Mentés",
+        "overview": "Áttekintés",
+        "repeat_password": "Jelszó ismét",
+        "report": "Kimutatás",
+        "correct": "Helyes",
+        "view_plural": "Nézetek",
+        "result": "Eredmény",
+        "range": "Időtartam",
+        "game_pin": "A játék PIN-kódja",
+        "download": "Letöltés",
+        "other_plural": "Egyebek",
+        "practice": "Gyakorlás",
+        "text": "Szöveg",
+        "upload": "Feltöltés",
+        "note": "Megjegyzés",
+        "unknown": "Ismeretlen",
+        "update": "Frissítés",
+        "back": "Vissza",
+        "finish": "Befejezés",
+        "selected": "Kijelölve",
+        "video": "Videó",
+        "answer_plural": "Válaszok",
+        "yes": "Igen",
+        "dislike_plural": "Nem kedvelt",
+        "info": "Információ"
+    },
+    "editor": {
+        "add_new_question": "Új kérdés hozzáadása",
+        "delete_answer": "Válasz törlése",
+        "no_title": "Nincs cím...",
+        "empty": "Üres...",
+        "bg_image": "Háttérkép",
+        "slide": {
+            "headline": "Címsor",
+            "text": "Szöveg",
+            "text_description": "Rövidített, hosszú szöveg",
+            "rectangle": "Téglalap",
+            "rectangle_description": "Csak egy téglalap",
+            "headline_description": "Félkövér szöveg a címsorokhoz"
+        },
+        "abcd_description": "Csak egy válasz választható",
+        "voting_description": "A válaszok nem adnak pontot",
+        "check_choice_description": "Minden helyes választ ki kell választani a pontszerzéshez",
+        "text_description": "A játékosok beírhatnak szöveget",
+        "range_description": "A számtartomány egy csúszkával választható ki",
+        "time_in_seconds": "Mentési időköz (másodperc)",
+        "right_or_true?": "Helyes?",
+        "add_new_answer": "Új válasz hozzáadása",
+        "delete_question": "Kérdés törlése",
+        "not_all_links_imgur_links": "Nem minden link Imgur-link!",
+        "order_description": "A válaszokat a megfelelő sorrendbe lehet állítani"
+    },
+    "import_page": {
+        "url_should_look_like_this": "Az URL-nek így kell kinéznie: https://create.kahoot.it/details/...",
+        "upload_file_ending": "Töltsön fel egy .cqa vagy .xlsx végződésű fájlt",
+        "this_side_classquiz_excel": "Excel fájlokat is feltölthet, ha kitöltötte az alábbi sablont.",
+        "download_template_here": "Töltse le a sablont",
+        "this_side_classquiz": "Ezen az oldalon importálhat ClassQuizból exportált kvízeket.",
+        "a_kahoot_quiz": "Egy Kahoot!-Kvíz",
+        "side_import_kahoot": "Ezen az oldalon importálhat kvízeket, amelyek a Kahoot!-on aktívak.",
+        "need_help": "Segíthetünk?",
+        "visit_docs": "Nézze meg a dokumentációt",
+        "classquiz_quiz": "Egy ClassQuiz-kvíz"
+    },
+    "admin_page": {
+        "start_game": "Játék kezdése",
+        "time_left": "Hátralévő idő",
+        "get_results": "Eredmények megtekintése",
+        "get_final_results": "Végső eredmények megtekintése",
+        "show_next_question": "Következő kérdés megtekintse",
+        "no_answers": "Nincsenek válaszok!",
+        "save_results": "Eredmények mentése",
+        "show_results": "Eredmények mutatása",
+        "enter_answer_into_field": "Írja be a választ a beviteli mezőbe!",
+        "download_export_results": "Eredmények letöltése",
+        "already_registered_as_admin": "Ehhez a játékhoz már regisztrált adminisztrátor.",
+        "get_results_and_stop_time": "Eredmények megtekintése és állítsa meg az időzítőt",
+        "start_by_showing_first_question": "Kezdje az első kérdés megtekintésével.",
+        "stop_time": "Időzítő leállítása",
+        "next_question": "Következő kérdés ({{question}})",
+        "stop_time_and_solutions": "Időzítőt megállítása és megoldások megtekintése",
+        "answers_submitted": "{{answer_count}} válasz elküldve",
+        "request_export_results": "Eredmények letöltésének igénylése"
+    },
+    "password_reset_page": {
+        "reset_password": "Új jelszó igénylése"
+    },
+    "settings_page": {
+        "old_password": "Régi jelszó:",
+        "new_password": "Új jelszó",
+        "repeat_password": "Jelszó ismét",
+        "change_password_submit": "Jelszó módosítása!",
+        "last_seen": "Utoljára aktív",
+        "check_location": "Hely ellenörzése",
+        "delete_this_session": "Munkamenetet törlése",
+        "change_avatar": "Avatar módosítása",
+        "security_settings": "Biztonsági beállítások",
+        "this_session?": "Ez a munkamenet?",
+        "add_api_key": "API-kulcs hozzáadása"
+    },
+    "explore_page": {
+        "made_by": "Készítette",
+        "imported_by": "Importálta"
+    },
+    "search_page": {
+        "at_least_3_characters": "Írjon be legalább 3 karaktert...",
+        "nothing_here": "Itt nincs semmi..."
+    },
+    "play_page": {
+        "end_sentence": "Ez az! Ez volt a kvíz.",
+        "1st_place": "1. helyezett",
+        "with_out_of": "helyes {{correct_questions}} a {{total_question_count}} kérdésből",
+        "final_result_rank": "{{place}}: {{username}} összesen {{points}} ponttal",
+        "your_score": "Az Ön pontszáma: {{score}}",
+        "2nd_place": "2. helyezett",
+        "3rd place": "3. helyezett",
+        "join_description": "Csatlakozzon a(z) {{url}} címen, és írja be a következőt PIN-t: {{pin}}.",
+        "join_by_entering_code": "Csatlakozz az alábbi kód beírásával",
+        "points_added": "Pontok megszerezve"
+    },
+    "editor_page": {
+        "right_click_to_delete": "Kattintson a jobb gombbal egy válaszra a törléshez!",
+        "add_an_answer": "Válasz hozzáadása"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Keresés a saját kvízek között",
+        "views_n_plays": "Megtekintések és játékok",
+        "info_analytics": "A \"Játékok\" csak azt mutatja, hogy milyen gyakran indult el a kvíz (beleértve), míg a \"Megtekintések\" azt számolja, hogy milyen gyakran látogatták meg a \"megtekintések\"-oldalt, tehát a botokat is számolja (elnézést érte)."
+    },
+    "footer": {
+        "self_ads": "Készítette: ❤️, {{mawoka_link}} segítői {{others_link}}.",
+        "more_details_here": "További részletek itt",
+        "donate": "Ha hasznosnak találja, kérjük, fontolja meg a {{donate_link}} lehetőséget."
+    },
+    "error_page": {
+        "unknown_error_text": "Ennek nem szabadna megtörténnie. Valószínűleg a mi hibánk, nem a tied, de lehet, hogy mágikus erőd van, hogy összetörj dolgokat...",
+        "404_text": "A keresett oldal eltűnt, vagy nem is létezett. Ki tudja?"
+    },
+    "uploader": {
+        "add_image": "Média hozzáadása",
+        "select_upload_type": "Válassza ki a feltöltés típusát",
+        "upload_a_video": "Videó feltöltése",
+        "upload_video": "Videó feltöltése",
+        "visit_pixabay": "Látogassa meg a Pixabayt",
+        "images_by_pixabay": "A képeket a Pixabay biztosította",
+        "search_english_only": "A keresés csak angol nyelven működik",
+        "next_page": "Következő oldal",
+        "upload_video_popup_notice": "A felugró ablak nyitva van; nézze meg a további információkat",
+        "previous_page": "Előző oldal"
+    },
+    "avatar_settings": {
+        "top_type": "Fel",
+        "hair_color": "Hajszín",
+        "facial_hair_color": "Arcszőrzet színe",
+        "mouth_type": "Száj",
+        "eyebrow_type": "Szemöldök",
+        "accessories_type": "Szemüveg",
+        "clothe_graphic_type": "Grafika",
+        "clothe_type": "Ruhák",
+        "skin_color": "Avatar színe",
+        "facial_hair_type": "Arcszőrzet",
+        "hat_color": "Kalap színe",
+        "clothe_color": "Ruhák színe",
+        "thats_you": "Ez te vagy!",
+        "start_over": "Elölről kezdeni",
+        "go_back": "Vissza"
+    },
+    "results_page": {
+        "no_results_so_far": "Eddig nincs mentett eredmény...",
+        "quiz_title": "Kvíz Cím",
+        "date_played": "Játék dátuma",
+        "player_count": "Játékosok száma",
+        "general_overview": {
+            "sentence": "A(z) \"{{title}}\" kvízben, amelyet {{date}} játszottak, {{player_count}} játékos vett részt {{average_score}} átlagos pontszámmal."
+        }
+    },
+    "result_page": {
+        "custom_field": "Egyéni mező",
+        "correct_answer": "{{count}} helyes válasz",
+        "correct_answer_plural": "{{count}} helyes válaszok",
+        "time_taken": "Eltelt idő",
+        "player_score": "Játékos pontszáma",
+        "player_name": "Játékos neve",
+        "average_score": "Átlagos pontszám: {{average_score}}"
+    },
+    "controllers": {
+        "add_new_controller": "Új vezérlő hozzáadása",
+        "player_name": "Játékos neve",
+        "controller_name": "Vezérlő neve",
+        "version_overview": "A legújabb verzió {{newest_version}} elérhető, a jelenleg telepített verzió {{current_version}}.",
+        "cancel_update": "Frissítés megszakítása!",
+        "last_seen": "Utoljára belépett",
+        "first_seen": "Először belépett",
+        "already_latest_version": "Már a legújabb verziót használja",
+        "update_from_to": "Frissítés {{current_version}} verzióról {{newest_version}} verzióra"
+    },
+    "navbar": {
+        "donate": "Támogatás"
+    },
+    "security_settings": {
+        "get_backup_code": "Szerezze be a biztonsági kódot",
+        "2fa_activated": "A kéttényezős hitelesítés aktiválva van",
+        "2fa_deactivated": "A kéttényezős hitelesítés ki van kapcsolva",
+        "webauthn": "Web hitelesítés",
+        "webauthn_available": "Webauthn elérhető",
+        "webauthn_unavailable": "Webauthn nem elérhető",
+        "add_security_key": "Adja hozzá a biztonsági kulcsot",
+        "totp": "TOTP",
+        "totp_available": "TOTP elérhető",
+        "disable_totp": "TOTP kikapcsolása",
+        "backup_codes": {
+            "your_backup_code": "Az Ön biztonsági kódja",
+            "save_somewhere_save": "Mentsd el biztonságos helyre!",
+            "download_code": "Kód letöltése"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "A kód beállításához olvassa be ezt a QR-kódot",
+            "totp_setup": "TOTP beállítás",
+            "do_not_forget_backup_code": "Ne felejtse el menteni a helyreállítási kódot!",
+            "enter_as_secret_if_no_see_code": "Adja meg ezt a kódot, ha nem tudja beolvasni a QR-kódot"
+        },
+        "activate_2fa": "Aktiválja a kéttényezős hitelesítést",
+        "backup_code": "Biztonsági kód",
+        "totp_unavailable": "TOTP nem elérhető",
+        "enable_totp": "TOTP engedélyezése"
+    },
+    "view_quiz_page": {
+        "made_by": "Készítette",
+        "view_on_kahoot": "Eredeti megtekintése"
+    },
+    "start_game": {
+        "old_school_mode": "Régi módi",
+        "old_school_mode_description": "A kérdések és képek megjelennek mind az adminisztrátorok, mind a játékosok képernyőjén",
+        "start_game": "Játék kezdése",
+        "captcha_message": "Ha engedélyezve van, a Google ReCaptcha betöltődik a játékosok böngészőjében. Csak akkor engedélyezze, ha valóban szüksége van rá, mivel MINDEN játékos beleegyezése kell a captcha betöltéséhez.",
+        "normal_mode_description": "A kérdés és válasz csak az adminisztrátor képernyőjén jelenik meg. A játékosoknak csak az ezeknek megfelelő szimbólumokkal ellátott színes gombok jelennek meg az adminisztrátor képernyőjén."
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Oldaltipus választása",
+            "title_placeholder": "Ide írja be a címet",
+            "delete": "Törlés",
+            "open_shares_menu": "Megosztások menü",
+            "shares": {
+                "add_new_share": "Megosztás",
+                "expires_on": "Lejár: {{date}}",
+                "never_expires": "Soha nem jár le"
+            },
+            "move_left": "Balra",
+            "move_right": "Jobbra",
+            "add_new": "Új hozzáadása"
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Kártya hozzáadása",
+                "upload_image": "Kép feltöltése",
+                "add_pair": "Pár hozzáadása"
+            }
+        },
+        "share_expired": "A megosztás lejárt",
+        "play": {
+            "memory": {
+                "try_count": "Próbálkozások: {{try_count}}"
+            }
+        }
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "A vágolapra másolva!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Csatlakozott {{date}}",
+        "no_original_quizzes": "Ennek a felhasználónak nincsenek eredeti kvízei"
+    },
+    "file_dashboard": {
+        "not_available": "Nem elérhető",
+        "missing": "HIÁNYZIK!",
+        "unset": "Nincs beállítva",
+        "size": "Méret: {{size}} Mib",
+        "caption": "Felirat: {{caption}}",
+        "filename": "Fájlnév: {{filename}}",
+        "uploaded": "Feltöltve: {{date}}",
+        "imported": "Importált: {{yes_or_no}}",
+        "edit_details": "Részletek szerkesztése",
+        "edit_the_image": "A kép szerkesztése",
+        "filename_word": "Fájlnév",
+        "delete_image": "Kép törlése",
+        "alt_text": "Alternatív szöveg / Felirat",
+        "storage_usage": "{{használt}} Mib-ot használt fel a {{total}} MiB tárhelyből. Ez a tárhely {{percent}}%-ának felel meg."
+    },
+    "video_uploader": {
+        "time_remaining": "Hátralévő idő",
+        "time_elapsed": "Eltelt idő"
+    }
+}

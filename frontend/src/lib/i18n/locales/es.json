@@ -313,7 +313,7 @@
         "info_analytics": "Las \"Reproducciones\" sólo muestran la frecuencia con la que se ha iniciado el cuestionario (tú incluido), mientras que las \"Vistas\" cuentan la frecuencia con la que se ha visitado la página \"Vista\", por lo que también cuenta los bots (lo siento)."
     },
     "uploader": {
-        "add_image": "Añadir una imagen",
+        "add_image": "Añadir medios",
         "select_upload_type": "Seleccione el tipo de carga",
         "upload_a_video": "Cargar un vídeo",
         "upload_video_popup_notice": "La ventana emergente está abierta; échale un vistazo para obtener más información",
