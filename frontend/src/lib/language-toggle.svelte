@@ -130,8 +130,8 @@ SPDX-License-Identifier: MPL-2.0
 			flag: '🇳🇱'
 		},
 		{
-			code: "hu",
-			name: "Magyar",
+			code: 'hu',
+			name: 'Magyar',
 			flag: '🇭🇺'
 		}
 	];
