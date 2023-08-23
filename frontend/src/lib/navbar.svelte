@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script lang='ts'>
+<script lang="ts">
 	import '@fontsource/marck-script/index.css';
 	import { getLocalization } from '$lib/i18n';
 	import { signedIn, pathname } from '$lib/stores';
@@ -44,149 +44,149 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <nav
-	class='w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-30 top-0'
+	class="w-screen px-4 lg:px-10 py-2 flex flex-col lg:flex-row lg:items-center fixed backdrop-blur-2xl bg-white/70 shadow-md z-30 top-0"
 >
-	<section class='w-full lg:w-max grid grid-cols-3 lg:grid-cols-2'>
-		<a href='/' class='font-black tracking-tight text-xl text-black marck-script link-hover'
-		>ClassQuiz</a
+	<section class="w-full lg:w-max grid grid-cols-3 lg:grid-cols-2">
+		<a href="/" class="font-black tracking-tight text-xl text-black marck-script link-hover"
+			>ClassQuiz</a
 		>
-		<div class='flex justify-center'>
+		<div class="flex justify-center">
 			<a
-				class='lg:pl-6 text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-				href='/play'>{$t('words.play')}</a
+				class="lg:pl-6 text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+				href="/play">{$t('words.play')}</a
 			>
 		</div>
-		<div class='flex justify-end'>
+		<div class="flex justify-end">
 			<button
-				class='lg:hidden dark:text-black'
-				id='open-menu'
+				class="lg:hidden dark:text-black"
+				id="open-menu"
 				on:click={toggleMenu}
 				class:hidden={!openMenu}
-				aria-label='Open navbar'
+				aria-label="Open navbar"
 			>
 				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					width='24'
-					height='24'
-					viewBox='0 0 24 24'
-					fill='none'
-					stroke='currentColor'
-					stroke-width='2'
-					stroke-linecap='round'
-					stroke-linejoin='round'
-					display='block'
-					id='TextAlignJustified'
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					display="block"
+					id="TextAlignJustified"
 				>
-					<path d='M3 6h18M3 12h18M3 18h18' />
+					<path d="M3 6h18M3 12h18M3 18h18" />
 				</svg>
 			</button>
 
 			<!-- Close menu -->
 			<button
-				class='hidden dark:text-black'
-				id='close-menu'
+				class="hidden dark:text-black"
+				id="close-menu"
 				class:hidden={openMenu}
 				on:click={toggleMenu}
-				aria-label='Close navbar'
+				aria-label="Close navbar"
 			>
 				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					width='14'
-					height='14'
-					viewBox='0 0 24 24'
-					fill='none'
-					stroke='currentColor'
-					stroke-width='3'
-					stroke-linecap='round'
-					stroke-linejoin='round'
-					display='block'
-					id='Cross'
+					xmlns="http://www.w3.org/2000/svg"
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="3"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					display="block"
+					id="Cross"
 				>
-					<path d='M20 20L4 4m16 0L4 20' />
+					<path d="M20 20L4 4m16 0L4 20" />
 				</svg>
 			</button>
 		</div>
 	</section>
-	<ul id='menu-items' class='lg:flex w-full flex-col lg:flex-row' class:hidden={openMenu}>
-		<li class='py-2 lg:hidden'>
-			<BrownButton href='https://mawoka.eu/donate' target='_blank'
-			>{$t('navbar.donate')} <span class=''>❤️</span></BrownButton
+	<ul id="menu-items" class="lg:flex w-full flex-col lg:flex-row" class:hidden={openMenu}>
+		<li class="py-2 lg:hidden">
+			<BrownButton href="https://mawoka.eu/donate" target="_blank"
+				>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
 			>
 		</li>
 		{#if $signedIn}
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/dashboard'>{$t('words.dashboard')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/dashboard">{$t('words.dashboard')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/explore'>{$t('words.explore')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/explore">{$t('words.explore')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/search'>{$t('words.search')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/search">{$t('words.search')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/api/v1/users/logout'>{$t('words.logout')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/api/v1/users/logout">{$t('words.logout')}</a
 				>
 			</li>
 		{:else}
 			{#if !import.meta.env.VITE_REGISTRATION_DISABLED}
-				<li class='py-2'>
+				<li class="py-2">
 					<a
-						class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-						href='/account/register'>{$t('words.register')}</a
+						class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+						href="/account/register">{$t('words.register')}</a
 					>
 				</li>
 			{/if}
 
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/account/login?returnTo={$pathname}'>{$t('words.login')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/account/login?returnTo={$pathname}">{$t('words.login')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/explore'>{$t('words.explore')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/explore">{$t('words.explore')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/search'>{$t('words.search')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/search">{$t('words.search')}</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					target='_blank'
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='https://github.com/mawoka-myblock/ClassQuiz'>GitHub</a
+					target="_blank"
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="https://github.com/mawoka-myblock/ClassQuiz">GitHub</a
 				>
 			</li>
-			<li class='py-2'>
+			<li class="py-2">
 				<a
-					class='text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover'
-					href='/docs'>{$t('words.docs')}</a
+					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+					href="/docs">{$t('words.docs')}</a
 				>
 			</li>
 		{/if}
 	</ul>
 	<div
-		class='justify-self-end gap-2 h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0'
+		class="justify-self-end gap-2 h-full flex justify-center items-center lg:relative fixed right-12 -top-1/2 pt-11 lg:right-0 lg:top-0 lg:p-0"
 	>
-		<div class='whitespace-nowrap hidden lg:block'>
-			<BrownButton href='https://mawoka.eu/donate' target='_blank'
-			>{$t('navbar.donate')} <span class=''>❤️</span></BrownButton
+		<div class="whitespace-nowrap hidden lg:block">
+			<BrownButton href="https://mawoka.eu/donate" target="_blank"
+				>{$t('navbar.donate')} <span class="">❤️</span></BrownButton
 			>
 		</div>
 		{#if darkMode}
@@ -195,23 +195,23 @@ SPDX-License-Identifier: MPL-2.0
 					switchDarkMode(false);
 				}}
 				use:tippy={{ content: 'Switch light mode on' }}
-				aria-label='Activate light mode'
+				aria-label="Activate light mode"
 			>
 				<!-- Heroicons: sun -->
 				<svg
-					class='w-6 h-6 text-black'
-					fill='none'
-					aria-label='Sun-Icon'
-					stroke='currentColor'
-					viewBox='0 0 24 24'
-					xmlns='http://www.w3.org/2000/svg'
+					class="w-6 h-6 text-black"
+					fill="none"
+					aria-label="Sun-Icon"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
-						stroke-linecap='round'
-						stroke-linejoin='round'
-						stroke-width='2'
-						stroke='currentColor'
-						d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						stroke="currentColor"
+						d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
 					/>
 				</svg>
 			</button>
@@ -220,23 +220,23 @@ SPDX-License-Identifier: MPL-2.0
 				on:click={() => {
 					switchDarkMode(true);
 				}}
-				aria-label='Activate darkmode'
+				aria-label="Activate darkmode"
 				use:tippy={{ content: 'Switch dark mode on' }}
 			>
 				<!-- Heroicons: moon -->
 				<svg
-					aria-label='Moon-Icon'
-					class='w-6 h-6'
-					fill='none'
-					stroke='currentColor'
-					viewBox='0 0 24 24'
-					xmlns='http://www.w3.org/2000/svg'
+					aria-label="Moon-Icon"
+					class="w-6 h-6"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
-						stroke-linecap='round'
-						stroke-linejoin='round'
-						stroke-width='2'
-						d='M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z'
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
 					/>
 				</svg>
 			</button>
@@ -245,20 +245,20 @@ SPDX-License-Identifier: MPL-2.0
 </nav>
 
 <style>
-    .heart {
-        animation: heartbeat 1s linear infinite;
-    }
+	.heart {
+		animation: heartbeat 1s linear infinite;
+	}
 
-    @keyframes heartbeat {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(2);
-        }
-        100% {
-            transform: scale(2);
-            opacity: 0;
-        }
-    }
+	@keyframes heartbeat {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(2);
+		}
+		100% {
+			transform: scale(2);
+			opacity: 0;
+		}
+	}
 </style>
