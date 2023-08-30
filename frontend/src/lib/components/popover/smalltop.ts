@@ -5,5 +5,6 @@
 /* eslint-disable no-unused-vars */
 export enum PopoverTypes {
 	Copy,
-	GameInLobby
+	GameInLobby,
+	Generic
 }

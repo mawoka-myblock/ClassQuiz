@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
+	import CommandpaletteNotice from "$lib/components/popover/commandpalettenotice.svelte"
 	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -94,6 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 	<title>ClassQuiz - Dashboard</title>
 </svelte:head>
 <Analytics bind:quiz={analytics_quiz_selected} />
+<CommandpaletteNotice />
 <div class="min-h-screen flex flex-col">
 	{#await getData()}
 		<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">

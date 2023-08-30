@@ -294,7 +294,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Search for your own quizzes",
         "views_n_plays": "Views & Plays",
-        "info_analytics": "The \"Plays\" only show how often the quiz was started (you included), whereas the \"Views\" count how often the \"View\"-page was visited, so it also counts bots (sorry for that)."
+        "info_analytics": "The \"Plays\" only show how often the quiz was started (you included), whereas the \"Views\" count how often the \"View\"-page was visited, so it also counts bots (sorry for that).",
+        "commandpalette_notice": "Press <kbd>Ctr</kbd>+<kbd>k</kbd> or <kbd>Meta</kbd>+<kbd>k</kbd> to open the command palette"
     },
     "footer": {
         "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",
