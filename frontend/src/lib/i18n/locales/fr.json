@@ -277,7 +277,7 @@
         "join_by_entering_code": "Participez en entrant le code suivant",
         "points_added": "Points ajoutés",
         "your_score": "Votre score : {{score}}",
-        "final_result_rank": "{{place}} : {{nom d'utilisateur}} avec {{points}} points"
+        "final_result_rank": "{{place}} : {{username}} avec {{points}} points"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
