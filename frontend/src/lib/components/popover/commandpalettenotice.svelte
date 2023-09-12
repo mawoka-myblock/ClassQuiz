@@ -19,7 +19,7 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		open = true;
-		// Cookies.set('commandpalette_notice', 'shown', { expires: new Date().setDate(new Date().getDate() + 30) });
+		Cookies.set('commandpalette_notice', 'shown', { expires: new Date().setDate(new Date().getDate() + 30) });
 	});
 
 </script>
