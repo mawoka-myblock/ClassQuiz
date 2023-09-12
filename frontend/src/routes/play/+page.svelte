@@ -17,7 +17,6 @@ SPDX-License-Identifier: MPL-2.0
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
-
 	const { t } = getLocalization();
 
 	// Exports
@@ -74,14 +73,38 @@ SPDX-License-Identifier: MPL-2.0
 		socket.emit('echo_time_sync', data);
 	});
 
+	socket.on("connect", () => {
+		console.log("Connected!")
+		const cookie_data = Cookies.get("joined_game")
+		if (!cookie_data) {
+			return
+		}
+		const data = JSON.parse(cookie_data)
+		socket.emit("rejoin_game", {old_sid: data.sid, username: data.username, game_pin: data.game_pin})
+	})
+
 	// Socket-events
 	socket.on('joined_game', (data) => {
 		gameData = data;
 		// eslint-disable-next-line no-undef
 		plausible('Joined Game', { props: { game_id: gameData.game_id } });
+		Cookies.set("joined_game", JSON.stringify({sid: socket.id, username, game_pin}), {expires: 3600})
+	});
+	socket.on('rejoined_game', (data) => {
+		gameData = data;
+		if (data.started) {
+			gameMeta.started = true
+		}
+
 	});
 
 	socket.on('game_not_found', () => {
+		const cookie_data = Cookies.get("joined_game")
+		if (cookie_data) {
+			Cookies.remove("joined_game")
+			window.location.reload()
+			return
+		}
 		game_pin_valid = false;
 	});
 
@@ -120,6 +143,7 @@ SPDX-License-Identifier: MPL-2.0
 	});
 	socket.on('final_results', (data) => {
 		final_results = data;
+		Cookies.remove("joined_game")
 	});
 
 	socket.on('solutions', (data) => {
@@ -149,7 +173,7 @@ SPDX-License-Identifier: MPL-2.0
 >
 	<div>
 		{#if !gameMeta.started && gameData === undefined}
-			<JoinGame {game_pin} bind:game_mode bind:username />
+			<JoinGame bind:game_pin bind:game_mode bind:username />
 		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
 			<ShowEndScreen bind:data={scores} show_final_results={true} bind:username />
 		{:else if gameData !== undefined && question_index === ''}
