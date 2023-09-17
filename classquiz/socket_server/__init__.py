@@ -104,10 +104,9 @@ async def rejoin_game(sid: str, data: dict):
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
     await sio.emit("time_sync", encrypted_datetime, room=sid)
     await redis.set(redis_sid_key, sid)
-    deleted_num = await redis.srem(
+    await redis.srem(
         f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=data.old_sid).json()
     )
-    print(deleted_num)
     await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
     game_data = PlayGame.parse_raw(redis_res)
     session = {
@@ -281,12 +280,13 @@ async def get_question_results(sid: str, data: dict):
     if redis_res is None:
         redis_res = []
     else:
-        redis_res = AnswerDataList.parse_raw(redis_res)
+        redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.json())
     game_pin = session["game_pin"]
-    await sio.emit("question_results", redis_res.dict()["__root__"], room=game_pin)
+
+    await sio.emit("question_results", redis_res, room=game_pin)
 
 
 class ABCDQuizAnswerWithoutSolution(BaseModel):
