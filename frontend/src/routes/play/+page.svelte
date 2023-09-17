@@ -73,7 +73,7 @@ SPDX-License-Identifier: MPL-2.0
 		socket.emit('echo_time_sync', data);
 	});
 
-	socket.on("connect", () => {
+	socket.on("connect", async () => {
 		console.log("Connected!")
 		const cookie_data = Cookies.get("joined_game")
 		if (!cookie_data) {
@@ -81,6 +81,11 @@ SPDX-License-Identifier: MPL-2.0
 		}
 		const data = JSON.parse(cookie_data)
 		socket.emit("rejoin_game", {old_sid: data.sid, username: data.username, game_pin: data.game_pin})
+		const res = await fetch(
+			`/api/v1/quiz/play/check_captcha/${game_pin}`
+		);
+		const json = await res.json();
+		game_mode = json.game_mode;
 	})
 
 	// Socket-events
@@ -122,11 +127,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	socket.on('question_results', (data) => {
 		restart();
-		try {
-			answer_results = JSON.parse(data);
-		} catch {
-			answer_results = null;
-		}
+		answer_results = data
 	});
 
 	socket.on('username_already_exists', () => {
