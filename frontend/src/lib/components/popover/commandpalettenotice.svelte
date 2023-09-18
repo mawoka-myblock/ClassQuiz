@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script lang='ts'>
+<script lang="ts">
 	import Smalltop from './smalltop.svelte';
 	import { PopoverTypes } from '$lib/components/popover/smalltop';
 	import Cookies from 'js-cookie';
@@ -19,9 +19,10 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		open = true;
-		Cookies.set('commandpalette_notice', 'shown', { expires: new Date().setDate(new Date().getDate() + 30) });
+		Cookies.set('commandpalette_notice', 'shown', {
+			expires: new Date().setDate(new Date().getDate() + 30)
+		});
 	});
-
 </script>
 
-<Smalltop bind:open type={PopoverTypes.Generic} data={$t("dashboard.commandpalette_notice")} />
+<Smalltop bind:open type={PopoverTypes.Generic} data={$t('dashboard.commandpalette_notice')} />

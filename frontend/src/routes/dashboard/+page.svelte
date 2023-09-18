@@ -9,7 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
-	import CommandpaletteNotice from "$lib/components/popover/commandpalettenotice.svelte"
+	import CommandpaletteNotice from '$lib/components/popover/commandpalettenotice.svelte';
 	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
 	import BrownButton from '$lib/components/buttons/brown.svelte';

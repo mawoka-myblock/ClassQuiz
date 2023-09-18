@@ -73,42 +73,45 @@ SPDX-License-Identifier: MPL-2.0
 		socket.emit('echo_time_sync', data);
 	});
 
-	socket.on("connect", async () => {
-		console.log("Connected!")
-		const cookie_data = Cookies.get("joined_game")
+	socket.on('connect', async () => {
+		console.log('Connected!');
+		const cookie_data = Cookies.get('joined_game');
 		if (!cookie_data) {
-			return
+			return;
 		}
-		const data = JSON.parse(cookie_data)
-		socket.emit("rejoin_game", {old_sid: data.sid, username: data.username, game_pin: data.game_pin})
-		const res = await fetch(
-			`/api/v1/quiz/play/check_captcha/${game_pin}`
-		);
+		const data = JSON.parse(cookie_data);
+		socket.emit('rejoin_game', {
+			old_sid: data.sid,
+			username: data.username,
+			game_pin: data.game_pin
+		});
+		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
 		const json = await res.json();
 		game_mode = json.game_mode;
-	})
+	});
 
 	// Socket-events
 	socket.on('joined_game', (data) => {
 		gameData = data;
 		// eslint-disable-next-line no-undef
 		plausible('Joined Game', { props: { game_id: gameData.game_id } });
-		Cookies.set("joined_game", JSON.stringify({sid: socket.id, username, game_pin}), {expires: 3600})
+		Cookies.set('joined_game', JSON.stringify({ sid: socket.id, username, game_pin }), {
+			expires: 3600
+		});
 	});
 	socket.on('rejoined_game', (data) => {
 		gameData = data;
 		if (data.started) {
-			gameMeta.started = true
+			gameMeta.started = true;
 		}
-
 	});
 
 	socket.on('game_not_found', () => {
-		const cookie_data = Cookies.get("joined_game")
+		const cookie_data = Cookies.get('joined_game');
 		if (cookie_data) {
-			Cookies.remove("joined_game")
-			window.location.reload()
-			return
+			Cookies.remove('joined_game');
+			window.location.reload();
+			return;
 		}
 		game_pin_valid = false;
 	});
@@ -127,7 +130,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	socket.on('question_results', (data) => {
 		restart();
-		answer_results = data
+		answer_results = data;
 	});
 
 	socket.on('username_already_exists', () => {
@@ -144,7 +147,7 @@ SPDX-License-Identifier: MPL-2.0
 	});
 	socket.on('final_results', (data) => {
 		final_results = data;
-		Cookies.remove("joined_game")
+		Cookies.remove('joined_game');
 	});
 
 	socket.on('solutions', (data) => {
