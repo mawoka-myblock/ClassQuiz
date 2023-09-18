@@ -139,19 +139,19 @@ class QuizQuestion(BaseModel):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswer:
+        if values["type"] == QuizQuestionType.ABCD and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswer:
+        if values["type"] == QuizQuestionType.RANGE and not isinstance(v[0], RangeQuizAnswer):
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
-        if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
+        if values["type"] == QuizQuestionType.VOTING and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
-        if values["type"] == QuizQuestionType.TEXT and type(v[0]) != TextQuizAnswer:
+        if values["type"] == QuizQuestionType.TEXT and not isinstance(v[0], TextQuizAnswer):
             raise ValueError("Answer must be from type TextQuizAnswer if type is TEXT")
-        if values["type"] == QuizQuestionType.ORDER and type(v[0]) != VotingQuizAnswer:
+        if values["type"] == QuizQuestionType.ORDER and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
-        if values["type"] == QuizQuestionType.SLIDE and type(v[0]) != str:
+        if values["type"] == QuizQuestionType.SLIDE and not isinstance(v[0], str):
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
-        if values["type"] == QuizQuestionType.CHECK and type(v[0]) != ABCDQuizAnswer:
+        if values["type"] == QuizQuestionType.CHECK and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is CHECK")
         return v
 
