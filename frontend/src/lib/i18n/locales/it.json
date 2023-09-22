@@ -2,7 +2,7 @@
     "index_page": {
         "meta": {
             "title": "Home",
-            "description": "ClassQuiz è un'app di quiz per gli studenti come Kahoot!, open source e gratuita"
+            "description": "ClassQuiz è un'app di quiz per imparare in modo interattivi per gli studenti, open source e gratuita"
         },
         "features_description": {
             "1": "ClassQuiz è una webapp per creare e gestire quiz.",
@@ -20,7 +20,7 @@
         "dark_mode": "Modalità Notte",
         "quiz_results_downloadable_content": "I risultati dei quiz possono essere facilmente esportati in un foglio Excel. (Non sapevo che altri non potessero farlo)",
         "multilingual_content": "ClassQuiz è già disponibile in inglese, francese, tedesco, italiano, norvegese, turco, e parzialmente in indonesiano e in catalano.",
-        "no_tracking_content": "Kahoot! ti traccia e invia le tue informazioni a terza parti, ma ClassQuiz, no.",
+        "no_tracking_content": "Altri ti tracciano e inviano le tue informazioni a terze parti, ma ClassQuiz, no.",
         "no_tracking": "Senza tracking",
         "self_hostable": "È possibile fare hosting autonomo",
         "german_server": "Server tedesco",
@@ -48,12 +48,13 @@
         "download_quizzes": "Scarica i quiz",
         "community_driven": "Guidati dalla comunità",
         "community_driven_content": "ClassQuiz dipende dalla sua comunità per finanziamenti, idee di test, richieste di funzionalità, traduzioni e altro! Anche tu puoi far parte della comunità di ClassQuiz!",
-        "completely_free_content": "ClassQuiz è completamente gratuito (per l'utente), senza piani a pagamento o fastidiose richieste di aggiornamento. Le donazioni sono molto apprezzate."
+        "completely_free_content": "ClassQuiz è completamente gratuito (per l'utente), senza piani a pagamento o fastidiose richieste di aggiornamento. Le donazioni sono molto apprezzate.",
+        "how_does_classquiz_work": "Come funziona ClassQuiz?"
     },
     "overview_page": {
         "created_at": "Creato il",
         "question_count": "Numero domande",
-        "no_quizzes": "Clicca sul pulsante \"Crea\", o importa un quiz da Kahoot! per iniziare."
+        "no_quizzes": "Clicca sul pulsante \"Crea\", o importa un quiz per iniziare."
     },
     "edit_page": {
         "success_update_title": "Quiz aggiornato.",
@@ -153,7 +154,7 @@
         "voting": "Votazione",
         "download": "Scarica",
         "text": "Testo",
-        "order": "ordine",
+        "order": "Ordine",
         "totp": "Password momentanea",
         "continue": "Continua",
         "backup_code": "Codice di backup",
@@ -161,7 +162,24 @@
         "note": "Nota",
         "player_plural": "Giocatori",
         "score": "Punteggio",
-        "find": "Trova"
+        "find": "Trova",
+        "next": "Prossimo",
+        "point": "Punto",
+        "version": "Versione",
+        "update": "Aggiorna",
+        "slide": "Diapositiva",
+        "view_plural": "Viste",
+        "point_plural": "Punti",
+        "select": "Seleziona",
+        "name": "Nome",
+        "quiztivity": "Quiztivity",
+        "finish": "Termina",
+        "normal": "Normale",
+        "selected": "Selezionato",
+        "unknown": "Sconosciuto",
+        "back": "Indietro",
+        "never": "Mai",
+        "quiz": "Quiz"
     },
     "editor": {
         "right_or_true?": "Corretto?",
