@@ -32,7 +32,8 @@
         "german_server_content": "",
         "get_ranking_and_winners": "",
         "meta": {
-            "description": ""
+            "description": "",
+            "title": ""
         },
         "create_a_quiz_from_scratch": "",
         "check_if_chosen_wisely": "",
