@@ -1,1 +1,18 @@
-{}
+{
+    "index_page": {
+        "select_answer": "اختر الإجابة",
+        "no_tracking": "لا تَتَبُّع",
+        "multilingual": "متعدد اللغات",
+        "view_results": "اعرض النتائج",
+        "choose_answer_wisely": "اختر إجابتك بحكمة",
+        "list_winners": "قائمة الفائزون",
+        "students_site": "موقع الطالِب",
+        "self_hostable": "مُستضاف ذاتيا",
+        "see_what_true_and_false": "رؤية ما هو صحيح أو خطأ",
+        "german_server": "خادم ألماني",
+        "teachers_site": "موقع المُعَلِّم",
+        "create_or_import": "إنشاء أو استيراد",
+        "dark_mode": "الوضع المظلم",
+        "why_classquiz": "لماذا ClassQuiz؟"
+    }
+}
