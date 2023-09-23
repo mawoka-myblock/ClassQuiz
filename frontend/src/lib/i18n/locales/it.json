@@ -444,7 +444,8 @@
         "unset": "Non impostato",
         "missing": "MANCANTE!",
         "size": "Dimensione: {{size}} Mb",
-        "not_available": "Non disponibile"
+        "not_available": "Non disponibile",
+        "caption": "Didascalia: {{caption}}"
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
