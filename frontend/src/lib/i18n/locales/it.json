@@ -452,7 +452,8 @@
         "edit_details": "Modifica i dettagli",
         "filename_word": "Nome del file",
         "delete_image": "Elimina immagine",
-        "edit_the_image": "Modifica immagine"
+        "edit_the_image": "Modifica immagine",
+        "alt_text": "Testo alternativo/Didascalia"
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
