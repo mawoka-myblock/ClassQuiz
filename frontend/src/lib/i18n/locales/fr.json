@@ -111,7 +111,8 @@
         "library": "Bibliothèque",
         "speed": "Vitesse",
         "upload": "Charger",
-        "files_library": "Bibliothèque de fichiers"
+        "files_library": "Bibliothèque de fichiers",
+        "unknown": " "
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
