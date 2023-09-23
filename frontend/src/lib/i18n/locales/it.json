@@ -398,9 +398,21 @@
         "first_seen": "Visto per la prima volta"
     },
     "start_game": {
-        "old_school_mode": "Old-School"
+        "old_school_mode": "Old-School",
+        "old_school_mode_description": "Domande e immagini verranno mostrate sia sulla schermo degli admin che su quello dei giocatori",
+        "start_game": "Inizia il giocao"
     },
     "navbar": {
         "donate": "Dona"
+    },
+    "quiztivity": {
+        "editor": {
+            "add_new": "Aggiungi nuovo",
+            "move_left": "Sposta a sinistra",
+            "title_placeholder": "Inserisci il titolo qui",
+            "delete": "Elimina",
+            "select_page_type": "Seleziona il tipo di pagina",
+            "move_right": "Sposta a destra"
+        }
     }
 }
