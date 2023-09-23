@@ -191,7 +191,12 @@
         "yes": "Sì",
         "like": "Like",
         "progress": "Progressi",
-        "library": "Biblioteca"
+        "library": "Biblioteca",
+        "analytics": "Statistiche",
+        "play_plural": "Giochi",
+        "dislike_plural": "Non mi piace",
+        "dislike": "Non mi piace",
+        "like_plural": "Mi piace"
     },
     "editor": {
         "right_or_true?": "Corretto?",
@@ -294,7 +299,9 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Cerca fra i tuoi quiz",
-        "commandpalette_notice": "Premi  <kbd>Ctrl</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> per aprire la scheda dei comandi"
+        "commandpalette_notice": "Premi  <kbd>Ctrl</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> per aprire la scheda dei comandi",
+        "views_n_plays": "Visti e Giocati",
+        "info_analytics": "I \"Giocati\" mostrano solo la frequenza con cui il quiz è stato avviato (voi compresi), mentre le \"Visti\" contano la frequenza con cui la pagina \"Vista\" è stata visitata, quindi contano anche i bot (scusate)."
     },
     "footer": {
         "self_ads": "Realizzato con ❤️ da {{mawoka_link}} e con l'aiuto di {{others_link}}.",
@@ -372,7 +379,8 @@
         "webauthn_available": "Webauthn è disponibile",
         "totp_setup": {
             "do_not_forget_backup_code": "Non dimenticare di salvare il tuo codice di recupero!"
-        }
+        },
+        "webauthn": "Webauthn"
     },
     "view_quiz_page": {
         "made_by": "Creato da",
@@ -383,7 +391,11 @@
         "player_name": "Nome del giocatore",
         "already_latest_version": "Stai già usando l'ultima versione",
         "update_from_to": "Aggiorna da {{current_version}} a {{newest_version}}",
-        "version_overview": "La versione più recente disponibile è {{newest_version}} e la versione {{current_version}} è installata."
+        "version_overview": "La versione più recente disponibile è {{newest_version}} e la versione {{current_version}} è installata.",
+        "last_seen": "Visto l'ultima volta",
+        "add_new_controller": "Aggiungi un nuovo controllore",
+        "controller_name": "Nome del controllore",
+        "first_seen": "Visto per la prima volta"
     },
     "start_game": {
         "old_school_mode": "Old-School"
