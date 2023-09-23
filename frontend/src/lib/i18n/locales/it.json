@@ -448,7 +448,8 @@
         "caption": "Didascalia: {{caption}}",
         "imported": "Importato: {{yes_or_no}}",
         "filename": "Nome del file: {{filename}}",
-        "uploaded": "Caricato il: {{date}}"
+        "uploaded": "Caricato il: {{date}}",
+        "edit_details": "Modifica i dettagli"
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
