@@ -17,6 +17,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { fly } from 'svelte/transition';
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 	import Analytics from './Analytics.svelte';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
@@ -177,11 +178,15 @@ SPDX-License-Identifier: MPL-2.0
 						>
 							<div class="hidden lg:flex w-auto h-full items-center relative">
 								{#if quiz.cover_image}
-									<img
+									<!--									<img
 										src="/api/v1/storage/download/{quiz.cover_image}"
 										alt="user provided"
 										loading="lazy"
 										class="shrink-0 max-w-full max-h-full absolute rounded"
+									/>-->
+									<MediaComponent
+										src={quiz.cover_image}
+										css_classes="shrink-0 max-w-full max-h-full absolute rounded"
 									/>
 								{/if}
 							</div>
