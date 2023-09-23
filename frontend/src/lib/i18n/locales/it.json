@@ -404,7 +404,7 @@
     "start_game": {
         "old_school_mode": "Vecchia scuola",
         "old_school_mode_description": "Domande e immagini verranno mostrate sia sulla schermo degli admin che su quello dei giocatori",
-        "start_game": "Inizia il giocao",
+        "start_game": "Avvio del gioco",
         "captcha_message": "Se abilitato, il ReCaptcha Google verrà caricato nel browser dei giocatori. Abilitalo solo se è veramente necessario, dato che è necessario il consenso di OGNI giocatore per caricare il captcha.",
         "normal_mode_description": "La domanda e la risposta verranno visualizzate solo sullo schermo dell'amministratore. I giocatori avranno solo i pulsanti colorati con i simboli corrispondenti sullo schermo dell'amministratore."
     },
@@ -418,7 +418,41 @@
             "title_placeholder": "Inserisci il titolo qui",
             "delete": "Elimina",
             "select_page_type": "Seleziona il tipo di pagina",
-            "move_right": "Sposta a destra"
+            "move_right": "Sposta a destra",
+            "shares": {
+                "never_expires": "Non scade mai",
+                "expires_on": "Scade il {{date}}",
+                "add_new_share": "Aggiungi nuova Condivisione"
+            },
+            "open_shares_menu": "Apri il menu Condividi"
+        },
+        "share_expired": "Condivisione scaduta",
+        "play": {
+            "memory": {
+                "try_count": "Tentativi: {{try_count}}"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Aggiungi scheda",
+                "add_pair": "Aggiungi coppia",
+                "upload_image": "Carica immagine"
+            }
+        }
+    },
+    "file_dashboard": {
+        "unset": "Non impostato",
+        "missing": "MANCANTE!",
+        "size": "Dimensione: {{size}} Mb",
+        "not_available": "Non disponibile"
+    },
+    "public_user_page": {
+        "no_original_quizzes": "Questo utente non ha nessun quiz originale",
+        "joined_on": "Iscritto il {{date}}"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Copiato negli appunti!"
         }
     }
 }
