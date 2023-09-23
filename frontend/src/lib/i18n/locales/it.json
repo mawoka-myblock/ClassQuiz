@@ -445,7 +445,10 @@
         "missing": "MANCANTE!",
         "size": "Dimensione: {{size}} Mb",
         "not_available": "Non disponibile",
-        "caption": "Didascalia: {{caption}}"
+        "caption": "Didascalia: {{caption}}",
+        "imported": "Importato: {{yes_or_no}}",
+        "filename": "Nome del file: {{filename}}",
+        "uploaded": "Caricato il: {{date}}"
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
