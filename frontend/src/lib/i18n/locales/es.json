@@ -310,7 +310,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Busca tus propios quizzes",
         "views_n_plays": "Vistas y reproducciones",
-        "info_analytics": "Las \"Reproducciones\" sólo muestran la frecuencia con la que se ha iniciado el cuestionario (tú incluido), mientras que las \"Vistas\" cuentan la frecuencia con la que se ha visitado la página \"Vista\", por lo que también cuenta los bots (lo siento)."
+        "info_analytics": "Las \"Reproducciones\" sólo muestran la frecuencia con la que se ha iniciado el cuestionario (tú incluido), mientras que las \"Vistas\" cuentan la frecuencia con la que se ha visitado la página \"Vista\", por lo que también cuenta los bots (lo siento).",
+        "commandpalette_notice": "Pulsa <kbd>Ctr</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> para abrir la paleta de los comandos"
     },
     "uploader": {
         "add_image": "Añadir medios",
