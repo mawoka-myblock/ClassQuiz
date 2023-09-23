@@ -106,10 +106,10 @@
         "email": "Indirizzo e-mail",
         "username": "Nome utente",
         "password": "Password",
-        "play": "Avvia",
+        "play": "Gioca",
         "delete": "Elimina",
         "public": "Pubblica",
-        "start": "Avvia",
+        "start": "Inizia",
         "create": "Crea",
         "import": "Importa",
         "logout": "Esci dall'account",
@@ -299,7 +299,7 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Cerca fra i tuoi quiz",
-        "commandpalette_notice": "Premi  <kbd>Ctrl</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> per aprire la scheda dei comandi",
+        "commandpalette_notice": "Premi <kbd>Ctrl</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> per aprire la scheda dei comandi",
         "views_n_plays": "Visti e Giocati",
         "info_analytics": "I \"Giocati\" mostrano solo la frequenza con cui il quiz è stato avviato (voi compresi), mentre le \"Visti\" contano la frequenza con cui la pagina \"Vista\" è stata visitata, quindi contano anche i bot (scusate)."
     },
@@ -453,7 +453,8 @@
         "filename_word": "Nome del file",
         "delete_image": "Elimina immagine",
         "edit_the_image": "Modifica immagine",
-        "alt_text": "Testo alternativo/Didascalia"
+        "alt_text": "Testo alternativo/Didascalia",
+        "storage_usage": "Hai utilizzato {{used}} Mb su {{total}} Mb di memoria. Corrisponde a {{percent}}% della memoria."
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
@@ -463,5 +464,9 @@
         "popover": {
             "copied_to_clipboard": "Copiato negli appunti!"
         }
+    },
+    "video_uploader": {
+        "time_remaining": "Tempo rimanente",
+        "time_elapsed": "Tempo trascorso"
     }
 }
