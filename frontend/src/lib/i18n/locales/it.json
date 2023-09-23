@@ -368,7 +368,7 @@
         "backup_codes": {
             "download_code": "Codice di download",
             "your_backup_code": "Il tuo codice di backup",
-            "save_somewhere_save": "Salva questo in un posto sucuro!"
+            "save_somewhere_save": "Salvalo in un posto sicuro!"
         },
         "totp_unavailable": "Totp non è disponibile",
         "2fa_activated": "L'autenticazione a due fattori è attivata",
@@ -378,9 +378,13 @@
         "totp_available": "Totp è disponibile",
         "webauthn_available": "Webauthn è disponibile",
         "totp_setup": {
-            "do_not_forget_backup_code": "Non dimenticare di salvare il tuo codice di recupero!"
+            "do_not_forget_backup_code": "Non dimenticare di salvare il tuo codice di recupero!",
+            "enter_as_secret_if_no_see_code": "Inserisci questo come segreto se non puoi scansionare il codice QR",
+            "scan_to_set_up": "Scansiona questo codice QR per impostare il codice",
+            "totp_setup": "Impostazione Topt"
         },
-        "webauthn": "Webauthn"
+        "webauthn": "Webauthn",
+        "totp": "Password momentanea"
     },
     "view_quiz_page": {
         "made_by": "Creato da",
@@ -398,9 +402,11 @@
         "first_seen": "Visto per la prima volta"
     },
     "start_game": {
-        "old_school_mode": "Old-School",
+        "old_school_mode": "Vecchia scuola",
         "old_school_mode_description": "Domande e immagini verranno mostrate sia sulla schermo degli admin che su quello dei giocatori",
-        "start_game": "Inizia il giocao"
+        "start_game": "Inizia il giocao",
+        "captcha_message": "Se abilitato, il ReCaptcha Google verrà caricato nel browser dei giocatori. Abilitalo solo se è veramente necessario, dato che è necessario il consenso di OGNI giocatore per caricare il captcha.",
+        "normal_mode_description": "La domanda e la risposta verranno visualizzate solo sullo schermo dell'amministratore. I giocatori avranno solo i pulsanti colorati con i simboli corrispondenti sullo schermo dell'amministratore."
     },
     "navbar": {
         "donate": "Dona"
