@@ -113,7 +113,10 @@
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
         "unknown": " ",
-        "view_plural": "Vues"
+        "view_plural": "Vues",
+        "version": "Version",
+        "update": "Mettre à jour",
+        "never": "Jamais"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
