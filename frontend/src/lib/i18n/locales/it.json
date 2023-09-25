@@ -20,8 +20,8 @@
         "dark_mode": "Modalità Notte",
         "quiz_results_downloadable_content": "I risultati dei quiz possono essere facilmente esportati in un foglio Excel. (Non sapevo che altri non potessero farlo)",
         "multilingual_content": "ClassQuiz è già disponibile in inglese, francese, tedesco, italiano, norvegese, turco, e parzialmente in indonesiano e in catalano.",
-        "no_tracking_content": "Altri ti tracciano e inviano le tue informazioni a terze parti, ma ClassQuiz, no.",
-        "no_tracking": "Senza tracking",
+        "no_tracking_content": "Altri ti tracciano e inviano le tue informazioni a terze parti, ma ClassQuiz non lo fa.",
+        "no_tracking": "Senza tracciamento",
         "self_hostable": "È possibile fare hosting autonomo",
         "german_server": "Server tedesco",
         "user_friendly": "Facile da usare",
@@ -38,9 +38,9 @@
         "view_results": "Visualizza i risultati",
         "check_if_chosen_wisely": "Controlla se hai scelto correttamente",
         "list_winners": "Elenco vincitori",
-        "get_ranking_and_winners": "Vedi la classifica e chi ha vinto",
+        "get_ranking_and_winners": "Vedi la classifica e guarda chi ha vinto",
         "why_classquiz": "Perché ClassQuiz?",
-        "self_hostable_content": "Con ClassQuiz si può fare facilmente hosting autonomo, così i dati sono in tuo controllo!",
+        "self_hostable_content": "Con ClassQuiz si può fare facilmente un hosting autonomo, così i dati sono in tuo controllo!",
         "user_friendly_content": "ClassQuiz cerca di essere semplice, così può essere usato da tutti.",
         "dark_mode_content": "Una delle caratteristiche più importanti che un sito web possa avere!",
         "german_server_content": "I server di ClassQuiz si trovano in Germania e sono ospitati da netcup.",
@@ -77,7 +77,7 @@
         "already_have_account": "Non hai un account?",
         "modal": {
             "success": {
-                "success_check_mail": "Accesso effettuato. Controlla la mail.",
+                "success_check_mail": "Accesso effettuato. Controlla la tua mail.",
                 "success": "Accesso effettuato.",
                 "description": {
                     "success": "Accesso effettuato.",
@@ -88,7 +88,7 @@
                 "wrong_creds": "Indirizzo e-mail o password errati.",
                 "unexpected": "Errore imprevisto!",
                 "description": {
-                    "unexpected": "È accaduto il buon vecco errore inatteso!",
+                    "unexpected": "È accaduto il buon vecchio errore inatteso!",
                     "wrong_creds": "Per favore, assicurati che la tua password e l'indirizzo e-mail siano corretti."
                 }
             }
@@ -118,7 +118,7 @@
         "submit": "Invia",
         "connect": "Connetti",
         "pin": "PIN",
-        "kick": "Avvia",
+        "kick": "Espelli",
         "docs": "Documentazione",
         "close": "Chiudi",
         "save": "Salva",
@@ -163,7 +163,7 @@
         "player_plural": "Giocatori",
         "score": "Punteggio",
         "find": "Trova",
-        "next": "Prossimo",
+        "next": "Successivo",
         "point": "Punto",
         "version": "Versione",
         "update": "Aggiorna",
@@ -189,7 +189,7 @@
         "video": "Video",
         "info": "Info",
         "yes": "Sì",
-        "like": "Like",
+        "like": "Mi piace",
         "progress": "Progressi",
         "library": "Biblioteca",
         "analytics": "Statistiche",
@@ -240,7 +240,7 @@
         "already_registered_as_admin": "C'è già un amministratore registrato per questo quiz.",
         "start_game": "Avvia quiz",
         "time_left": "Tempo rimasto",
-        "get_results": "Risultati",
+        "get_results": "Ottieni i risultati",
         "export_results": "Esporta i risultati",
         "show_next_question": "Mostra la prossima domanda",
         "no_answers": "Nessuna risposta!",
@@ -454,7 +454,7 @@
         "delete_image": "Elimina immagine",
         "edit_the_image": "Modifica immagine",
         "alt_text": "Testo alternativo/Didascalia",
-        "storage_usage": "Hai utilizzato {{used}} Mb su {{total}} Mb di memoria. Corrisponde a {{percent}}% della memoria."
+        "storage_usage": "Hai utilizzato {{used}} Mb su {{total}} Mb di spazio disponibile. Corrisponde a {{percent}}% dello spazio."
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
