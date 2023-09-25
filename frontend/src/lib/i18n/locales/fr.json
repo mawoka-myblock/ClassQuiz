@@ -112,12 +112,13 @@
         "speed": "Vitesse",
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
-        "unknown": " "
+        "unknown": " ",
+        "view_plural": "Vues"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz comme Kahoot! pour les étudiants, libre et open-source",
+            "description": "ClassQuiz est une application de quiz pour les étudiants. Elle est  libre et open-source",
             "title": "Accueil"
         },
         "features_description": {
@@ -150,7 +151,7 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Kahoot! vous trace et envoie vos données à des services tiers, mais pas Classquiz.",
+        "no_tracking_content": "Kahoot ! vous suit et envoie ces informations à des tiers, mais pas ClassQuiz.",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
@@ -169,7 +170,7 @@
     "overview_page": {
         "created_at": "Crée le",
         "question_count": "Nombre de question",
-        "no_quizzes": "Cliquez sur le bouton \"Créer\", ou importer un quiz depuis Kahoot! pour commencer."
+        "no_quizzes": "Cliquez sur le bouton \"Créer\" ou importez un quiz pour commencer."
     },
     "edit_page": {
         "success_update_title": "Quiz mis à jour.",
