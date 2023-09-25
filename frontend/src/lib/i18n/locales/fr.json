@@ -112,7 +112,6 @@
         "speed": "Vitesse",
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
-        "unknown": " ",
         "view_plural": "Vues"
     },
     "index_page": {
@@ -151,7 +150,7 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Kahoot ! vous suit et envoie ces informations à des tiers, mais pas ClassQuiz.",
+        "no_tracking_content": "Kahoot! vous suit et envoie ces informations à des tiers, mais pas ClassQuiz.",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
