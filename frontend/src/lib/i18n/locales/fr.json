@@ -121,7 +121,7 @@
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz pour les étudiants. Elle est  libre et open-source",
+            "description": "ClassQuiz est une application de quiz permettant d'apprendre de manière interactive pour les étudiants, libre et open-source",
             "title": "Accueil"
         },
         "features_description": {
