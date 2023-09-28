@@ -54,7 +54,7 @@
     "overview_page": {
         "created_at": "Gemaakt op",
         "question_count": "Vragenaantal",
-        "no_quizzes": "Klik op de \"Creëer\"-knop of importeer een quiz van Kahoot! om aan de slag te gaan."
+        "no_quizzes": "Klik op de \"Creëer\"-knop of importeer een quiz om aan de slag te gaan."
     },
     "edit_page": {
         "success_update_title": "Quiz bijgewerkt.",
@@ -147,7 +147,7 @@
         "backup_code": "Backup-code",
         "totp": "TOTP",
         "text": "Tekst",
-        "order": "volgorde",
+        "order": "Volgorde",
         "results": "Resultaten",
         "note": "Opmerking",
         "multiple_choice": "Meerkeuze",
@@ -186,7 +186,9 @@
         "quiz": "Quiz",
         "next": "Volgende",
         "select": "Selecteren",
-        "update": "Update"
+        "update": "Update",
+        "rating": "Beoordeling",
+        "quiztivity": "Quiztivity"
     },
     "editor": {
         "not_all_links_imgur_links": "Niet alle links zijn Imgur-links!",
