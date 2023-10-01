@@ -433,6 +433,8 @@ async def submit_answer(sid: str, data: dict):
         score = calculate_score(
             abs(diff) - latency, int(float(game_data.questions[int(float(data.question_index))].time))
         )
+        if score > 1000:
+            score = 1000
     await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     answer_data = AnswerData(
         username=session["username"],
