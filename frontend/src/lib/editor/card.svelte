@@ -186,9 +186,10 @@ SPDX-License-Identifier: MPL-2.0
 							type="number"
 							max="999"
 							min="1"
-							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1"
+							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1 outline-none focus:shadow-2xl"
 							bind:value={data.questions[selected_question].time}
 						/>
+						<p class="inline-block">s</p>
 					</div>
 				</div>
 				<div class="flex justify-center py-5">
@@ -207,7 +208,6 @@ SPDX-License-Identifier: MPL-2.0
 							/>
 						{/await}
 					{:else if type === QuizQuestionType.RANGE}
-						<p>Range</p>
 						<RangeEditor bind:selected_question bind:data />
 					{:else if type === QuizQuestionType.VOTING}
 						{#await import('$lib/editor/VotingEditorPart.svelte')}

@@ -96,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 	on:click={on_parent_click}
 	transition:fade|local={{ duration: 100 }}
 >
-	<div class="m-auto w-2/3 h-5/6 rounded shadow-2xl bg-white dark:bg-gray-600 p-6">
+	<div class="m-auto w-2/3 h-5/6 rounded shadow-2xl bg-white dark:bg-gray-600 p-6 flex flex-col">
 		<h1 class="text-center text-3xl mb-6">{$t('quiztivity.editor.select_page_type')}</h1>
 		<div class="grid grid-cols-4 gap-4 overflow-y-scroll">
 			{#each question_types as qt, i}
@@ -110,6 +110,18 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="text-sm">{qt.description}</p>
 				</div>
 			{/each}
+		</div>
+
+		<div class="mt-auto flex justify-center">
+			<p>
+				{$t('editor.need_more_help')}
+				<a
+					href="/docs/quiz/question-types"
+					target="_blank"
+					class="text-sm font-bold underline text-blue-500 dark:text-blue-400"
+					>{$t('editor.visit_docs')}</a
+				>
+			</p>
 		</div>
 	</div>
 </div>

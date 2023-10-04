@@ -18,6 +18,7 @@ SPDX-License-Identifier: MPL-2.0
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 	import Analytics from './Analytics.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
+	import { createTippy } from 'svelte-tippy';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
@@ -31,6 +32,11 @@ SPDX-License-Identifier: MPL-2.0
 	let items_to_show = [];
 	let all_items: Array<any>;
 	let fuse;
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle',
+		placement: 'bottom'
+	});
 
 	let id_to_position_map = {};
 
@@ -117,7 +123,11 @@ SPDX-License-Identifier: MPL-2.0
                 </button>-->
 			<div class="w-full grid lg:grid-cols-4 gap-2 grid-cols-2 px-4">
 				{#if create_button_clicked}
-					<div class="flex gap-2" transition:fly={{ y: 10 }}>
+					<div
+						class="flex gap-2"
+						transition:fly={{ y: 10 }}
+						use:tippy={{ content: 'Unsure? Choose "Quiz".' }}
+					>
 						<BrownButton href="/create">{$t('words.quiz')}</BrownButton>
 						<BrownButton href="/quiztivity/create">{$t('words.quiztivity')}</BrownButton
 						>
