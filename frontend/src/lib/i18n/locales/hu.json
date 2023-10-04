@@ -294,7 +294,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Keresés a saját kvízek között",
         "views_n_plays": "Megtekintések és játékok",
-        "info_analytics": "A \"Játékok\" csak azt mutatja, hogy milyen gyakran indult el a kvíz (beleértve), míg a \"Megtekintések\" azt számolja, hogy milyen gyakran látogatták meg a \"megtekintések\"-oldalt, tehát a botokat is számolja (elnézést érte)."
+        "info_analytics": "A \"Játékok\" csak azt mutatja, hogy milyen gyakran indult el a kvíz (beleértve), míg a \"Megtekintések\" azt számolja, hogy milyen gyakran látogatták meg a \"megtekintések\"-oldalt, tehát a botokat is számolja (elnézést érte).",
+        "commandpalette_notice": ""
     },
     "footer": {
         "self_ads": "Készítette: ❤️, {{mawoka_link}} segítői {{others_link}}.",
