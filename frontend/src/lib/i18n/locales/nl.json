@@ -54,7 +54,7 @@
     "overview_page": {
         "created_at": "Gemaakt op",
         "question_count": "Vragenaantal",
-        "no_quizzes": "Klik op de \"Creëer\"-knop of importeer een quiz van Kahoot! om aan de slag te gaan."
+        "no_quizzes": "Klik op de \"Creëer\"-knop of importeer een quiz om aan de slag te gaan."
     },
     "edit_page": {
         "success_update_title": "Quiz bijgewerkt.",
@@ -147,7 +147,7 @@
         "backup_code": "Backup-code",
         "totp": "TOTP",
         "text": "Tekst",
-        "order": "volgorde",
+        "order": "Volgorde",
         "results": "Resultaten",
         "note": "Opmerking",
         "multiple_choice": "Meerkeuze",
@@ -186,7 +186,18 @@
         "quiz": "Quiz",
         "next": "Volgende",
         "select": "Selecteren",
-        "update": "Update"
+        "update": "Update",
+        "rating": "Beoordeling",
+        "quiztivity": "Quiztivity",
+        "analytics": "",
+        "check_choice": "",
+        "play_plural": "",
+        "dislike_plural": "",
+        "info": "",
+        "view_plural": "",
+        "like": "",
+        "dislike": "",
+        "like_plural": ""
     },
     "editor": {
         "not_all_links_imgur_links": "Niet alle links zijn Imgur-links!",
@@ -222,7 +233,9 @@
         "visit_docs": "Bekijk de documentatie",
         "a_kahoot_quiz": "Een Kahoot!-Quiz",
         "need_help": "Hulp nodig?",
-        "classquiz_quiz": "Een ClassQuiz-Quiz"
+        "classquiz_quiz": "Een ClassQuiz-Quiz",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "admin_page": {
         "start_game": "Start spel",
@@ -242,7 +255,8 @@
         "enter_answer_into_field": "Typ je antwoord in het invoerveld!",
         "stop_time_and_solutions": "Stop de tijd en toon oplossingen",
         "download_export_results": "Resultaten downloaden",
-        "answers_submitted": "{{answer_count}} Antwoorden ingediend"
+        "answers_submitted": "{{answer_count}} Antwoorden ingediend",
+        "request_export_results": ""
     },
     "password_reset_page": {
         "reset_password": "Wachtwoord resetten"
@@ -341,7 +355,10 @@
         "player_score": "Speler Score"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Zoek voor je eigen quizzen"
+        "search_for_own_quizzes": "Zoek voor je eigen quizzen",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "security_settings": {
         "webauthn": "Webauthn",
@@ -386,9 +403,11 @@
             "add_new": "Nieuwe toevoegen",
             "shares": {
                 "never_expires": "Verloopt nooit",
-                "expires_on": "Verloopt op {{date}}"
+                "expires_on": "Verloopt op {{date}}",
+                "add_new_share": ""
             },
-            "select_page_type": "Selecteer Pagina Type"
+            "select_page_type": "Selecteer Pagina Type",
+            "open_shares_menu": ""
         },
         "memory": {
             "editor": {
@@ -401,7 +420,8 @@
             "memory": {
                 "try_count": "Pogingen: {{try_count}}"
             }
-        }
+        },
+        "share_expired": ""
     },
     "controllers": {
         "update_from_to": "Bijwerken van {{current_version}} naar {{newest_version}}",

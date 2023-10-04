@@ -196,7 +196,8 @@
         "info": "Informacje",
         "analytics": "Analityka",
         "dislike_plural": "Nie lubię",
-        "rating": "Ocena"
+        "rating": "Ocena",
+        "like": ""
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -356,7 +357,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Wyszukaj własne quizy",
         "views_n_plays": "Widoki i gry",
-        "info_analytics": "\"Odtworzenia\" pokazują tylko, jak często quiz był uruchamiany (w tym ty), podczas gdy \"Wyświetlenia\" liczą, jak często strona \"Wyświetlenia\" była odwiedzana, więc liczy również boty (przepraszam za to)."
+        "info_analytics": "\"Odtworzenia\" pokazują tylko, jak często quiz był uruchamiany (w tym ty), podczas gdy \"Wyświetlenia\" liczą, jak często strona \"Wyświetlenia\" była odwiedzana, więc liczy również boty (przepraszam za to).",
+        "commandpalette_notice": ""
     },
     "navbar": {
         "donate": "Darowizna"
@@ -375,12 +377,18 @@
         "totp_setup": {
             "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
             "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod",
-            "enter_as_secret_if_no_see_code": "Wpisz kod, jeśli nie możesz zeskanować kodu QR"
+            "enter_as_secret_if_no_see_code": "Wpisz kod, jeśli nie możesz zeskanować kodu QR",
+            "totp_setup": ""
         },
         "webauthn_unavailable": "Webauthn nie jest dostępny",
         "add_security_key": "Dodaj Security-Key",
         "webauthn_available": "Webauthn jest dostępny",
-        "webauthn": "Webauthn"
+        "webauthn": "Webauthn",
+        "enable_totp": "",
+        "disable_totp": "",
+        "totp": "",
+        "totp_unavailable": "",
+        "totp_available": ""
     },
     "view_quiz_page": {
         "made_by": "Wykonane przez",
@@ -390,7 +398,8 @@
         "captcha_message": "Jeśli ta opcja jest włączona, Google ReCaptcha będzie ładować się w przeglądarce graczy. Włącz tylko jeśli naprawdę tego potrzebujesz, ponieważ będziesz potrzebował zgody KAŻDEGO gracza na załadowanie captcha.",
         "normal_mode_description": "Pytanie i odpowiedź będą wyświetlane tylko na ekranie administratora, jak w Kahoot! Gracze będą mieli do dyspozycji jedynie kolorowe przyciski z symbolami odpowiadającymi tym na ekranie administratora.",
         "old_school_mode_description": "Pytania i obrazy będą wyświetlane zarówno na ekranie administratora, jak i na ekranie graczy",
-        "start_game": "Rozpocznij grę"
+        "start_game": "Rozpocznij grę",
+        "old_school_mode": ""
     },
     "quiztivity": {
         "editor": {

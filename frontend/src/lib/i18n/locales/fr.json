@@ -112,13 +112,24 @@
         "speed": "Vitesse",
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
-        "unknown": " ",
-        "view_plural": "Vues"
+        "unknown": " ",
+        "view_plural": "Vues",
+        "version": "Version",
+        "update": "Mettre à jour",
+        "never": "Jamais",
+        "analytics": "",
+        "play_plural": "",
+        "rating": "",
+        "dislike_plural": "",
+        "info": "",
+        "like": "",
+        "dislike": "",
+        "like_plural": ""
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz pour les étudiants. Elle est  libre et open-source",
+            "description": "ClassQuiz est une application de quiz permettant d'apprendre de manière interactive pour les étudiants, libre et open-source",
             "title": "Accueil"
         },
         "features_description": {
@@ -222,7 +233,9 @@
         "classquiz_quiz": "Un quiz ClassQuiz",
         "upload_file_ending": "Téléchargez le fichier se terminant par .cqa",
         "url_should_look_like_this": "L'URL devrait ressembler à ceci : https://create.kahoot.it/details/...",
-        "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz."
+        "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz.",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "admin_page": {
         "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
@@ -286,7 +299,10 @@
         "right_click_to_delete": "Faites un clic droit sur une réponse pour la supprimer !"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Cherchez dans vos quiz"
+        "search_for_own_quizzes": "Cherchez dans vos quiz",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "footer": {
         "more_details_here": "Plus de détails ici",
@@ -302,7 +318,12 @@
         "select_upload_type": "Sélectionnez le type de téléchargement",
         "upload_a_video": "Télécharger une vidéo",
         "upload_video": "Télécharger la vidéo",
-        "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations."
+        "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations.",
+        "images_by_pixabay": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": ""
     },
     "quiztivity": {
         "editor": {
@@ -437,5 +458,16 @@
     },
     "navbar": {
         "donate": "Faire un don"
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
     }
 }
