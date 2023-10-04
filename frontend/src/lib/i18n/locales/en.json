@@ -43,7 +43,9 @@
         "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time. This also lets you move your quizzes to other ClassQuiz instances.",
         "community_driven": "Community-driven",
         "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!",
-        "how_does_classquiz_work": "How does ClassQuiz even work?"
+        "how_does_classquiz_work": "How does ClassQuiz even work?",
+        "no_player_limit": "No player limit",
+        "no_player_limit_content": "ClassQuiz doesn't have an artificial player limit. In theory, 1000+ players could play the same quiz, but it's tested with up to 300 players per quiz."
     },
     "overview_page": {
         "created_at": "Created at",
