@@ -282,7 +282,10 @@
         "order_description": "Las respuestas se pueden poner en el orden correcto",
         "text_description": "Los jugadores pueden ingresar texto",
         "range_description": "Se puede seleccionar un rango de números con un control deslizante",
-        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos"
+        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos",
+        "need_more_help": "¿Necesitas más ayuda?",
+        "enter_answer": "Escribe una respuesta",
+        "visit_docs": "Visita los documentos."
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
