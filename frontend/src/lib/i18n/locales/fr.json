@@ -112,6 +112,7 @@
         "speed": "Vitesse",
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
+        "unknown": " ",
         "view_plural": "Vues"
     },
     "index_page": {
