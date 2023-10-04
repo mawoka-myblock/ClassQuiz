@@ -163,7 +163,20 @@
         "upload": "Yükle",
         "video": "Video",
         "files_library": "Dosya Kütüphanesi",
-        "progress": "İlerleme"
+        "progress": "İlerleme",
+        "analytics": "",
+        "version": "",
+        "update": "",
+        "play_plural": "",
+        "rating": "",
+        "dislike_plural": "",
+        "info": "",
+        "view_plural": "",
+        "like": "",
+        "dislike": "",
+        "like_plural": "",
+        "unknown": "",
+        "never": ""
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -241,7 +254,9 @@
         "side_import_kahoot": "Bu tarafta, Kahoot! üzerinde bulunan quizleri içe aktarabilirsiniz.",
         "classquiz_quiz": "Bir ClassQuiz Quizi",
         "upload_file_ending": "Sonu .cpa ile biten dosyayı yükleyin",
-        "this_side_classquiz": "Bu tarafta, ClassQuiz'den dışa aktarılan sınavları içe aktarabilirsiniz."
+        "this_side_classquiz": "Bu tarafta, ClassQuiz'den dışa aktarılan sınavları içe aktarabilirsiniz.",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "password_reset_page": {
         "reset_password": "Şifreyi sıfırla"
@@ -284,7 +299,10 @@
         "right_click_to_delete": "Bir cevabı silmek için sağ tıkla!"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Kendi quizleriniz için arama"
+        "search_for_own_quizzes": "Kendi quizleriniz için arama",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "footer": {
         "self_ads": "{{mawoka_link}} tarafından ve {{others_link}}nin de yardımıyla ❤️ ile yapıldı.",
@@ -300,7 +318,12 @@
         "upload_a_video": "Bir Video Yükleyin",
         "upload_video_popup_notice": "Açılır pencere açık; daha fazla bilgi için göz atın",
         "select_upload_type": "Yükleme Türünü Seçin",
-        "upload_video": "Video Yükle"
+        "upload_video": "Video Yükle",
+        "images_by_pixabay": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": ""
     },
     "avatar_settings": {
         "start_over": "Baştan başla",
@@ -435,5 +458,16 @@
         "popover": {
             "copied_to_clipboard": "Panoya kopyalandı!"
         }
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
     }
 }
