@@ -196,7 +196,8 @@
         "play_plural": "Giochi",
         "dislike_plural": "Non mi piace",
         "dislike": "Non mi piace",
-        "like_plural": "Mi piace"
+        "like_plural": "Mi piace",
+        "check_choice": ""
     },
     "editor": {
         "right_or_true?": "Corretto?",
