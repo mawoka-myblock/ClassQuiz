@@ -47,10 +47,13 @@
         "self_hostable_content": "輕鬆地自行架設 ClassQuiz ，資料只由你掌控！",
         "quiz_results_downloadable_content": "測驗結果可以簡單地被匯出為 Excel 試算表。(不知道其他類似的服務沒有提供此功能)",
         "community_driven": "社群驅動",
-        "community_driven_content": "ClassQuiz 依靠它的社群提供金援、測試想法、功能請求、翻譯...等！你也可以成為 ClassQuiz 的社群成員之一！"
+        "community_driven_content": "ClassQuiz 依靠它的社群提供金援、測試想法、功能請求、翻譯...等！你也可以成為 ClassQuiz 的社群成員之一！",
+        "multilingual_content": "",
+        "download_quizzes_content": ""
     },
     "edit_page": {
-        "success_update_title": "測驗已更新。"
+        "success_update_title": "測驗已更新。",
+        "success_update_body": ""
     },
     "create_page": {
         "success": {
@@ -80,7 +83,8 @@
                 "success": "已登入。",
                 "success_check_mail": "已登入。請檢查你的電子信箱收件匣。",
                 "description": {
-                    "success": "已登入。"
+                    "success": "已登入。",
+                    "success_check_mail": ""
                 }
             }
         },
@@ -98,8 +102,21 @@
         "no_title": "沒有標題...",
         "bg_image": "背景圖片",
         "slide": {
-            "rectangle": "長方形"
-        }
+            "rectangle": "長方形",
+            "headline": "",
+            "headline_description": "",
+            "rectangle_description": "",
+            "text": "",
+            "text_description": ""
+        },
+        "check_choice_description": "",
+        "text_description": "",
+        "order_description": "",
+        "voting_description": "",
+        "range_description": "",
+        "empty": "",
+        "abcd_description": "",
+        "time_in_seconds": ""
     },
     "import_page": {
         "need_help": "需要幫助？",
@@ -109,7 +126,9 @@
         "this_side_classquiz": "你可以在這邊匯入 ClassQuiz 測驗。",
         "side_import_kahoot": "你可以在這邊匯入 Kahoot! 測驗。",
         "upload_file_ending": "上傳副檔名為 cqa 的檔案",
-        "classquiz_quiz": "一個 ClassQui 測驗"
+        "classquiz_quiz": "一個 ClassQui 測驗",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "admin_page": {
         "start_game": "開始遊戲",
@@ -127,7 +146,10 @@
         "stop_time_and_solutions": "停止計時並顯示解答",
         "enter_answer_into_field": "在輸入欄內輸入你的答案！",
         "show_results": "顯示結果",
-        "next_question": "下個問題 ({{question}})"
+        "next_question": "下個問題 ({{question}})",
+        "request_export_results": "",
+        "answers_submitted": "",
+        "download_export_results": ""
     },
     "password_reset_page": {
         "reset_password": "重設密碼"
@@ -140,7 +162,10 @@
         "check_location": "檢查位置",
         "delete_this_session": "刪除此工作階段",
         "this_session?": "這個工作階段？",
-        "security_settings": "安全性設定"
+        "security_settings": "安全性設定",
+        "change_avatar": "",
+        "last_seen": "",
+        "add_api_key": ""
     },
     "explore_page": {
         "made_by": "作者為",
@@ -153,7 +178,10 @@
         "1st_place": "第一名",
         "end_sentence": "完成！本次測驗結束。",
         "your_score": "",
-        "join_description": "在 {{url}} 加入並輸入 {{pin}}。"
+        "join_description": "在 {{url}} 加入並輸入 {{pin}}。",
+        "points_added": "",
+        "final_result_rank": "",
+        "join_by_entering_code": ""
     },
     "editor_page": {
         "add_an_answer": "新增一個答案",
@@ -165,7 +193,16 @@
         "donate": "若你覺得這很實用，請考慮 {{donate_link}}。"
     },
     "uploader": {
-        "add_image": "新增圖片"
+        "add_image": "新增圖片",
+        "images_by_pixabay": "",
+        "upload_video_popup_notice": "",
+        "select_upload_type": "",
+        "upload_a_video": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": "",
+        "upload_video": ""
     },
     "words": {
         "find": "尋找",
@@ -233,14 +270,51 @@
         "slide": "投影片",
         "note": "筆記",
         "back": "返回",
-        "point_plural": ""
+        "point_plural": "",
+        "upload": "",
+        "next": "",
+        "analytics": "",
+        "no": "",
+        "speed": "",
+        "files_library": "",
+        "check_choice": "",
+        "answer_plural": "",
+        "version": "",
+        "update": "",
+        "play_plural": "",
+        "rating": "",
+        "video": "",
+        "order": "",
+        "dislike_plural": "",
+        "info": "",
+        "view_plural": "",
+        "yes": "",
+        "like": "",
+        "dislike": "",
+        "progress": "",
+        "select": "",
+        "like_plural": "",
+        "view": "",
+        "count": "",
+        "report": "",
+        "quiztivity": "",
+        "library": "",
+        "normal": "",
+        "selected": "",
+        "unknown": "",
+        "overview": "",
+        "never": "",
+        "quiz": ""
     },
     "search_page": {
         "at_least_3_characters": "輸入至少 3 個字元...",
         "nothing_here": "這裡空無一物..."
     },
     "dashboard": {
-        "search_for_own_quizzes": "搜尋你的測驗"
+        "search_for_own_quizzes": "搜尋你的測驗",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "overview_page": {
         "created_at": "建立於",
@@ -264,13 +338,18 @@
         "hat_color": "帽子顏色",
         "clothe_type": "服裝",
         "clothe_color": "服裝顏色",
-        "go_back": "返回"
+        "go_back": "返回",
+        "clothe_graphic_type": "",
+        "top_type": ""
     },
     "results_page": {
         "quiz_title": "測驗標題",
         "player_count": "玩家人數",
         "date_played": "測驗日期",
-        "no_results_so_far": "尚未儲存任何結果..."
+        "no_results_so_far": "尚未儲存任何結果...",
+        "general_overview": {
+            "sentence": ""
+        }
     },
     "result_page": {
         "player_name": "玩家名稱",
@@ -278,11 +357,117 @@
         "average_score": "平均分數：{{average_score}}",
         "time_taken": "花費時間",
         "correct_answer": "{{count}} 個正確答案",
-        "correct_answer_plural": "{{count}} 個正確答案"
+        "correct_answer_plural": "{{count}} 個正確答案",
+        "player_score": ""
     },
     "security_settings": {
         "activate_2fa": "啟用兩步驟驗證",
         "2fa_deactivated": "兩步驟驗證未啟用",
-        "2fa_activated": "兩步驟驗證已啟用"
+        "2fa_activated": "兩步驟驗證已啟用",
+        "get_backup_code": "",
+        "enable_totp": "",
+        "disable_totp": "",
+        "totp_setup": {
+            "enter_as_secret_if_no_see_code": "",
+            "scan_to_set_up": "",
+            "totp_setup": "",
+            "do_not_forget_backup_code": ""
+        },
+        "backup_code": "",
+        "backup_codes": {
+            "download_code": "",
+            "your_backup_code": "",
+            "save_somewhere_save": ""
+        },
+        "totp": "",
+        "totp_unavailable": "",
+        "webauthn": "",
+        "add_security_key": "",
+        "webauthn_unavailable": "",
+        "totp_available": "",
+        "webauthn_available": ""
+    },
+    "file_dashboard": {
+        "unset": "",
+        "filename_word": "",
+        "imported": "",
+        "filename": "",
+        "missing": "",
+        "delete_image": "",
+        "size": "",
+        "storage_usage": "",
+        "alt_text": "",
+        "edit_details": "",
+        "uploaded": "",
+        "not_available": "",
+        "caption": "",
+        "edit_the_image": ""
+    },
+    "quiztivity": {
+        "editor": {
+            "add_new": "",
+            "move_left": "",
+            "shares": {
+                "never_expires": "",
+                "expires_on": "",
+                "add_new_share": ""
+            },
+            "title_placeholder": "",
+            "delete": "",
+            "open_shares_menu": "",
+            "select_page_type": "",
+            "move_right": ""
+        },
+        "share_expired": "",
+        "play": {
+            "memory": {
+                "try_count": ""
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "",
+                "add_pair": "",
+                "upload_image": ""
+            }
+        }
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
+    },
+    "view_quiz_page": {
+        "made_by": "",
+        "view_on_kahoot": ""
+    },
+    "start_game": {
+        "old_school_mode_description": "",
+        "old_school_mode": "",
+        "start_game": "",
+        "captcha_message": "",
+        "normal_mode_description": ""
+    },
+    "video_uploader": {
+        "time_remaining": "",
+        "time_elapsed": ""
+    },
+    "navbar": {
+        "donate": ""
+    },
+    "public_user_page": {
+        "no_original_quizzes": "",
+        "joined_on": ""
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": ""
+        }
     }
 }
