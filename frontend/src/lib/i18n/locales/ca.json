@@ -37,7 +37,68 @@
         "view": "Visualització",
         "overview": "Resum",
         "play": "Joc",
-        "repeat_password": "Repetiu la contrasenya"
+        "repeat_password": "Repetiu la contrasenya",
+        "upload": "",
+        "player_plural": "",
+        "next": "",
+        "totp": "",
+        "score": "",
+        "analytics": "",
+        "no": "",
+        "speed": "",
+        "backup_code": "",
+        "files_library": "",
+        "check_choice": "",
+        "voting": "",
+        "point": "",
+        "other": "",
+        "text": "",
+        "practice": "",
+        "find": "",
+        "private": "",
+        "answer_plural": "",
+        "version": "",
+        "update": "",
+        "download": "",
+        "slide": "",
+        "error": "",
+        "play_plural": "",
+        "rating": "",
+        "video": "",
+        "donating": "",
+        "note": "",
+        "order": "",
+        "dislike_plural": "",
+        "multiple_choice": "",
+        "info": "",
+        "question_plural": "",
+        "results": "",
+        "view_plural": "",
+        "yes": "",
+        "point_plural": "",
+        "continue": "",
+        "like": "",
+        "dislike": "",
+        "progress": "",
+        "select": "",
+        "correct": "",
+        "like_plural": "",
+        "name": "",
+        "other_plural": "",
+        "count": "",
+        "quiztivity": "",
+        "library": "",
+        "finish": "",
+        "normal": "",
+        "selected": "",
+        "result": "",
+        "unknown": "",
+        "dashboard": "",
+        "back": "",
+        "result_plural": "",
+        "never": "",
+        "quiz": "",
+        "range": ""
     },
     "login_page": {
         "already_have_account": "No teniu cap compte?",
@@ -60,7 +121,9 @@
                 "unexpected": "Error no esperat!"
             }
         },
-        "login_or_create_account": "Inicia sessió o crea un compte"
+        "login_or_create_account": "Inicia sessió o crea un compte",
+        "use_backup_code": "",
+        "email_or_username": ""
     },
     "admin_page": {
         "get_results_and_stop_time": "Obtén els resultats i atura el temps",
@@ -69,7 +132,18 @@
         "export_results": "Exporta els resultats",
         "already_registered_as_admin": "Ja hi ha un administrador registrat per a aquest joc.",
         "get_results": "Obtén els resultats",
-        "get_final_results": "Obtén els resultats finals"
+        "get_final_results": "Obtén els resultats finals",
+        "stop_time_and_solutions": "",
+        "no_answers": "",
+        "request_export_results": "",
+        "show_next_question": "",
+        "stop_time": "",
+        "show_results": "",
+        "save_results": "",
+        "enter_answer_into_field": "",
+        "answers_submitted": "",
+        "download_export_results": "",
+        "next_question": ""
     },
     "index_page": {
         "meta": {
@@ -81,7 +155,39 @@
             "2": "La principal característica és una funció d'importació de KAHOOT! que us permet d'importar qüestionaris de KAHOOT!"
         },
         "stats": "Ja hi ha {{user_count}} usuaris i {{quiz_count}} qüestionaris a ClassQuiz.",
-        "slogan": "La plataforma de preguntes i respostes de codi obert!"
+        "slogan": "La plataforma de preguntes i respostes de codi obert!",
+        "quiz_results_downloadable": "",
+        "how_does_classquiz_work": "",
+        "select_answer": "",
+        "user_friendly": "",
+        "no_tracking": "",
+        "find_or_explore": "",
+        "see_how_many_true_and_false": "",
+        "download_quizzes": "",
+        "dark_mode_content": "",
+        "multilingual": "",
+        "community_driven_content": "",
+        "get_a_quiz": "",
+        "quiz_results_downloadable_content": "",
+        "view_results": "",
+        "choose_answer_wisely": "",
+        "self_hostable_content": "",
+        "german_server_content": "",
+        "get_ranking_and_winners": "",
+        "list_winners": "",
+        "students_site": "",
+        "self_hostable": "",
+        "see_what_true_and_false": "",
+        "german_server": "",
+        "create_a_quiz_from_scratch": "",
+        "teachers_site": "",
+        "check_if_chosen_wisely": "",
+        "create_or_import": "",
+        "dark_mode": "",
+        "why_classquiz": "",
+        "community_driven": "",
+        "play_quiz": "",
+        "see_all_quizzes": ""
     },
     "overview_page": {
         "question_count": "Nombre de preguntes",
@@ -100,11 +206,36 @@
         "delete_question": "Esborra la qüestió",
         "right_or_true?": "Correcte?",
         "not_all_links_imgur_links": "No tots els enllaços són enllaços a Imgur!",
-        "delete_answer": "Esborra la resposta"
+        "delete_answer": "Esborra la resposta",
+        "check_choice_description": "",
+        "text_description": "",
+        "order_description": "",
+        "slide": {
+            "headline": "",
+            "headline_description": "",
+            "rectangle": "",
+            "rectangle_description": "",
+            "text": "",
+            "text_description": ""
+        },
+        "voting_description": "",
+        "range_description": "",
+        "empty": "",
+        "abcd_description": "",
+        "bg_image": "",
+        "no_title": ""
     },
     "import_page": {
         "need_help": "Us cal ajuda?",
-        "visit_docs": "Visiteu la documentació"
+        "visit_docs": "Visiteu la documentació",
+        "this_side_classquiz_excel": "",
+        "download_template_here": "",
+        "classquiz_quiz": "",
+        "this_side_classquiz": "",
+        "a_kahoot_quiz": "",
+        "side_import_kahoot": "",
+        "url_should_look_like_this": "",
+        "upload_file_ending": ""
     },
     "edit_page": {
         "success_update_title": "El qüestionari s'ha actualitzat correctament!",
@@ -127,12 +258,204 @@
         "delete_this_session": "Esborra aquesta sessió",
         "this_session?": "Aquesta sessió?",
         "check_location": "Verifica la ubicació",
-        "last_seen": "Última consulta"
+        "last_seen": "Última consulta",
+        "change_avatar": "",
+        "security_settings": "",
+        "add_api_key": ""
     },
     "explore_page": {
-        "made_by": "Fet per"
+        "made_by": "Fet per",
+        "imported_by": ""
     },
     "search_page": {
-        "at_least_3_characters": "Introduïu almenys 3 caràcters..."
+        "at_least_3_characters": "Introduïu almenys 3 caràcters...",
+        "nothing_here": ""
+    },
+    "result_page": {
+        "correct_answer_plural": "",
+        "player_score": "",
+        "correct_answer": "",
+        "time_taken": "",
+        "player_name": "",
+        "average_score": "",
+        "custom_field": ""
+    },
+    "play_page": {
+        "2nd_place": "",
+        "join_description": "",
+        "1st_place": "",
+        "points_added": "",
+        "final_result_rank": "",
+        "your_score": "",
+        "end_sentence": "",
+        "with_out_of": "",
+        "3rd place": "",
+        "join_by_entering_code": ""
+    },
+    "file_dashboard": {
+        "unset": "",
+        "filename_word": "",
+        "imported": "",
+        "filename": "",
+        "missing": "",
+        "delete_image": "",
+        "size": "",
+        "storage_usage": "",
+        "alt_text": "",
+        "edit_details": "",
+        "uploaded": "",
+        "not_available": "",
+        "caption": "",
+        "edit_the_image": ""
+    },
+    "avatar_settings": {
+        "accessories_type": "",
+        "go_back": "",
+        "hair_color": "",
+        "clothe_graphic_type": "",
+        "facial_hair_type": "",
+        "facial_hair_color": "",
+        "skin_color": "",
+        "clothe_color": "",
+        "thats_you": "",
+        "start_over": "",
+        "clothe_type": "",
+        "mouth_type": "",
+        "top_type": "",
+        "eyebrow_type": "",
+        "hat_color": ""
+    },
+    "footer": {
+        "donate": "",
+        "self_ads": ""
+    },
+    "quiztivity": {
+        "editor": {
+            "add_new": "",
+            "move_left": "",
+            "shares": {
+                "never_expires": "",
+                "expires_on": "",
+                "add_new_share": ""
+            },
+            "title_placeholder": "",
+            "delete": "",
+            "open_shares_menu": "",
+            "select_page_type": "",
+            "move_right": ""
+        },
+        "share_expired": "",
+        "play": {
+            "memory": {
+                "try_count": ""
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "",
+                "add_pair": "",
+                "upload_image": ""
+            }
+        }
+    },
+    "results_page": {
+        "no_results_so_far": "",
+        "quiz_title": "",
+        "player_count": "",
+        "date_played": "",
+        "general_overview": {
+            "sentence": ""
+        }
+    },
+    "security_settings": {
+        "get_backup_code": "",
+        "enable_totp": "",
+        "disable_totp": "",
+        "totp_setup": {
+            "enter_as_secret_if_no_see_code": "",
+            "scan_to_set_up": "",
+            "totp_setup": "",
+            "do_not_forget_backup_code": ""
+        },
+        "backup_code": "",
+        "2fa_deactivated": "",
+        "backup_codes": {
+            "download_code": "",
+            "your_backup_code": "",
+            "save_somewhere_save": ""
+        },
+        "totp": "",
+        "totp_unavailable": "",
+        "2fa_activated": "",
+        "webauthn": "",
+        "add_security_key": "",
+        "activate_2fa": "",
+        "webauthn_unavailable": "",
+        "totp_available": "",
+        "webauthn_available": ""
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
+    },
+    "view_quiz_page": {
+        "made_by": "",
+        "view_on_kahoot": ""
+    },
+    "start_game": {
+        "old_school_mode_description": "",
+        "old_school_mode": "",
+        "start_game": "",
+        "captcha_message": "",
+        "normal_mode_description": ""
+    },
+    "video_uploader": {
+        "time_remaining": "",
+        "time_elapsed": ""
+    },
+    "error_page": {
+        "unknown_error_text": "",
+        "404_text": ""
+    },
+    "uploader": {
+        "images_by_pixabay": "",
+        "upload_video_popup_notice": "",
+        "add_image": "",
+        "select_upload_type": "",
+        "upload_a_video": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": "",
+        "upload_video": ""
+    },
+    "dashboard": {
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "search_for_own_quizzes": "",
+        "info_analytics": ""
+    },
+    "navbar": {
+        "donate": ""
+    },
+    "editor_page": {
+        "add_an_answer": "",
+        "right_click_to_delete": ""
+    },
+    "public_user_page": {
+        "no_original_quizzes": "",
+        "joined_on": ""
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": ""
+        }
     }
 }
