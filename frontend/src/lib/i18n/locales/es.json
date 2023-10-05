@@ -49,7 +49,9 @@
         "community_driven_content": "¡ClassQuiz depende de su comunidad para financiar, probar ideas, solicitar nuevas funciones, traducciones y más! ¡También puedes ser parte de la comunidad ClassQuiz!",
         "community_driven": "Impulsado por la comunidad",
         "download_quizzes_content": "Los cuestionarios pueden descargarse como un archivo e importarse en cualquier momento. Esto también te permite mover tus cuestionarios a otras instancias de ClassQuiz.",
-        "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?"
+        "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?",
+        "no_player_limit": "Sin límite de jugadores",
+        "no_player_limit_content": "ClassQuiz no tiene un límite artificial de jugadores. En teoría, más de 1000 jugadores podrían jugar al mismo cuestionario, pero se ha probado con un máximo de 300 jugadores por cuestionario."
     },
     "create_page": {
         "success": {
