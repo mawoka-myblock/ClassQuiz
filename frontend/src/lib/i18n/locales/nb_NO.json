@@ -36,7 +36,7 @@
         "self_hostable": "Selvtjenbart",
         "completely_free": "Gratis",
         "check_if_chosen_wisely": "Sjekk, hvis du har valgt klokelig.",
-        "no_tracking_content": "Kahoot! sporer deg med minst to amerikanske tredjeparter, noe ClassQuiz ikke gjør i det hele tatt.",
+        "no_tracking_content": "Andre sporer deg med minst to amerikanske tredjeparter, noe ClassQuiz ikke gjør i det hele tatt.",
         "quiz_results_downloadable_content": "Resultater av spørrekonkurranser kan eksporteres til regneark. (Visste ikke at de andre ikke kunne gjøre dette.)",
         "user_friendly_content": "ClassQuiz prøver å være enkelt, slik at alle kan bruke det.",
         "dark_mode_content": "En av de viktigste funksjonene en nettside kan ha.",
@@ -269,7 +269,7 @@
         "a_kahoot_quiz": "En Kahot!-spørrekonkurranse",
         "need_help": "Hjelp?",
         "side_import_kahoot": "På denne siden kan du importere spørrekonkurranser som bor på Kahoot!.",
-        "upload_file_ending": "Last opp filen som slutter med «.cqa»",
+        "upload_file_ending": "Last opp filen som slutter med «.cqa» eller .xlsx",
         "classquiz_quiz": "En ClassQuiz-spørrekonkurranse",
         "this_side_classquiz": "På denne siden kan du importere spørrekonkurranser som ble eksportert fra ClassQuiz.",
         "url_should_look_like_this": "Nettadressen skal være utformet slik: https://create.kahoot.it/details/…",
@@ -292,7 +292,7 @@
         "right_click_to_delete": "Høyreklikk på et svar for å slette det."
     },
     "uploader": {
-        "add_image": "Legg til bilde",
+        "add_image": "Legg til media",
         "images_by_pixabay": "Bilder fra Pixabay",
         "upload_video_popup_notice": "Oppsprettet er åpent. Ta et titt på det for mer info.",
         "select_upload_type": "Velg opplastingstypen",
