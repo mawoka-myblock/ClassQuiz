@@ -380,9 +380,9 @@
         "webauthn_available": "Webauthn ist verfügbar",
         "webauthn_unavailable": "Webauthn ist nicht verfügbar",
         "add_security_key": "Sicherheitsschlüssel hinzufügen",
-        "totp": "Totp",
+        "totp": "TOTP",
         "totp_available": "Totp ist verfügbar",
-        "enable_totp": "Totp aktivieren",
+        "enable_totp": "TOTP aktivieren",
         "backup_codes": {
             "your_backup_code": "Dein Backup-Code",
             "save_somewhere_save": "Speichere ihn an einem sicheren Ort!",
