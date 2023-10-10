@@ -393,7 +393,7 @@
         "totp_available": "Totp está disponible",
         "totp_unavailable": "Totp no está disponible",
         "disable_totp": "Desactivar Totp",
-        "enable_totp": "Activar Totp"
+        "enable_totp": "Activar TOTP"
     },
     "view_quiz_page": {
         "made_by": "Hecho por",
