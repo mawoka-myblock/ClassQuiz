@@ -389,7 +389,7 @@
         "webauthn_unavailable": "WebAuthn no está disponible",
         "webauthn_available": "WebAuthn está disponible",
         "add_security_key": "Agregar una clave de seguridad",
-        "totp": "contraseña de un solo uso (OTP)",
+        "totp": "TOTP",
         "totp_available": "Totp está disponible",
         "totp_unavailable": "Totp no está disponible",
         "disable_totp": "Desactivar Totp",
