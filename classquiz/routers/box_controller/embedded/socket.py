@@ -28,6 +28,8 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     game = PlayGame.parse_raw(redis_res_game)
     if not game.question_show:
         return
+    if await redis.get(f"answer_given:{player_id}:{game.current_question}") is not None:
+        return
     question = game.questions[game.current_question]
     question_time = datetime.fromisoformat(await redis.get(f"game:{game_pin}:current_time"))
     try:
@@ -119,8 +121,6 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                     answer_index = button_to_index_map[data.data.lower()]
                 except (KeyError, AttributeError):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
-                    continue
-                if await redis.get(f"answer_given:{player_id}:{answer_index}") is not None:
                     continue
                 await redis.set(f"answer_given:{player_id}:{answer_index}", "True", ex=600)
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
