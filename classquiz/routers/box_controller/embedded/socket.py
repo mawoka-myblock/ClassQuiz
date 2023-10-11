@@ -120,8 +120,10 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                 except (KeyError, AttributeError):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
+                if await redis.get(f"answer_given:{player_id}:{answer_index}") is not None:
+                    continue
+                await redis.set(f"answer_given:{player_id}:{answer_index}", "True", ex=600)
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print(f"Data from client {game_id}: {data}")
 
     except WebSocketDisconnect as ex:
         print(f"Client {game_id} is disconnected: {ex}")
