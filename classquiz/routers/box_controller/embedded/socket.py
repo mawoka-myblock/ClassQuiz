@@ -33,7 +33,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     question_time = datetime.fromisoformat(await redis.get(f"game:{game_pin}:current_time"))
     try:
         selected_answer = question.answers[data_answer].answer
-    except KeyError:
+    except (KeyError, IndexError):
         return
     if await redis.get(f"answer_given:{player_id}:{game.current_question}") is not None:
         return
