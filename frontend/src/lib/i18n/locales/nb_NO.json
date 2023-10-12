@@ -347,7 +347,7 @@
         "missing": "Mangler.",
         "delete_image": "Slett bilde",
         "size": "Størrelse: {{size}} MiB",
-        "storage_usage": "Du har brukt {{used}} MiB av{{total}} MiB. Det tilsvaer {{percent}}% av din lagringsplass.",
+        "storage_usage": "Du har brukt {{used}} av {{total}} MiB. Det tilsvarer {{percent}}% av din lagringsplass.",
         "alt_text": "Alternativ tekst/undertekst",
         "edit_details": "Rediger detaljer",
         "uploaded": "Opplastet: {{date}}",
