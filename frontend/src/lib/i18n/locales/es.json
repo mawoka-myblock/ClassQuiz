@@ -458,7 +458,7 @@
         "alt_text": "Texto alternativo / Leyenda",
         "caption": "Leyenda: {{caption}}",
         "filename": "Nombre del archivo: {{filename}}",
-        "storage_usage": "Has utilizado {{used}} Mib de {{total}} MiB del almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento.",
+        "storage_usage": "Has utilizado {{used}} MiB de {{total}} MiB de almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento.",
         "imported": "Importado: {{yes_or_no}}"
     },
     "video_uploader": {
