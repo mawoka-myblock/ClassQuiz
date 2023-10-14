@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '../Spinner.svelte';
 	// import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	// import MediaComponent from "$lib/editor/MediaComponent.svelte";
 
 	const { t } = getLocalization();
@@ -79,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
      */
 </script>
 
-<div class="w-full max-h-full pb-20 px-20 h-full">
+<div class="w-full max-h-full pb-10 px-10 h-full">
 	<div class="rounded-lg bg-white w-full h-full border-gray-500 dark:bg-gray-700 shadow-2xl">
 		<div class="h-12 bg-gray-300 rounded-t-lg dark:bg-gray-500">
 			<div class="flex align-middle p-4 gap-3">
@@ -123,9 +124,9 @@ SPDX-License-Identifier: MPL-2.0
 						{/await}
 					{/key}
 				</div>
-				{#if data.questions[selected_question].image != undefined && data.questions[selected_question].image !== ''}
-					<div class="flex justify-center pt-10 w-full max-h-72">
-						<div class="max-h-72 h-auto relative">
+				{#if data.questions[selected_question].image}
+					<div class="flex justify-center pt-10 w-full h-72">
+						<div class="h-72 relative">
 							<button
 								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 								type="button"
@@ -148,9 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 									/>
 								</svg>
 							</button>
-							{#await import('$lib/editor/MediaComponent.svelte') then c}
-								<svelte:component this={c.default} bind:src={image_url} />
-							{/await}
+							<MediaComponent bind:src={image_url} />
 						</div>
 					</div>
 				{:else}
@@ -187,15 +186,16 @@ SPDX-License-Identifier: MPL-2.0
 							type="number"
 							max="999"
 							min="1"
-							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1"
+							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1 outline-none focus:shadow-2xl"
 							bind:value={data.questions[selected_question].time}
 						/>
+						<p class="inline-block">s</p>
 					</div>
 				</div>
-				<div class="flex justify-center pt-10">
+				<div class="flex justify-center py-5">
 					<p>{type_to_name[String(data.questions[selected_question].type)]}</p>
 				</div>
-				<div class="flex justify-center py-10 w-full">
+				<div class="flex justify-center w-full">
 					{#if type === QuizQuestionType.ABCD || type === QuizQuestionType.CHECK}
 						{#await import('$lib/editor/ABCDEditorPart.svelte')}
 							<Spinner my_20={false} />
@@ -208,7 +208,6 @@ SPDX-License-Identifier: MPL-2.0
 							/>
 						{/await}
 					{:else if type === QuizQuestionType.RANGE}
-						<p>Range</p>
 						<RangeEditor bind:selected_question bind:data />
 					{:else if type === QuizQuestionType.VOTING}
 						{#await import('$lib/editor/VotingEditorPart.svelte')}

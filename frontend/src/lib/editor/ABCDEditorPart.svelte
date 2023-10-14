@@ -97,11 +97,11 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none focus:shadow-2xl transition-all"
 					style="background-color: {answer.color}; color: {get_foreground_color(
 						answer.color
 					)}"
-					placeholder={$t('editor.empty')}
+					placeholder={$t('editor.enter_answer')}
 				/>
 				<button
 					type="button"

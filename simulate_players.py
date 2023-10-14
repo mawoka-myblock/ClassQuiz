@@ -8,7 +8,7 @@ import sys
 import socketio
 
 NUMBER_OF_PLAYERS = 200
-GAME_PIN = 563037
+GAME_PIN = sys.argv[1]
 q_index = 0
 
 

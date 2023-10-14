@@ -11,16 +11,14 @@ SPDX-License-Identifier: MPL-2.0
 	import type { PlayerAnswer } from '$lib/admin.ts';
 	import { socket } from './socket';
 	import { QuizQuestionType } from '$lib/quiz_types';
-	import { kahoot_icons } from './play/kahoot_mode_assets/kahoot_icons';
-	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import Spinner from '$lib/Spinner.svelte';
-	import { get_foreground_color } from '$lib/helpers';
-	import MediaComponent from '$lib/editor/MediaComponent.svelte';
+	import Controls from '$lib/play/admin/controls.svelte';
+	import Question from '$lib/play/admin/question.svelte';
 
 	export let game_token: string;
 	export let quiz_data: QuizData;
-	export let game_mode;
-	export let bg_color;
+	export let game_mode: string;
+	export let bg_color: string;
 
 	const { t } = getLocalization();
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
@@ -37,10 +35,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	export let player_scores;
 
-	const set_question_number = (q_number: number) => {
-		socket.emit('set_question_number', q_number.toString());
-	};
-
 	socket.on('get_question_results', () => {
 		console.log('get_question_results');
 	});
@@ -54,20 +48,6 @@ SPDX-License-Identifier: MPL-2.0
 		answer_count = 0;
 		timer(timer_res);
 	});
-	const get_question_results = () => {
-		socket.emit('get_question_results', {
-			game_id: game_token,
-			question_number: shown_question_now
-		});
-	};
-	const show_solutions = () => {
-		socket.emit('show_solutions', {});
-		timer_res = '0';
-	};
-
-	const get_final_results = () => {
-		socket.emit('get_final_results', {});
-	};
 
 	socket.on('solutions', (_) => {
 		timer_res = '0';
@@ -109,97 +89,33 @@ SPDX-License-Identifier: MPL-2.0
 			timer_res = seconds.toString();
 		}, 1000);
 	};
-	let circular_progress = 0;
-	$: {
-		try {
-			circular_progress =
-				1 -
-				((100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)) / 100;
-		} catch {
-			circular_progress = 0;
-		}
-	}
 </script>
 
 {#if control_visible}
-	<div
-		class="fixed top-0 w-full h-10 z-20 grid grid-cols-2"
-		style="background: {bg_color ? bg_color : 'transparent'}"
-		class:text-black={bg_color}
-	>
-		<p class="mr-auto ml-0 col-start-1 col-end-1">
-			{selected_question === -1 ? '0' : selected_question + 1}
-			/{quiz_data.questions.length}
-		</p>
-		<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
-			{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
-				{#if JSON.stringify(final_results) === JSON.stringify([null])}
-					<button on:click={get_final_results} class="admin-button"
-						>{$t('admin_page.get_final_results')}
-					</button>
-				{/if}
-			{:else if timer_res === '0' || selected_question === -1}
-				{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
-					<button
-						on:click={() => {
-							set_question_number(selected_question + 1);
-						}}
-						class="admin-button"
-						>{$t('admin_page.next_question', { question: selected_question + 2 })}
-					</button>
-				{/if}
-				{#if question_results === null && selected_question !== -1}
-					{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
-						<button
-							on:click={() => {
-								set_question_number(selected_question + 1);
-							}}
-							class="admin-button"
-							>{$t('admin_page.next_question', { question: selected_question + 2 })}
-						</button>
-					{:else}
-						<button on:click={get_question_results} class="admin-button"
-							>{$t('admin_page.show_results')}
-						</button>
-					{/if}
-				{/if}
-			{:else if selected_question !== -1}
-				{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
-					<button
-						on:click={() => {
-							set_question_number(selected_question + 1);
-						}}
-						class="admin-button"
-						>{$t('admin_page.next_question', { question: selected_question + 2 })}
-					</button>
-				{:else}
-					<button on:click={show_solutions} class="admin-button"
-						>{$t('admin_page.stop_time_and_solutions')}
-					</button>
-				{/if}
-			{:else}
-				<!--				<button
-                    on:click={() => {
-                        set_question_number(selected_question + 1);
-                    }}
-                    class='admin-button'
-                >Next Question ({selected_question + 2}
-                    )
-                </button>-->
-			{/if}
-		</div>
-	</div>
+	<Controls
+		{bg_color}
+		{selected_question}
+		{quiz_data}
+		bind:timer_res
+		{final_results}
+		{socket}
+		{question_results}
+		{game_token}
+		{shown_question_now}
+	/>
 {/if}
 {#if timer_res !== '0' && selected_question >= 0}
 	<span
 		class="fixed top-0 bg-red-500 h-8 transition-all"
 		class:mt-10={control_visible}
-		style="width: {(100 / quiz_data.questions[selected_question].time) * parseInt(timer_res)}vw"
+		style="width: {(100 / parseInt(quiz_data.questions[selected_question].time)) *
+			parseInt(timer_res)}vw"
 	/>
 {/if}
 
 <div class="w-full h-full" class:pt-28={control_visible} class:pt-12={!control_visible}>
 	{#if timer_res !== undefined && !final_results_clicked && !question_results}
+		<!-- Question is shown -->
 		{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 			{#await import('$lib/play/admin/slide.svelte')}
 				<Spinner my_20={false} />
@@ -210,81 +126,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 			{/await}
 		{:else}
-			<div class="flex flex-col justify-center w-screen h-1/6">
-				<h1 class="text-6xl text-center">
-					{@html quiz_data.questions[selected_question].question}
-				</h1>
-				<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
-				<div class="grid grid-cols-3 my-2">
-					<span />
-					<div class="m-auto">
-						<CircularTimer
-							bind:text={timer_res}
-							bind:progress={circular_progress}
-							color="#ef4444"
-						/>
-					</div>
-					<p class="m-auto text-3xl">
-						{$t('admin_page.answers_submitted', { answer_count: answer_count })}
-					</p>
-				</div>
-			</div>
-			{#if quiz_data.questions[selected_question].image !== null}
-				<div class="flex w-full">
-					<MediaComponent
-						src={quiz_data.questions[selected_question].image}
-						muted={false}
-						css_classes="max-h-[20vh] object-cover mx-auto mb-8 w-auto"
-					/>
-				</div>
-			{/if}
-			{#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING || quiz_data.questions[selected_question].type === QuizQuestionType.CHECK}
-				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
-					{#each quiz_data.questions[selected_question].answers as answer, i}
-						<div
-							class="rounded-lg h-fit flex border-2 border-black"
-							style="background-color: {answer.color ?? default_colors[i]};"
-							class:opacity-50={!answer.right &&
-								timer_res === '0' &&
-								quiz_data.questions[selected_question].type ===
-									QuizQuestionType.ABCD}
-						>
-							<img
-								class="w-14 inline-block pl-4"
-								alt="icon"
-								style="color: {get_foreground_color(
-									answer.color ?? default_colors[i]
-								)}"
-								src={kahoot_icons[i]}
-							/>
-							<span
-								class="text-center text-2xl px-2 py-4 w-full"
-								style="color: {get_foreground_color(
-									answer.color ?? default_colors[i]
-								)}">{answer.answer}</span
-							>
-							<span class="pl-4 w-10" />
-						</div>
-					{/each}
-				</div>
-			{:else if quiz_data.questions[selected_question].type === QuizQuestionType.TEXT}
-				{#if timer_res === '0'}
-					<div class="grid grid-cols-2 gap-2 w-full p-4">
-						{#each quiz_data.questions[selected_question].answers as answer, i}
-							<div class="rounded-lg h-fit flex bg-[#B07156]">
-								<span class="text-center text-2xl px-2 py-4 w-full text-black"
-									>{answer.answer}</span
-								>
-								<span class="pl-4 w-10" />
-							</div>
-						{/each}
-					</div>
-				{:else}
-					<div class="flex justify-center">
-						<p class="text-2xl">{$t('admin_page.enter_answer_into_field')}</p>
-					</div>
-				{/if}
-			{/if}
+			<Question {quiz_data} {selected_question} {timer_res} {answer_count} {default_colors} />
 		{/if}
 	{/if}
 	<br />

@@ -8,6 +8,7 @@ SPDX-License-Identifier: MPL-2.0
 	import AudioPlayer from '$lib/play/audio_player.svelte';
 	import ControllerCodeDisplay from '$lib/components/controller/code.svelte';
 	import { getLocalization } from '$lib/i18n';
+	import GrayButton from '$lib/components/buttons/gray.svelte';
 
 	export let game_pin: string;
 	export let players;
@@ -51,7 +52,7 @@ SPDX-License-Identifier: MPL-2.0
 		<img
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
-			class="block mx-auto w-1/2 dark:bg-white"
+			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded"
 		/>
 		{#if cqc_code}
 			<div class="m-auto">
@@ -62,34 +63,33 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 		{/if}
 	</div>
-	<p class="text-3xl text-center">{$t('words.pin')}: {game_pin}</p>
+	<p class="text-3xl text-center">
+		{$t('words.pin')}: <span class="select-all">{game_pin}</span>
+	</p>
 	<div class="flex justify-center w-full mt-4">
-		<ul class="list-disc pl-8">
-			{#if players.length > 0}
-				{#each players as player}
-					<li>
-						<span
-							class="hover:line-through"
-							on:click={() => {
-								kick_player(player.username);
-							}}>{player.username}</span
-						>
-						<!--					<button>{$t('words.kick')}</button>-->
-					</li>
-				{/each}
-			{/if}
-		</ul>
-	</div>
-	{#if players.length > 0}
-		<div class="flex justify-center w-full mt-4">
-			<button
-				class="ml-4 admin-button"
-				id="startGame"
+		<div>
+			<GrayButton
+				disabled={players.length < 1}
 				on:click={() => {
 					socket.emit('start_game', '');
 				}}
 				>{$t('admin_page.start_game')}
-			</button>
+			</GrayButton>
 		</div>
-	{/if}
+	</div>
+	<div class="flex flex-row w-full mt-4 px-10 flex-wrap">
+		{#if players.length > 0}
+			{#each players as player}
+				<div class="p-2 m-2 border-2 border-[#B07156] rounded hover:cursor-pointer">
+					<span
+						class="hover:line-through text-lg"
+						on:click={() => {
+							kick_player(player.username);
+						}}>{player.username}</span
+					>
+					<!--					<button>{$t('words.kick')}</button>-->
+				</div>
+			{/each}
+		{/if}
+	</div>
 </div>

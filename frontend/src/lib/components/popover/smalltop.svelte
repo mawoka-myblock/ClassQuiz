@@ -7,13 +7,19 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
+	import { createEventDispatcher } from 'svelte';
 	import { PopoverTypes } from './smalltop';
 
 	const { t } = getLocalization();
 
+	const dispatch = createEventDispatcher();
+
 	export let open = false;
 	export let type: PopoverTypes;
-	export let data: undefined | { game_pin: number | string; game_id: string } = undefined;
+	export let data: undefined | { game_pin: number | string; game_id: string } | string =
+		undefined;
+
+	$: dispatch('open', open);
 </script>
 
 {#if open}
@@ -29,6 +35,8 @@ SPDX-License-Identifier: MPL-2.0
 						class="underline"
 						href="/remote?game_pin={data.game_pin}&game_id={data.game_id}">here</a
 					> to join as a remote.
+				{:else if type === PopoverTypes.Generic}
+					{@html data}
 				{:else}
 					<p>Error!!!</p>
 				{/if}

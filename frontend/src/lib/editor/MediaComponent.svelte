@@ -7,14 +7,17 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { fade } from 'svelte/transition';
+	import { thumbHashToDataURL } from 'thumbhash';
 
 	export let src: string;
 	export let css_classes = 'max-h-64 h-auto w-auto';
+	export let added_thumbhash_classes = 'h-full';
 	export let muted = true;
 	export let allow_fullscreen = true;
 	let type: 'img' | 'video' | undefined = undefined;
 
 	let img_data;
+	let thumbhash_data: string;
 
 	function base64ToBytes(base64: string): Uint8Array {
 		const binString = atob(base64);
@@ -31,11 +34,13 @@ SPDX-License-Identifier: MPL-2.0
 			type = 'video';
 		} else {
 			type = 'img';
+			thumbhash_data = thumbHashToDataURL(base64ToBytes(res.headers.get('x-thumbhash')));
 			const data = await fetch(`/api/v1/storage/download/${src}`);
 			img_data = {
 				data: URL.createObjectURL(await data.blob()),
 				alt_text: new TextDecoder().decode(base64ToBytes(res.headers.get('X-Alt-Text')))
 			};
+			thumbhash_data = undefined;
 		}
 	};
 	const update_url = () => {
@@ -58,10 +63,11 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 {#await media}
-	<p>Placeholder</p>
+	<img src={thumbhash_data} class={`${css_classes} ${added_thumbhash_classes}`} />
 {:then data}
 	{#if type === 'img'}
 		<img
+			in:fade={{ duration: 300 }}
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
 			class={css_classes}

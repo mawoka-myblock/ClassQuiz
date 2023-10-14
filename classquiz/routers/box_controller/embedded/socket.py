@@ -28,11 +28,14 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     game = PlayGame.parse_raw(redis_res_game)
     if not game.question_show:
         return
+
     question = game.questions[game.current_question]
     question_time = datetime.fromisoformat(await redis.get(f"game:{game_pin}:current_time"))
     try:
         selected_answer = question.answers[data_answer].answer
-    except KeyError:
+    except (KeyError, IndexError):
+        return
+    if await redis.get(f"answer_given:{player_id}:{game.current_question}") is not None:
         return
     answer_right = False
     if question.type == QuizQuestionType.ABCD:
@@ -48,6 +51,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     score = 0
     if answer_right:
         score = calculate_score(abs(diff), int(float(question.time)))
+    await redis.set(f"answer_given:{player_id}:{game.current_question}", "True", ex=600)
     await redis.hincrby(f"game_session:{game_pin}:player_scores", username, score)
     answer_data = AnswerData(
         username=username,
@@ -121,7 +125,6 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                     await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
                     continue
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
-            print(f"Data from client {game_id}: {data}")
 
     except WebSocketDisconnect as ex:
         print(f"Client {game_id} is disconnected: {ex}")

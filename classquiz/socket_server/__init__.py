@@ -80,6 +80,53 @@ class _JoinGameData(BaseModel):
     custom_field: str | None
 
 
+class _RejoinGameData(BaseModel):
+    old_sid: str
+    game_pin: str
+    username: str
+
+
+@sio.event
+async def rejoin_game(sid: str, data: dict):
+    redis_res = await redis.get(f"game:{data['game_pin']}")
+    if redis_res is None:
+        await sio.emit("game_not_found", room=sid)
+        return
+    try:
+        data = _RejoinGameData(**data)
+    except ValidationError as e:
+        await sio.emit("error", room=sid)
+        print(e)
+    redis_sid_key = f"game_session:{data.game_pin}:players:{data.username}"
+    old_sid = await redis.get(redis_sid_key)
+    if old_sid != data.old_sid:
+        return
+    encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
+    await sio.emit("time_sync", encrypted_datetime, room=sid)
+    await redis.set(redis_sid_key, sid)
+    await redis.srem(
+        f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=data.old_sid).json()
+    )
+    await redis.sadd(f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).json())
+    game_data = PlayGame.parse_raw(redis_res)
+    session = {
+        "game_pin": data.game_pin,
+        "username": data.username,
+        "sid_custom": sid,
+        "admin": False,
+    }
+    await sio.save_session(sid, session)
+    sio.enter_room(sid, data.game_pin)
+    await sio.emit(
+        "rejoined_game",
+        {
+            **json.loads(game_data.json(exclude={"quiz_id", "questions", "user_id"})),
+            "question_count": len(game_data.questions),
+        },
+        room=sid,
+    )
+
+
 @sio.event
 async def join_game(sid: str, data: dict):
     redis_res = await redis.get(f"game:{data['game_pin']}")
@@ -177,12 +224,13 @@ async def join_game(sid: str, data: dict):
 @sio.event
 async def start_game(sid: str, _data: dict):
     session = await sio.get_session(sid)
-    if session["admin"]:
-        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
-        game_data.started = True
-        await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
-        await redis.delete(f"game_in_lobby:{game_data.user_id.hex}")
-        await sio.emit("start_game", room=session["game_pin"])
+    if not session["admin"]:
+        return
+    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data.started = True
+    await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+    await redis.delete(f"game_in_lobby:{game_data.user_id.hex}")
+    await sio.emit("start_game", room=session["game_pin"])
 
 
 class _RegisterAsAdminData(BaseModel):
@@ -225,15 +273,20 @@ async def register_as_admin(sid: str, data: dict):
 @sio.event
 async def get_question_results(sid: str, data: dict):
     session = await sio.get_session(sid)
-    if session["admin"]:
-        redis_res = AnswerDataList.parse_raw(
-            await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
-        )
-        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
-        game_data.question_show = False
-        await redis.set(f"game:{session['game_pin']}", game_data.json())
-        game_pin = session["game_pin"]
-        await sio.emit("question_results", redis_res.dict()["__root__"], room=game_pin)
+    if not session["admin"]:
+        return
+
+    redis_res = await redis.get(f"game_session:{session['game_pin']}:{data['question_number']}")
+    if redis_res is None:
+        redis_res = []
+    else:
+        redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
+    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data.question_show = False
+    await redis.set(f"game:{session['game_pin']}", game_data.json())
+    game_pin = session["game_pin"]
+
+    await sio.emit("question_results", redis_res, room=game_pin)
 
 
 class ABCDQuizAnswerWithoutSolution(BaseModel):
@@ -252,12 +305,12 @@ class ReturnQuestion(QuizQuestion):
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and type(v[0]) != ABCDQuizAnswerWithoutSolution:
+        if values["type"] == QuizQuestionType.ABCD and type(v[0]) is not ABCDQuizAnswerWithoutSolution:
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and type(v) != RangeQuizAnswerWithoutSolution:
+        if values["type"] == QuizQuestionType.RANGE and type(v) is not RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         # skipcq: PTC-W0047
-        if values["type"] == QuizQuestionType.VOTING and type(v[0]) != VotingQuizAnswer:
+        if values["type"] == QuizQuestionType.VOTING and type(v[0]) is not VotingQuizAnswer:
             pass
         return v
 
@@ -266,37 +319,38 @@ class ReturnQuestion(QuizQuestion):
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
     session = await sio.get_session(sid)
-    if session["admin"]:
-        game_pin = session["game_pin"]
-        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
-        game_data.current_question = int(float(data))
-        game_data.question_show = True
-        await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
-        await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
-        temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
-        if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
-            await sio.emit(
-                "set_question_number",
-                {
-                    "question_index": int(float(data)),
-                },
-                room=sid,
-            )
-            return
-        if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
-            for i in range(len(temp_return["answers"])):
-                temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
-        temp_return["type"] = game_data.questions[int(float(data))].type
-        if temp_return["type"] == QuizQuestionType.ORDER:
-            random.shuffle(temp_return["answers"])
+    if not session["admin"]:
+        return
+    game_pin = session["game_pin"]
+    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data.current_question = int(float(data))
+    game_data.question_show = True
+    await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+    await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
+    temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
+    if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
         await sio.emit(
             "set_question_number",
             {
                 "question_index": int(float(data)),
-                "question": ReturnQuestion(**temp_return).dict(),
             },
-            room=game_pin,
+            room=sid,
         )
+        return
+    if game_data.questions[int(float(data))].type == QuizQuestionType.VOTING:
+        for i in range(len(temp_return["answers"])):
+            temp_return["answers"][i] = VotingQuizAnswer(**temp_return["answers"][i])
+    temp_return["type"] = game_data.questions[int(float(data))].type
+    if temp_return["type"] == QuizQuestionType.ORDER:
+        random.shuffle(temp_return["answers"])
+    await sio.emit(
+        "set_question_number",
+        {
+            "question_index": int(float(data)),
+            "question": ReturnQuestion(**temp_return).dict(),
+        },
+        room=game_pin,
+    )
 
 
 class _SubmitAnswerDataOrderType(BaseModel):
@@ -379,6 +433,8 @@ async def submit_answer(sid: str, data: dict):
         score = calculate_score(
             abs(diff) - latency, int(float(game_data.questions[int(float(data.question_index))].time))
         )
+        if score > 1000:
+            score = 1000
     await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     answer_data = AnswerData(
         username=session["username"],

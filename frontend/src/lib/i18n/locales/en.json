@@ -43,7 +43,9 @@
         "download_quizzes_content": "Quizzes can be downloaded as one file and imported at any time. This also lets you move your quizzes to other ClassQuiz instances.",
         "community_driven": "Community-driven",
         "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!",
-        "how_does_classquiz_work": "How does ClassQuiz even work?"
+        "how_does_classquiz_work": "How does ClassQuiz even work?",
+        "no_player_limit": "No player limit",
+        "no_player_limit_content": "ClassQuiz doesn't have an artificial player limit. In theory, 1000+ players could play the same quiz, but it's tested with up to 300 players per quiz."
     },
     "overview_page": {
         "created_at": "Created at",
@@ -217,7 +219,10 @@
         "check_choice_description": "All correct answers have to be chosen to score points",
         "order_description": "Answers can be brought into the correct order",
         "text_description": "Players can enter text",
-        "range_description": "A number-range can be selected with a slider"
+        "range_description": "A number-range can be selected with a slider",
+        "need_more_help": "Need more help?",
+        "visit_docs": "Visit the docs.",
+        "enter_answer": "Enter an answer"
     },
     "import_page": {
         "need_help": "Need help?",
@@ -294,7 +299,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Search for your own quizzes",
         "views_n_plays": "Views & Plays",
-        "info_analytics": "The \"Plays\" only show how often the quiz was started (you included), whereas the \"Views\" count how often the \"View\"-page was visited, so it also counts bots (sorry for that)."
+        "info_analytics": "The \"Plays\" only show how often the quiz was started (you included), whereas the \"Views\" count how often the \"View\"-page was visited, so it also counts bots (sorry for that).",
+        "commandpalette_notice": "Press <kbd>Ctr</kbd>+<kbd>k</kbd> or <kbd>Meta</kbd>+<kbd>k</kbd> to open the command palette"
     },
     "footer": {
         "self_ads": "Made with ❤️ by {{mawoka_link}} and with the help of {{others_link}}.",

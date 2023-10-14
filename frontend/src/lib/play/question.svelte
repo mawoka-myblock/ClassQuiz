@@ -15,6 +15,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { flip } from 'svelte/animate';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { get_foreground_color } from '../helpers';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 
 	const { t } = getLocalization();
 
@@ -154,10 +155,9 @@ SPDX-License-Identifier: MPL-2.0
 			</h1>
 			{#if question.image !== null && game_mode !== 'kahoot'}
 				<div class="max-h-full">
-					<img
-						src="/api/v1/storage/download/{question.image}"
-						class="object-cover mx-auto mb-8 max-h-[90%]"
-						alt="Content for Question"
+					<MediaComponent
+						src={question.image}
+						css_classes="object-cover mx-auto mb-8 max-h-[90%]"
 					/>
 				</div>
 			{/if}
@@ -167,7 +167,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.VOTING}
 			<div class="w-full relative" style="height: {get_div_height()}%">
 				<div
-					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-50"
+					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
 				>
 					<CircularTimer
 						bind:text={timer_res}

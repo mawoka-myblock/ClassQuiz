@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import { navbarVisible, signedIn } from '$lib/stores';
+	import CommandpaletteNotice from '$lib/components/popover/commandpalettenotice.svelte';
 	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -16,6 +17,8 @@ SPDX-License-Identifier: MPL-2.0
 	import { fly } from 'svelte/transition';
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 	import Analytics from './Analytics.svelte';
+	import MediaComponent from '$lib/editor/MediaComponent.svelte';
+	import { createTippy } from 'svelte-tippy';
 
 	// import GrayButton from "$lib/components/buttons/gray.svelte";
 
@@ -29,6 +32,11 @@ SPDX-License-Identifier: MPL-2.0
 	let items_to_show = [];
 	let all_items: Array<any>;
 	let fuse;
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle',
+		placement: 'bottom'
+	});
 
 	let id_to_position_map = {};
 
@@ -94,6 +102,7 @@ SPDX-License-Identifier: MPL-2.0
 	<title>ClassQuiz - Dashboard</title>
 </svelte:head>
 <Analytics bind:quiz={analytics_quiz_selected} />
+<CommandpaletteNotice />
 <div class="min-h-screen flex flex-col">
 	{#await getData()}
 		<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
@@ -114,7 +123,11 @@ SPDX-License-Identifier: MPL-2.0
                 </button>-->
 			<div class="w-full grid lg:grid-cols-4 gap-2 grid-cols-2 px-4">
 				{#if create_button_clicked}
-					<div class="flex gap-2" transition:fly={{ y: 10 }}>
+					<div
+						class="flex gap-2"
+						transition:fly={{ y: 10 }}
+						use:tippy={{ content: 'Unsure? Choose "Quiz".' }}
+					>
 						<BrownButton href="/create">{$t('words.quiz')}</BrownButton>
 						<BrownButton href="/quiztivity/create">{$t('words.quiztivity')}</BrownButton
 						>
@@ -175,11 +188,15 @@ SPDX-License-Identifier: MPL-2.0
 						>
 							<div class="hidden lg:flex w-auto h-full items-center relative">
 								{#if quiz.cover_image}
-									<img
+									<!--									<img
 										src="/api/v1/storage/download/{quiz.cover_image}"
 										alt="user provided"
 										loading="lazy"
 										class="shrink-0 max-w-full max-h-full absolute rounded"
+									/>-->
+									<MediaComponent
+										src={quiz.cover_image}
+										css_classes="shrink-0 max-w-full max-h-full absolute rounded"
 									/>
 								{/if}
 							</div>

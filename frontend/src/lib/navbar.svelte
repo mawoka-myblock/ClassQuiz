@@ -139,12 +139,14 @@ SPDX-License-Identifier: MPL-2.0
 				>
 			</li>
 		{:else}
-			<li class="py-2">
-				<a
-					class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
-					href="/account/register">{$t('words.register')}</a
-				>
-			</li>
+			{#if !import.meta.env.VITE_REGISTRATION_DISABLED}
+				<li class="py-2">
+					<a
+						class="text-lg font-medium lg:px-4 text-gray-600 hover:text-green-600 link-hover"
+						href="/account/register">{$t('words.register')}</a
+					>
+				</li>
+			{/if}
 
 			<li class="py-2">
 				<a

@@ -10,6 +10,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import { reach } from 'yup';
 	import { TextQuestionSchema } from '$lib/yupSchemas';
+	import { createTippy } from 'svelte-tippy';
 
 	export let selected_question: number;
 	export let data: EditorData;
@@ -26,6 +27,11 @@ SPDX-License-Identifier: MPL-2.0
 			case_sensitive: false
 		};
 	}
+
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle'
+	});
 
 	const get_empty_answer = (): TextQuizAnswer => {
 		return {
@@ -74,14 +80,15 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
-					placeholder={$t('editor.empty')}
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none"
+					placeholder={$t('editor.enter_answer')}
 				/>
 				<button
 					type="button"
 					on:click={() => {
 						answer.case_sensitive = !answer.case_sensitive;
 					}}
+					use:tippy={{ content: 'Case sensitive?', placement: 'top' }}
 				>
 					{#if answer.case_sensitive}
 						<svg

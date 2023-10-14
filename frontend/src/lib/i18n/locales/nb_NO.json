@@ -48,7 +48,8 @@
         "import_quiz_from_kahoot_and_edit": "Importer en spørrekonkurranse fra Kahoot! og rediger den i CrassQuiz",
         "completely_free_content": "ClassQuiz er helt kostnadsfritt (for brukeren), uten betalte planer eller irriterende videresending til en oppgraderingsside. Donasjoner verdsettes høyt.",
         "multilingual_content": "ClassQuiz er tilgjengelig på bokmål, engelsk, fransk, italiensk, tysk, tyrkisk, og delvis indonesisk og katalansk.",
-        "download_quizzes_content": "Spørrekonkuranser kan lastes ned som én fil og importeres når som helst, slik at du også kan flytte spørrekonkurransene dine til andre ClassQuiz-instanser."
+        "download_quizzes_content": "Spørrekonkuranser kan lastes ned som én fil og importeres når som helst, slik at du også kan flytte spørrekonkurransene dine til andre ClassQuiz-instanser.",
+        "how_does_classquiz_work": ""
     },
     "words": {
         "logout": "Logg ut",
@@ -106,7 +107,51 @@
         "question": "Spørsmål",
         "submit": "Send inn",
         "other_plural": "andre",
-        "email": "E-postadresse"
+        "email": "E-postadresse",
+        "upload": "",
+        "player_plural": "",
+        "next": "",
+        "totp": "",
+        "score": "",
+        "analytics": "",
+        "no": "",
+        "speed": "",
+        "backup_code": "",
+        "files_library": "",
+        "check_choice": "",
+        "point": "",
+        "text": "",
+        "answer_plural": "",
+        "version": "",
+        "update": "",
+        "slide": "",
+        "play_plural": "",
+        "rating": "",
+        "video": "",
+        "note": "",
+        "order": "",
+        "dislike_plural": "",
+        "info": "",
+        "results": "",
+        "view_plural": "",
+        "yes": "",
+        "point_plural": "",
+        "continue": "",
+        "like": "",
+        "dislike": "",
+        "progress": "",
+        "select": "",
+        "like_plural": "",
+        "name": "",
+        "quiztivity": "",
+        "library": "",
+        "finish": "",
+        "normal": "",
+        "selected": "",
+        "unknown": "",
+        "back": "",
+        "never": "",
+        "quiz": ""
     },
     "settings_page": {
         "repeat_password": "Gjenta passordet",
@@ -116,7 +161,10 @@
         "last_seen": "Sist sett",
         "this_session?": "Denne økten?",
         "check_location": "Sjekk posisjon",
-        "delete_this_session": "Slett denne økten"
+        "delete_this_session": "Slett denne økten",
+        "change_avatar": "",
+        "security_settings": "",
+        "add_api_key": ""
     },
     "admin_page": {
         "time_left": "Gjenværende tid",
@@ -129,7 +177,15 @@
         "start_game": "Start spillet",
         "start_by_showing_first_question": "Start ved å vise det første spørsmålet.",
         "get_results_and_stop_time": "Hent resultater og stopp tiden",
-        "stop_time": "Stopp tiden"
+        "stop_time": "Stopp tiden",
+        "stop_time_and_solutions": "",
+        "request_export_results": "",
+        "show_results": "",
+        "save_results": "",
+        "enter_answer_into_field": "",
+        "answers_submitted": "",
+        "download_export_results": "",
+        "next_question": ""
     },
     "register_page": {
         "already_have_account?": "Har du allerede en konto?",
@@ -167,7 +223,9 @@
                 }
             }
         },
-        "welcome_back": "Velkommen tilbake."
+        "welcome_back": "Velkommen tilbake.",
+        "use_backup_code": "",
+        "email_or_username": ""
     },
     "create_page": {
         "success": {
@@ -182,7 +240,24 @@
         "delete_answer": "Slett svaret",
         "right_or_true?": "Rett?",
         "not_all_links_imgur_links": "Ikke alle lenkene er Imgur-lenker.",
-        "time_in_seconds": "Antall sekunder"
+        "time_in_seconds": "Antall sekunder",
+        "check_choice_description": "",
+        "text_description": "",
+        "order_description": "",
+        "slide": {
+            "headline": "",
+            "headline_description": "",
+            "rectangle": "",
+            "rectangle_description": "",
+            "text": "",
+            "text_description": ""
+        },
+        "voting_description": "",
+        "range_description": "",
+        "empty": "",
+        "abcd_description": "",
+        "bg_image": "",
+        "no_title": ""
     },
     "import_page": {
         "visit_docs": "Besøk dokumentasjonen",
@@ -192,7 +267,9 @@
         "upload_file_ending": "Last opp filen som slutter med «.cqa»",
         "classquiz_quiz": "En ClassQuiz-spørrekonkurranse",
         "this_side_classquiz": "På denne siden kan du importere spørrekonkurranser som ble eksportert fra ClassQuiz.",
-        "url_should_look_like_this": "Nettadressen skal være utformet slik: https://create.kahoot.it/details/…"
+        "url_should_look_like_this": "Nettadressen skal være utformet slik: https://create.kahoot.it/details/…",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "password_reset_page": {
         "reset_password": "Tilbakestill passordet"
@@ -210,10 +287,22 @@
         "right_click_to_delete": "Høyreklikk på et svar for å slette det."
     },
     "uploader": {
-        "add_image": "Legg til bilde"
+        "add_image": "Legg til bilde",
+        "images_by_pixabay": "",
+        "upload_video_popup_notice": "",
+        "select_upload_type": "",
+        "upload_a_video": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": "",
+        "upload_video": ""
     },
     "dashboard": {
-        "search_for_own_quizzes": "Søk etter dine egne spørrekonkurranser"
+        "search_for_own_quizzes": "Søk etter dine egne spørrekonkurranser",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "footer": {
         "self_ads": "Med ❤️ av {{mawoka_link}} og hjelp fra {{others_link}}.",
@@ -229,6 +318,156 @@
         "2nd_place": "Andreplass",
         "end_sentence": "Det var det. Som man svarer får man nye spørsmål.",
         "with_out_of": "med {{correct_questions}} riktige av {{total_question_count}}",
-        "3rd place": "Tredjeplass"
+        "3rd place": "Tredjeplass",
+        "join_description": "",
+        "points_added": "",
+        "final_result_rank": "",
+        "your_score": "",
+        "join_by_entering_code": ""
+    },
+    "result_page": {
+        "correct_answer_plural": "",
+        "player_score": "",
+        "correct_answer": "",
+        "time_taken": "",
+        "player_name": "",
+        "average_score": "",
+        "custom_field": ""
+    },
+    "file_dashboard": {
+        "unset": "",
+        "filename_word": "",
+        "imported": "",
+        "filename": "",
+        "missing": "",
+        "delete_image": "",
+        "size": "",
+        "storage_usage": "",
+        "alt_text": "",
+        "edit_details": "",
+        "uploaded": "",
+        "not_available": "",
+        "caption": "",
+        "edit_the_image": ""
+    },
+    "avatar_settings": {
+        "accessories_type": "",
+        "go_back": "",
+        "hair_color": "",
+        "clothe_graphic_type": "",
+        "facial_hair_type": "",
+        "facial_hair_color": "",
+        "skin_color": "",
+        "clothe_color": "",
+        "thats_you": "",
+        "start_over": "",
+        "clothe_type": "",
+        "mouth_type": "",
+        "top_type": "",
+        "eyebrow_type": "",
+        "hat_color": ""
+    },
+    "quiztivity": {
+        "editor": {
+            "add_new": "",
+            "move_left": "",
+            "shares": {
+                "never_expires": "",
+                "expires_on": "",
+                "add_new_share": ""
+            },
+            "title_placeholder": "",
+            "delete": "",
+            "open_shares_menu": "",
+            "select_page_type": "",
+            "move_right": ""
+        },
+        "share_expired": "",
+        "play": {
+            "memory": {
+                "try_count": ""
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "",
+                "add_pair": "",
+                "upload_image": ""
+            }
+        }
+    },
+    "results_page": {
+        "no_results_so_far": "",
+        "quiz_title": "",
+        "player_count": "",
+        "date_played": "",
+        "general_overview": {
+            "sentence": ""
+        }
+    },
+    "security_settings": {
+        "get_backup_code": "",
+        "enable_totp": "",
+        "disable_totp": "",
+        "totp_setup": {
+            "enter_as_secret_if_no_see_code": "",
+            "scan_to_set_up": "",
+            "totp_setup": "",
+            "do_not_forget_backup_code": ""
+        },
+        "backup_code": "",
+        "2fa_deactivated": "",
+        "backup_codes": {
+            "download_code": "",
+            "your_backup_code": "",
+            "save_somewhere_save": ""
+        },
+        "totp": "",
+        "totp_unavailable": "",
+        "2fa_activated": "",
+        "webauthn": "",
+        "add_security_key": "",
+        "activate_2fa": "",
+        "webauthn_unavailable": "",
+        "totp_available": "",
+        "webauthn_available": ""
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
+    },
+    "view_quiz_page": {
+        "made_by": "",
+        "view_on_kahoot": ""
+    },
+    "start_game": {
+        "old_school_mode_description": "",
+        "old_school_mode": "",
+        "start_game": "",
+        "captcha_message": "",
+        "normal_mode_description": ""
+    },
+    "video_uploader": {
+        "time_remaining": "",
+        "time_elapsed": ""
+    },
+    "navbar": {
+        "donate": ""
+    },
+    "public_user_page": {
+        "no_original_quizzes": "",
+        "joined_on": ""
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": ""
+        }
     }
 }

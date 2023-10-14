@@ -8,6 +8,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { EditorData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
+	import { createTippy } from 'svelte-tippy';
 
 	const { t } = getLocalization();
 
@@ -18,6 +19,10 @@ SPDX-License-Identifier: MPL-2.0
 	export let data: EditorData;
 
 	let custom_bg_color = Boolean(data.background_color);
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle'
+	});
 
 	$: data.background_color = custom_bg_color ? data.background_color : undefined;
 </script>
@@ -45,10 +50,10 @@ SPDX-License-Identifier: MPL-2.0
 		>
 			<div class="flex justify-center pt-10 w-full">
 				<!--<input
-					type="text"
-					bind:value={data.title}
-					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 text-lg font-semibold dark:bg-gray-500"
-				/>-->
+				type="text"
+				bind:value={data.title}
+				class="p-3 rounded-lg border-gray-500 border text-center w-1/3 text-lg font-semibold dark:bg-gray-500"
+			/>-->
 				{#await import('$lib/inline-editor.svelte')}
 					<Spinner my_20={false} />
 				{:then c}
@@ -58,8 +63,9 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex justify-center pt-10 w-full max-h-32">
 				<textarea
 					type="text"
+					placeholder="Description"
 					bind:value={data.description}
-					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500"
+					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500 outline-none focus:shadow-2xl transition-all"
 				/>
 			</div>
 
@@ -134,12 +140,15 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="grid grid-cols-3 w-fit h-fit gap-4">
 					<div
 						class="max-w-full transition-all"
-						class:pointer-events-none={custom_bg_color}
 						class:opacity-50={custom_bg_color}
+						use:tippy={{ content: 'use the standard background', placement: 'left' }}
 					>
-						<div class="bg-gray-200 rounded-lg w-full h-full p-1">
+						<div
+							class="bg-gray-200 rounded-lg w-full h-full p-1"
+							class:pointer-events-none={custom_bg_color}
+						>
 							<span
-								class="inline-block w-full h-full bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] dark:bg-[#0f2702] dark:from-[#0f2702] dark:via-[#0f2702] dark:to[#0f2702]"
+								class="inline-block w-full h-full bg-[#d6edc9] dark:bg-[#4e6e58]"
 							/>
 						</div>
 					</div>
@@ -160,11 +169,12 @@ SPDX-License-Identifier: MPL-2.0
 						</label>
 					</div>
 					<div
-						class:pointer-events-none={!custom_bg_color}
 						class:opacity-50={!custom_bg_color}
 						class="transition-all"
+						use:tippy={{ content: 'Use your own background color', placement: 'right' }}
 					>
 						<input
+							class:pointer-events-none={!custom_bg_color}
 							type="color"
 							class="rounded-lg p-1 min-h-full hover:cursor-pointer border-black border"
 							bind:value={data.background_color}
@@ -182,8 +192,8 @@ SPDX-License-Identifier: MPL-2.0
 							data.background_image = undefined;
 						}}
 						class="mt-10 bg-red-500 p-2 rounded-lg border-2 border-black transition hover:bg-red-400"
-						>Remove Background-Image</button
-					>
+						>Remove Background-Image
+					</button>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<div class="pt-10">

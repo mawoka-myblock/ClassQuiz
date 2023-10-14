@@ -111,12 +111,25 @@
         "library": "Bibliothèque",
         "speed": "Vitesse",
         "upload": "Charger",
-        "files_library": "Bibliothèque de fichiers"
+        "files_library": "Bibliothèque de fichiers",
+        "unknown": " ",
+        "view_plural": "Vues",
+        "version": "Version",
+        "update": "Mettre à jour",
+        "never": "Jamais",
+        "analytics": "",
+        "play_plural": "",
+        "rating": "",
+        "dislike_plural": "",
+        "info": "",
+        "like": "",
+        "dislike": "",
+        "like_plural": ""
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz comme Kahoot! pour les étudiants, libre et open-source",
+            "description": "ClassQuiz est une application de quiz permettant d'apprendre de manière interactive pour les étudiants, libre et open-source",
             "title": "Accueil"
         },
         "features_description": {
@@ -149,7 +162,7 @@
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
-        "no_tracking_content": "Kahoot! vous trace et envoie vos données à des services tiers, mais pas Classquiz.",
+        "no_tracking_content": "Kahoot! vous suit et envoie ces informations à des tiers, mais pas ClassQuiz.",
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
@@ -168,7 +181,7 @@
     "overview_page": {
         "created_at": "Crée le",
         "question_count": "Nombre de question",
-        "no_quizzes": "Cliquez sur le bouton \"Créer\", ou importer un quiz depuis Kahoot! pour commencer."
+        "no_quizzes": "Cliquez sur le bouton \"Créer\" ou importez un quiz pour commencer."
     },
     "edit_page": {
         "success_update_title": "Quiz mis à jour.",
@@ -220,7 +233,9 @@
         "classquiz_quiz": "Un quiz ClassQuiz",
         "upload_file_ending": "Téléchargez le fichier se terminant par .cqa",
         "url_should_look_like_this": "L'URL devrait ressembler à ceci : https://create.kahoot.it/details/...",
-        "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz."
+        "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz.",
+        "this_side_classquiz_excel": "",
+        "download_template_here": ""
     },
     "admin_page": {
         "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
@@ -277,14 +292,17 @@
         "join_by_entering_code": "Participez en entrant le code suivant",
         "points_added": "Points ajoutés",
         "your_score": "Votre score : {{score}}",
-        "final_result_rank": "{{place}} : {{nom d'utilisateur}} avec {{points}} points"
+        "final_result_rank": "{{place}} : {{username}} avec {{points}} points"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
         "right_click_to_delete": "Faites un clic droit sur une réponse pour la supprimer !"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Cherchez dans vos quiz"
+        "search_for_own_quizzes": "Cherchez dans vos quiz",
+        "commandpalette_notice": "",
+        "views_n_plays": "",
+        "info_analytics": ""
     },
     "footer": {
         "more_details_here": "Plus de détails ici",
@@ -300,7 +318,12 @@
         "select_upload_type": "Sélectionnez le type de téléchargement",
         "upload_a_video": "Télécharger une vidéo",
         "upload_video": "Télécharger la vidéo",
-        "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations."
+        "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations.",
+        "images_by_pixabay": "",
+        "next_page": "",
+        "visit_pixabay": "",
+        "previous_page": "",
+        "search_english_only": ""
     },
     "quiztivity": {
         "editor": {
@@ -435,5 +458,16 @@
     },
     "navbar": {
         "donate": "Faire un don"
+    },
+    "controllers": {
+        "last_seen": "",
+        "cancel_update": "",
+        "add_new_controller": "",
+        "player_name": "",
+        "controller_name": "",
+        "already_latest_version": "",
+        "update_from_to": "",
+        "first_seen": "",
+        "version_overview": ""
     }
 }

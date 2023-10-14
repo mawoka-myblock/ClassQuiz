@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { EditorData, OrderQuizAnswer } from '$lib/quiz_types';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { get_foreground_color } from '$lib/helpers.ts';
 
 	const { t } = getLocalization();
 
@@ -50,6 +51,19 @@ SPDX-License-Identifier: MPL-2.0
 			color: data.questions[selected_question].answers[i].color ?? undefined,
 			id: [i]
 		};
+	}
+	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
+	const set_colors_if_unset = () => {
+		for (let i = 0; i < data.questions[selected_question].answers.length; i++) {
+			if (!data.questions[selected_question].answers[i].color) {
+				data.questions[selected_question].answers[i].color = default_colors[i];
+			}
+		}
+	};
+	$: {
+		set_colors_if_unset();
+		data;
+		selected_question;
 	}
 </script>
 
@@ -140,8 +154,10 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent"
-					style="background-color: {answer.color ?? 'transparent'}"
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none"
+					style="background-color: {answer.color}; color: {get_foreground_color(
+						answer.color
+					)}"
 					placeholder={$t('editor.empty')}
 				/>
 				<input

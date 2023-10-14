@@ -76,11 +76,27 @@ SPDX-License-Identifier: MPL-2.0
 			);
 		}
 	};
+
+	const on_parent_click = (e: Event) => {
+		if (e.target !== e.currentTarget) {
+			return;
+		}
+		quiz_id = null;
+	};
+	const close_start_game_if_esc_is_pressed = (key: KeyboardEvent) => {
+		if (key.code === 'Escape') {
+			quiz_id = null;
+		}
+	};
+	onMount(() => {
+		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
+	});
 </script>
 
 <div
 	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black bg-opacity-60 z-50 text-black"
 	transition:fade={{ duration: 100 }}
+	on:click={on_parent_click}
 >
 	<div
 		class="w-5/6 h-5/6 bg-black m-auto rounded-lg shadow-lg p-4 flex flex-col"

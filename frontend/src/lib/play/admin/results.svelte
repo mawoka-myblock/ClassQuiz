@@ -11,6 +11,8 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
 	import type { Question } from '$lib/quiz_types';
+	import { QuizQuestionType } from '$lib/quiz_types';
+
 	const { t } = getLocalization();
 
 	export let data;
@@ -127,7 +129,9 @@ SPDX-License-Identifier: MPL-2.0
 			</table>
 		</div>
 	</div>
-	<div class="mt-12">
-		<VotingResults data={new_data} {question} />
-	</div>
+	{#if [QuizQuestionType.ABCD, QuizQuestionType.VOTING, QuizQuestionType.TEXT].includes(question.type)}
+		<div class="mt-12">
+			<VotingResults data={new_data} {question} />
+		</div>
+	{/if}
 </div>
