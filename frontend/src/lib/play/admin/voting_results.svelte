@@ -42,7 +42,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex gap-4">
 			{#each quiz_answers as answer, i}
 				<div
-					class="w-20 self-end flex justify-center"
+					class="w-20 self-end flex justify-center border border-black"
 					style="height: {(sorted_data[answer] * 20) /
 						data.length}rem; background-color: {quiz_colors[i]
 						? quiz_colors[i]
