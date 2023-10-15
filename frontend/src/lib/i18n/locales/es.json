@@ -49,7 +49,9 @@
         "community_driven_content": "¡ClassQuiz depende de su comunidad para financiar, probar ideas, solicitar nuevas funciones, traducciones y más! ¡También puedes ser parte de la comunidad ClassQuiz!",
         "community_driven": "Impulsado por la comunidad",
         "download_quizzes_content": "Los cuestionarios pueden descargarse como un archivo e importarse en cualquier momento. Esto también te permite mover tus cuestionarios a otras instancias de ClassQuiz.",
-        "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?"
+        "how_does_classquiz_work": "¿Cómo funciona ClassQuiz?",
+        "no_player_limit": "Sin límite de jugadores",
+        "no_player_limit_content": "ClassQuiz no tiene un límite artificial de jugadores. En teoría, más de 1000 jugadores podrían jugar al mismo cuestionario, pero se ha probado con un máximo de 300 jugadores por cuestionario."
     },
     "create_page": {
         "success": {
@@ -282,7 +284,10 @@
         "order_description": "Las respuestas se pueden poner en el orden correcto",
         "text_description": "Los jugadores pueden ingresar texto",
         "range_description": "Se puede seleccionar un rango de números con un control deslizante",
-        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos"
+        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos",
+        "need_more_help": "¿Necesitas más ayuda?",
+        "enter_answer": "Escribe una respuesta",
+        "visit_docs": "Visita los documentos."
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
@@ -384,11 +389,11 @@
         "webauthn_unavailable": "WebAuthn no está disponible",
         "webauthn_available": "WebAuthn está disponible",
         "add_security_key": "Agregar una clave de seguridad",
-        "totp": "contraseña de un solo uso (OTP)",
+        "totp": "TOTP",
         "totp_available": "Totp está disponible",
         "totp_unavailable": "Totp no está disponible",
         "disable_totp": "Desactivar Totp",
-        "enable_totp": "Activar Totp"
+        "enable_totp": "Activar TOTP"
     },
     "view_quiz_page": {
         "made_by": "Hecho por",
@@ -453,7 +458,7 @@
         "alt_text": "Texto alternativo / Leyenda",
         "caption": "Leyenda: {{caption}}",
         "filename": "Nombre del archivo: {{filename}}",
-        "storage_usage": "Has utilizado {{used}} Mib de {{total}} MiB del almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento.",
+        "storage_usage": "Has utilizado {{used}} MiB de {{total}} MiB de almacenamiento. Eso equivale al {{percent}}% de tu almacenamiento.",
         "imported": "Importado: {{yes_or_no}}"
     },
     "video_uploader": {

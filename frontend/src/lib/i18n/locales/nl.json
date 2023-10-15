@@ -381,7 +381,7 @@
         },
         "2fa_deactivated": "Tweestapsauthenticatie is gedeactiveerd",
         "add_security_key": "Beveiligingssleutel toevoegen",
-        "totp": "Totp",
+        "totp": "TOTP",
         "totp_available": "Totp is beschikbaar",
         "totp_unavailable": "Totp is niet beschikbaar",
         "disable_totp": "Totp uitschakelen",
