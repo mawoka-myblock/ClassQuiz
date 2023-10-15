@@ -407,7 +407,7 @@
         "player_count": "Spillerantall",
         "date_played": "Dato spilt",
         "general_overview": {
-            "sentence": "Spørrekonkurransen «{{title}}\"» ble spilt {{date}} og hadde {{player_count}} spillere med gjen. poengsum på {{average_score}}."
+            "sentence": "Spørrekonkurransen «{{title}}» ble spilt {{date}} og hadde {{player_count}} spillere med gjen. poengsum på {{average_score}}."
         }
     },
     "security_settings": {
