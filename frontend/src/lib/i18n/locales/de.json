@@ -223,7 +223,10 @@
         "order_description": "Antworten müssen in die richtige Reihenfolge gebracht werden",
         "text_description": "Spieler können text eingeben",
         "range_description": "Ein Zahlenbereich kann mit einem Schieberegler ausgewählt werden",
-        "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden"
+        "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden",
+        "need_more_help": "Benötigst du mehr Hilfe?",
+        "enter_answer": "Gib eine Antwort ein",
+        "visit_docs": "Besuche die Dokumentation."
     },
     "import": {
         "need_help": "",
@@ -321,7 +324,7 @@
         "unknown_error_text": "Das sollte nicht passieren. Es ist wahrscheinlich meine Schuld, oder du hast eine magische Fähigkeit, Fehler zu erschaffen..."
     },
     "uploader": {
-        "add_image": "Bild hinzufügen",
+        "add_image": "Medien hinzufügen",
         "upload_a_video": "Ein Video hochladen",
         "upload_video": "Video hochladen",
         "upload_video_popup_notice": "Das Popup ist offen; guck dir es für weitere Infos an",
@@ -377,9 +380,9 @@
         "webauthn_available": "Webauthn ist verfügbar",
         "webauthn_unavailable": "Webauthn ist nicht verfügbar",
         "add_security_key": "Sicherheitsschlüssel hinzufügen",
-        "totp": "Totp",
+        "totp": "TOTP",
         "totp_available": "Totp ist verfügbar",
-        "enable_totp": "Totp aktivieren",
+        "enable_totp": "TOTP aktivieren",
         "backup_codes": {
             "your_backup_code": "Dein Backup-Code",
             "save_somewhere_save": "Speichere ihn an einem sicheren Ort!",

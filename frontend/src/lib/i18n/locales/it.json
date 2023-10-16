@@ -362,7 +362,7 @@
     },
     "security_settings": {
         "get_backup_code": "Ottieni codice backup",
-        "enable_totp": "Abilita Totp",
+        "enable_totp": "Abilita TOTP",
         "disable_totp": "Disabilita Totp",
         "backup_code": "Codice backp",
         "2fa_deactivated": "L'autenticazione a due fattori è disattivata",
