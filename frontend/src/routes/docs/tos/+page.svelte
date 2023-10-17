@@ -43,7 +43,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	<h2>What doesn't belong on ClassQuiz</h2>
 	<p>
-		The owner may delete, change and modify any quiz. Quizzes with any phonograph, illegal
+		The owner may delete, change and modify any quiz. Quizzes with any pornography, illegal
 		content or propaganda <b>have to be reported</b> and will be reviewed and deleted, if it's
 		against these rules. This platform is made to share educational content, which can include
 		anything, but <b>NO PORNOGRAPHY, ILLEGAL CONTENT or PROPAGANDA</b>.
