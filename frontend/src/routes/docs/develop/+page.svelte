@@ -82,8 +82,7 @@ SPDX-License-Identifier: MPL-2.0
 				</li>
 				<li>
 					Start the background worker:
-					<pre><code>pipenv run arq classquiz.worker.WorkerSettings</code
-						></pre>
+					<pre><code>pipenv run arq classquiz.worker.WorkerSettings</code></pre>
 				</li>
 				<li>
 					Start the frontend-dev-server:

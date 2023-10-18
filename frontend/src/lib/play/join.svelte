@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script lang='ts'>
+<script lang="ts">
 	import { socket } from '$lib/socket';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -28,8 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 	let hcaptcha = {
 		execute: async (_a, _b) => ({ response: '' }), // eslint-disable-line @typescript-eslint/no-unused-vars
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		render: (_a, _b) => {
-		} // eslint-disable-line @typescript-eslint/no-unused-vars
+		render: (_a, _b) => {} // eslint-disable-line @typescript-eslint/no-unused-vars
 	};
 	let hcaptchaWidgetID;
 
@@ -52,8 +51,7 @@ SPDX-License-Identifier: MPL-2.0
 			hcaptcha = {
 				execute: async () => ({ response: '' }),
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
-				render: () => {
-				}
+				render: () => {}
 			};
 		}
 	});
@@ -118,7 +116,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 		let captcha_resp: string;
 		if (Cookies.get('kicked')) {
-			console.log('%cYou\'re Banned!', 'font-size:6rem');
+			console.log("%cYou're Banned!", 'font-size:6rem');
 			return;
 		}
 
@@ -153,7 +151,7 @@ SPDX-License-Identifier: MPL-2.0
 					// eslint-disable-next-line no-undef
 					grecaptcha
 						.execute(import.meta.env.VITE_RECAPTCHA, { action: 'submit' })
-						.then(function(token) {
+						.then(function (token) {
 							socket.emit('join_game', {
 								username: username,
 								game_pin: game_pin,
@@ -185,65 +183,65 @@ SPDX-License-Identifier: MPL-2.0
 
 <svelte:head>
 	{#if captcha_enabled && hcaptchaSitekey}
-		<script src='https://js.hcaptcha.com/1/api.js' async defer></script>
+		<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 	{/if}
 	{#if import.meta.env.VITE_RECAPTCHA && captcha_enabled}
 		<script
-			src='https://www.google.com/recaptcha/api.js?render={import.meta.env.VITE_RECAPTCHA}'
+			src="https://www.google.com/recaptcha/api.js?render={import.meta.env.VITE_RECAPTCHA}"
 		></script>
 	{/if}
 </svelte:head>
 
 {#if game_pin === '' || game_pin.length < 6}
-	<div class='flex flex-col justify-center align-center w-screen h-screen'>
-		<form on:submit|preventDefault class='flex-col flex justify-center align-center mx-auto'>
-			<h1 class='text-lg text-center'>{$t('words.game_pin')}</h1>
+	<div class="flex flex-col justify-center align-center w-screen h-screen">
+		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
+			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
-				class='border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all'
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={game_pin}
-				maxlength='6'
-				inputmode='numeric'
+				maxlength="6"
+				inputmode="numeric"
 			/>
 			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
 
 			<br />
-			<div class='mt-2'>
+			<div class="mt-2">
 				<BrownButton disabled={game_pin.length < 6}>{$t('words.submit')}</BrownButton>
 			</div>
 		</form>
 	</div>
 {:else}
-	<div class='flex flex-col justify-center align-center w-screen h-screen'>
+	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form
 			on:submit|preventDefault={setUsername}
-			class='flex-col flex justify-center align-center mx-auto'
+			class="flex-col flex justify-center align-center mx-auto"
 		>
-			<h1 class='text-lg text-center'>{$t('words.username')}</h1>
+			<h1 class="text-lg text-center">{$t('words.username')}</h1>
 			<input
-				class='border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all'
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={username}
-				maxlength='17'
+				maxlength="17"
 			/>
 			{#if custom_field}
-				<h1 class='text-lg text-center'>{custom_field}</h1>
+				<h1 class="text-lg text-center">{custom_field}</h1>
 				<input
-					class='border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all'
+					class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
 					bind:value={custom_field_value}
 				/>
 			{/if}
 
-			<div class='mt-2'>
+			<div class="mt-2">
 				<BrownButton disabled={username.length <= 3} on:click={setUsername}
-				>{$t('words.submit')}</BrownButton
+					>{$t('words.submit')}</BrownButton
 				>
 			</div>
 		</form>
 	</div>
 {/if}
 <div
-	id='hcaptcha'
-	class='h-captcha'
+	id="hcaptcha"
+	class="h-captcha"
 	data-sitekey={hcaptchaSitekey}
-	data-size='invisible'
-	data-theme='dark'
+	data-size="invisible"
+	data-theme="dark"
 />

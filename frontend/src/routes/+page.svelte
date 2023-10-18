@@ -80,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
 	const classquiz_reasons = [
 		{
 			headline: $t('index_page.no_player_limit'),
-			content: $t('index_page.no_player_limit_content'),
+			content: $t('index_page.no_player_limit_content')
 		},
 		{
 			headline: $t('index_page.no_tracking'),
