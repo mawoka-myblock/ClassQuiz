@@ -81,6 +81,11 @@ SPDX-License-Identifier: MPL-2.0
 						></pre>
 				</li>
 				<li>
+					Start the background worker:
+					<pre><code>pipenv run arq classquiz.worker.WorkerSettings</code
+						></pre>
+				</li>
+				<li>
 					Start the frontend-dev-server:
 					<pre><code>cd frontend && API_URL=http://localhost:8080 pnpm dev</code></pre>
 				</li>
