@@ -147,10 +147,10 @@ SPDX-License-Identifier: MPL-2.0
 <div class="h-screen w-screen">
 	{#if game_mode === 'normal'}
 		<div
-			class="flex flex-col justify-start w-screen"
+			class="flex flex-col justify-start"
 			style="height: {question.image ? '33.333333' : '16.666667'}%"
 		>
-			<h1 class="text-3xl text-center text-black dark:text-white mt-2">
+			<h1 class="lg:text-2xl text-lg text-center text-black dark:text-white mt-2 break-normal mb-2">
 				{@html question.question}
 			</h1>
 			{#if question.image !== null && game_mode !== 'kahoot'}
@@ -165,7 +165,7 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 	{#if timer_res !== '0'}
 		{#if question.type === QuizQuestionType.ABCD || question.type === QuizQuestionType.VOTING}
-			<div class="w-full relative" style="height: {get_div_height()}%">
+			<div class="w-full relative h-full" style="height: {get_div_height()}%">
 				<div
 					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
 				>
