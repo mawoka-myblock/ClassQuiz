@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script lang='ts'>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
 
@@ -28,7 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 	$: console.log(data, 'sorted, fina');
 
 	let player_names;
-	$: player_names = Object.keys(data).sort(function(a, b) {
+	$: player_names = Object.keys(data).sort(function (a, b) {
 		return data[b] - data[a];
 	});
 
@@ -54,8 +54,8 @@ SPDX-License-Identifier: MPL-2.0
 			{#if i <= player_count_or_five - 1}
 				<p
 					in:fly={{ y: -300, delay: player_count_or_five * 1200 - (i + 1) * 1000 }}
-					style='font-size: {player_count_or_five - i / 2}rem'
-					class='text-center'
+					style="font-size: {player_count_or_five - i / 2}rem"
+					class="text-center"
 				>
 					{$t('play_page.final_result_rank', {
 						place: i + 1,
@@ -67,12 +67,12 @@ SPDX-License-Identifier: MPL-2.0
 		{/each}
 	</div>
 	{#if data[username]}
-		<div class='fixed bottom-0 left-0 flex justify-center w-full mb-6'>
-			<div class='mx-auto p-2 border-[#B07156] border-4 rounded'>
-				<p class='text-center'>{$t('play_page.your_score', { score: data[username] })}</p>
+		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
+			<div class="mx-auto p-2 border-[#B07156] border-4 rounded">
+				<p class="text-center">{$t('play_page.your_score', { score: data[username] })}</p>
 				{#each player_names as player, i}
 					{#if player === username}
-						<p class='text-center'>{$t('play_page.your_place', { place: i+1 })}</p>
+						<p class="text-center">{$t('play_page.your_place', { place: i + 1 })}</p>
 					{/if}
 				{/each}
 			</div>
