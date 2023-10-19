@@ -291,7 +291,8 @@
         "join_description": "Join at {{url}} and enter {{pin}}.",
         "join_by_entering_code": "Join by entering the following code",
         "points_added": "Points added",
-        "your_place": "You're on place {{place}}!"
+        "your_place": "You're on place {{place}}!",
+        "players_waiting": "{{count}} players are waiting"
     },
     "editor_page": {
         "add_an_answer": "Add an answer",
