@@ -18,6 +18,7 @@ import pt from './locales/pt.json';
 import uk from './locales/uk.json';
 import nl from './locales/nl.json';
 import hu from './locales/hu.json';
+import vi from './locales/vi.json';
 // import uz from './locales/uz.json'
 // import zh_Hans from './locales/zh_Hans.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -79,6 +80,7 @@ export class I18nService {
 		this.i18n.addResourceBundle('uk', 'translation', uk);
 		this.i18n.addResourceBundle('nl', 'translation', nl);
 		this.i18n.addResourceBundle('hu', 'translation', hu);
+		this.i18n.addResourceBundle('vi', 'translation', vi);
 		// this.i18n.addResourceBundle('uz', 'translation', uz);
 	}
 
