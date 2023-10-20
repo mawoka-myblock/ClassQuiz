@@ -133,6 +133,11 @@ SPDX-License-Identifier: MPL-2.0
 			code: 'hu',
 			name: 'Magyar',
 			flag: '🇭🇺'
+		},
+		{
+			code: 'vi',
+			name: 'tiếng Việt',
+			flag: '🇻🇳'
 		}
 	];
 	const get_selected_language = (): string => {
