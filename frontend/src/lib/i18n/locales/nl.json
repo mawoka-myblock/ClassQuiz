@@ -49,7 +49,8 @@
         "download_quizzes": "Download Quizzen",
         "download_quizzes_content": "Quizzen kunnen als één bestand worden gedownload en op elk moment worden geïmporteerd. Zo kun je ook je testen verplaatsen naar andere ClassQuiz instanties.",
         "quiz_results_downloadable_content": "Quiz-resultaten kunnen gemakkelijk worden geëxporteerd naar een Excel-spreadsheet. (Wist niet dat anderen dat niet konden)",
-        "how_does_classquiz_work": "Hoe werkt ClassQuiz eigenlijk?"
+        "how_does_classquiz_work": "Hoe werkt ClassQuiz eigenlijk?",
+        "no_player_limit": "Geen spelerslimiet"
     },
     "overview_page": {
         "created_at": "Gemaakt op",
