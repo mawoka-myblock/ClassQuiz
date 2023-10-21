@@ -49,7 +49,9 @@
         "download_quizzes_content": "Quiz können als einzige Datei heruntergeladen werden und jederzeit importiert werden, sodass du auch einfach auf eine andere Instanz von ClassQuiz umziehen kannst!",
         "community_driven": "Von der Community betrieben",
         "download_quizzes": "Quiz herunterladen",
-        "how_does_classquiz_work": "Wie funktioniert ClassQuiz überhaupt?"
+        "how_does_classquiz_work": "Wie funktioniert ClassQuiz überhaupt?",
+        "no_player_limit": "Kein Spieler-Limit",
+        "no_player_limit_content": "ClassQuiz hat kein künstliches Spieler-Limit. In der Theorie, 1000+ Spielerinnen und Spieler könnten ein Quiz gleichzeitig spielen, in der Praxis ist es aber nur für 300 Spielerinnen und Spieler pro Quiz getestet."
     },
     "overview_page": {
         "created_at": "Erstellt am",
@@ -252,7 +254,7 @@
         "show_results": "Ergebnisse anzeigen",
         "enter_answer_into_field": "Gib die Antwort in das Eingabefeld ein!",
         "stop_time_and_solutions": "Zeit stoppen und Ergebnisse zeigen",
-        "answers_submitted": "{{answer_count}} Antworten abgegen",
+        "answers_submitted": "{{answer_count}} Antworten abgegeben",
         "request_export_results": "Frage den Ergebnis-Download an",
         "download_export_results": "Ergebnisse herunterladen"
     },
@@ -381,7 +383,7 @@
         "webauthn_unavailable": "Webauthn ist nicht verfügbar",
         "add_security_key": "Sicherheitsschlüssel hinzufügen",
         "totp": "TOTP",
-        "totp_available": "Totp ist verfügbar",
+        "totp_available": "TOTP ist verfügbar",
         "enable_totp": "TOTP aktivieren",
         "backup_codes": {
             "your_backup_code": "Dein Backup-Code",
@@ -392,13 +394,13 @@
             "do_not_forget_backup_code": "Vergiss nicht, deinen Backup-Code zu speichern!",
             "scan_to_set_up": "Scanne diesen QR-Code um Totp einzurichten",
             "enter_as_secret_if_no_see_code": "Gib dieses Geheimnis ein, wenn du den QR-Code nicht scannen kannst",
-            "totp_setup": "Totp-Einrichtung"
+            "totp_setup": "TOTP-Einrichtung"
         },
         "backup_code": "Backup-Code",
         "get_backup_code": "Backup-Code erhalten",
         "2fa_deactivated": "Zwei-Faktor-Authentifizierung ist deaktiviert",
-        "totp_unavailable": "Totp ist nicht verfügbar",
-        "disable_totp": "Totp deaktivieren"
+        "totp_unavailable": "TOTP ist nicht verfügbar",
+        "disable_totp": "TOTP deaktivieren"
     },
     "view_quiz_page": {
         "made_by": "Erstellt von",
@@ -453,7 +455,7 @@
         "not_available": "Nicht verfügbar",
         "missing": "NICHT VORHANDEN!",
         "unset": "Unbestimmt",
-        "size": "Größe: {{size}} Mib",
+        "size": "Größe: {{size}} MiB",
         "caption": "Beschreibung: {{caption}}",
         "filename": "Dateiname: {{filename}}",
         "uploaded": "Hochgeladen am: {{date}}",
@@ -461,7 +463,7 @@
         "edit_details": "Details bearbeiten",
         "edit_the_image": "Bild bearbeiten",
         "filename_word": "Dateiname",
-        "storage_usage": "Du hast {{used}} Mib von {{total}} Mib benutzt. Das entspricht {{percent}}% deines Speichers.",
+        "storage_usage": "Du hast {{used}} MiB von {{total}} MiB benutzt. Das entspricht {{percent}}% deines Speichers.",
         "delete_image": "Bild löschen",
         "alt_text": "Alternativtext / Beschreibung",
         "imported": "Importiert: {{yes_or_no}}"
