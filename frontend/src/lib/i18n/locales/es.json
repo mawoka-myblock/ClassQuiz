@@ -245,7 +245,9 @@
         "your_score": "Tú puntuación: {{score}}",
         "join_description": "Únete en {{url}} e ingresa {{pin}}.",
         "join_by_entering_code": "Únete ingresando el siguiente código",
-        "points_added": "Puntos agregados"
+        "points_added": "Puntos agregados",
+        "players_waiting": "{{count}} jugadores esperando",
+        "your_place": "¡Estás en {{place}}!"
     },
     "editor_page": {
         "right_click_to_delete": "Haz clic con el botón derecho en una respuesta para eliminarla!",
