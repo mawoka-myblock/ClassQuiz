@@ -14,6 +14,8 @@ SPDX-License-Identifier: MPL-2.0
 	export let questions: Question[];
 	export let open: boolean;
 
+	export let selected_question: number;
+
 	const { t } = getLocalization();
 	onMount(() => {
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
@@ -87,6 +89,7 @@ SPDX-License-Identifier: MPL-2.0
 			answers: question_types[index].answers
 		};
 		questions = [...questions, { ...empty_question }];
+		selected_question = questions.length - 1;
 		open = false;
 	};
 </script>

@@ -156,7 +156,7 @@ SPDX-License-Identifier: MPL-2.0
 				type="button"
 				on:click={() => {
 					if (confirm('Do you really want to delete this Question?')) {
-						selected_question = selected_question - 1;
+						selected_question = -1;
 						data.questions.splice(index, 1);
 						data.questions = data.questions;
 					}
@@ -323,5 +323,9 @@ SPDX-License-Identifier: MPL-2.0
 	</div>
 </div>
 {#if add_new_question_popup_open}
-	<AddNewQuestionPopup bind:questions={data.questions} bind:open={add_new_question_popup_open} />
+	<AddNewQuestionPopup
+		bind:questions={data.questions}
+		bind:open={add_new_question_popup_open}
+		bind:selected_question
+	/>
 {/if}
