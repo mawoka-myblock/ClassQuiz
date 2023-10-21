@@ -9,12 +9,14 @@ SPDX-License-Identifier: MPL-2.0
 	import ControllerCodeDisplay from '$lib/components/controller/code.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
+	import {fade} from 'svelte/transition';
 
 	export let game_pin: string;
 	export let players;
 	export let socket;
-
 	export let cqc_code: string;
+
+	let fullscreen_open = false
 	const { t } = getLocalization();
 	let play_music = false;
 
@@ -50,9 +52,10 @@ SPDX-License-Identifier: MPL-2.0
 			</p>
 		</div>
 		<img
+			on:click={() => fullscreen_open = true}
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
-			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded"
+			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded hover:cursor-pointer"
 		/>
 		{#if cqc_code}
 			<div class="m-auto">
@@ -108,3 +111,17 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	</div>
 </div>
+
+{#if fullscreen_open}
+	<div
+		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 fle p-2"
+		transition:fade={{ duration: 80 }}
+		on:click={() => (fullscreen_open = false)}
+	>
+		<img
+			alt="QR code to join the game"
+			src="/api/v1/utils/qr/{game_pin}"
+			class="object-contain rounded m-auto h-full bg-white"
+		/>
+	</div>
+{/if}
