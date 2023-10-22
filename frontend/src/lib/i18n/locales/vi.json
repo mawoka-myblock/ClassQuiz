@@ -192,13 +192,15 @@
         "2nd_place": "Hạng nhì",
         "join_description": "Tham gia tại {{url}} và nhập {{pin}}.",
         "1st_place": "Hạng nhất",
-        "points_added": "Đã cộng điểm",
-        "final_result_rank": "{{place}}: {{username}} với{{points}} điểm",
+        "points_added": "Điểm cộng",
+        "final_result_rank": "{{place}}: {{username}} với {{points}} điểm",
         "your_score": "Điểm của bạn: {{score}}",
         "end_sentence": "Đó là nó! Đây là bài kiểm tra.",
         "with_out_of": "Với {{correct_questions}} câu trả lời đúng trong tổng số {{total_question_count}} câu hỏi",
-        "3rd place": "Hạng 3",
-        "join_by_entering_code": "Tham gia bằng cách nhập mã sau"
+        "3rd place": "Hạng ba",
+        "join_by_entering_code": "Tham gia bằng cách nhập mã sau",
+        "players_waiting": "{{count}} người chơi đang chờ",
+        "your_place": "Bạn đang ở {{place}}!"
     },
     "file_dashboard": {
         "unset": "Bỏ chọn",
