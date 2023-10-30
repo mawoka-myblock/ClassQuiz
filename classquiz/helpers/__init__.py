@@ -132,10 +132,10 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         if row[0] is None:
             continue
         question = row[0]
-        if len(question) > 200:
-            raise HTTPException(status_code=400, detail=f"Question {i + 1} is longer than 200")
+        if len(question) > 300:
+            raise HTTPException(status_code=400, detail=f"Question {i + 1} is longer than 300")
         try:
-            time = int(row[5])
+            time = int(str(row[5]).partition(".")[0])
         except (ValueError, TypeError):
             raise HTTPException(status_code=400, detail=f"Time in q {i + 1} isn't a valid int")
         if time > 120:
@@ -143,7 +143,6 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         answers = [row[1], row[2], row[3], row[4]]
         for a, answer in enumerate(answers):
             if answer is None:
-                answers.pop(a)
                 continue
             if len(answer) > 150:
                 raise HTTPException(status_code=400, detail=f"Answer {a + 1} in Question {i + 1} is longer than 150")
@@ -152,6 +151,8 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         correct_answers: str = str(row[6])
         answers_list: list[ABCDQuizAnswer] = []
         for a, answer in enumerate(answers):
+            if answer is None:
+                continue
             answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
         questions.append(QuizQuestion(question=question, answers=answers_list, time=str(time)).dict())
     existing_quiz: Quiz | None = await Quiz.objects.get_or_none(user_id=user, title=title)
