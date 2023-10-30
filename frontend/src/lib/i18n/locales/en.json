@@ -45,7 +45,8 @@
         "community_driven_content": "ClassQuiz depends on its community for funding, testing ideas, feature requests, translations and more! You can also be a part of the ClassQuiz-community!",
         "how_does_classquiz_work": "How does ClassQuiz even work?",
         "no_player_limit": "No player limit",
-        "no_player_limit_content": "ClassQuiz doesn't have an artificial player limit. In theory, 1000+ players could play the same quiz, but it's tested with up to 300 players per quiz."
+        "no_player_limit_content": "ClassQuiz doesn't have an artificial player limit. In theory, 1000+ players could play the same quiz, but it's tested with up to 300 players per quiz.",
+        "import_quiz_from_kahoot_and_edit": ""
     },
     "overview_page": {
         "created_at": "Created at",
@@ -193,7 +194,8 @@
         "dislike": "Dislike",
         "dislike_plural": "Dislikes",
         "play_plural": "Plays",
-        "info": "Info"
+        "info": "Info",
+        "player": "Player"
     },
     "editor": {
         "time_in_seconds": "Time in seconds",
@@ -254,7 +256,8 @@
         "enter_answer_into_field": "Enter your answer into the input field!",
         "answers_submitted": "{{answer_count}} Answers submitted",
         "request_export_results": "Request result download",
-        "download_export_results": "Download results"
+        "download_export_results": "Download results",
+        "export_results": "Export results"
     },
     "password_reset_page": {
         "reset_password": "Reset password"
@@ -292,7 +295,8 @@
         "join_by_entering_code": "Join by entering the following code",
         "points_added": "Points added",
         "your_place": "You're on place {{place}}!",
-        "players_waiting": "{{count}} players are waiting"
+        "players_waiting": "{{count}} player are waiting",
+        "players_waiting_plural": "{{count}} players are waiting"
     },
     "editor_page": {
         "add_an_answer": "Add an answer",
@@ -448,7 +452,8 @@
     },
     "public_user_page": {
         "joined_on": "Joined on {{date}}",
-        "no_original_quizzes": "This user doesn't have any original quizzes"
+        "no_original_quizzes": "This user doesn't have any original quizzes",
+        "user_not_found": "User not found"
     },
     "file_dashboard": {
         "not_available": "Not available",
@@ -469,5 +474,11 @@
     "video_uploader": {
         "time_elapsed": "Time elapsed",
         "time_remaining": "Time remaining"
+    },
+    "downloader": {
+        "select_download_type": "Select download type",
+        "own_format": "Own Format",
+        "excel_format": "Excel Format",
+        "help": "The own format (.cqa) also includes pictures and supports every question type, whereas the excel format only supports voting and multiple-choice questions."
     }
 }

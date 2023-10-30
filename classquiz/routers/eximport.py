@@ -7,14 +7,16 @@ import io
 import json
 import uuid
 from datetime import datetime
+from typing import Any
 
 import ormar.exceptions
+import xlsxwriter
 from aiohttp import ClientSession
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from classquiz.auth import get_current_user
 from classquiz.config import storage, settings, arq
-from classquiz.db.models import Quiz, User, StorageItem
+from classquiz.db.models import Quiz, User, StorageItem, QuizQuestionType, QuizQuestion
 import gzip
 import urllib.parse
 import magic
@@ -131,3 +133,60 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
     quiz.mod_rating = None
     await quiz.save()
     return quiz
+
+
+@router.get("/excel/{quiz_id}")
+async def export_quiz_as_excel(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
+    try:
+        quiz: Quiz = await Quiz.objects.filter(Quiz.id == quiz_id).first()
+    except ormar.exceptions.NoMatch:
+        raise HTTPException(status_code=404, detail="Quiz not found")
+    storage = io.BytesIO()
+    workbook = xlsxwriter.Workbook(storage, {"in_memory": True})
+    ws = workbook.add_worksheet()
+    ws.name = "Main"
+    ws.write(4, 1, "Title")
+    ws.write(4, 2, quiz.title)
+    ws.write(5, 1, "Description")
+    ws.write(5, 2, quiz.description)
+    ws.write_row(
+        12,
+        1,
+        [
+            "Question",
+            "1st Answer",
+            "2nd Answer",
+            "3rd Answer",
+            "4th Answer",
+            "Time Limit (max. 120)",
+            "Correct Answers",
+        ],
+    )
+    for i, question in enumerate(quiz.questions):
+        question = QuizQuestion.parse_obj(question)
+        data: list[Any] = [None] * 9
+        data[0] = i + 1
+        data[1] = question.question
+        if question.type not in [QuizQuestionType.ABCD, QuizQuestionType.VOTING]:
+            continue
+        correct_answers = []
+        for a, answer in enumerate(question.answers):
+            data[2 + a] = answer.answer
+            if question.type == QuizQuestionType.ABCD and answer.right:
+                correct_answers.append(str(a + 1))
+        data[6] = question.time
+        data[7] = ",".join(correct_answers)
+        ws.write_row(13 + i, 0, data)
+    workbook.close()
+    storage.seek(0)
+
+    def iter_file():
+        yield from storage
+
+    return StreamingResponse(
+        iter_file(),
+        media_type="application/vnd.ms-excel",
+        headers={
+            "Content-Disposition": f"attachment;filename=ClassQuiz-{urllib.parse.quote(quiz.title)}.xlsx"  # noqa: E501
+        },
+    )

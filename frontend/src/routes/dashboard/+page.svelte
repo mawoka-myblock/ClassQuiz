@@ -5,6 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import DownloadQuiz from '$lib/components/DownloadQuiz.svelte';
 	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
@@ -25,6 +26,7 @@ SPDX-License-Identifier: MPL-2.0
 	export let data: PageData;
 	let search_term = '';
 	let start_game = null;
+	let download_id: string | null = null;
 	signedIn.set(true);
 	navbarVisible.set(true);
 	const { t } = getLocalization();
@@ -360,7 +362,7 @@ SPDX-License-Identifier: MPL-2.0
 									</svg>
 								</BrownButton>
 								<BrownButton
-									href="/api/v1/eximport/{quiz.id}"
+									on:click={() => (download_id = quiz.id)}
 									flex={true}
 									disabled={quiz.type !== 'quiz'}
 									><!-- heroicons/download -->
@@ -397,3 +399,4 @@ SPDX-License-Identifier: MPL-2.0
 {#if start_game !== null}
 	<StartGamePopup bind:quiz_id={start_game} />
 {/if}
+<DownloadQuiz bind:quiz_id={download_id} />

@@ -5,6 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import DownloadQuiz from '$lib/components/DownloadQuiz.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import CollapsSection from '$lib/collapsible.svelte';
 	import { createTippy } from 'svelte-tippy';
@@ -29,6 +30,7 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	let start_game = null;
+	let download_id: string | null = null;
 	const urlparams = $page.url.searchParams;
 	const mod_view = Boolean(urlparams.get('mod'));
 	const auto_expand = Boolean(urlparams.get('autoExpand'));
@@ -186,7 +188,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="w-full">
 				{#if logged_in}
-					<GrayButton flex={true} href="/api/v1/eximport/{quiz.id}">
+					<GrayButton flex={true} on:click={() => (download_id = quiz.id)}>
 						<svg
 							class="w-5 h-5 inline-block"
 							fill="none"
@@ -341,3 +343,5 @@ SPDX-License-Identifier: MPL-2.0
 {#if start_game !== null}
 	<StartGamePopup bind:quiz_id={start_game} />
 {/if}
+
+<DownloadQuiz bind:quiz_id={download_id} />
