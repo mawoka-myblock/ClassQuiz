@@ -199,10 +199,11 @@
         "info": "Información",
         "play_plural": "Reproducciones",
         "like_plural": "Me gustan",
-        "version": "Versión"
+        "version": "Versión",
+        "player": "Jugador"
     },
     "admin_page": {
-        "export_results": "Exportar resultados",
+        "export_results": "Exportar los resultados",
         "show_next_question": "Muestra la siguiente pregunta",
         "stop_time": "Detener el tiempo",
         "get_results": "Obtener resultados",
@@ -246,8 +247,9 @@
         "join_description": "Únete en {{url}} e ingresa {{pin}}.",
         "join_by_entering_code": "Únete ingresando el siguiente código",
         "points_added": "Puntos agregados",
-        "players_waiting": "{{count}} jugadores esperando",
-        "your_place": "¡Estás en {{place}}!"
+        "players_waiting": "{{count}} jugador esperando",
+        "your_place": "¡Estás en {{place}}!",
+        "players_waiting_plural": "{{count}} jugadores esperan"
     },
     "editor_page": {
         "right_click_to_delete": "Haz clic con el botón derecho en una respuesta para eliminarla!",
@@ -312,7 +314,7 @@
         "nothing_here": "No hay nada aquí..."
     },
     "password_reset_page": {
-        "reset_password": "Restablecer contraseña"
+        "reset_password": "Restablecer la contraseña"
     },
     "dashboard": {
         "search_for_own_quizzes": "Busca tus propios quizzes",
@@ -444,7 +446,8 @@
     },
     "public_user_page": {
         "no_original_quizzes": "Este usuario no tiene cuestionarios originales",
-        "joined_on": "Ingresó el {{date}}"
+        "joined_on": "Ingresó el {{date}}",
+        "user_not_found": "No se encuentra el usuario"
     },
     "file_dashboard": {
         "not_available": "No disponible",
@@ -477,5 +480,11 @@
         "cancel_update": "¡Cancelar la actualización!",
         "already_latest_version": "Ya estás en la última versión",
         "update_from_to": "Actualizar de {{current_version}} a {{newest_version}}"
+    },
+    "downloader": {
+        "excel_format": "Formato de Excel",
+        "own_format": "Formato propio",
+        "help": "El formato propio (.cqa) también incluye imágenes y admite todo tipo de preguntas, mientras que el formato para excel sólo admite votaciones y preguntas de opción múltiple.",
+        "select_download_type": "Seleccione el tipo de la descarga"
     }
 }
