@@ -50,7 +50,8 @@
         "download_quizzes_content": "Quizzen kunnen als één bestand worden gedownload en op elk moment worden geïmporteerd. Zo kun je ook je testen verplaatsen naar andere ClassQuiz instanties.",
         "quiz_results_downloadable_content": "Quiz-resultaten kunnen gemakkelijk worden geëxporteerd naar een Excel-spreadsheet. (Wist niet dat anderen dat niet konden)",
         "how_does_classquiz_work": "Hoe werkt ClassQuiz eigenlijk?",
-        "no_player_limit": "Geen spelerslimiet"
+        "no_player_limit": "Geen spelerslimiet",
+        "no_player_limit_content": "ClassQuiz heeft geen kunstmatige spelerslimiet. In theorie zouden meer dan 1000 spelers dezelfde quiz kunnen spelen, maar het is getest met maximaal 300 spelers per quiz."
     },
     "overview_page": {
         "created_at": "Gemaakt op",
@@ -125,7 +126,7 @@
         "repeat_password": "Wachtwoord herhalen",
         "overview": "Overzicht",
         "report": "Melden",
-        "explore": "Verkennen",
+        "explore": "Verken",
         "screenshot": "Schermafbeelding",
         "screenshot_plural": "Schermafbeeldingen",
         "view": "Bekijken",
@@ -190,15 +191,16 @@
         "update": "Update",
         "rating": "Beoordeling",
         "quiztivity": "Quiztivity",
-        "analytics": "",
-        "check_choice": "",
-        "play_plural": "",
-        "dislike_plural": "",
-        "info": "",
-        "view_plural": "",
-        "like": "",
-        "dislike": "",
-        "like_plural": ""
+        "analytics": "Analytics",
+        "check_choice": "Check Optie",
+        "play_plural": "Plays",
+        "dislike_plural": "Dislikes",
+        "info": "Info",
+        "view_plural": "Weergaven",
+        "like": "Like",
+        "dislike": "Dislike",
+        "like_plural": "Likes",
+        "player": "Speler"
     },
     "editor": {
         "not_all_links_imgur_links": "Niet alle links zijn Imgur-links!",
@@ -224,19 +226,22 @@
         "order_description": "Antwoorden kunnen in de juiste volgorde worden gezet",
         "text_description": "Spelers kunnen tekst invoeren",
         "check_choice_description": "Alle goede antwoorden moeten gekozen zijn om punten te scoren",
-        "voting_description": "Antwoorden voegen geen punten toe"
+        "voting_description": "Antwoorden voegen geen punten toe",
+        "need_more_help": "Meer hulp nodig?",
+        "enter_answer": "Voer een antwoord in",
+        "visit_docs": "Bekijk de documenten."
     },
     "import_page": {
         "url_should_look_like_this": "De URL zou er als volgt uit moeten zien: https://create.kahoot.it/details/...",
         "side_import_kahoot": "Aan deze kant kun je quizzen van Kahoot! importeren.",
-        "upload_file_ending": "Upload het bestand eindigend op .cqa",
+        "upload_file_ending": "Upload het bestand met de extensie .cqa of .xlsx",
         "this_side_classquiz": "Aan deze kant kun je quizzen importeren die geëxporteerd zijn vanuit ClassQuiz.",
         "visit_docs": "Bekijk de documentatie",
         "a_kahoot_quiz": "Een Kahoot!-Quiz",
         "need_help": "Hulp nodig?",
         "classquiz_quiz": "Een ClassQuiz-Quiz",
-        "this_side_classquiz_excel": "",
-        "download_template_here": ""
+        "this_side_classquiz_excel": "Je kunt ook Excel-bestanden uploaden, als je het volgende sjabloon hebt ingevuld.",
+        "download_template_here": "Download het sjabloon"
     },
     "admin_page": {
         "start_game": "Start spel",
@@ -257,7 +262,7 @@
         "stop_time_and_solutions": "Stop de tijd en toon oplossingen",
         "download_export_results": "Resultaten downloaden",
         "answers_submitted": "{{answer_count}} Antwoorden ingediend",
-        "request_export_results": ""
+        "request_export_results": "Resultaat download aanvragen"
     },
     "password_reset_page": {
         "reset_password": "Wachtwoord resetten"
@@ -293,7 +298,10 @@
         "points_added": "Punten toegevoegd",
         "your_score": "Jouw score: {{score}}",
         "join_by_entering_code": "Neem deel door de volgende code in te voeren",
-        "join_description": "Neem deel via {{url}} en voer {{pin}} in."
+        "join_description": "Neem deel via {{url}} en voer {{pin}} in.",
+        "players_waiting": "{{count}} speler aan het wachten",
+        "players_waiting_plural": "{{count}} spelers aan het wachten",
+        "your_place": "Je bent op plaats {{place}}!"
     },
     "editor_page": {
         "add_an_answer": "Voeg een antwoord toe",
@@ -309,7 +317,7 @@
         "unknown_error_text": "Dat zou niet mogen gebeuren. Het is waarschijnlijk mijn schuld, niet de jouwe, maar misschien heb je een magische kracht om dingen te breken..."
     },
     "uploader": {
-        "add_image": "Afbeelding toevoegen",
+        "add_image": "Media toevoegen",
         "search_english_only": "De zoekopdracht werkt alleen in het Engels",
         "upload_a_video": "Upload een video",
         "upload_video_popup_notice": "De pop-up is geopend; bekijk het voor meer informatie",
@@ -357,9 +365,9 @@
     },
     "dashboard": {
         "search_for_own_quizzes": "Zoek voor je eigen quizzen",
-        "commandpalette_notice": "",
-        "views_n_plays": "",
-        "info_analytics": ""
+        "commandpalette_notice": "Druk <kbd>Ctr</kbd>+<kbd>k</kbd> of <kbd>Meta</kbd>+<kbd>k</kbd> in om het opdrachtenpalet te openen",
+        "views_n_plays": "Weergaven & Plays",
+        "info_analytics": "De \"Plays\" laten alleen zien hoe vaak de quiz is gestart (jou meegerekend), terwijl de \"Weergaven\" tellen hoe vaak de \"View\"-pagina is bezocht, dus ook bots (sorry daarvoor)."
     },
     "security_settings": {
         "webauthn": "Webauthn",
@@ -377,16 +385,16 @@
         "totp_setup": {
             "enter_as_secret_if_no_see_code": "Voer dit in als de 'secret' als u de QR-code niet kunt scannen",
             "scan_to_set_up": "Scan deze QR-code om de code in te stellen",
-            "totp_setup": "Totp-Setup",
+            "totp_setup": "TOTP-setup",
             "do_not_forget_backup_code": "Vergeet niet je herstelcode op te slaan!"
         },
         "2fa_deactivated": "Tweestapsauthenticatie is gedeactiveerd",
         "add_security_key": "Beveiligingssleutel toevoegen",
         "totp": "TOTP",
-        "totp_available": "Totp is beschikbaar",
-        "totp_unavailable": "Totp is niet beschikbaar",
-        "disable_totp": "Totp uitschakelen",
-        "enable_totp": "Totp inschakelen"
+        "totp_available": "TOTP is beschikbaar",
+        "totp_unavailable": "TOTP is niet beschikbaar",
+        "disable_totp": "Schakel TOTP uit",
+        "enable_totp": "Schakel TOTP in"
     },
     "navbar": {
         "donate": "Doneer"
@@ -405,10 +413,10 @@
             "shares": {
                 "never_expires": "Verloopt nooit",
                 "expires_on": "Verloopt op {{date}}",
-                "add_new_share": ""
+                "add_new_share": "Nieuwe Share toevoegen"
             },
             "select_page_type": "Selecteer Pagina Type",
-            "open_shares_menu": ""
+            "open_shares_menu": "Open Shares menu"
         },
         "memory": {
             "editor": {
@@ -422,7 +430,7 @@
                 "try_count": "Pogingen: {{try_count}}"
             }
         },
-        "share_expired": ""
+        "share_expired": "Share verlopen"
     },
     "controllers": {
         "update_from_to": "Bijwerken van {{current_version}} naar {{newest_version}}",
@@ -440,12 +448,12 @@
         "not_available": "Niet beschikbaar",
         "caption": "Bijschrift: {{caption}}",
         "filename": "Bestandsnaam: {{filename}}",
-        "storage_usage": "Je hebt {{used}} Mib van de {{total}} MiB aan opslagruimte gebruikt. Dat komt overeen met {{percent}}% van je opslagruimte.",
+        "storage_usage": "Je hebt {{used}} MiB van de {{total}} MiB aan opslagruimte gebruikt. Dat komt overeen met {{percent}}% van je opslagruimte.",
         "edit_details": "Bewerk details",
         "uploaded": "Geüpload: {{date}}",
         "missing": "MISSEND!",
         "unset": "Niet ingesteld",
-        "size": "Grootte: {{size}} Mib",
+        "size": "Grootte: {{size}} MiB",
         "delete_image": "Verwijder afbeelding",
         "edit_the_image": "Bewerk de afbeelding",
         "filename_word": "Bestandsnaam",
@@ -457,7 +465,8 @@
     },
     "public_user_page": {
         "no_original_quizzes": "Deze gebruiker heeft geen originele quizzen",
-        "joined_on": "Lid geworden op {{date}}"
+        "joined_on": "Lid geworden op {{date}}",
+        "user_not_found": "Gebruiker niet gevonden"
     },
     "start_game": {
         "old_school_mode": "Old-School",
@@ -470,5 +479,11 @@
         "popover": {
             "copied_to_clipboard": "Gekopieerd naar het klembord!"
         }
+    },
+    "downloader": {
+        "excel_format": "Excel Formaat",
+        "own_format": "Eigen Formaat",
+        "help": "Het eigen formaat (.cqa) bevat ook afbeeldingen en ondersteunt elk vraagtype, terwijl het Excel-formaat alleen stem- en meerkeuzevragen ondersteunt.",
+        "select_download_type": "Selecteer download type"
     }
 }
