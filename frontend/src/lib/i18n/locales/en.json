@@ -235,7 +235,7 @@
         "classquiz_quiz": "A ClassQuiz-Quiz",
         "upload_file_ending": "Upload the file ending in .cqa or .xlsx",
         "this_side_classquiz": "On this side you can import quizzes, which were exported from ClassQuiz.",
-        "this_side_classquiz_excel": "You can also upload excel files, if you've filled out the following template.",
+        "this_side_classquiz_excel": "You can also upload excel files, if you've filled out the following template. If a quiz with the title already exists, it will append the questions to the existing quiz.",
         "download_template_here": "Download the template"
     },
     "admin_page": {

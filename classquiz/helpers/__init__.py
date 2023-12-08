@@ -131,7 +131,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     for i, row in enumerate(ws.iter_rows(min_row=14, min_col=2, max_row=100, max_col=8, values_only=True)):
         if row[0] is None:
             continue
-        question = row[0]
+        question = str(row[0])
         if len(question) > 300:
             raise HTTPException(status_code=400, detail=f"Question {i + 1} is longer than 300")
         try:
