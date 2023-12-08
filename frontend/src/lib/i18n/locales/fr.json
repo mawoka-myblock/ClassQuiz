@@ -46,14 +46,14 @@
         "connect": "Connexion",
         "pin": "PIN",
         "kick": "Éjecter",
-        "register": "Enregistrer",
+        "register": "S'enregistrer",
         "docs": "Documentation",
         "close": "Fermer",
         "save": "Enregistrer",
         "description": "Description",
         "image": "Image",
         "title": "titre",
-        "settings": "Paramètres",
+        "settings": "Préférences",
         "repeat_password": "Répéter le mot de passe",
         "overview": "Vue d'ensemble",
         "report": "Signaler",
@@ -77,7 +77,7 @@
         "other": "autre",
         "other_plural": "autres",
         "donating": "Donner",
-        "practice": "Pratiquer",
+        "practice": "S'entraîner",
         "error": "Erreur",
         "voting": "Vote",
         "download": "Télécharger",
@@ -97,7 +97,7 @@
         "point_plural": "Points",
         "back": "Retour",
         "finish": "Finir",
-        "selected": "Séléctionné",
+        "selected": "Sélectionné",
         "select": "Sélectionner",
         "quiz": "Quiz",
         "answer_plural": "Réponses",
@@ -112,19 +112,20 @@
         "speed": "Vitesse",
         "upload": "Charger",
         "files_library": "Bibliothèque de fichiers",
-        "unknown": " ",
+        "unknown": "Inconnu",
         "view_plural": "Vues",
         "version": "Version",
         "update": "Mettre à jour",
         "never": "Jamais",
-        "analytics": "",
-        "play_plural": "",
-        "rating": "",
-        "dislike_plural": "",
-        "info": "",
-        "like": "",
-        "dislike": "",
-        "like_plural": ""
+        "analytics": "Statistiques",
+        "play_plural": "Joue",
+        "rating": "Note",
+        "dislike_plural": "\"N'aime pas\"",
+        "info": "Info",
+        "like": "\"J'aime\"",
+        "dislike": "\"N'aime pas\"",
+        "like_plural": "\"J'aime\"",
+        "player": "Joueur"
     },
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
@@ -137,11 +138,11 @@
             "2": "La fonctionnalité principale est la fonction d'import de quiz Kahoot!, vous permettant de créer des quiz directement depuis Kahoot!.",
             "3": "L'éditeur et la fonction d'export des résultats de quiz en format Excel sont des fonctionnalités remarquables du logiciel."
         },
-        "stats": "Il y a déjà {{user_count}} utilisateurs et {{quizz_count}} quiz sur ClassQuiz.",
+        "stats": "Il y a déjà {{user_count}} utilisateurs et {{quiz_count}} quiz sur ClassQuiz.",
         "see_what_true_and_false": "Voir ce qui est vrai ou faux",
         "see_how_many_true_and_false": "Voir combien avaient vrai ou faux",
         "create_or_import": "Créer ou Importer",
-        "see_all_quizzes": "Voir tout vos quiz",
+        "see_all_quizzes": "Voir tous vos quiz",
         "teachers_site": "Site de l'enseignant",
         "students_site": "Site de l'étudiant",
         "no_tracking": "Pas de tracking",
@@ -158,7 +159,7 @@
         "play_quiz": "2. Jouer le quiz",
         "select_answer": "Sélectionner la réponse",
         "view_results": "Voir les résultats",
-        "check_if_chosen_wisely": "Vérifier, si vous avez bien choisi",
+        "check_if_chosen_wisely": "Vérifier si vous avez bien choisi.",
         "list_winners": "Lister les gagnants",
         "get_ranking_and_winners": "Avoir le classement et voir les gagnants",
         "why_classquiz": "Pourquoi ClassQuiz ?",
@@ -166,21 +167,23 @@
         "self_hostable_content": "ClassQuiz est facilement auto-hébergeable, vos données sont sous contrôle !",
         "user_friendly_content": "ClassQuiz se veut simple d'utilisation, de manière à être utilisable par le plus grand nombre.",
         "import_quiz_from_kahoot_and_edit": "Importer un quiz depuis Kahoot! et l'éditer sur ClassQuiz",
-        "quiz_results_downloadable_content": "Les résultats des quiz est aisément exportable en format Excel (apparemment les autres outils ne peuvent pas)",
+        "quiz_results_downloadable_content": "Les résultats des quiz sont aisément exportables en format Excel (apparemment les autres outils ne le peuvent pas)",
         "multilingual_content": "ClassQuiz est entièrement traduit en anglais, français, allemand, italien, norvégien bokmål, turc, et partiellement en indonésien et catalan.",
         "dark_mode_content": "L'une des fonctionnalités les plus importantes qu'un site peut avoir !",
-        "german_server_content": "Les serveurs de ClassQuiz sont situés en Germany et gérés par netcup.",
+        "german_server_content": "Les serveurs de ClassQuiz sont situés en Allemagne et hébergés par Netcup.",
         "choose_answer_wisely": "Choisissez votre réponse judicieusement",
         "completely_free_content": "ClassQuiz est gratuit pour l'utilisateur, sans plans payant ou de redirection pour une version payante. Tout don est donc apprécié.",
         "download_quizzes": "Télécharger des quiz",
         "community_driven": "Piloté par la communauté",
         "download_quizzes_content": "Les quiz peuvent être téléchargés en un seul fichier et importés à tout moment, ce qui vous permet de déplacer facilement vos quiz vers une autre instance de ClassQuiz.",
         "community_driven_content": "ClassQuiz dépend de sa communauté pour le financement, les idées de tests, les demandes de fonctionnalités, les traductions et plus encore ! Vous pouvez aussi faire partie de la communauté ClassQuiz !",
-        "how_does_classquiz_work": "Comment fonctionne ClassQuiz ?"
+        "how_does_classquiz_work": "Comment fonctionne ClassQuiz ?",
+        "no_player_limit": "Nombre de joueurs illimité",
+        "no_player_limit_content": "ClassQuiz n'a pas de limite artificielle de nombre de joueurs. En théorie, plus de 1000 joueurs peuvent participer au même quiz, mais les tests n'ont été réalisés que jusqu'à 300 participants."
     },
     "overview_page": {
         "created_at": "Crée le",
-        "question_count": "Nombre de question",
+        "question_count": "Nombre de questions",
         "no_quizzes": "Cliquez sur le bouton \"Créer\" ou importez un quiz pour commencer."
     },
     "edit_page": {
@@ -206,7 +209,7 @@
         "delete_question": "Supprimer la question",
         "delete_answer": "Supprimer la réponse",
         "right_or_true?": "Vrai ?",
-        "not_all_links_imgur_links": "Tout les liens ne sont pas des liens Imgur !",
+        "not_all_links_imgur_links": "Tous les liens ne sont pas des liens Imgur !",
         "bg_image": "Image d'arrière plan",
         "slide": {
             "rectangle": "Rectangle",
@@ -223,7 +226,10 @@
         "range_description": "Une plage de chiffres peut être sélectionnée à l'aide d'un curseur.",
         "empty": "Vide...",
         "no_title": "Aucun titre...",
-        "check_choice_description": "Toutes les réponses correctes doivent être choisies pour marquer des points."
+        "check_choice_description": "Toutes les réponses correctes doivent être choisies pour marquer des points.",
+        "need_more_help": "Besoin d'aide ?",
+        "enter_answer": "Entrer une réponse",
+        "visit_docs": "Lisez la documentation."
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
@@ -231,11 +237,11 @@
         "a_kahoot_quiz": "Un quiz Kahoot!",
         "side_import_kahoot": "De ce côté, vous pouvez importer des quiz, qui se trouvent sur Kahoot!.",
         "classquiz_quiz": "Un quiz ClassQuiz",
-        "upload_file_ending": "Téléchargez le fichier se terminant par .cqa",
+        "upload_file_ending": "Téléverser le fichier se terminant par .cqa ou .xlsx",
         "url_should_look_like_this": "L'URL devrait ressembler à ceci : https://create.kahoot.it/details/...",
         "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz.",
-        "this_side_classquiz_excel": "",
-        "download_template_here": ""
+        "this_side_classquiz_excel": "Vous pouvez aussi téléverser des fichiers Excel, si vous avez rempli le modèle suivant.",
+        "download_template_here": "Télécharger le modèle"
     },
     "admin_page": {
         "already_registered_as_admin": "Il y a déjà un administrateur enregistré pour ce jeu.",
@@ -279,12 +285,12 @@
         "imported_by": "Importé par"
     },
     "search_page": {
-        "at_least_3_characters": "Enter au moins 3 caractères…",
+        "at_least_3_characters": "Entrer au moins 3 caractères…",
         "nothing_here": "Il n'y a rien ici..."
     },
     "play_page": {
         "1st_place": "1ère place",
-        "end_sentence": "C'est terminé ! Voilà le quizz.",
+        "end_sentence": "C'est terminé ! Voilà le quiz.",
         "2nd_place": "2ème place",
         "3rd place": "3ème place",
         "with_out_of": "avec {{correct_questions}} sur {{total_question_count}}",
@@ -292,17 +298,20 @@
         "join_by_entering_code": "Participez en entrant le code suivant",
         "points_added": "Points ajoutés",
         "your_score": "Votre score : {{score}}",
-        "final_result_rank": "{{place}} : {{username}} avec {{points}} points"
+        "final_result_rank": "{{place}} : {{username}} avec {{points}} points",
+        "players_waiting": "{{count}} joueurs sont en attente",
+        "players_waiting_plural": "{{count}} joueurs sont en attente",
+        "your_place": "Vous êtes à {{place}} !"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
-        "right_click_to_delete": "Faites un clic droit sur une réponse pour la supprimer !"
+        "right_click_to_delete": "Faites un clic-droit sur une réponse pour la supprimer !"
     },
     "dashboard": {
-        "search_for_own_quizzes": "Cherchez dans vos quiz",
-        "commandpalette_notice": "",
-        "views_n_plays": "",
-        "info_analytics": ""
+        "search_for_own_quizzes": "Chercher dans vos quiz",
+        "commandpalette_notice": "Appuyer sur <kbd>Ctr</kbd>+<kbd>k</kbd> ou <kbd>Meta</kbd>+<kbd>k</kbd> pour ouvrir la palette de commandes",
+        "views_n_plays": "Vues et Jeux",
+        "info_analytics": "Les \"Jeux\" indiquent seulement combien de fois le quiz a été lancé (vous y compris), alors que les \"Vues\" comptent combien de fois la page \"Vue\" a été visitée, donc cela compte aussi les bots (désolé pour ça)."
     },
     "footer": {
         "more_details_here": "Plus de détails ici",
@@ -314,16 +323,16 @@
         "unknown_error_text": "Cela ne devrait pas arriver. C'est probablement ma faute, pas la tienne, mais peut-être que tu as un pouvoir magique pour casser les choses..."
     },
     "uploader": {
-        "add_image": "Ajouter une image",
+        "add_image": "Ajouter un média",
         "select_upload_type": "Sélectionnez le type de téléchargement",
         "upload_a_video": "Télécharger une vidéo",
         "upload_video": "Télécharger la vidéo",
         "upload_video_popup_notice": "La fenêtre contextuelle est ouverte ; jetez-y un coup d'œil pour obtenir de plus amples informations.",
-        "images_by_pixabay": "",
-        "next_page": "",
-        "visit_pixabay": "",
-        "previous_page": "",
-        "search_english_only": ""
+        "images_by_pixabay": "Images en provenance de Pixabay",
+        "next_page": "Page suivante",
+        "visit_pixabay": "Visitez Pixabay",
+        "previous_page": "Page précédente",
+        "search_english_only": "La recherche ne fonctionne qu'en anglais"
     },
     "quiztivity": {
         "editor": {
@@ -338,7 +347,7 @@
             "select_page_type": "Sélectionner le type de page",
             "add_new": "Ajouter un nouveau",
             "title_placeholder": "Saisir le titre ici",
-            "open_shares_menu": "Ouvrir le menu Partage"
+            "open_shares_menu": "Ouvrir le menu Partages"
         },
         "memory": {
             "editor": {
@@ -390,7 +399,7 @@
     "results_page": {
         "no_results_so_far": "Aucun résultat enregistré jusqu'à présent...",
         "general_overview": {
-            "sentence": "Le quiz \"{{titre}}\", qui a été joué le {{date}} a eu {{player_count}} joueurs avec un score moyen de {{average_score}}."
+            "sentence": "Le quiz \"{{title}}\", qui a été joué le {{date}} a eu {{player_count}} joueurs avec un score moyen de {{average_score}}."
         },
         "quiz_title": "Titre du quiz",
         "date_played": "Date jouée",
@@ -401,7 +410,7 @@
         "start_game": "Lancer le jeu",
         "captcha_message": "Si cette option est activée, le ReCaptcha de Google se chargera dans le navigateur des joueurs. N'activez cette option que si vous en avez vraiment besoin, car vous avez besoin du consentement de CHAQUE joueur pour charger le captcha.",
         "old_school_mode_description": "Les questions et les images seront affichées à la fois sur l'écran des administrateurs et sur l'écran des joueurs.",
-        "normal_mode_description": "Questions et réponses ne seront affichées que sur l'écran de l'administrateur, comme dans Kahoot! Les joueurs n'auront que des boutons de couleur avec des symboles correspondants sur l'écran de l'administrateur."
+        "normal_mode_description": "Questions et réponses ne seront affichées que sur l'écran de l'administrateur, comme dans Kahoot ! Les joueurs n'auront que des boutons de couleur avec des symboles correspondants sur l'écran de l'administrateur."
     },
     "result_page": {
         "average_score": "Score moyen : {{average score}}",
@@ -416,15 +425,15 @@
         "totp_setup": {
             "enter_as_secret_if_no_see_code": "Entrez ceci comme secret si vous ne pouvez pas scanner le QR-code.",
             "scan_to_set_up": "Scanner ce QR-code pour configurer le code",
-            "totp_setup": "Paramètrage Totp",
+            "totp_setup": "Paramétrage Totp",
             "do_not_forget_backup_code": "N'oubliez pas de sauvegarder votre code de récupération !"
         },
         "activate_2fa": "Activer l'authentification à deux facteurs",
         "webauthn_available": "Webauthn est disponible",
         "totp": "TOTP",
-        "totp_available": "Totp est disponible",
-        "totp_unavailable": "Totp n'est pas disponible",
-        "disable_totp": "Désactiver Totp",
+        "totp_available": "TOTP est disponible",
+        "totp_unavailable": "TOTP n'est pas disponible",
+        "disable_totp": "Désactiver TOTP",
         "enable_totp": "Activer TOTP",
         "backup_codes": {
             "your_backup_code": "Votre code de sauvegarde",
@@ -441,7 +450,7 @@
     },
     "view_quiz_page": {
         "made_by": "Créé par",
-        "view_on_kahoot": "Voir sur Kahoot!"
+        "view_on_kahoot": "Voir sur Kahoot !"
     },
     "video_uploader": {
         "time_elapsed": "Temps écoulé",
@@ -453,21 +462,28 @@
         }
     },
     "public_user_page": {
-        "no_original_quizzes": "Cet utilisateur n'a pas de quiz original",
-        "joined_on": "Rejoint le {{date}}"
+        "no_original_quizzes": "Cet utilisateur n'a pas de quiz original.",
+        "joined_on": "Rejoint le {{date}}",
+        "user_not_found": "Utilisateur inconnu"
     },
     "navbar": {
         "donate": "Faire un don"
     },
     "controllers": {
-        "last_seen": "",
-        "cancel_update": "",
-        "add_new_controller": "",
-        "player_name": "",
-        "controller_name": "",
-        "already_latest_version": "",
-        "update_from_to": "",
-        "first_seen": "",
-        "version_overview": ""
+        "last_seen": "Dernière vue",
+        "cancel_update": "Annulation !",
+        "add_new_controller": "Ajouter un nouveau contrôleur",
+        "player_name": "Nom du joueur",
+        "controller_name": "Nom du contrôleur",
+        "already_latest_version": "Vous possédez la dernière version.",
+        "update_from_to": "Mise à jour depuis {{current_version}} vers {{newest_version}}",
+        "first_seen": "Première vue",
+        "version_overview": "La dernière version disponible est {{newest_version}} et la version actuelle {{current_version}} est installée."
+    },
+    "downloader": {
+        "excel_format": "Format Excel",
+        "own_format": "Format ClassQuiz",
+        "help": "Le format ClassQuiz (.cqa) intégre aussi les images et les types de questions, alors que le format Excel ne supporte que les votes et les questions à choix multiples.",
+        "select_download_type": "Sélectionner le type de téléchargement"
     }
 }
