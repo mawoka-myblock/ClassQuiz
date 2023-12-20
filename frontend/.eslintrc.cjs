@@ -8,7 +8,15 @@ module.exports = {
 	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
 	plugins: ['svelte3', '@typescript-eslint'],
 	ignorePatterns: ['*.cjs'],
-	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
+	overrides: [
+		{ files: ['*.svelte'], processor: 'svelte3/svelte3' },
+		{
+			files: ['*.*'],
+			rules: {
+				'a11y-click-events-have-key-events': 'off'
+			}
+		}
+	],
 	rules: {
 		'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 		'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]

@@ -224,7 +224,9 @@
         "range_description": "A number-range can be selected with a slider",
         "need_more_help": "Need more help?",
         "visit_docs": "Visit the docs.",
-        "enter_answer": "Enter an answer"
+        "enter_answer": "Enter an answer",
+        "enable_reorder": "Enable reorder mode",
+        "disable_reorder": "Disable reorder mode"
     },
     "import_page": {
         "need_help": "Need help?",
