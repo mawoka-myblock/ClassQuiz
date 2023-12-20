@@ -101,6 +101,7 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
         print(len(image_data))
         img_data = io.BytesIO(image_data)
         mime_type = magic.from_buffer(img_data.read(2048), mime=True)
+        img_data.seek(0)
         print(mime_type)
         index = int(index.decode("utf-8"))
         file_id = uuid.uuid4()
