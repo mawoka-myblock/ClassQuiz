@@ -128,6 +128,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         raise HTTPException(status_code=400, detail="Description doesn't have the correct length")
     if not 3 <= len(title) <= 500:
         raise HTTPException(status_code=400, detail="Title doesn't have the correct length")
+    existing_quiz: Quiz | None = await Quiz.objects.get_or_none(user_id=user, title=title)
     for i, row in enumerate(ws.iter_rows(min_row=14, min_col=2, max_row=100, max_col=8, values_only=True)):
         if row[0] is None:
             continue
@@ -154,8 +155,15 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
             if answer is None:
                 continue
             answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
-        questions.append(QuizQuestion(question=question, answers=answers_list, time=str(time)).dict())
-    existing_quiz: Quiz | None = await Quiz.objects.get_or_none(user_id=user, title=title)
+        existing_question: dict = existing_quiz.questions[i]
+        questions.append(
+            QuizQuestion(
+                question=question,
+                answers=answers_list,
+                time=str(time),
+                image=existing_question["image"] if existing_question is not None else None,
+            ).dict()
+        )
     if existing_quiz is None:
         quiz = Quiz(
             title=title,
