@@ -291,7 +291,9 @@
         "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos",
         "need_more_help": "¿Necesitas más ayuda?",
         "enter_answer": "Escribe una respuesta",
-        "visit_docs": "Visita los documentos."
+        "visit_docs": "Visita los documentos.",
+        "disable_reorder": "Desactivar el modo reordenar",
+        "enable_reorder": "Activar el modo reordenar"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
