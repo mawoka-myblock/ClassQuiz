@@ -114,7 +114,8 @@
         "connect": "Kết nối",
         "quiz": "Quiz ( Trắc nghiệm)",
         "range": "Khoảng",
-        "logout": "Đăng xuất"
+        "logout": "Đăng xuất",
+        "player": "Người chơi"
     },
     "edit_page": {
         "success_update_body": "Không ai mong đợi sự điều tra này.",
@@ -186,7 +187,8 @@
         "download_export_results": "Tải xuống kết quả",
         "next_question": "Câu hỏi tiếp theo ({{question}})",
         "get_results": "Xem kết quả",
-        "get_final_results": "Nhận kết quả cuối cùng"
+        "get_final_results": "Nhận kết quả cuối cùng",
+        "export_results": "Xuất kết quả"
     },
     "play_page": {
         "2nd_place": "Hạng nhì",
@@ -200,7 +202,8 @@
         "3rd place": "Hạng ba",
         "join_by_entering_code": "Tham gia bằng cách nhập mã sau",
         "players_waiting": "{{count}} người chơi đang chờ",
-        "your_place": "Bạn đang ở {{place}}!"
+        "your_place": "Bạn đang ở {{place}}!",
+        "players_waiting_plural": "{{count}} người chơi đang chờ"
     },
     "file_dashboard": {
         "unset": "Bỏ chọn",
@@ -463,11 +466,17 @@
     },
     "public_user_page": {
         "no_original_quizzes": "Người dùng này không có bất kỳ Quiz gốc nào",
-        "joined_on": "Tham gia vào {{date}}"
+        "joined_on": "Tham gia vào {{date}}",
+        "user_not_found": "Không tìm thấy người dùng"
     },
     "components": {
         "popover": {
             "copied_to_clipboard": "Đã lưu vào Clipboard!"
         }
+    },
+    "downloader": {
+        "excel_format": "Định dạng Excel",
+        "help": "Định dạng riêng (.cqa) cũng bao gồm hình ảnh và hỗ trợ mọi loại câu hỏi, trong khi định dạng excel chỉ hỗ trợ các câu hỏi bỏ phiếu và trắc nghiệm.",
+        "select_download_type": "Chọn kiểu tải xuống"
     }
 }

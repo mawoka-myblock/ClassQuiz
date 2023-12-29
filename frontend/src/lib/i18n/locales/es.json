@@ -291,7 +291,9 @@
         "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos",
         "need_more_help": "¿Necesitas más ayuda?",
         "enter_answer": "Escribe una respuesta",
-        "visit_docs": "Visita los documentos."
+        "visit_docs": "Visita los documentos.",
+        "disable_reorder": "Desactivar el modo reordenar",
+        "enable_reorder": "Activar el modo reordenar"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",
@@ -302,7 +304,7 @@
         "classquiz_quiz": "Un ClassQuiz-Quiz",
         "upload_file_ending": "Sube el archivo que termina en .cqa o .xlsx",
         "this_side_classquiz": "Desde aquí puede importar cuestionarios exportados desde ClassQuiz.",
-        "this_side_classquiz_excel": "También puedes cargar archivos Excel, si has rellenado la siguiente plantilla.",
+        "this_side_classquiz_excel": "También puedes subir archivos excel, si has rellenado la siguiente plantilla. Si ya existe un cuestionario con el mismo título, añadirá las preguntas al cuestionario existente.",
         "download_template_here": "Descargar la plantilla"
     },
     "explore_page": {
