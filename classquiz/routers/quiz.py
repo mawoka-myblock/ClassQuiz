@@ -19,7 +19,7 @@ from pydantic import ValidationError, BaseModel
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
-from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion
+from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
 from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
 import urllib.parse
@@ -105,6 +105,10 @@ async def start_quiz(
 
     if randomize_answers:
         for question in quiz.questions:
+            if question["type"] == QuizQuestionType.RANGE:
+                continue
+            if question["type"] == QuizQuestionType.SLIDE:
+                continue
             random.shuffle(question["answers"])
 
     game = PlayGame(
