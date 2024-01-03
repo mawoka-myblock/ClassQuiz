@@ -27,7 +27,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml ./
 
 # run npm install in our local machine
-RUN corepack enable && corepack prepare pnpm@8.6.1 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@8.14.0 --activate && pnpm i
 
 # copy the generated modules and all other files to the container
 COPY . .
@@ -43,7 +43,7 @@ FROM node:19-bullseye-slim
 WORKDIR /app
 COPY --from=builder /usr/src/app/package.json .
 COPY --from=builder /usr/src/app/pnpm-lock.yaml .
-RUN corepack enable && corepack prepare pnpm@8.6.1 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@8.14.0 --activate && pnpm i
 # copy files from previous step
 COPY --from=builder /usr/src/app/build .
 COPY --from=builder /usr/src/app/node_modules ./node_modules
