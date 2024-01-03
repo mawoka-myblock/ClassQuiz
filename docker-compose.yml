@@ -35,6 +35,9 @@ services:
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
       # -- DON'T CHANGE TILL HERE ---
 
+      # --- GENERAL CONFI ---
+      ROOT_ADDRESS: "https://classquiz.de" # CHANGE IT (without a "/" at the end)
+
       # --- MAIL CONFIG ---
       MAIL_PORT: "587"
       MAIL_ADDRESS: "email@email@email.email"
