@@ -366,7 +366,9 @@ SPDX-License-Identifier: MPL-2.0
 						</div>
 					{/if}
 				{:else if question.type === QuizQuestionType.SLIDE}
-					<p>Slide!</p>
+					<p>Some smart information on a slide</p>
+				{:else if question.type === QuizQuestionType.ORDER}
+					<p>Get thing's into the right order!</p>
 				{:else}
 					<p>Unknown Question Type (shouldn't happen)</p>
 				{/if}
