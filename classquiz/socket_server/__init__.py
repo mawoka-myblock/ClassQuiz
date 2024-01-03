@@ -425,9 +425,8 @@ async def submit_answer(sid: str, data: dict):
         raise NotImplementedError
     latency = int(float((await sio.get_session(sid))["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
-    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
-    diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
 
+    diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
     score = 0
     if answer_right:
         score = calculate_score(
@@ -443,6 +442,7 @@ async def submit_answer(sid: str, data: dict):
         time_taken=abs(diff) - latency,
         score=score,
     )
+    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     answers = await set_answer(
         answers, game_pin=session["game_pin"], data=answer_data, q_index=int(float(data.question_index))
     )
