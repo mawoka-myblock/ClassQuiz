@@ -42,7 +42,7 @@ export const TextQuestionSchema = yup
 			answer: yup.string().required('You need an answer')
 		})
 	)
-	.min(2, 'You need at least 2 answers')
+	.min(1, 'You need at least 1 answer')
 	.max(16, "You can't have more than 16 answers");
 
 export const dataSchema = yup.object({
