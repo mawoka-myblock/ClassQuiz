@@ -229,7 +229,9 @@
         "check_choice_description": "Toutes les réponses correctes doivent être choisies pour marquer des points.",
         "need_more_help": "Besoin d'aide ?",
         "enter_answer": "Entrer une réponse",
-        "visit_docs": "Lisez la documentation."
+        "visit_docs": "Lisez la documentation.",
+        "enable_reorder": "Activer le mode réorganisation",
+        "disable_reorder": "Désactiver le mode réorganisation"
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
@@ -240,7 +242,7 @@
         "upload_file_ending": "Téléverser le fichier se terminant par .cqa ou .xlsx",
         "url_should_look_like_this": "L'URL devrait ressembler à ceci : https://create.kahoot.it/details/...",
         "this_side_classquiz": "De ce côté, vous pouvez importer des quiz, qui ont été exportés de ClassQuiz.",
-        "this_side_classquiz_excel": "Vous pouvez aussi téléverser des fichiers Excel, si vous avez rempli le modèle suivant.",
+        "this_side_classquiz_excel": "Vous pouvez aussi téléverser des fichiers Excel, si vous avez rempli le modèle suivant. Si un quiz avec le titre existe déjà, cela rajoutera les questions au quiz existant.",
         "download_template_here": "Télécharger le modèle"
     },
     "admin_page": {
