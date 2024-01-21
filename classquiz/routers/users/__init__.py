@@ -14,7 +14,6 @@ from fastapi import APIRouter, Response, HTTPException, Request, Depends, status
 from fastapi.background import BackgroundTasks
 from fastapi.responses import JSONResponse, RedirectResponse, PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
-import html
 
 from jose import jwt, JWTError
 
@@ -78,7 +77,7 @@ async def create_user(user: RouteUser, background_task: BackgroundTasks) -> User
         raise HTTPException(status_code=409, detail="User already exists")
 
     user.password = get_password_hash(user.password)
-    user.username = html.unescape(bleach.clean(user.username, tags=[], strip=True))
+    user.username = bleach.clean(user.username, tags=[], strip=True)
     if len(user.username) == 32:
         return JSONResponse({"details": "Username mustn't be 32 characters long"}, 400)
     await user.save()

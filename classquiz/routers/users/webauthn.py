@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from webauthn.helpers.cose import COSEAlgorithmIdentifier
 
-from classquiz.auth import get_current_user
+from classquiz.auth import get_current_user, verify_password
 from classquiz.db.models import User, FidoCredentials
 from classquiz.config import redis, settings
 
@@ -28,9 +28,15 @@ settings = settings()
 router = APIRouter()
 
 
-@router.get("/add_key", response_model=PublicKeyCredentialCreationOptions)
-async def request_add_key_data(user: User = Depends(get_current_user)):
+class RequirePasswordForAction(BaseModel):
+    password: str
+
+
+@router.post("/add_key_init", response_model=PublicKeyCredentialCreationOptions)
+async def request_add_key_data(data: RequirePasswordForAction, user: User = Depends(get_current_user)):
     user = await User.objects.select_related("fidocredentialss").get(id=user.id)
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     options = generate_registration_options(
         rp_id=urllib.parse.urlparse(settings.root_address).hostname,
         rp_name="ClassQuiz",
@@ -86,7 +92,9 @@ async def list_security_keys(user: User = Depends(get_current_user)):
 
 
 @router.delete("/key/{key_id}")
-async def delete_security_key(key_id: int, user: User = Depends(get_current_user)):
+async def delete_security_key(data: RequirePasswordForAction, key_id: int, user: User = Depends(get_current_user)):
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     key = await FidoCredentials.objects.get_or_none(pk=key_id, user=user.id)
     if key is None:
         raise HTTPException(status_code=404, detail="Key not found")

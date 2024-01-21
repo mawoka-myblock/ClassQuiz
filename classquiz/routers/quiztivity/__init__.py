@@ -17,13 +17,13 @@ router = APIRouter()
 router.include_router(shares_router, prefix="/shares")
 
 
-@router.post("/create")
+@router.post("/create", response_model_exclude={"user": ...})
 async def create_quiztivity(data: QuizTivityInput, user: User = Depends(get_current_user)) -> QuizTivity:
     quiztivity = QuizTivity.parse_obj({**data.dict(), "user": user, "id": uuid4(), "created_at": datetime.now()})
     return await quiztivity.save()
 
 
-@router.get("/{uuid}")
+@router.get("/{uuid}", response_model_exclude={"user": ...})
 async def get_quiztivity(uuid: UUID) -> QuizTivity:
     quiztivity = await QuizTivity.objects.get_or_none(id=uuid)
     if quiztivity is None:
@@ -31,7 +31,7 @@ async def get_quiztivity(uuid: UUID) -> QuizTivity:
     return quiztivity
 
 
-@router.put("/{uuid}")
+@router.put("/{uuid}", response_model_exclude={"user": ...})
 async def put_quiztivity(data: QuizTivityInput, uuid: UUID, user: User = Depends(get_current_user)) -> QuizTivity:
     quiztivity = await QuizTivity.objects.get_or_none(id=uuid, user=user)
     if quiztivity is None:

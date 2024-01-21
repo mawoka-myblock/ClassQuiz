@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 from pydantic import BaseModel
 
 from classquiz.auth import get_current_user
-from classquiz.config import settings, storage, arq
+from classquiz.config import settings, storage, arq, ALLOWED_MIME_TYPES
 from classquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem, PrivateStorageItem
 from classquiz.helpers import check_image_string
 from classquiz.storage.errors import DownloadingFailedError
@@ -119,10 +119,11 @@ async def download_file_head(file_name: str) -> Response:
 
 @router.post("/")
 async def upload_file(file: UploadFile = File(), user: User = Depends(get_current_user)) -> PublicStorageItem:
+    if file.content_type not in ALLOWED_MIME_TYPES:
+        raise HTTPException(status_code=422, detail="Unsupported")
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
-
     size = 0
     file_obj = StorageItem(
         id=file_id,

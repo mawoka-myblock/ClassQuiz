@@ -72,10 +72,10 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
     session_data = EditSessionData.parse_raw(session_data)
-    quiz_input.title = html.unescape(bleach.clean(quiz_input.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True))
-    quiz_input.description = html.unescape(bleach.clean(quiz_input.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True))
+    quiz_input.title = bleach.clean(quiz_input.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+    quiz_input.description = bleach.clean(quiz_input.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
     if quiz_input.background_color is not None:
-        quiz_input.background_color = html.unescape(bleach.clean(quiz_input.background_color, tags=[], strip=True))
+        quiz_input.background_color = bleach.clean(quiz_input.background_color, tags=[], strip=True)
 
     for i, question in enumerate(quiz_input.questions):
         if question.type == QuizQuestionType.ABCD:

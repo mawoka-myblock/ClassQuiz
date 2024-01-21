@@ -223,7 +223,7 @@
         "abcd_description": "Nur eine Antwort kann ausgewählt werden",
         "voting_description": "Antworten geben keine Punkte",
         "order_description": "Antworten müssen in die richtige Reihenfolge gebracht werden",
-        "text_description": "Spieler können text eingeben",
+        "text_description": "Spieler können Text eingeben",
         "range_description": "Ein Zahlenbereich kann mit einem Schieberegler ausgewählt werden",
         "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden",
         "need_more_help": "Benötigst du mehr Hilfe?",

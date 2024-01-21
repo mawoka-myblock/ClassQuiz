@@ -68,6 +68,7 @@
 		"felte": "^1.2.7",
 		"fuse.js": "^6.6.2",
 		"highlight.js": "^11.7.0",
+		"i18next": "^22.4.15",
 		"i18next-browser-languagedetector": "^7.0.1",
 		"js-cookie": "^3.0.1",
 		"jws": "^4.0.0",
@@ -104,8 +105,5 @@
 		"vite-plugin-iso-import": "^1.0.0",
 		"yup": "^1.1.1"
 	},
-	"type": "module",
-	"dependencies": {
-		"i18next": "^22.4.15"
-	}
+	"type": "module"
 }

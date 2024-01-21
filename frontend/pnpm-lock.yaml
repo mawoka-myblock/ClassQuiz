@@ -4,11 +4,6 @@ settings:
     autoInstallPeers: true
     excludeLinksFromLockfile: false
 
-dependencies:
-    i18next:
-        specifier: ^22.4.15
-        version: 22.4.15
-
 devDependencies:
     '@beyonk/svelte-mapbox':
         specifier: ^9.0.5
@@ -169,6 +164,9 @@ devDependencies:
     highlight.js:
         specifier: ^11.7.0
         version: 11.7.0
+    i18next:
+        specifier: ^22.4.15
+        version: 22.4.15
     i18next-browser-languagedetector:
         specifier: ^7.0.1
         version: 7.0.1
@@ -284,6 +282,7 @@ packages:
         engines: { node: '>=6.9.0' }
         dependencies:
             regenerator-runtime: 0.13.11
+        dev: true
 
     /@beyonk/svelte-mapbox@9.0.5(svelte@3.58.0):
         resolution:
@@ -3490,7 +3489,7 @@ packages:
             }
         dependencies:
             '@babel/runtime': 7.21.0
-        dev: false
+        dev: true
 
     /ieee754@1.2.1:
         resolution:
@@ -5065,6 +5064,7 @@ packages:
             {
                 integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
             }
+        dev: true
 
     /require-directory@2.1.1:
         resolution:

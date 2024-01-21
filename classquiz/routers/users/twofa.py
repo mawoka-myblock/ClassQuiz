@@ -7,10 +7,10 @@ import os
 import urllib.parse
 
 import pyotp
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from classquiz.auth import get_current_user
+from classquiz.auth import get_current_user, verify_password
 from classquiz.db.models import User
 
 router = APIRouter()
@@ -20,10 +20,16 @@ class GetBackupCodeResponse(BaseModel):
     code: str
 
 
-@router.get("/backup_code", response_model=GetBackupCodeResponse)
-async def get_backup_code(user: User = Depends(get_current_user)):
+class RequirePasswordForAction(BaseModel):
+    password: str
+
+
+@router.post("/backup_code", response_model=GetBackupCodeResponse)
+async def get_backup_code(data: RequirePasswordForAction, user: User = Depends(get_current_user)):
     backup_code = os.urandom(32).hex()
     user = await User.objects.get(id=user.id)
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     user.backup_code = backup_code
     await user.update()
     return GetBackupCodeResponse(code=backup_code)
@@ -31,11 +37,14 @@ async def get_backup_code(user: User = Depends(get_current_user)):
 
 class SetRequirePassword(BaseModel):
     require_password: bool
+    password: str
 
 
 @router.post("/require_password", response_model=SetRequirePassword)
 async def set_require_password(data: SetRequirePassword, user: User = Depends(get_current_user)):
     user = await User.objects.get(id=user.id)
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     user.require_password = data.require_password
     await user.update()
     return data
@@ -47,8 +56,10 @@ class SetTotpUpResponse(BaseModel):
 
 
 @router.post("/totp", response_model=SetTotpUpResponse)
-async def set_totp_up(user: User = Depends(get_current_user)):
+async def set_totp_up(data: RequirePasswordForAction, user: User = Depends(get_current_user)):
     user = await User.objects.get(id=user.id)
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     user.totp_secret = pyotp.random_base32()
     url = pyotp.totp.TOTP(user.totp_secret).provisioning_uri(
         name=urllib.parse.quote(user.username), issuer_name="ClassQuiz"
@@ -71,7 +82,9 @@ async def get_totp_status(user: User = Depends(get_current_user)):
 
 
 @router.delete("/totp")
-async def disable_totp(user: User = Depends(get_current_user)):
+async def disable_totp(data: RequirePasswordForAction, user: User = Depends(get_current_user)):
     user = await User.objects.get(id=user.id)
+    if not verify_password(data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid")
     user.totp_secret = None
     await user.update()
