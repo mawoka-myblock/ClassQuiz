@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-import html
 import io
 import json
 import uuid
@@ -76,7 +75,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
                 (
                     ABCDQuizAnswer(
                         right=a.correct,
-                        answer=html.unescape(bleach.clean(a.answer, tags=[], strip=True)),
+                        answer=bleach.clean(a.answer, tags=[], strip=True),
                         color=DEFAULT_COLORS[i],
                     )
                 )
@@ -84,7 +83,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
 
         quiz_questions.append(
             QuizQuestion(
-                question=html.unescape(bleach.clean(q.question, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
+                question=bleach.clean(q.question, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True),
                 answers=answers,
                 time=str(q.time / 1000),
                 image=image,
@@ -98,8 +97,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
     quiz_data = Quiz(
         id=quiz_id,
         public=False,
-        title=html.unescape(bleach.clean(quiz.kahoot.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
-        description=html.unescape(bleach.clean(quiz.kahoot.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)),
+        title=bleach.clean(quiz.kahoot.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True),
+        description=bleach.clean(quiz.kahoot.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True),
         created_at=datetime.now(),
         updated_at=datetime.now(),
         user_id=user.id,

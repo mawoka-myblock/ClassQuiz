@@ -4,7 +4,6 @@
 
 
 import asyncio
-import html
 import uuid
 from typing import Optional
 
@@ -81,14 +80,12 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         if question.type == QuizQuestionType.ABCD:
             for i2, answer in enumerate(question.answers):
                 if answer.color is not None:
-                    quiz_input.questions[i].answers[i2].color = html.unescape(
-                        bleach.clean(answer.color, tags=[], strip=True)
-                    )
+                    quiz_input.questions[i].answers[i2].color = bleach.clean(answer.color, tags=[], strip=True)
                 if answer.answer == "":
                     quiz_input.questions[i].answers[i2].answer = None
                 if answer.answer is not None:
-                    quiz_input.questions[i].answers[i2].answer = html.unescape(
-                        bleach.clean(answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+                    quiz_input.questions[i].answers[i2].answer = bleach.clean(
+                        answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
                     )
 
     images_to_delete = []
@@ -96,8 +93,8 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
 
     for i, question in enumerate(quiz_input.questions):
         image = question.image
-        quiz_input.questions[i].question = html.unescape(
-            bleach.clean(quiz_input.questions[i].question, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+        quiz_input.questions[i].question = bleach.clean(
+            quiz_input.questions[i].question, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
         )
         if image == "":
             question.image = None
