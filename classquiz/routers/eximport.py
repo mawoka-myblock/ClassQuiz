@@ -62,9 +62,10 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
     for image_key in image_urls:
         bin_data = bin_data + image_delimiter + str(image_key).encode("utf-8") + image_index_delimiter
         image_data = None
-        async with ClientSession() as session, session.get(
-            f"{settings.root_address}/api/v1/storage/download/{image_urls[image_key]}"
-        ) as resp:
+        async with (
+            ClientSession() as session,
+            session.get(f"{settings.root_address}/api/v1/storage/download/{image_urls[image_key]}") as resp,
+        ):
             image_data = await resp.read()
         bin_data = bin_data + image_data
 

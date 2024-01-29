@@ -70,9 +70,10 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
         worksheet.write(i + 1, 1, question["time"])
 
         try:
-            async with ClientSession() as session, session.get(
-                f"{settings.root_address}/api/v1/storage/download/{question['image']}"
-            ) as response:
+            async with (
+                ClientSession() as session,
+                session.get(f"{settings.root_address}/api/v1/storage/download/{question['image']}") as response,
+            ):
                 if "image" in response.headers.get("Content-Type"):
                     img_data = BytesIO(await response.read())
                     worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
@@ -226,13 +227,16 @@ async def telemetry_ping():
     except ormar.exceptions.NoMatch:
         instance_data = InstanceData()
         await instance_data.save()
-    async with ClientSession() as session, session.post(
-        f"https://cit.mawoka.eu.org/public/{instance_data.instance_id}",
-        json={
-            "public_quizzes": await Quiz.objects.filter(public=True).count(),
-            "private_quizzes": await Quiz.objects.filter(public=False).count(),
-            "users": await User.objects.count(),
-        },
+    async with (
+        ClientSession() as session,
+        session.post(
+            f"https://cit.mawoka.eu.org/public/{instance_data.instance_id}",
+            json={
+                "public_quizzes": await Quiz.objects.filter(public=True).count(),
+                "private_quizzes": await Quiz.objects.filter(public=False).count(),
+                "users": await User.objects.count(),
+            },
+        ),
     ):
         return
 
