@@ -394,11 +394,11 @@
         "add_security_key": "Dodaj Security-Key",
         "webauthn_available": "Webauthn jest dostępny",
         "webauthn": "Webauthn",
-        "enable_totp": "",
-        "disable_totp": "",
+        "enable_totp": "Włącz Totp",
+        "disable_totp": "Wyłączenie Totp",
         "totp": "",
-        "totp_unavailable": "",
-        "totp_available": ""
+        "totp_unavailable": "Totp nie jest dostępny",
+        "totp_available": "Totp jest dostępny"
     },
     "view_quiz_page": {
         "made_by": "Wykonane przez",
