@@ -448,7 +448,7 @@
     "public_user_page": {
         "joined_on": "Dołączył {{date}}",
         "no_original_quizzes": "Ten użytkownik nie ma jeszcze żadnych oryginalnych quizów",
-        "user_not_found": "Użytkownik nie został znaleziony"
+        "user_not_found": "Nie znaleziono użytkownika"
     },
     "file_dashboard": {
         "not_available": "Niedostępne",
