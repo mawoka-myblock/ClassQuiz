@@ -39,7 +39,9 @@
         "self_hostable_content": "ClassQuizは簡単にセルフホストすることができます。つまりデータはあなたがだけが管理できます!",
         "user_friendly_content": "ClassQuizはシンプルであることを目指しているので、誰もが使うことができます.",
         "quiz_results_downloadable_content": "Quiz-resultsはExcelスプレッドシートに簡単にエクスポートできます.",
-        "multilingual_content": "ClassQuizは、英語、フランス語、ドイツ語、イタリア語、ノルウェーのBokmål、トルコ語、一部インドネシア語、カタロニア語で利用できます."
+        "multilingual_content": "ClassQuizは、英語、フランス語、ドイツ語、イタリア語、ノルウェーのBokmål、トルコ語、一部インドネシア語、カタロニア語で利用できます.",
+        "multilingual": "多言語に対応",
+        "dark_mode": "ダークモード"
     },
     "edit_page": {
         "success_update_title": "クイズを更新しました.",
