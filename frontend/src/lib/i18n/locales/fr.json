@@ -130,7 +130,7 @@
     "index_page": {
         "slogan": "La plateforme de quiz open-source !",
         "meta": {
-            "description": "ClassQuiz est une application de quiz permettant d'apprendre de manière interactive pour les étudiants, libre et open-source",
+            "description": "ClassQuiz est une application d'apprentissage interactif destiné aux étudiants, elle est open-source et gratuite",
             "title": "Accueil"
         },
         "features_description": {
@@ -139,7 +139,7 @@
             "3": "L'éditeur et la fonction d'export des résultats de quiz en format Excel sont des fonctionnalités remarquables du logiciel."
         },
         "stats": "Il y a déjà {{user_count}} utilisateurs et {{quiz_count}} quiz sur ClassQuiz.",
-        "see_what_true_and_false": "Voir ce qui est vrai ou faux",
+        "see_what_true_and_false": "Voir ce qui était vrai ou faux",
         "see_how_many_true_and_false": "Voir combien avaient vrai ou faux",
         "create_or_import": "Créer ou Importer",
         "see_all_quizzes": "Voir tous vos quiz",
