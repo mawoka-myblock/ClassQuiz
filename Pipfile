@@ -44,6 +44,7 @@ arq = "*"
 thumbhash-python = "==1.0.0"
 python-magic = "*"
 openpyxl = "*"
+starlette = "*"
 
 [dev-packages]
 coverage = "*"
