@@ -49,7 +49,9 @@
         "multilingual_content": "ClassQuiz jest dostępny w języku angielskim, francuskim, niemieckim, włoskim, norweskim bokmål, tureckim oraz częściowo indonezyjskim i katalońskim.",
         "quiz_results_downloadable_content": "Wyniki quizu można łatwo wyeksportować do arkusza kalkulacyjnego Excel. (Nie wiem, dlaczego inni nie mogli tego zrobić)",
         "dark_mode_content": "Jedna z najważniejszych funkcji, jakie może mieć strona internetowa!",
-        "how_does_classquiz_work": "Jak działa ClassQuiz?"
+        "how_does_classquiz_work": "Jak działa ClassQuiz?",
+        "no_player_limit": "Brak limitu graczy",
+        "no_player_limit_content": "ClassQuiz nie ma sztucznego limitu graczy. Teoretycznie w ten sam quiz może zagrać ponad 1000 graczy, ale w testach wzięło udział maksymalnie 300 graczy."
     },
     "overview_page": {
         "question_count": "Liczba pytań",
@@ -197,7 +199,7 @@
         "analytics": "Analityka",
         "dislike_plural": "Nie lubię",
         "rating": "Ocena",
-        "like": ""
+        "like": "Lubię"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -226,7 +228,7 @@
         "unknown_error_text": "To nie powinno się zdarzyć. To pewnie moja wina, nie twoja, ale może masz magiczną moc niszczenia rzeczy..."
     },
     "uploader": {
-        "add_image": "Dodaj obraz",
+        "add_image": "Dodaj media",
         "select_upload_type": "Wybierz typ przesyłania",
         "upload_a_video": "Prześlij film",
         "upload_video_popup_notice": "Wyskakujące okienko jest otwarte; spójrz na nie, aby uzyskać więcej informacji",
@@ -261,7 +263,12 @@
         "check_choice_description": "Aby zdobyć punkty, należy wybrać wszystkie poprawne odpowiedzi",
         "order_description": "Odpowiedzi można ustawić w odpowiedniej kolejności",
         "text_description": "Gracze mogą wprowadzać tekst",
-        "range_description": "Zakres liczbowy można wybrać za pomocą suwaka"
+        "range_description": "Zakres liczbowy można wybrać za pomocą suwaka",
+        "enter_answer": "Wpisz odpowiedź",
+        "enable_reorder": "Włącz tryb zmiany kolejności",
+        "need_more_help": "Potrzebujesz pomocy?",
+        "visit_docs": "Odwiedź dokumentację.",
+        "disable_reorder": "Wyłącz tryb zmiany kolejności"
     },
     "import_page": {
         "need_help": "Potrzebujesz pomocy?",
@@ -273,7 +280,7 @@
         "a_kahoot_quiz": "Quiz Kahoot",
         "classquiz_quiz": "Quiz ClassQuiz",
         "download_template_here": "Pobierz szablon",
-        "this_side_classquiz_excel": "Możesz również przesłać pliki Excel, jeśli wypełniłeś poniższy szablon."
+        "this_side_classquiz_excel": "Możesz również przesłać pliki Excel, jeśli wypełniłeś poniższy szablon. Jeśli quiz o danym tytule już istnieje, pytania zostaną dołączone do istniejącego quizu."
     },
     "admin_page": {
         "time_left": "Pozostały czas",
@@ -313,7 +320,10 @@
         "join_description": "Dołącz na {{url}} i wpisz {{pin}}.",
         "join_by_entering_code": "Dołącz do nas wpisując następujący kod",
         "points_added": "Dodane punkty",
-        "final_result_rank": "{{place}}: {{username}} z {{points}} punktów"
+        "final_result_rank": "{{place}}: {{username}} z {{points}} punktów",
+        "your_place": "Jesteś na miejscu {{place}}!",
+        "players_waiting": "{{count}} graczy oczekuje",
+        "players_waiting_plural": "{{count}} graczy czeka"
     },
     "explore_page": {
         "made_by": "Wykonane przez",
@@ -358,7 +368,7 @@
         "search_for_own_quizzes": "Wyszukaj własne quizy",
         "views_n_plays": "Widoki i gry",
         "info_analytics": "\"Odtworzenia\" pokazują tylko, jak często quiz był uruchamiany (w tym ty), podczas gdy \"Wyświetlenia\" liczą, jak często strona \"Wyświetlenia\" była odwiedzana, więc liczy również boty (przepraszam za to).",
-        "commandpalette_notice": ""
+        "commandpalette_notice": "Wciśnij <kbd>Ctr</kbd>+<kbd>k</kbd> lub <kbd>Meta</kbd>+<kbd>k</kbd> aby otworzyć paletę poleceń"
     },
     "navbar": {
         "donate": "Darowizna"
@@ -384,11 +394,11 @@
         "add_security_key": "Dodaj Security-Key",
         "webauthn_available": "Webauthn jest dostępny",
         "webauthn": "Webauthn",
-        "enable_totp": "",
-        "disable_totp": "",
+        "enable_totp": "Włącz Totp",
+        "disable_totp": "Wyłączenie Totp",
         "totp": "",
-        "totp_unavailable": "",
-        "totp_available": ""
+        "totp_unavailable": "Totp nie jest dostępny",
+        "totp_available": "Totp jest dostępny"
     },
     "view_quiz_page": {
         "made_by": "Wykonane przez",
@@ -437,18 +447,19 @@
     },
     "public_user_page": {
         "joined_on": "Dołączył {{date}}",
-        "no_original_quizzes": "Ten użytkownik nie ma jeszcze żadnych oryginalnych quizów"
+        "no_original_quizzes": "Ten użytkownik nie ma jeszcze żadnych oryginalnych quizów",
+        "user_not_found": "Nie znaleziono użytkownika"
     },
     "file_dashboard": {
         "not_available": "Niedostępne",
-        "size": "Rozmiar: {{size}} Mib",
+        "size": "Rozmiar: {{size}} MiB",
         "uploaded": "Przesłano: {{date}}",
         "Imported": "Importowane: {{yes_or_no}}",
         "edit_details": "Edytuj szczegóły",
         "delete_image": "Usuń obraz",
         "edit_the_image": "Edytuj obraz",
         "filename_word": "Nazwa pliku",
-        "storage_usage": "Użyłeś {{used}} Mib z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej.",
+        "storage_usage": "Użyłeś {{used}} MiB z {{łącznie}} MiB pamięci. Odpowiada to {{percent}}% twojej przestrzeni dyskowej.",
         "imported": "Importowane: {{yes_or_no}}",
         "missing": "ZAGINIONY!",
         "unset": "Nieustawiony",
@@ -470,5 +481,11 @@
         "cancel_update": "Anuluj aktualizację!",
         "update_from_to": "Aktualizacja z {{current_version}} do {{newest_version}}",
         "already_latest_version": "Masz już najnowszą wersję"
+    },
+    "downloader": {
+        "select_download_type": "Wybierz typ pobierania",
+        "own_format": "Własny format",
+        "excel_format": "Format Excel",
+        "help": "Własny format (.cqa) zawiera również obrazki i obsługuje wszystkie typy pytań, podczas gdy format excel obsługuje tylko głosowanie i pytania wielokrotnego wyboru."
     }
 }

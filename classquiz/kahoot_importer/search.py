@@ -35,7 +35,10 @@ async def search(
     :param limit: Less or equals 100
     :return:
     """
-    async with ClientSession() as session, session.get(
-        f"https://create.kahoot.it/rest/kahoots/?query={query}&limit={limit}&cursor={cursor}&searchCluster={search_cluster}&includeExtendedCounters=false&inventoryItemId={inventory_item_id}"  # noqa : E501
-    ) as response:
+    async with (
+        ClientSession() as session,
+        session.get(
+            f"https://create.kahoot.it/rest/kahoots/?query={query}&limit={limit}&cursor={cursor}&searchCluster={search_cluster}&includeExtendedCounters=false&inventoryItemId={inventory_item_id}"  # noqa : E501
+        ) as response,
+    ):
         return _Response(**await response.json())

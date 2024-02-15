@@ -125,9 +125,10 @@ class NotFoundError(Exception):
 
 
 async def get_images(api_key: str, params: GetImagesParams) -> GetImagesResponse:
-    async with ClientSession() as session, session.get(
-        "https://pixabay.com/api/", params={"key": api_key, **params.dict()}
-    ) as resp:
+    async with (
+        ClientSession() as session,
+        session.get("https://pixabay.com/api/", params={"key": api_key, **params.dict()}) as resp,
+    ):
         if resp.status == 200:
             return GetImagesResponse.parse_obj(await resp.json())
         else:

@@ -16,11 +16,11 @@ repos:
 #      - id: check-added-large-files
 
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 24.1.1
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: 'v4.0.0-alpha.4'  # Use the sha / tag you want to point at
+    rev: 'v4.0.0-alpha.8'  # Use the sha / tag you want to point at
     hooks:
       - id: prettier
         files: "^frontend/"
@@ -29,13 +29,13 @@ repos:
           - "prettier-plugin-svelte@latest"
           - "prettier@latest"
   - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
+    rev: 7.0.0
     hooks:
       - id: flake8
         # flake8 is passed in all tracked python files
         # so --exclude in .flake8 does not work
         exclude: ^migrations/versions/
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v2.1.0
+    rev: v3.0.1
     hooks:
       - id: reuse

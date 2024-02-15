@@ -1,0 +1,162 @@
+{
+    "index_page": {
+        "slogan": "オープンソースのクイズプラットフォーム!",
+        "stats": "ClassQuizには {{user_count}} のユーザと {{quiz_count}} のクイズがあります.",
+        "see_what_true_and_false": "正しいか、間違っていたかを見る",
+        "see_all_quizzes": "あなたのクイズをすべて見る",
+        "teachers_site": "教師のサイト",
+        "students_site": "学生のサイト",
+        "user_friendly": "ユーザーフレンドリー",
+        "quiz_results_downloadable": "Quizの結果をダウンロードできます",
+        "select_answer": "回答を選択",
+        "choose_answer_wisely": "回答を賢く選択",
+        "view_results": "結果を見る",
+        "get_ranking_and_winners": "ランキングを取得し、誰が勝ったかを確認する",
+        "completely_free_content": "ClassQuizは、有料プランはありません。迷惑なアップグレードページへのリダイレクトもなく、完全に無料ですが、 寄付は非常に嬉しいです。",
+        "download_quizzes": "クイズをダウンロード",
+        "community_driven": "コミュニティ主導",
+        "german_server_content": "ClassQuizのサーバーはドイツにあり、netcupでホストされています.",
+        "meta": {
+            "description": "ClassQuizはオープンソースかつ無料で利用できる学生のための対話型学習クイズアプリです",
+            "title": "ホーム"
+        },
+        "see_how_many_true_and_false": "何が正しいか間違っていたかを見る",
+        "create_or_import": "作成またはインポート",
+        "no_tracking": "追跡なし",
+        "self_hostable": "セルフホスト可能",
+        "german_server": "ドイツのサーバー",
+        "completely_free": "完全に費用は無料",
+        "get_a_quiz": "1. クイズを入手",
+        "create_a_quiz_from_scratch": "写真などを含むクイズを最初からエディターで作成",
+        "download_quizzes_content": "クイズは1つのファイルとしてダウンロードし、いつでもインポートすることができます。 また、クイズを他のClassQuizインスタンスに移動することもできます.",
+        "community_driven_content": "ClassQuizは、資金調達、テストアイデア、機能リクエスト、翻訳などのコミュニティに依存しています。 あなたもClassQuizコミュニティの一員になることもできます!",
+        "how_does_classquiz_work": "ClassQuizはどのように機能しますか?",
+        "no_player_limit": "プレーヤーの制限なし",
+        "no_player_limit_content": "ClassQuizは意図的なプレーヤーの上限はありません。 理論的には1000人以上のプレーヤーが同じクイズを再生することができます。但し1つのクイズにつき最大300人でテストされています.",
+        "check_if_chosen_wisely": "賢く選んだら、チェック",
+        "list_winners": "受賞者一覧",
+        "why_classquiz": "なぜ ClassQuizなのか?",
+        "self_hostable_content": "ClassQuizは簡単にセルフホストすることができます。つまりデータはあなたがだけが管理できます!",
+        "user_friendly_content": "ClassQuizはシンプルであることを目指しているので、誰もが使うことができます.",
+        "quiz_results_downloadable_content": "Quiz-resultsはExcelスプレッドシートに簡単にエクスポートできます.",
+        "multilingual_content": "ClassQuizは、英語、フランス語、ドイツ語、イタリア語、ノルウェーのBokmål、トルコ語、一部インドネシア語、カタロニア語で利用できます.",
+        "multilingual": "多言語に対応",
+        "dark_mode": "ダークモード"
+    },
+    "edit_page": {
+        "success_update_title": "クイズを更新しました.",
+        "success_update_body": "だれでも不満を期待しません."
+    },
+    "create_page": {
+        "success": {
+            "title": "作成したクイズ.",
+            "body": "ゲームを始めましょう."
+        }
+    },
+    "login_page": {
+        "modal": {
+            "error": {
+                "description": {
+                    "unexpected": "古い予期しないエラーがあった!",
+                    "wrong_creds": "パスワードとメールアドレスが正しいことを確認してください."
+                },
+                "wrong_creds": "メールアドレスまたはパスワードが間違っています."
+            },
+            "success": {
+                "description": {
+                    "success_check_mail": "リンクからログインして、メールの受信トレイを確認してください."
+                }
+            }
+        },
+        "use_backup_code": "バックアップコードを使用する",
+        "login_or_create_account": "ログインまたはアカウントを作成する"
+    },
+    "import_page": {
+        "download_template_here": "テンプレートをダウンロード",
+        "classquiz_quiz": "ClassQuizクイズ",
+        "upload_file_ending": ".cqa または .xlsx で終わるファイルをアップロードする",
+        "this_side_classquiz": "ここでは、ClassQuizからエクスポートされたクイズをインポートできます."
+    },
+    "admin_page": {
+        "already_registered_as_admin": "すでにこのゲームには登録済みの管理者がいます.",
+        "get_results": "結果を得る",
+        "show_next_question": "次の質問を表示",
+        "no_answers": "回答なし!",
+        "stop_time": "停止時間",
+        "enter_answer_into_field": "入力欄に回答を入力してください!",
+        "request_export_results": "リクエスト結果のダウンロード",
+        "export_results": "エクスポート結果",
+        "start_game": "ゲーム開始",
+        "get_results_and_stop_time": "結果を取得し、時間を停止する",
+        "get_final_results": "最終結果を得る",
+        "start_by_showing_first_question": "最初の質問を表示し始めます.",
+        "next_question": "次の質問 ({{question}})",
+        "show_results": "結果を表示",
+        "stop_time_and_solutions": "時間を停止し、解決を示す",
+        "answers_submitted": "{{answer_count}} 提出された回答"
+    },
+    "settings_page": {
+        "delete_this_session": "このセッションを削除",
+        "this_session?": "このセッションは?",
+        "change_avatar": "アバターの変更",
+        "last_seen": "最終確認",
+        "add_api_key": "APIキーの追加"
+    },
+    "explore_page": {
+        "made_by": "作者:"
+    },
+    "play_page": {
+        "1st_place": "第1位",
+        "2nd_place": "第2位",
+        "3rd place": "第3位",
+        "with_out_of": "{{total_question_count}}問中 {{correct_questions}} 問",
+        "your_score": "あなたのスコア: {{score}}",
+        "your_place": "あなたは第 {{place}}位!",
+        "join_by_entering_code": "以下のコードを入力してください",
+        "points_added": "ポイント追加"
+    },
+    "editor_page": {
+        "add_an_answer": "回答を追加する",
+        "right_click_to_delete": "右クリックで回答削除!"
+    },
+    "footer": {
+        "more_details_here": "詳細はこちら",
+        "self_ads": "{{mawoka_link}} と {{others_link}} の助けを借りて ❤️ で作られました."
+    },
+    "uploader": {
+        "upload_video": "アップロードされた動画",
+        "images_by_pixabay": "Pixabayが提供する画像",
+        "search_english_only": "検索は英語のみ機能",
+        "select_upload_type": "アップロードタイプを選択",
+        "upload_a_video": "動画をアップロード",
+        "upload_video_popup_notice": "ポップアップが開きます。 詳細については、それを見てください"
+    },
+    "avatar_settings": {
+        "skin_color": "肌の色",
+        "hair_color": "髪の色",
+        "hat_color": "帽子の色",
+        "clothe_color": "衣装の色"
+    },
+    "results_page": {
+        "date_played": "プレイされた日付",
+        "quiz_title": "クイズタイトル",
+        "player_count": "プレイヤー数"
+    },
+    "overview_page": {
+        "created_at": "によって作成されました",
+        "question_count": "質問のカウント",
+        "no_quizzes": "「作成」ボタンをクリックするか、クイズをインポートして下さい."
+    },
+    "words": {
+        "game_pin": "ゲームPIN",
+        "backup_code": "バックアップコード"
+    },
+    "search_page": {
+        "at_least_3_characters": "少なくとも3文字を入力してください.",
+        "nothing_here": "ここには何もない..."
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "あなた自身のクイズを検索",
+        "commandpalette_notice": "<kbd>Ctr</kbd>+<kbd>k</kbd>または<kbd>Meta</kbd>+<kbd>k</kbd>を押してコマンドパレットを開く"
+    }
+}
