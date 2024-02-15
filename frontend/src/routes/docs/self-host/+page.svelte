@@ -47,11 +47,6 @@ SPDX-License-Identifier: MPL-2.0
 		</li>
 	</ul>
 	<h3>3rd-Parties</h3>
-	<h4>Required</h4>
-	<ul>
-		<li><a href='https://hcaptcha.com'>hCaptcha (Captcha)</a></li>
-		<li><a href='https://www.mapbox.com/'>Mapbox (Maps)</a></li>
-	</ul>
 	<h4>Optional</h4>
 	<ul>
 		<li><a href='https://sentry.io'>Sentry (Error-Logging)</a></li>
@@ -61,6 +56,8 @@ SPDX-License-Identifier: MPL-2.0
 			>
 		</li>
 		<li><a href='https://github.com/settings/developers'>GitHub-Credentials (Sign-In)</a></li>
+		<li><a href='https://hcaptcha.com'>hCaptcha</a> <b>OR</b> <a href='https://www.google.com/recaptcha/about/'>ReCaptcha</a></li>
+
 	</ul>
 
 	<h2>Installation</h2>
@@ -153,7 +150,8 @@ SPDX-License-Identifier: MPL-2.0
 	<p>A login using a custom OpenID provider is also possible. For that, adjust the settings in the docker-compose.yml
 		and configure the following scopes: "openid email profile". The follwoing redirect-url should be used:</p>
 	<pre><code>https://[BASE_URL]/api/v1/users/oauth/custom/auth</code></pre>
-	You'll also need to tell the frontend by editing the <code>frontend/Dockerfile</code>. Add the following line at the top, where all the other ENV's are as well:
+	You'll also need to tell the frontend by editing the <code>frontend/Dockerfile</code>. Add the following line at the
+	top, where all the other ENV's are as well:
 	<pre><code>ENV VITE_CUSTOM_OAUTH_NAME=[SOME_DISPLAY_NAME_FOR_THE_PROVIDER]</code></pre>
 
 
