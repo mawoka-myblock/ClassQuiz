@@ -45,6 +45,7 @@ thumbhash-python = "*"
 python-magic = "*"
 openpyxl = "*"
 starlette = "*"
+pyopenssl = "*"
 
 [dev-packages]
 coverage = "*"
