@@ -116,7 +116,7 @@ async def rejoin_game(sid: str, data: dict):
         "admin": False,
     }
     await sio.save_session(sid, session)
-    sio.enter_room(sid, data.game_pin)
+    await sio.enter_room(sid, data.game_pin)
     await sio.emit(
         "rejoined_game",
         {
@@ -218,7 +218,7 @@ async def join_game(sid: str, data: dict):
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
     await sio.emit("time_sync", encrypted_datetime, room=sid)
     # --- Time-Sync ---
-    sio.enter_room(sid, data.game_pin)
+    await sio.enter_room(sid, data.game_pin)
 
 
 @sio.event
@@ -264,8 +264,8 @@ async def register_as_admin(sid: str, data: dict):
             session["game_pin"] = game_pin
             session["admin"] = True
             session["remote"] = False
-        sio.enter_room(sid, game_pin)
-        sio.enter_room(sid, f"admin:{data.game_pin}")
+        await sio.enter_room(sid, game_pin)
+        await sio.enter_room(sid, f"admin:{data.game_pin}")
     else:
         await sio.emit("already_registered_as_admin", room=sid)
 
@@ -525,7 +525,7 @@ async def kick_player(sid: str, data: dict):
     await redis.srem(
         f"game_session:{session['game_pin']}:players", GamePlayer(username=data.username, sid=player_sid).json()
     )
-    sio.leave_room(player_sid, session["game_pin"])
+    await sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)
 
 
@@ -552,8 +552,8 @@ async def register_as_remote(sid: str, data: dict):
         session["game_pin"] = data.game_pin
         session["admin"] = True
         session["remote"] = True
-    sio.enter_room(sid, data.game_pin)
-    sio.enter_room(sid, f"admin:{data.game_pin}")
+    await sio.enter_room(sid, data.game_pin)
+    await sio.enter_room(sid, f"admin:{data.game_pin}")
 
 
 class _SetControlVisibilityInput(BaseModel):
