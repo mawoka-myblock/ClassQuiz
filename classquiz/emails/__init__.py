@@ -1,13 +1,12 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 #
 # SPDX-License-Identifier: MPL-2.0
-
-
 import os
 import smtplib
 import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formatdate
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
@@ -28,6 +27,7 @@ def _sendMail(template: str, to: str, subject: str):
     msg["Subject"] = subject
     msg["From"] = settings.mail_address
     msg["To"] = to
+    msg["Date"] = formatdate(localtime=True)
     msg.attach(MIMEText(template, "html"))
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     server = smtplib.SMTP(host=settings.mail_server, port=settings.mail_port)
