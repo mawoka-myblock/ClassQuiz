@@ -274,7 +274,8 @@
         "never": "しない",
         "library": "ライブラリ",
         "progress": "進捗",
-        "info": "情報"
+        "info": "情報",
+        "normal": "普通"
     },
     "search_page": {
         "at_least_3_characters": "少なくとも3文字を入力してください.",
