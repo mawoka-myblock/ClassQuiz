@@ -71,7 +71,8 @@
                     "success_check_mail": "リンクからログインして、メールの受信トレイを確認してください.",
                     "success": "ログインしました。"
                 },
-                "success": "ログインしました。"
+                "success": "ログインしました。",
+                "success_check_mail": "ログインしてメールの受信トレイを確認して"
             }
         },
         "use_backup_code": "バックアップコードを使用する",
@@ -262,7 +263,19 @@
         "url": "URL",
         "image": "画像",
         "search": "検索",
-        "screenshot_plural": "スクリーンショット"
+        "screenshot_plural": "スクリーンショット",
+        "slide": "スライド",
+        "like": "いいね",
+        "dislike_plural": "よくないね",
+        "range": "範囲",
+        "stats": "統計",
+        "count": "カウント",
+        "order": "注文",
+        "never": "しない",
+        "library": "ライブラリ",
+        "progress": "進捗",
+        "info": "情報",
+        "normal": "普通"
     },
     "search_page": {
         "at_least_3_characters": "少なくとも3文字を入力してください.",
@@ -284,9 +297,14 @@
         "delete_answer": "答えを削除",
         "empty": "空…",
         "slide": {
-            "text": "テキスト"
+            "text": "テキスト",
+            "headline_description": "見出し用太文字",
+            "headline": "見出し",
+            "rectangle": "矩形"
         },
-        "need_more_help": "もっとヘルプが必要？"
+        "need_more_help": "もっとヘルプが必要？",
+        "time_in_seconds": "記録間隔（秒）",
+        "right_or_true?": "ねえ…？"
     },
     "result_page": {
         "custom_field": "カスタム欄",
