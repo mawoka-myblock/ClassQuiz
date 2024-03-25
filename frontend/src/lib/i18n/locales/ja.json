@@ -267,7 +267,14 @@
         "slide": "スライド",
         "like": "いいね",
         "dislike_plural": "よくないね",
-        "range": "範囲"
+        "range": "範囲",
+        "stats": "統計",
+        "count": "カウント",
+        "order": "注文",
+        "never": "しない",
+        "library": "ライブラリ",
+        "progress": "進捗",
+        "info": "情報"
     },
     "search_page": {
         "at_least_3_characters": "少なくとも3文字を入力してください.",
@@ -290,9 +297,13 @@
         "empty": "空…",
         "slide": {
             "text": "テキスト",
-            "headline_description": "見出し用太文字"
+            "headline_description": "見出し用太文字",
+            "headline": "見出し",
+            "rectangle": "矩形"
         },
-        "need_more_help": "もっとヘルプが必要？"
+        "need_more_help": "もっとヘルプが必要？",
+        "time_in_seconds": "記録間隔（秒）",
+        "right_or_true?": "ねえ…？"
     },
     "result_page": {
         "custom_field": "カスタム欄",
