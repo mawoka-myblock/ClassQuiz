@@ -71,7 +71,8 @@
                     "success_check_mail": "リンクからログインして、メールの受信トレイを確認してください.",
                     "success": "ログインしました。"
                 },
-                "success": "ログインしました。"
+                "success": "ログインしました。",
+                "success_check_mail": "ログインしてメールの受信トレイを確認して"
             }
         },
         "use_backup_code": "バックアップコードを使用する",
@@ -262,7 +263,11 @@
         "url": "URL",
         "image": "画像",
         "search": "検索",
-        "screenshot_plural": "スクリーンショット"
+        "screenshot_plural": "スクリーンショット",
+        "slide": "スライド",
+        "like": "いいね",
+        "dislike_plural": "よくないね",
+        "range": "範囲"
     },
     "search_page": {
         "at_least_3_characters": "少なくとも3文字を入力してください.",
@@ -284,7 +289,8 @@
         "delete_answer": "答えを削除",
         "empty": "空…",
         "slide": {
-            "text": "テキスト"
+            "text": "テキスト",
+            "headline_description": "見出し用太文字"
         },
         "need_more_help": "もっとヘルプが必要？"
     },
