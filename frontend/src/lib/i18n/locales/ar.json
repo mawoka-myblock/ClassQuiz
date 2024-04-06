@@ -162,7 +162,8 @@
         "connect": "إتصل",
         "quiz": "اختبار",
         "range": "النطاق",
-        "logout": "تسجيل الخروج"
+        "logout": "تسجيل الخروج",
+        "player": "المُشغل"
     },
     "edit_page": {
         "success_update_body": "لا أحد يتوقع التحقيق.",
