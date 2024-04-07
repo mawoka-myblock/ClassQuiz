@@ -36,7 +36,7 @@ SPDX-License-Identifier: MPL-2.0
 		if (!browser || user_data?.require_password === undefined) {
 			return;
 		}
-		const pw = require_password()
+		const pw = require_password();
 		const res = await fetch('/api/v1/users/2fa/require_password', {
 			method: 'POST',
 			headers: {
@@ -48,13 +48,20 @@ SPDX-License-Identifier: MPL-2.0
 	};
 
 	const require_password = (): string => {
-		return prompt("Please enter your password to continue")
-	}
+		return prompt('Please enter your password to continue');
+	};
 
 	const add_security_key = async () => {
-		const pw = require_password()
-		const res1 = await fetch('/api/v1/users/webauthn/add_key_init', {method: "POST", body: JSON.stringify({password: pw}), headers: { 'Content-Type': 'application/json' }});
-		if (res1.status === 401) {alert("Password probably wrong"); return}
+		const pw = require_password();
+		const res1 = await fetch('/api/v1/users/webauthn/add_key_init', {
+			method: 'POST',
+			body: JSON.stringify({ password: pw }),
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (res1.status === 401) {
+			alert('Password probably wrong');
+			return;
+		}
 		if (!res1.ok) {
 			throw Error('Response not ok');
 		}
@@ -81,34 +88,62 @@ SPDX-License-Identifier: MPL-2.0
 	};
 
 	const remove_security_key = async (key_id: number) => {
-		const pw = require_password()
-		const res = await fetch(`/api/v1/users/webauthn/key/${key_id}`, { method: 'DELETE', body: JSON.stringify({password: pw}), headers: { 'Content-Type': 'application/json' } });
-		if (res.status === 401) {alert("Password probably wrong"); return}
+		const pw = require_password();
+		const res = await fetch(`/api/v1/users/webauthn/key/${key_id}`, {
+			method: 'DELETE',
+			body: JSON.stringify({ password: pw }),
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (res.status === 401) {
+			alert('Password probably wrong');
+			return;
+		}
 		data = get_data();
 	};
 
 	const disable_totp = async () => {
-		const pw = require_password()
-		const res = await fetch(`/api/v1/users/2fa/totp`, { method: 'DELETE', body: JSON.stringify({password: pw}), headers: { 'Content-Type': 'application/json' } });
-		if (res.status === 401) {alert("Password probably wrong"); return}
+		const pw = require_password();
+		const res = await fetch(`/api/v1/users/2fa/totp`, {
+			method: 'DELETE',
+			body: JSON.stringify({ password: pw }),
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (res.status === 401) {
+			alert('Password probably wrong');
+			return;
+		}
 		data = get_data();
 	};
 
 	const enable_totp = async () => {
-		const pw = require_password()
-		const res = await fetch('/api/v1/users/2fa/totp', { method: 'POST', body: JSON.stringify({password: pw}), headers: { 'Content-Type': 'application/json' } });
-		if (res.status === 401) {alert("Password probably wrong"); return}
+		const pw = require_password();
+		const res = await fetch('/api/v1/users/2fa/totp', {
+			method: 'POST',
+			body: JSON.stringify({ password: pw }),
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (res.status === 401) {
+			alert('Password probably wrong');
+			return;
+		}
 		data = get_data();
 		totp_data = await res.json();
 	};
 
 	const get_backup_code = async () => {
-		const pw = require_password()
+		const pw = require_password();
 		if (!confirm('If you continue, your old backup-code will be removed.')) {
 			return;
 		}
-		const res = await fetch('/api/v1/users/2fa/backup_code', { method: 'POST', body: JSON.stringify({password: pw}), headers: { 'Content-Type': 'application/json' } });
-		if (res.status === 401) {alert("Password probably wrong"); return}
+		const res = await fetch('/api/v1/users/2fa/backup_code', {
+			method: 'POST',
+			body: JSON.stringify({ password: pw }),
+			headers: { 'Content-Type': 'application/json' }
+		});
+		if (res.status === 401) {
+			alert('Password probably wrong');
+			return;
+		}
 		backup_code = (await res.json()).code;
 	};
 </script>
@@ -130,7 +165,12 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="h-full w-full">
 				<h2 class="text-center text-2xl">{$t('security_settings.activate_2fa')}</h2>
-				<div class="flex h-full w-full justify-center flex-col" class:pointer-events-none={!totp_activated} class:grayscale={!totp_activated} class:opacity-50={!totp_activated}>
+				<div
+					class="flex h-full w-full justify-center flex-col"
+					class:pointer-events-none={!totp_activated}
+					class:grayscale={!totp_activated}
+					class:opacity-50={!totp_activated}
+				>
 					<div class="m-auto">
 						{#if user_data.require_password}
 							<div class="flex items-center space-x-2">

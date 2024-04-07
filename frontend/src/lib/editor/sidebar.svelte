@@ -210,7 +210,7 @@ SPDX-License-Identifier: MPL-2.0
 									d="m4.5 15.75 7.5-7.5 7.5 7.5"
 									stroke-linecap="round"
 									stroke-linejoin="round"
-								></path>
+								/>
 							</svg>
 						</div>
 						<div
@@ -240,7 +240,7 @@ SPDX-License-Identifier: MPL-2.0
 									d="m19.5 8.25-7.5 7.5-7.5-7.5"
 									stroke-linecap="round"
 									stroke-linejoin="round"
-								></path>
+								/>
 							</svg>
 						</div>
 					</div>

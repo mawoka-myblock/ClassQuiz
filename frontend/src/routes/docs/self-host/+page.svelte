@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 
 SPDX-License-Identifier: MPL-2.0
 -->
-<script lang='ts'>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import '$lib/hljs.css';
 
@@ -16,12 +16,12 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:head>
 	<title>ClassQuiz/docs - Self-Host</title>
 	<meta
-		name='description'
-		content='How to self-host ClassQuiz, the open-source quiz-application'
+		name="description"
+		content="How to self-host ClassQuiz, the open-source quiz-application"
 	/>
 </svelte:head>
 <article
-	class='prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert'
+	class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto mt-10 prose-slate px-4 dark:prose-invert"
 >
 	<h1>Self-Hosting</h1>
 	<p>Since ClassQuiz is open-source, it can also be self-hosted.</p>
@@ -36,40 +36,42 @@ SPDX-License-Identifier: MPL-2.0
 	<h3>Software</h3>
 	<ul>
 		<li>
-			<a href='https://docker.com' target='_blank'>Docker</a> (<a
-			href='https://docs.docker.com/compose/install/linux/'
-			target='_blank'>Compose</a
-		>)
+			<a href="https://docker.com" target="_blank">Docker</a> (<a
+				href="https://docs.docker.com/compose/install/linux/"
+				target="_blank">Compose</a
+			>)
 		</li>
-		<li><a href='https://git-scm.com/' target='_blank'>Git</a></li>
+		<li><a href="https://git-scm.com/" target="_blank">Git</a></li>
 		<li>
-			A <a href='https://redis.com' target='_blank'>Redis</a>-Server
+			A <a href="https://redis.com" target="_blank">Redis</a>-Server
 		</li>
 	</ul>
 	<h3>3rd-Parties</h3>
 	<h4>Optional</h4>
 	<ul>
-		<li><a href='https://sentry.io'>Sentry (Error-Logging)</a></li>
+		<li><a href="https://sentry.io">Sentry (Error-Logging)</a></li>
 		<li>
-			<a href='https://console.cloud.google.com/apis/dashboard'
-			>Google-Credentials (Sign-In)</a
+			<a href="https://console.cloud.google.com/apis/dashboard"
+				>Google-Credentials (Sign-In)</a
 			>
 		</li>
-		<li><a href='https://github.com/settings/developers'>GitHub-Credentials (Sign-In)</a></li>
-		<li><a href='https://hcaptcha.com'>hCaptcha</a> <b>OR</b> <a href='https://www.google.com/recaptcha/about/'>ReCaptcha</a></li>
-
+		<li><a href="https://github.com/settings/developers">GitHub-Credentials (Sign-In)</a></li>
+		<li>
+			<a href="https://hcaptcha.com">hCaptcha</a> <b>OR</b>
+			<a href="https://www.google.com/recaptcha/about/">ReCaptcha</a>
+		</li>
 	</ul>
 
 	<h2>Installation</h2>
 	<p>At first, clone the repo:</p>
 
-	<pre><code class='language-bash'
-	>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
-	></pre>
+	<pre><code class="language-bash"
+			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
+		></pre>
 	<p>
 		Now, you'll configure your frontend. You'll have to change the following in <code
-	>frontend/Dockerfile</code
-	>:
+			>frontend/Dockerfile</code
+		>:
 	</p>
 	<ul>
 		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
@@ -93,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 	<h3>Storage Provider</h3>
 	<p>
 		You'll have to set up a storage provider for some pictures (these getting imported from
-		Kahoot!). For now, you can use <a href='https://min.io/' target='_blank'>Minio (S3)</a> or
+		Kahoot!). For now, you can use <a href="https://min.io/" target="_blank">Minio (S3)</a> or
 		the local filesystem. Please not that I'd recommend Minio for larger instances, since it can
 		be scaled and the media doesn't have to streamed through the (comparatively) slow ClassQuiz
 		server. Now, that you've decided on a storage backend, you can set the
@@ -124,9 +126,9 @@ SPDX-License-Identifier: MPL-2.0
 	</p>
 	<h4>Google</h4>
 	<p>
-		First, go to <a href='https://console.cloud.google.com/apis/dashboard'
-	>console.cloud.google.com/apis/dashboard</a
-	> and create a new project and select it. Then, go to the "OAuth consent screen" and set it up.
+		First, go to <a href="https://console.cloud.google.com/apis/dashboard"
+			>console.cloud.google.com/apis/dashboard</a
+		> and create a new project and select it. Then, go to the "OAuth consent screen" and set it up.
 		Next, go to the "Credentials"-tab and click on "Create Credentials" and create a new "OAuth Client
 		ID". This ID should be from the application-type "Web application". Afterwards, add a new "Authorised
 		JavaScript origin", which is just the base-domain (with https) of your ClassQuiz-installation.
@@ -137,9 +139,9 @@ SPDX-License-Identifier: MPL-2.0
 
 	<h4>GitHub</h4>
 	<p>
-		First, go to <a href='https://github.com/settings/developers'
-	>github.com/settings/developers</a
-	> and create a "new OAuth App". The "Authorization callback URL" has the following schema:
+		First, go to <a href="https://github.com/settings/developers"
+			>github.com/settings/developers</a
+		> and create a "new OAuth App". The "Authorization callback URL" has the following schema:
 	</p>
 	<pre><code>https://[BASE_URL]/api/v1/users/oauth/github/auth</code></pre>
 	<p>
@@ -147,21 +149,23 @@ SPDX-License-Identifier: MPL-2.0
 		later, together with your client-id.
 	</p>
 	<h4>Custom OpenID auth</h4>
-	<p>A login using a custom OpenID provider is also possible. For that, adjust the settings in the docker-compose.yml
-		and configure the following scopes: "openid email profile". The follwoing redirect-url should be used:</p>
+	<p>
+		A login using a custom OpenID provider is also possible. For that, adjust the settings in
+		the docker-compose.yml and configure the following scopes: "openid email profile". The
+		follwoing redirect-url should be used:
+	</p>
 	<pre><code>https://[BASE_URL]/api/v1/users/oauth/custom/auth</code></pre>
-	You'll also need to tell the frontend by editing the <code>frontend/Dockerfile</code>. Add the following line at the
-	top, where all the other ENV's are as well:
+	You'll also need to tell the frontend by editing the<code>frontend/Dockerfile</code>. Add the
+	following line at the top, where all the other ENV's are as well:
 	<pre><code>ENV VITE_CUSTOM_OAUTH_NAME=[SOME_DISPLAY_NAME_FOR_THE_PROVIDER]</code></pre>
 
-
 	<h3>Docker-Compose File</h3>
-	Please go through the <code>docker-compose.yml</code> thoroughly and fill out all the details, which should be
-	self-explanatory.
+	Please go through the<code>docker-compose.yml</code> thoroughly and fill out all the details,
+	which should be self-explanatory.
 	<p>Run the following command to generate and set the secret up automatically</p>
-	<pre><code class='language-bash'
-	>sed -i "s/TOP_SECRET/$(openssl rand -hex 32)/g" docker-compose.yml</code
-	></pre>
+	<pre><code class="language-bash"
+			>sed -i "s/TOP_SECRET/$(openssl rand -hex 32)/g" docker-compose.yml</code
+		></pre>
 	<p>Now build and deploy:</p>
 	<pre><code>docker compose build && docker compose up -d</code></pre>
 	<p><b>ClassQuiz needs HTTPS/SSL to work properly!</b></p>

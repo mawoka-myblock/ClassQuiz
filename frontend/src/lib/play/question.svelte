@@ -234,33 +234,35 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			{/await}
 		{:else if question.type === QuizQuestionType.TEXT}
-			<span
-				class="fixed top-0 bg-red-500 h-8 transition-all"
-				style="width: {(100 / parseInt(question.time)) * parseInt(timer_res)}vw"
-			/>
-			<div class="flex justify-center mt-10">
-				<p class="text-black dark:text-white">Enter your answer</p>
-			</div>
-			<div class="flex justify-center m-2">
-				<input
-					type="text"
-					bind:value={text_input}
-					disabled={selected_answer}
-					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
+			<div>
+				<span
+					class="fixed top-0 bg-red-500 h-8 transition-all"
+					style="width: {(100 / parseInt(question.time)) * parseInt(timer_res)}vw"
 				/>
-			</div>
-
-			<div class="flex justify-center mt-2">
-				<div class="w-1/3">
-					<BrownButton
-						type="button"
+				<div class="flex justify-center mt-10">
+					<p class="text-black dark:text-white">Enter your answer</p>
+				</div>
+				<div class="flex justify-center m-2">
+					<input
+						type="text"
+						bind:value={text_input}
 						disabled={selected_answer}
-						on:click={() => {
-							selectAnswer(text_input);
-						}}
-					>
-						{$t('words.submit')}
-					</BrownButton>
+						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
+					/>
+				</div>
+
+				<div class="flex justify-center mt-2">
+					<div class="w-1/3">
+						<BrownButton
+							type="button"
+							disabled={selected_answer}
+							on:click={() => {
+								selectAnswer(text_input);
+							}}
+						>
+							{$t('words.submit')}
+						</BrownButton>
+					</div>
 				</div>
 			</div>
 		{:else if question.type === QuizQuestionType.RANGE}
