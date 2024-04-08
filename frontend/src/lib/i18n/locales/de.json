@@ -199,7 +199,8 @@
         "play_plural": "Anzahl der Spielstarts",
         "info": "Info",
         "like": "Like",
-        "like_plural": "Likes"
+        "like_plural": "Likes",
+        "player": "Spieler"
     },
     "editor": {
         "time_in_seconds": "Zeit in Sekunden",
@@ -228,7 +229,9 @@
         "check_choice_description": "Alle richtigen Antworten müssen für Punkte ausgewählt werden",
         "need_more_help": "Benötigst du mehr Hilfe?",
         "enter_answer": "Gib eine Antwort ein",
-        "visit_docs": "Besuche die Dokumentation."
+        "visit_docs": "Besuche die Dokumentation.",
+        "enable_reorder": "Fragen Umsortieren",
+        "disable_reorder": "Umsortieren beenden"
     },
     "import": {
         "need_help": "",
@@ -267,7 +270,7 @@
         "classquiz_quiz": "Ein ClassQuiz-Quiz",
         "upload_file_ending": "Lade die Datei, die auf .cqa oder auf .xlsx endet, hoch",
         "this_side_classquiz": "Auf dieser Seite kannst du Quiz importieren, die von ClassQuiz exportiert wurden.",
-        "this_side_classquiz_excel": "Du kannst auch Excel Dateien hochladen, wenn du die folgende Vorlage benutzt.",
+        "this_side_classquiz_excel": "Sie können auch Exceldateien hochladen, wenn Sie die folgende Vorlage ausgefüllt haben.",
         "download_template_here": "Lade die Vorlage herunter"
     },
     "password_reset_page": {
@@ -304,7 +307,10 @@
         "your_score": "Deine Punktzahl: {{score}}",
         "join_description": "Tritt bei unter {{url}} und gib {{pin}} ein.",
         "join_by_entering_code": "Tritt bei, indem du folgenden Code eingibst",
-        "points_added": "Hinzugefügte Punkte"
+        "points_added": "Hinzugefügte Punkte",
+        "your_place": "Du hasst den {{place}} Platz erreicht!",
+        "players_waiting": "Es warten {{count}} Spieler",
+        "players_waiting_plural": "{{count}} Spieler sind am warten"
     },
     "editor_page": {
         "add_an_answer": "Antwort hinzufügen",
@@ -449,7 +455,8 @@
     },
     "public_user_page": {
         "joined_on": "Beigetreten am {{date}}",
-        "no_original_quizzes": "Dieser Nutzer hat keine originellen Quiz"
+        "no_original_quizzes": "Dieser Nutzer hat keine originellen Quiz",
+        "user_not_found": "Benutzer nicht gefunden"
     },
     "file_dashboard": {
         "not_available": "Nicht verfügbar",
@@ -482,5 +489,11 @@
         "already_latest_version": "Die neueste Version ist schon installiert",
         "cancel_update": "Update abbrechen!",
         "update_from_to": "Aktualisiere von Version {{current_version}} auf Version {{newest_version}}"
+    },
+    "downloader": {
+        "select_download_type": "Downloadart auswählen",
+        "own_format": "Eigenes Format",
+        "excel_format": "Excel Format",
+        "help": "Das eigene Format (.cqa) beinhaltet auch Fotos und unterstützt alle Fragetypen, das Excel Format unterstützt nur Voting- und Multiple-Choice Fragen."
     }
 }
