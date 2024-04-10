@@ -270,7 +270,7 @@
         "classquiz_quiz": "Ein ClassQuiz-Quiz",
         "upload_file_ending": "Lade die Datei, die auf .cqa oder auf .xlsx endet, hoch",
         "this_side_classquiz": "Auf dieser Seite kannst du Quiz importieren, die von ClassQuiz exportiert wurden.",
-        "this_side_classquiz_excel": "Sie können auch Exceldateien hochladen, wenn Sie die folgende Vorlage ausgefüllt haben.",
+        "this_side_classquiz_excel": "Du kannst auch Exceldateien hochladen, wenn du die folgende Vorlage ausgefüllt hast.",
         "download_template_here": "Lade die Vorlage herunter"
     },
     "password_reset_page": {
@@ -308,9 +308,9 @@
         "join_description": "Tritt bei unter {{url}} und gib {{pin}} ein.",
         "join_by_entering_code": "Tritt bei, indem du folgenden Code eingibst",
         "points_added": "Hinzugefügte Punkte",
-        "your_place": "Du hasst den {{place}} Platz erreicht!",
-        "players_waiting": "Es warten {{count}} Spieler",
-        "players_waiting_plural": "{{count}} Spieler sind am warten"
+        "your_place": "Du hast den {{place}} Platz erreicht!",
+        "players_waiting": "Es wartet {{count}} Spieler*in",
+        "players_waiting_plural": "{{count}} Spieler*innen sind am warten"
     },
     "editor_page": {
         "add_an_answer": "Antwort hinzufügen",
