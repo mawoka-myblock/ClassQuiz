@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-FROM python:3.11-slim
+FROM python:3.13.0b1-slim
 
 COPY Pipfile* /app/
 WORKDIR /app/
