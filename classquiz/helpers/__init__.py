@@ -156,7 +156,10 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
             if answer is None:
                 continue
             answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
-        existing_question: dict = existing_quiz.questions[i]
+
+        existing_question: dict | None = None
+        if existing_quiz is not None:
+            existing_question: dict = existing_quiz.questions[i]
         questions.append(
             QuizQuestion(
                 question=question,
