@@ -63,7 +63,7 @@ SPDX-License-Identifier: MPL-2.0
 	</ul>
 
 	<h2>Installation</h2>
-	<p>At first, clone the repo:</p>
+	<p>First, clone the repo:</p>
 
 	<pre><code class="language-bash"
 			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
