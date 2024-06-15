@@ -110,7 +110,7 @@ class S3Storage:
     # skipcq: PYL-W0613
     async def upload(self, file: BinaryIO, file_name: str, size: int | None, mime_type: str | None = None) -> None:
         headers, url = self._generate_aws_signature_v4(method="PUT", path=f"/{file_name}")
-        headers["Content-Length"] = size
+        headers["Content-Length"] = str(size)
         async with ClientSession() as session, session.put(url, headers=headers, data=file) as resp:
             if resp.status == 200:
                 return None
