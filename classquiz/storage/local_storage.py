@@ -29,7 +29,13 @@ class LocalStorage:
             yield None
 
     # skipcq: PYL-W0613
-    async def upload(self, file_name: str, file: BinaryIO, mime_type: str | None = None) -> None:
+    async def upload(
+        self,
+        file_name: str,
+        file: BinaryIO,
+        size: int | None,
+        mime_type: str | None = None,
+    ) -> None:
         with open(file=os.path.join(self.base_path, file_name), mode="wb") as f:
             copyfileobj(file, f)
 

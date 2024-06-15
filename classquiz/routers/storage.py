@@ -118,7 +118,9 @@ async def download_file_head(file_name: str) -> Response:
 
 
 @router.post("/")
-async def upload_file(file: UploadFile = File(), user: User = Depends(get_current_user)) -> PublicStorageItem:
+async def upload_file(
+    request: Request, file: UploadFile = File(), user: User = Depends(get_current_user)
+) -> PublicStorageItem:
     if file.content_type not in ALLOWED_MIME_TYPES:
         raise HTTPException(status_code=422, detail="Unsupported")
     if user.storage_used > settings.free_storage_limit:
@@ -135,7 +137,12 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
         deleted_at=None,
         alt_text=None,
     )
-    await storage.upload(file_name=file_id.hex, file_data=file.file, mime_type=file.content_type)
+    await storage.upload(
+        file_name=file_id.hex,
+        file_data=file.file,
+        mime_type=file.content_type,
+        size=request.headers.get("Content-Length"),
+    )
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
     return PublicStorageItem.from_db_model(file_obj)
