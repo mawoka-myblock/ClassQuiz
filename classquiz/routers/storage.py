@@ -137,6 +137,7 @@ async def upload_file(
         deleted_at=None,
         alt_text=None,
     )
+    print("File Size:", request.headers.get("Content-Length"))
     await storage.upload(
         file_name=file_id.hex,
         file_data=file.file,
