@@ -124,14 +124,14 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
-    size = 0
+    file_size = len(await file.read())
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),
         mime_type=file.content_type,
         hash=None,
         user=user,
-        size=size,
+        size=file_size,
         deleted_at=None,
         alt_text=None,
     )
@@ -139,7 +139,7 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
         file_name=file_id.hex,
         file_data=file.file,
         mime_type=file.content_type,
-        size=size,
+        size=file_size,
     )
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)
