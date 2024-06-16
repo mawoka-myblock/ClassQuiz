@@ -124,7 +124,7 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
-    file_size = len(await file.read())
+    file_size = 0
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),
