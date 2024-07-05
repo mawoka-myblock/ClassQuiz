@@ -27,4 +27,4 @@ class WorkerSettings:
     cron_jobs = [cron(clean_editor_images_up, hour={0, 6, 12, 18}, minute=0)]
     on_startup = startup
     on_shutdown = shutdown
-    redis_settings = RedisSettings.from_dsn(settings.redis)
+    redis_settings = RedisSettings.from_dsn(str(settings.redis))

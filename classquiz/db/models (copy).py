@@ -45,11 +45,13 @@ class User(ormar.Model):
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
     storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="users"
-    )
+    class Meta:
+        tablename = "users"
+        metadata = metadata
+        database = database
+
+    class Config:
+        use_enum_values = True
 
 
 class FidoCredentials(ormar.Model):
@@ -59,22 +61,20 @@ class FidoCredentials(ormar.Model):
     sign_count: int = ormar.Integer()
     user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="fido_credentials"
-    )
+    class Meta:
+        tablename = "fido_credentials"
+        metadata = metadata
+        database = database
 
 
 class ApiKey(ormar.Model):
     key: str = ormar.String(max_length=48, min_length=48, primary_key=True)
     user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="api_keys"
-    )
+    class Meta:
+        tablename = "api_keys"
+        metadata = metadata
+        database = database
 
 
 class UserSession(ormar.Model):
@@ -90,11 +90,10 @@ class UserSession(ormar.Model):
     user_agent: str = ormar.String(max_length=255, nullable=True)
     last_seen: datetime = ormar.DateTime(default=datetime.now())
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="user_sessions"
-    )
+    class Meta:
+        tablename = "user_sessions"
+        metadata = metadata
+        database = database
 
 
 class ABCDQuizAnswer(BaseModel):
@@ -187,25 +186,19 @@ class Quiz(ormar.Model):
     views: int = ormar.Integer(nullable=False, default=0, server_default="0")
     mod_rating: int | None = ormar.SmallInteger(nullable=True)
 
-    ormar_config = ormar.OrmarConfig(
-        tablename = "quiz",
-        metadata = metadata,
+    class Meta:
+        tablename = "quiz"
+        metadata = metadata
         database = database
-    )
 
 
 class InstanceData(ormar.Model):
     instance_id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
 
-#    class Meta:
-#        tablename = "instance_data"
-#        metadata = metadata
-#        database = database
-    ormar_config = ormar.OrmarConfig(
-        tablename = "instance_data",
-        metadata = metadata,
+    class Meta:
+        tablename = "instance_data"
+        metadata = metadata
         database = database
-)
 
 
 class Token(BaseModel):
@@ -282,7 +275,7 @@ class AnswerData(BaseModel):
 
 class AnswerDataList(BaseModel):
     # Just a method to make a top-level list
-    root: list[AnswerData]
+    __root__: list[AnswerData]
 
 
 class GameInLobby(BaseModel):
@@ -314,11 +307,10 @@ class GameResults(ormar.Model):
     description: str = ormar.Text(nullable=False)
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="game_results"
-    )
+    class Meta:
+        tablename = "game_results"
+        metadata = metadata
+        database = database
 
 
 class QuizTivityInput(BaseModel):
@@ -333,11 +325,10 @@ class QuizTivity(ormar.Model):
     user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
     pages: list[QuizTivityPage] = ormar.JSON(nullable=False)
 
-    ormar_config = ormar.OrmarConfig(
-        tablename = "quiztivitys",
-        metadata = metadata,
+    class Meta:
+        tablename = "quiztivitys"
+        metadata = metadata
         database = database
-    )
 
 
 class QuizTivityShare(ormar.Model):
@@ -347,11 +338,10 @@ class QuizTivityShare(ormar.Model):
     quiztivity: QuizTivity | None = ormar.ForeignKey(QuizTivity, ondelete=ReferentialAction.CASCADE)
     user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="quiztivityshares"
-    )
+    class Meta:
+        tablename = "quiztivityshares"
+        metadata = metadata
+        database = database
 
 
 class OnlyId(BaseModel):
@@ -396,11 +386,10 @@ class StorageItem(ormar.Model):
     server: str | None = ormar.Text(default=None, nullable=True)
     imported: bool = ormar.Boolean(default=False, nullable=True)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="storage_items"
-    )
+    class Meta:
+        tablename = "storage_items"
+        metadata = metadata
+        database = database
 
 
 class PublicStorageItem(BaseModel):
@@ -484,11 +473,10 @@ class Controller(ormar.Model):
     os_version: str | None = ormar.Text(nullable=True)
     wanted_os_version: str = ormar.Text(nullable=True, default=None)
 
-    ormar_config = ormar.OrmarConfig(
-        tablename = "controller",
-        metadata = metadata,
+    class Meta:
+        tablename = "controller"
+        metadata = metadata
         database = database
-)
 
 
 class Rating(ormar.Model):
@@ -498,8 +486,7 @@ class Rating(ormar.Model):
     created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
     quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz)
 
-    ormar_config = ormar.OrmarConfig(
-        database=database,
-        metadata=metadata,
-        tablename="rating"
-    )
+    class Meta:
+        tablename = "rating"
+        metadata = metadata
+        database = database

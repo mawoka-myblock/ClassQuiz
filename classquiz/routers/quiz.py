@@ -15,7 +15,7 @@ import ormar.exceptions
 from classquiz.helpers import generate_spreadsheet, handle_import_from_excel
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, StreamingResponse
-from pydantic import ValidationError, BaseModel
+from pydantic import ValidationError, BaseModel, Field
 
 from classquiz.auth import get_current_user
 from classquiz.config import redis, settings, storage, meilisearch
@@ -56,7 +56,8 @@ class PublicQuizResponseUser(BaseModel):
 
 class PublicQuizResponse(Quiz.get_pydantic()):
     user_id: PublicQuizResponseUser
-    questions: list[QuizQuestion]
+#    questions: list[QuizQuestion]
+    var_questions: list[QuizQuestion] = Field(..., alias='questions')
     likes: int
     dislikes: int
     views: int
