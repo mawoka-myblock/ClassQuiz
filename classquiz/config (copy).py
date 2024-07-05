@@ -7,8 +7,7 @@ from functools import lru_cache
 
 from redis import asyncio as redis_lib
 import redis as redis_base_lib
-from pydantic_settings import BaseSettings
-from pydantic import RedisDsn, PostgresDsn, BaseModel
+from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
 import meilisearch as MeiliSearch
 from typing import Optional
 from arq import create_pool
@@ -33,25 +32,23 @@ class Settings(BaseSettings):
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
     db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
-    hcaptcha_key: str = "3852831a-48b4-4236-b0de-9769a1998468"
+    hcaptcha_key: str | None = None
     recaptcha_key: str | None = None
-#    mail_address: str
-    mail_address: str = "778@madeupaddress.com"
-#    mail_password: str
-    mail_password: str = "mail_passwordstring"
-    mail_username: str = "mail_userstring"
-    mail_server: str = "mail_serverstring"
-    mail_port: int = 0
-    secret_key: str = "secret_keystring"
+    mail_address: str
+    mail_password: str
+    mail_username: str
+    mail_server: str
+    mail_port: int
+    secret_key: str
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
-    sentry_dsn: str = ""
+    sentry_dsn: str | None
     meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_index: str = "classquiz"
-    google_client_id: str = "google_client_idstring"
-    google_client_secret: str = "google_client_secretstring"
-    github_client_id: str = "github_client_idstring"
-    github_client_secret: str = "github_client_secretstring"
+    google_client_id: Optional[str]
+    google_client_secret: Optional[str]
+    github_client_id: Optional[str]
+    github_client_secret: Optional[str]
     custom_openid_provider: CustomOpenIDProvider | None = None
     telemetry_enabled: bool = True
     free_storage_limit: int = 1074000000
@@ -60,16 +57,16 @@ class Settings(BaseSettings):
     registration_disabled: bool = False
 
     # storage_backend
-    storage_backend: str = "local"
+    storage_backend: str | None = "local"
 
     # if storage_backend == "local":
-    storage_path: str = "/tmp/storage"
+    storage_path: str | None
 
     # if storage_backend == "s3":
-    s3_access_key: str = "s3_access_keystring"
-    s3_secret_key: str = "s3_secret_keystring"
+    s3_access_key: str | None
+    s3_secret_key: str | None
     s3_bucket_name: str = "classquiz"
-    s3_base_url: str = "s3_base_urlstring"
+    s3_base_url: str | None
 
     class Config:
         env_file = ".env"
@@ -88,7 +85,7 @@ def settings() -> Settings:
     return Settings()
 
 
-pool = redis_lib.ConnectionPool().from_url(str(settings().redis))
+pool = redis_lib.ConnectionPool().from_url(settings().redis)
 
 redis: redis_base_lib.client.Redis = redis_lib.Redis(connection_pool=pool)
 arq: ArqRedis = ArqRedis(pool_or_conn=pool)

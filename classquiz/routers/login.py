@@ -102,19 +102,27 @@ def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session
 @router.post("/start")
 async def start_login(data: StartLoginInput):
     user = (
+#TODO Find out why the fidocredentialls call fails
         await User.objects.select_related("fidocredentialss")
         .filter((User.email == data.email) | (User.username == data.email))
         .get_or_none()
+#        await User.objects.filter((User.email == data.email) | (User.username == data.email))
+#        .get_or_none()
     )
+    print("User.objects.filter call completed...")
     step_1: set[StartLoginResponseTypes] = set()
     step_2: set[StartLoginResponseTypes] = set()
     webauthn_data = None
     webauthn_challenge = None
+    print("\"webauthn_challenge = None\" call completed...")
+    print("user.verified: " + str(user.verified))
     if user is None or not user.verified:
         step_1.add(StartLoginResponseTypes.PASSWORD)
         return StartLoginResponse(step_1=step_1, step_2=step_2, session_id=os.urandom(16).hex(), webauthn_data=None)
+    print("Okay. User is not None or unverified...")
     if user.password is not None:
         step_1.add(StartLoginResponseTypes.PASSWORD)
+        ''' TODO Find out why fidocredentialss is causing problems
     if len(user.fidocredentialss) > 0:
         if user.require_password is True:
             step_2.add(StartLoginResponseTypes.PASSKEY)
@@ -129,6 +137,8 @@ async def start_login(data: StartLoginInput):
         )
         webauthn_challenge = base64.b64encode(webauthn_data.challenge).decode("utf-8")
         webauthn_data = options_to_json(webauthn_data)
+'''
+    print("Moving past commented code, the long string one...")
     if user.totp_secret is not None:
         if user.require_password:
             step_2.add(StartLoginResponseTypes.TOTP)
@@ -170,7 +180,8 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
     else:
         print("unknown step")
         raise HTTPException(401)
-    user = await User.objects.select_related("fidocredentialss").get_or_none(id=uuid.UUID(login_session.user_id))
+#TODO fidocredentials bug fix    user = await User.objects.select_related("fidocredentialss").get_or_none(id=uuid.UUID(login_session.user_id))
+    user = await User.objects.get_or_none(id=uuid.UUID(login_session.user_id))
     if data.auth_type == StartLoginResponseTypes.PASSWORD:
         if verify_password(data.data, user.password):
             if len(login_session.step_2) == 0 or (step_id == 2 and login_session.step1_success is True):
