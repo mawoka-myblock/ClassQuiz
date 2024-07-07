@@ -14,7 +14,7 @@ stop() {
   $CONTAINER_BIN container stop test_meili --time 2
   $CONTAINER_BIN rm classquiz_db --force
   $CONTAINER_BIN rm test_redis --force
-  $CONTAINER_BIN rm test_meili --force 
+  $CONTAINER_BIN rm test_meili --force
 }
 
 init() {

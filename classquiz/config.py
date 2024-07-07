@@ -35,9 +35,9 @@ class Settings(BaseSettings):
     db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
     hcaptcha_key: str = "3852831a-48b4-4236-b0de-9769a1998468"
     recaptcha_key: str | None = None
-#    mail_address: str
+    #    mail_address: str
     mail_address: str = "778@madeupaddress.com"
-#    mail_password: str
+    #    mail_password: str
     mail_password: str = "mail_passwordstring"
     mail_username: str = "mail_userstring"
     mail_server: str = "mail_serverstring"
