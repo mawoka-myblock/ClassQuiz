@@ -197,10 +197,6 @@ class Quiz(ormar.Model):
 class InstanceData(ormar.Model):
     instance_id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
 
-#    class Meta:
-#        tablename = "instance_data"
-#        metadata = metadata
-#        database = database
     ormar_config = ormar.OrmarConfig(
         tablename = "instance_data",
         metadata = metadata,
