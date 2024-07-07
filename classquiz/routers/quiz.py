@@ -56,8 +56,8 @@ class PublicQuizResponseUser(BaseModel):
 
 class PublicQuizResponse(Quiz.get_pydantic()):
     user_id: PublicQuizResponseUser
-#    questions: list[QuizQuestion]
-    var_questions: list[QuizQuestion] = Field(..., alias='questions')
+    #    questions: list[QuizQuestion]
+    var_questions: list[QuizQuestion] = Field(..., alias="questions")
     likes: int
     dislikes: int
     views: int

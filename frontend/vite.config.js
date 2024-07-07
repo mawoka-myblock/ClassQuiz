@@ -31,17 +31,15 @@ const config = {
 	},
 	build: {
 		sourcemap: true
-	},
+	}
 
-/* Trying 
+	/* Trying
 
 	ssr: {
 		noExternal: ['@ckeditor/*'],
 	}
 
  end trying*/
-
-
 };
 
 export default config;
