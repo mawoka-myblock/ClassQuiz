@@ -10,7 +10,7 @@ from typing import Optional
 
 import ormar
 from ormar import ReferentialAction
-from pydantic import BaseModel, Json, validator
+from pydantic import BaseModel, Json, validator, RootModel
 from enum import Enum
 from . import metadata, database
 from .quiztivity import QuizTivityPage
@@ -252,7 +252,7 @@ class AnswerData(BaseModel):
     score: int
 
 
-class AnswerDataList(BaseModel):
+class AnswerDataList(RootModel):
     # Just a method to make a top-level list
     root: list[AnswerData]
 
