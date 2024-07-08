@@ -1,0 +1,47 @@
+services:
+  db:
+#    build:
+#      context: pg_uuidv7
+#      args:
+#        PG_MAJOR_VERSION: 16
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: classquiz
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+  meilisearch:
+    image: getmeili/meilisearch:v1.7
+    volumes:
+      - search:/meili_data
+    ports:
+      - 7700:7700
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+      MEILI_MASTER_KEY: ""
+    restart: unless-stopped
+  caddy:
+    image: caddy:alpine
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    network_mode: "host"
+    privileged: true
+    restart: unless-stopped
+  minio:
+    image: bitnami/minio
+    environment:
+      MINIO_ROOT_USER: fediprint
+      MINIO_ROOT_PASSWORD: fediprint
+    volumes:
+      - minio:/bitnami/minio/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    restart: unless-stopped
+volumes:
+  db:
+  search:
+  minio:
