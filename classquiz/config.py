@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
-    sentry_dsn: str | None
+    sentry_dsn: str = ""
     meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_index: str = "classquiz"
     google_client_id: str | None = None

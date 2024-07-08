@@ -247,7 +247,7 @@ This should be okay, right?
 				</p>
 				<input
 					type="text"
-					autofocus
+                    comment="svelte recommends against autofocus for accessibility reasons. Therefore removed autofocus command for this input"
 					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-none bg-gray-700 rounded"
 					bind:value={input}
 				/>
