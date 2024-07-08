@@ -1,4 +1,6 @@
-echo "Hello world"
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
 
 if [ ! -d /tmp/storage ]; then
     echo "making storage"
