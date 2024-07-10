@@ -41,11 +41,11 @@ class Settings(BaseSettings):
     mail_password: str
     mail_username: str
     mail_server: str
-    mail_port: int = 0
+    mail_port: int
     secret_key: str
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
-    sentry_dsn: str = ""
+    sentry_dsn: str | None = None
     meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_index: str = "classquiz"
     google_client_id: str | None = None
@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     # if storage_backend == "s3":
     s3_access_key: str | None = None
     s3_secret_key: str | None = None
-    s3_bucket_name: str | None = None
+    s3_bucket_name: str = "classquiz"
     s3_base_url: str | None = None
 
 

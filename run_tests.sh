@@ -13,7 +13,9 @@ stop() {
 }
 
 init() {
-  mkdir /tmp/storage
+  if [ ! -d /tmp/storage ]; then
+    mkdir /tmp/storage
+  fi
   $CONTAINER_BIN compose -f docker-compose.dev.yml up -d
   sleep 2
   pipenv run alembic upgrade head
@@ -30,7 +32,7 @@ a)
   ;;
 prepare)
   stop
-  $CONTAINER_BIN volume rm cclassquiz_db
+  $CONTAINER_BIN volume rm classquiz_db
   init
   ;;
 *)
