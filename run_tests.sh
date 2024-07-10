@@ -9,9 +9,9 @@ run_tests() {
 }
 
 stop() {
-  $CONTAINER_BIN container stop classquiz_db 
-  $CONTAINER_BIN container stop test_redis 
-  $CONTAINER_BIN container stop test_meili 
+  $CONTAINER_BIN container stop classquiz_db
+  $CONTAINER_BIN container stop test_redis
+  $CONTAINER_BIN container stop test_meili
 }
 
 init() {
@@ -19,21 +19,21 @@ init() {
     mkdir /tmp/storage
   fi
 
-  $CONTAINER_BIN volume exists classquiz_db_data 
+  $CONTAINER_BIN volume exists classquiz_db_data
   if [ ! $? ]; then
-    $CONTAINER_BIN volume create classquiz_db_data 
+    $CONTAINER_BIN volume create classquiz_db_data
   fi
 
   #Check Linux distribution, which is necessary for using Redis
   SYSINFO=$(uname -rv)
   CONTAINER_REDIS=""
-  if [[ ${SYSINFO} == *"Ubuntu"* ]]; then 
+  if [[ ${SYSINFO} == *"Ubuntu"* ]]; then
     CONTAINER_REDIS=redis:buster
   elif [[ ${SYSINFO} == *"Alpine"* ]]; then
     CONTAINER_REDIS=redis:alpine
   else
     echo "Warning. Defaulting to Alpine Redis. If Redis error follows, please add your Linux distribution. Then make this script addition your first Class Quiz contribution! We will appreciate it!"
-    CONTAINER_REDIS=redis:alpine    
+    CONTAINER_REDIS=redis:alpine
   fi
 
   $CONTAINER_BIN run --rm -d -p 6379:6379 --name test_redis $CONTAINER_REDIS
