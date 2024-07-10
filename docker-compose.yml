@@ -29,7 +29,7 @@ services:
       # --- DON'T CHANGE FROM HERE ---
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # DON'T CHANGE
       REDIS: "redis://redis:6379/0?decode_responses=True" # DON'T CHANGE
-      SECRET_KEY: "TOP_SECRET" # Don't change it manually, use the one-liner provided in the documentation
+      SECRET_KEY: "f2a08b44a104b4b4836fe4da9b25b795e1669f08bd1578397ecb19d176952780" # Don't change it manually, use the one-liner provided in the documentation
       MAX_WORKERS: "1" # Very important and DON'T CHANGE
       ACCESS_TOKEN_EXPIRE_MINUTES: 30  # DON'T CHANGE
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
@@ -39,15 +39,15 @@ services:
       ROOT_ADDRESS: "https://classquiz.de" # CHANGE IT (without a "/" at the end)
 
       # --- MAIL CONFIG ---
-      MAIL_PORT: "587"
-      MAIL_ADDRESS: "email@email@email.email"
-      MAIL_PASSWORD: "PASSWORT"
-      MAIL_USERNAME: "email@email@email.email"
-      MAIL_SERVER: "email@email@email.emai"
+      MAIL_PORT: "993"
+      MAIL_ADDRESS: "temp"
+      MAIL_PASSWORD: "temp"
+      MAIL_USERNAME: "temp"
+      MAIL_SERVER: "imap.gmail.com"
       SKIP_EMAIL_VERIFICATION: "True" # Does the user have to confirm its email by clicking a link?
 
       # --- EXTERNAL API CONFIG ---
-      # HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
+      # HCAPTCHA_KEY: "3852831a-48b4-4236-b0de-9769a1998468"
       # PIXABAY_API_KEY: "" # Get it from here: https://pixabay.com/api/docs/
       # RECAPTCHA_KEY: "" Get it from Google for the Captcha.
 

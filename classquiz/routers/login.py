@@ -50,7 +50,7 @@ class LoginSession(BaseModel):
     user_id: str
     step_1: set[StartLoginResponseTypes]
     step_2: set[StartLoginResponseTypes]
-    webauthn_challenge: str | None
+    webauthn_challenge: str | None = None
     step1_success: bool = False
 
 
@@ -58,7 +58,7 @@ class StartLoginResponse(BaseModel):
     step_1: set[StartLoginResponseTypes]
     step_2: set[StartLoginResponseTypes]
     session_id: str
-    webauthn_data: None | str
+    webauthn_data: None | str = None
 
 
 def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session: LoginSession):

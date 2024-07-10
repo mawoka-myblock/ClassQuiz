@@ -259,6 +259,9 @@ SPDX-License-Identifier: MPL-2.0
 					on:click={() => {
 						selected_create_thing = SelectedCreateThing.Create;
 					}}
+					on:keyup={() => {
+						selected_create_thing = SelectedCreateThing.Create;
+					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Create}
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Create}
 				>
@@ -287,6 +290,9 @@ SPDX-License-Identifier: MPL-2.0
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
 					on:click={() => {
+						selected_create_thing = SelectedCreateThing.Find;
+					}}
+					on:keyup={() => {
 						selected_create_thing = SelectedCreateThing.Find;
 					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Find}
@@ -396,6 +402,9 @@ SPDX-License-Identifier: MPL-2.0
 					on:click={() => {
 						selected_play_thing = SelectedPlayThing.Select;
 					}}
+					on:keyup={() => {
+						selected_play_thing = SelectedPlayThing.Select;
+					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Select}
 					class:opacity-70={selected_play_thing !== SelectedPlayThing.Select}
 				>
@@ -426,6 +435,9 @@ SPDX-License-Identifier: MPL-2.0
 					on:click={() => {
 						selected_play_thing = SelectedPlayThing.Results;
 					}}
+					on:keyup={() => {
+						selected_play_thing = SelectedPlayThing.Results;
+					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Results}
 					class:opacity-70={selected_play_thing !== SelectedPlayThing.Results}
 				>
@@ -454,6 +466,9 @@ SPDX-License-Identifier: MPL-2.0
 				<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
 					on:click={() => {
+						selected_play_thing = SelectedPlayThing.Winners;
+					}}
+					on:keyup={() => {
 						selected_play_thing = SelectedPlayThing.Winners;
 					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Winners}
@@ -509,6 +524,9 @@ SPDX-License-Identifier: MPL-2.0
 					<div
 						class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
 						on:click={() => {
+							selected_classquiz_reason = index;
+						}}
+						on:keyup={() => {
 							selected_classquiz_reason = index;
 						}}
 						class:shadow-2xl={selected_classquiz_reason === index}

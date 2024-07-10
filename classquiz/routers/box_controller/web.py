@@ -18,7 +18,7 @@ router = APIRouter()
 
 
 class SetControllerUpInput(BaseModel):
-    player_name: str | None
+    player_name: str | None = None
     name: str
 
 

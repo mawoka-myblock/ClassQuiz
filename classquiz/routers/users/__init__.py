@@ -297,7 +297,7 @@ async def get_other_avatar(respo: Response, user_id: uuid.UUID):
 
 class InternalAuthData(BaseModel):
     rememberme: str
-    jwt: str | None
+    jwt: str | None = None
 
 
 @router.post("/auth/internal")

@@ -33,6 +33,9 @@ SPDX-License-Identifier: MPL-2.0
 						on:click={() => {
 							selected_method = 'PASSKEY';
 						}}
+						on:keyup={() => {
+							selected_method = 'PASSKEY';
+						}}
 					>
 						<!-- heroicons/key -->
 						<svg
@@ -59,6 +62,9 @@ SPDX-License-Identifier: MPL-2.0
 					<div
 						class="flex flex-row bg-gray-100 dark:bg-gray-700 rounded-lg p-2 hover:cursor-pointer hover:bg-gray-200 transition"
 						on:click={() => {
+							selected_method = 'PASSWORD';
+						}}
+						on:keyup={() => {
 							selected_method = 'PASSWORD';
 						}}
 					>
@@ -102,6 +108,9 @@ SPDX-License-Identifier: MPL-2.0
 					<div
 						class="flex flex-row bg-gray-100 rounded-lg p-2 hover:cursor-pointer hover:bg-gray-200 transition"
 						on:click={() => {
+							selected_method = 'TOTP';
+						}}
+						on:keyup={() => {
 							selected_method = 'TOTP';
 						}}
 					>

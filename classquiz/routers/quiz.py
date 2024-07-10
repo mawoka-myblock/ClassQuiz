@@ -22,6 +22,7 @@ from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
 from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
+from uuid import UUID
 import urllib.parse
 
 settings = settings()
@@ -54,7 +55,7 @@ class PublicQuizResponseUser(BaseModel):
     id: uuid.UUID
 
 
-class PublicQuizResponse(Quiz.get_pydantic()):
+class PublicQuizResponse(Quiz.get_pydantic(exclude={"questions"})):
     user_id: PublicQuizResponseUser
     questions: list[QuizQuestion]
     likes: int
@@ -143,8 +144,8 @@ async def start_quiz(
 
 class CheckIfCaptchaEnabledResponse(BaseModel):
     enabled: bool
-    game_mode: str | None
-    custom_field: str | None
+    game_mode: str | None = None
+    custom_field: str | None = None
 
 
 @router.get("/play/check_captcha/{game_pin}", response_model=CheckIfCaptchaEnabledResponse)
@@ -229,7 +230,8 @@ async def export_quiz_answers(export_token: str, game_pin: str):
     data = json.loads(data)
     data2 = await redis.get(f"game:{game_pin}")
     game_data = PlayGame.parse_raw(data2)
-    quiz = await Quiz.objects.get_or_none(id=game_data.quiz_id)
+    print(type(game_data.quiz_id))
+    quiz = await Quiz.objects.get_or_none(id=UUID(game_data.quiz_id))
     if quiz is None:
         raise HTTPException(status_code=404, detail="quiz not found")
 
