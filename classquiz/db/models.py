@@ -84,7 +84,7 @@ class UserSession(ormar.Model):
 class ABCDQuizAnswer(BaseModel):
     right: bool
     answer: str
-    color: str | None
+    color: str | None = None
 
 
 class RangeQuizAnswer(BaseModel):
@@ -97,7 +97,7 @@ class RangeQuizAnswer(BaseModel):
 class VotingQuizAnswer(BaseModel):
     answer: str
     image: str | None = None
-    color: str | None
+    color: str | None = None
 
 
 class QuizQuestionType(str, Enum):
@@ -145,10 +145,10 @@ class QuizInput(BaseModel):
     public: bool = False
     title: str
     description: str
-    cover_image: str | None
-    background_color: str | None
+    cover_image: str | None = None
+    background_color: str | None = None
     questions: list[QuizQuestion]
-    background_image: str | None
+    background_image: str | None = None
 
 
 class Quiz(ormar.Model):
@@ -207,18 +207,18 @@ class PlayGame(BaseModel):
     game_pin: str
     started: bool = False
     captcha_enabled: bool = False
-    cover_image: str | None
-    game_mode: str | None
+    cover_image: str | None = None
+    game_mode: str | None = None
     current_question: int = -1
-    background_color: str | None
-    background_image: str | None
-    custom_field: str | None
+    background_color: str | None = None
+    background_image: str | None = None
+    custom_field: str | None = None
     question_show: bool = False
 
 
 class GamePlayer(BaseModel):
     username: str
-    sid: str | None
+    sid: str | None = None
 
 
 class GameAnswer2(BaseModel):
@@ -320,8 +320,8 @@ class OnlyId(BaseModel):
 
 class PublicQuizTivityShare(BaseModel):
     id: uuid.UUID
-    name: str | None
-    expire_in: int | None
+    name: str | None = None
+    expire_in: int | None = None
     quiztivity: OnlyId
     user: OnlyId
 
@@ -363,13 +363,13 @@ class PublicStorageItem(BaseModel):
     id: uuid.UUID
     uploaded_at: datetime
     mime_type: str
-    hash: str | None
+    hash: str | None = None
     size: int
-    deleted_at: datetime | None
-    alt_text: str | None
-    filename: str | None
-    thumbhash: str | None
-    server: str | None
+    deleted_at: datetime | None = None
+    alt_text: str | None = None
+    filename: str | None = None
+    thumbhash: str | None = None
+    server: str | None = None
     imported: bool
 
     @classmethod
@@ -425,8 +425,8 @@ class PrivateStorageItem(PublicStorageItem):
 
 
 class UpdateStorageItem(BaseModel):
-    filename: str | None
-    alt_text: str | None
+    filename: str | None = None
+    alt_text: str | None = None
 
 
 class Controller(ormar.Model):

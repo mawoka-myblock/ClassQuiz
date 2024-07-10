@@ -25,9 +25,9 @@ async def get_shares(user: User = Depends(get_current_user)) -> list[PublicQuizT
 
 
 class CreateShareInput(BaseModel):
-    name: str | None
+    name: str | None = None
     quiztivity: UUID
-    expire_in: int | None
+    expire_in: int | None = None
 
 
 @router.post("/")
@@ -55,8 +55,8 @@ async def delete_share(uuid: UUID, user: User = Depends(get_current_user)):
 
 
 class UpdateShareInput(BaseModel):
-    name: str | None
-    expire_in: int | None
+    name: str | None = None
+    expire_in: int | None = None
 
 
 @router.put("/{uuid}")

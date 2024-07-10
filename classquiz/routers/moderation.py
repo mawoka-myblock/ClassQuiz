@@ -47,7 +47,7 @@ async def get_newest_quizzes(
 
 
 class SetModRatingForQuizInput(BaseModel):
-    rating: int | None
+    rating: int | None = None
 
 
 @router.post("/rating/set/{quiz_id}")

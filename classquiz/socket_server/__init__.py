@@ -61,10 +61,10 @@ def calculate_score(z: float, t: int) -> int:
 
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
-        answers = AnswerDataList(__root__=[data])
+        answers = AnswerDataList([data])
     else:
         answers = AnswerDataList.parse_raw(answers)
-        answers.__root__.append(data)
+        answers.root.append(data)
     await redis.set(
         f"game_session:{game_pin}:{q_index}",
         answers.json(),
@@ -76,8 +76,8 @@ async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> 
 class _JoinGameData(BaseModel):
     username: str
     game_pin: str
-    captcha: str | None
-    custom_field: str | None
+    captcha: str | None = None
+    custom_field: str | None = None
 
 
 class _RejoinGameData(BaseModel):
@@ -280,7 +280,7 @@ async def get_question_results(sid: str, data: dict):
     if redis_res is None:
         redis_res = []
     else:
-        redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
+        redis_res = AnswerDataList.parse_raw(redis_res).model_dump()
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.json())
@@ -291,7 +291,7 @@ async def get_question_results(sid: str, data: dict):
 
 class ABCDQuizAnswerWithoutSolution(BaseModel):
     answer: str
-    color: str | None
+    color: str | None = None
 
 
 class RangeQuizAnswerWithoutSolution(BaseModel):
@@ -360,7 +360,7 @@ class _SubmitAnswerDataOrderType(BaseModel):
 class _SubmitAnswerData(BaseModel):
     question_index: int
     answer: str
-    complex_answer: list[_SubmitAnswerDataOrderType] | None
+    complex_answer: list[_SubmitAnswerDataOrderType] | None = None
 
 
 @sio.event
@@ -448,7 +448,7 @@ async def submit_answer(sid: str, data: dict):
     )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     await sio.emit("player_answer", {})
-    if len(answers.__root__) == player_count:
+    if len(answers.root) == player_count:
         # await sio.emit(
         #     "question_results",
         #     await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"),
