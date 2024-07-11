@@ -231,7 +231,9 @@
         "enter_answer": "Gib eine Antwort ein",
         "visit_docs": "Besuche die Dokumentation.",
         "enable_reorder": "Fragen Umsortieren",
-        "disable_reorder": "Umsortieren beenden"
+        "disable_reorder": "Umsortieren beenden",
+        "advanced_settings": "Erweiterte Einstellungen",
+        "hide_question_results": "Frageergebnisse ausblenden?"
     },
     "import": {
         "need_help": "",

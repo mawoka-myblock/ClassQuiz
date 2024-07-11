@@ -11,22 +11,26 @@ SPDX-License-Identifier: MPL-2.0
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
 	import Spinner from '../Spinner.svelte';
-	// import { createTippy } from 'svelte-tippy';
+	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
+	import { fade } from 'svelte/transition';
+	import BrownButton from '$lib/components/buttons/brown.svelte';
 	// import MediaComponent from "$lib/editor/MediaComponent.svelte";
 
 	const { t } = getLocalization();
 
-	/*	const tippy = createTippy({
-        arrow: true,
-        animation: 'perspective-subtle',
-        placement: 'top'
-    });*/
+	const tippy = createTippy({
+		arrow: true,
+		animation: 'perspective-subtle',
+		placement: 'top'
+	});
 
 	export let data: EditorData;
 	export let selected_question: number;
 	export let edit_id: string;
+
+	let advanced_options_open = false;
 
 	let uppyOpen = false;
 	let unique = {};
@@ -93,6 +97,33 @@ SPDX-License-Identifier: MPL-2.0
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-green-400 transition"
 				/>
+				<button
+					class="ml-auto"
+					type="button"
+					use:tippy={{ content: $t('editor.advanced_settings') }}
+					on:click={() => (advanced_options_open = true)}
+				>
+					<svg
+						class="text-white w-5 h-5"
+						aria-hidden="true"
+						fill="none"
+						stroke="white"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						></path>
+						<path
+							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						></path>
+					</svg>
+				</button>
 			</div>
 		</div>
 		{#if data.questions[selected_question].type === QuizQuestionType.SLIDE}
@@ -233,3 +264,22 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	</div>
 </div>
+
+{#if advanced_options_open}
+	<div
+		class="fixed top-0 left-0 w-full h-full bg-black/60 flex"
+		transition:fade={{ duration: 150 }}
+	>
+		<div class="w-1/4 h-1/3 m-auto bg-white dark:bg-gray-700 rounded-lg flex flex-col p-2 gap-2">
+			<h1 class="text-3xl mx-auto">{$t('editor.advanced_settings')}</h1>
+			<label class="flex justify-around text-lg">
+				<span class="my-auto">{$t('editor.hide_question_results')}</span>
+				<input type="checkbox" bind:checked={data.questions[selected_question]["hide_results"]} />
+			</label>
+			<div class="mt-auto w-full">
+				<BrownButton on:click={() => (advanced_options_open = false)}>{$t('words.close')}</BrownButton>
+			</div>
+
+		</div>
+	</div>
+{/if}

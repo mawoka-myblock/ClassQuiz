@@ -130,7 +130,7 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	{/if}
 	<br />
-	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify( [null] ) && quiz_data.questions[selected_question].type !== QuizQuestionType.SLIDE && question_results !== null}
+	{#if timer_res === '0' && JSON.stringify(final_results) === JSON.stringify( [null] ) && quiz_data.questions[selected_question].type !== QuizQuestionType.SLIDE && question_results !== null && quiz_data.questions[selected_question]?.hide_results !== true}
 		{#if question_results === undefined}
 			{#if !final_results_clicked}
 				<div class="w-full flex justify-center">

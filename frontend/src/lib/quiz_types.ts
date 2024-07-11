@@ -61,6 +61,7 @@ export interface Question {
 	type?: QuizQuestionType;
 	image?: string;
 	answers: Answers;
+	hide_results?: boolean;
 }
 
 export type Answers =
