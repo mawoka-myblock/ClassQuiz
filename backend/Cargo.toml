@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+
+
+[workspace]
+resolver = "2"
+
+members = ["app", "live", "shared"]
+
+[workspace.dependencies]
+sqlx = { version = "0.7", features = [
+    "runtime-tokio",
+    "postgres",
+    "uuid",
+    "chrono",
+    "json",
+    "macros",
+    "migrate",
+] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+tokio = { version = "1.36", features = ["full"] }
+chrono = { version = "0.4", features = ["clock", "serde"] }
+dotenvy = "0.15"
+uuid = { version = "1.7.0", features = ["serde", "v4", "fast-rng", "v7"] }
+anyhow = "1"
