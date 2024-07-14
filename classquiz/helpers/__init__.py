@@ -146,7 +146,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         for a, answer in enumerate(answers):
             if answer is None:
                 continue
-            if len(answer) > 150:
+            if len(str(answer)) > 150:
                 raise HTTPException(status_code=400, detail=f"Answer {a + 1} in Question {i + 1} is longer than 150")
         if len(answers) < 2:
             raise HTTPException(status_code=400, detail=f"Less than 2 answers in Question {i + 1}")
@@ -155,7 +155,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         for a, answer in enumerate(answers):
             if answer is None:
                 continue
-            answers_list.append(ABCDQuizAnswer(answer=answer, right=str(a + 1) in correct_answers))
+            answers_list.append(ABCDQuizAnswer(answer=str(answer), right=str(a + 1) in correct_answers))
 
         existing_question: dict | None = None
         if existing_quiz is not None:
