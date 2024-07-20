@@ -198,7 +198,6 @@ This should be okay, right?
 	};
 
 	const on_enter = (e: KeyboardEvent) => {
-		e.preventDefault();
 		if (selected === null) {
 			return;
 		}
