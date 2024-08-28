@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 import re
+import os
 from functools import lru_cache
 
 from redis import asyncio as redis_lib
@@ -28,22 +29,22 @@ class Settings(BaseSettings):
     Settings class for the shop app.
     """
 
-    root_address: str = "http://127.0.0.1:8000"
-    redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
-    skip_email_verification: bool = False
-    db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
+    root_address: str = os.getenv("ROOT_ADDRESS", "http://127.0.0.1:8000")
+    redis: RedisDsn = os.getenv("REDIS_URL", "redis://localhost:6379/0?decode_responses=True")
+    skip_email_verification: bool = os.getenv("SKIP_EMAIL_VERIFICATION", "False") == 'True'
+    db_url: str | PostgresDsn = os.getenv("DB_URL", "postgresql://postgres:mysecretpassword@localhost:5432/classquiz")
     hcaptcha_key: str | None = None
     recaptcha_key: str | None = None
-    mail_address: str
-    mail_password: str
-    mail_username: str
-    mail_server: str
-    mail_port: int
-    secret_key: str
+    mail_address: str = os.getenv("MAIL_ADDRESS", None)
+    mail_password: str = os.getenv("MAIL_PASSWORD", None)
+    mail_username: str = os.getenv("MAIL_USERNAME", None)
+    mail_server: str = os.getenv("MAIL_SERVER", None)
+    mail_port: int = os.getenv("MAIL_PORT", None)
+    secret_key: str = os.getenv("SECRET_KEY", None)
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
     sentry_dsn: str | None
-    meilisearch_url: str = "http://127.0.0.1:7700"
+    meilisearch_url: str = os.getenv("MEILISEARCH_URL", "http://127.0.0.1:7700")
     meilisearch_index: str = "classquiz"
     google_client_id: Optional[str]
     google_client_secret: Optional[str]
@@ -57,10 +58,10 @@ class Settings(BaseSettings):
     registration_disabled: bool = False
 
     # storage_backend
-    storage_backend: str | None = "local"
+    storage_backend: str = os.getenv("STORAGE_BACKEND", "local")
 
     # if storage_backend == "local":
-    storage_path: str | None
+    storage_path: str = os.getenv("STORAGE_PATH", None)
 
     # if storage_backend == "s3":
     s3_access_key: str | None
