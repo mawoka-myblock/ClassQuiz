@@ -136,6 +136,8 @@ class QuizQuestion(BaseModel):
     type: None | QuizQuestionType = QuizQuestionType.ABCD
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[TextQuizAnswer] | list[VotingQuizAnswer] | str
     image: str | None = None
+    youtubeUrl: str | None = None
+    music: str | None = None
 
     @validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):

@@ -461,6 +461,7 @@
         "not_available": "Not available",
         "missing": "MISSING!",
         "unset": "Unset",
+        "type": "File type: {{type}}",
         "size": "Size: {{size}} MiB",
         "caption": "Caption: {{caption}}",
         "filename": "Filename: {{filename}}",

@@ -367,6 +367,7 @@
     },
     "file_dashboard": {
         "size": "Taille : {{size}} Mo",
+        "type": "Type de fichier: {{type}}",
         "filename": "Nom de fichier : {{filename}}",
         "uploaded": "Chargé le : {{date}}",
         "imported": "Importé : {{yes_or_no}}",

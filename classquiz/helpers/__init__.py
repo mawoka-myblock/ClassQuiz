@@ -297,3 +297,11 @@ def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
             continue
         quiz_images.append(question["image"])
     return quiz_images
+
+def extract_music_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
+    quiz_musics = []
+    for question in quiz.questions:
+        if question["music"] is None:
+            continue
+        quiz_musics.append(question["music"])
+    return quiz_musics

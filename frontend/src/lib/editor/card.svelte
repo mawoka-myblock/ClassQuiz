@@ -152,6 +152,72 @@ SPDX-License-Identifier: MPL-2.0
 							<MediaComponent bind:src={image_url} />
 						</div>
 					</div>
+				{:else if data.questions[selected_question].youtubeUrl}
+					<div class="flex justify-center pt-10 w-full h-full mb-10">
+						<div class="h-72 relative">
+							<button
+								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
+								type="button"
+								on:click={() => {
+									data.questions[selected_question].youtubeUrl = null;
+								}}
+							>
+								<svg
+									class="w-6 h-6 bg-red-500 rounded-full"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</button>
+							<iframe
+								width="600"
+								height="328"
+								src={data.questions[selected_question].youtubeUrl}
+								frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								referrerpolicy="strict-origin-when-cross-origin"
+								allowfullscreen
+							/>
+						</div>
+					</div>
+				{:else if data.questions[selected_question].music}
+					<div class="flex justify-center pt-10 w-full h-full mb-10">
+						<div class="h-72 relative">
+							<button
+								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
+								type="button"
+								on:click={() => {
+									data.questions[selected_question].music = null;
+								}}
+							>
+								<svg
+									class="w-6 h-6 bg-red-500 rounded-full"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+							</button>
+							<audio src='/api/v1/storage/download/{data.questions[selected_question].music}' controls>
+								<track kind="captions" />
+							</audio>
+						</div>
+					</div>
 				{:else}
 					{#await import('$lib/editor/uploader.svelte')}
 						<Spinner my_20={false} />

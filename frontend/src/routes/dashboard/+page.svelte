@@ -215,7 +215,6 @@ SPDX-License-Identifier: MPL-2.0
 							>
 								<BrownButton
 									flex={true}
-									disabled={!quiz.public}
 									href="/view/{quiz.id}"
 								>
 									<!-- heroicons/legacy-outline/Eye -->

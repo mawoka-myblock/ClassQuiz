@@ -19,7 +19,7 @@ import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data, check_image_string, extract_image_ids_from_quiz
+from classquiz.helpers import get_meili_data, check_image_string, extract_image_ids_from_quiz, extract_music_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()
@@ -88,7 +88,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                         answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
                     )
 
-    images_to_delete = []
     old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
 
     for i, question in enumerate(quiz_input.questions):
@@ -127,12 +126,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.background_color = quiz_input.background_color
         quiz.background_image = quiz_input.background_image
         quiz.mod_rating = None
-        for image in images_to_delete:
-            if image is not None:
-                try:
-                    await storage.delete([image])
-                except DeletionFailedError:
-                    pass
         await redis.srem("edit_sessions", edit_id)
         await redis.delete(f"edit_session:{edit_id}")
         await redis.delete(f"edit_session:{edit_id}:images")
@@ -158,8 +151,14 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         except asyncpg.exceptions.UniqueViolationError:
             raise HTTPException(status_code=400, detail="The quiz already exists")
         new_images = extract_image_ids_from_quiz(quiz)
+        new_musics = extract_music_ids_from_quiz(quiz)
         for image in new_images:
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
+            if item is None:
+                continue
+            await quiz.storageitems.add(item)
+        for music in new_musics:
+            item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
             if item is None:
                 continue
             await quiz.storageitems.add(item)

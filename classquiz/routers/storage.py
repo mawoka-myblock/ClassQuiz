@@ -151,8 +151,10 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
+    body_len = 0
     data_file = SpooledTemporaryFile(max_size=1000)
     async for chunk in request.stream():
+        body_len += len(chunk)
         data_file.write(chunk)
     data_file.seek(0)
     file_obj = StorageItem(
@@ -161,7 +163,40 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
         mime_type=request.headers.get("Content-Type"),
         hash=None,
         user=user,
-        size=0,
+        size=body_len,
+        deleted_at=None,
+        alt_text=None,
+    )
+    # https://github.com/VirusTotal/vt-py/issues/119#issuecomment-1261246867
+    await storage.upload(
+        file_name=file_id.hex,
+        # skipcq: PYL-W0212
+        file_data=data_file._file,
+        mime_type=request.headers.get("Content-Type"),
+    )
+    await file_obj.save()
+    await arq.enqueue_job("calculate_hash", file_id.hex)
+    return PublicStorageItem.from_db_model(file_obj)
+
+@router.post("/raw/{filename}")
+async def upload_raw_file(filename: str, request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
+    if user.storage_used > settings.free_storage_limit:
+        raise HTTPException(status_code=409, detail="Storage limit reached")
+    file_id = uuid4()
+    body_len = 0
+    data_file = SpooledTemporaryFile(max_size=1000)
+    async for chunk in request.stream():
+        body_len += len(chunk)
+        data_file.write(chunk)
+    data_file.seek(0)
+    file_obj = StorageItem(
+        id=file_id,
+        uploaded_at=datetime.now(),
+        mime_type=request.headers.get("Content-Type"),
+        hash=None,
+        user=user,
+        size=body_len,
+        filename=filename,
         deleted_at=None,
         alt_text=None,
     )
@@ -223,7 +258,8 @@ async def list_images(
     if since is None:
         since = datetime.now() - timedelta(weeks=9999)
     storage_items = (
-        await StorageItem.objects.filter(user=user)
+        await StorageItem.objects
+        .filter(user=user)
         .filter(StorageItem.uploaded_at > since)
         .filter(StorageItem.deleted_at == None)  # noqa: E711
         .order_by(StorageItem.uploaded_at.desc())
@@ -243,6 +279,7 @@ async def get_latest_images(count: int = 50, user: User = Depends(get_current_us
     count = min(count, 50)
     items = (
         await StorageItem.objects.filter(user=user)
+        .filter(StorageItem.deleted_at == None)  # noqa: E711
         .limit(count)
         .select_related([StorageItem.quizzes, StorageItem.quiztivities])
         .order_by(StorageItem.uploaded_at.desc())
