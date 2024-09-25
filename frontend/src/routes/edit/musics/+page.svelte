@@ -26,9 +26,6 @@ SPDX-License-Identifier: MPL-2.0
 			time_elapsed: 0
 		};
 
-	const speed_extraction_regex = /speed=(\d+\.\d+)x(?![\s\S]*speed=\d+\.\d+x)/;
-	let last_time_elapsed = 0;
-
 	// eslint-disable-next-line no-unused-vars
 	enum Status {
 		// eslint-disable-next-line no-unused-vars

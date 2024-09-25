@@ -213,7 +213,11 @@ SPDX-License-Identifier: MPL-2.0
 									/>
 								</svg>
 							</button>
-							<audio src='/api/v1/storage/download/{data.questions[selected_question].music}' controls>
+							<audio
+								src="/api/v1/storage/download/{data.questions[selected_question]
+									.music}"
+								controls
+							>
 								<track kind="captions" />
 							</audio>
 						</div>

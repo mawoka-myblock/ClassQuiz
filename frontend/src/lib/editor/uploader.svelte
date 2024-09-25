@@ -40,6 +40,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	// eslint-disable-next-line no-undef
 	let video_popup: undefined | WindowProxy = undefined;
+	// eslint-disable-next-line no-undef
 	let music_popup: undefined | WindowProxy = undefined;
 
 	let selected_type: AvailableUploadTypes | null = null;
@@ -138,7 +139,7 @@ SPDX-License-Identifier: MPL-2.0
 		// from https://www.youtube.com/watch?v=QjAHcKPUaFM
 		// to https://www.youtube.com/embed/QjAHcKPUaFM
 		// Need to transform to embed url
-		if(youtube_url.indexOf('/watch')){
+		if (youtube_url.indexOf('/watch')) {
 			const urlParsed = URL.parse(youtube_url);
 			const videoId = urlParsed.searchParams.get('v');
 			urlParsed.searchParams.delete('v');
@@ -147,12 +148,6 @@ SPDX-License-Identifier: MPL-2.0
 		}
 
 		data.questions[selected_question].youtubeUrl = youtube_url;
-		modalOpen = false;
-		selected_type = null;
-	};
-
-	const set_music = () => {
-		data.questions[selected_question].music = music;
 		modalOpen = false;
 		selected_type = null;
 	};

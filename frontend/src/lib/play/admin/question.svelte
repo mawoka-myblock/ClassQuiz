@@ -57,9 +57,12 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 {#if quiz_data.questions[selected_question].music !== null}
 	<div class="flex w-full">
-		<audio style="margin: auto;"
+		<audio
+			style="margin: auto;"
 			autoplay
-			src='/api/v1/storage/download/{quiz_data.questions[selected_question].music}' controls>
+			src="/api/v1/storage/download/{quiz_data.questions[selected_question].music}"
+			controls
+		>
 			<track kind="captions" />
 		</audio>
 	</div>

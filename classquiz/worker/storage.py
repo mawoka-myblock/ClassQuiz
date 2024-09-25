@@ -6,22 +6,17 @@
 import uuid
 
 import ormar.exceptions
-from arq.worker import Retry
-import xxhash
-import logging
 
 from classquiz.config import redis, storage
-from tempfile import SpooledTemporaryFile
 
 from classquiz.db.models import StorageItem, Quiz, User
 from classquiz.helpers import extract_image_ids_from_quiz, extract_music_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
-from thumbhash import image_to_thumbhash
 
 
 # skipcq: PYL-W0613
 async def clean_editor_images_up(ctx):
-    logging.critical("Cleaning images up")
+    print("Cleaning images up")
     edit_sessions = await redis.smembers("edit_sessions")
     for session_id in edit_sessions:
         session = await redis.get(f"edit_session:{session_id}")
@@ -31,7 +26,7 @@ async def clean_editor_images_up(ctx):
                 try:
                     await storage.delete(images)
                 except DeletionFailedError:
-                    logging.critical("Deletion Error", images)
+                    print("Deletion Error", images)
             await redis.srem("edit_sessions", session_id)
             await redis.delete(f"edit_session:{session_id}:images")
 
@@ -57,9 +52,9 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
 
     # If images are identical, then return
     if sorted(old_images) == sorted(new_images) and sorted(old_musics) == sorted(new_musics):
-        logging.info("Nothing's changed")
+        print("Nothing's changed")
         return
-    logging.info("Change detected")
+    print("Change detected")
 
     removed_images = list(set(old_images) - set(new_images))
     removed_musics = list(set(old_musics) - set(new_musics))
@@ -77,7 +72,7 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
             try:
                 await new_quiz.storageitems.remove(item)
             except ormar.exceptions.NoMatch as e:
-                logging.critical(e)
+                print(e)
                 continue
             change_made = True
     for music in removed_musics:
@@ -90,7 +85,7 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
             try:
                 await new_quiz.storageitems.remove(item)
             except ormar.exceptions.NoMatch as e:
-                logging.critical(e)
+                print(e)
                 continue
             change_made = True
     for image in added_images:
