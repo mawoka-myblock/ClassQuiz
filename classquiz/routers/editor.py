@@ -104,7 +104,7 @@ async def finish_edit_function(old_quiz_data: Quiz, edit_id: str, quiz_input: Qu
     await quiz.update()
     return quiz
 
-async def finish_create_function(session_data: EditSessionData, old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput):
+async def finish_create_function(session_data: EditSessionData, edit_id: str, quiz_input: QuizInput):
     quiz = Quiz(
         **quiz_input.dict(),
         user_id=session_data.user_id,
@@ -136,17 +136,7 @@ async def finish_create_function(session_data: EditSessionData, old_quiz_data: Q
             continue
         await quiz.storageitems.add(item)
 
-@router.post("/finish")
-async def finish_edit(edit_id: str, quiz_input: QuizInput):
-    session_data = await redis.get(f"edit_session:{edit_id}")
-    if session_data is None:
-        raise HTTPException(status_code=401, detail="Edit ID not found!")
-    session_data = EditSessionData.parse_raw(session_data)
-    quiz_input.title = bleach.clean(quiz_input.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
-    quiz_input.description = bleach.clean(quiz_input.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
-    if quiz_input.background_color is not None:
-        quiz_input.background_color = bleach.clean(quiz_input.background_color, tags=[], strip=True)
-
+def cleanup_questions(quiz_input: QuizInput):
     for i, question in enumerate(quiz_input.questions):
         if question.type == QuizQuestionType.ABCD:
             for i2, answer in enumerate(question.answers):
@@ -158,6 +148,19 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                     quiz_input.questions[i].answers[i2].answer = bleach.clean(
                         answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
                     )
+
+@router.post("/finish")
+async def finish_edit(edit_id: str, quiz_input: QuizInput):
+    session_data = await redis.get(f"edit_session:{edit_id}")
+    if session_data is None:
+        raise HTTPException(status_code=401, detail="Edit ID not found!")
+    session_data = EditSessionData.parse_raw(session_data)
+    quiz_input.title = bleach.clean(quiz_input.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+    quiz_input.description = bleach.clean(quiz_input.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+    if quiz_input.background_color is not None:
+        quiz_input.background_color = bleach.clean(quiz_input.background_color, tags=[], strip=True)
+
+    cleanup_questions(quiz_input)
 
     images_to_delete = []
     musics_to_delete = []
@@ -185,4 +188,4 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     if session_data.edit:
         return await finish_edit_function(old_quiz_data, edit_id, quiz_input, images_to_delete, musics_to_delete)
     else:
-        await finish_create_function(session_data, old_quiz_data, edit_id, quiz_input)
+        await finish_create_function(session_data, edit_id, quiz_input)
