@@ -136,7 +136,7 @@ class QuizQuestion(BaseModel):
     type: None | QuizQuestionType = QuizQuestionType.ABCD
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[TextQuizAnswer] | list[VotingQuizAnswer] | str
     image: str | None = None
-    youtubeUrl: str | None = None
+    youtube_url: str | None = None
     music: str | None = None
 
     @validator("answers")

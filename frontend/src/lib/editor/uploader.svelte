@@ -147,7 +147,7 @@ SPDX-License-Identifier: MPL-2.0
 			youtube_url = urlParsed.href;
 		}
 
-		data.questions[selected_question].youtubeUrl = youtube_url;
+		data.questions[selected_question].youtube_url = youtube_url;
 		modalOpen = false;
 		selected_type = null;
 	};

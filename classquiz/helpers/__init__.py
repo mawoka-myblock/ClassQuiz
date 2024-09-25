@@ -302,7 +302,7 @@ def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
 def extract_music_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
     quiz_musics = []
     for question in quiz.questions:
-        if question["music"] is None:
+        if question.get("music") is None:
             continue
-        quiz_musics.append(question["music"])
+        quiz_musics.append(question.get("music"))
     return quiz_musics

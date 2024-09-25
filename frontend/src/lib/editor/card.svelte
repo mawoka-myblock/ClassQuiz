@@ -152,14 +152,14 @@ SPDX-License-Identifier: MPL-2.0
 							<MediaComponent bind:src={image_url} />
 						</div>
 					</div>
-				{:else if data.questions[selected_question].youtubeUrl}
+				{:else if data.questions[selected_question].youtube_url}
 					<div class="flex justify-center pt-10 w-full h-full mb-10">
 						<div class="h-72 relative">
 							<button
 								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 								type="button"
 								on:click={() => {
-									data.questions[selected_question].youtubeUrl = null;
+									data.questions[selected_question].youtube_url = null;
 								}}
 							>
 								<svg
@@ -180,7 +180,7 @@ SPDX-License-Identifier: MPL-2.0
 							<iframe
 								width="600"
 								height="328"
-								src={data.questions[selected_question].youtubeUrl}
+								src={data.questions[selected_question].youtube_url}
 								frameborder="0"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 								referrerpolicy="strict-origin-when-cross-origin"
