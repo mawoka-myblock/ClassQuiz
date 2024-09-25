@@ -69,6 +69,72 @@ async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = D
     )
     return InitEditorResponse(token=edit_id)
 
+async def finish_edit_function(old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput, images_to_delete: list[str | uuid.UUID], musics_to_delete: list[str | uuid.UUID]):
+    await arq.enqueue_job("quiz_update", old_quiz_data, old_quiz_data.id, _defer_by=2)
+    quiz = old_quiz_data
+    meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
+    if not quiz_input.public:
+        meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
+    else:
+        meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
+    quiz.title = quiz_input.title
+    quiz.public = quiz_input.public
+    quiz.description = quiz_input.description
+    quiz.updated_at = datetime.now()
+    quiz.questions = quiz_input.dict()["questions"]
+    quiz.cover_image = quiz_input.cover_image
+    quiz.background_color = quiz_input.background_color
+    quiz.background_image = quiz_input.background_image
+    quiz.mod_rating = None
+    for image in images_to_delete:
+        if image is not None:
+            try:
+                await storage.delete([image])
+            except DeletionFailedError:
+                pass
+    for music in musics_to_delete:
+        if music is not None:
+            try:
+                await storage.delete([music])
+            except DeletionFailedError:
+                pass
+    await redis.srem("edit_sessions", edit_id)
+    await redis.delete(f"edit_session:{edit_id}")
+    await redis.delete(f"edit_session:{edit_id}:images")
+    await quiz.update()
+    return quiz
+
+async def finish_create_function(session_data: EditSessionData, old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput):
+    quiz = Quiz(
+        **quiz_input.dict(),
+        user_id=session_data.user_id,
+        id=session_data.quiz_id,
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+    )
+
+    await redis.delete("global_quiz_count")
+    if quiz_input.public:
+        meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
+    try:
+        await redis.srem("edit_sessions", edit_id)
+        await redis.delete(f"edit_session:{edit_id}")
+        await redis.delete(f"edit_session:{edit_id}:images")
+        await quiz.save()
+    except asyncpg.exceptions.UniqueViolationError:
+        raise HTTPException(status_code=400, detail="The quiz already exists")
+    new_images = extract_image_ids_from_quiz(quiz)
+    new_musics = extract_music_ids_from_quiz(quiz)
+    for image in new_images:
+        item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
+        if item is None:
+            continue
+        await quiz.storageitems.add(item)
+    for music in new_musics:
+        item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
+        if item is None:
+            continue
+        await quiz.storageitems.add(item)
 
 @router.post("/finish")
 async def finish_edit(edit_id: str, quiz_input: QuizInput):
@@ -117,67 +183,6 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         raise HTTPException(status_code=400, detail="image url is not valid")
 
     if session_data.edit:
-        await arq.enqueue_job("quiz_update", old_quiz_data, old_quiz_data.id, _defer_by=2)
-        quiz = old_quiz_data
-        meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
-        if not quiz_input.public:
-            meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
-        else:
-            meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
-        quiz.title = quiz_input.title
-        quiz.public = quiz_input.public
-        quiz.description = quiz_input.description
-        quiz.updated_at = datetime.now()
-        quiz.questions = quiz_input.dict()["questions"]
-        quiz.cover_image = quiz_input.cover_image
-        quiz.background_color = quiz_input.background_color
-        quiz.background_image = quiz_input.background_image
-        quiz.mod_rating = None
-        for image in images_to_delete:
-            if image is not None:
-                try:
-                    await storage.delete([image])
-                except DeletionFailedError:
-                    pass
-        for music in musics_to_delete:
-            if music is not None:
-                try:
-                    await storage.delete([music])
-                except DeletionFailedError:
-                    pass
-        await redis.srem("edit_sessions", edit_id)
-        await redis.delete(f"edit_session:{edit_id}")
-        await redis.delete(f"edit_session:{edit_id}:images")
-        await quiz.update()
-        return quiz
+        return await finish_edit_function(old_quiz_data, edit_id, quiz_input, images_to_delete, musics_to_delete)
     else:
-        quiz = Quiz(
-            **quiz_input.dict(),
-            user_id=session_data.user_id,
-            id=session_data.quiz_id,
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
-        )
-
-        await redis.delete("global_quiz_count")
-        if quiz_input.public:
-            meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
-        try:
-            await redis.srem("edit_sessions", edit_id)
-            await redis.delete(f"edit_session:{edit_id}")
-            await redis.delete(f"edit_session:{edit_id}:images")
-            await quiz.save()
-        except asyncpg.exceptions.UniqueViolationError:
-            raise HTTPException(status_code=400, detail="The quiz already exists")
-        new_images = extract_image_ids_from_quiz(quiz)
-        new_musics = extract_music_ids_from_quiz(quiz)
-        for image in new_images:
-            item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
-            if item is None:
-                continue
-            await quiz.storageitems.add(item)
-        for music in new_musics:
-            item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
-            if item is None:
-                continue
-            await quiz.storageitems.add(item)
+        await finish_create_function(session_data, old_quiz_data, edit_id, quiz_input)

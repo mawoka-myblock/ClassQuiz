@@ -84,7 +84,6 @@ async def get_basic_file_info(file_name: str) -> Response:
         item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
         if item is None:
             raise HTTPException(status_code=404, detail="File not found")
-        # return PublicStorageItem.from_db_model(item)
         storage_file_name = item.storage_path
         if storage_file_name is None:
             storage_file_name = item.id.hex
