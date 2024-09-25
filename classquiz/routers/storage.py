@@ -103,7 +103,6 @@ async def download_file_head(file_name: str) -> Response:
         item = await StorageItem.objects.get_or_none(id=checked_image_string[1])
         if item is None:
             raise HTTPException(status_code=404, detail="File not found")
-        # return PublicStorageItem.from_db_model(item)
         storage_file_name = item.storage_path
         if storage_file_name is None:
             storage_file_name = item.id.hex
@@ -180,7 +179,7 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
 
 
 @router.post("/raw/{filename}")
-async def upload_raw_file(filename: str, request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
+async def upload_raw_file_with_filename(filename: str, request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()

@@ -33,34 +33,44 @@ async def clean_editor_images_up(ctx):
 
 async def calculate_hash(ctx, file_id_as_str: str):
     file_id = uuid.UUID(file_id_as_str)
-    file_data: StorageItem = await StorageItem.objects.select_related(StorageItem).get(id=file_id)
+    file_data: StorageItem = await StorageItem.objects.select_related(StorageItem.user).get(id=file_id)
+    file_path = file_id.hex
+    if file_data.storage_path is not None:
+        file_path = file_data.storage_path
+    file = SpooledTemporaryFile()
+    # The next line is giving error as the file is not found if
+    # the same volume is not mounted to the worker instance
+    file_data.size = await storage.get_file_size(file_name=file_path)
+    if file_data.size is None:
+        file_data.size = 0
+    file_bytes = storage.download(file_path)
+    if file_bytes is None:
+        print("Retry raised!")
+        raise Retry(defer=ctx["job_try"] * 10)
+    async for chunk in file_bytes:
+        file.write(chunk)
+    try:
+        if 0 < file_data.size < 20_970_000:  # greater than 0 but smaller than 20mbytes
+            file_data.thumbhash = image_to_thumbhash(file)
+    # skipcq: PYL-W0703
+    except Exception:
+        pass
+    hash_obj = xxhash.xxh3_128()
 
-    user: User | None = await User.objects.get_or_none(id=file_data.id)
+    # skipcq: PY-W0069
+    # assert hash_obj.block_size == 64
+    while chunk := file.read(6400):
+        hash_obj.update(chunk)
+    file_data.hash = hash_obj.digest()
+    await file_data.update()
+    file.close()
+    user: User | None = await User.objects.get_or_none(id=file_data.user.id)
     if user is None:
         return
     user.storage_used += file_data.size
     await user.update()
 
-
-# skipcq: PYL-W0613
-async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
-    new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
-    old_images = extract_image_ids_from_quiz(old_quiz)
-    new_images = extract_image_ids_from_quiz(new_quiz)
-    old_musics = extract_music_ids_from_quiz(old_quiz)
-    new_musics = extract_music_ids_from_quiz(new_quiz)
-
-    # If images are identical, then return
-    if sorted(old_images) == sorted(new_images) and sorted(old_musics) == sorted(new_musics):
-        print("Nothing's changed")
-        return
-    print("Change detected")
-
-    removed_images = list(set(old_images) - set(new_images))
-    removed_musics = list(set(old_musics) - set(new_musics))
-    added_images = list(set(new_images) - set(old_images))
-    added_musics = list(set(new_musics) - set(old_musics))
-
+async def manage_resources(removed_images: list[str | uuid.UUID], removed_musics: list[str | uuid.UUID], added_images: list[str | uuid.UUID], added_musics: list[str | uuid.UUID], new_quiz: Quiz):
     change_made = False
     for image in removed_images:
         if "--" in image:
@@ -99,6 +109,29 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
                 continue
             await new_quiz.storageitems.add(item)
             change_made = True
+
+    return change_made
+
+# skipcq: PYL-W0613
+async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
+    new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
+    old_images = extract_image_ids_from_quiz(old_quiz)
+    new_images = extract_image_ids_from_quiz(new_quiz)
+    old_musics = extract_music_ids_from_quiz(old_quiz)
+    new_musics = extract_music_ids_from_quiz(new_quiz)
+
+    # If images are identical, then return
+    if sorted(old_images) == sorted(new_images) and sorted(old_musics) == sorted(new_musics):
+        print("Nothing's changed")
+        return
+    print("Change detected")
+
+    removed_images = list(set(old_images) - set(new_images))
+    removed_musics = list(set(old_musics) - set(new_musics))
+    added_images = list(set(new_images) - set(old_images))
+    added_musics = list(set(new_musics) - set(old_musics))
+
+    change_made = await manage_resources(removed_images, removed_musics, added_images, added_musics, new_quiz);
 
     if change_made:
         await new_quiz.update()

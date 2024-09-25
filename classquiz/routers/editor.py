@@ -93,6 +93,8 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
                         answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
                     )
 
+    images_to_delete = []
+    musics_to_delete = []
     old_quiz_data: Quiz = await Quiz.objects.get_or_none(id=session_data.quiz_id, user_id=session_data.user_id)
 
     for i, question in enumerate(quiz_input.questions):
@@ -131,6 +133,18 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.background_color = quiz_input.background_color
         quiz.background_image = quiz_input.background_image
         quiz.mod_rating = None
+        for image in images_to_delete:
+            if image is not None:
+                try:
+                    await storage.delete([image])
+                except DeletionFailedError:
+                    pass
+        for music in musics_to_delete:
+            if music is not None:
+                try:
+                    await storage.delete([music])
+                except DeletionFailedError:
+                    pass
         await redis.srem("edit_sessions", edit_id)
         await redis.delete(f"edit_session:{edit_id}")
         await redis.delete(f"edit_session:{edit_id}:images")
