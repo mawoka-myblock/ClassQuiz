@@ -69,7 +69,14 @@ async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = D
     )
     return InitEditorResponse(token=edit_id)
 
-async def finish_edit_function(old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput, images_to_delete: list[str | uuid.UUID], musics_to_delete: list[str | uuid.UUID]):
+
+async def finish_edit_function(
+    old_quiz_data: Quiz,
+    edit_id: str,
+    quiz_input: QuizInput,
+    images_to_delete: list[str | uuid.UUID],
+    musics_to_delete: list[str | uuid.UUID],
+):
     await arq.enqueue_job("quiz_update", old_quiz_data, old_quiz_data.id, _defer_by=2)
     quiz = old_quiz_data
     meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
@@ -104,7 +111,10 @@ async def finish_edit_function(old_quiz_data: Quiz, edit_id: str, quiz_input: Qu
     await quiz.update()
     return quiz
 
-async def finish_create_function(session_data: EditSessionData, old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput):
+
+async def finish_create_function(
+    session_data: EditSessionData, old_quiz_data: Quiz, edit_id: str, quiz_input: QuizInput
+):
     quiz = Quiz(
         **quiz_input.dict(),
         user_id=session_data.user_id,
@@ -135,6 +145,7 @@ async def finish_create_function(session_data: EditSessionData, old_quiz_data: Q
         if item is None:
             continue
         await quiz.storageitems.add(item)
+
 
 @router.post("/finish")
 async def finish_edit(edit_id: str, quiz_input: QuizInput):
