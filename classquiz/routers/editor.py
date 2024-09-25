@@ -19,7 +19,12 @@ import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data, check_image_string, extract_image_ids_from_quiz, extract_music_ids_from_quiz
+from classquiz.helpers import (
+    get_meili_data,
+    check_image_string,
+    extract_image_ids_from_quiz,
+    extract_music_ids_from_quiz,
+)
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()

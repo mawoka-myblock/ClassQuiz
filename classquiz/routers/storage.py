@@ -178,6 +178,7 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     await arq.enqueue_job("calculate_hash", file_id.hex)
     return PublicStorageItem.from_db_model(file_obj)
 
+
 @router.post("/raw/{filename}")
 async def upload_raw_file(filename: str, request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
     if user.storage_used > settings.free_storage_limit:
@@ -258,8 +259,7 @@ async def list_images(
     if since is None:
         since = datetime.now() - timedelta(weeks=9999)
     storage_items = (
-        await StorageItem.objects
-        .filter(user=user)
+        await StorageItem.objects.filter(user=user)
         .filter(StorageItem.uploaded_at > since)
         .filter(StorageItem.deleted_at == None)  # noqa: E711
         .order_by(StorageItem.uploaded_at.desc())
