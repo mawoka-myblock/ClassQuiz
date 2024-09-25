@@ -298,6 +298,7 @@ def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
         quiz_images.append(question["image"])
     return quiz_images
 
+
 def extract_music_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
     quiz_musics = []
     for question in quiz.questions:
