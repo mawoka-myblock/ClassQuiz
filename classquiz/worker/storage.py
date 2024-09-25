@@ -76,18 +76,15 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
                 continue
             change_made = True
     for music in removed_musics:
-        if "--" in music:
-            await storage.delete([music])
-        else:
-            item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
-            if item is None:
-                continue
-            try:
-                await new_quiz.storageitems.remove(item)
-            except ormar.exceptions.NoMatch as e:
-                print(e)
-                continue
-            change_made = True
+        item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
+        if item is None:
+            continue
+        try:
+            await new_quiz.storageitems.remove(item)
+        except ormar.exceptions.NoMatch as e:
+            print(e)
+            continue
+        change_made = True
     for image in added_images:
         if "--" not in image:
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
