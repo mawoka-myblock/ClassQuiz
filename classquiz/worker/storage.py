@@ -70,7 +70,14 @@ async def calculate_hash(ctx, file_id_as_str: str):
     user.storage_used += file_data.size
     await user.update()
 
-async def manage_resources(removed_images: list[str | uuid.UUID], removed_musics: list[str | uuid.UUID], added_images: list[str | uuid.UUID], added_musics: list[str | uuid.UUID], new_quiz: Quiz):
+
+async def manage_resources(
+    removed_images: list[str | uuid.UUID],
+    removed_musics: list[str | uuid.UUID],
+    added_images: list[str | uuid.UUID],
+    added_musics: list[str | uuid.UUID],
+    new_quiz: Quiz,
+):
     change_made = False
     for image in removed_images:
         if "--" in image:
@@ -112,6 +119,7 @@ async def manage_resources(removed_images: list[str | uuid.UUID], removed_musics
 
     return change_made
 
+
 # skipcq: PYL-W0613
 async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
     new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
@@ -131,7 +139,7 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
     added_images = list(set(new_images) - set(old_images))
     added_musics = list(set(new_musics) - set(old_musics))
 
-    change_made = await manage_resources(removed_images, removed_musics, added_images, added_musics, new_quiz);
+    change_made = await manage_resources(removed_images, removed_musics, added_images, added_musics, new_quiz)
 
     if change_made:
         await new_quiz.update()

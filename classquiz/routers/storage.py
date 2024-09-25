@@ -179,7 +179,9 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
 
 
 @router.post("/raw/{filename}")
-async def upload_raw_file_with_filename(filename: str, request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
+async def upload_raw_file_with_filename(
+    filename: str, request: Request, user: User = Depends(get_current_user)
+) -> PublicStorageItem:
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
