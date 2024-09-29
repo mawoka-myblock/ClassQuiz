@@ -273,6 +273,7 @@ class AnswerData(BaseModel):
     right: bool
     time_taken: float  # In milliseconds
     score: int
+    total_score: int | None
 
 
 class AnswerDataList(BaseModel):

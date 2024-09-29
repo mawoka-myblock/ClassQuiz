@@ -52,13 +52,14 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     if answer_right:
         score = calculate_score(abs(diff), int(float(question.time)))
     await redis.set(f"answer_given:{player_id}:{game.current_question}", "True", ex=600)
-    await redis.hincrby(f"game_session:{game_pin}:player_scores", username, score)
+    total_score = await redis.hincrby(f"game_session:{game_pin}:player_scores", username, score)
     answer_data = AnswerData(
         username=username,
         answer=selected_answer,
         right=answer_right,
         time_taken=abs(diff),
         score=score,
+        total_score=total_score,
     )
     answers = await redis.get(f"game_session:{game_pin}:{game.current_question}")
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)

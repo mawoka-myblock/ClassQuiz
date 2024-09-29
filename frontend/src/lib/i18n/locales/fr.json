@@ -303,7 +303,8 @@
         "final_result_rank": "{{place}} : {{username}} avec {{points}} points",
         "players_waiting": "{{count}} joueurs sont en attente",
         "players_waiting_plural": "{{count}} joueurs sont en attente",
-        "your_place": "Vous êtes à {{place}} !"
+        "your_place": "Vous êtes à {{place}} !",
+        "answered": "Vous avez déjà répondu le choix n°{{answer}}"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",

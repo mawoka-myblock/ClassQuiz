@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { get_foreground_color } from '$lib/helpers';
 	import { kahoot_icons } from '$lib/play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
+	import { QuizQuestionType } from '../../quiz_types';
 	// import CircularTimer from '$lib/play/circular_progress.svelte';
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 	export let question: Question;
@@ -20,7 +21,17 @@ SPDX-License-Identifier: MPL-2.0
 	export let circular_progress;
 	let _selected_answers = [false, false, false, false];
 
+	const handleCheckQuestionTypeAnswers = () => {
+		// Set all the answers to false except the selected one
+		_selected_answers = _selected_answers.map((_a) => false);
+	};
+
 	const selectAnswer = (i: number) => {
+		// If only one answer can be selected
+		if (question.type === QuizQuestionType.CHECK) {
+			handleCheckQuestionTypeAnswers();
+		}
+
 		_selected_answers[i] = !_selected_answers[i];
 		selected_answer = '';
 		for (let i = 0; i < _selected_answers.length; i++) {
@@ -33,7 +44,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="w-full h-[95%]">
+<div class="w-full">
 	<!--
         <div
             class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-50"
@@ -46,15 +57,18 @@ SPDX-License-Identifier: MPL-2.0
         </div>
     -->
 	<div
-		class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
+		class="top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
+		style="clear: both;"
 	>
 		<CircularTimer bind:text={timer_res} bind:progress={circular_progress} color="#ef4444" />
 	</div>
 
-	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
+	<div
+		class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full answers-grid-list"
+	>
 		{#each question.answers as answer, i}
 			<button
-				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black transition-all"
+				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black transition-all answers-button"
 				style="background-color: {answer.color ??
 					default_colors[i]}; color: {get_foreground_color(
 					answer.color ?? default_colors[i]

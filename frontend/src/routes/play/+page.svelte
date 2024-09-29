@@ -85,7 +85,7 @@ SPDX-License-Identifier: MPL-2.0
 			username: data.username,
 			game_pin: data.game_pin
 		});
-		const res = await fetch(`/api/v1/quiz/play/check_captcha/${game_pin}`);
+		const res = await fetch(`/api/v1/quiz/play/check_captcha/${data.game_pin}`);
 		const json = await res.json();
 		game_mode = json.game_mode;
 	});
@@ -100,6 +100,22 @@ SPDX-License-Identifier: MPL-2.0
 		});
 	});
 	socket.on('rejoined_game', (data) => {
+		// Refresh cookie with newest sid
+		// If sid is not refreshed, the third refresh will not recover the session
+		const cookie_data = Cookies.get('joined_game');
+		if (!cookie_data) {
+			return;
+		}
+		const cookie_data_parsed = JSON.parse(cookie_data);
+		Cookies.set('joined_game', JSON.stringify({
+			sid: socket.id,
+			username: cookie_data_parsed.username,
+			game_pin: cookie_data_parsed.game_pin
+		}), {
+			expires: 3600
+		});
+		// Issue on score if not reset after a refresh
+		username = cookie_data_parsed.username
 		gameData = data;
 		if (data.started) {
 			gameMeta.started = true;
@@ -171,7 +187,7 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}-->
 </svelte:head>
 <div
-	class="min-h-screen min-w-full"
+	class="min-h-screen-play min-w-full"
 	style="background: {bg_color ? bg_color : 'transparent'}"
 	class:text-black={bg_color}
 >

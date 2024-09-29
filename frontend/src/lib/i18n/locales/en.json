@@ -298,7 +298,8 @@
         "points_added": "Points added",
         "your_place": "You're on place {{place}}!",
         "players_waiting": "{{count}} player are waiting",
-        "players_waiting_plural": "{{count}} players are waiting"
+        "players_waiting_plural": "{{count}} players are waiting",
+        "answered": "You have already provided your answer: {{answer}}"
     },
     "editor_page": {
         "add_an_answer": "Add an answer",

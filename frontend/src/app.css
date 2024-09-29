@@ -36,3 +36,25 @@ SPDX-License-Identifier: MPL-2.0
 		@apply px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600;
 	}
 }
+
+.w-screen {
+	width: 100%;
+}
+
+.h-screen-play,
+.min-h-screen-play {
+	height: calc(100vh - 55px) !important;
+	min-height: calc(100vh - 55px) !important;
+}
+
+.min-h-screen {
+	min-height: calc(100vh-100px);
+}
+
+.answers-button {
+	padding: 7% !important;
+}
+
+.answers-grid-list {
+	margin: 1rem 0 1rem 0;
+}

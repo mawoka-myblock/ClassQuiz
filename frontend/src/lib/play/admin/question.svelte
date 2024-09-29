@@ -90,10 +90,10 @@ SPDX-License-Identifier: MPL-2.0
 	</div>
 {/if}
 {#if quiz_data.questions[selected_question].type === QuizQuestionType.ABCD || quiz_data.questions[selected_question].type === QuizQuestionType.VOTING || quiz_data.questions[selected_question].type === QuizQuestionType.CHECK}
-	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4">
+	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 answers-grid-list">
 		{#each quiz_data.questions[selected_question].answers as answer, i}
 			<div
-				class="rounded-lg h-fit flex border-2 border-black"
+				class="rounded-lg h-fit flex border-2 border-black answers-button"
 				style="background-color: {answer.color ?? default_colors[i]};"
 				class:opacity-50={!answer.right &&
 					timer_res === '0' &&

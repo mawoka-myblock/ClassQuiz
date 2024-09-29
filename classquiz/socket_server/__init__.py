@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import random
+import logging
 
 import aiohttp
 import socketio
@@ -58,6 +59,14 @@ def calculate_score(z: float, t: int) -> int:
     res = (t - z) / t
     return int(res * 1000)
 
+def check_already_replied(answers, username) -> bool:
+    if answers is None:
+        return False
+    else:
+        answers = AnswerDataList.parse_raw(answers)
+        answers = list(filter(lambda a: a.username == username, answers.__root__))
+
+        return len(answers) > 0
 
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
@@ -102,7 +111,6 @@ async def rejoin_game(sid: str, data: dict):
     if old_sid != data.old_sid:
         return
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
-    await sio.emit("time_sync", encrypted_datetime, room=sid)
     await redis.set(redis_sid_key, sid)
     await redis.srem(
         f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=data.old_sid).json()
@@ -117,6 +125,7 @@ async def rejoin_game(sid: str, data: dict):
     }
     await sio.save_session(sid, session)
     await sio.enter_room(sid, data.game_pin)
+    await sio.emit("time_sync", encrypted_datetime, room=sid)
     await sio.emit(
         "rejoined_game",
         {
@@ -281,6 +290,9 @@ async def get_question_results(sid: str, data: dict):
         redis_res = []
     else:
         redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
+    for player in redis_res:
+         player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player['username'])
+         player['total_score'] = int(player_total_score)
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.json())
@@ -434,15 +446,22 @@ async def submit_answer(sid: str, data: dict):
         )
         if score > 1000:
             score = 1000
-    await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
+    # TODO: If has already replied, return
+    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
+    already_replied = check_already_replied(answers, session["username"])
+    if already_replied:
+        await sio.emit("already_replied", room=sid)
+        return
+    # ---
+    total_score = await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     answer_data = AnswerData(
         username=session["username"],
         answer=data.answer,
         right=answer_right,
         time_taken=abs(diff) - latency,
         score=score,
+        total_score=total_score,
     )
-    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     answers = await set_answer(
         answers, game_pin=session["game_pin"], data=answer_data, q_index=int(float(data.question_index))
     )
