@@ -67,15 +67,8 @@ SPDX-License-Identifier: MPL-2.0
 
 <svelte:head>
 	{#if plausible_data_url}
-		<link rel="prefetch" href="https://plausible.nexus.mawoka.eu/" />
-		<script defer data-domain={plausible_data_url} src="https://plausible.nexus.mawoka.eu/js/plausible.hash.outbound-links.js"></script>
-		<script>
-			window.plausible =
-				window.plausible ||
-				function () {
-					(window.plausible.q = window.plausible.q || []).push(arguments);
-				};
-		</script>
+		<script defer data-domain={plausible_data_url} src="https://plausible.nexus.mawoka.eu/js/script.file-downloads.outbound-links.pageview-props.tagged-events.js"></script>
+		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 	{/if}
 </svelte:head>
 
