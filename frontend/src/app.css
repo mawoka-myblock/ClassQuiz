@@ -37,8 +37,13 @@ SPDX-License-Identifier: MPL-2.0
 	}
 }
 
-.w-screen {
+.w-screen,
+.w-screen-play {
 	width: 100%;
+}
+
+.h-screen-play {
+	height: calc(100vh - 5vh) !important;
 }
 
 .h-screen-play,
@@ -48,7 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 }
 
 .min-h-screen {
-	min-height: calc(100vh-100px);
+	min-height: calc(100vh-19vh);
 }
 
 .answers-button {
