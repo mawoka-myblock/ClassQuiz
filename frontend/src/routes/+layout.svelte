@@ -67,13 +67,8 @@ SPDX-License-Identifier: MPL-2.0
 
 <svelte:head>
 	{#if plausible_data_url}
-		<link rel="prefetch" href="https://sugar.mawoka.eu.org/" />
-		<script
-			async=""
-			defer=""
-			data-domain={plausible_data_url}
-			src="https://sugar.mawoka.eu.org/js/plausible.hash.outbound-links.js"
-		></script>
+		<link rel="prefetch" href="https://plausible.nexus.mawoka.eu/" />
+		<script defer data-domain={plausible_data_url} src="https://plausible.nexus.mawoka.eu/js/plausible.hash.outbound-links.js"></script>
 		<script>
 			window.plausible =
 				window.plausible ||
