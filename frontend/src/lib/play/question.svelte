@@ -152,6 +152,11 @@ SPDX-License-Identifier: MPL-2.0
 			width: 35%;
 		}
 	}
+	.object-cover {
+		-o-object-fit: cover;
+		object-fit: cover;
+		max-height: 40vh !important;
+	}
 </style>
 
 <div class="h-screen w-screen">
