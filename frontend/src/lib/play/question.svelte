@@ -152,11 +152,6 @@ SPDX-License-Identifier: MPL-2.0
 			width: 35%;
 		}
 	}
-	.object-cover {
-		-o-object-fit: cover;
-		object-fit: cover;
-		max-height: 40vh !important;
-	}
 </style>
 
 <div class="h-screen w-screen">
@@ -177,7 +172,7 @@ SPDX-License-Identifier: MPL-2.0
 					<MediaComponent
 						src={question.image}
 						css_classes="object-cover mx-auto mb-8 max-h-[90%]"
-						style="max-height: 40vh !important;"
+						css_style="max-height: 40vh !important;"
 					/>
 				</div>
 			{/if}
