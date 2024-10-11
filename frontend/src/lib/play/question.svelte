@@ -152,6 +152,9 @@ SPDX-License-Identifier: MPL-2.0
 			width: 35%;
 		}
 	}
+	.question-image-wrapper {
+		max-height: 50% !important;
+	}
 </style>
 
 <div class="h-screen w-screen">
@@ -168,10 +171,10 @@ SPDX-License-Identifier: MPL-2.0
 				{@html question.question}
 			</h1>
 			{#if question.image !== null && game_mode !== 'kahoot'}
-				<div class="max-h-full">
+				<div class="max-h-full question-image-wrapper">
 					<MediaComponent
 						src={question.image}
-						css_classes="object-cover mx-auto mb-8 max-h-[50%]"
+						css_classes="object-cover mx-auto mb-8 max-h-[90%]"
 					/>
 				</div>
 			{/if}
