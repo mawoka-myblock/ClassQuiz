@@ -160,6 +160,7 @@ SPDX-License-Identifier: MPL-2.0
 			class="justify-start question-image"
 			class:mt-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
 			class:mb-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
+			style="margin: auto;"
 		>
 			<h1
 				class="lg:text-2xl text-lg text-center text-black dark:text-white mt-2 break-normal mb-2"
