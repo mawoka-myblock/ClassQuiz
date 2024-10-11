@@ -149,10 +149,9 @@ SPDX-License-Identifier: MPL-2.0
 <div class="h-screen w-screen">
 	{#if game_mode === 'normal'}
 		<div
-			class="flex flex-col justify-start"
+			class="justify-start"
 			class:mt-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
 			class:mb-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
-			style="height: {question.image ? '33.333333' : '16.666667'}%"
 		>
 			<h1
 				class="lg:text-2xl text-lg text-center text-black dark:text-white mt-2 break-normal mb-2"

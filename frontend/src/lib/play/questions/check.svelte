@@ -44,7 +44,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="w-full" style="margin-top: 30%">
+<div class="w-full">
 	<!--
         <div
             class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-50"
