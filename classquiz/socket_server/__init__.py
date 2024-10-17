@@ -377,11 +377,10 @@ class _SubmitAnswerData(BaseModel):
 
 
 def verify_answer_abcd(data: dict, game_data: any):
-    for answer in game_data.questions[int(float(data.question_index))].answers:
-        if answer.answer == data.answer and answer.right:
-            return True
-
-    return False
+    return any(
+        answer.answer == data.answer and answer.right
+        for answer in game_data.questions[int(float(data.question_index))].answers
+    )
 
 
 def verify_answer_range(data: dict, game_data: any):
