@@ -171,7 +171,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="max-h-full">
 					<MediaComponent
 						src={question.image}
-						css_classes="object-cover mx-auto mb-8 max-h-[50%]"
+						css_classes="object-cover mx-auto mb-8 max-h-[90%]"
 					/>
 				</div>
 			{/if}
