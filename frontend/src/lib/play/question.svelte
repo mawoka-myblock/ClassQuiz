@@ -147,7 +147,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <style>
-	@media (min-width: 450px) and (orientation:landscape) {
+	@media (min-width: 600px) and (orientation:landscape) {
 		.question-image {
 			width: 35%;
 		}

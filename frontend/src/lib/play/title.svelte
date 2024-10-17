@@ -10,7 +10,7 @@ SPDX-License-Identifier: MPL-2.0
 	export let cover_image: string | undefined;
 </script>
 
-<div class="flex flex-col justify-center w-screen h-screen-play">
+<div class="flex flex-col justify-center w-screen h-screen">
 	<h1 class="text-7xl text-center">{@html title}</h1>
 	<p class="text-3xl pt-8 text-center">{@html description}</p>
 	{#if cover_image}
