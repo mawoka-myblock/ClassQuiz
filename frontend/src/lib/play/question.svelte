@@ -160,7 +160,7 @@ SPDX-License-Identifier: MPL-2.0
 				{@html question.question}
 			</h1>
 			{#if question.image !== null && game_mode !== 'kahoot'}
-				<div class="max-h-full" style="margin-top: 30%">
+				<div class="max-h-full">
 					<MediaComponent
 						src={question.image}
 						css_classes="object-cover mx-auto mb-8 max-h-[90%]"
