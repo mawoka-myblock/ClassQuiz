@@ -59,6 +59,7 @@ def calculate_score(z: float, t: int) -> int:
     res = (t - z) / t
     return int(res * 1000)
 
+
 def check_already_replied(answers, username) -> bool:
     if answers is None:
         return False
@@ -67,6 +68,7 @@ def check_already_replied(answers, username) -> bool:
         answers = list(filter(lambda a: a.username == username, answers.__root__))
 
         return len(answers) > 0
+
 
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
@@ -291,8 +293,8 @@ async def get_question_results(sid: str, data: dict):
     else:
         redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
     for player in redis_res:
-         player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player['username'])
-         player['total_score'] = int(player_total_score)
+        player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player["username"])
+        player["total_score"] = int(player_total_score)
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.json())
