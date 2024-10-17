@@ -146,18 +146,10 @@ SPDX-License-Identifier: MPL-2.0
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 </script>
 
-<style>
-	@media (min-width: 600px) and (orientation:landscape) {
-		.question-image {
-			width: 35%;
-		}
-	}
-</style>
-
 <div class="h-screen w-screen">
 	{#if game_mode === 'normal'}
 		<div
-			class="justify-start question-image"
+			class="justify-start"
 			class:mt-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
 			class:mb-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
 		>
