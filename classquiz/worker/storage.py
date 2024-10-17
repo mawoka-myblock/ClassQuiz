@@ -13,7 +13,7 @@ from classquiz.config import redis, storage
 from tempfile import SpooledTemporaryFile
 
 from classquiz.db.models import StorageItem, Quiz, User
-from classquiz.helpers import extract_image_ids_from_quiz
+from classquiz.helpers import extract_image_ids_from_quiz, extract_music_ids_from_quiz
 from classquiz.storage.errors import DeletionFailedError
 from thumbhash import image_to_thumbhash
 
@@ -42,6 +42,8 @@ async def calculate_hash(ctx, file_id_as_str: str):
     if file_data.storage_path is not None:
         file_path = file_data.storage_path
     file = SpooledTemporaryFile()
+    # The next line is giving error as the file is not found if
+    # the same volume is not mounted to the worker instance
     file_data.size = await storage.get_file_size(file_name=file_path)
     if file_data.size is None:
         file_data.size = 0
@@ -73,19 +75,13 @@ async def calculate_hash(ctx, file_id_as_str: str):
     await user.update()
 
 
-# skipcq: PYL-W0613
-async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
-    new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
-    old_images = extract_image_ids_from_quiz(old_quiz)
-    new_images = extract_image_ids_from_quiz(new_quiz)
-
-    # If images are identical, then return
-    if sorted(old_images) == sorted(new_images):
-        print("Nothing's changed")
-        return
-    print("Change detected")
-    removed_images = list(set(old_images) - set(new_images))
-    added_images = list(set(new_images) - set(old_images))
+async def manage_resources(
+    removed_images: list[str | uuid.UUID],
+    removed_musics: list[str | uuid.UUID],
+    added_images: list[str | uuid.UUID],
+    added_musics: list[str | uuid.UUID],
+    new_quiz: Quiz,
+):
     change_made = False
     for image in removed_images:
         if "--" in image:
@@ -96,9 +92,20 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
                 continue
             try:
                 await new_quiz.storageitems.remove(item)
-            except ormar.exceptions.NoMatch:
+            except ormar.exceptions.NoMatch as e:
+                print(e)
                 continue
             change_made = True
+    for music in removed_musics:
+        item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
+        if item is None:
+            continue
+        try:
+            await new_quiz.storageitems.remove(item)
+        except ormar.exceptions.NoMatch as e:
+            print(e)
+            continue
+        change_made = True
     for image in added_images:
         if "--" not in image:
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))
@@ -106,5 +113,37 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
                 continue
             await new_quiz.storageitems.add(item)
             change_made = True
+    for music in added_musics:
+        if "--" not in music:
+            item = await StorageItem.objects.get_or_none(id=uuid.UUID(music))
+            if item is None:
+                continue
+            await new_quiz.storageitems.add(item)
+            change_made = True
+
+    return change_made
+
+
+# skipcq: PYL-W0613
+async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
+    new_quiz: Quiz = await Quiz.objects.get(id=quiz_id)
+    old_images = extract_image_ids_from_quiz(old_quiz)
+    new_images = extract_image_ids_from_quiz(new_quiz)
+    old_musics = extract_music_ids_from_quiz(old_quiz)
+    new_musics = extract_music_ids_from_quiz(new_quiz)
+
+    # If images are identical, then return
+    if sorted(old_images) == sorted(new_images) and sorted(old_musics) == sorted(new_musics):
+        print("Nothing's changed")
+        return
+    print("Change detected")
+
+    removed_images = list(set(old_images) - set(new_images))
+    removed_musics = list(set(old_musics) - set(new_musics))
+    added_images = list(set(new_images) - set(old_images))
+    added_musics = list(set(new_musics) - set(old_musics))
+
+    change_made = await manage_resources(removed_images, removed_musics, added_images, added_musics, new_quiz)
+
     if change_made:
         await new_quiz.update()
