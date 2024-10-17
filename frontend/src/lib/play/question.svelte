@@ -151,7 +151,6 @@ SPDX-License-Identifier: MPL-2.0
 		<div
 			class="flex flex-col justify-start"
 			class:mt-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
-			class:mb-10={[QuizQuestionType.RANGE, QuizQuestionType.ORDER, QuizQuestionType.TEXT]}
 			style="height: {question.image ? '33.333333' : '16.666667'}%"
 		>
 			<h1
@@ -383,9 +382,11 @@ SPDX-License-Identifier: MPL-2.0
 						</BrownButton>
 
 						{#if check_selected_answer}
-							<p>{$t('play_page.answered', {
-								answer: selected_answer
-							})}</p>
+							<p>
+								{$t('play_page.answered', {
+									answer: selected_answer
+								})}
+							</p>
 						{/if}
 					</div>
 				</div>

@@ -33,8 +33,8 @@ SPDX-License-Identifier: MPL-2.0
 	#progress-circle {
 		background: var(--background);
 		border-radius: 50%;
-		width: 90px;
-		height: 90px;
+		width: 120px;
+		height: 120px;
 		transition: all 500ms ease-in;
 		will-change: transform;
 		display: flex;

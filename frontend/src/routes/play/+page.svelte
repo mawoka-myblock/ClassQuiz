@@ -107,15 +107,19 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		const cookie_data_parsed = JSON.parse(cookie_data);
-		Cookies.set('joined_game', JSON.stringify({
-			sid: socket.id,
-			username: cookie_data_parsed.username,
-			game_pin: cookie_data_parsed.game_pin
-		}), {
-			expires: 3600
-		});
+		Cookies.set(
+			'joined_game',
+			JSON.stringify({
+				sid: socket.id,
+				username: cookie_data_parsed.username,
+				game_pin: cookie_data_parsed.game_pin
+			}),
+			{
+				expires: 3600
+			}
+		);
 		// Issue on score if not reset after a refresh
-		username = cookie_data_parsed.username
+		username = cookie_data_parsed.username;
 		gameData = data;
 		if (data.started) {
 			gameMeta.started = true;
@@ -187,7 +191,7 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}-->
 </svelte:head>
 <div
-	class="min-h-screen-play min-w-full"
+	class="min-h-screen min-w-full"
 	style="background: {bg_color ? bg_color : 'transparent'}"
 	class:text-black={bg_color}
 >

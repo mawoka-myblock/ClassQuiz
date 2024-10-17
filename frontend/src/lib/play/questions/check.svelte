@@ -44,7 +44,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="w-full">
+<div class="w-full h-[95%]">
 	<!--
         <div
             class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-50"
@@ -58,17 +58,14 @@ SPDX-License-Identifier: MPL-2.0
     -->
 	<div
 		class="top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
-		style="clear: both;"
 	>
 		<CircularTimer bind:text={timer_res} bind:progress={circular_progress} color="#ef4444" />
 	</div>
 
-	<div
-		class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full answers-grid-list"
-	>
+	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
 		{#each question.answers as answer, i}
 			<button
-				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black transition-all answers-button"
+				class="rounded-lg h-full flex align-middle justify-center disabled:opacity-60 p-3 border-2 border-black transition-all"
 				style="background-color: {answer.color ??
 					default_colors[i]}; color: {get_foreground_color(
 					answer.color ?? default_colors[i]
