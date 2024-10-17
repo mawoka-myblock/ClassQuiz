@@ -376,54 +376,77 @@ class _SubmitAnswerData(BaseModel):
     complex_answer: list[_SubmitAnswerDataOrderType] | None
 
 
+def verify_answer_abcd(data: dict, game_data: any):
+    for answer in game_data.questions[int(float(data.question_index))].answers:
+        if answer.answer == data.answer and answer.right:
+            return True
+
+    return False
+
+
+def verify_answer_range(data: dict, game_data: any):
+    if (
+        game_data.questions[int(float(data.question_index))].answers.min_correct
+        <= int(float(data.answer))
+        <= game_data.questions[int(float(data.question_index))].answers.max_correct
+    ):
+        return True
+
+    return False
+
+
+def verify_answer_order(data: dict, game_data: any):
+    if data.complex_answer is None:
+        return False
+    else:
+        question = game_data.questions[int(float(data.question_index))]
+        correct_answers = []
+        for a in question.answers:
+            correct_answers.append({"answer": a.answer})
+        answer_order = []
+        for a in data.dict()["complex_answer"]:
+            answer_order.append(a["answer"])
+        data.answer = ", ".join(answer_order)
+        if correct_answers == data.dict()["complex_answer"]:
+            return True
+
+    return False
+
+
+def verify_answer_text(data: dict, game_data: any):
+    for q in game_data.questions[int(float(data.question_index))].answers:
+        if q.case_sensitive:
+            if data.answer == q.answer:
+                return True
+        else:
+            if data.answer.lower() == q.answer.lower():
+                return True
+
+    return False
+
+
+def verify_answer_check(data: dict, game_data: any):
+    correct_string = ""
+    for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
+        if a.right:
+            correct_string += str(i)
+    return bool(correct_string == data.answer)
+
+
 async def verify_answer(data: dict, game_data: any):
     answer_right = False
     if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
-        for answer in game_data.questions[int(float(data.question_index))].answers:
-            if answer.answer == data.answer and answer.right:
-                answer_right = True
-                break
+        answer_right = verify_answer_abcd(data, game_data)
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.RANGE:
-        if (
-            game_data.questions[int(float(data.question_index))].answers.min_correct
-            <= int(float(data.answer))
-            <= game_data.questions[int(float(data.question_index))].answers.max_correct
-        ):
-            answer_right = True
+        answer_right = verify_answer_range(data, game_data)
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
         answer_right = False
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ORDER:
-        if data.complex_answer is None:
-            answer_right = False
-        else:
-            question = game_data.questions[int(float(data.question_index))]
-            correct_answers = []
-            for a in question.answers:
-                correct_answers.append({"answer": a.answer})
-            answer_order = []
-            for a in data.dict()["complex_answer"]:
-                answer_order.append(a["answer"])
-            data.answer = ", ".join(answer_order)
-            if correct_answers == data.dict()["complex_answer"]:
-                answer_right = True
-
+        answer_right = verify_answer_order(data, game_data)
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
-        answer_right = False
-        for q in game_data.questions[int(float(data.question_index))].answers:
-            if q.case_sensitive:
-                if data.answer == q.answer:
-                    answer_right = True
-                    break
-            else:
-                if data.answer.lower() == q.answer.lower():
-                    answer_right = True
-                    break
+        answer_right = verify_answer_text(data, game_data)
     elif game_data.questions[int(data.question_index)].type == QuizQuestionType.CHECK:
-        correct_string = ""
-        for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
-            if a.right:
-                correct_string += str(i)
-        answer_right = bool(correct_string == data.answer)
+        answer_right = verify_answer_check(data, game_data)
     else:
         raise NotImplementedError
 
