@@ -11,7 +11,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	export let src: string;
 	export let css_classes = 'max-h-64 h-auto w-auto';
-	export let css_style = '';
 	export let added_thumbhash_classes = 'h-full';
 	export let muted = true;
 	export let allow_fullscreen = true;
@@ -72,13 +71,11 @@ SPDX-License-Identifier: MPL-2.0
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
 			class={css_classes}
-			style={css_style}
 			on:click={() => open_fullscreen()}
 		/>
 	{:else if type === 'video'}
 		<video
 			class={css_classes}
-			style={css_style}
 			disablepictureinpicture
 			x-webkit-airplay="deny"
 			controls
