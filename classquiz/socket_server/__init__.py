@@ -8,7 +8,6 @@ import hashlib
 import json
 import os
 import random
-import logging
 
 import aiohttp
 import socketio
@@ -59,6 +58,7 @@ def calculate_score(z: float, t: int) -> int:
     res = (t - z) / t
     return int(res * 1000)
 
+
 def check_already_replied(answers, username) -> bool:
     if answers is None:
         return False
@@ -67,6 +67,7 @@ def check_already_replied(answers, username) -> bool:
         answers = list(filter(lambda a: a.username == username, answers.__root__))
 
         return len(answers) > 0
+
 
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
@@ -291,8 +292,8 @@ async def get_question_results(sid: str, data: dict):
     else:
         redis_res = AnswerDataList.parse_raw(redis_res).dict()["__root__"]
     for player in redis_res:
-         player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player['username'])
-         player['total_score'] = int(player_total_score)
+        player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player["username"])
+        player["total_score"] = int(player_total_score)
     game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.json())
@@ -375,17 +376,7 @@ class _SubmitAnswerData(BaseModel):
     complex_answer: list[_SubmitAnswerDataOrderType] | None
 
 
-@sio.event
-async def submit_answer(sid: str, data: dict):
-    now = datetime.now()
-    try:
-        data = _SubmitAnswerData(**data)
-    except ValidationError as e:
-        await sio.emit("error", room=sid)
-        print(e)
-        return
-    session = await sio.get_session(sid)
-    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+async def verify_answer(data: dict, game_data: any):
     answer_right = False
     if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
         for answer in game_data.questions[int(float(data.question_index))].answers:
@@ -435,6 +426,22 @@ async def submit_answer(sid: str, data: dict):
         answer_right = bool(correct_string == data.answer)
     else:
         raise NotImplementedError
+
+    return answer_right
+
+
+@sio.event
+async def submit_answer(sid: str, data: dict):
+    now = datetime.now()
+    try:
+        data = _SubmitAnswerData(**data)
+    except ValidationError as e:
+        await sio.emit("error", room=sid)
+        print(e)
+        return
+    session = await sio.get_session(sid)
+    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    answer_right = await verify_answer(data, game_data)
     latency = int(float((await sio.get_session(sid))["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
 
