@@ -4,6 +4,10 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
+
+<!--
+This should be okay, right?
+-->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { tinykeys } from '$lib/tinykeys';
@@ -194,7 +198,6 @@ SPDX-License-Identifier: MPL-2.0
 	};
 
 	const on_enter = (e: KeyboardEvent) => {
-		e.preventDefault();
 		if (selected === null) {
 			return;
 		}
@@ -231,6 +234,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="fixed top-0 left-0 w-screen h-screen flex bg-black bg-opacity-50 z-50"
 		on:click={close_on_outside}
+        on:keyup={close_on_outside}
 		transition:fade={{ duration: 60 }}
 	>
 		<div class="m-auto w-1/3 h-2/3 rounded bg-black flex flex-col">
@@ -242,7 +246,6 @@ SPDX-License-Identifier: MPL-2.0
 				</p>
 				<input
 					type="text"
-					autofocus
 					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-none bg-gray-700 rounded"
 					bind:value={input}
 				/>

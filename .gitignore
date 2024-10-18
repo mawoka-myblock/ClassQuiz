@@ -12,3 +12,4 @@ node_modules/
 survey.json
 .coverage
 export_deta.py
+target/

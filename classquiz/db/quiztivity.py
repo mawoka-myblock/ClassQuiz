@@ -12,8 +12,8 @@ class Pdf(BaseModel):
 
 
 class _MemoryCard(BaseModel):
-    image: str | None
-    text: str | None
+    image: str | None = None
+    text: str | None = None
     id: str
 
 
@@ -53,6 +53,6 @@ TYPE_CLASS_LIST = {
 
 
 class QuizTivityPage(BaseModel):
-    title: str | None
+    title: str | None = None
     type: QuizTivityTypes
     data: Pdf | Memory | Markdown | Abcd

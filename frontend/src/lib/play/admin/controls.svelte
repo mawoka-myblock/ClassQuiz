@@ -79,6 +79,17 @@ SPDX-License-Identifier: MPL-2.0
 						class="admin-button"
 						>{$t('admin_page.next_question', { question: selected_question + 2 })}
 					</button>
+				{:else if quiz_data.questions[selected_question]?.hide_results === true}
+					<button
+						on:click={() => {
+							get_question_results();
+							setTimeout(() => {
+								set_question_number(selected_question + 1);
+							}, 200);
+						}}
+						class="admin-button"
+						>{$t('admin_page.next_question', { question: selected_question + 2 })}
+					</button>
 				{:else}
 					<button on:click={get_question_results} class="admin-button"
 						>{$t('admin_page.show_results')}
