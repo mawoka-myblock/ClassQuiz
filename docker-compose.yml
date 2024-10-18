@@ -35,19 +35,19 @@ services:
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
       # -- DON'T CHANGE TILL HERE ---
 
-      # --- GENERAL CONFI ---
+      # --- GENERAL CONFIG ---
       ROOT_ADDRESS: "https://classquiz.de" # CHANGE IT (without a "/" at the end)
 
       # --- MAIL CONFIG ---
-      MAIL_PORT: "993"
-      MAIL_ADDRESS: "temp"
-      MAIL_PASSWORD: "temp"
-      MAIL_USERNAME: "temp"
-      MAIL_SERVER: "imap.gmail.com"
+      MAIL_PORT: "587"
+      MAIL_ADDRESS: "email@email@email.email"
+      MAIL_PASSWORD: "PASSWORT"
+      MAIL_USERNAME: "email@email@email.email"
+      MAIL_SERVER: "smtp.email.email"
       SKIP_EMAIL_VERIFICATION: "True" # Does the user have to confirm its email by clicking a link?
 
       # --- EXTERNAL API CONFIG ---
-      # HCAPTCHA_KEY: "3852831a-48b4-4236-b0de-9769a1998468"
+      # HCAPTCHA_KEY: ""
       # PIXABAY_API_KEY: "" # Get it from here: https://pixabay.com/api/docs/
       # RECAPTCHA_KEY: "" Get it from Google for the Captcha.
 
