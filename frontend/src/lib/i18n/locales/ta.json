@@ -212,7 +212,7 @@
         "rating": "செயல்வரம்பு",
         "like": "போன்ற",
         "like_plural": "விருப்பங்கள்",
-        "dislike": "வெறுப்புகள்",
+        "dislike": "வெறுப்பு",
         "dislike_plural": "விருப்பு வெறுப்புகள்",
         "play_plural": "நாடகங்கள்",
         "info": "தகவல்",
@@ -283,13 +283,13 @@
         "export_results": "ஏற்றுமதி முடிவுகள்"
     },
     "password_reset_page": {
-        "reset_password": "கடவுச்சொல்லை மீட்டமைக்கவும்"
+        "reset_password": "கடவுச்சொல்லை மீட்டமை"
     },
     "settings_page": {
         "old_password": "பழைய கடவுச்சொல்",
         "new_password": "புதிய கடவுச்சொல்",
         "repeat_password": "கடவுச்சொல்லை மீண்டும் செய்யவும்",
-        "change_password_submit": "கடவுச்சொல்லை மாற்றவும்!",
+        "change_password_submit": "கடவுச்சொல்லை மாற்று!",
         "last_seen": "கடைசியாக பார்த்தேன்",
         "check_location": "இருப்பிடத்தை சரிபார்க்கவும்",
         "delete_this_session": "இந்த அமர்வை நீக்கு",
