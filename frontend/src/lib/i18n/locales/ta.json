@@ -213,13 +213,13 @@
         "like": "போன்ற",
         "like_plural": "விருப்பங்கள்",
         "dislike": "வெறுப்பு",
-        "dislike_plural": "விருப்பு வெறுப்புகள்",
+        "dislike_plural": "வெறுப்புகள்",
         "play_plural": "நாடகங்கள்",
         "info": "தகவல்",
         "player": "வீரர்"
     },
     "editor": {
-        "time_in_seconds": "விநாடிகளில் நேரம்",
+        "time_in_seconds": "நொடிகளில் நேரம்",
         "right_or_true?": "சரி?",
         "add_new_answer": "புதிய பதிலைச் சேர்க்கவும்",
         "add_new_question": "புதிய கேள்வியைச் சேர்க்கவும்",
@@ -295,7 +295,7 @@
         "delete_this_session": "இந்த அமர்வை நீக்கு",
         "this_session?": "இந்த அமர்வு?",
         "change_avatar": "அவதாரத்தை மாற்றவும்",
-        "security_settings": "பாதுகாப்பு-தீர்வு",
+        "security_settings": "பாதுகாப்பு அமைவுகள்",
         "add_api_key": "பநிஇ விசையைச் சேர்க்கவும்"
     },
     "explore_page": {
