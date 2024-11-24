@@ -339,7 +339,7 @@
     },
     "avatar_settings": {
         "skin_color": "தோல் நிறம்",
-        "top_type": "மேலே",
+        "top_type": "மேல்",
         "hair_color": "முடி நிறம்",
         "facial_hair_type": "முக முடி",
         "facial_hair_color": "முக முடி நிறம்",
@@ -349,7 +349,7 @@
         "hat_color": "தொப்பி நிறம்",
         "clothe_type": "ஆடைகள்",
         "clothe_color": "ஆடை நிறம்",
-        "clothe_graphic_type": "கிராஃபிக்",
+        "clothe_graphic_type": "வரைகலை",
         "thats_you": "அது நீங்கள்!",
         "start_over": "தொடக்க",
         "go_back": "திரும்பிச் செல்லுங்கள்"
