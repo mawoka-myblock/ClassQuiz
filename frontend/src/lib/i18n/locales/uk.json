@@ -54,13 +54,13 @@
         "no_player_limit": "Немає обмежень гравців"
     },
     "result_page": {
-        "correct_answer_plural": "",
-        "player_score": "",
-        "correct_answer": "",
-        "time_taken": "",
-        "player_name": "",
-        "average_score": "",
-        "custom_field": ""
+        "correct_answer_plural": "{{count}} правильні відповіді",
+        "player_score": "Очки гравця",
+        "correct_answer": "{{count}} правильна відповідь",
+        "time_taken": "Витрачений час",
+        "player_name": "Ім'я гравця",
+        "average_score": "Середній бал: {{average_score}}",
+        "custom_field": "Спеціальне поле"
     },
     "register_page": {
         "create_account": "Створити акаунт",
@@ -212,37 +212,37 @@
         "players_waiting_plural": "{{count}} гравці чекають"
     },
     "file_dashboard": {
-        "unset": "",
-        "filename_word": "",
-        "imported": "",
-        "filename": "",
-        "missing": "",
-        "delete_image": "",
-        "size": "",
-        "storage_usage": "",
-        "alt_text": "",
-        "edit_details": "",
-        "uploaded": "",
-        "not_available": "",
-        "caption": "",
-        "edit_the_image": ""
+        "unset": "Не встановлено",
+        "filename_word": "Ім'я файлу",
+        "imported": "Імпортовано: {{yes_or_no}}",
+        "filename": "Ім'я файлу: {{filename}}",
+        "missing": "ВІДСУТИЙ!",
+        "delete_image": "Видалити зображення",
+        "size": "Розмір: {{size}} MiB",
+        "storage_usage": "Ви використали {{used}} MiB із {{total}} MiB пам’яті. Це еквівалентно {{percent}}% вашого обсягу пам’яті.",
+        "alt_text": "Альтернативний текст / Підпис",
+        "edit_details": "Редагувати деталі",
+        "uploaded": "Завантажено: {{date}}",
+        "not_available": "Не доступний",
+        "caption": "Підпис: {{caption}}",
+        "edit_the_image": "Відредагуйте зображення"
     },
     "avatar_settings": {
-        "accessories_type": "",
-        "go_back": "",
+        "accessories_type": "Окуляри",
+        "go_back": "Іди назад",
         "hair_color": "Колір волосся",
-        "clothe_graphic_type": "",
+        "clothe_graphic_type": "Графічний",
         "facial_hair_type": "Волосся на обличчі",
-        "facial_hair_color": "",
+        "facial_hair_color": "Колір волосся на обличчі",
         "skin_color": "Колір шкіри",
-        "clothe_color": "",
-        "thats_you": "",
-        "start_over": "",
-        "clothe_type": "",
-        "mouth_type": "",
+        "clothe_color": "Колір одягу",
+        "thats_you": "Це ти!",
+        "start_over": "Почніть спочатку",
+        "clothe_type": "Одяг",
+        "mouth_type": "Рот",
         "top_type": "Топ",
-        "eyebrow_type": "",
-        "hat_color": ""
+        "eyebrow_type": "Брова",
+        "hat_color": "Колір капелюха"
     },
     "overview_page": {
         "question_count": "Кількість питань",
@@ -269,68 +269,68 @@
     },
     "quiztivity": {
         "editor": {
-            "add_new": "",
-            "move_left": "",
+            "add_new": "Додати новий",
+            "move_left": "Рух ліворуч",
             "shares": {
-                "never_expires": "",
-                "expires_on": "",
-                "add_new_share": ""
+                "never_expires": "Ніколи не закінчується",
+                "expires_on": "Термін дії закінчується {{date}}",
+                "add_new_share": "Додати новий спільний доступ"
             },
-            "title_placeholder": "",
-            "delete": "",
-            "open_shares_menu": "",
-            "select_page_type": "",
-            "move_right": ""
+            "title_placeholder": "Введіть назву тут",
+            "delete": "Видалити",
+            "open_shares_menu": "Відкрийте меню «Спільний доступ»",
+            "select_page_type": "Виберіть Тип сторінки",
+            "move_right": "Рух праворуч"
         },
-        "share_expired": "",
+        "share_expired": "Термін дії частки минув",
         "play": {
             "memory": {
-                "try_count": ""
+                "try_count": "Спроб: {{try_count}}"
             }
         },
         "memory": {
             "editor": {
-                "add_card": "",
-                "add_pair": "",
-                "upload_image": ""
+                "add_card": "Додати картку",
+                "add_pair": "Додайте пару",
+                "upload_image": "Завантажити зображення"
             }
         }
     },
     "results_page": {
-        "no_results_so_far": "",
-        "quiz_title": "",
-        "player_count": "",
-        "date_played": "",
+        "no_results_so_far": "Результати поки що не збережено...",
+        "quiz_title": "Назва вікторини",
+        "player_count": "Кількість гравців",
+        "date_played": "Дата гри",
         "general_overview": {
-            "sentence": ""
+            "sentence": "У вікторині \"{{title}}\", яка проходила {{date}}, брали участь {{player_count}} гравців із середнім балом {{average_score}}."
         }
     },
     "security_settings": {
-        "get_backup_code": "",
-        "enable_totp": "",
-        "disable_totp": "",
+        "get_backup_code": "Отримати резервний код",
+        "enable_totp": "Увімкніть TOTP",
+        "disable_totp": "Вимкніть TOTP",
         "totp_setup": {
-            "enter_as_secret_if_no_see_code": "",
-            "scan_to_set_up": "",
-            "totp_setup": "",
-            "do_not_forget_backup_code": ""
+            "enter_as_secret_if_no_see_code": "Введіть це як секрет, якщо ви не можете відсканувати QR-код",
+            "scan_to_set_up": "Відскануйте цей QR-код, щоб налаштувати код",
+            "totp_setup": "TOTP-налаштування",
+            "do_not_forget_backup_code": "Не забудьте зберегти свій код відновлення!"
         },
-        "backup_code": "",
-        "2fa_deactivated": "",
+        "backup_code": "Резервний код",
+        "2fa_deactivated": "Двофакторну автентифікацію вимкнено",
         "backup_codes": {
-            "download_code": "",
-            "your_backup_code": "",
-            "save_somewhere_save": ""
+            "download_code": "Завантажити код",
+            "your_backup_code": "Ваш резервний код",
+            "save_somewhere_save": "Збережіть це в безпечному місці!"
         },
-        "totp": "",
-        "totp_unavailable": "",
-        "2fa_activated": "",
-        "webauthn": "",
-        "add_security_key": "",
-        "activate_2fa": "",
-        "webauthn_unavailable": "",
-        "totp_available": "",
-        "webauthn_available": ""
+        "totp": "TOTP",
+        "totp_unavailable": "TOTP недоступний",
+        "2fa_activated": "Двофакторна аутентифікація активована",
+        "webauthn": "Webauthn",
+        "add_security_key": "Додайте ключ безпеки",
+        "activate_2fa": "Активуйте двофакторну автентифікацію",
+        "webauthn_unavailable": "Webauthn недоступний",
+        "totp_available": "TOTP доступний",
+        "webauthn_available": "Webauthn доступний"
     },
     "editor": {
         "delete_answer": "Видалити відповідь",
@@ -366,19 +366,19 @@
         "disable_reorder": "Вимкнути режим зміни порядку"
     },
     "controllers": {
-        "last_seen": "",
-        "cancel_update": "",
-        "add_new_controller": "",
-        "player_name": "",
-        "controller_name": "",
-        "already_latest_version": "",
-        "update_from_to": "",
-        "first_seen": "",
-        "version_overview": ""
+        "last_seen": "Востаннє бачили",
+        "cancel_update": "Скасувати оновлення!",
+        "add_new_controller": "Додайте новий контролер",
+        "player_name": "Ім'я гравця",
+        "controller_name": "Ім'я контролера",
+        "already_latest_version": "Ви вже використовуєте останню версію",
+        "update_from_to": "Оновлення з {{current_version}} на {{newest_version}}",
+        "first_seen": "Перший побачений",
+        "version_overview": "Найновішою доступною версією є {{newest_version}}, а встановлено версію {{current_version}}."
     },
     "view_quiz_page": {
-        "made_by": "",
-        "view_on_kahoot": ""
+        "made_by": "Зроблено",
+        "view_on_kahoot": "Переглянути на оригіналі"
     },
     "import_page": {
         "this_side_classquiz_excel": "Ви також можете завантажити файли Excel, якщо ви заповнили наведений нижче шаблон. Якщо вікторина з назвою вже існує, вона додасть запитання до наявної вікторини.",
@@ -393,11 +393,11 @@
         "upload_file_ending": "Завантажте файл із розширенням .cqa або .xlsx"
     },
     "start_game": {
-        "old_school_mode_description": "",
-        "old_school_mode": "",
-        "start_game": "",
-        "captcha_message": "",
-        "normal_mode_description": ""
+        "old_school_mode_description": "Запитання та зображення відображатимуться як на екрані адміністратора, так і на екрані гравців",
+        "old_school_mode": "Стара школа",
+        "start_game": "Почати гру",
+        "captcha_message": "Якщо ввімкнено, ReCaptcha Google завантажуватиметься у браузері гравців. Увімкніть лише якщо вам це дійсно потрібно, оскільки вам потрібна згода КОЖНОГО гравця для завантаження капчі.",
+        "normal_mode_description": "Питання та відповідь відображатимуться лише на екрані адміністратора. На екрані адміністратора гравці матимуть лише кольорові кнопки з відповідними символами."
     },
     "login_page": {
         "use_backup_code": "Використовуйте резервний код",
@@ -428,8 +428,8 @@
         "reset_password": "Скинути пароль"
     },
     "video_uploader": {
-        "time_remaining": "",
-        "time_elapsed": ""
+        "time_remaining": "Час, що залишився",
+        "time_elapsed": "Минув час"
     },
     "explore_page": {
         "imported_by": "Імпортовано",
@@ -468,19 +468,26 @@
         "info_analytics": "«Відтворення» показують лише те, як часто запускали вікторину (включно з вами), тоді як «Перегляди» підраховують, як часто відвідували сторінку «Перегляд», тому також враховуються роботи (вибачте за це)."
     },
     "navbar": {
-        "donate": ""
+        "donate": "Пожертвуйте"
     },
     "editor_page": {
         "add_an_answer": "Додайте відповідь",
         "right_click_to_delete": "Клацніть правою кнопкою миші на відповідь, щоб видалити її!"
     },
     "public_user_page": {
-        "no_original_quizzes": "",
-        "joined_on": ""
+        "no_original_quizzes": "Цей користувач не має оригінальних тестів",
+        "joined_on": "Приєднався {{date}}",
+        "user_not_found": "Користувача не знайдено"
     },
     "components": {
         "popover": {
-            "copied_to_clipboard": ""
+            "copied_to_clipboard": "Скопійовано в буфер обміну!"
         }
+    },
+    "downloader": {
+        "select_download_type": "Виберіть тип завантаження",
+        "own_format": "Власний формат",
+        "excel_format": "Формат Excel",
+        "help": "Власний формат (.cqa) також містить зображення та підтримує всі типи запитань, тоді як формат excel підтримує лише голосування та запитання з кількома варіантами відповідей."
     }
 }
