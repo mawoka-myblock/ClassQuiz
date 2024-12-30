@@ -49,7 +49,9 @@
         "community_driven": "Guidati dalla comunità",
         "community_driven_content": "ClassQuiz dipende dalla sua comunità per finanziamenti, idee di test, richieste di funzionalità, traduzioni e altro! Anche tu puoi far parte della comunità di ClassQuiz!",
         "completely_free_content": "ClassQuiz è completamente gratuito (per l'utente), senza piani a pagamento o fastidiose richieste di aggiornamento. Le donazioni sono molto apprezzate.",
-        "how_does_classquiz_work": "Come funziona ClassQuiz?"
+        "how_does_classquiz_work": "Come funziona ClassQuiz?",
+        "no_player_limit": "Nessun limite di giocatori",
+        "no_player_limit_content": "ClassQuiz non ha un limite artificiale di giocatori. In teoria, 1000+ giocatori potrebbero giocare allo stesso quiz, ma è stato testato con un massimo di 300 giocatori per quiz."
     },
     "overview_page": {
         "created_at": "Creato il",
@@ -197,7 +199,8 @@
         "dislike_plural": "Non mi piace",
         "dislike": "Non mi piace",
         "like_plural": "Mi piace",
-        "check_choice": ""
+        "check_choice": "Controlla la scelta",
+        "player": "Giocatore"
     },
     "editor": {
         "right_or_true?": "Corretto?",
@@ -223,7 +226,14 @@
         "empty": "Vuoto...",
         "abcd_description": "Si può scegliere solo una risposta",
         "bg_image": "Immagine di sfondo",
-        "no_title": "Nessun titolo..."
+        "no_title": "Nessun titolo...",
+        "visit_docs": "Visita la documentazione.",
+        "enter_answer": "Inserisci una risposta",
+        "need_more_help": "Hai bisogno di ulteriore aiuto?",
+        "disable_reorder": "Disabilita la modalità di riordino",
+        "enable_reorder": "Abilita la modalità di riordino",
+        "hide_question_results": "Nascondere i risultati della domanda?",
+        "advanced_settings": "Impostazioni avanzate"
     },
     "import_page": {
         "need_help": "Hai bisogno di aiuto?",
@@ -234,7 +244,7 @@
         "a_kahoot_quiz": "Un quiz di Kahoot",
         "classquiz_quiz": "Un quiz di ClassQuiz",
         "upload_file_ending": "Carica il file che termina con .cqa o .xlsx",
-        "this_side_classquiz_excel": "Puoi anche caricare un file excel se hai compilato il seguente modello.",
+        "this_side_classquiz_excel": "Puoi anche caricare file excel, se hai compilato il seguente modello. Se esiste già un quiz con il titolo, aggiungerà le domande al quiz esistente.",
         "download_template_here": "Scarica il modello"
     },
     "admin_page": {
@@ -288,7 +298,10 @@
         "points_added": "Punti aggiunti",
         "final_result_rank": "{{place}}: {{username}} con {{points}} punti",
         "your_score": "Il tuo punteggio: {{score}}",
-        "join_by_entering_code": "Entra inserendo il seguente codice"
+        "join_by_entering_code": "Entra inserendo il seguente codice",
+        "players_waiting": "{{count}} giocatore è in attesa",
+        "players_waiting_plural": "{{count}} giocatori sono in attesa",
+        "your_place": "Sei nel posto {{place}}!"
     },
     "editor_page": {
         "add_an_answer": "Aggiungi una risposta",
@@ -363,7 +376,7 @@
     "security_settings": {
         "get_backup_code": "Ottieni codice backup",
         "enable_totp": "Abilita TOTP",
-        "disable_totp": "Disabilita Totp",
+        "disable_totp": "Disabilita TOTP",
         "backup_code": "Codice backp",
         "2fa_deactivated": "L'autenticazione a due fattori è disattivata",
         "backup_codes": {
@@ -371,21 +384,21 @@
             "your_backup_code": "Il tuo codice di backup",
             "save_somewhere_save": "Salvalo in un posto sicuro!"
         },
-        "totp_unavailable": "Totp non è disponibile",
+        "totp_unavailable": "TOTP non è disponibile",
         "2fa_activated": "L'autenticazione a due fattori è attivata",
         "add_security_key": "Aggiungi una chiave di sicurezza",
         "activate_2fa": "Attiva autenticazione a due fattori",
         "webauthn_unavailable": "Webauthn non è disponibile",
-        "totp_available": "Totp è disponibile",
+        "totp_available": "TOTP è disponibile",
         "webauthn_available": "Webauthn è disponibile",
         "totp_setup": {
             "do_not_forget_backup_code": "Non dimenticare di salvare il tuo codice di recupero!",
             "enter_as_secret_if_no_see_code": "Inserisci questo come segreto se non puoi scansionare il codice QR",
             "scan_to_set_up": "Scansiona questo codice QR per impostare il codice",
-            "totp_setup": "Impostazione Topt"
+            "totp_setup": "Impostazione TOTP"
         },
         "webauthn": "Webauthn",
-        "totp": "Password momentanea"
+        "totp": "TOTP"
     },
     "view_quiz_page": {
         "made_by": "Creato da",
@@ -444,7 +457,7 @@
     "file_dashboard": {
         "unset": "Non impostato",
         "missing": "MANCANTE!",
-        "size": "Dimensione: {{size}} Mb",
+        "size": "Dimensione: {{size}} MiB",
         "not_available": "Non disponibile",
         "caption": "Didascalia: {{caption}}",
         "imported": "Importato: {{yes_or_no}}",
@@ -455,11 +468,12 @@
         "delete_image": "Elimina immagine",
         "edit_the_image": "Modifica immagine",
         "alt_text": "Testo alternativo/Didascalia",
-        "storage_usage": "Hai utilizzato {{used}} Mb su {{total}} Mb di spazio disponibile. Corrisponde a {{percent}}% dello spazio."
+        "storage_usage": "Hai utilizzato {{used}} MiB su {{total}} MiB di spazio di archiviazione. Ciò equivale a {{percent}}% del tuo spazio di archiviazione."
     },
     "public_user_page": {
         "no_original_quizzes": "Questo utente non ha nessun quiz originale",
-        "joined_on": "Iscritto il {{date}}"
+        "joined_on": "Iscritto il {{date}}",
+        "user_not_found": "Utente non trovato"
     },
     "components": {
         "popover": {
@@ -469,5 +483,11 @@
     "video_uploader": {
         "time_remaining": "Tempo rimanente",
         "time_elapsed": "Tempo trascorso"
+    },
+    "downloader": {
+        "select_download_type": "Seleziona il tipo di download",
+        "own_format": "Formato proprio",
+        "excel_format": "Formato Excel",
+        "help": "Il formato (.cqa) include anche le immagini e supporta ogni tipo di domanda, mentre il formato Excel supporta solo domande a risposta multipla e il voto."
     }
 }
