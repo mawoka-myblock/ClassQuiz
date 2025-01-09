@@ -73,7 +73,7 @@ services:
       #CUSTOM_OPENID_PROVIDER__SERVER_METADATA_URL: "/.well-known/openid-configuration" # Adjust if needed
 
     volumes: # Only needed if you chose the "local" storage-backend
-      - ./uploads:/var/storage
+      - ./uploads:/app/data
 
   redis:
     image: redis:alpine
