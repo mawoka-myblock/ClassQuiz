@@ -144,7 +144,7 @@
         "login": "تسجيل الدخول",
         "create": "صنع",
         "report": "تقرير",
-        "quiztivity": "",
+        "quiztivity": "مسابقة",
         "library": "المكتبة",
         "finish": "إنهاء",
         "normal": "عادي",
@@ -170,36 +170,40 @@
         "success_update_title": "تم تحديث الاختبار."
     },
     "admin_page": {
-        "stop_time_and_solutions": "",
+        "stop_time_and_solutions": "توقف وشاهد الحلول",
         "already_registered_as_admin": "يوجد بالفعل مسؤول مسجل لهذه اللعبة.",
-        "no_answers": "",
-        "start_by_showing_first_question": "",
-        "request_export_results": "",
+        "no_answers": "لا يوجد إجابة!",
+        "start_by_showing_first_question": "ابدأ وشاهد السؤال الأول",
+        "request_export_results": "اطلب تنزيل النتيجة",
         "time_left": "الوقت المتبقي",
-        "show_next_question": "",
-        "stop_time": "",
-        "show_results": "",
-        "save_results": "",
-        "enter_answer_into_field": "",
-        "get_results_and_stop_time": "",
+        "show_next_question": "السؤال التالي",
+        "stop_time": "زمن الوقوف",
+        "show_results": "عرض النتائج",
+        "save_results": "احفظ النتيجة",
+        "enter_answer_into_field": "أدخل إجابتك في الحقل!",
+        "get_results_and_stop_time": "توقف واحصل على النتيجة",
         "start_game": "بدء اللعبة",
-        "answers_submitted": "",
-        "download_export_results": "",
-        "next_question": "",
+        "answers_submitted": "الإجابات المسلّمة {{answer_count}}",
+        "download_export_results": "تنزيل النتائج",
+        "next_question": "السؤال التالي ({{question}})",
         "get_results": "الحصول على النتائج",
-        "get_final_results": ""
+        "get_final_results": "النتيجة النهائية",
+        "export_results": "تصدير النتائج"
     },
     "play_page": {
-        "2nd_place": "",
-        "join_description": "",
-        "1st_place": "",
-        "points_added": "",
-        "final_result_rank": "",
-        "your_score": "",
-        "end_sentence": "",
-        "with_out_of": "",
-        "3rd place": "",
-        "join_by_entering_code": ""
+        "2nd_place": "المركز الثاني",
+        "join_description": "انضم عن طريق الرابط {{url}} وأدخل {{pin}}.",
+        "1st_place": "المركز الأول",
+        "points_added": "نقاط مضافة",
+        "final_result_rank": "المركز: {{username}}، النقاط {{points}} نقطة",
+        "your_score": "نتيجتك: {{score}}",
+        "end_sentence": "أخيراّ ،انتهت المسابقة.",
+        "with_out_of": "تم {{correct_questions}} من أصل {{total_question_count}}",
+        "3rd place": "المركز الثالث",
+        "join_by_entering_code": "انضم عن طريق اخال الرقم التالي",
+        "your_place": "أنت في المركز {{place}}!",
+        "players_waiting": "هناك {{count}} لاعب ينتظرون",
+        "players_waiting_plural": "{{count}} من اللاعبين  ينتظرون"
     },
     "file_dashboard": {
         "unset": "",
@@ -240,17 +244,17 @@
         "no_quizzes": "انقر فوق الزر \"إنشاء\" أو قم باستيراد اختبار للبدء."
     },
     "settings_page": {
-        "change_avatar": "",
-        "change_password_submit": "",
-        "security_settings": "",
-        "delete_this_session": "",
-        "old_password": "",
-        "check_location": "",
-        "last_seen": "",
-        "this_session?": "",
-        "repeat_password": "",
-        "new_password": "",
-        "add_api_key": ""
+        "change_avatar": "تغيير الصورة الرمزية",
+        "change_password_submit": "تغيير كلمة المرور!",
+        "security_settings": "إعدادت الأمان",
+        "delete_this_session": "حذف هذه الجلسة",
+        "old_password": "كلمة المرور القديمة",
+        "check_location": "تأكد من الموقع",
+        "last_seen": "زمن آخر ظهور",
+        "this_session?": "هذه الجلسة؟",
+        "repeat_password": "أعد كلمة المرور",
+        "new_password": "كلمة مرور جديدة",
+        "add_api_key": "أضف مفتاح API"
     },
     "footer": {
         "donate": "",
@@ -413,15 +417,15 @@
         "welcome_back": "مرحبًا بعودتك!"
     },
     "password_reset_page": {
-        "reset_password": ""
+        "reset_password": "إعادة تعيين كلمة المرور"
     },
     "video_uploader": {
         "time_remaining": "",
         "time_elapsed": ""
     },
     "explore_page": {
-        "imported_by": "",
-        "made_by": ""
+        "imported_by": "تم استيراده عن طريق",
+        "made_by": "تم عن طريق"
     },
     "create_page": {
         "success": {
@@ -446,21 +450,21 @@
         "upload_video": ""
     },
     "search_page": {
-        "nothing_here": "",
-        "at_least_3_characters": ""
+        "nothing_here": "لا يوجد شيء هنا ...",
+        "at_least_3_characters": "أدخل على الأقل ثلاث محارف .."
     },
     "dashboard": {
         "commandpalette_notice": "",
-        "views_n_plays": "",
-        "search_for_own_quizzes": "",
+        "views_n_plays": "المشاهدات و الألعاب",
+        "search_for_own_quizzes": "ابحث عن مسابقاتك الخاصة",
         "info_analytics": ""
     },
     "navbar": {
         "donate": ""
     },
     "editor_page": {
-        "add_an_answer": "",
-        "right_click_to_delete": ""
+        "add_an_answer": "أضف إجابة",
+        "right_click_to_delete": "انقر بالزر الأيمن على الإجابة ليتم حذفها!"
     },
     "public_user_page": {
         "no_original_quizzes": "",
