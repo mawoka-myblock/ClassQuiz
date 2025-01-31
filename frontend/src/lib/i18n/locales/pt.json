@@ -232,7 +232,8 @@
         "enter_answer": "Insira uma resposta",
         "disable_reorder": "Desativar modo reordenador",
         "enable_reorder": "Ativar modo reordenador",
-        "hide_question_results": "Ocultar o resultado das respostas?"
+        "hide_question_results": "Ocultar o resultado das respostas?",
+        "advanced_settings": "Configurações Avançadas"
     },
     "result_page": {
         "correct_answer_plural": "{{count}} respostas corretas",
