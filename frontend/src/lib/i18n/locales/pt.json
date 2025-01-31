@@ -130,7 +130,7 @@
         "get_a_quiz": "1. Obter um quiz",
         "create_a_quiz_from_scratch": "Criar um quiz do zero com o editor, incluir imagens e mais",
         "find_or_explore": "Pesquisar (ou explorar) quizzes criados ou importados por outros",
-        "import_quiz_from_kahoot_and_edit": "importar um quiz Kahoot! e editá-lo em ClassQuiz",
+        "import_quiz_from_kahoot_and_edit": "Importar um quiz Kahoot! e editá-lo em ClassQuiz",
         "play_quiz": "2. Preencher o quiz",
         "select_answer": "Selecionar a resposta",
         "choose_answer_wisely": "Escolha a resposta cuidadosamente",
@@ -231,7 +231,8 @@
         "visit_docs": "Veja a documentação.",
         "enter_answer": "Insira uma resposta",
         "disable_reorder": "Desativar modo reordenador",
-        "enable_reorder": "Ativar modo reordenador"
+        "enable_reorder": "Ativar modo reordenador",
+        "hide_question_results": "Ocultar o resultado das respostas?"
     },
     "result_page": {
         "correct_answer_plural": "{{count}} respostas corretas",
