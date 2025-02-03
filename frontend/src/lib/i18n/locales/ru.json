@@ -191,6 +191,18 @@
         "report": "Отчет",
         "explore": "Обзор",
         "browser": "Браузер",
-        "view": "Вид"
+        "view": "Вид",
+        "info": "Информация",
+        "player": "Плеер"
+    },
+    "editor": {
+        "time_in_seconds": "Время в секундах",
+        "add_new_question": "Добавить вопрос",
+        "delete_answer": "Удалить ответ",
+        "bg_image": "Фоновое изображение",
+        "slide": {
+            "headline": "Заголовок",
+            "text": "Текст"
+        }
     }
 }
