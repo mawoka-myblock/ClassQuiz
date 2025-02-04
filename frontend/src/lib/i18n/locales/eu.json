@@ -1,0 +1,34 @@
+{
+    "index_page": {
+        "meta": {
+            "description": "ClassQuiz ikasleentzat modu interaktiboan ikasteko galdera-lehiaketa aplikazio bat da, kode irekikoa eta doakoa dena",
+            "title": "Hasiera"
+        },
+        "completely_free": "Dohainik",
+        "german_server": "Zerbitzari alemana",
+        "dark_mode": "Modu iluna",
+        "user_friendly": "Erabilerraza",
+        "select_answer": "Erantzuna hautatu",
+        "find_or_explore": "Bilatu (edo esploratu) beste pertsona batzuek egindako edo inportatutako galdetegiak",
+        "stats": "Dagoeneko{{user_count}} erabiltzaile eta {{quiz_count}} galdetegi daude.",
+        "see_what_true_and_false": "Ikusi zeintzuk diren okerrak eta zeintzuk zuzenak",
+        "see_how_many_true_and_false": "Ikusi zenbat diren zuzenak eta zenbat okerrak",
+        "see_all_quizzes": "Galdera-lehiaketa guztiak ikusi",
+        "teachers_site": "Irakaslearen lekua",
+        "students_site": "Ikaslearen lekua",
+        "no_tracking": "Ez du aztarnarik",
+        "self_hostable": "Auto hostagarri",
+        "quiz_results_downloadable": "Lehiaketaren emaitzak deskargatu daitezke",
+        "get_a_quiz": "1. Lortu lehiaketa",
+        "play_quiz": "2. Jolastu",
+        "choose_answer_wisely": "Aukeratu zure erantzuna zentzuz",
+        "view_results": "Emaitzak ikusi",
+        "list_winners": "Irabazleen zerrenda",
+        "get_ranking_and_winners": "Rankinga lortu eta ikusi zeinek irabazi duen",
+        "slogan": "Kode irekiko galdera-lehiaketa plataforma!",
+        "create_or_import": "Sortu edo Inportatu",
+        "create_a_quiz_from_scratch": "Editorearekin hutsetik galdetegi bat sortu eta irudiak eta gehiago sartu",
+        "check_if_chosen_wisely": "Egiaztatu, zuhur aukeratu duzun",
+        "multilingual": "Hizkuntza anitzak"
+    }
+}
