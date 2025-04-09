@@ -7,7 +7,7 @@
             "3": "Editör ve quiz sonuçlarını Excel dosyaları olarak dışa aktarma fonksiyonu, bu yazılımın önemli özellikleridir."
         },
         "meta": {
-            "description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için Kahoot!'a benzer bir quiz uygulamasıdır",
+            "description": "ClassQuiz, öğrencilerin etkileşimli bir biçimde öğrenmesi için, açık kaynaklı ve kullanması kolay bir quiz uygulamasıdır",
             "title": "Ana Sayfa"
         },
         "stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır.",
@@ -24,7 +24,7 @@
         "completely_free": "Tamamen Ücretsiz",
         "quiz_results_downloadable": "Quiz sonuçları indirilebilir",
         "multilingual": "Çok dilli",
-        "no_tracking_content": "Kahoot! sizi takip eder ve bu bilgiyi üçüncü taraflara gönderir ama ClassQuiz bunu yapmaz.",
+        "no_tracking_content": "Diğerleri sizi takip eder ve bu bilgiyi üçüncü taraflara gönderir ama ClassQuiz bunu yapmaz.",
         "german_server": "Alman Sunucusu",
         "user_friendly": "Kullanıcı Dostu",
         "list_winners": "Kazananları listele",
@@ -49,7 +49,9 @@
         "community_driven": "Topluluk güdümlü",
         "download_quizzes": "Quizleri İndir",
         "download_quizzes_content": "Quizler bir dosya olarak indirilebilir ve her zaman içe aktarılabilir. Bu ayrıca quizlerinizi diğer ClassQuiz sunucularına taşımanıza da olanak sağlar.",
-        "how_does_classquiz_work": "ClassQuiz nasıl çalışıyor?"
+        "how_does_classquiz_work": "ClassQuiz nasıl çalışıyor?",
+        "no_player_limit": "Oyuncu sınırı yok",
+        "no_player_limit_content": "ClassQuiz'in yapay bir oyuncu sınırlaması yok. Teorik olarak, 1000+ öğrenci aynı quizi oynayabilir, fakat quiz başına 300 öğrenci ile test edildi."
     },
     "login_page": {
         "already_have_account": "Bir hesabınız yok mu?",
@@ -164,19 +166,20 @@
         "video": "Video",
         "files_library": "Dosya Kütüphanesi",
         "progress": "İlerleme",
-        "analytics": "",
-        "version": "",
-        "update": "",
-        "play_plural": "",
-        "rating": "",
-        "dislike_plural": "",
-        "info": "",
-        "view_plural": "",
-        "like": "",
-        "dislike": "",
-        "like_plural": "",
-        "unknown": "",
-        "never": ""
+        "analytics": "Analitikler",
+        "version": "Sürüm",
+        "update": "Güncelle",
+        "play_plural": "Oynanmalar",
+        "rating": "Puanlama",
+        "dislike_plural": "Dislikelar",
+        "info": "Bilgi",
+        "view_plural": "Görüntülemeler",
+        "like": "Beğen",
+        "dislike": "Dislike",
+        "like_plural": "Beğeniler",
+        "unknown": "Bilinmeyen",
+        "never": "Asla",
+        "player": "Oynatıcı"
     },
     "register_page": {
         "create_account": "Hesap oluştur",
@@ -197,7 +200,7 @@
     "overview_page": {
         "question_count": "Soru sayısı",
         "created_at": "Oluşturulduğu tarih:",
-        "no_quizzes": "Başlamak için \"Oluştur\" düğmesine tıklayın veya Kahoot'tan bir quizi içe aktarın."
+        "no_quizzes": "Başlamak için \"Oluştur\" düğmesine tıklayın veya bir quizi içe aktarın."
     },
     "admin_page": {
         "already_registered_as_admin": "Bu oyun için halihazırda kaydolmuş bir yönetici var.",
@@ -244,7 +247,14 @@
         "range_description": "Kaydırıcı ile bir sayı aralığı seçilebilir",
         "check_choice_description": "Puan toplamak için tüm doğru cevapların seçilmesi gerekir",
         "text_description": "Oyuncular metin girebilir",
-        "no_title": "Başlık yok..."
+        "no_title": "Başlık yok...",
+        "need_more_help": "Daha fazla yardıma ihtiyacınız mı var?",
+        "visit_docs": "Dokümentasyonu ziyaret edin.",
+        "enter_answer": "Cevap girin",
+        "advanced_settings": "Gelişmiş Ayarlar",
+        "hide_question_results": "Soru sonuçlarığnı sakla?",
+        "enable_reorder": "Yeniden düzenleme modunu etkinleştir",
+        "disable_reorder": "Yeniden düzenleme modu devre dışı bırak"
     },
     "import_page": {
         "visit_docs": "Dokümantasyonu ziyaret edin",
@@ -253,10 +263,10 @@
         "a_kahoot_quiz": "Bir Kahoot! Quizi",
         "side_import_kahoot": "Bu tarafta, Kahoot! üzerinde bulunan quizleri içe aktarabilirsiniz.",
         "classquiz_quiz": "Bir ClassQuiz Quizi",
-        "upload_file_ending": "Sonu .cpa ile biten dosyayı yükleyin",
+        "upload_file_ending": "Sonu .cpa veya .xlsx ile biten dosyayı yükleyin",
         "this_side_classquiz": "Bu tarafta, ClassQuiz'den dışa aktarılan sınavları içe aktarabilirsiniz.",
-        "this_side_classquiz_excel": "",
-        "download_template_here": ""
+        "this_side_classquiz_excel": "Bu taslağı doldurduysanız Excel dosyaları yükleyebilirsiniz. Aynı başlıkla bir quiz varsa, sorular varolan quize eklenecektir.",
+        "download_template_here": "Taslağı indir"
     },
     "password_reset_page": {
         "reset_password": "Şifreyi sıfırla"
@@ -292,7 +302,10 @@
         "join_description": "{{url}} adresinden katılın ve {{pin}} kodunu girin.",
         "points_added": "Puanlar eklendi",
         "your_score": "Skorunuz: {{score}}",
-        "join_by_entering_code": "Aşağıdaki kodu girerek katılın"
+        "join_by_entering_code": "Aşağıdaki kodu girerek katılın",
+        "players_waiting_plural": "{{count}} oyuncu bekliyor",
+        "your_place": "{{place}} yerindesiniz!",
+        "players_waiting": "{{count}} oyuncu bekliyor"
     },
     "editor_page": {
         "add_an_answer": "Bir cevap ekle",
@@ -301,8 +314,8 @@
     "dashboard": {
         "search_for_own_quizzes": "Kendi quizleriniz için arama",
         "commandpalette_notice": "",
-        "views_n_plays": "",
-        "info_analytics": ""
+        "views_n_plays": "Görüntülemeler & Oynanmalar",
+        "info_analytics": "\"Oynanmalar\" yalnızca quizin ne sıklıkla başlatıldığını gösterirken (siz dahil), \"Görüntülemeler\" \"Görüntüle\" sayfasının ne kadar ziyaret edildiğini sayar, yani botları da sayar (bunun için üzgünüm)."
     },
     "footer": {
         "self_ads": "{{mawoka_link}} tarafından ve {{others_link}}nin de yardımıyla ❤️ ile yapıldı.",
@@ -314,16 +327,16 @@
         "unknown_error_text": "Bu gerçekleşmemeliydi. Muhtemelen benim hatam, sizin değil, ama belki sizde de bir şeyleri kırabilecek büyülü bir güç var..."
     },
     "uploader": {
-        "add_image": "Resim ekle",
+        "add_image": "Medya ekle",
         "upload_a_video": "Bir Video Yükleyin",
         "upload_video_popup_notice": "Açılır pencere açık; daha fazla bilgi için göz atın",
         "select_upload_type": "Yükleme Türünü Seçin",
         "upload_video": "Video Yükle",
-        "images_by_pixabay": "",
-        "next_page": "",
-        "visit_pixabay": "",
-        "previous_page": "",
-        "search_english_only": ""
+        "images_by_pixabay": "Pixabay tarafından sağlanan görseller",
+        "next_page": "Sonraki sayfa",
+        "visit_pixabay": "Pixabay'i Ziyaret Et",
+        "previous_page": "Önceki sayfa",
+        "search_english_only": "Arama yalnızca İngilizce'de işlevsel"
     },
     "avatar_settings": {
         "start_over": "Baştan başla",
@@ -350,7 +363,7 @@
         "webauthn": "Webauthn",
         "webauthn_available": "Webauthn kullanılabilir",
         "totp": "TOTP",
-        "totp_available": "Totp kullanılabilir",
+        "totp_available": "TOTP kullanılabilir",
         "totp_unavailable": "TOTP kullanılamaz",
         "disable_totp": "TOTP'yi devre dışı bırak",
         "backup_codes": {
@@ -441,7 +454,7 @@
     },
     "view_quiz_page": {
         "made_by": "Oluşturan:",
-        "view_on_kahoot": "Kahoot'ta görüntüle!"
+        "view_on_kahoot": "Orijinalinde görüntüle"
     },
     "start_game": {
         "captcha_message": "Etkinleştirilirse, Google'ın ReCaptcha'sı oyuncuların tarayıcısına yüklenir. Captcha'yı yüklemek için HER oyuncunun onayına ihtiyacınız olduğundan, yalnızca gerçekten ihtiyacınız varsa etkinleştirin.",
@@ -460,14 +473,14 @@
         }
     },
     "controllers": {
-        "last_seen": "",
-        "cancel_update": "",
+        "last_seen": "Son görülme",
+        "cancel_update": "Güncellemeyi İptal Et!",
         "add_new_controller": "",
-        "player_name": "",
+        "player_name": "Oyuncu ismi",
         "controller_name": "",
-        "already_latest_version": "",
-        "update_from_to": "",
-        "first_seen": "",
-        "version_overview": ""
+        "already_latest_version": "Çoktan en yeni sürümdesiniz",
+        "update_from_to": "{{current_version}} sürümünden {{newest_version}} sürümüne güncelle",
+        "first_seen": "İlk görülme",
+        "version_overview": "Mevcut en yeni sürüm {{newest_version}} ve {{current_version}} yüklü."
     }
 }
