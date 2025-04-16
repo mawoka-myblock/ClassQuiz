@@ -29,7 +29,7 @@ services:
       # --- DON'T CHANGE FROM HERE ---
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # DON'T CHANGE
       REDIS: "redis://redis:6379/0?decode_responses=True" # DON'T CHANGE
-      SECRET_KEY: "f2a08b44a104b4b4836fe4da9b25b795e1669f08bd1578397ecb19d176952780" # Don't change it manually, use the one-liner provided in the documentation
+      SECRET_KEY: "TOP_SECRET" # Don't change it manually, use the one-liner provided in the documentation
       MAX_WORKERS: "1" # Very important and DON'T CHANGE
       ACCESS_TOKEN_EXPIRE_MINUTES: 30  # DON'T CHANGE
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
