@@ -43,7 +43,10 @@
         "completely_free_content": "A ClassQuiz teljesen ingyenes (a felhasználók számára), fizetős csomagok vagy bosszantó átirányítások nélkül a \"prémium előfizetés\" oldalakra. Az adományokat nagyra értékeljük.",
         "multilingual_content": "A ClassQuiz angol, francia, német, olasz, norvég bokmål, török, valamint részben indonéz és katalán nyelven érhető el.",
         "download_quizzes_content": "A kvízek egy fájlként letölthetők és bármikor importálhatók. Ez lehetővé teszi a kvízek más ClassQuiz-példányokba való áthelyezését is.",
-        "community_driven_content": "A ClassQuiz a közösségétől függ a finanszírozás, az ötletek tesztelése, a funkciókérések, a fordítások és egyebek tekintetében! Te is tagja lehetsz a ClassQuiz-közösségnek!"
+        "community_driven_content": "A ClassQuiz a közösségétől függ a finanszírozás, az ötletek tesztelése, a funkciókérések, a fordítások és egyebek tekintetében! Te is tagja lehetsz a ClassQuiz-közösségnek!",
+        "import_quiz_from_kahoot_and_edit": "Importálj kvízeket a Kahoot!-ból és szerkeszd őket a ClassQuiz-ben",
+        "no_player_limit": "Nincs játékoslimit",
+        "no_player_limit_content": "A ClassQuiznek nincs mesterséges játékoslimitje. Elméletileg több mint 1000 játékos játszhatná ugyanazt a kvízt, a tesztelés során legfeljebb 300 játékost próbáltunk kvízenként."
     },
     "overview_page": {
         "created_at": "Létrehozva",
@@ -191,7 +194,8 @@
         "answer_plural": "Válaszok",
         "yes": "Igen",
         "dislike_plural": "Nem kedvelt",
-        "info": "Információ"
+        "info": "Információ",
+        "player": "Játékos"
     },
     "editor": {
         "add_new_question": "Új kérdés hozzáadása",
@@ -217,12 +221,19 @@
         "add_new_answer": "Új válasz hozzáadása",
         "delete_question": "Kérdés törlése",
         "not_all_links_imgur_links": "Nem minden link Imgur-link!",
-        "order_description": "A válaszokat a megfelelő sorrendbe lehet állítani"
+        "order_description": "A válaszokat a megfelelő sorrendbe lehet állítani",
+        "visit_docs": "Látogasd meg a dokumentációt.",
+        "enter_answer": "Írd be a megoldást",
+        "disable_reorder": "Újrarendezési mód kikapcsolása",
+        "advanced_settings": "Haladó beállítások",
+        "hide_question_results": "Kérdés eredményeinek elrejtése?",
+        "need_more_help": "Kell segítség?",
+        "enable_reorder": "Újrarendezési mód bekapcsolása"
     },
     "import_page": {
         "url_should_look_like_this": "Az URL-nek így kell kinéznie: https://create.kahoot.it/details/...",
         "upload_file_ending": "Töltsön fel egy .cqa vagy .xlsx végződésű fájlt",
-        "this_side_classquiz_excel": "Excel fájlokat is feltölthet, ha kitöltötte az alábbi sablont.",
+        "this_side_classquiz_excel": "Excel fájlokat is feltölthet, ha kitöltötte az alábbi sablont. Ha létezik már egy kvíz az adott címmel, akkor a kérdések a meglévő kvízhez fűződnek.",
         "download_template_here": "Töltse le a sablont",
         "this_side_classquiz": "Ezen az oldalon importálhat ClassQuizból exportált kvízeket.",
         "a_kahoot_quiz": "Egy Kahoot!-Kvíz",
@@ -249,13 +260,14 @@
         "next_question": "Következő kérdés ({{question}})",
         "stop_time_and_solutions": "Időzítőt megállítása és megoldások megtekintése",
         "answers_submitted": "{{answer_count}} válasz elküldve",
-        "request_export_results": "Eredmények letöltésének igénylése"
+        "request_export_results": "Eredmények letöltésének igénylése",
+        "export_results": "Eredmények exportálása"
     },
     "password_reset_page": {
         "reset_password": "Új jelszó igénylése"
     },
     "settings_page": {
-        "old_password": "Régi jelszó:",
+        "old_password": "Régi jelszó",
         "new_password": "Új jelszó",
         "repeat_password": "Jelszó ismét",
         "change_password_submit": "Jelszó módosítása!",
@@ -285,7 +297,10 @@
         "3rd place": "3. helyezett",
         "join_description": "Csatlakozzon a(z) {{url}} címen, és írja be a következőt PIN-t: {{pin}}.",
         "join_by_entering_code": "Csatlakozz az alábbi kód beírásával",
-        "points_added": "Pontok megszerezve"
+        "points_added": "Pontok megszerezve",
+        "players_waiting_plural": "{{count}} játékosok várnak",
+        "your_place": "{{place}}. helyen vagy!",
+        "players_waiting": "{{count}} játékos vár"
     },
     "editor_page": {
         "right_click_to_delete": "Kattintson a jobb gombbal egy válaszra a törléshez!",
@@ -295,7 +310,7 @@
         "search_for_own_quizzes": "Keresés a saját kvízek között",
         "views_n_plays": "Megtekintések és játékok",
         "info_analytics": "A \"Játékok\" csak azt mutatja, hogy milyen gyakran indult el a kvíz (beleértve), míg a \"Megtekintések\" azt számolja, hogy milyen gyakran látogatták meg a \"megtekintések\"-oldalt, tehát a botokat is számolja (elnézést érte).",
-        "commandpalette_notice": ""
+        "commandpalette_notice": "Nyomd meg a <kbd>Ctr</kbd>+<kbd>k</kbd> vagy <kbd>Meta</kbd>+<kbd>k</kbd> gombot a parancspaletta megnyitásához"
     },
     "footer": {
         "self_ads": "Készítette: ❤️, {{mawoka_link}} segítői {{others_link}}.",
@@ -441,13 +456,14 @@
     },
     "public_user_page": {
         "joined_on": "Csatlakozott {{date}}",
-        "no_original_quizzes": "Ennek a felhasználónak nincsenek eredeti kvízei"
+        "no_original_quizzes": "Ennek a felhasználónak nincsenek eredeti kvízei",
+        "user_not_found": "Ismeretlen felhasználó"
     },
     "file_dashboard": {
         "not_available": "Nem elérhető",
         "missing": "HIÁNYZIK!",
         "unset": "Nincs beállítva",
-        "size": "Méret: {{size}} Mib",
+        "size": "Méret: {{size}} MiB",
         "caption": "Felirat: {{caption}}",
         "filename": "Fájlnév: {{filename}}",
         "uploaded": "Feltöltve: {{date}}",
@@ -457,10 +473,16 @@
         "filename_word": "Fájlnév",
         "delete_image": "Kép törlése",
         "alt_text": "Alternatív szöveg / Felirat",
-        "storage_usage": "{{használt}} Mib-ot használt fel a {{total}} MiB tárhelyből. Ez a tárhely {{percent}}%-ának felel meg."
+        "storage_usage": "{{használt}} MiB-ot használt fel a {{total}} MiB tárhelyből. Ez a tárhely {{percent}}%-ának felel meg."
     },
     "video_uploader": {
         "time_remaining": "Hátralévő idő",
         "time_elapsed": "Eltelt idő"
+    },
+    "downloader": {
+        "select_download_type": "Letöltési típus kiválasztása",
+        "own_format": "Saját formátum",
+        "excel_format": "Excel formátum",
+        "help": "A saját formátum (.cqa) képeket is tartalmaz és minden kérdéstípust támogat, míg az Excel formátum csak a szavazást és a többválaszos kérdéseket támogatja."
     }
 }
