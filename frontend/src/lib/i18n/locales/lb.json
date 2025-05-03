@@ -45,7 +45,8 @@
             "open_shares_menu": "Offen Deelemenü",
             "shares": {
                 "add_new_share": "Füügt neien Deelen"
-            }
+            },
+            "delete": "Läschen"
         }
     }
 }
