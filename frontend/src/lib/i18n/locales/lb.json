@@ -29,6 +29,23 @@
         "see_what_true_and_false": "Kuckt wat richteg oder falsch waren",
         "see_all_quizzes": "Gesinn all Är Quizzen",
         "find_or_explore": "Fannt (oder entdeckt) Quizze gemaach oder importéiert vun anere Leit",
-        "list_winners": "Lëscht Gewënner"
+        "list_winners": "Lëscht Gewënner",
+        "why_classquiz": "Firwat ClassQuiz?"
+    },
+    "words": {
+        "quiztivity": "Quiztivitéit"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Wielt Säit Typ",
+            "move_left": "Beweegt lénks",
+            "move_right": "Beweegt riets",
+            "title_placeholder": "Gitt den Titel hei",
+            "add_new": "Füügt nei",
+            "open_shares_menu": "Offen Deelemenü",
+            "shares": {
+                "add_new_share": "Füügt neien Deelen"
+            }
+        }
     }
 }
