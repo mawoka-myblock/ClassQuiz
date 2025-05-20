@@ -24,7 +24,7 @@ from classquiz.db.models import (
     AnswerDataList,
     AnswerData,
 )
-from pydantic import BaseModel, ValidationError, field_validator
+from pydantic import BaseModel, ValidationError, field_validator, ValidationInfo
 from datetime import datetime
 
 from classquiz.socket_server.export_helpers import save_quiz_to_storage
@@ -61,10 +61,10 @@ def calculate_score(z: float, t: int) -> int:
 
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
-        answers = AnswerDataList(__root__=[data])
+        answers = AnswerDataList([data])
     else:
         answers = AnswerDataList.model_validate_json(answers)
-        answers.__root__.append(data)
+        answers.append(data)
     await redis.set(
         f"game_session:{game_pin}:{q_index}",
         answers.model_dump_json(),
@@ -279,7 +279,7 @@ async def get_question_results(sid: str, data: dict):
     if redis_res is None:
         redis_res = []
     else:
-        redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()["__root__"]
+        redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json())
@@ -303,13 +303,13 @@ class ReturnQuestion(QuizQuestion):
     type: QuizQuestionType = QuizQuestionType.ABCD
 
     @field_validator("answers")
-    def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and type(v[0]) is not ABCDQuizAnswerWithoutSolution:
+    def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
+        if info.data["type"] == QuizQuestionType.ABCD and type(v[0]) is not ABCDQuizAnswerWithoutSolution:
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and type(v) is not RangeQuizAnswerWithoutSolution:
+        if info.data["type"] == QuizQuestionType.RANGE and type(v) is not RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         # skipcq: PTC-W0047
-        if values["type"] == QuizQuestionType.VOTING and type(v[0]) is not VotingQuizAnswer:
+        if info.data["type"] == QuizQuestionType.VOTING and type(v[0]) is not VotingQuizAnswer:
             pass
         return v
 
@@ -358,7 +358,7 @@ class _SubmitAnswerDataOrderType(BaseModel):
 
 class _SubmitAnswerData(BaseModel):
     question_index: int
-    answer: str
+    answer: str | int
     complex_answer: list[_SubmitAnswerDataOrderType] | None = None
 
 
@@ -371,6 +371,7 @@ async def submit_answer(sid: str, data: dict):
         await sio.emit("error", room=sid)
         print(e)
         return
+    data.answer = str(data.answer)
     session = await sio.get_session(sid)
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     answer_right = False
@@ -447,7 +448,7 @@ async def submit_answer(sid: str, data: dict):
     )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     await sio.emit("player_answer", {})
-    if len(answers.__root__) == player_count:
+    if len(answers) == player_count:
         # await sio.emit(
         #     "question_results",
         #     await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"),

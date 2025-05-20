@@ -51,7 +51,7 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
             question["image"] = i
     if quiz.cover_image is not None:
         image_urls[-1] = quiz.cover_image
-        quiz.cover_image = -1
+        quiz.cover_image = "-1"
     quiz_dict = quiz.model_dump()
     del quiz_dict["user_id"], quiz_dict["id"]
     quiz_dict["created_at"] = quiz_dict["created_at"].isoformat()

@@ -64,7 +64,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     await sio.emit("player_answer", {})
-    if answers is not None and len(answers.__root__) == player_count:
+    if answers is not None and len(answers) == player_count:
         await sio.emit("everyone_answered", {})
 
 

@@ -10,7 +10,7 @@ from typing import Optional
 
 import ormar
 from ormar import ReferentialAction
-from pydantic import BaseModel, Json, field_validator, ConfigDict, RootModel
+from pydantic import BaseModel, Json, field_validator, ConfigDict, RootModel, ValidationInfo
 from enum import Enum
 from . import metadata, database
 from .quiztivity import QuizTivityPage
@@ -102,7 +102,7 @@ class UserSession(ormar.Model):
 class ABCDQuizAnswer(BaseModel):
     right: bool
     answer: str
-    color: str | None
+    color: str | None = None
 
 
 class RangeQuizAnswer(BaseModel):
@@ -115,7 +115,7 @@ class RangeQuizAnswer(BaseModel):
 class VotingQuizAnswer(BaseModel):
     answer: str
     image: str | None = None
-    color: str | None
+    color: str | None = None
 
 
 class QuizQuestionType(str, Enum):
@@ -141,20 +141,20 @@ class QuizQuestion(BaseModel):
     image: str | None = None
 
     @field_validator("answers")
-    def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and not isinstance(v[0], ABCDQuizAnswer):
+    def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
+        if info.data["type"] == QuizQuestionType.ABCD and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and not isinstance(v, RangeQuizAnswer):
+        if info.data["type"] == QuizQuestionType.RANGE and not isinstance(v, RangeQuizAnswer):
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
-        if values["type"] == QuizQuestionType.VOTING and not isinstance(v[0], VotingQuizAnswer):
+        if info.data["type"] == QuizQuestionType.VOTING and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
-        if values["type"] == QuizQuestionType.TEXT and not isinstance(v[0], TextQuizAnswer):
+        if info.data["type"] == QuizQuestionType.TEXT and not isinstance(v[0], TextQuizAnswer):
             raise ValueError("Answer must be from type TextQuizAnswer if type is TEXT")
-        if values["type"] == QuizQuestionType.ORDER and not isinstance(v[0], VotingQuizAnswer):
+        if info.data["type"] == QuizQuestionType.ORDER and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
-        if values["type"] == QuizQuestionType.SLIDE and not isinstance(v, str):
+        if info.data["type"] == QuizQuestionType.SLIDE and not isinstance(v, str):
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
-        if values["type"] == QuizQuestionType.CHECK and not isinstance(v[0], ABCDQuizAnswer):
+        if info.data["type"] == QuizQuestionType.CHECK and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is CHECK")
         return v
 
@@ -278,7 +278,20 @@ class AnswerData(BaseModel):
     score: int
 
 
-AnswerDataList = RootModel[list[AnswerData]]
+class AnswerDataList(RootModel):
+    root: list[AnswerData]
+
+    def __iter__(self):
+        return iter(self.root)
+
+    def __getitem__(self, item):
+        return self.root(item)
+
+    def append(self, item):
+        self.root.append(item)
+
+    def __len__(self) -> int:
+        return len(self.root)
 
 
 class GameInLobby(BaseModel):

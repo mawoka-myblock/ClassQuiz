@@ -33,10 +33,10 @@ class _LastEdit(BaseModel):
 
 class _ImageMetadata(BaseModel):
     id: UUID | None = None
-    content_type: Optional[str]
-    width: Optional[int]
-    height: Optional[int]
-    resources: Optional[str]
+    content_type: Optional[str] = None
+    width: Optional[int] = None
+    height: Optional[int] = None
+    resources: Optional[str] = None
 
 
 class _SampleQuestion(BaseModel):
@@ -130,8 +130,8 @@ class _Video(BaseModel):
     startTime: float
     endTime: float
     service: str
-    full_url: Optional[str]
-    id: Optional[str]
+    full_url: Optional[str] = None
+    id: Optional[str] = None
 
 
 class _Question(BaseModel):
@@ -143,7 +143,7 @@ class _Question(BaseModel):
     choices: List[_Choice]
     image: str | None = None
     imageMetadata: _ImageMetadata | None = None
-    resources: Optional[str]
+    resources: Optional[str] = None
     video: _Video
     questionFormat: int
     languageInfo: _LanguageInfo | None = None

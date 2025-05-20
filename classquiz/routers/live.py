@@ -275,7 +275,7 @@ async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
     answer_dict = {}
     for answer in game.questions[game.current_question].answers:
         answer_dict[answer.answer] = 0
-    for answer in answer_list.__root__:
+    for answer in answer_list:
         answer_dict[answer.answer] += 1
     if as_array:
         return [answer_dict]
