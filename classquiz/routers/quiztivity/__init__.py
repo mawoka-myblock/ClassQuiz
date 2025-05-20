@@ -19,7 +19,9 @@ router.include_router(shares_router, prefix="/shares")
 
 @router.post("/create", response_model_exclude={"user": ...})
 async def create_quiztivity(data: QuizTivityInput, user: User = Depends(get_current_user)) -> QuizTivity:
-    quiztivity = QuizTivity.parse_obj({**data.dict(), "user": user, "id": uuid4(), "created_at": datetime.now()})
+    quiztivity = QuizTivity.model_validate(
+        {**data.model_dump(), "user": user, "id": uuid4(), "created_at": datetime.now()}
+    )
     return await quiztivity.save()
 
 
@@ -36,7 +38,7 @@ async def put_quiztivity(data: QuizTivityInput, uuid: UUID, user: User = Depends
     quiztivity = await QuizTivity.objects.get_or_none(id=uuid, user=user)
     if quiztivity is None:
         raise HTTPException(status_code=404, detail="QuizTivity not found")
-    quiztivity.pages = data.dict()["pages"]
+    quiztivity.pages = data.model_dump()["pages"]
     quiztivity.title = data.title
     return await quiztivity.update()
 

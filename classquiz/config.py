@@ -7,7 +7,8 @@ from functools import lru_cache
 
 from redis import asyncio as redis_lib
 import redis as redis_base_lib
-from pydantic import BaseSettings, RedisDsn, PostgresDsn, BaseModel
+from pydantic import RedisDsn, PostgresDsn, BaseModel
+from pydantic_settings import BaseSettings
 import meilisearch as MeiliSearch
 from typing import Optional
 from arq import create_pool
@@ -17,7 +18,7 @@ from classquiz.storage import Storage
 
 
 class CustomOpenIDProvider(BaseModel):
-    scopes: str = "openid email profile"
+    scopes: str | None = "openid email profile"
     server_metadata_url: str
     client_id: str
     client_secret: str
@@ -72,6 +73,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         env_nested_delimiter = "__"
+        extra = "allow"
 
 
 async def initialize_arq():
@@ -85,7 +87,7 @@ def settings() -> Settings:
     return Settings()
 
 
-pool = redis_lib.ConnectionPool().from_url(settings().redis)
+pool = redis_lib.ConnectionPool().from_url(str(settings().redis))
 
 redis: redis_base_lib.client.Redis = redis_lib.Redis(connection_pool=pool)
 arq: ArqRedis = ArqRedis(pool_or_conn=pool)

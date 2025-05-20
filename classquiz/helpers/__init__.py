@@ -166,7 +166,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
                 answers=answers_list,
                 time=str(time),
                 image=existing_question["image"] if existing_question is not None else None,
-            ).dict()
+            ).model_dump()
         )
     if existing_quiz is None:
         quiz = Quiz(

@@ -15,7 +15,7 @@ from classquiz.kahoot_importer import _Entity
 class _Response(BaseModel):
     entities: List[_Entity]
     totalHits: int
-    cursor: int | None
+    cursor: int | None = None
     pageTimestamp: int
 
 

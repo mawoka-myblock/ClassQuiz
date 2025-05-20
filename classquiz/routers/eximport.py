@@ -52,7 +52,7 @@ async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)
     if quiz.cover_image is not None:
         image_urls[-1] = quiz.cover_image
         quiz.cover_image = -1
-    quiz_dict = quiz.dict()
+    quiz_dict = quiz.model_dump()
     del quiz_dict["user_id"], quiz_dict["id"]
     quiz_dict["created_at"] = quiz_dict["created_at"].isoformat()
     quiz_dict["updated_at"] = quiz_dict["updated_at"].isoformat()
@@ -129,7 +129,7 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
             question["image"] = image_urls[question["image"]]
     if quiz_dict["cover_image"] is not None:
         quiz_dict["cover_image"] = image_urls[-1]
-    quiz = Quiz.parse_obj(quiz_dict)
+    quiz = Quiz.model_validate(quiz_dict)
     quiz.user_id = user.id
     quiz.imported_from_kahoot = None
     quiz.mod_rating = None
@@ -165,7 +165,7 @@ async def export_quiz_as_excel(quiz_id: uuid.UUID, user: User = Depends(get_curr
         ],
     )
     for i, question in enumerate(quiz.questions):
-        question = QuizQuestion.parse_obj(question)
+        question = QuizQuestion.model_validate(question)
         data: list[Any] = [None] * 9
         data[0] = i + 1
         data[1] = question.question
