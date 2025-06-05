@@ -1,1 +1,23 @@
-{}
+{
+    "index_page": {
+        "slogan": "Platforma de întrebări open-source!",
+        "meta": {
+            "title": "Acasă",
+            "description": "ClassQuiz este o aplicație open-source, gratuită, care le permite elevilor să învețe interactiv prin teste și quiz-uri"
+        },
+        "stats": "Pe ClassQuiz sunt deja {{user_count}} utilizatori și {{quiz_count}} teste disponibile.",
+        "see_what_true_and_false": "Verifică răspunsurile",
+        "see_how_many_true_and_false": "Vezi câte răspunsuri au fost corecte sau greșite",
+        "create_or_import": "Creează sau importă",
+        "see_all_quizzes": "Vezi toate testele tale",
+        "teachers_site": "Pagina profesorului",
+        "students_site": "Pagina cursantului",
+        "no_tracking": "Fără urmărire",
+        "german_server": "Server din Germania",
+        "user_friendly": "Ușor de folosit",
+        "completely_free": "Complet gratuit",
+        "quiz_results_downloadable": "Rezultatele testelor pot fi descărcate",
+        "multilingual": "Multilingv",
+        "self_hostable": "Găzduire proprie"
+    }
+}
