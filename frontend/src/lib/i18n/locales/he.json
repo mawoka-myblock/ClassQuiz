@@ -1,1 +1,36 @@
-{}
+{
+    "index_page": {
+        "get_ranking_and_winners": "צפו בניקוד וראו מי זכה",
+        "completely_free": "לגמרי ללא עלות",
+        "create_a_quiz_from_scratch": "צור חידון מאפס בעזרת העורך וכלול תמונות ועוד",
+        "see_how_many_true_and_false": "צפו בכמה צדקו או טעו",
+        "see_all_quizzes": "צפו בכל החידונים שלכם",
+        "meta": {
+            "description": "ClassQuiz היא אפליקציית חידון ללמידה אינטראקטיבית עבור תלמידים, בקוד פתוח וחינמית לשימוש",
+            "title": "בית"
+        },
+        "stats": "כבר יש {{user_count}} משתמשים ו-{{quiz_count}} חידונים ב-ClassQuiz.",
+        "see_what_true_and_false": "צפו במה היה נכון או לא נכון",
+        "teachers_site": "אתר המורה",
+        "students_site": "אתר התלמיד",
+        "no_tracking": "ללא מעקב",
+        "self_hostable": "ניתן לאחסון מקומי",
+        "german_server": "שרת גרמני",
+        "user_friendly": "ידידותי למשתמש",
+        "quiz_results_downloadable": "תוצאות החידון ניתנות להורדה",
+        "multilingual": "רב לשוני",
+        "dark_mode": "מצב כהה",
+        "get_a_quiz": "1. קבל חידון",
+        "play_quiz": "2. שחקו את החידון",
+        "select_answer": "בחר את התשובה",
+        "choose_answer_wisely": "בחר את התשובה בחכמה",
+        "view_results": "צפייה בתוצאות",
+        "check_if_chosen_wisely": "בדקו, אם בחרת בחוכמה",
+        "list_winners": "רשימת הזוכים",
+        "why_classquiz": "למה ClassQuiz?",
+        "no_tracking_content": "אחרים עוקבים אחריך ושולחים את המידע הזה לצד שלישי, אבל ClassQuiz לא.",
+        "slogan": "פלטפורמת חידון בקוד פתוח!",
+        "create_or_import": "צור או יבא",
+        "find_or_explore": "מצא (או גלה) חידונים שנוצרו או יובאו על ידי אנשים אחרים"
+    }
+}
