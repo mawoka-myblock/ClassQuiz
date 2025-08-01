@@ -384,7 +384,7 @@ async def submit_answer(sid: str, data: dict):
         print(e)
         return
     data.answer = str(data.answer)
-    session = await sio.get_session(sid)
+    session = await get_session(sid, sio)
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     answer_right = False
     if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:

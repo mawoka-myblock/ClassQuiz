@@ -71,12 +71,6 @@ class Settings(BaseSettings):
     s3_bucket_name: str = "classquiz"
     s3_base_url: str | None
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        env_nested_delimiter = "__"
-        extra = "allow"
-
 
 async def initialize_arq():
     # skipcq: PYL-W0603
