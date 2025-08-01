@@ -8,9 +8,8 @@ from functools import lru_cache
 from redis import asyncio as redis_lib
 import redis as redis_base_lib
 from pydantic import RedisDsn, PostgresDsn, BaseModel
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 import meilisearch as MeiliSearch
-from typing import Optional
 from arq import create_pool
 from arq.connections import RedisSettings, ArqRedis
 
@@ -29,10 +28,13 @@ class Settings(BaseSettings):
     Settings class for the shop app.
     """
 
+    model_config = SettingsConfigDict(
+        env_file=".env", extra="ignore", env_nested_delimiter="__", env_file_encoding="utf-8"
+    )
     root_address: str = "http://127.0.0.1:8000"
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"
     skip_email_verification: bool = False
-    db_url: str | PostgresDsn = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
+    db_url: PostgresDsn | str = "postgresql://postgres:mysecretpassword@localhost:5432/classquiz"
     hcaptcha_key: str | None = None
     recaptcha_key: str | None = None
     mail_address: str
@@ -43,13 +45,13 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: int = 30
     cache_expiry: int = 86400
-    sentry_dsn: str | None
+    sentry_dsn: str | None = None
     meilisearch_url: str = "http://127.0.0.1:7700"
     meilisearch_index: str = "classquiz"
-    google_client_id: Optional[str]
-    google_client_secret: Optional[str]
-    github_client_id: Optional[str]
-    github_client_secret: Optional[str]
+    google_client_id: str | None = None
+    google_client_secret: str | None = None
+    github_client_id: str | None = None
+    github_client_secret: str | None = None
     custom_openid_provider: CustomOpenIDProvider | None = None
     telemetry_enabled: bool = True
     free_storage_limit: int = 1074000000
@@ -58,14 +60,14 @@ class Settings(BaseSettings):
     registration_disabled: bool = False
 
     # storage_backend
-    storage_backend: str | None = "local"
+    storage_backend: str  # either "local" or "s3"
 
     # if storage_backend == "local":
-    storage_path: str | None
+    storage_path: str | None = None
 
     # if storage_backend == "s3":
-    s3_access_key: str | None
-    s3_secret_key: str | None
+    s3_access_key: str | None = None
+    s3_secret_key: str | None = None
     s3_bucket_name: str = "classquiz"
     s3_base_url: str | None
 

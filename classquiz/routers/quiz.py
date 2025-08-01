@@ -54,7 +54,7 @@ class PublicQuizResponseUser(BaseModel):
     id: uuid.UUID
 
 
-class PublicQuizResponse(Quiz.get_pydantic()):
+class PublicQuizResponse(Quiz.get_pydantic(exclude={"questions"})):
     user_id: PublicQuizResponseUser
     questions: list[QuizQuestion]
     likes: int

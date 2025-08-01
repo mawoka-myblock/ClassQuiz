@@ -20,7 +20,7 @@ class _Response(BaseModel):
 
 
 async def search(
-    query: str | None,
+    query: str | None = None,
     limit: int | None = 9,
     cursor: int | None = 1,
     search_cluster: int | None = 1,

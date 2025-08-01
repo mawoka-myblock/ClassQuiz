@@ -72,6 +72,9 @@ SPDX-License-Identifier: MPL-2.0
 	socket.on('time_sync', (data) => {
 		socket.emit('echo_time_sync', data);
 	});
+	socket.on("session_id", (d) => {
+		const session_id = d.session_id
+	})
 
 	socket.on('connect', async () => {
 		console.log('Connected!');

@@ -28,6 +28,7 @@ from pydantic import BaseModel, ValidationError, field_validator, ValidationInfo
 from datetime import datetime
 
 from classquiz.socket_server.export_helpers import save_quiz_to_storage
+from classquiz.socket_server.session import get_session, save_session
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
 settings = settings()
@@ -117,7 +118,7 @@ async def rejoin_game(sid: str, data: dict):
         "sid_custom": sid,
         "admin": False,
     }
-    await sio.save_session(sid, session)
+    await save_session(sid, sio, session)
     await sio.enter_room(sid, data.game_pin)
     await sio.emit(
         "rejoined_game",
@@ -153,7 +154,10 @@ async def join_game(sid: str, data: dict):
                     try:
                         async with session.post(
                             "https://hcaptcha.com/siteverify",
-                            data={"response": data.captcha, "secret": settings.hcaptcha_key},
+                            data={
+                                "response": data.captcha,
+                                "secret": settings.hcaptcha_key,
+                            },
                         ) as resp:
                             resp_data = await resp.model_dump_json()
                             if not resp_data["success"]:
@@ -165,7 +169,10 @@ async def join_game(sid: str, data: dict):
                 elif settings.recaptcha_key is not None:
                     async with session.post(
                         "https://www.google.com/recaptcha/api/siteverify",
-                        data={"secret": settings.recaptcha_key, "response": data.captcha},
+                        data={
+                            "secret": settings.recaptcha_key,
+                            "response": data.captcha,
+                        },
                     ) as resp:
                         try:
                             resp_data = await resp.model_dump_json()
@@ -188,7 +195,7 @@ async def join_game(sid: str, data: dict):
         "sid_custom": sid,
         "admin": False,
     }
-    await sio.save_session(sid, session)
+    await save_session(sid, sio, session)
     await sio.emit(
         "joined_game",
         {
@@ -206,7 +213,11 @@ async def join_game(sid: str, data: dict):
     if data.custom_field == "":
         data.custom_field = None
     if data.custom_field is not None:
-        await redis.hset(f"game:{data.game_pin}:players:custom_fields", data.username, data.custom_field)
+        await redis.hset(
+            f"game:{data.game_pin}:players:custom_fields",
+            data.username,
+            data.custom_field,
+        )
 
     await sio.emit(
         "player_joined",
@@ -222,7 +233,7 @@ async def join_game(sid: str, data: dict):
 
 @sio.event
 async def start_game(sid: str, _data: dict):
-    session = await sio.get_session(sid)
+    session = await get_session(sid, sio)
     if not session["admin"]:
         return
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
@@ -259,10 +270,11 @@ async def register_as_admin(sid: str, data: dict):
             {"game_id": game_id, "game": await redis.get(f"game:{game_pin}")},
             room=sid,
         )
-        async with sio.session(sid) as session:
-            session["game_pin"] = game_pin
-            session["admin"] = True
-            session["remote"] = False
+        session = {}
+        session["game_pin"] = game_pin
+        session["admin"] = True
+        session["remote"] = False
+        await save_session(sid, sio, session)
         await sio.enter_room(sid, game_pin)
         await sio.enter_room(sid, f"admin:{data.game_pin}")
     else:
@@ -271,7 +283,7 @@ async def register_as_admin(sid: str, data: dict):
 
 @sio.event
 async def get_question_results(sid: str, data: dict):
-    session = await sio.get_session(sid)
+    session = await get_session(sid, sio)
     if not session["admin"]:
         return
 
@@ -317,7 +329,7 @@ class ReturnQuestion(QuizQuestion):
 @sio.event
 async def set_question_number(sid, data: str):
     # data is just a number (as a str) of the question
-    session = await sio.get_session(sid)
+    session = await get_session(sid, sio)
     if not session["admin"]:
         return
     game_pin = session["game_pin"]
@@ -423,14 +435,15 @@ async def submit_answer(sid: str, data: dict):
         answer_right = bool(correct_string == data.answer)
     else:
         raise NotImplementedError
-    latency = int(float((await sio.get_session(sid))["ping"]))
+    latency = int(float((await get_session(sid, sio))["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
 
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
     score = 0
     if answer_right:
         score = calculate_score(
-            abs(diff) - latency, int(float(game_data.questions[int(float(data.question_index))].time))
+            abs(diff) - latency,
+            int(float(game_data.questions[int(float(data.question_index))].time)),
         )
         if score > 1000:
             score = 1000
@@ -444,7 +457,10 @@ async def submit_answer(sid: str, data: dict):
     )
     answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     answers = await set_answer(
-        answers, game_pin=session["game_pin"], data=answer_data, q_index=int(float(data.question_index))
+        answers,
+        game_pin=session["game_pin"],
+        data=answer_data,
+        q_index=int(float(data.question_index)),
     )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     await sio.emit("player_answer", {})
@@ -465,7 +481,7 @@ async def submit_answer(sid: str, data: dict):
 
 @sio.event
 async def get_final_results(sid: str, _data: dict):
-    session: dict = await sio.get_session(sid)
+    session: dict = await get_session(sid, sio)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     if not session["admin"]:
         return
@@ -475,7 +491,7 @@ async def get_final_results(sid: str, _data: dict):
 
 @sio.event
 async def get_export_token(sid: str):
-    session = await sio.get_session(sid)
+    session = await get_session(sid, sio)
     if not session["admin"]:
         return
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
@@ -487,7 +503,7 @@ async def get_export_token(sid: str):
 
 @sio.event
 async def show_solutions(sid: str, _data: dict):
-    session: dict = await sio.get_session(sid)
+    session: dict = await get_session(sid, sio)
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     if not session["admin"]:
         return
@@ -500,8 +516,9 @@ async def echo_time_sync(sid: str, data: str):
     then = datetime.fromisoformat(then_dec)
     now = datetime.now()
     delta = now - then
-    async with sio.session(sid) as session:
-        session["ping"] = delta.microseconds / 1000
+    session = await get_session(sid, sio)
+    session["ping"] = delta.microseconds / 1000
+    await save_session(sid, sio, session)
 
 
 class _KickPlayerInput(BaseModel):
@@ -517,7 +534,7 @@ async def kick_player(sid: str, data: dict):
         print(e)
         return
 
-    session: dict = await sio.get_session(sid)
+    session: dict = await get_session(sid, sio)
     if not session["admin"]:
         return
 
@@ -549,10 +566,11 @@ async def register_as_remote(sid: str, data: dict):
         room=sid,
     )
     await sio.emit("control_visibility", {"visible": False}, room=f"admin:{data.game_pin}")
-    async with sio.session(sid) as session:
-        session["game_pin"] = data.game_pin
-        session["admin"] = True
-        session["remote"] = True
+    session = await get_session(sid, sio)
+    session["game_pin"] = data.game_pin
+    session["admin"] = True
+    session["remote"] = True
+    await save_session(sid, sio, session)
     await sio.enter_room(sid, data.game_pin)
     await sio.enter_room(sid, f"admin:{data.game_pin}")
 
@@ -569,14 +587,31 @@ async def set_control_visibility(sid: str, data: dict):
         await sio.emit("error", room=sid)
         print(e)
         return
-    session: dict = await sio.get_session(sid)
-    await sio.emit("control_visibility", {"visible": data.visible}, room=f"admin:{session['game_pin']}")
+    session: dict = await get_session(sid, sio)
+    await sio.emit(
+        "control_visibility",
+        {"visible": data.visible},
+        room=f"admin:{session['game_pin']}",
+    )
 
 
 @sio.event
 async def save_quiz(sid: str):
-    session: dict = await sio.get_session(sid)
+    session: dict = await get_session(sid, sio)
     if not session["admin"]:
         return
     await save_quiz_to_storage(session["game_pin"])
     await sio.emit("results_saved_successfully")
+
+
+class ConnectSessionIdEvent(BaseModel):
+    session_id: str
+
+
+@sio.event
+async def connect(sid: str, _environ, _auth):
+    session_id = os.urandom(16).hex()
+    print("Connection opened with handler")
+    sio_session = {"session_id": session_id}
+    await sio.save_session(sid, sio_session)
+    await sio.emit("session_id", ConnectSessionIdEvent(session_id=session_id).dict())

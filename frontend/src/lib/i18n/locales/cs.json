@@ -122,7 +122,7 @@
     },
     "index_page": {
         "quiz_results_downloadable": "",
-        "slogan": "",
+        "slogan": "Open-source kvízová platforma!",
         "completely_free": "",
         "how_does_classquiz_work": "",
         "select_answer": "",
@@ -144,7 +144,7 @@
         "german_server_content": "",
         "get_ranking_and_winners": "",
         "meta": {
-            "description": "",
+            "description": "ClassQuiz je kvízová aplikace podobná aplikaci Kahoot! pro studenty, která má otevřený zdrojový kód a je zdarma.",
             "title": ""
         },
         "list_winners": "",

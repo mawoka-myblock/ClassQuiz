@@ -293,7 +293,9 @@
         "enter_answer": "Escribe una respuesta",
         "visit_docs": "Visita los documentos.",
         "disable_reorder": "Desactivar el modo reordenar",
-        "enable_reorder": "Activar el modo reordenar"
+        "enable_reorder": "Activar el modo reordenar",
+        "hide_question_results": "¿Ocultar los resultados de la pregunta?",
+        "advanced_settings": "Ajustes avanzados"
     },
     "import_page": {
         "need_help": "¿Necesitas ayuda?",

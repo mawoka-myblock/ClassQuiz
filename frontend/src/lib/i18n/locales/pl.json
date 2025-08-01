@@ -199,7 +199,8 @@
         "analytics": "Analityka",
         "dislike_plural": "Nie lubię",
         "rating": "Ocena",
-        "like": "Lubię"
+        "like": "Lubię",
+        "player": "Odtwarzacz"
     },
     "settings_page": {
         "last_seen": "Ostatnio widziany",
@@ -388,7 +389,7 @@
             "do_not_forget_backup_code": "Nie zapomnij zapisać swojego kodu odzyskiwania!",
             "scan_to_set_up": "Zeskanuj ten kod QR, aby ustawić kod",
             "enter_as_secret_if_no_see_code": "Wpisz kod, jeśli nie możesz zeskanować kodu QR",
-            "totp_setup": ""
+            "totp_setup": "Konfiguracja TOTP"
         },
         "webauthn_unavailable": "Webauthn nie jest dostępny",
         "add_security_key": "Dodaj Security-Key",
@@ -396,7 +397,7 @@
         "webauthn": "Webauthn",
         "enable_totp": "Włącz Totp",
         "disable_totp": "Wyłączenie Totp",
-        "totp": "",
+        "totp": "TOTP",
         "totp_unavailable": "Totp nie jest dostępny",
         "totp_available": "Totp jest dostępny"
     },
@@ -409,7 +410,7 @@
         "normal_mode_description": "Pytanie i odpowiedź będą wyświetlane tylko na ekranie administratora, jak w Kahoot! Gracze będą mieli do dyspozycji jedynie kolorowe przyciski z symbolami odpowiadającymi tym na ekranie administratora.",
         "old_school_mode_description": "Pytania i obrazy będą wyświetlane zarówno na ekranie administratora, jak i na ekranie graczy",
         "start_game": "Rozpocznij grę",
-        "old_school_mode": ""
+        "old_school_mode": "Retro"
     },
     "quiztivity": {
         "editor": {

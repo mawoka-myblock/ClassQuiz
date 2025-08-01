@@ -139,6 +139,7 @@ class QuizQuestion(BaseModel):
     type: None | QuizQuestionType = QuizQuestionType.ABCD
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[TextQuizAnswer] | list[VotingQuizAnswer] | str
     image: str | None = None
+    hide_results: bool | None = False
 
     @field_validator("answers")
     def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
@@ -416,7 +417,7 @@ class PublicStorageItem(BaseModel):
     id: uuid.UUID
     uploaded_at: datetime
     mime_type: str
-    hash: str | None
+    hash: str | None = None
     size: int
     deleted_at: datetime | None = None
     alt_text: str | None = None

@@ -4,6 +4,8 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
+
+
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	import OAuthBlock from './oauth_block.svelte';
@@ -17,11 +19,13 @@ SPDX-License-Identifier: MPL-2.0
 	let isSubmitting = false;
 
 	$: emailEmpty = email === '';
+
 	const start_login = async (): Promise<void> => {
 		if (emailEmpty) {
 			return;
 		}
 		isSubmitting = true;
+
 		const res = await fetch('/api/v1/login/start', {
 			method: 'post',
 			headers: {

@@ -60,7 +60,7 @@ class _Card(BaseModel):
     cover: str | None = None
     coverMetadata: _CoverMetadata | dict[None, None] | None = None
     draftExists: bool
-    inventoryItemIds: List[Any]
+    inventoryItemIds: List[Any] = None
     number_of_questions: int
     creator: UUID
     creator_username: str

@@ -60,6 +60,9 @@ SPDX-License-Identifier: MPL-2.0
 			connect();
 		}
 	});
+	socket.on("session_id", (d) => {
+		const session_id = d.session_id
+	})
 
 	socket.on('registered_as_admin', (data) => {
 		quiz_data = JSON.parse(data['game']);

@@ -1,0 +1,12 @@
+{
+    "index_page": {
+        "slogan": "Avatud tarkvaral põhinev mälumängu- ja küsitlusplatvorm!",
+        "meta": {
+            "title": "Avaleht",
+            "description": "ClassQuiz on avatud lähtekoodiga ja vaba tarkvara, mis pakub võimaluse korraldada õpilatele ning muudele huvilistele interaktiivseid mälumänge, viktoriine ja küsitlusi"
+        },
+        "stats": "ClassQuizis on juba {{user_count}} kasutajat ning {{quiz_count}} mängu.",
+        "teachers_site": "Õpetaja vaade",
+        "students_site": "Õpilase vaade"
+    }
+}
