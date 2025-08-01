@@ -60,7 +60,9 @@ async def init_editor(edit: bool, quiz_id: Optional[UUID] = None, user: User = D
     edit_id = os.urandom(4).hex()
     await redis.sadd("edit_sessions", edit_id)
     await redis.set(
-        f"edit_session:{edit_id}", EditSessionData(quiz_id=quiz_id, edit=edit, user_id=user.id).json(), ex=3600
+        f"edit_session:{edit_id}",
+        EditSessionData(quiz_id=quiz_id, edit=edit, user_id=user.id).model_dump_json(),
+        ex=3600,
     )
     return InitEditorResponse(token=edit_id)
 
@@ -70,7 +72,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
     session_data = await redis.get(f"edit_session:{edit_id}")
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
-    session_data = EditSessionData.parse_raw(session_data)
+    session_data = EditSessionData.model_validate_json(session_data)
     quiz_input.title = bleach.clean(quiz_input.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
     quiz_input.description = bleach.clean(quiz_input.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
     if quiz_input.background_color is not None:
@@ -122,7 +124,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
         quiz.updated_at = datetime.now()
-        quiz.questions = quiz_input.dict()["questions"]
+        quiz.questions = quiz_input.model_dump()["questions"]
         quiz.cover_image = quiz_input.cover_image
         quiz.background_color = quiz_input.background_color
         quiz.background_image = quiz_input.background_image
@@ -140,7 +142,7 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         return quiz
     else:
         quiz = Quiz(
-            **quiz_input.dict(),
+            **quiz_input.model_dump(),
             user_id=session_data.user_id,
             id=session_data.quiz_id,
             created_at=datetime.now(),

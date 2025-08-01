@@ -63,7 +63,7 @@ class StartLoginResponse(BaseModel):
 
 def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session: LoginSession):
     try:
-        credential = AuthenticationCredential.parse_obj(data)
+        credential = AuthenticationCredential.model_validate(data)
     except ValidationError:
         print("ValidationError")
         raise HTTPException(401)
@@ -141,7 +141,7 @@ async def start_login(data: StartLoginInput):
         webauthn_challenge=webauthn_challenge,
     )
     session_id = os.urandom(16).hex()
-    await redis.set(f"login_session:{session_id}", login_session.json(), ex=600)
+    await redis.set(f"login_session:{session_id}", login_session.model_dump_json(), ex=600)
     return StartLoginResponse(step_1=step_1, step_2=step_2, session_id=session_id, webauthn_data=webauthn_data)
 
 
@@ -157,7 +157,7 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
     redis_res = await redis.get(f"login_session:{session_id}")
     if redis_res is None:
         raise HTTPException(401, detail="wrong credentials")
-    login_session = LoginSession.parse_raw(redis_res)
+    login_session = LoginSession.model_validate_json(redis_res)
 
     if step_id == 1:
         if data.auth_type not in {*login_session.step_1, StartLoginResponseTypes.BACKUP}:
@@ -177,7 +177,7 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
                 return await log_user_in(user, request, response)
             else:
                 login_session.step1_success = True
-                await redis.set(f"login_session:{session_id}", login_session.json(), ex=600)
+                await redis.set(f"login_session:{session_id}", login_session.model_dump_json(), ex=600)
                 return Response(status_code=202)
         else:
             print("Wrong Password")
@@ -189,7 +189,7 @@ async def step_1_endpoint(session_id: str, data: StepInput, request: Request, re
                 return await log_user_in(user, request, response)
             else:
                 login_session.step1_success = True
-                await redis.set(f"login_session:{session_id}", login_session.json(), ex=600)
+                await redis.set(f"login_session:{session_id}", login_session.model_dump_json(), ex=600)
                 return Response(status_code=202)
         else:
             raise HTTPException(401, detail="webauthn failed")

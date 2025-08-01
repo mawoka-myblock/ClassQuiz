@@ -57,7 +57,7 @@ async def get_controller(id: uuid.UUID, user: User = Depends(get_current_user)) 
     controller = await Controller.objects.get_or_none(id=id, user=user.id)
     if controller is None:
         raise HTTPException(status_code=404, detail="Controller not found")
-    return GetControllerResponse(**controller.dict())
+    return GetControllerResponse(**controller.model_dump())
 
 
 class ModifyControllerInput(BaseModel):
@@ -76,7 +76,7 @@ async def modify_controller(
     controller.player_name = data.player_name
     controller.name = data.name
     await controller.update()
-    return GetControllerResponse(**controller.dict())
+    return GetControllerResponse(**controller.model_dump())
 
 
 @router.get("/list")
@@ -86,7 +86,7 @@ async def get_all_controllers(user: User = Depends(get_current_user)) -> list[Ge
         return []
     return_list = []
     for controller in controllers:
-        return_list.append(GetControllerResponse(**controller.dict()))
+        return_list.append(GetControllerResponse(**controller.model_dump()))
     return return_list
 
 

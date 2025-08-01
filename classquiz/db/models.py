@@ -10,7 +10,7 @@ from typing import Optional
 
 import ormar
 from ormar import ReferentialAction
-from pydantic import BaseModel, Json, validator, RootModel
+from pydantic import BaseModel, Json, field_validator, ConfigDict, RootModel, ValidationInfo
 from enum import Enum
 from . import metadata, database
 from .quiztivity import QuizTivityPage
@@ -45,7 +45,13 @@ class User(ormar.Model):
     totp_secret: str = ormar.String(max_length=32, min_length=32, nullable=True, default=None)
     storage_used: int = ormar.BigInteger(nullable=False, default=0, minimum=0)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="users")
+    ormar_config = ormar.OrmarConfig(
+        tablename="users",
+        metadata=metadata,
+        database=database,
+    )
+
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class FidoCredentials(ormar.Model):
@@ -55,14 +61,22 @@ class FidoCredentials(ormar.Model):
     sign_count: int = ormar.Integer()
     user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="fido_credentials")
+    ormar_config = ormar.OrmarConfig(
+        tablename="fido_credentials",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class ApiKey(ormar.Model):
     key: str = ormar.String(max_length=48, min_length=48, primary_key=True)
     user: Optional[User] = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="api_keys")
+    ormar_config = ormar.OrmarConfig(
+        tablename="api_keys",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class UserSession(ormar.Model):
@@ -78,7 +92,11 @@ class UserSession(ormar.Model):
     user_agent: str = ormar.String(max_length=255, nullable=True)
     last_seen: datetime = ormar.DateTime(default=datetime.now())
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="user_sessions")
+    ormar_config = ormar.OrmarConfig(
+        tablename="user_sessions",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class ABCDQuizAnswer(BaseModel):
@@ -123,27 +141,27 @@ class QuizQuestion(BaseModel):
     image: str | None = None
     hide_results: bool | None = False
 
-    @validator("answers")
-    def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and not isinstance(v[0], ABCDQuizAnswer):
+    @field_validator("answers")
+    def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
+        if info.data["type"] == QuizQuestionType.ABCD and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and not isinstance(v, RangeQuizAnswer):
+        if info.data["type"] == QuizQuestionType.RANGE and not isinstance(v, RangeQuizAnswer):
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
-        if values["type"] == QuizQuestionType.VOTING and not isinstance(v[0], VotingQuizAnswer):
+        if info.data["type"] == QuizQuestionType.VOTING and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is VOTING")
-        if values["type"] == QuizQuestionType.TEXT and not isinstance(v[0], TextQuizAnswer):
+        if info.data["type"] == QuizQuestionType.TEXT and not isinstance(v[0], TextQuizAnswer):
             raise ValueError("Answer must be from type TextQuizAnswer if type is TEXT")
-        if values["type"] == QuizQuestionType.ORDER and not isinstance(v[0], VotingQuizAnswer):
+        if info.data["type"] == QuizQuestionType.ORDER and not isinstance(v[0], VotingQuizAnswer):
             raise ValueError("Answer must be from type VotingQuizAnswer if type is ORDER")
-        if values["type"] == QuizQuestionType.SLIDE and not isinstance(v, str):
+        if info.data["type"] == QuizQuestionType.SLIDE and not isinstance(v, str):
             raise ValueError("Answer must be from type SlideElement if type is SLIDE")
-        if values["type"] == QuizQuestionType.CHECK and not isinstance(v[0], ABCDQuizAnswer):
+        if info.data["type"] == QuizQuestionType.CHECK and not isinstance(v[0], ABCDQuizAnswer):
             raise ValueError("Answers can't be none if type is CHECK")
         return v
 
 
 class QuizInput(BaseModel):
-    public: bool = False
+    public: bool | None = False
     title: str
     description: str
     cover_image: str | None = None
@@ -172,13 +190,21 @@ class Quiz(ormar.Model):
     views: int = ormar.Integer(nullable=False, default=0, server_default="0")
     mod_rating: int | None = ormar.SmallInteger(nullable=True)
 
-    ormar_config = ormar.OrmarConfig(tablename="quiz", metadata=metadata, database=database)
+    ormar_config = ormar.OrmarConfig(
+        tablename="quiz",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class InstanceData(ormar.Model):
     instance_id: uuid.UUID = ormar.UUID(primary_key=True, default=uuid.uuid4(), nullable=False, unique=True)
 
-    ormar_config = ormar.OrmarConfig(tablename="instance_data", metadata=metadata, database=database)
+    ormar_config = ormar.OrmarConfig(
+        tablename="instance_data",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class Token(BaseModel):
@@ -254,8 +280,19 @@ class AnswerData(BaseModel):
 
 
 class AnswerDataList(RootModel):
-    # Just a method to make a top-level list
     root: list[AnswerData]
+
+    def __iter__(self):
+        return iter(self.root)
+
+    def __getitem__(self, item):
+        return self.root(item)
+
+    def append(self, item):
+        self.root.append(item)
+
+    def __len__(self) -> int:
+        return len(self.root)
 
 
 class GameInLobby(BaseModel):
@@ -287,7 +324,11 @@ class GameResults(ormar.Model):
     description: str = ormar.Text(nullable=False)
     questions: Json[list[QuizQuestion]] = ormar.JSON(nullable=False)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="game_results")
+    ormar_config = ormar.OrmarConfig(
+        tablename="game_results",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class QuizTivityInput(BaseModel):
@@ -302,7 +343,11 @@ class QuizTivity(ormar.Model):
     user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
     pages: list[QuizTivityPage] = ormar.JSON(nullable=False)
 
-    ormar_config = ormar.OrmarConfig(tablename="quiztivitys", metadata=metadata, database=database)
+    ormar_config = ormar.OrmarConfig(
+        tablename="quiztivitys",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class QuizTivityShare(ormar.Model):
@@ -312,7 +357,11 @@ class QuizTivityShare(ormar.Model):
     quiztivity: QuizTivity | None = ormar.ForeignKey(QuizTivity, ondelete=ReferentialAction.CASCADE)
     user: User | None = ormar.ForeignKey(User, ondelete=ReferentialAction.CASCADE)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="quiztivityshares")
+    ormar_config = ormar.OrmarConfig(
+        tablename="quiztivityshares",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class OnlyId(BaseModel):
@@ -357,7 +406,11 @@ class StorageItem(ormar.Model):
     server: str | None = ormar.Text(default=None, nullable=True)
     imported: bool = ormar.Boolean(default=False, nullable=True)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="storage_items")
+    ormar_config = ormar.OrmarConfig(
+        tablename="storage_items",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class PublicStorageItem(BaseModel):
@@ -441,7 +494,11 @@ class Controller(ormar.Model):
     os_version: str | None = ormar.Text(nullable=True)
     wanted_os_version: str = ormar.Text(nullable=True, default=None)
 
-    ormar_config = ormar.OrmarConfig(tablename="controller", metadata=metadata, database=database)
+    ormar_config = ormar.OrmarConfig(
+        tablename="controller",
+        metadata=metadata,
+        database=database,
+    )
 
 
 class Rating(ormar.Model):
@@ -451,4 +508,8 @@ class Rating(ormar.Model):
     created_at: datetime = ormar.DateTime(nullable=False, server_default=func.now())
     quiz: uuid.UUID | Quiz = ormar.ForeignKey(Quiz)
 
-    ormar_config = ormar.OrmarConfig(database=database, metadata=metadata, tablename="rating")
+    ormar_config = ormar.OrmarConfig(
+        tablename="rating",
+        metadata=metadata,
+        database=database,
+    )

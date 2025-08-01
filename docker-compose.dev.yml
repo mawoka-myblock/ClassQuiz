@@ -8,7 +8,7 @@ services:
 #      context: pg_uuidv7
 #      args:
 #        PG_MAJOR_VERSION: 16
-    image: postgres
+    image: postgres:16
     environment:
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: classquiz
@@ -45,7 +45,10 @@ services:
       - 9001:9001
     restart: unless-stopped
   redis:
-    image: redis
+    image: redis:alpine
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
     ports:
       - 6379:6379
 volumes:

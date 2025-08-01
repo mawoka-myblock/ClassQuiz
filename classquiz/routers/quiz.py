@@ -22,7 +22,6 @@ from classquiz.config import redis, settings, storage, meilisearch
 from classquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
 from classquiz.helpers.box_controller import generate_code
 from classquiz.kahoot_importer.import_quiz import import_quiz
-from uuid import UUID
 import urllib.parse
 
 settings = settings()
@@ -72,7 +71,7 @@ async def get_public_quiz(quiz_id: uuid.UUID):
     else:
         quiz.views += 1
         await quiz.update()
-        return PublicQuizResponse(**quiz.dict())
+        return PublicQuizResponse(**quiz.model_dump())
 
 
 @router.post("/start/{quiz_id}")
@@ -131,15 +130,15 @@ async def start_quiz(
     if cqcs_enabled:
         code = generate_code(6)
         await redis.set(f"game:cqc:code:{code}", game_pin, ex=3600)
-    await redis.set(f"game:{str(game.game_pin)}", game.json(), ex=18000)
+    await redis.set(f"game:{str(game.game_pin)}", game.model_dump_json(), ex=18000)
     await redis.set(f"game_pin:{user.id}:{quiz_id}", game_pin, ex=18000)
 
     await redis.set(
         f"game_in_lobby:{user.id.hex}",
-        GameInLobby(game_id=game.game_id, game_pin=str(game_pin), quiz_title=quiz.title).json(),
+        GameInLobby(game_id=game.game_id, game_pin=str(game_pin), quiz_title=quiz.title).model_dump_json(),
         ex=900,
     )
-    return {**quiz.dict(exclude={"id"}), **game.dict(exclude={"questions"}), "cqc_code": code}
+    return {**quiz.model_dump(exclude={"id"}), **game.model_dump(exclude={"questions"}), "cqc_code": code}
 
 
 class CheckIfCaptchaEnabledResponse(BaseModel):
@@ -153,7 +152,7 @@ async def check_if_captcha_enabled(game_pin: str):
     game = await redis.get(f"game:{game_pin}")
     if game is None:
         return JSONResponse(status_code=404, content={"detail": "game not found"})
-    game = PlayGame.parse_raw(game)
+    game = PlayGame.model_validate_json(game)
     if game.captcha_enabled:
         return CheckIfCaptchaEnabledResponse(enabled=True, game_mode=game.game_mode, custom_field=game.custom_field)
     else:
@@ -229,9 +228,8 @@ async def export_quiz_answers(export_token: str, game_pin: str):
         raise HTTPException(status_code=404, detail="export token not found")
     data = json.loads(data)
     data2 = await redis.get(f"game:{game_pin}")
-    game_data = PlayGame.parse_raw(data2)
-    print(type(game_data.quiz_id))
-    quiz = await Quiz.objects.get_or_none(id=UUID(game_data.quiz_id))
+    game_data = PlayGame.model_validate_json(data2)
+    quiz = await Quiz.objects.get_or_none(id=game_data.quiz_id)
     if quiz is None:
         raise HTTPException(status_code=404, detail="quiz not found")
 
@@ -257,4 +255,4 @@ async def export_quiz_answers(export_token: str, game_pin: str):
 @router.post("/excel-import")
 async def import_from_excel(file: UploadFile = File(), user: User = Depends(get_current_user)) -> Quiz:
     quiz = await handle_import_from_excel(file.file, user)
-    return Quiz.parse_obj(quiz.dict(exclude={"user_id": ...}))
+    return Quiz.model_validate(quiz.model_dump(exclude={"user_id": ...}))

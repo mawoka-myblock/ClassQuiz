@@ -24,7 +24,7 @@ from classquiz.db.models import (
     AnswerDataList,
     AnswerData,
 )
-from pydantic import BaseModel, ValidationError, validator
+from pydantic import BaseModel, ValidationError, field_validator, ValidationInfo
 from datetime import datetime
 
 from classquiz.socket_server.export_helpers import save_quiz_to_storage
@@ -64,11 +64,11 @@ async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> 
     if answers is None:
         answers = AnswerDataList([data])
     else:
-        answers = AnswerDataList.parse_raw(answers)
-        answers.root.append(data)
+        answers = AnswerDataList.model_validate_json(answers)
+        answers.append(data)
     await redis.set(
         f"game_session:{game_pin}:{q_index}",
-        answers.json(),
+        answers.model_dump_json(),
         ex=7200,
     )
     return answers
@@ -106,14 +106,12 @@ async def rejoin_game(sid: str, data: dict):
     await sio.emit("time_sync", encrypted_datetime, room=sid)
     await redis.set(redis_sid_key, sid)
     await redis.srem(
-        f"game_session:{data.game_pin}:players",
-        GamePlayer(username=data.username, sid=data.old_sid).json(),
+        f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=data.old_sid).model_dump_json()
     )
     await redis.sadd(
-        f"game_session:{data.game_pin}:players",
-        GamePlayer(username=data.username, sid=sid).json(),
+        f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).model_dump_json()
     )
-    game_data = PlayGame.parse_raw(redis_res)
+    game_data = PlayGame.model_validate_json(redis_res)
     session = {
         "game_pin": data.game_pin,
         "username": data.username,
@@ -125,7 +123,7 @@ async def rejoin_game(sid: str, data: dict):
     await sio.emit(
         "rejoined_game",
         {
-            **json.loads(game_data.json(exclude={"quiz_id", "questions", "user_id"})),
+            **json.loads(game_data.model_dump_json(exclude={"quiz_id", "questions", "user_id"})),
             "question_count": len(game_data.questions),
         },
         room=sid,
@@ -144,7 +142,7 @@ async def join_game(sid: str, data: dict):
         await sio.emit("error", room=sid)
         print(e)
         return
-    game_data = PlayGame.parse_raw(redis_res)
+    game_data = PlayGame.model_validate_json(redis_res)
     if game_data.started:
         await sio.emit("game_already_started", room=sid)
         return
@@ -161,7 +159,7 @@ async def join_game(sid: str, data: dict):
                                 "secret": settings.hcaptcha_key,
                             },
                         ) as resp:
-                            resp_data = await resp.json()
+                            resp_data = await resp.model_dump_json()
                             if not resp_data["success"]:
                                 print("CAPTCHA FAILED")
                                 return
@@ -177,7 +175,7 @@ async def join_game(sid: str, data: dict):
                         },
                     ) as resp:
                         try:
-                            resp_data = await resp.json()
+                            resp_data = await resp.model_dump_json()
                             if not resp_data["success"]:
                                 print("CAPTCHA FAILED")
                                 return
@@ -201,17 +199,16 @@ async def join_game(sid: str, data: dict):
     await sio.emit(
         "joined_game",
         {
-            **json.loads(game_data.json(exclude={"quiz_id", "questions", "user_id"})),
+            **json.loads(game_data.model_dump_json(exclude={"quiz_id", "questions", "user_id"})),
             "question_count": len(game_data.questions),
         },
         room=sid,
     )
     redis_res = await redis.get(f"game_session:{data.game_pin}")
-    redis_res = GameSession.parse_raw(redis_res)
+    redis_res = GameSession.model_validate_json(redis_res)
     await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=7200)
     await redis.sadd(
-        f"game_session:{data.game_pin}:players",
-        GamePlayer(username=data.username, sid=sid).json(),
+        f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=sid).model_dump_json()
     )
     if data.custom_field == "":
         data.custom_field = None
@@ -222,11 +219,6 @@ async def join_game(sid: str, data: dict):
             data.custom_field,
         )
 
-    # await redis.set(
-    #     f"game_session:{data.game_pin}",
-    #     GameSession(admin=redis_res.admin, game_id=redis_res.game_id, answers=[]).json(),
-    #     ex=18000,
-    # )
     await sio.emit(
         "player_joined",
         {"username": data.username, "sid": sid},
@@ -244,9 +236,9 @@ async def start_game(sid: str, _data: dict):
     session = await get_session(sid, sio)
     if not session["admin"]:
         return
-    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.started = True
-    await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+    await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json(), ex=7200)
     await redis.delete(f"game_in_lobby:{game_data.user_id.hex}")
     await sio.emit("start_game", room=session["game_pin"])
 
@@ -269,7 +261,7 @@ async def register_as_admin(sid: str, data: dict):
     if (await redis.get(f"game_session:{game_pin}")) is None:
         await redis.set(
             f"game_session:{game_pin}",
-            GameSession(admin=sid, game_id=game_id, answers=[]).json(),
+            GameSession(admin=sid, game_id=game_id, answers=[]).model_dump_json(),
             ex=7200,
         )
 
@@ -299,10 +291,10 @@ async def get_question_results(sid: str, data: dict):
     if redis_res is None:
         redis_res = []
     else:
-        redis_res = AnswerDataList.parse_raw(redis_res).model_dump()
-    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()
+    game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
-    await redis.set(f"game:{session['game_pin']}", game_data.json())
+    await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json())
     game_pin = session["game_pin"]
 
     await sio.emit("question_results", redis_res, room=game_pin)
@@ -322,14 +314,14 @@ class ReturnQuestion(QuizQuestion):
     answers: list[ABCDQuizAnswerWithoutSolution] | RangeQuizAnswerWithoutSolution | list[VotingQuizAnswer]
     type: QuizQuestionType = QuizQuestionType.ABCD
 
-    @validator("answers")
-    def answers_not_none_if_abcd_type(cls, v, values):
-        if values["type"] == QuizQuestionType.ABCD and type(v[0]) is not ABCDQuizAnswerWithoutSolution:
+    @field_validator("answers")
+    def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
+        if info.data["type"] == QuizQuestionType.ABCD and type(v[0]) is not ABCDQuizAnswerWithoutSolution:
             raise ValueError("Answers can't be none if type is ABCD")
-        if values["type"] == QuizQuestionType.RANGE and type(v) is not RangeQuizAnswerWithoutSolution:
+        if info.data["type"] == QuizQuestionType.RANGE and type(v) is not RangeQuizAnswerWithoutSolution:
             raise ValueError("Answer must be from type RangeQuizAnswer if type is RANGE")
         # skipcq: PTC-W0047
-        if values["type"] == QuizQuestionType.VOTING and type(v[0]) is not VotingQuizAnswer:
+        if info.data["type"] == QuizQuestionType.VOTING and type(v[0]) is not VotingQuizAnswer:
             pass
         return v
 
@@ -341,12 +333,12 @@ async def set_question_number(sid, data: str):
     if not session["admin"]:
         return
     game_pin = session["game_pin"]
-    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.current_question = int(float(data))
     game_data.question_show = True
-    await redis.set(f"game:{session['game_pin']}", game_data.json(), ex=7200)
+    await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json(), ex=7200)
     await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
-    temp_return = game_data.dict(include={"questions"})["questions"][int(float(data))]
+    temp_return = game_data.model_dump(include={"questions"})["questions"][int(float(data))]
     if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
         await sio.emit(
             "set_question_number",
@@ -366,7 +358,7 @@ async def set_question_number(sid, data: str):
         "set_question_number",
         {
             "question_index": int(float(data)),
-            "question": ReturnQuestion(**temp_return).dict(),
+            "question": ReturnQuestion(**temp_return).model_dump(),
         },
         room=game_pin,
     )
@@ -378,7 +370,7 @@ class _SubmitAnswerDataOrderType(BaseModel):
 
 class _SubmitAnswerData(BaseModel):
     question_index: int
-    answer: str
+    answer: str | int
     complex_answer: list[_SubmitAnswerDataOrderType] | None = None
 
 
@@ -391,8 +383,9 @@ async def submit_answer(sid: str, data: dict):
         await sio.emit("error", room=sid)
         print(e)
         return
+    data.answer = str(data.answer)
     session = await get_session(sid, sio)
-    game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+    game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     answer_right = False
     if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
         for answer in game_data.questions[int(float(data.question_index))].answers:
@@ -417,10 +410,10 @@ async def submit_answer(sid: str, data: dict):
             for a in question.answers:
                 correct_answers.append({"answer": a.answer})
             answer_order = []
-            for a in data.dict()["complex_answer"]:
+            for a in data.model_dump()["complex_answer"]:
                 answer_order.append(a["answer"])
             data.answer = ", ".join(answer_order)
-            if correct_answers == data.dict()["complex_answer"]:
+            if correct_answers == data.model_dump()["complex_answer"]:
                 answer_right = True
 
     elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
@@ -471,15 +464,15 @@ async def submit_answer(sid: str, data: dict):
     )
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     await sio.emit("player_answer", {})
-    if len(answers.root) == player_count:
+    if len(answers) == player_count:
         # await sio.emit(
         #     "question_results",
         #     await redis.get(f"game_session:{session['game_pin']}:{data.question_index}"),
         #     room=session["game_pin"],
         # )
-        game_data = PlayGame.parse_raw(await redis.get(f"game:{session['game_pin']}"))
+        game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
         game_data.question_show = False
-        await redis.set(f"game:{session['game_pin']}", game_data.json())
+        await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json())
         await sio.emit("everyone_answered", {})
 
 
@@ -514,11 +507,7 @@ async def show_solutions(sid: str, _data: dict):
     game_data = PlayGame(**json.loads(await redis.get(f"game:{session['game_pin']}")))
     if not session["admin"]:
         return
-    await sio.emit(
-        "solutions",
-        game_data.questions[game_data.current_question].dict(),
-        room=session["game_pin"],
-    )
+    await sio.emit("solutions", game_data.questions[game_data.current_question].model_dump(), room=session["game_pin"])
 
 
 @sio.event
@@ -552,7 +541,7 @@ async def kick_player(sid: str, data: dict):
     player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{data.username}")
     await redis.srem(
         f"game_session:{session['game_pin']}:players",
-        GamePlayer(username=data.username, sid=player_sid).json(),
+        GamePlayer(username=data.username, sid=player_sid).model_dump_json(),
     )
     await sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)

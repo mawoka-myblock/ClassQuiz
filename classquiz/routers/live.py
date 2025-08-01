@@ -7,7 +7,7 @@ import json
 import uuid
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from classquiz.config import settings, redis
 from classquiz.db.models import (
     PlayGame,
@@ -41,7 +41,7 @@ class _ABCDQuizAnswer(ABCDQuizAnswer):
 class _QuizQuestion(QuizQuestion):
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[VotingQuizAnswer]
 
-    @validator("answers")
+    @field_validator("answers")
     def answers_not_none_if_abcd_type(cls, v, values):
         # if values["type"] == QuizQuestionType.ABCD and type(v[0]) != _ABCDQuizAnswer:
         #     print(type(v[0]), values)
@@ -83,7 +83,7 @@ async def get_live_game_data(
         redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game = _PlayGame.parse_raw(redis_res)
+    game = _PlayGame.model_validate_json(redis_res)
     if game.user_id != user_id:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     for i, question in enumerate(game.questions):
@@ -105,18 +105,18 @@ async def get_live_game_data(
     data_redis_res = await redis.get(f"game_session:{game_pin}")
     if data_redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    data = GameSession.parse_raw(data_redis_res)
+    data = GameSession.model_validate_json(data_redis_res)
     for i in range(0, len(game.questions)):
         res = await redis.get(f"game_session:{game_pin}:{i}")
         if res is None:
             break
         else:
             res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     total_questions = len(game.questions)
-    game = _GetLivePlayGame(**{**game.dict(), "total_questions": total_questions})
+    game = _GetLivePlayGame(**{**game.model_dump(), "total_questions": total_questions})
     if in_human_count:
         game.current_question += 1
 
@@ -160,10 +160,10 @@ async def get_game_session(game_pin: str, api_key: str | None = None, game_id: u
         redis_res = await redis.get(f"game_session:{game_pin}")
     if redis_res is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    data = GameSession.parse_raw(redis_res)
+    data = GameSession.model_validate_json(redis_res)
     if user_id is None and data.game_id != str(game_id):
         raise HTTPException(status_code=401, detail="Game not found or API key not found")
-    game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
+    game = PlayGame.model_validate_json(await redis.get(f"game:{game_pin}"))
     if game.user_id != user_id and data.game_id != str(game_id):
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     for i in range(0, len(game.questions)):
@@ -172,12 +172,12 @@ async def get_game_session(game_pin: str, api_key: str | None = None, game_id: u
             break
         else:
             res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.parse_obj(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
             data.answers.append(ga_1)
     players = await redis.smembers(f"game_session:{game_pin}:players")
     player_list = []
     for p in players:
-        player_list.append(GamePlayer.parse_raw(p))
+        player_list.append(GamePlayer.model_validate_json(p))
     return player_list
 
 
@@ -190,16 +190,18 @@ async def set_next_question(game_pin: str, question_number: int, api_key: str):
         redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game_data = PlayGame.parse_raw(redis_res)
+    game_data = PlayGame.model_validate_json(redis_res)
     if game_data.user_id != user_id:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     game_data.current_question = question_number
-    await redis.set(f"game:{game_pin}", game_data.json(), ex=18000)
+    await redis.set(f"game:{game_pin}", game_data.model_dump_json(), ex=18000)
     await sio.emit(
         "set_question_number",
         {
             "question_index": question_number,
-            "question": ReturnQuestion(**game_data.dict(include={"questions"})["questions"][question_number]).dict(),
+            "question": ReturnQuestion(
+                **game_data.model_dump(include={"questions"})["questions"][question_number]
+            ).model_dump(),
         },
         room=game_pin,
     )
@@ -231,7 +233,7 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str, in_huma
         redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game = PlayGame.parse_raw(redis_res)
+    game = PlayGame.model_validate_json(redis_res)
     for i, question in enumerate(game.questions):
         if question.type == QuizQuestionType.ABCD:
             for o, answer in enumerate(question.answers):
@@ -244,7 +246,7 @@ async def too_stupid_to_come_up_with_a_name(game_pin: str, api_key: str, in_huma
     if game.current_question >= 0:
         return [
             {
-                **game.questions[game.current_question].dict(),
+                **game.questions[game.current_question].model_dump(),
                 "current_question": game.current_question + 1 if in_human_count else game.current_question,
                 "total_questions": len(game.questions),
             }
@@ -263,17 +265,17 @@ async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
         redis_res = await redis.get(f"game:{game_pin}")
     if redis_res is None or user_id is None:
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
-    game = PlayGame.parse_raw(redis_res)
+    game = PlayGame.model_validate_json(redis_res)
     if game.questions[game.current_question].type != QuizQuestionType.VOTING:
         return
     answer_data = await redis.get(f"game_session:{game_pin}:{game.current_question}")
     if answer_data is None:
         return
-    answer_list = AnswerDataList.parse_raw(answer_data)
+    answer_list = AnswerDataList.model_validate_json(answer_data)
     answer_dict = {}
     for answer in game.questions[game.current_question].answers:
         answer_dict[answer.answer] = 0
-    for answer in answer_list.__root__:
+    for answer in answer_list:
         answer_dict[answer.answer] += 1
     if as_array:
         return [answer_dict]
