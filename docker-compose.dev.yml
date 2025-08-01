@@ -44,6 +44,13 @@ services:
       - 9000:9000
       - 9001:9001
     restart: unless-stopped
+  redis:
+    image: redis:alpine
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+    ports:
+      - 6379:6379
 volumes:
   db:
   search:
