@@ -69,7 +69,7 @@ class Settings(BaseSettings):
     s3_access_key: str | None = None
     s3_secret_key: str | None = None
     s3_bucket_name: str = "classquiz"
-    s3_base_url: str | None
+    s3_base_url: str | None = None
 
 
 async def initialize_arq():
