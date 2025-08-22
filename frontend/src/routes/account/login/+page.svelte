@@ -29,7 +29,9 @@ SPDX-License-Identifier: MPL-2.0
 
 	const redirect_back = (done_var: boolean) => {
 		if (done_var) {
-			window.location.reload();
+			setTimeout(() => {
+				window.location.reload();
+			}, 100);
 		}
 	};
 	let alertModalOpen = false;

@@ -1,0 +1,331 @@
+{
+	"index_page": {
+		"slogan": "オープンソースのクイズプラットフォーム！",
+		"stats": "ClassQuizには {{user_count}} のユーザと {{quiz_count}} のクイズがあります.",
+		"see_what_true_and_false": "正しいか、間違っていたかを見る",
+		"see_all_quizzes": "あなたのクイズをすべて見る",
+		"teachers_site": "教師のサイト",
+		"students_site": "学生のサイト",
+		"user_friendly": "ユーザーフレンドリー",
+		"quiz_results_downloadable": "Quizの結果をダウンロードできます",
+		"select_answer": "回答を選択",
+		"choose_answer_wisely": "回答を賢く選択",
+		"view_results": "結果を見る",
+		"get_ranking_and_winners": "ランキングを取得し、誰が勝ったかを確認する",
+		"completely_free_content": "ClassQuizは、有料プランはありません。迷惑なアップグレードページへのリダイレクトもなく、完全に無料ですが、 寄付は非常に嬉しいです。",
+		"download_quizzes": "クイズをダウンロード",
+		"community_driven": "コミュニティ主導",
+		"german_server_content": "ClassQuizのサーバーはドイツにあり、netcupでホストされています.",
+		"meta": {
+			"description": "ClassQuizはオープンソースかつ無料で利用できる学生のための対話型学習クイズアプリです",
+			"title": "ホーム"
+		},
+		"see_how_many_true_and_false": "何が正しいか間違っていたかを見る",
+		"create_or_import": "作成またはインポート",
+		"no_tracking": "追跡なし",
+		"self_hostable": "セルフホスト可能",
+		"german_server": "ドイツのサーバー",
+		"completely_free": "完全に費用は無料",
+		"get_a_quiz": "1. クイズを入手",
+		"create_a_quiz_from_scratch": "写真などを含むクイズを1からエディターで作成",
+		"download_quizzes_content": "クイズは1つのファイルとしてダウンロードし、いつでもインポートすることができます。 また、クイズを他のClassQuizインスタンスに移動することもできます.",
+		"community_driven_content": "ClassQuizは、資金調達、テストアイデア、機能リクエスト、翻訳などのコミュニティに依存しています。 あなたもClassQuizコミュニティの一員になることもできます!",
+		"how_does_classquiz_work": "ClassQuizはどのように機能しますか?",
+		"no_player_limit": "プレーヤーの制限なし",
+		"no_player_limit_content": "ClassQuizは意図的なプレーヤーの上限はありません。 理論的には1000人以上のプレーヤーが同じクイズを再生することができます。但し1つのクイズにつき最大300人でテストされています.",
+		"check_if_chosen_wisely": "賢く選んだら、チェック",
+		"list_winners": "受賞者一覧",
+		"why_classquiz": "なぜ ClassQuizなのか",
+		"self_hostable_content": "ClassQuizは簡単にセルフホストすることができます。つまりデータはあなたがだけが管理できます!",
+		"user_friendly_content": "ClassQuizはシンプルであることを目指しているので、誰もが使うことができます.",
+		"quiz_results_downloadable_content": "Quiz-resultsはExcelスプレッドシートに簡単にエクスポートできます.",
+		"multilingual_content": "ClassQuizは、英語、フランス語、ドイツ語、イタリア語、ノルウェー語（ブークモール）、トルコ語、一部インドネシア語、カタロニア語で利用できます。",
+		"multilingual": "多言語に対応",
+		"dark_mode": "ダークモード",
+		"no_tracking_content": "他のサイトではユーザーを追跡し、第三者に情報を送信することがありますが、ClassQuizでは一切送信しません。",
+		"play_quiz": "2. クイズを遊ぶ",
+		"find_or_explore": "他のユーザーが作成またはインポートしたクイズを検索（または探索）"
+	},
+	"edit_page": {
+		"success_update_title": "クイズを更新しました.",
+		"success_update_body": "だれでも不満を期待しません."
+	},
+	"create_page": {
+		"success": {
+			"title": "作成したクイズ.",
+			"body": "ゲームを始めましょう."
+		}
+	},
+	"login_page": {
+		"modal": {
+			"error": {
+				"description": {
+					"unexpected": "古い予期しないエラーがあった!",
+					"wrong_creds": "パスワードとメールアドレスが正しいことを確認してください."
+				},
+				"wrong_creds": "メールアドレスまたはパスワードが間違っています.",
+				"unexpected": "予期しないエラーが発生しました！"
+			},
+			"success": {
+				"description": {
+					"success_check_mail": "リンクからログインして、メールの受信トレイを確認してください.",
+					"success": "ログインしました。"
+				},
+				"success": "ログインしました。",
+				"success_check_mail": "ログインしてメールの受信トレイを確認して"
+			}
+		},
+		"use_backup_code": "バックアップコードを使用する",
+		"login_or_create_account": "ログインまたはアカウントを作成する",
+		"already_have_account": "アカウントを持っていませんか？",
+		"email_or_username": "メールアドレスまたはユーザー名",
+		"welcome_back": "おかえりなさい。"
+	},
+	"import_page": {
+		"download_template_here": "テンプレートをダウンロード",
+		"classquiz_quiz": "ClassQuizクイズ",
+		"upload_file_ending": ".cqa または .xlsx で終わるファイルをアップロードする",
+		"this_side_classquiz": "ここでは、ClassQuizからエクスポートされたクイズをインポートできます.",
+		"need_help": "ヘルプが必要？",
+		"a_kahoot_quiz": "Kahoot! のクイズ"
+	},
+	"admin_page": {
+		"already_registered_as_admin": "すでにこのゲームには登録済みの管理者がいます.",
+		"get_results": "結果を得る",
+		"show_next_question": "次の質問を表示",
+		"no_answers": "回答なし!",
+		"stop_time": "停止時間",
+		"enter_answer_into_field": "入力欄に回答を入力してください!",
+		"request_export_results": "リクエスト結果のダウンロード",
+		"export_results": "エクスポート結果",
+		"start_game": "ゲーム開始",
+		"get_results_and_stop_time": "結果を取得し、時間を停止する",
+		"get_final_results": "最終結果を得る",
+		"start_by_showing_first_question": "最初の質問を表示し始めます.",
+		"next_question": "次の質問 ({{question}})",
+		"show_results": "結果を表示",
+		"stop_time_and_solutions": "時間を停止し、解決を示す",
+		"answers_submitted": "{{answer_count}} 提出された回答",
+		"time_left": "時間切れ",
+		"save_results": "結果を保存",
+		"download_export_results": "結果をダウンロード"
+	},
+	"settings_page": {
+		"delete_this_session": "このセッションを削除",
+		"this_session?": "このセッションは?",
+		"change_avatar": "アバターの変更",
+		"last_seen": "最終確認",
+		"add_api_key": "APIキーの追加",
+		"old_password": "古いパスワード",
+		"repeat_password": "パスワードを再入力",
+		"new_password": "新しいパスワード",
+		"security_settings": "セキュリティ設定"
+	},
+	"explore_page": {
+		"made_by": "作者:"
+	},
+	"play_page": {
+		"1st_place": "第1位",
+		"2nd_place": "第2位",
+		"3rd place": "第3位",
+		"with_out_of": "{{total_question_count}}問中 {{correct_questions}} 問",
+		"your_score": "あなたのスコア: {{score}}",
+		"your_place": "あなたは第 {{place}}位!",
+		"join_by_entering_code": "以下のコードを入力してください",
+		"points_added": "ポイント追加",
+		"players_waiting_one": "{{count}} 人が待機中",
+		"players_waiting_other": "{{count}} 人が待機中",
+		"final_result_rank": "{{place}}: {{username}} は {{points}} ポイント獲得",
+		"join_description": "{{url}} から参加し、{{pin}}を入力。"
+	},
+	"editor_page": {
+		"add_an_answer": "回答を追加する",
+		"right_click_to_delete": "右クリックで回答削除!"
+	},
+	"footer": {
+		"more_details_here": "詳細はこちら",
+		"self_ads": "{{mawoka_link}} と {{others_link}} の助けを借りて ❤️ で作られました."
+	},
+	"uploader": {
+		"upload_video": "アップロードされた動画",
+		"images_by_pixabay": "Pixabayが提供する画像",
+		"search_english_only": "検索は英語のみ機能",
+		"select_upload_type": "アップロードタイプを選択",
+		"upload_a_video": "動画をアップロード",
+		"upload_video_popup_notice": "ポップアップが開きます。 詳細については、それを見てください",
+		"next_page": "次のページ",
+		"add_image": "メディアを追加",
+		"previous_page": "ページプレビュー"
+	},
+	"avatar_settings": {
+		"skin_color": "肌の色",
+		"hair_color": "髪の色",
+		"hat_color": "帽子の色",
+		"clothe_color": "衣装の色",
+		"clothe_type": "服装",
+		"mouth_type": "口",
+		"eyebrow_type": "眉",
+		"accessories_type": "メガネ"
+	},
+	"results_page": {
+		"date_played": "プレイされた日付",
+		"quiz_title": "クイズタイトル",
+		"player_count": "プレイヤー数"
+	},
+	"overview_page": {
+		"created_at": "によって作成されました",
+		"question_count": "質問のカウント",
+		"no_quizzes": "「作成」ボタンをクリックするか、クイズをインポートして下さい."
+	},
+	"words": {
+		"game_pin": "ゲーム番号",
+		"backup_code": "バックアップコード",
+		"quiz": "クイズ",
+		"video": "動画",
+		"analytics": "分析",
+		"player_one": "プレイヤー",
+		"login": "ログイン",
+		"answer_one": "答え",
+		"features": "意味",
+		"password": "パスワード",
+		"play": "プレイ",
+		"edit": "編集",
+		"delete": "削除",
+		"start": "開始",
+		"import": "インポート",
+		"submit": "送信",
+		"title": "タイトル",
+		"connect": "接続",
+		"pin": "番号",
+		"kick": "追放",
+		"register": "登録",
+		"docs": "文章",
+		"save": "保存",
+		"repeat_password": "パスワードを再入力",
+		"overview": "概要",
+		"report": "報告",
+		"explore": "探索",
+		"screenshot_one": "スクリーンショット",
+		"browser": "ブラウザ",
+		"view_other": "観覧",
+		"correct": "正解",
+		"result_one": "結果",
+		"multiple_choice": "複数選択",
+		"question_other": "問題",
+		"other_other": "その他",
+		"practice": "練習",
+		"error": "エラー",
+		"voting": "投票",
+		"results": "結果",
+		"note": "メモ",
+		"player_other": "プレイヤー",
+		"continue": "続ける",
+		"totp": "ワンタイムパスワード",
+		"text": "テキスト",
+		"update": "更新",
+		"point_other": "点",
+		"selected": "選択済み",
+		"select": "選択",
+		"finish": "終了",
+		"next": "次",
+		"check_choice": "チェック選択",
+		"speed": "速度",
+		"upload": "アップロード",
+		"answer_other": "答え",
+		"yes": "はい",
+		"no": "いいえ",
+		"rating": "ランキング",
+		"like_other": "いいね",
+		"dislike_one": "低評価",
+		"private": "非公開",
+		"create": "作成",
+		"close": "閉じる",
+		"question_one": "問題",
+		"email": "電子メールアドレス",
+		"username": "ユーザー名",
+		"public": "公開",
+		"logout": "ログアウト",
+		"version": "バージョン",
+		"unknown": "不明",
+		"score": "点数",
+		"name": "名前",
+		"point_one": "点",
+		"back": "戻る",
+		"settings": "設定",
+		"view_one": "観覧",
+		"result_other": "結果",
+		"dashboard": "ダッシュボード",
+		"other_one": "その他",
+		"donating": "寄付",
+		"find": "見つける",
+		"download": "ダウンロード",
+		"description": "説明",
+		"url": "URL",
+		"image": "画像",
+		"search": "検索",
+		"screenshot_other": "スクリーンショット",
+		"slide": "スライド",
+		"like_one": "いいね",
+		"dislike_other": "よくないね",
+		"range": "範囲",
+		"stats": "統計",
+		"count": "カウント",
+		"order": "注文",
+		"never": "しない",
+		"library": "ライブラリ",
+		"progress": "進捗",
+		"info": "情報",
+		"normal": "普通"
+	},
+	"search_page": {
+		"at_least_3_characters": "少なくとも3文字を入力してください.",
+		"nothing_here": "ここには何もない..."
+	},
+	"dashboard": {
+		"search_for_own_quizzes": "あなた自身のクイズを検索",
+		"commandpalette_notice": "<kbd>Ctr</kbd>+<kbd>k</kbd>または<kbd>Meta</kbd>+<kbd>k</kbd>を押してコマンドパレットを開く"
+	},
+	"editor": {
+		"add_new_answer": "新しい答えを追加",
+		"add_new_question": "新しい質問を追加",
+		"delete_question": "質問を削除",
+		"no_title": "無題…",
+		"bg_image": "背景の画像",
+		"abcd_description": "1つの答えしか選べません",
+		"text_description": "プレイヤーはテキストを入力できる",
+		"enter_answer": "答えを入力",
+		"delete_answer": "答えを削除",
+		"empty": "空…",
+		"slide": {
+			"text": "テキスト",
+			"headline_description": "見出し用太文字",
+			"headline": "見出し",
+			"rectangle": "矩形"
+		},
+		"need_more_help": "もっとヘルプが必要？",
+		"time_in_seconds": "記録間隔（秒）",
+		"right_or_true?": "ねえ…？"
+	},
+	"result_page": {
+		"custom_field": "カスタム欄",
+		"correct_answer_one": "{{count}}問正解",
+		"correct_answer_other": "{{count}}問正解",
+		"player_name": "プレイヤー名",
+		"average_score": "平均点数: {{average_score}}",
+		"player_score": "プレイヤー点数"
+	},
+	"register_page": {
+		"greeting": "はじめまして！",
+		"forgot_password?": "パスワードを忘れた？",
+		"already_have_account?": "既にアカウントを持っていますか？",
+		"create_account": "アカウントを作成"
+	},
+	"password_reset_page": {
+		"reset_password": "パスワードをリセット"
+	},
+	"controllers": {
+		"add_new_controller": "新しいコントローラーを追加",
+		"player_name": "プレイヤー名",
+		"controller_name": "コントローラー名"
+	}
+}

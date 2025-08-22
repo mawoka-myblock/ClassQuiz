@@ -79,9 +79,9 @@ def verify_webauthn(data, fidocredentialss: list[FidoCredentials], login_session
         print("user_cred not in DB")
         raise HTTPException(401)
     credential.id = base64.urlsafe_b64encode(credential.raw_id).decode("utf-8").replace("=", "")
-    credential.response.client_data_json = base64.b64decode(credential.response.client_data_json + b"==")
-    credential.response.authenticator_data = base64.urlsafe_b64decode(credential.response.authenticator_data + b"==")
-    credential.response.signature = base64.urlsafe_b64decode(credential.response.signature + b"==")
+    credential.response.client_data_json = credential.response.client_data_json
+    credential.response.authenticator_data = credential.response.authenticator_data
+    credential.response.signature = credential.response.signature
     try:
         verify_authentication_response(
             credential=credential,

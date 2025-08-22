@@ -1,0 +1,482 @@
+{
+	"result_page": {
+		"correct_answer_other": "{{count}} câu trả lời đúng",
+		"player_score": "Điểm số",
+		"correct_answer_one": "{{count}} câu trả lời đúng",
+		"time_taken": "Thời gian làm",
+		"player_name": "Tên người chơi",
+		"average_score": "Điểm trung bình: {{average_score}}",
+		"custom_field": "Trường tùy chỉnh"
+	},
+	"register_page": {
+		"create_account": "Tạo tài khoản",
+		"greeting": "Rất hân hạnh được gặp bạn!",
+		"forgot_password?": "Quên mật khẩu?",
+		"already_have_account?": "Bạn đã có tài khoản?"
+	},
+	"words": {
+		"delete": "Xóa",
+		"import": "Nhập",
+		"public": "Công khai",
+		"upload": "Tải lên",
+		"player_other": "Người chơi",
+		"next": "Tiếp theo",
+		"totp": "OTP",
+		"score": "Điểm số",
+		"analytics": "Phân tích",
+		"no": "No",
+		"speed": "Tốc độ",
+		"play_one": "Bắt đầu",
+		"email": "Địa chỉ E-mail",
+		"backup_code": "Mã dự phòng",
+		"question_one": "Câu hỏi",
+		"files_library": "Thư viện Files",
+		"check_choice": "Chọn lựa",
+		"start": "Bắt đầu",
+		"voting": "Bỏ phiếu",
+		"pin": "PIN",
+		"point_one": "Điểm",
+		"docs": "Tài liệu hướng dẫn",
+		"description": "Mô tả",
+		"settings": "Cài đặt",
+		"features": "Tính năng",
+		"other_one": "Khác",
+		"title": "Tiêu đề",
+		"text": "Văn bản",
+		"register": "Đăng ký",
+		"username": "Tên truy cập",
+		"practice": "Luyện tập",
+		"find": "Tìm",
+		"private": "Riêng tư",
+		"answer_other": "Trả lời",
+		"version": "Phiên bản",
+		"update": "Cập nhật",
+		"download": "Tải xuống",
+		"slide": "Trang trình bày",
+		"repeat_password": "Lặp lại mật khẩu",
+		"kick": "Đuổi",
+		"url": "Địa chỉ URL",
+		"explore": "Khám phá",
+		"close": "Đóng",
+		"error": "Lỗi",
+		"play_other": "Bắt đầu",
+		"rating": "Đánh giá",
+		"video": "Video",
+		"browser": "Duyệt",
+		"stats": "Thống kê",
+		"password": "Mật khẩu",
+		"donating": "Ủng hộ",
+		"save": "Lưu",
+		"note": "Ghi chú",
+		"order": "Order ( Hàng đợi)",
+		"dislike_other": "Không thích",
+		"multiple_choice": "Nhiều lựa chọn",
+		"info": "Thông tin",
+		"question_other": "Các câu hỏi",
+		"results": "Kết quả",
+		"view_other": "Lượt xem",
+		"yes": "Yes (OK)",
+		"point_other": "Điểm",
+		"continue": "Tiếp tục",
+		"game_pin": "Game PIN (Mã game)",
+		"like_one": "Thích",
+		"dislike_one": "Không thích",
+		"search": "Tìm kiếm",
+		"progress": "Tiến hành",
+		"select": "Lựa chọn",
+		"screenshot_one": "Chụp màn hình",
+		"correct": "Chính xác",
+		"like_other": "Yêu thích",
+		"screenshot_other": "Ảnh chụp màn hình",
+		"view_one": "Hiển thị",
+		"name": "Tên",
+		"answer_one": "Trả lời",
+		"other_other": "Khác",
+		"count": "Số lượng",
+		"login": "Đăng nhập",
+		"create": "Tạo",
+		"report": "Báo cáo",
+		"quiztivity": "Kiểm tra tính sáng tạo",
+		"library": "Thư viện",
+		"finish": "Hoàn thành",
+		"normal": "Bình thường",
+		"selected": "Đã chọn",
+		"result_one": "Kết quả",
+		"unknown": "Không rõ",
+		"dashboard": "Bảng phân tích",
+		"back": "Quay lại",
+		"edit": "Chỉnh sửa",
+		"overview": "Tổng quan",
+		"image": "Hình ảnh",
+		"result_other": "Kết quả",
+		"submit": "Gửi",
+		"never": "Không bao giờ",
+		"connect": "Kết nối",
+		"quiz": "Quiz ( Trắc nghiệm)",
+		"range": "Khoảng",
+		"logout": "Đăng xuất",
+		"player_one": "Người chơi"
+	},
+	"edit_page": {
+		"success_update_body": "Không ai mong đợi sự điều tra này.",
+		"success_update_title": "Câu hỏi đã được cập nhật."
+	},
+	"index_page": {
+		"quiz_results_downloadable": "Có thể tải xuống kết quả",
+		"slogan": "Nền tảng trắc nghiệm mã nguồn mở quiz-platform!",
+		"completely_free": "Hoàn toàn miễn phí",
+		"how_does_classquiz_work": "Làm thế nào ClassQuiz hoạt động?",
+		"select_answer": "Chọn đáp án",
+		"user_friendly": "Dễ dàng sử dụng",
+		"no_tracking": "Không theo dõi",
+		"find_or_explore": "Tìm (hoặc khám phá) các câu hỏi được tạo hoặc nhập bởi những người khác",
+		"completely_free_content": "ClassQuiz hoàn toàn miễn phí (đối với người dùng), không có bất kỳ gói trả phí nào hoặc các chuyển hướng phiền phức đến trang nâng cấp. Chúng tôi rất đánh giá các đóng góp.",
+		"stats": "Hiện đã có {{user_count}} người dùng và {{quiz_count}} bài kiểm tra trên ClassQuiz.",
+		"see_how_many_true_and_false": "Xem có bao nhiêu câu đúng hoặc sai",
+		"download_quizzes": "Tải xuống Bài trắc nghiệm",
+		"dark_mode_content": "Một trong những tính năng quan trọng nhất mà một trang web có thể có!",
+		"multilingual": "Đa ngôn ngữ",
+		"community_driven_content": "ClassQuiz phụ thuộc vào cộng đồng của mình để có nguồn tài trợ, thử nghiệm ý tưởng, yêu cầu tính năng, dịch thuật và nhiều hoạt động khác! Bạn cũng có thể trở thành một phần của cộng đồng ClassQuiz!",
+		"get_a_quiz": "Tạo câu hỏi trắc nghiệm",
+		"quiz_results_downloadable_content": "Kết quả cuộc thi có thể dễ dàng được xuất ra một bảng tính Excel. (Không biết người khác không thể làm điều đó)",
+		"view_results": "Xem kết quả",
+		"choose_answer_wisely": "Hãy chọn câu trả lời của bạn một thận trọng",
+		"no_player_limit": "Không giới hạn người tham gia",
+		"self_hostable_content": "ClassQuiz có thể dễ dàng tự lưu trữ, vì vậy dữ liệu chỉ nằm trong sự kiểm soát của bạn!",
+		"german_server_content": "ClassQuiz có máy chủ đặt tại Đức và được lưu trữ bởi netcup.",
+		"get_ranking_and_winners": "Xem bảng xếp hạng và ai đã chiến thắng",
+		"meta": {
+			"description": "ClassQuiz là một ứng dụng trắc nghiệm để học một cách tương tác dành cho học sinh, và nó là mã nguồn mở và miễn phí để sử dụng",
+			"title": "Trang chủ"
+		},
+		"no_player_limit_content": "ClassQuiz không có giới hạn số người chơi tự động. Lý thuyết, có thể có hơn 1000 người chơi cùng tham gia một bài kiểm tra, nhưng nó đã được thử nghiệm với tối đa 300 người chơi mỗi bài kiểm tra.",
+		"list_winners": "Danh sách người chiến thắng",
+		"students_site": "Trang dành cho học sinh",
+		"self_hostable": "Có thể tự lưu trữ",
+		"see_what_true_and_false": "Xem điều gì là đúng hoặc sai",
+		"german_server": "Máy chủ ở Đức",
+		"create_a_quiz_from_scratch": "Tạo câu hỏi trắc nghiệm từ đầu với trình chỉnh sửa và bao gồm hình ảnh và hơn thế nữa",
+		"teachers_site": "Trang dành cho giáo viên",
+		"check_if_chosen_wisely": "Kiểm tra xem bạn đã lựa chọn một cách kỹ càng chưa",
+		"user_friendly_content": "ClassQuiz nhắm vào sự đơn giản, vì vậy nó có thể được sử dụng bởi mọi người.",
+		"create_or_import": "Tạo hoặc Nhập",
+		"no_tracking_content": "Người khác theo dõi bạn và gửi thông tin đó cho bên thứ ba, nhưng ClassQuiz không làm vậy.",
+		"multilingual_content": "ClassQuiz có sẵn bằng tiếng Anh, tiếng Pháp, tiếng Đức, tiếng Ý, tiếng Na Uy Bokmål, tiếng Thổ Nhĩ Kỳ và một phần tiếng Indonesia và tiếng Catalan.",
+		"dark_mode": "Chế độ tối",
+		"why_classquiz": "Tại sao lại là ClassQuiz?",
+		"community_driven": "Do cộng đồng thúc đẩy",
+		"play_quiz": "2. Thi trắc nghiệm",
+		"see_all_quizzes": "Xem tất cả các câu hỏi của bạn",
+		"download_quizzes_content": "Bài kiểm tra có thể được tải về dưới dạng một tập tin và nhập vào bất kỳ lúc nào. Điều này cũng cho phép bạn chuyển bài kiểm tra của mình sang các trường hợp ClassQuiz khác."
+	},
+	"admin_page": {
+		"stop_time_and_solutions": "Dừng thời gian và hiển thị đáp án",
+		"already_registered_as_admin": "Đã có quản trị viên đăng ký cho trò chơi này.",
+		"no_answers": "Không có câu trả lời!",
+		"start_by_showing_first_question": "Bắt đầu bằng cách hiển thị câu hỏi đầu tiên.",
+		"request_export_results": "Yêu cầu tải xuống kết quả",
+		"time_left": "Thời gian còn lại",
+		"show_next_question": "Hiển thị câu hỏi tiếp theo",
+		"stop_time": "Dừng thời gian",
+		"show_results": "Xem kết quả",
+		"save_results": "Lưu kết quả",
+		"enter_answer_into_field": "Nhập câu trả lời của bạn vào ô nhập dữ liệu!",
+		"get_results_and_stop_time": "Nhận kết quả và dừng thời gian",
+		"start_game": "Bắt đầu game",
+		"answers_submitted": "{{answer_count}} Câu trả lời đã được gửi",
+		"download_export_results": "Tải xuống kết quả",
+		"next_question": "Câu hỏi tiếp theo ({{question}})",
+		"get_results": "Xem kết quả",
+		"get_final_results": "Nhận kết quả cuối cùng",
+		"export_results": "Xuất kết quả"
+	},
+	"play_page": {
+		"2nd_place": "Hạng nhì",
+		"join_description": "Tham gia tại {{url}} và nhập {{pin}}.",
+		"1st_place": "Hạng nhất",
+		"points_added": "Điểm cộng",
+		"final_result_rank": "{{place}}: {{username}} với {{points}} điểm",
+		"your_score": "Điểm của bạn: {{score}}",
+		"end_sentence": "Đó là nó! Đây là bài kiểm tra.",
+		"with_out_of": "Với {{correct_questions}} câu trả lời đúng trong tổng số {{total_question_count}} câu hỏi",
+		"3rd place": "Hạng ba",
+		"join_by_entering_code": "Tham gia bằng cách nhập mã sau",
+		"players_waiting_one": "{{count}} người chơi đang chờ",
+		"your_place": "Bạn đang ở {{place}}!",
+		"players_waiting_other": "{{count}} người chơi đang chờ"
+	},
+	"file_dashboard": {
+		"unset": "Bỏ chọn",
+		"filename_word": "Tên file",
+		"imported": "Đã nhập: {{yes_or_no}}",
+		"filename": "Tên file: {{filename}}",
+		"missing": "Không tìm thấy!",
+		"delete_image": "Xóa hình ảnh",
+		"size": "Kích thước: {{size}} MiB",
+		"storage_usage": "Bạn đã sử dụng {{used}} MiB trong tổng số {{total}} MiB dung lượng lưu trữ. Số tiền đó tương đương với {{percent}}% dung lượng lưu trữ của bạn.",
+		"alt_text": "Văn bản thay thế (ernate) / Chú thích",
+		"edit_details": "Chỉnh sửa chi tiết",
+		"uploaded": "Đã tải lên vào: {{date}}",
+		"not_available": "Không khả dụng",
+		"caption": "Chú thích: {{caption}}",
+		"edit_the_image": "Sửa hình ảnh"
+	},
+	"avatar_settings": {
+		"accessories_type": "Kính",
+		"go_back": "Quay lại",
+		"hair_color": "Màu tóc",
+		"clothe_graphic_type": "Đồ hoạ",
+		"facial_hair_type": "Tóc trên mặt",
+		"facial_hair_color": "Màu tóc trên khuôn mặt",
+		"skin_color": "màu da",
+		"clothe_color": "Màu quần áo",
+		"thats_you": "Đó là bạn!",
+		"start_over": "Bắt đầu lại",
+		"clothe_type": "Quần áo",
+		"mouth_type": "Miệng",
+		"top_type": "Top",
+		"eyebrow_type": "Lông mày",
+		"hat_color": "Màu mũ"
+	},
+	"overview_page": {
+		"question_count": "Số lượng câu hỏi",
+		"created_at": "Được tạo vào",
+		"no_quizzes": "Nhấn vào nút \"Tạo\" hoặc nhập một bài kiểm tra để bắt đầu."
+	},
+	"settings_page": {
+		"change_avatar": "Thay đổi hình đại diện",
+		"change_password_submit": "Thay đổi mật khẩu!",
+		"security_settings": "Cài đặt bảo mật",
+		"delete_this_session": "Xóa phiên này",
+		"old_password": "Mật khẩu cũ",
+		"check_location": "Kiểm tra vị trí",
+		"last_seen": "Lần cuối được nhìn thấy",
+		"this_session?": "Phiên này ?",
+		"repeat_password": "Lặp lại mật khẩu",
+		"new_password": "Mật khẩu mới",
+		"add_api_key": "Thêm API key"
+	},
+	"footer": {
+		"donate": "Nếu bạn thấy điều này hữu ích, xin vui lòng ủng hộ {{donate_link}}.",
+		"more_details_here": "Thêm chi tiết",
+		"self_ads": "Tạo bởi ❤️ bởi {{mawoka_link}} và với sự giúp đỡ của {{others_link}}."
+	},
+	"quiztivity": {
+		"editor": {
+			"add_new": "Thêm mới",
+			"move_left": "Sang trái",
+			"shares": {
+				"never_expires": "Không bao giờ hết hạn",
+				"expires_on": "hết hạn vào {{date}}",
+				"add_new_share": "Thêm mới chia sẻ"
+			},
+			"title_placeholder": "Điền tiêu đề ở đây",
+			"delete": "Xóa",
+			"open_shares_menu": "Mở menu Chia sẻ",
+			"select_page_type": "Chọn loại trang",
+			"move_right": "Sang phải"
+		},
+		"share_expired": "Chia sẻ hết hạn",
+		"play": {
+			"memory": {
+				"try_count": "Số lần thử: {{try_count}}"
+			}
+		},
+		"memory": {
+			"editor": {
+				"add_card": "Thêm thẻ",
+				"add_pair": "Thêm cặp",
+				"upload_image": "Tải lên ảnh"
+			}
+		}
+	},
+	"results_page": {
+		"no_results_so_far": "Chưa có kết quả nào được lưu...",
+		"quiz_title": "Tiêu đề Quiz",
+		"player_count": "Số người chơi",
+		"date_played": "Ngày chơi",
+		"general_overview": {
+			"sentence": "Bài kiểm tra \"{{title}}\" được chơi vào ngày {{date}} có {{player_count}} người chơi với điểm trung bình là {{average_score}}."
+		}
+	},
+	"security_settings": {
+		"get_backup_code": "Lấy mã dự phòng",
+		"enable_totp": "Bật TOTP",
+		"disable_totp": "Tắt TOTP",
+		"totp_setup": {
+			"enter_as_secret_if_no_see_code": "Nhập mã này nếu bạn không quét được mã QR",
+			"scan_to_set_up": "Quét mã QR này để thiết lập mã",
+			"totp_setup": "Cài đặt TOTP",
+			"do_not_forget_backup_code": "Đừng quên lưu mã khôi phục của bạn!"
+		},
+		"backup_code": "Mã dự phòng",
+		"2fa_deactivated": "Xác thực 2 lớp đã hủy kích hoạt",
+		"backup_codes": {
+			"download_code": "Tải xuống mã",
+			"your_backup_code": "Mã dự phòng của bạn",
+			"save_somewhere_save": "Hãy lưu cái này vào nơi nào đó an toàn!"
+		},
+		"totp": "TOTP",
+		"totp_unavailable": "TOTP không khả dụng",
+		"2fa_activated": "Xác thực 2 lớp đã kích hoạt",
+		"webauthn": "Webauthn(xác thực Web)",
+		"add_security_key": "Thêm khóa bảo mật",
+		"activate_2fa": "Bật xác thực 2 lớp",
+		"webauthn_unavailable": "Webauthn Không khả dụng",
+		"totp_available": "TOTP khả dụng",
+		"webauthn_available": "Webauthn khả dụng"
+	},
+	"editor": {
+		"delete_answer": "Xóa câu trả lời",
+		"check_choice_description": "Tất cả các câu trả lời đúng phải được chọn cộng điểm",
+		"text_description": "Người chơi có thể nhập văn bản",
+		"order_description": "Các câu trả lời có thể được sắp xếp theo đúng thứ tự",
+		"add_new_answer": "Thêm câu trả lời mới",
+		"need_more_help": "Cần thêm trợ giúp ?",
+		"slide": {
+			"headline": "Tựa đề",
+			"headline_description": "Văn bản đậm cho tiêu đề",
+			"rectangle": "Hình chữ nhật",
+			"rectangle_description": "Chỉ là một hình chữ nhật",
+			"text": "Văn bản",
+			"text_description": "Bản chữ nhỏ hơn dài hơn"
+		},
+		"voting_description": "Câu trả lời không cộng điểm",
+		"enter_answer": "Nhập câu trả lời",
+		"not_all_links_imgur_links": "Không phải tất cả các liên kết đều là liên kết Imgur!",
+		"delete_question": "Xóa câu hỏi",
+		"visit_docs": "Truy cập các tài liệu.",
+		"range_description": "Có thể chọn phạm vi số bằng thanh trượt",
+		"empty": "Trống...",
+		"right_or_true?": "Đúng ?",
+		"abcd_description": "Chỉ có thể chọn một câu trả lời",
+		"time_in_seconds": "Thời gian tính bằng giây",
+		"add_new_question": "Thêm câu hỏi mới",
+		"bg_image": "Hình nền",
+		"no_title": "Không có tiêu đề..."
+	},
+	"controllers": {
+		"last_seen": "thấy lần cuối",
+		"cancel_update": "Dừng cập nhật!",
+		"add_new_controller": "Thêm mới điều khiển",
+		"player_name": "Tên người chơi",
+		"controller_name": "Tên người quản trị",
+		"already_latest_version": "Bạn đã sử dụng phiên bản mới nhất của ứng dụng",
+		"update_from_to": "Cập nhật từ {{current_version}} lên {{newest_version}}",
+		"first_seen": "Lần đầu nhìn",
+		"version_overview": "Phiên bản mới nhất có sẵn là {{newest_version}} và phiên bản {{current_version}} đã được cài đặt."
+	},
+	"view_quiz_page": {
+		"made_by": "Được làm bởi",
+		"view_on_kahoot": "Xem trên bản gốc"
+	},
+	"import_page": {
+		"this_side_classquiz_excel": "Bạn cũng có thể tải lên các tệp excel nếu bạn đã điền vào mẫu sau.",
+		"visit_docs": "Truy cập tài liệu",
+		"download_template_here": "Tải xuống mẫu",
+		"classquiz_quiz": "ClassQuiz-Quiz",
+		"this_side_classquiz": "Ở bên này, bạn có thể nhập các câu hỏi đã được xuất từ ClassQuiz.",
+		"a_kahoot_quiz": "Kahoot!-Quiz",
+		"side_import_kahoot": "Ở bên này, bạn có thể nhập các câu đố trực tiếp trên Kahoot!.",
+		"url_should_look_like_this": "URL sẽ trông như thế này: https://create.kahoot.it/details/...",
+		"need_help": "Cần trợ giúp?",
+		"upload_file_ending": "Tải lên tệp có đuôi .cqa hoặc .xlsx"
+	},
+	"start_game": {
+		"old_school_mode_description": "Các câu hỏi và hình ảnh sẽ được hiển thị trên cả màn hình quản trị viên và màn hình của người chơi",
+		"old_school_mode": "Lớp học kiểu cũ",
+		"start_game": "Bắt đầu game",
+		"captcha_message": "Nếu được bật, ReCaptcha của Google sẽ tải trong trình duyệt của người chơi. Chỉ kích hoạt nếu bạn thực sự cần nó, vì bạn cần có sự đồng ý của MỌI người chơi để tải hình ảnh xác thực.",
+		"normal_mode_description": "Câu hỏi và câu trả lời sẽ chỉ được hiển thị trên màn hình quản trị viên. Người chơi sẽ chỉ có các nút màu có biểu tượng khớp với các nút này trên màn hình quản trị viên."
+	},
+	"login_page": {
+		"use_backup_code": "Sử dụng mã sao lưu",
+		"email_or_username": "Email hoặc tên người dùng",
+		"already_have_account": "Bạn chưa có tài khoản?",
+		"modal": {
+			"error": {
+				"description": {
+					"unexpected": "Đây là lỗi không mong đợi quen thuộc!",
+					"wrong_creds": "Hãy đảm bảo mật khẩu và địa chỉ email của bạn là chính xác."
+				},
+				"wrong_creds": "Địa chỉ email hoặc mật khẩu sai.",
+				"unexpected": "Lỗi không mong đợi!"
+			},
+			"success": {
+				"success": "Đăng nhập thành công.",
+				"description": {
+					"success": "Đăng nhập thành công.",
+					"success_check_mail": "Vui lòng kiểm tra hộp thư điện tử của bạn để xem có một email với một liên kết mà bạn có thể nhấp để đăng nhập."
+				},
+				"success_check_mail": "Đã đăng nhập. Hãy kiểm tra hộp thư email của bạn."
+			}
+		},
+		"login_or_create_account": "Đăng nhập hoặc tạo tài khoản",
+		"welcome_back": "Chào mừng trở lại."
+	},
+	"password_reset_page": {
+		"reset_password": "Đặt lại mật khẩu"
+	},
+	"video_uploader": {
+		"time_remaining": "Thời gian còn lại",
+		"time_elapsed": "Thời gian trôi qua"
+	},
+	"explore_page": {
+		"imported_by": "Được nhập bởi",
+		"made_by": "Được làm bởi"
+	},
+	"create_page": {
+		"success": {
+			"title": "Bài kiểm tra đã được tạo.",
+			"body": "Hãy bắt đầu trò chơi."
+		}
+	},
+	"error_page": {
+		"unknown_error_text": "Điều đó không nên xảy ra. Có lẽ đó là lỗi của tôi, không phải của bạn, nhưng có thể bạn có một sức mạnh kỳ diệu để phá vỡ mọi thứ...",
+		"404_text": "Trang bạn đang tìm kiếm đã biến mất hoặc thậm chí chưa bao giờ tồn tại. Ai biết?"
+	},
+	"uploader": {
+		"images_by_pixabay": "Hình ảnh được cung cấp bởi Pixabay",
+		"upload_video_popup_notice": "Cửa sổ bật lên đang mở; hãy xem nó để biết thêm thông tin",
+		"add_image": "Thêm media",
+		"select_upload_type": "Chọn loại Upload",
+		"upload_a_video": "Tải lên Video",
+		"next_page": "Trang tiếp theo",
+		"visit_pixabay": "Sử dụng Pixabay",
+		"previous_page": "Trang trước",
+		"search_english_only": "Tìm kiếm chỉ hoạt động bằng tiếng Anh",
+		"upload_video": "Tải lên Video"
+	},
+	"search_page": {
+		"nothing_here": "Không có gì ở đây cả...",
+		"at_least_3_characters": "Nhập ít nhất 3 ký tự..."
+	},
+	"dashboard": {
+		"commandpalette_notice": "Nhấn <kbd>Ctr</kbd>+<kbd>k</kbd> hoặc <kbd>Meta</kbd>+<kbd>k</kbd> để mở bảng lệnh",
+		"views_n_plays": "Xem & chơi",
+		"search_for_own_quizzes": "Tìm kiếm quiz của bạn",
+		"info_analytics": "\"Các lượt chơi\" chỉ hiển thị tần suất mà bài kiểm tra đã được bắt đầu (bao gồm cả bạn), trong khi \"Lượt xem\" đếm tần suất trang \"Xem\" đã được truy cập, vì vậy nó cũng tính cả các bot (xin lỗi vì điều đó)."
+	},
+	"navbar": {
+		"donate": "Ủng hộ"
+	},
+	"editor_page": {
+		"add_an_answer": "Thêm câu trả lời",
+		"right_click_to_delete": "Nhấp chuột phải vào câu trả lời để xóa nó!"
+	},
+	"public_user_page": {
+		"no_original_quizzes": "Người dùng này không có bất kỳ Quiz gốc nào",
+		"joined_on": "Tham gia vào {{date}}",
+		"user_not_found": "Không tìm thấy người dùng"
+	},
+	"components": {
+		"popover": {
+			"copied_to_clipboard": "Đã lưu vào Clipboard!"
+		}
+	},
+	"downloader": {
+		"excel_format": "Định dạng Excel",
+		"help": "Định dạng riêng (.cqa) cũng bao gồm hình ảnh và hỗ trợ mọi loại câu hỏi, trong khi định dạng excel chỉ hỗ trợ các câu hỏi bỏ phiếu và trắc nghiệm.",
+		"select_download_type": "Chọn kiểu tải xuống"
+	}
+}

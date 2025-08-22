@@ -1,0 +1,472 @@
+{
+	"register_page": {
+		"already_have_account?": "Har du allereie ein konto?",
+		"create_account": "Opprett konto",
+		"greeting": "",
+		"forgot_password?": ""
+	},
+	"overview_page": {
+		"created_at": "Oppretta",
+		"question_count": "",
+		"no_quizzes": ""
+	},
+	"login_page": {
+		"welcome_back": "Velkomen attende.",
+		"modal": {
+			"error": {
+				"unexpected": "Uventa feil!",
+				"description": {
+					"unexpected": "",
+					"wrong_creds": ""
+				},
+				"wrong_creds": ""
+			},
+			"success": {
+				"success": "",
+				"description": {
+					"success": "",
+					"success_check_mail": ""
+				},
+				"success_check_mail": ""
+			}
+		},
+		"use_backup_code": "",
+		"email_or_username": "",
+		"already_have_account": "",
+		"login_or_create_account": ""
+	},
+	"words": {
+		"features": "Funksjonar",
+		"question_one": "Spørsmål",
+		"username": "Brukarnamn",
+		"password": "Passord",
+		"play_one": "Spel",
+		"public": "Offentleg",
+		"start": "Start",
+		"email": "E-postadresse",
+		"edit": "Rediger",
+		"delete": "Slett",
+		"import": "",
+		"upload": "",
+		"player_other": "",
+		"next": "",
+		"totp": "",
+		"score": "",
+		"analytics": "",
+		"no": "",
+		"speed": "",
+		"backup_code": "",
+		"files_library": "",
+		"check_choice": "",
+		"voting": "",
+		"pin": "",
+		"point": "",
+		"docs": "",
+		"description": "",
+		"settings": "",
+		"other": "",
+		"title": "",
+		"text": "",
+		"register": "",
+		"practice": "",
+		"find": "",
+		"private": "",
+		"answer_other": "",
+		"version": "",
+		"update": "",
+		"download": "",
+		"slide": "",
+		"repeat_password": "",
+		"kick": "",
+		"url": "",
+		"explore": "",
+		"close": "",
+		"error": "",
+		"play_other": "",
+		"rating": "",
+		"video": "",
+		"browser": "",
+		"stats": "",
+		"donating": "",
+		"save": "",
+		"note": "",
+		"order": "",
+		"dislike_other": "",
+		"multiple_choice": "",
+		"info": "",
+		"question_other": "",
+		"results": "",
+		"view_other": "",
+		"yes": "",
+		"point_other": "",
+		"continue": "",
+		"game_pin": "",
+		"like": "",
+		"dislike": "",
+		"search": "",
+		"progress": "",
+		"select": "",
+		"screenshot": "",
+		"correct": "",
+		"like_other": "",
+		"screenshot_other": "",
+		"view": "",
+		"name": "",
+		"answer": "",
+		"other_other": "",
+		"count": "",
+		"login": "",
+		"create": "",
+		"report": "",
+		"quiztivity": "",
+		"library": "",
+		"finish": "",
+		"normal": "",
+		"selected": "",
+		"result": "",
+		"unknown": "",
+		"dashboard": "",
+		"back": "",
+		"overview": "",
+		"image": "",
+		"result_other": "",
+		"submit": "",
+		"never": "",
+		"connect": "",
+		"quiz": "",
+		"range": "",
+		"logout": ""
+	},
+	"index_page": {
+		"features_description": {
+			"1": "ClassQuiz er ein kvissplatform der du kan laga og handsame kvissar.",
+			"2": "Den viktigaste funksjonen er at du kan importera kvissar frå Kahoot!",
+			"3": "Redigeringsverktyget og mogleheit for å eksportera resultat som Excel-filer er særlege funksjonar å merka seg."
+		},
+		"stats": "Det er allereie {{user_count}} brukarar og {{quiz_count}} kvissar på ClassQuiz.",
+		"see_how_many_true_and_false": "Sjå kor mange som hadde rett eller feil",
+		"see_all_quizzes": "Sjå kvissane dine",
+		"teachers_site": "Læraren si side",
+		"students_site": "Eleven si side",
+		"no_tracking": "Inga sporing",
+		"german_server": "Tjenarmaskin i Tyskland",
+		"user_friendly": "Brukarvenleg",
+		"completely_free": "Heilt gratis",
+		"quiz_results_downloadable": "Du kan lasta ned kvissresultat",
+		"multilingual": "Fleirspråkleg",
+		"get_a_quiz": "1. Vel ein kviss",
+		"find_or_explore": "Finn kvissar laga eller importert av andre",
+		"import_quiz_from_kahoot_and_edit": "Importer ein kviss frå Kahoot! og rediger han i ClassQuiz",
+		"play_quiz": "2. Spel kvissen",
+		"select_answer": "Vel eit svar",
+		"choose_answer_wisely": "Vel med omhug",
+		"view_results": "Sjå resultata",
+		"check_if_chosen_wisely": "Sjekk om du hadde rett",
+		"list_winners": "List opp vinnarane",
+		"why_classquiz": "Kvifor ClassQuiz?",
+		"self_hostable": "Køyr frå eigen vert",
+		"dark_mode": "Mørk drakt",
+		"no_tracking_content": "Kahoot! sporar deg og sender info til tredjepart, det gjer ikkje ClassQuiz.",
+		"slogan": "Den opne kvissplatformen!",
+		"meta": {
+			"description": "ClassQuiz er ein kvissapp som Kahoot! for elever, som har open kjeldekode og er gratis",
+			"title": "Heim"
+		},
+		"see_what_true_and_false": "Sjå kva som er rett og gale",
+		"create_or_import": "Lag eller importer",
+		"create_a_quiz_from_scratch": "Lag ein ny kviss frå botnen av og ta med bilete og meir",
+		"how_does_classquiz_work": "",
+		"completely_free_content": "",
+		"download_quizzes": "",
+		"dark_mode_content": "",
+		"community_driven_content": "",
+		"quiz_results_downloadable_content": "",
+		"self_hostable_content": "",
+		"german_server_content": "",
+		"get_ranking_and_winners": "",
+		"user_friendly_content": "",
+		"multilingual_content": "",
+		"community_driven": "",
+		"download_quizzes_content": ""
+	},
+	"result_page": {
+		"correct_answer_other": "",
+		"player_score": "",
+		"correct_answer": "",
+		"time_taken": "",
+		"player_name": "",
+		"average_score": "",
+		"custom_field": ""
+	},
+	"edit_page": {
+		"success_update_body": "",
+		"success_update_title": ""
+	},
+	"admin_page": {
+		"stop_time_and_solutions": "",
+		"already_registered_as_admin": "",
+		"no_answers": "",
+		"start_by_showing_first_question": "",
+		"request_export_results": "",
+		"time_left": "",
+		"show_next_question": "",
+		"stop_time": "",
+		"show_results": "",
+		"save_results": "",
+		"enter_answer_into_field": "",
+		"get_results_and_stop_time": "",
+		"start_game": "",
+		"answers_submitted": "",
+		"download_export_results": "",
+		"next_question": "",
+		"get_results": "",
+		"get_final_results": ""
+	},
+	"play_page": {
+		"2nd_place": "",
+		"join_description": "",
+		"1st_place": "",
+		"points_added": "",
+		"final_result_rank": "",
+		"your_score": "",
+		"end_sentence": "",
+		"with_out_of": "",
+		"3rd place": "",
+		"join_by_entering_code": ""
+	},
+	"file_dashboard": {
+		"unset": "",
+		"filename_word": "",
+		"imported": "",
+		"filename": "",
+		"missing": "",
+		"delete_image": "",
+		"size": "",
+		"storage_usage": "",
+		"alt_text": "",
+		"edit_details": "",
+		"uploaded": "",
+		"not_available": "",
+		"caption": "",
+		"edit_the_image": ""
+	},
+	"avatar_settings": {
+		"accessories_type": "",
+		"go_back": "",
+		"hair_color": "",
+		"clothe_graphic_type": "",
+		"facial_hair_type": "",
+		"facial_hair_color": "",
+		"skin_color": "",
+		"clothe_color": "",
+		"thats_you": "",
+		"start_over": "",
+		"clothe_type": "",
+		"mouth_type": "",
+		"top_type": "",
+		"eyebrow_type": "",
+		"hat_color": ""
+	},
+	"settings_page": {
+		"change_avatar": "",
+		"change_password_submit": "",
+		"security_settings": "",
+		"delete_this_session": "",
+		"old_password": "",
+		"check_location": "",
+		"last_seen": "",
+		"this_session?": "",
+		"repeat_password": "",
+		"new_password": "",
+		"add_api_key": ""
+	},
+	"footer": {
+		"donate": "",
+		"more_details_here": "",
+		"self_ads": ""
+	},
+	"quiztivity": {
+		"editor": {
+			"add_new": "",
+			"move_left": "",
+			"shares": {
+				"never_expires": "",
+				"expires_on": "",
+				"add_new_share": ""
+			},
+			"title_placeholder": "",
+			"delete": "",
+			"open_shares_menu": "",
+			"select_page_type": "",
+			"move_right": ""
+		},
+		"share_expired": "",
+		"play": {
+			"memory": {
+				"try_count": ""
+			}
+		},
+		"memory": {
+			"editor": {
+				"add_card": "",
+				"add_pair": "",
+				"upload_image": ""
+			}
+		}
+	},
+	"results_page": {
+		"no_results_so_far": "",
+		"quiz_title": "",
+		"player_count": "",
+		"date_played": "",
+		"general_overview": {
+			"sentence": ""
+		}
+	},
+	"security_settings": {
+		"get_backup_code": "",
+		"enable_totp": "",
+		"disable_totp": "",
+		"totp_setup": {
+			"enter_as_secret_if_no_see_code": "",
+			"scan_to_set_up": "",
+			"totp_setup": "",
+			"do_not_forget_backup_code": ""
+		},
+		"backup_code": "",
+		"2fa_deactivated": "",
+		"backup_codes": {
+			"download_code": "",
+			"your_backup_code": "",
+			"save_somewhere_save": ""
+		},
+		"totp": "",
+		"totp_unavailable": "",
+		"2fa_activated": "",
+		"webauthn": "",
+		"add_security_key": "",
+		"activate_2fa": "",
+		"webauthn_unavailable": "",
+		"totp_available": "",
+		"webauthn_available": ""
+	},
+	"editor": {
+		"delete_answer": "",
+		"check_choice_description": "",
+		"text_description": "",
+		"order_description": "",
+		"add_new_answer": "",
+		"slide": {
+			"headline": "",
+			"headline_description": "",
+			"rectangle": "",
+			"rectangle_description": "",
+			"text": "",
+			"text_description": ""
+		},
+		"voting_description": "",
+		"not_all_links_imgur_links": "",
+		"delete_question": "",
+		"range_description": "",
+		"empty": "",
+		"right_or_true?": "",
+		"abcd_description": "",
+		"time_in_seconds": "",
+		"add_new_question": "",
+		"bg_image": "",
+		"no_title": ""
+	},
+	"controllers": {
+		"last_seen": "",
+		"cancel_update": "",
+		"add_new_controller": "",
+		"player_name": "",
+		"controller_name": "",
+		"already_latest_version": "",
+		"update_from_to": "",
+		"first_seen": "",
+		"version_overview": ""
+	},
+	"view_quiz_page": {
+		"made_by": "",
+		"view_on_kahoot": ""
+	},
+	"import_page": {
+		"this_side_classquiz_excel": "",
+		"visit_docs": "",
+		"download_template_here": "",
+		"classquiz_quiz": "",
+		"this_side_classquiz": "",
+		"a_kahoot_quiz": "",
+		"side_import_kahoot": "",
+		"url_should_look_like_this": "",
+		"need_help": "",
+		"upload_file_ending": ""
+	},
+	"start_game": {
+		"old_school_mode_description": "",
+		"old_school_mode": "",
+		"start_game": "",
+		"captcha_message": "",
+		"normal_mode_description": ""
+	},
+	"password_reset_page": {
+		"reset_password": ""
+	},
+	"video_uploader": {
+		"time_remaining": "",
+		"time_elapsed": ""
+	},
+	"explore_page": {
+		"imported_by": "",
+		"made_by": ""
+	},
+	"create_page": {
+		"success": {
+			"title": "",
+			"body": ""
+		}
+	},
+	"error_page": {
+		"unknown_error_text": "",
+		"404_text": ""
+	},
+	"uploader": {
+		"images_by_pixabay": "",
+		"upload_video_popup_notice": "",
+		"add_image": "",
+		"select_upload_type": "",
+		"upload_a_video": "",
+		"next_page": "",
+		"visit_pixabay": "",
+		"previous_page": "",
+		"search_english_only": "",
+		"upload_video": ""
+	},
+	"search_page": {
+		"nothing_here": "",
+		"at_least_3_characters": ""
+	},
+	"dashboard": {
+		"commandpalette_notice": "",
+		"views_n_plays": "",
+		"search_for_own_quizzes": "",
+		"info_analytics": ""
+	},
+	"navbar": {
+		"donate": ""
+	},
+	"editor_page": {
+		"add_an_answer": "",
+		"right_click_to_delete": ""
+	},
+	"public_user_page": {
+		"no_original_quizzes": "",
+		"joined_on": ""
+	},
+	"components": {
+		"popover": {
+			"copied_to_clipboard": ""
+		}
+	}
+}

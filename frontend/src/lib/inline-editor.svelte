@@ -5,7 +5,19 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import BalloonEditor from '@ckeditor/ckeditor5-build-balloon';
+	import {
+		BalloonEditor,
+		Essentials,
+		Autoformat,
+		Bold,
+		Italic,
+		Paragraph,
+		TextTransformation,
+		Superscript,
+		Subscript,
+		Strikethrough
+	} from 'ckeditor5';
+	import 'ckeditor5/ckeditor5.css';
 	// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 	// import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js';
 	// import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic.js';
@@ -54,8 +66,26 @@ SPDX-License-Identifier: MPL-2.0
 };*/
 	let editor;
 	onMount(() => {
+		class Editor extends BalloonEditor {
+			static builtinPlugins = [
+				Essentials,
+				Autoformat,
+				Bold,
+				Italic,
+				Paragraph,
+				TextTransformation,
+				Strikethrough,
+				Subscript,
+				Superscript
+			];
+
+			static defaultConfig = {
+				language: 'en'
+			};
+		}
 		// BalloonEditor.builtinPlugins = [Strikethrough]
-		BalloonEditor.create(html_el, {
+		Editor.create(html_el, {
+			licenseKey: 'GPL',
 			// plugins: [Strikethrough],
 			config: {
 				enterMode: BalloonEditor.ENTER_DIV,

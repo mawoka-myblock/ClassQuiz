@@ -66,7 +66,6 @@ SPDX-License-Identifier: MPL-2.0
 			items_to_show = all_items;
 		} else {
 			const res = fuse.search(search_term);
-			console.log(res, 'search_res');
 			items_to_show = [];
 			for (const quiz_data of res) {
 				items_to_show.push(quiz_data.item);

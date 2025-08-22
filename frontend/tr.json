@@ -1,0 +1,473 @@
+{
+	"index_page": {
+		"slogan": "Açık kaynak quiz platformu!",
+		"features_description": {
+			"1": "ClassQuiz quiz oluşturmanıza ve yönetmenize olanak sağlayan bir quiz platformudur.",
+			"2": "Ana özelliği Kahoot! quizlerinden quizleri içe aktarmanıza olanak tanıyan bir Kahoot!-içe aktarma fonksiyonudur.",
+			"3": "Editör ve quiz sonuçlarını Excel dosyaları olarak dışa aktarma fonksiyonu, bu yazılımın önemli özellikleridir."
+		},
+		"meta": {
+			"description": "ClassQuiz, açık kaynak ve kullanması ücretsiz olan, öğrenciler için Kahoot!'a benzer bir quiz uygulamasıdır",
+			"title": "Ana Sayfa"
+		},
+		"stats": "ClassQuiz'de halihazırda {{user_count}} kullanıcı ve {{quiz_count}} quiz vardır.",
+		"create_or_import": "Oluştur veya İçe Aktar",
+		"see_all_quizzes": "Tüm quizlerinizi görün",
+		"teachers_site": "Öğretmen sitesi",
+		"students_site": "Öğrenci sitesi",
+		"see_what_true_and_false": "Neyin doğru veya yanlış olduğunu gör",
+		"see_how_many_true_and_false": "Kaç tanesinin doğru veya yanlış olduğunu gör",
+		"dark_mode": "Karanlık Mod",
+		"german_server_content": "ClassQuiz sunucuları Almanya'dadır ve netcup tarafından sağlanır.",
+		"why_classquiz": "Neden ClassQuiz?",
+		"view_results": "Sonuçları gör",
+		"completely_free": "Tamamen Ücretsiz",
+		"quiz_results_downloadable": "Quiz sonuçları indirilebilir",
+		"multilingual": "Çok dilli",
+		"no_tracking_content": "Kahoot! sizi takip eder ve bu bilgiyi üçüncü taraflara gönderir ama ClassQuiz bunu yapmaz.",
+		"german_server": "Alman Sunucusu",
+		"user_friendly": "Kullanıcı Dostu",
+		"list_winners": "Kazananları listele",
+		"get_ranking_and_winners": "Sıralamayı al ve kimin kazandığını gör",
+		"select_answer": "Cevabı seç",
+		"choose_answer_wisely": "Cevabını akıllıca seç",
+		"import_quiz_from_kahoot_and_edit": "Kahoot! sitesinden bir quizi içeri aktar ve ClassQuiz'de düzenle",
+		"play_quiz": "2. Quizi oyna",
+		"check_if_chosen_wisely": "Akıllıca seçip seçmediğini kontrol et",
+		"completely_free_content": "ClassQuiz, herhangi bir paralı plan veya yükseltme sayfasına rahatsız edici yönlendirmeler olmaksızın tamamen ücretsizdir (kullanıcı için). Bağışlar oldukça makbule geçer.",
+		"quiz_results_downloadable_content": "Quiz sonuçları kolayca bir Excel tablosuyla dışarı aktarılabilir. (Diğerlerinin bunu yapamadığını bilmiyordum)",
+		"multilingual_content": "ClassQuiz Türkçe, İngilizce, Fransızca, Almanca ve Norveççe (Bokmål) dillerinde mevcuttur. Ayrıca Endonezce ve Katalanca dillerinde de kısmen mevcuttur.",
+		"find_or_explore": "Başkaları tarafından yapılmış veya içe aktarılmış quizleri bul (veya keşfet)",
+		"no_tracking": "Takip Yok",
+		"self_hostable_content": "ClassQuiz kolayca self-hostlanabilir, yani veri sadece sizin kontrolünüz altındadır!",
+		"user_friendly_content": "ClassQuiz basit olmayı hedefler, dolayısıyla herkes tarafından kullanılabilir.",
+		"self_hostable": "Self-Host Edilebilir",
+		"get_a_quiz": "1. Quiz bul",
+		"create_a_quiz_from_scratch": "Editörle sıfırdan bir quiz oluştur, resimleri ve daha fazlasını ekle",
+		"dark_mode_content": "Bir sitenin sahip olabileceği en önemli özelliklerden biri!",
+		"community_driven_content": "ClassQuiz fonlama, fikirleri test etme, özellik istekleri, çeviriler ve daha fazlası için kendi topluluğuna bağlıdır! Siz de ClassQuiz topluluğunun bir parçası olabilirsiniz!",
+		"community_driven": "Topluluk güdümlü",
+		"download_quizzes": "Quizleri İndir",
+		"download_quizzes_content": "Quizler bir dosya olarak indirilebilir ve her zaman içe aktarılabilir. Bu ayrıca quizlerinizi diğer ClassQuiz sunucularına taşımanıza da olanak sağlar.",
+		"how_does_classquiz_work": "ClassQuiz nasıl çalışıyor?"
+	},
+	"login_page": {
+		"already_have_account": "Bir hesabınız yok mu?",
+		"login_or_create_account": "Giriş yap veya bir hesap oluştur",
+		"modal": {
+			"success": {
+				"description": {
+					"success": "Giriş yapıldı.",
+					"success_check_mail": "Giriş yapmak için tıklayabileceğiniz bir bağlantı içeren bir e-posta için lütfen e-postanızın gelen kutusunu kontrol edin."
+				},
+				"success": "Giriş yapıldı.",
+				"success_check_mail": "Giriş yapıldı. E-postanızın gelen kutusunu kontrol edin."
+			},
+			"error": {
+				"unexpected": "Beklenmedik hata!",
+				"wrong_creds": "Yanlış e-posta adresi veya şifre.",
+				"description": {
+					"unexpected": "Burada güvenilir beklenmedik hata vardı!",
+					"wrong_creds": "Lütfen şifrenizin ve e-posta adresinin doğru olduğundan emin olun."
+				}
+			}
+		},
+		"welcome_back": "Tekrar hoş geldiniz.",
+		"use_backup_code": "Yedek kod kullanın",
+		"email_or_username": "E-posta veya Kullanıcı Adı"
+	},
+	"words": {
+		"answer_one": "Cevap",
+		"question_one": "Soru",
+		"browser": "Tarayıcı",
+		"login": "Giriş yap",
+		"email": "E-posta adresi",
+		"username": "Kullanıcı adı",
+		"password": "Şifre",
+		"title": "Başlık",
+		"url": "URL",
+		"submit": "Gönder",
+		"connect": "Bağlan",
+		"pin": "PIN",
+		"register": "Kaydol",
+		"edit": "Düzenle",
+		"delete": "Sil",
+		"public": "Herkese açık",
+		"start": "Başlat",
+		"create": "Oluştur",
+		"import": "İçe Aktar",
+		"logout": "Çıkış yap",
+		"stats": "İstatistikler",
+		"features": "Özellikler",
+		"play_one": "Oyna",
+		"kick": "Çıkar",
+		"docs": "Dokümanlar",
+		"close": "Kapat",
+		"save": "Kaydet",
+		"description": "Açıklama",
+		"view_one": "Gör",
+		"overview": "Özet",
+		"explore": "Keşfet",
+		"search": "Ara",
+		"screenshot_one": "Ekran Görüntüsü",
+		"screenshot_other": "Ekran Görüntüleri",
+		"image": "Resim",
+		"settings": "Ayarlar",
+		"repeat_password": "Şifreyi tekrarla",
+		"report": "Bildir",
+		"correct": "Doğru",
+		"result_one": "Sonuç",
+		"result_other": "Sonuçlar",
+		"count": "Sayı",
+		"range": "Aralık",
+		"multiple_choice": "Çoktan Seçmeli",
+		"private": "Gizli",
+		"dashboard": "Panel",
+		"question_other": "Sorular",
+		"other_one": "diğer",
+		"other_other": "diğerleri",
+		"donating": "bağış yapma",
+		"game_pin": "Oyun Kodu",
+		"voting": "Oylama",
+		"error": "Hata",
+		"practice": "Alıştırma",
+		"find": "Bul",
+		"download": "İndir",
+		"answer_other": "Cevaplar",
+		"yes": "Evet",
+		"no": "Hayır",
+		"normal": "Normal",
+		"continue": "Devam Et",
+		"backup_code": "Yedek Kod",
+		"totp": "TOTP",
+		"text": "Metin",
+		"finish": "Bitir",
+		"order": "Sıralama",
+		"results": "Sonuçlar",
+		"note": "Not",
+		"player_other": "Oyuncular",
+		"score": "Skor",
+		"name": "Ad",
+		"back": "Geri",
+		"point_one": "Puan",
+		"point_other": "Puanlar",
+		"slide": "Slayt",
+		"quiz": "Quiz",
+		"next": "Sonraki",
+		"check_choice": "Seçeneği İşaretle",
+		"select": "Seç",
+		"selected": "Seçilmiş",
+		"quiztivity": "Quiz Aktivitesi",
+		"library": "Kütüphane",
+		"speed": "Hız",
+		"upload": "Yükle",
+		"video": "Video",
+		"files_library": "Dosya Kütüphanesi",
+		"progress": "İlerleme",
+		"analytics": "",
+		"version": "",
+		"update": "",
+		"play_other": "",
+		"rating": "",
+		"dislike_other": "",
+		"info": "",
+		"view_other": "",
+		"like": "",
+		"dislike": "",
+		"like_other": "",
+		"unknown": "",
+		"never": ""
+	},
+	"register_page": {
+		"create_account": "Hesap oluştur",
+		"forgot_password?": "Şifreni mi unuttun?",
+		"already_have_account?": "Halihazırda bir hesabın var mı?",
+		"greeting": "Tanıştığımıza memnun oldum!"
+	},
+	"create_page": {
+		"success": {
+			"title": "Quiz oluşturuldu.",
+			"body": "Oyunlar başlasın."
+		}
+	},
+	"edit_page": {
+		"success_update_body": "Quiz başarıyla güncellendi!",
+		"success_update_title": "Quiz güncellendi."
+	},
+	"overview_page": {
+		"question_count": "Soru sayısı",
+		"created_at": "Oluşturulduğu tarih:",
+		"no_quizzes": "Başlamak için \"Oluştur\" düğmesine tıklayın veya Kahoot'tan bir quizi içe aktarın."
+	},
+	"admin_page": {
+		"already_registered_as_admin": "Bu oyun için halihazırda kaydolmuş bir yönetici var.",
+		"get_results": "Sonuçları al",
+		"get_results_and_stop_time": "Sonuçları al ve zamanı durdur",
+		"get_final_results": "Son sonuçları al",
+		"start_game": "Oyunu başlat",
+		"time_left": "Kalan süre",
+		"export_results": "Sonuçları dışa aktar",
+		"show_next_question": "Bir sonraki soruyu göster",
+		"start_by_showing_first_question": "İlk soruyu göstererek başla.",
+		"no_answers": "Cevap yok!",
+		"stop_time": "Zamanı durdur",
+		"answers_submitted": "{{answer_count}} Gönderilen cevaplar",
+		"request_export_results": "Sonuç indirmeyi talep et",
+		"download_export_results": "Sonuçları indir",
+		"save_results": "Sonuçları kaydet",
+		"show_results": "Sonuçları göster",
+		"stop_time_and_solutions": "Zamanı durdurun ve çözümleri gösterin",
+		"enter_answer_into_field": "Cevabınızı giriş alanına girin!",
+		"next_question": "Sonraki Soru ({{question}})"
+	},
+	"editor": {
+		"time_in_seconds": "Saniye cinsinden zaman",
+		"right_or_true?": "Doğru mu?",
+		"not_all_links_imgur_links": "Bağlantıların hepsi Imgur bağlantıları değil!",
+		"delete_question": "Soruyu sil",
+		"delete_answer": "Cevabı sil",
+		"add_new_answer": "Yeni cevap ekle",
+		"add_new_question": "Yeni soru ekle",
+		"slide": {
+			"text": "Metin",
+			"headline": "Başlık",
+			"rectangle": "Dikdörtgen",
+			"rectangle_description": "Sadece bir dikdörtgen",
+			"headline_description": "Başlıklar için kalın bir metin",
+			"text_description": "Daha küçük ve daha uzun metin"
+		},
+		"bg_image": "Arkaplan resmi",
+		"empty": "Boş...",
+		"abcd_description": "Sadece bir cevap seçilebilir",
+		"voting_description": "Cevaplar puan eklemez",
+		"order_description": "Cevaplar doğru sıralamaya getirilebilir",
+		"range_description": "Kaydırıcı ile bir sayı aralığı seçilebilir",
+		"check_choice_description": "Puan toplamak için tüm doğru cevapların seçilmesi gerekir",
+		"text_description": "Oyuncular metin girebilir",
+		"no_title": "Başlık yok..."
+	},
+	"import_page": {
+		"visit_docs": "Dokümantasyonu ziyaret edin",
+		"need_help": "Yardıma mı ihtiyacınız var?",
+		"url_should_look_like_this": "URL şunun gibi görünmelidir: https://create.kahoot.it/details/...",
+		"a_kahoot_quiz": "Bir Kahoot! Quizi",
+		"side_import_kahoot": "Bu tarafta, Kahoot! üzerinde bulunan quizleri içe aktarabilirsiniz.",
+		"classquiz_quiz": "Bir ClassQuiz Quizi",
+		"upload_file_ending": "Sonu .cpa ile biten dosyayı yükleyin",
+		"this_side_classquiz": "Bu tarafta, ClassQuiz'den dışa aktarılan sınavları içe aktarabilirsiniz.",
+		"this_side_classquiz_excel": "",
+		"download_template_here": ""
+	},
+	"password_reset_page": {
+		"reset_password": "Şifreyi sıfırla"
+	},
+	"settings_page": {
+		"new_password": "Yeni şifre",
+		"this_session?": "Bu oturum mu?",
+		"check_location": "Konumu kontrol et",
+		"repeat_password": "Şifreyi tekrarla",
+		"change_password_submit": "Şifreyi değiştir!",
+		"last_seen": "Son görüldüğü tarih",
+		"delete_this_session": "Bu oturumu sil",
+		"old_password": "Eski şifre",
+		"add_api_key": "API anahtarı ekle",
+		"change_avatar": "Avatarı değiştir",
+		"security_settings": "Güvenlik Ayarları"
+	},
+	"explore_page": {
+		"made_by": "Oluşturan:",
+		"imported_by": "İçeri aktaran kullanıcı:"
+	},
+	"search_page": {
+		"at_least_3_characters": "En az 3 karakter gir...",
+		"nothing_here": "Burada hiçbir şey yok..."
+	},
+	"play_page": {
+		"with_out_of": "{{total_question_count}} üzerinden {{correct_questions}} ile",
+		"end_sentence": "Hepsi bu kadar! Quiz buydu.",
+		"1st_place": "1. Sıra",
+		"2nd_place": "2. Sıra",
+		"3rd place": "3. Sıra",
+		"final_result_rank": "{{place}}: {{username}} ile {{points}} puan",
+		"join_description": "{{url}} adresinden katılın ve {{pin}} kodunu girin.",
+		"points_added": "Puanlar eklendi",
+		"your_score": "Skorunuz: {{score}}",
+		"join_by_entering_code": "Aşağıdaki kodu girerek katılın"
+	},
+	"editor_page": {
+		"add_an_answer": "Bir cevap ekle",
+		"right_click_to_delete": "Bir cevabı silmek için sağ tıkla!"
+	},
+	"dashboard": {
+		"search_for_own_quizzes": "Kendi quizleriniz için arama",
+		"commandpalette_notice": "",
+		"views_n_plays": "",
+		"info_analytics": ""
+	},
+	"footer": {
+		"self_ads": "{{mawoka_link}} tarafından ve {{others_link}}nin de yardımıyla ❤️ ile yapıldı.",
+		"more_details_here": "Daha fazla detay burada",
+		"donate": "Eğer bunu kullanışlı bulduysanız, lütfen {{donate_link}}yı bir düşünün."
+	},
+	"error_page": {
+		"404_text": "Aradığınız sayfa gitmiş veya hiç olmamış bile. Kim bilir?",
+		"unknown_error_text": "Bu gerçekleşmemeliydi. Muhtemelen benim hatam, sizin değil, ama belki sizde de bir şeyleri kırabilecek büyülü bir güç var..."
+	},
+	"uploader": {
+		"add_image": "Resim ekle",
+		"upload_a_video": "Bir Video Yükleyin",
+		"upload_video_popup_notice": "Açılır pencere açık; daha fazla bilgi için göz atın",
+		"select_upload_type": "Yükleme Türünü Seçin",
+		"upload_video": "Video Yükle",
+		"images_by_pixabay": "",
+		"next_page": "",
+		"visit_pixabay": "",
+		"previous_page": "",
+		"search_english_only": ""
+	},
+	"avatar_settings": {
+		"start_over": "Baştan başla",
+		"top_type": "Üst",
+		"hair_color": "Saç rengi",
+		"mouth_type": "Ağız",
+		"eyebrow_type": "Kaş",
+		"go_back": "Geri git",
+		"skin_color": "Ten rengi",
+		"facial_hair_type": "Yüz kılları",
+		"hat_color": "Şapka rengi",
+		"clothe_type": "Giysiler",
+		"clothe_graphic_type": "Grafik",
+		"thats_you": "Bu sensin!",
+		"facial_hair_color": "Yüz kıl rengi",
+		"clothe_color": "Giysi rengi",
+		"accessories_type": "Gözlük"
+	},
+	"security_settings": {
+		"backup_code": "Yedek Kod",
+		"activate_2fa": "İki Faktörlü Kimlik Doğrulamayı Etkinleştirme",
+		"get_backup_code": "Yedekleme Kodu Alın",
+		"enable_totp": "TOTP'yi etkinleştir",
+		"webauthn": "Webauthn",
+		"webauthn_available": "Webauthn kullanılabilir",
+		"totp": "TOTP",
+		"totp_available": "Totp kullanılabilir",
+		"totp_unavailable": "TOTP kullanılamaz",
+		"disable_totp": "TOTP'yi devre dışı bırak",
+		"backup_codes": {
+			"your_backup_code": "Yedekleme Kodunuz",
+			"save_somewhere_save": "Bunu güvenli bir yere sakla!",
+			"download_code": "Kodu indirin"
+		},
+		"totp_setup": {
+			"do_not_forget_backup_code": "Kurtarma kodunuzu kaydetmeyi unutmayın!",
+			"totp_setup": "TOTP Kurulumu",
+			"enter_as_secret_if_no_see_code": "QR kodunu tarayamıyorsanız bunu sır olarak girin",
+			"scan_to_set_up": "Kodu ayarlamak için bu QR kodunu tarayın"
+		},
+		"2fa_activated": "İki Faktörlü kimlik doğrulama etkinleştirildi",
+		"2fa_deactivated": "İki Faktörlü kimlik doğrulama devre dışı bırakıldı",
+		"webauthn_unavailable": "Webauthn kullanılamaz",
+		"add_security_key": "Güvenlik Anahtarı Ekle"
+	},
+	"result_page": {
+		"time_taken": "Alınan zaman",
+		"player_name": "Oyuncu adı",
+		"custom_field": "Özel alan",
+		"correct_answer_other": "{{count}} doğru cevaplar",
+		"correct_answer_one": "{{count}} doğru cevap",
+		"player_score": "Oyuncu Skoru",
+		"average_score": "Ortalama skor: {{average_score}}"
+	},
+	"quiztivity": {
+		"editor": {
+			"move_left": "Sola hareket et",
+			"move_right": "Sağa hareket et",
+			"title_placeholder": "Başlığı buraya girin",
+			"add_new": "Yeni ekle",
+			"delete": "Sil",
+			"shares": {
+				"expires_on": "{{date}} tarihinde sona erer",
+				"never_expires": "Asla sona ermez",
+				"add_new_share": "Yeni Paylaşım Ekle"
+			},
+			"open_shares_menu": "Paylaşımlar menüsünü açın",
+			"select_page_type": "Sayfa Türünü Seçin"
+		},
+		"share_expired": "Paylaşım süresi doldu",
+		"memory": {
+			"editor": {
+				"add_card": "Kart ekle",
+				"upload_image": "Resim yükle",
+				"add_pair": "Çift ekle"
+			}
+		},
+		"play": {
+			"memory": {
+				"try_count": "Denemeler: {{try_count}}"
+			}
+		}
+	},
+	"file_dashboard": {
+		"not_available": "Mevcut değil",
+		"missing": "KAYIP!",
+		"caption": "Başlık: {{caption}}",
+		"filename": "Dosya adı: {{filename}}",
+		"size": "Boyut: {{size}} Mib",
+		"unset": "Ayarı kaldır",
+		"edit_details": "Ayrıntıları düzenle",
+		"edit_the_image": "Görüntüyü düzenleyin",
+		"filename_word": "Dosya adı",
+		"uploaded": "Yüklendi: {{tarih}}",
+		"alt_text": "Alt(ernatif) metin / Başlık",
+		"imported": "İçeri aktarıldı: {{yes_or_no}}",
+		"delete_image": "Resmi sil",
+		"storage_usage": "{{total}} MiB depolama alanınızın {{used}} MiB kadarını kullandınız. Bu, depolama alanınızın %{{percent}} kadarına eşdeğerdir."
+	},
+	"video_uploader": {
+		"time_remaining": "Kalan süre",
+		"time_elapsed": "Geçen süre"
+	},
+	"results_page": {
+		"no_results_so_far": "Şimdiye kadar kaydedilen sonuç yok...",
+		"quiz_title": "Quiz Başlığı",
+		"date_played": "Oynandığı Tarih",
+		"player_count": "Oyuncu sayısı",
+		"general_overview": {
+			"sentence": "Quiz \"{{title}}\", which was played on {{date}} tarihinde oynandı ve {{average_score}} ortalama skoruyla {{player_count}} oyuncusu vardı."
+		}
+	},
+	"navbar": {
+		"donate": "Bağışta Bulun"
+	},
+	"view_quiz_page": {
+		"made_by": "Oluşturan:",
+		"view_on_kahoot": "Kahoot'ta görüntüle!"
+	},
+	"start_game": {
+		"captcha_message": "Etkinleştirilirse, Google'ın ReCaptcha'sı oyuncuların tarayıcısına yüklenir. Captcha'yı yüklemek için HER oyuncunun onayına ihtiyacınız olduğundan, yalnızca gerçekten ihtiyacınız varsa etkinleştirin.",
+		"old_school_mode": "Eski Usul",
+		"normal_mode_description": "Soru ve cevaplar Kahoot! gibi sadece yöneticilerin ekranında gösterilecektir. Oyuncular sadece yöneticinin ekranında bunlarla eşleşen sembollere sahip renkli düğmelere sahip olacaklar.",
+		"old_school_mode_description": "Sorular ve görüntüler hem yöneticilerin ekranında hem de oyuncuların ekranında gösterilecektir",
+		"start_game": "Oyunu Başlat"
+	},
+	"public_user_page": {
+		"joined_on": "{{date}} tarihinde katıldı",
+		"no_original_quizzes": "Bu kullanıcının hiç orijinal quizi yok"
+	},
+	"components": {
+		"popover": {
+			"copied_to_clipboard": "Panoya kopyalandı!"
+		}
+	},
+	"controllers": {
+		"last_seen": "",
+		"cancel_update": "",
+		"add_new_controller": "",
+		"player_name": "",
+		"controller_name": "",
+		"already_latest_version": "",
+		"update_from_to": "",
+		"first_seen": "",
+		"version_overview": ""
+	}
+}

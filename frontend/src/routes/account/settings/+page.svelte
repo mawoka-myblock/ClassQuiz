@@ -14,8 +14,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let showMap = false;
-
 	interface UserAccount {
 		id: string;
 		email: string;
@@ -131,19 +129,6 @@ SPDX-License-Identifier: MPL-2.0
 		const parser = new UAParser(userAgent);
 		const result = parser.getResult();
 		return `${result.browser.name} ${result.browser.version} (${result.os.name})`;
-	};
-
-	const checkLocation = async (session_ip: string) => {
-		const res = await fetch(`/api/v1/utils/ip-lookup/${session_ip}`);
-		const json = await res.json();
-		console.log(json.status, json.status === 'fail');
-		if (json.status === 'fail') {
-			alert('This feature is kinda broken...');
-			return;
-		} else {
-			locationData = await res.json();
-			showMap = true;
-		}
 	};
 
 	const deleteSession = async (session_id: string) => {
@@ -279,12 +264,6 @@ SPDX-License-Identifier: MPL-2.0
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					{$t('settings_page.check_location')}
-				</th>
-				<th
-					scope="col"
-					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-				>
 					{$t('settings_page.delete_this_session')}
 				</th>
 				<th
@@ -318,15 +297,6 @@ SPDX-License-Identifier: MPL-2.0
 					>
 						<button
 							on:click={() => {
-								checkLocation(session.ip_address);
-							}}>{$t('words.view')}</button
-						>
-					</td>
-					<td
-						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-					>
-						<button
-							on:click={() => {
 								deleteSession(session.id);
 							}}>{$t('words.delete')}</button
 						>
@@ -334,7 +304,7 @@ SPDX-License-Identifier: MPL-2.0
 					<td
 						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 					>
-						{#if session.id === this_session.id}
+						{#if session.id === this_session?.id}
 							✅
 						{:else}
 							❌
@@ -345,26 +315,3 @@ SPDX-License-Identifier: MPL-2.0
 		</tbody>
 	</table>
 {/await}
-
-<div class="w-5/6 h-5/6 z-20 absolute top-10 pt-16 left-28" class:hidden={!showMap}>
-	{#if showMap}
-		{#await import('$lib/Map.svelte')}
-			<Spinner />
-		{:then c}
-			<button
-				on:click={() => {
-					showMap = false;
-				}}
-				class="bg-black text-white rounded-t-lg px-1">{$t('words.close')}</button
-			>
-			<div class="w-full h-full">
-				<svelte:component
-					this={c.default}
-					lat={locationData.lat}
-					lng={locationData.lon}
-					markerText={'Somewhere here was this session registered.'}
-				/>
-			</div>
-		{/await}
-	{/if}
-</div>

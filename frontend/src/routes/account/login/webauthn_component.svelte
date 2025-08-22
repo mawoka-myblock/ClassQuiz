@@ -22,7 +22,7 @@ SPDX-License-Identifier: MPL-2.0
 		let asseResp;
 		isLoading = true;
 		try {
-			asseResp = await startAuthentication(data);
+			asseResp = await startAuthentication({ optionsJSON: data });
 		} catch (e) {
 			console.error(e);
 			/*			alertModal.set({
@@ -44,6 +44,7 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		);
 		if (res.status === 200) {
+			window.location.reload();
 			done = true;
 		} else if (res.status === 202) {
 			step += 1;

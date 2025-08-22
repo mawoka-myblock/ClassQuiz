@@ -73,7 +73,7 @@ SPDX-License-Identifier: MPL-2.0
 			for (let i = 0; i++; i < resp_data.excludeCredentials.length) {
 				resp_data.excludeCredentials[i].transports = undefined;
 			}
-			attResp = await startRegistration(resp_data);
+			attResp = await startRegistration({ optionsJSON: resp_data });
 		} catch (e) {
 			throw e;
 		}

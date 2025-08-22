@@ -28,6 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 			body: JSON.stringify({ auth_type: 'PASSWORD', data: password })
 		});
 		if (res.status === 200) {
+			window.location.reload();
 			done = true;
 		} else if (res.status === 202) {
 			step += 1;

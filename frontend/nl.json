@@ -1,0 +1,489 @@
+{
+	"index_page": {
+		"features_description": {
+			"1": "ClassQuiz is een quiz-platform waarmee je quizzen kunt maken en beheren.",
+			"2": "De belangrijkste functie is een Kahoot!-importfunctie waarmee je quizzen van Kahoot! kunt importeren.",
+			"3": "De editor en de functie voor het exporteren van testresultaten als Excel-bestanden zijn bijzondere hoogtepunten van de software."
+		},
+		"create_or_import": "Maken of Importeren",
+		"see_all_quizzes": "Bekijk al je quizzen",
+		"no_tracking": "Geen Tracking",
+		"german_server": "Duitse Server",
+		"user_friendly": "Gebruikersvriendelijk",
+		"completely_free": "Volledig Kosteloos",
+		"quiz_results_downloadable": "Quiz-resultaten kunnen worden gedownload",
+		"multilingual": "Meertalig",
+		"dark_mode": "Donkere Modus",
+		"create_a_quiz_from_scratch": "Maak een quiz vanaf niks met de editor en voeg afbeeldingen en meer toe",
+		"find_or_explore": "Zoek (of verken) quizzen gemaakt of geïmporteerd door andere mensen",
+		"import_quiz_from_kahoot_and_edit": "Importeer een quiz van Kahoot! en bewerk hem in ClassQuiz",
+		"play_quiz": "2. Speel de quiz",
+		"select_answer": "Selecteer het antwoord",
+		"view_results": "Bekijk de resultaten",
+		"check_if_chosen_wisely": "Check of je goed had gekozen",
+		"list_winners": "Winnaarslijst",
+		"get_ranking_and_winners": "Bekijk het klassement en zie wie er gewonnen heeft",
+		"why_classquiz": "Waarom ClassQuiz?",
+		"meta": {
+			"title": "Home",
+			"description": "ClassQuiz is een quiz-app om interactief te leren voor studenten, die open source en gratis te gebruiken is"
+		},
+		"get_a_quiz": "1. Verkrijg een quiz",
+		"user_friendly_content": "ClassQuiz heeft als doel simpel te zijn, zodat iedereen het kan gebruiken.",
+		"students_site": "Studenten site",
+		"teachers_site": "Leraar's site",
+		"slogan": "Het open-source quizplatform!",
+		"self_hostable": "Zelf-Hostable",
+		"multilingual_content": "ClassQuiz is beschikbaar in het Engels, Frans, Duits, Italiaans, Noors Bokmål, Turks en gedeeltelijk Indonesisch en Catalaans.",
+		"dark_mode_content": "Een van de belangrijkste functies die een website kan hebben!",
+		"community_driven_content": "ClassQuiz is afhankelijk van haar gemeenschap voor financiering, het testen van ideeën, feature requests, vertalingen en meer! U kunt ook deel uitmaken van de ClassQuiz-community!",
+		"community_driven": "Gedreven door de community",
+		"stats": "Er zijn al {{user_count}} gebruikers en {{quiz_count}} quizzen op ClassQuiz.",
+		"see_how_many_true_and_false": "Kijk hoeveel er goed of fout waren",
+		"see_what_true_and_false": "Zie wat goed of fout was",
+		"choose_answer_wisely": "Kies je antwoord verstandig",
+		"no_tracking_content": "Anderen tracken jou en sturen die informatie naar derden, maar ClassQuiz doet dat niet.",
+		"self_hostable_content": "ClassQuiz kan eenvoudig zelf worden gehost, dus de gegevens zijn alleen in jouw beheer!",
+		"german_server_content": "De servers van ClassQuiz bevinden zich in Duitsland en worden gehost door netcup.",
+		"completely_free_content": "ClassQuiz is volledig gratis (voor de gebruiker), zonder betaalde abonnementen of vervelende doorverwijzingen naar de upgrade-pagina. Donaties worden zeer op prijs gesteld.",
+		"download_quizzes": "Download Quizzen",
+		"download_quizzes_content": "Quizzen kunnen als één bestand worden gedownload en op elk moment worden geïmporteerd. Zo kun je ook je testen verplaatsen naar andere ClassQuiz instanties.",
+		"quiz_results_downloadable_content": "Quiz-resultaten kunnen gemakkelijk worden geëxporteerd naar een Excel-spreadsheet. (Wist niet dat anderen dat niet konden)",
+		"how_does_classquiz_work": "Hoe werkt ClassQuiz eigenlijk?",
+		"no_player_limit": "Geen spelerslimiet",
+		"no_player_limit_content": "ClassQuiz heeft geen kunstmatige spelerslimiet. In theorie zouden meer dan 1000 spelers dezelfde quiz kunnen spelen, maar het is getest met maximaal 300 spelers per quiz."
+	},
+	"overview_page": {
+		"created_at": "Gemaakt op",
+		"question_count": "Vragenaantal",
+		"no_quizzes": "Klik op de \"Creëer\"-knop of importeer een quiz om aan de slag te gaan."
+	},
+	"edit_page": {
+		"success_update_title": "Quiz bijgewerkt.",
+		"success_update_body": "Niemand zal het onderzoek verwachten."
+	},
+	"create_page": {
+		"success": {
+			"title": "Quiz gemaakt.",
+			"body": "Laat het spel beginnen."
+		}
+	},
+	"register_page": {
+		"greeting": "Leuk je te ontmoeten!",
+		"create_account": "Account aanmaken",
+		"forgot_password?": "Wachtwoord vergeten?",
+		"already_have_account?": "Heb je al een account?"
+	},
+	"login_page": {
+		"welcome_back": "Welkom terug.",
+		"login_or_create_account": "Log in of maak een account",
+		"already_have_account": "Heb je geen account?",
+		"email_or_username": "Email of Gebruikersnaam",
+		"modal": {
+			"success": {
+				"success_check_mail": "Ingelogd. Controleer jouw e-mail.",
+				"success": "Ingelogd.",
+				"description": {
+					"success": "Ingelogd.",
+					"success_check_mail": "Controleer jouw e-mail voor een mail met een link waarop je kunt klikken om in te loggen."
+				}
+			},
+			"error": {
+				"wrong_creds": "Verkeerd e-mailadres of wachtwoord.",
+				"unexpected": "Onverwachte fout!",
+				"description": {
+					"wrong_creds": "Zorg ervoor dat jouw wachtwoord en e-mailadres correct zijn.",
+					"unexpected": "De goede oude onverwachte fout trad op!"
+				}
+			}
+		},
+		"use_backup_code": "Gebruik backup-code"
+	},
+	"words": {
+		"question_one": "Vraag",
+		"answer_one": "Antwoord",
+		"stats": "Statistieken",
+		"email": "E-mailadres",
+		"username": "Gebruikersnaam",
+		"password": "Wachtwoord",
+		"play_one": "Speel",
+		"features": "Mogelijkheden",
+		"login": "Inloggen",
+		"edit": "Bewerken",
+		"delete": "Verwijderen",
+		"public": "Openbaar",
+		"url": "URL",
+		"submit": "Versturen",
+		"connect": "Verbinden",
+		"pin": "PIN",
+		"kick": "Eruit gooien",
+		"register": "Registeren",
+		"docs": "Documentatie",
+		"close": "Sluiten",
+		"save": "Opslaan",
+		"description": "Beschrijving",
+		"image": "Afbeelding",
+		"repeat_password": "Wachtwoord herhalen",
+		"overview": "Overzicht",
+		"report": "Melden",
+		"explore": "Verken",
+		"screenshot_one": "Schermafbeelding",
+		"screenshot_other": "Schermafbeeldingen",
+		"view_one": "Bekijken",
+		"browser": "Browser",
+		"correct": "Juist",
+		"result_one": "Resultaat",
+		"result_other": "Resultaten",
+		"count": "Aantal",
+		"range": "Bereik",
+		"private": "Privé",
+		"other_one": "andere",
+		"other_other": "anderen",
+		"donating": "doneren",
+		"find": "Vind",
+		"practice": "Oefenen",
+		"error": "Fout",
+		"voting": "Stemmen",
+		"download": "Downloaden",
+		"continue": "Verder",
+		"backup_code": "Backup-code",
+		"totp": "TOTP",
+		"text": "Tekst",
+		"order": "Volgorde",
+		"results": "Resultaten",
+		"note": "Opmerking",
+		"multiple_choice": "Meerkeuze",
+		"start": "Start",
+		"create": "Creëren",
+		"import": "Importeren",
+		"logout": "Uitloggen",
+		"title": "Titel",
+		"settings": "Instellingen",
+		"player_other": "Spelers",
+		"search": "Zoeken",
+		"game_pin": "Spel PIN",
+		"dashboard": "Dashboard",
+		"question_other": "Vragen",
+		"score": "Score",
+		"name": "Naam",
+		"point_one": "Punt",
+		"slide": "Dia",
+		"finish": "Afronden",
+		"point_other": "Punten",
+		"back": "Terug",
+		"answer_other": "Antwoorden",
+		"no": "nee",
+		"yes": "Ja",
+		"version": "Versie",
+		"never": "Nooit",
+		"normal": "Normaal",
+		"selected": "Geselecteerd",
+		"video": "Video",
+		"library": "Bibliotheek",
+		"progress": "Voortgang",
+		"speed": "Snelheid",
+		"upload": "Upload",
+		"files_library": "Bestanden Bibliotheek",
+		"unknown": "Onbekend",
+		"quiz": "Quiz",
+		"next": "Volgende",
+		"select": "Selecteren",
+		"update": "Update",
+		"rating": "Beoordeling",
+		"quiztivity": "Quiztivity",
+		"analytics": "Analytics",
+		"check_choice": "Check Optie",
+		"play_other": "Plays",
+		"dislike_other": "Dislikes",
+		"info": "Info",
+		"view_other": "Weergaven",
+		"like_one": "Like",
+		"dislike_one": "Dislike",
+		"like_other": "Likes",
+		"player_one": "Speler"
+	},
+	"editor": {
+		"not_all_links_imgur_links": "Niet alle links zijn Imgur-links!",
+		"time_in_seconds": "Tijd in seconden",
+		"delete_answer": "Verwijder antwoord",
+		"right_or_true?": "Juist?",
+		"add_new_answer": "Nieuw antwoord toevoegen",
+		"add_new_question": "Nieuwe vraag toevoegen",
+		"delete_question": "Verwijder vraag",
+		"bg_image": "Achtergrondafbeelding",
+		"no_title": "Geen titel...",
+		"slide": {
+			"headline_description": "Een vetgedrukte tekst voor koppen",
+			"headline": "Kop",
+			"text_description": "Kleinere langere tekst",
+			"rectangle_description": "Gewoon een rechthoek",
+			"text": "Tekst",
+			"rectangle": "Rechthoek"
+		},
+		"empty": "Leeg...",
+		"range_description": "Een nummerbereik kan worden geselecteerd met een schuifregelaar",
+		"abcd_description": "Er kan maar één antwoord gekozen worden",
+		"order_description": "Antwoorden kunnen in de juiste volgorde worden gezet",
+		"text_description": "Spelers kunnen tekst invoeren",
+		"check_choice_description": "Alle goede antwoorden moeten gekozen zijn om punten te scoren",
+		"voting_description": "Antwoorden voegen geen punten toe",
+		"need_more_help": "Meer hulp nodig?",
+		"enter_answer": "Voer een antwoord in",
+		"visit_docs": "Bekijk de documenten."
+	},
+	"import_page": {
+		"url_should_look_like_this": "De URL zou er als volgt uit moeten zien: https://create.kahoot.it/details/...",
+		"side_import_kahoot": "Aan deze kant kun je quizzen van Kahoot! importeren.",
+		"upload_file_ending": "Upload het bestand met de extensie .cqa of .xlsx",
+		"this_side_classquiz": "Aan deze kant kun je quizzen importeren die geëxporteerd zijn vanuit ClassQuiz.",
+		"visit_docs": "Bekijk de documentatie",
+		"a_kahoot_quiz": "Een Kahoot!-Quiz",
+		"need_help": "Hulp nodig?",
+		"classquiz_quiz": "Een ClassQuiz-Quiz",
+		"this_side_classquiz_excel": "Je kunt ook Excel-bestanden uploaden, als je het volgende sjabloon hebt ingevuld.",
+		"download_template_here": "Download het sjabloon"
+	},
+	"admin_page": {
+		"start_game": "Start spel",
+		"time_left": "Tijd over",
+		"get_results": "Verkrijg resultaten",
+		"no_answers": "Geen antwoorden!",
+		"stop_time": "Stop de tijd",
+		"save_results": "Resultaten opslaan",
+		"start_by_showing_first_question": "Start met het vertonen van de eerste vraag.",
+		"show_next_question": "Toon volgende vraag",
+		"already_registered_as_admin": "Er is al een beheerder geregistreerd voor dit spel.",
+		"get_results_and_stop_time": "Verkrijg resultaten en stop de tijd",
+		"get_final_results": "Verkrijg definitieve resultaten",
+		"export_results": "Exporteer resultaten",
+		"next_question": "Volgende Vraag ({{question}})",
+		"show_results": "Toon resultaten",
+		"enter_answer_into_field": "Typ je antwoord in het invoerveld!",
+		"stop_time_and_solutions": "Stop de tijd en toon oplossingen",
+		"download_export_results": "Resultaten downloaden",
+		"answers_submitted": "{{answer_count}} Antwoorden ingediend",
+		"request_export_results": "Resultaat download aanvragen"
+	},
+	"password_reset_page": {
+		"reset_password": "Wachtwoord resetten"
+	},
+	"settings_page": {
+		"old_password": "Oud wachtwoord",
+		"new_password": "Nieuw wachtwoord",
+		"repeat_password": "Herhaal wachtwoord",
+		"change_password_submit": "Wachtwoord aangepast!",
+		"last_seen": "Laatst gezien",
+		"check_location": "Check locatie",
+		"delete_this_session": "Verwijder deze sessie",
+		"this_session?": "Deze sessie?",
+		"change_avatar": "Verander avatar",
+		"security_settings": "Beveiligingsinstellingen",
+		"add_api_key": "API-sleutel toevoegen"
+	},
+	"explore_page": {
+		"made_by": "Gemaakt door",
+		"imported_by": "Geïmporteerd door"
+	},
+	"search_page": {
+		"at_least_3_characters": "Voer minimaal 3 tekens in...",
+		"nothing_here": "Er is hier niks..."
+	},
+	"play_page": {
+		"end_sentence": "Dat was het! Dit was de quiz.",
+		"1st_place": "1ste Plek",
+		"2nd_place": "2de Plek",
+		"3rd place": "3de Plek",
+		"with_out_of": "met {{correct_questions}} van de {{total_question_count}}",
+		"final_result_rank": "{{place}}: {{username}} met {{points}} punten",
+		"points_added": "Punten toegevoegd",
+		"your_score": "Jouw score: {{score}}",
+		"join_by_entering_code": "Neem deel door de volgende code in te voeren",
+		"join_description": "Neem deel via {{url}} en voer {{pin}} in.",
+		"players_waiting_one": "{{count}} speler aan het wachten",
+		"players_waiting_other": "{{count}} spelers aan het wachten",
+		"your_place": "Je bent op plaats {{place}}!"
+	},
+	"editor_page": {
+		"add_an_answer": "Voeg een antwoord toe",
+		"right_click_to_delete": "Klik met de rechtermuisknop op een antwoord om het te verwijderen!"
+	},
+	"footer": {
+		"more_details_here": "Meer details hier",
+		"donate": "Als je dit nuttig vindt overweeg dan {{donate_link}}.",
+		"self_ads": "Gemaakt met ❤️ door {{mawoka_link}} en met de hulp van {{others_link}}."
+	},
+	"error_page": {
+		"404_text": "De pagina waarnaar je op zoek was, is verdwenen of heeft zelfs nooit bestaan. Wie weet?",
+		"unknown_error_text": "Dat zou niet mogen gebeuren. Het is waarschijnlijk mijn schuld, niet de jouwe, maar misschien heb je een magische kracht om dingen te breken..."
+	},
+	"uploader": {
+		"add_image": "Media toevoegen",
+		"search_english_only": "De zoekopdracht werkt alleen in het Engels",
+		"upload_a_video": "Upload een video",
+		"upload_video_popup_notice": "De pop-up is geopend; bekijk het voor meer informatie",
+		"upload_video": "Upload Video",
+		"visit_pixabay": "Bezoek Pixabay",
+		"select_upload_type": "Selecteer het uploadtype",
+		"images_by_pixabay": "Afbeeldingen geleverd door Pixabay",
+		"next_page": "Volgende pagina",
+		"previous_page": "Vorige pagina"
+	},
+	"avatar_settings": {
+		"skin_color": "Huidskleur",
+		"hair_color": "Haarkleur",
+		"facial_hair_type": "Gezichtshaar",
+		"facial_hair_color": "Gezichtshaar kleur",
+		"mouth_type": "Mond",
+		"eyebrow_type": "Wenkbrauw",
+		"accessories_type": "Bril",
+		"hat_color": "Hoed kleur",
+		"clothe_type": "Kleding",
+		"clothe_color": "Kleding kleur",
+		"clothe_graphic_type": "Grafisch",
+		"thats_you": "Dat ben jij!",
+		"start_over": "Opnieuw beginnen",
+		"top_type": "Top",
+		"go_back": "Ga terug"
+	},
+	"results_page": {
+		"no_results_so_far": "Geen resultaten opgeslagen tot nu toe...",
+		"quiz_title": "Quiz Titel",
+		"date_played": "Datum Gespeeld",
+		"player_count": "Aantal spelers",
+		"general_overview": {
+			"sentence": "De quiz \"{{title}}\", die werd gespeeld op {{date}} had {{player_count}} spelers met een gemiddelde score van {{average_score}}."
+		}
+	},
+	"result_page": {
+		"player_name": "Naam speler",
+		"custom_field": "Aangepast veld",
+		"average_score": "Gemiddelde score: {{average_score}}",
+		"correct_answer_other": "{{count}} juiste antwoorden",
+		"time_taken": "Benodigde tijd",
+		"correct_answer_one": "{{count}} juist antwoord",
+		"player_score": "Speler Score"
+	},
+	"dashboard": {
+		"search_for_own_quizzes": "Zoek voor je eigen quizzen",
+		"commandpalette_notice": "Druk <kbd>Ctr</kbd>+<kbd>k</kbd> of <kbd>Meta</kbd>+<kbd>k</kbd> in om het opdrachtenpalet te openen",
+		"views_n_plays": "Weergaven & Plays",
+		"info_analytics": "De \"Plays\" laten alleen zien hoe vaak de quiz is gestart (jou meegerekend), terwijl de \"Weergaven\" tellen hoe vaak de \"View\"-pagina is bezocht, dus ook bots (sorry daarvoor)."
+	},
+	"security_settings": {
+		"webauthn": "Webauthn",
+		"webauthn_available": "Webauthn is beschikbaar",
+		"webauthn_unavailable": "Webauthn is niet beschikbaar",
+		"backup_codes": {
+			"your_backup_code": "Jouw back-up-code",
+			"download_code": "Download code",
+			"save_somewhere_save": "Bewaar dit ergens veilig!"
+		},
+		"backup_code": "Backup Code",
+		"get_backup_code": "Verkrijg Backup Code",
+		"activate_2fa": "Activeer Tweestapsauthenticatie",
+		"2fa_activated": "Tweestapsauthenticatie is geactiveerd",
+		"totp_setup": {
+			"enter_as_secret_if_no_see_code": "Voer dit in als de 'secret' als u de QR-code niet kunt scannen",
+			"scan_to_set_up": "Scan deze QR-code om de code in te stellen",
+			"totp_setup": "TOTP-setup",
+			"do_not_forget_backup_code": "Vergeet niet je herstelcode op te slaan!"
+		},
+		"2fa_deactivated": "Tweestapsauthenticatie is gedeactiveerd",
+		"add_security_key": "Beveiligingssleutel toevoegen",
+		"totp": "TOTP",
+		"totp_available": "TOTP is beschikbaar",
+		"totp_unavailable": "TOTP is niet beschikbaar",
+		"disable_totp": "Schakel TOTP uit",
+		"enable_totp": "Schakel TOTP in"
+	},
+	"navbar": {
+		"donate": "Doneer"
+	},
+	"view_quiz_page": {
+		"made_by": "Gemaakt door",
+		"view_on_kahoot": "Bekijk het origineel"
+	},
+	"quiztivity": {
+		"editor": {
+			"delete": "Verwijder",
+			"move_left": "Naar links verplaatsen",
+			"move_right": "Naar rechts verplaatsen",
+			"title_placeholder": "Vul hier de titel in",
+			"add_new": "Nieuwe toevoegen",
+			"shares": {
+				"never_expires": "Verloopt nooit",
+				"expires_on": "Verloopt op {{date}}",
+				"add_new_share": "Nieuwe Share toevoegen"
+			},
+			"select_page_type": "Selecteer Pagina Type",
+			"open_shares_menu": "Open Shares menu"
+		},
+		"memory": {
+			"editor": {
+				"add_card": "Kaart toevoegen",
+				"upload_image": "Upload afbeelding",
+				"add_pair": "Paar toevoegen"
+			}
+		},
+		"play": {
+			"memory": {
+				"try_count": "Pogingen: {{try_count}}"
+			}
+		},
+		"share_expired": "Share verlopen"
+	},
+	"controllers": {
+		"update_from_to": "Bijwerken van {{current_version}} naar {{newest_version}}",
+		"add_new_controller": "Nieuwe controller toevoegen",
+		"player_name": "Naam speler",
+		"first_seen": "Voor het eerst gezien",
+		"last_seen": "Voor het laatst gezien",
+		"controller_name": "Naam Controller",
+		"already_latest_version": "Je hebt de laatste versie al",
+		"cancel_update": "Annuleer Update!",
+		"version_overview": "De nieuwste beschikbare versie is {{newest_version}} en versie {{current_version}} is geïnstalleerd."
+	},
+	"file_dashboard": {
+		"imported": "Geïmporteerd: {{yes_or_no}}",
+		"not_available": "Niet beschikbaar",
+		"caption": "Bijschrift: {{caption}}",
+		"filename": "Bestandsnaam: {{filename}}",
+		"storage_usage": "Je hebt {{used}} MiB van de {{total}} MiB aan opslagruimte gebruikt. Dat komt overeen met {{percent}}% van je opslagruimte.",
+		"edit_details": "Bewerk details",
+		"uploaded": "Geüpload: {{date}}",
+		"missing": "MISSEND!",
+		"unset": "Niet ingesteld",
+		"size": "Grootte: {{size}} MiB",
+		"delete_image": "Verwijder afbeelding",
+		"edit_the_image": "Bewerk de afbeelding",
+		"filename_word": "Bestandsnaam",
+		"alt_text": "Alt(ernatieve) tekst / Bijschrift"
+	},
+	"video_uploader": {
+		"time_remaining": "Tijd over",
+		"time_elapsed": "Tijd verstreken"
+	},
+	"public_user_page": {
+		"no_original_quizzes": "Deze gebruiker heeft geen originele quizzen",
+		"joined_on": "Lid geworden op {{date}}",
+		"user_not_found": "Gebruiker niet gevonden"
+	},
+	"start_game": {
+		"old_school_mode": "Old-School",
+		"start_game": "Start Spel",
+		"normal_mode_description": "Vraag en antwoord worden alleen getoond op het beheerdersscherm. De spelers hebben alleen gekleurde knoppen met bijbehorende symbolen op het scherm van de beheerder.",
+		"old_school_mode_description": "Vragen en afbeeldingen worden zowel op het beheerdersscherm als op het scherm van de spelers getoond",
+		"captcha_message": "Indien ingeschakeld, wordt ReCaptcha van Google geladen in de browser van spelers. Schakel alleen in als je het echt nodig hebt, aangezien je de toestemming van ELKE speler nodig hebt om de captcha te laden."
+	},
+	"components": {
+		"popover": {
+			"copied_to_clipboard": "Gekopieerd naar het klembord!"
+		}
+	},
+	"downloader": {
+		"excel_format": "Excel Formaat",
+		"own_format": "Eigen Formaat",
+		"help": "Het eigen formaat (.cqa) bevat ook afbeeldingen en ondersteunt elk vraagtype, terwijl het Excel-formaat alleen stem- en meerkeuzevragen ondersteunt.",
+		"select_download_type": "Selecteer download type"
+	}
+}

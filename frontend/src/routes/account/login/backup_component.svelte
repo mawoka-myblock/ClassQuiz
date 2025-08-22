@@ -32,6 +32,7 @@ SPDX-License-Identifier: MPL-2.0
 			body: JSON.stringify({ auth_type: 'BACKUP', data: backup_code })
 		});
 		if (res.status === 200) {
+			window.location.reload();
 			done = true;
 		} else {
 			step += 1;
