@@ -128,7 +128,7 @@
         "player": "Joueur"
     },
     "index_page": {
-        "slogan": "La plateforme de quiz open-source !",
+        "slogan": "La plateforme de quiz open-source !",
         "meta": {
             "description": "ClassQuiz est une application d'apprentissage interactif destiné aux étudiants, elle est open-source et gratuite",
             "title": "Accueil"
@@ -231,7 +231,9 @@
         "enter_answer": "Entrer une réponse",
         "visit_docs": "Lisez la documentation.",
         "enable_reorder": "Activer le mode réorganisation",
-        "disable_reorder": "Désactiver le mode réorganisation"
+        "disable_reorder": "Désactiver le mode réorganisation",
+        "advanced_settings": "Paramètres avancés",
+        "hide_question_results": "Cacher les résultats de la question ?"
     },
     "import_page": {
         "need_help": "Besoin d'aide ?",
