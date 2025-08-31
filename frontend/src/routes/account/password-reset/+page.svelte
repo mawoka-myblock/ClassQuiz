@@ -82,7 +82,7 @@ SPDX-License-Identifier: MPL-2.0
 									bind:value={passwordData.password1}
 									name="password1"
 									type="password"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder={$t('words.password')}
 								/>
 								<label
@@ -100,7 +100,7 @@ SPDX-License-Identifier: MPL-2.0
 									name="password2"
 									type="password"
 									bind:value={passwordData.password2}
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder={$t('words.repeat_password')}
 								/>
 								<label
@@ -120,7 +120,7 @@ SPDX-License-Identifier: MPL-2.0
 							>
 
 							<button
-								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 								disabled={!passwordsValid}
 								type="submit"
 							>

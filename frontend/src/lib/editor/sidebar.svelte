@@ -82,7 +82,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="border-r-2 pt-6 px-6 overflow-scroll h-full">
 		<div
 			bind:this={propertyCard}
-			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
+			class="bg-white shadow-smrounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
 			class:bg-green-300={selected_question === -1}
 			class:dark:bg-green-500={selected_question === -1}
 			on:click={() => setSelectedQuestion(-1)}
@@ -96,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<p
 					type="text"
-					class="whitespace-nowrap truncate text-center w-full bg-transparent rounded dark:text-white"
+					class="whitespace-nowrap truncate text-center w-full bg-transparent rounded-sm dark:text-white"
 					class:dark:text-black={selected_question === -1}
 				>
 					{#if data.title}
@@ -117,7 +117,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<textarea
 					bind:value={data.description}
-					class="bg-transparent resize-none w-full rounded text-sm dark:text-white"
+					class="bg-transparent resize-none w-full rounded-sm text-sm dark:text-white"
 					class:dark:text-black={selected_question === -1}
 				/>
 			</div>
@@ -170,7 +170,7 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 		{#each data.questions as question, index}
 			<div
-				class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition relative"
+				class="bg-white shadow-smrounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition relative"
 				class:bg-green-300={index === selected_question}
 				class:dark:bg-green-500={index === selected_question}
 				on:click={() => {
@@ -180,8 +180,8 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				{#if reorder_mode}
 					<div
-						transition:fade={{ duration: 90 }}
-						class="absolute z-10 grid grid-cols-2 bg-transparent w-full rounded h-full"
+						transition:fade|global={{ duration: 90 }}
+						class="absolute z-10 grid grid-cols-2 bg-transparent w-full rounded-sm h-full"
 					>
 						<!-- Div is used, since it just put me on the dashboard when using button elements... Idk why and I hate it-->
 						<div
@@ -298,7 +298,7 @@ SPDX-License-Identifier: MPL-2.0
 							class="h-10 border rounded-lg"
 							alt="Not available"
 							use:tippy={{
-								content: `<img src="/api/v1/storage/download/${question.image}" alt="Not available" class="rounded">`,
+								content: `<img src="/api/v1/storage/download/${question.image}" alt="Not available" class="rounded-sm">`,
 								allowHTML: true
 							}}
 						/>
@@ -375,7 +375,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 		{/each}
 		<div
-			class="bg-white shadow rounded-lg h-40 p-2 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
+			class="bg-white shadow-smrounded-lg h-40 p-2 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
 		>
 			<button
 				type="button"

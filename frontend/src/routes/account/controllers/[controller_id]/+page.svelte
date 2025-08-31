@@ -93,7 +93,7 @@ SPDX-License-Identifier: MPL-2.0
 		<h2 class="text-2xl mx-auto">{$t('controllers.controller_name')}</h2>
 		<div class="mx-auto flex">
 			<input
-				class="rounded p-1 transition-all outline-none text-center dark:bg-gray-700"
+				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.name}
 				on:keyup={save_player_name_debounce}
 			/>
@@ -104,7 +104,7 @@ SPDX-License-Identifier: MPL-2.0
 		<h2 class="mx-auto text-2xl">{$t('controllers.player_name')}</h2>
 		<div class="mx-auto flex">
 			<input
-				class="rounded p-1 transition-all outline-none text-center dark:bg-gray-700"
+				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.player_name}
 				on:keyup={save_player_name_debounce}
 			/>

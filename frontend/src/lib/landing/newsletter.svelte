@@ -41,7 +41,7 @@ SPDX-License-Identifier: MPL-2.0
 				name="email"
 				required
 				placeholder="E-mail"
-				class="m-0.5 border-b-2 border-gray-300 rounded-lg p-0.5 outline-none focus:outline-gray-400 bg-transparent"
+				class="m-0.5 border-b-2 border-gray-300 rounded-lg p-0.5 outline-hidden focus:outline-gray-400 bg-transparent"
 			/>
 		</p>
 		<p>
@@ -49,7 +49,7 @@ SPDX-License-Identifier: MPL-2.0
 				type="text"
 				name="name"
 				placeholder="Name (optional)"
-				class="m-0.5 border-b-2 border-gray-300 rounded-lg p-0.5 outline-none focus:outline-gray-400 bg-transparent"
+				class="m-0.5 border-b-2 border-gray-300 rounded-lg p-0.5 outline-hidden focus:outline-gray-400 bg-transparent"
 			/>
 		</p>
 
@@ -64,9 +64,7 @@ SPDX-License-Identifier: MPL-2.0
 			<label for="fec55">ClassQuiz-News</label>
 		</p>
 		<div class="bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] w-fit rounded-lg">
-			<button
-				type="submit"
-				class="m-0.5 bg-opacity-70 bg-white rounded-lg py-0.5 px-1 text-black"
+			<button type="submit" class="m-0.5 bg-white/7 rounded-lg py-0.5 px-1 text-black"
 				>Subscribe!
 			</button>
 		</div>

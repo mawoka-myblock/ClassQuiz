@@ -14,7 +14,7 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 </script>
 
-<div class="mt-auto h-[7vh] bg-opacity-50 bg-black shadow-2xl flex justify-between">
+<div class="mt-auto h-[7vh] bg-black/50 shadow-2xl flex justify-between">
 	<div class="my-auto justify-start ml-4">
 		<BrownButton
 			disabled={current_slide_index < 1}

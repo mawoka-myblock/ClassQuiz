@@ -26,11 +26,11 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if quiz_id}
 	<div
-		class="w-screen h-screen fixed top-0 left-0 bg-opacity-50 bg-black z-20 flex justify-center"
+		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
 		on:click={handle_on_click}
-		transition:fade|local={{ duration: 100 }}
+		transition:fade={{ duration: 100 }}
 	>
-		<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded">
+		<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm">
 			<h1 class="text-3xl text-center mb-4">{$t('downloader.select_download_type')}</h1>
 			<div class="flex flex-row gap-4">
 				<div class="w-full flex justify-center">

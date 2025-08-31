@@ -18,7 +18,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="w-screen h-screen fixed top-0 left-0 p-48 z-30 bg-black bg-opacity-50">
+<div class="w-screen h-screen fixed top-0 left-0 p-48 z-30 bg-black/50">
 	<div class="w-full h-full">
 		<button
 			class="bg-gray-200 dark:bg-gray-900 px-2 py-1 rounded-t-lg hover:bg-gray-300 transition"

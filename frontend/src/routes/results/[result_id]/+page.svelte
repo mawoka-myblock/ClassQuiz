@@ -73,7 +73,7 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 	</div>
 	{#if selected_tab === SelectedTab.Overview}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<GeneralOverview
 				questions={data.results.questions}
 				answers={data.results.answers}
@@ -83,11 +83,11 @@ SPDX-License-Identifier: MPL-2.0
 			/>
 		</div>
 	{:else if selected_tab === SelectedTab.Questions}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<QuestionOverview questions={data.results.questions} answers={data.results.answers} />
 		</div>
 	{:else if selected_tab === SelectedTab.Players}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<PlayerOverview
 				custom_field={data.results.custom_field_data}
 				scores={data.results.player_scores}

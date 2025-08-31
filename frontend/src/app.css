@@ -7,8 +7,7 @@ SPDX-License-Identifier: MPL-2.0
 @import 'tippy.js/animations/perspective-subtle.css';
 @import 'tippy.js/dist/tippy.css';
 /* Write your global styles here, in PostCSS syntax */
-@tailwind base;
-@tailwind components;
+@import 'tailwindcss';
 @tailwind utilities;
 
 .marck-script {
@@ -22,17 +21,24 @@ SPDX-License-Identifier: MPL-2.0
 .link-hover:hover {
 	color: #4e6e58;
 }
-
-@layer utilities {
-	.normal-background {
-		@apply bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] dark:bg-[#0f2702] dark:from-[#0f2702] dark:via-[#0f2702] dark:to[#0f2702];
+@layer base {
+	button:not(:disabled),
+	[role='button']:not(:disabled) {
+		cursor: pointer;
 	}
+}
 
-	.admin-button {
-		@apply px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50;
-	}
+@utility normal-background {
+	@apply bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f] dark:bg-[#0f2702] dark:from-[#0f2702] dark:via-[#0f2702] dark:to-[#0f2702];
+}
 
-	.action-button {
-		@apply px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600;
-	}
+@utility admin-button {
+	@apply px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm text-center hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@utility action-button {
+	@apply px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded-sm text-center hover:bg-gray-300 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600;
+}
+@utility btn-nav {
+	@apply text-lg font-medium px-3 text-gray-600 hover:text-green-600 py-1.5 transition-all duration-300;
 }

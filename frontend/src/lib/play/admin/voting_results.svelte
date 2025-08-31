@@ -45,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex gap-12">
 			{#each quiz_answers as answer, i}
 				<div
-					class="w-20 self-end flex justify-center border border-black shadow-xl rounded"
+					class="w-20 self-end flex justify-center border border-black shadow-xl rounded-sm"
 					class:shadow-blue-500={answer_correct[i] &&
 						question.type !== QuizQuestionType.VOTING}
 					class:shadow-yellow-500={!answer_correct[i] &&

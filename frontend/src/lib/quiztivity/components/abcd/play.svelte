@@ -23,7 +23,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="grid grid-cols-1 lg:grid-cols-2 m-4 gap-4">
 		{#each data.answers as answer, i}
 			<button
-				class="rounded p-6 bg-gray-700 flex transition-all"
+				class="rounded-sm p-6 bg-gray-700 flex transition-all"
 				on:click={() => {
 					select_answer(i);
 				}}

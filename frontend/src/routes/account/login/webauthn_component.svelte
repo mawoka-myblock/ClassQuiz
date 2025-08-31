@@ -91,7 +91,7 @@ SPDX-License-Identifier: MPL-2.0
 				>{$t('login_page.use_backup_code')}</button
 			>
 			<button
-				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 				disabled={isLoading}
 				on:click={start_thing}
 			>

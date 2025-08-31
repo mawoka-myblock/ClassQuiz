@@ -123,7 +123,7 @@ SPDX-License-Identifier: MPL-2.0
 					>
 						<img
 							src={get_image_url({ ...data, [data_keys[index]]: key })}
-							in:fade={{ duration: 100 }}
+							in:fade|global={{ duration: 100 }}
 						/>
 					</button>
 				{/each}
@@ -133,17 +133,19 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 {#if finished}
 	<div
-		class="fixed top-0 left-0 w-full h-full z-30 bg-black flex justify-center flex-col bg-opacity-90"
-		out:fade={{ duration: 200 }}
-		in:fade={{ duration: 300 }}
+		class="fixed top-0 left-0 w-full h-full z-30 bg-black/90 flex justify-center flex-col"
+		out:fade|global={{ duration: 200 }}
+		in:fade|global={{ duration: 300 }}
 	>
-		<h1 class="m-auto text-4xl" in:fade={{ delay: 3500 }}>{$t('avatar_settings.thats_you')}</h1>
+		<h1 class="m-auto text-4xl" in:fade|global={{ delay: 3500 }}>
+			{$t('avatar_settings.thats_you')}
+		</h1>
 		<img
 			class="m-auto w-1/2 h-1/2 z-20"
 			src={get_image_url(data)}
-			in:fly={{ delay: 500, duration: 4000, y: -500, easing: bounceOut }}
+			in:fly|global={{ delay: 500, duration: 4000, y: -500, easing: bounceOut }}
 		/>
-		<div class="m-auto grid grid-cols-2 gap-4" in:fade={{ delay: 3500 }}>
+		<div class="m-auto grid grid-cols-2 gap-4" in:fade|global={{ delay: 3500 }}>
 			<BrownButton
 				on:click={() => {
 					index = 0;

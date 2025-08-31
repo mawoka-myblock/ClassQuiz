@@ -119,6 +119,12 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		bind:this={html_el}
 		contenteditable="true"
-		class="rounded-lg border-gray-500 border text-center w-fit h-fit resize-none dark:bg-gray-500 min-w-[5rem]"
+		class="rounded-lg border-gray-500 border text-center w-fit h-fit resize-none dark:bg-gray-500 min-w-[5rem] dark:text-white"
 	/>
 </div>
+
+<style>
+	:global(.ck-powered-by) {
+		display: none;
+	}
+</style>

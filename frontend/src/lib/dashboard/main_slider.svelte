@@ -61,9 +61,9 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 {#if copy_toast_open || game_in_lobby}
-	<div class="fixed w-screen top-10 z-50 flex justify-center" transition:fly={{ y: -100 }}>
+	<div class="fixed w-screen top-10 z-50 flex justify-center" transition:fly|global={{ y: -100 }}>
 		<div
-			class="flex items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+			class="flex items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow-smdark:text-gray-400 dark:bg-gray-800"
 			role="alert"
 		>
 			<div class="ml-3 text-sm font-normal">

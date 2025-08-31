@@ -13,7 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 </script>
 
-<div class="w-full px-6 lg:px-20 h-[80vh] absolute" in:fly={{ x: 100 }} out:fly={{ x: -100 }}>
+<div class="w-full px-6 lg:px-20 h-[80vh] absolute" in:fly|global={{ x: 100 }} out:fly|global={{ x: -100 }}>
 	<div class="rounded-lg bg-white w-full h-full border-gray-500 dark:bg-gray-700">
 		<div class="h-fit bg-gray-300 rounded-t-lg dark:bg-gray-500">
 			<div class="flex align-middle p-4 gap-3">

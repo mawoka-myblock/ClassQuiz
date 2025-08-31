@@ -4,8 +4,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-
-
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 	import OAuthBlock from './oauth_block.svelte';
@@ -58,7 +56,7 @@ SPDX-License-Identifier: MPL-2.0
 						bind:value={email}
 						name="email"
 						type="text"
-						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 						placeholder={$t('login_page.email_or_username')}
 						autocomplete="email"
 					/>
@@ -78,7 +76,7 @@ SPDX-License-Identifier: MPL-2.0
 				>
 
 				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={emailEmpty}
 					type="submit"
 				>

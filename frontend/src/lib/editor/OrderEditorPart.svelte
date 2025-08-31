@@ -72,7 +72,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#each data.questions[selected_question].answers as answer, i (answer.id)}
 			<div
 				animate:flip={{ duration: 200 }}
-				out:fade|local={{ duration: 150 }}
+				out:fade={{ duration: 150 }}
 				class="p-4 rounded-lg flex justify-center w-full transition relative border border-gray-600 flex-row gap-4 m-2"
 			>
 				<button
@@ -154,7 +154,7 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none"
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-hidden"
 					style="background-color: {answer.color}; color: {get_foreground_color(
 						answer.color
 					)}"
@@ -177,7 +177,7 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600 m-2 w-full"
 				type="button"
-				in:fade|local={{ duration: 150 }}
+				in:fade={{ duration: 150 }}
 				on:click={() => {
 					data.questions[selected_question].answers = [
 						...data.questions[selected_question].answers,

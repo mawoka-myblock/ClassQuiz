@@ -122,12 +122,12 @@ SPDX-License-Identifier: MPL-2.0
 
 <SmallPopover bind:open={popover_open} type={PopoverTypes.Copy} />
 <div
-	class="fixed w-full h-full top-0 flex bg-black bg-opacity-50 z-50"
+	class="fixed w-full h-full top-0 flex bg-black/50 z-50"
 	on:click={on_parent_click}
-	transition:fade|local={{ duration: 100 }}
+	transition:fade={{ duration: 100 }}
 >
 	<div
-		class="m-auto bg-white dark:bg-gray-600 rounded shadow-2xl flex p-4 flex-col w-2/3 h-5/6 gap-2 overflow-scroll"
+		class="m-auto bg-white dark:bg-gray-600 rounded-sm shadow-2xl flex p-4 flex-col w-2/3 h-5/6 gap-2 overflow-scroll"
 	>
 		<div class="flex justify-center flex-col">
 			<BrownButton
@@ -138,7 +138,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if add_shares_open}
 				<form
 					class="flex justify-center p-2 border-b-2 border-l-2 border-r-2 border-[#B07156] flex-col gap-2"
-					transition:fly|local={{ duration: 100, y: -10 }}
+					transition:fly={{ duration: 100, y: -10 }}
 					on:submit|preventDefault={create_share}
 				>
 					<div class="grid grid-cols-2">
@@ -163,7 +163,7 @@ SPDX-License-Identifier: MPL-2.0
 			<Spinner />
 		{:then shares}
 			{#each shares as share}
-				<div class="grid grid-cols-4 w-full gap-2" in:fade={{ duration: 50 }}>
+				<div class="grid grid-cols-4 w-full gap-2" in:fade|global={{ duration: 50 }}>
 					<!--                    <p>{share.name ?? "..."}</p>-->
 					<div class="w-full mx-auto">
 						<BrownButton

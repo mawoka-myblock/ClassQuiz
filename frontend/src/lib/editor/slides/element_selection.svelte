@@ -75,7 +75,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <div
 	class="bg-white m-auto rounded-lg shadow-lg p-4 flex flex-col dark:bg-gray-600 h-fit"
-	transition:fade={{ duration: 100 }}
+	transition:fade|global={{ duration: 100 }}
 >
 	<ul>
 		{#each element_list as el}

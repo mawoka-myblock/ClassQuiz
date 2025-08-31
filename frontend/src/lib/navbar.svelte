@@ -54,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="font-black tracking-tight text-xl lg:text-2xl text-black marck-script link-hover px-3 lg:px-5"
 				>ClassQuiz</a
 			>
-			<a class="btn-nav border-2 rounded" href="/play">{$t('words.play')}</a>
+			<a class="btn-nav border-2 rounded-sm" href="/play">{$t('words.play')}</a>
 			<a class="btn-nav" href="/explore">{$t('words.explore')}</a>
 			<a class="btn-nav" href="/search">{$t('words.search')}</a>
 			{#if $signedIn}
@@ -271,8 +271,8 @@ SPDX-License-Identifier: MPL-2.0
 							stroke-width="2"
 							stroke-linecap="round"
 							stroke-linejoin="round"
-							><path in:draw={{ duration: 300 }} d="M18 6 6 18" /><path
-								in:draw={{ duration: 300 }}
+							><path in:draw|global={{ duration: 300 }} d="M18 6 6 18" /><path
+								in:draw|global={{ duration: 300 }}
 								d="m6 6 12 12"
 							/></svg
 						>
@@ -283,7 +283,7 @@ SPDX-License-Identifier: MPL-2.0
 
 		<!-- Navbar content -->
 		{#if !menuIsClosed}
-			<div class="flex flex-col" transition:slide={{ duration: 400 }}>
+			<div class="flex flex-col" transition:slide|global={{ duration: 400 }}>
 				<a class="btn-nav" href="/explore">{$t('words.explore')}</a>
 				<a class="btn-nav" href="/search">{$t('words.search')}</a>
 				{#if $signedIn}
@@ -340,9 +340,3 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	</div>
 </nav>
-
-<style lang="scss">
-	.btn-nav {
-		@apply text-lg font-medium px-3 text-gray-600 hover:text-green-600 py-1.5 transition-all duration-300;
-	}
-</style>

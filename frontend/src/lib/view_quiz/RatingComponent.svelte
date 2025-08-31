@@ -43,7 +43,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="flex flex-col border-[#B07156] rounded border-2 p-2 gap-2">
+<div class="flex flex-col border-[#B07156] rounded-sm border-2 p-2 gap-2">
 	<div class="grid grid-cols-2 gap-2 group mx-auto">
 		<Hoverable bind:hovering={FeedBackButtonsHovered.like}>
 			<button

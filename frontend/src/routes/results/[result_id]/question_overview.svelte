@@ -57,7 +57,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#each questions as question, i}
 			<div class="transition-all">
 				<div
-					class="w-full bg-white p-2 rounded grid grid-cols-3 z-40 dark:bg-gray-700 bg-opacity-60 dark:bg-opacity-80"
+					class="w-full bg-white/60 p-2 rounded-sm grid grid-cols-3 z-40 dark:bg-gray-700/80"
 				>
 					<button
 						class="text-center underline text-xl"
@@ -80,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
 					{/if}
 				</div>
 				{#if question_open === i}
-					<div in:fly|local={{ y: -10 }}>
+					<div in:fly={{ y: -10 }}>
 						<QuestionTab {question} answers={answers[i]} />
 					</div>
 				{/if}

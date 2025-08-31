@@ -59,7 +59,7 @@ SPDX-License-Identifier: MPL-2.0
 									id="player_name"
 									name="player_name"
 									type="text"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									class:ring-red-700={input_data.player_name.length === 0}
 									class:ring-green-600={input_data.player_name.length !== 0}
 									bind:value={input_data.player_name}
@@ -78,7 +78,7 @@ SPDX-License-Identifier: MPL-2.0
 									id="name"
 									name="name"
 									type="text"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder="Name"
 									class:ring-red-700={input_data.name.length === 0}
 									class:ring-green-600={input_data.name.length !== 0}
@@ -95,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 
 						<div class="flex items-center justify-center mt-4">
 							<button
-								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none"
+								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden"
 								disabled={!isValid || isSubmitting}
 								class:cursor-not-allowed={!isValid || isSubmitting}
 								class:opacity-50={!isValid || isSubmitting}

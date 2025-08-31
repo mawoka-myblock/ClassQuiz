@@ -61,13 +61,13 @@ SPDX-License-Identifier: MPL-2.0
 
 <div class="flex justify-center">
 	<div class="grid grid-cols-4 w-11/12 gap-4">
-		<div class="border-[#B07156] border-2 rounded">
+		<div class="border-[#B07156] border-2 rounded-sm">
 			<h2 class="text-center">{$t('quiztivity.memory.editor.add_card')}</h2>
 			<div class="grid grid-cols-2 py-2">
 				<div class="px-2 flex flex-col gap-2">
 					<textarea
 						type="text"
-						class="h-auto resize-none bg-transparent outline-none rounded outline-[#B07156] outline"
+						class="h-auto resize-none bg-transparent outline-hidden rounded-sm outline-[#B07156] outline"
 						rows="3"
 						contenteditable="true"
 						bind:value={new_pair_data.text_1}
@@ -80,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="px-2 flex flex-col gap-2">
 					<textarea
 						type="text"
-						class="h-auto resize-none bg-transparent outline-none rounded outline-[#B07156] outline"
+						class="h-auto resize-none bg-transparent outline-hidden rounded-sm outline-[#B07156] outline"
 						rows="3"
 						contenteditable="true"
 						bind:value={new_pair_data.text_2}
@@ -99,7 +99,7 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 		{#each data.cards as card_pair, i (card_pair[0].id)}
 			<div
-				class="border-[#B07156] border-2 rounded group flex flex-col"
+				class="border-[#B07156] border-2 rounded-sm group flex flex-col"
 				animate:flip={{ duration: 200 }}
 			>
 				<div class="grid grid-cols-2 py-2 h-full">

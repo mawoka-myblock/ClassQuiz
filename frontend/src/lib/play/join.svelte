@@ -197,7 +197,7 @@ SPDX-License-Identifier: MPL-2.0
 		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
-				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={game_pin}
 				maxlength="6"
 				inputmode="numeric"
@@ -218,14 +218,14 @@ SPDX-License-Identifier: MPL-2.0
 		>
 			<h1 class="text-lg text-center">{$t('words.username')}</h1>
 			<input
-				class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
+				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
 				bind:value={username}
 				maxlength="17"
 			/>
 			{#if custom_field}
 				<h1 class="text-lg text-center">{custom_field}</h1>
 				<input
-					class="border border-gray-400 self-center text-center text-black ring-0 outline-none p-2 rounded-lg focus:shadow-2xl transition-all"
+					class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
 					bind:value={custom_field_value}
 				/>
 			{/if}

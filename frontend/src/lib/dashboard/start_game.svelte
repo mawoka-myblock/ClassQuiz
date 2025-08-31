@@ -94,8 +94,8 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div
-	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black bg-opacity-60 z-50 text-black"
-	transition:fade={{ duration: 100 }}
+	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black/60 z-50 text-black"
+	transition:fade|global={{ duration: 100 }}
 	on:click={on_parent_click}
 >
 	<div
@@ -116,7 +116,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="sr-only peer"
 				/>
 				<span
-					class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
 				/>
 				<span class="ml-3 text-sm font-medium text-gray-900"
 					>Captcha {captcha_selected ? 'enabled' : 'disabled'}</span
@@ -124,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 			</label>
 		</div>
 		{#if captcha_selected}
-			<div class="flex justify-center mt-2" in:fade>
+			<div class="flex justify-center mt-2" in:fade|global>
 				<p class="w-1/3">
 					{$t('start_game.captcha_message')}
 				</p>
@@ -162,7 +162,7 @@ SPDX-License-Identifier: MPL-2.0
 			<label class="mr-4">{$t('result_page.custom_field')}</label>
 			<input
 				bind:value={custom_field}
-				class="rounded-lg p-2 outline-none placeholder:italic"
+				class="rounded-lg p-2 outline-hidden placeholder:italic"
 				placeholder="Phone Number or Email"
 			/>
 		</div>
@@ -175,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="sr-only peer"
 				/>
 				<span
-					class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
 				/>
 				<span class="ml-3 text-sm font-medium text-gray-900"
 					><a
@@ -203,7 +203,7 @@ SPDX-License-Identifier: MPL-2.0
 					class="sr-only peer"
 				/>
 				<span
-					class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
+					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
 				/>
 				<span class="ml-3 text-sm font-medium text-gray-900"> Randomize answers</span>
 			</label>

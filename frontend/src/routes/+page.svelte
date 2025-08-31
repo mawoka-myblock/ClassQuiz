@@ -216,12 +216,12 @@ SPDX-License-Identifier: MPL-2.0
 		<h2 class="text-center text-5xl mb-6">{$t('index_page.how_does_classquiz_work')}</h2>
 
 		<div class="flex justify-center w-full">
-			<h3 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+			<h3 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
 				{$t('index_page.get_a_quiz')}
 			</h3>
 		</div>
 		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
 		>
 			<div>
 				<div class="p-2 rounded-lg">
@@ -229,21 +229,21 @@ SPDX-License-Identifier: MPL-2.0
 						<img
 							class="rounded-lg relative"
 							src={EditScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
 						/>
 					{:else if selected_create_thing === SelectedCreateThing.Find}
 						<img
 							class="rounded-lg relative"
 							src={FindScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the search-page showing one found quiz for the term 'Country'"
 						/>
 					{:else if selected_create_thing === SelectedCreateThing.Import}
 						<img
 							class="rounded-lg relative"
 							src={ImportScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
 						/>
 					{:else}
@@ -255,7 +255,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
 			>
 				<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_create_thing = SelectedCreateThing.Create;
 					}}
@@ -288,7 +288,7 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="dark:text-black">{$t('index_page.create_a_quiz_from_scratch')}</p>
 				</div>
 				<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_create_thing = SelectedCreateThing.Find;
 					}}
@@ -358,13 +358,13 @@ SPDX-License-Identifier: MPL-2.0
 
 	<section class="mt-24">
 		<div class="flex justify-center w-full">
-			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+			<h2 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
 				{$t('index_page.play_quiz')}
 			</h2>
 		</div>
 
 		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
 		>
 			<div>
 				<div class="p-2 rounded-lg">
@@ -372,21 +372,21 @@ SPDX-License-Identifier: MPL-2.0
 						<img
 							class="rounded-lg relative"
 							src={SelectScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the screen where an answer can be selected"
 						/>
 					{:else if selected_play_thing === SelectedPlayThing.Results}
 						<img
 							class="rounded-lg relative"
 							src={ResultScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the results with a table showing how many players chose which answer"
 						/>
 					{:else if selected_play_thing === SelectedPlayThing.Winners}
 						<img
 							class="rounded-lg relative"
 							src={WinnersScreenshot}
-							in:fade
+							in:fade|global
 							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
 						/>
 					{:else}
@@ -398,7 +398,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
 			>
 				<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_play_thing = SelectedPlayThing.Select;
 					}}
@@ -431,7 +431,7 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="dark:text-black">{$t('index_page.choose_answer_wisely')}</p>
 				</div>
 				<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_play_thing = SelectedPlayThing.Results;
 					}}
@@ -464,7 +464,7 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="dark:text-black">{$t('index_page.check_if_chosen_wisely')}</p>
 				</div>
 				<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 					on:click={() => {
 						selected_play_thing = SelectedPlayThing.Winners;
 					}}
@@ -502,13 +502,13 @@ SPDX-License-Identifier: MPL-2.0
 
 	<section class="mt-24">
 		<div class="flex justify-center w-full">
-			<h2 class="text-center text-3xl rounded-t-lg bg-opacity-40 bg-white py-2 px-6">
+			<h2 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
 				{$t('index_page.why_classquiz')}
 			</h2>
 		</div>
 
 		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-opacity-40 bg-white shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
+			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
 		>
 			<div>
 				<div class="p-12 rounded-lg flex justify-center items-center h-full">
@@ -522,7 +522,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				{#each classquiz_reasons as reason, index}
 					<div
-						class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
+						class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
 						on:click={() => {
 							selected_classquiz_reason = index;
 						}}
@@ -542,7 +542,7 @@ SPDX-License-Identifier: MPL-2.0
 {#if newsletterModalOpen}
 	<div
 		class="fixed bottom-8 right-5 bg-white rounded-lg h-fit w-11/12 ml-5 lg:w-2/12 z-50 p-2 bg-white dark:bg-gray-700"
-		transition:fly
+		transition:fly|global
 	>
 		<Newsletter bind:open={newsletterModalOpen} />
 	</div>

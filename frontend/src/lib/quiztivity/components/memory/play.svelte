@@ -82,7 +82,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="grid lg:grid-cols-6 grid-cols-2 gap-2 m-4">
 		{#each random_card_order as card}
 			<button
-				class="aspect-square flex border-[#B07156] border-2 rounded"
+				class="aspect-square flex border-[#B07156] border-2 rounded-sm"
 				on:click={() => {
 					flip_card(card.id);
 				}}

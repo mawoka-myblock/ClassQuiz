@@ -247,7 +247,7 @@ SPDX-License-Identifier: MPL-2.0
 						type="text"
 						bind:value={text_input}
 						disabled={selected_answer}
-						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
+						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 				</div>
 
@@ -298,7 +298,7 @@ SPDX-License-Identifier: MPL-2.0
 							on:click={() => {
 								question.answers = swapArrayElements(question.answers, i, i - 1);
 							}}
-							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
 							disabled={i === 0 || selected_answer}
 						>
@@ -325,7 +325,7 @@ SPDX-License-Identifier: MPL-2.0
 							on:click={() => {
 								question.answers = swapArrayElements(question.answers, i, i + 1);
 							}}
-							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
 							disabled={i === question.answers.length - 1 || selected_answer}
 						>

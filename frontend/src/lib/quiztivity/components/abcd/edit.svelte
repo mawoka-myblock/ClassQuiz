@@ -24,17 +24,17 @@ SPDX-License-Identifier: MPL-2.0
 <div>
 	<div class="flex justify-center">
 		<input
-			class="bg-transparent outline-none text-3xl text-center"
+			class="bg-transparent outline-hidden text-3xl text-center"
 			placeholder="Enter question here..."
 			bind:value={data.question}
 		/>
 	</div>
 	<div class="grid grid-cols-2 m-4 gap-4">
 		{#each data.answers as answer}
-			<div class="rounded p-6 bg-gray-700 flex">
+			<div class="rounded-sm p-6 bg-gray-700 flex">
 				<input
 					bind:value={answer.answer}
-					class="w-full my-auto bg-transparent outline-none text-center text-white"
+					class="w-full my-auto bg-transparent outline-hidden text-center text-white"
 					placeholder="Enter answer here"
 				/>
 				<button
@@ -78,7 +78,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 		{/each}
 		{#if data.answers.length < 4}
-			<div class="rounded p-6 bg-gray-700">
+			<div class="rounded-sm p-6 bg-gray-700">
 				<BrownButton
 					on:click={() => {
 						data.answers = [...data.answers, { ...{ answer: '', correct: false } }];

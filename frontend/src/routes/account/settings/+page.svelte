@@ -184,21 +184,21 @@ SPDX-License-Identifier: MPL-2.0
 					<label
 						>{$t('settings_page.old_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.oldPassword}
 						/></label
 					>
 					<label
 						>{$t('settings_page.new_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.newPassword}
 						/></label
 					>
 					<label
 						>{$t('settings_page.repeat_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.newPasswordConfirm}
 						/></label
 					>

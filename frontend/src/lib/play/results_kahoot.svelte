@@ -52,7 +52,7 @@ SPDX-License-Identifier: MPL-2.0
 <div>
 	<div class="flex justify-center h-screen">
 		<div class="m-auto flex flex-col">
-			<p class="p-4 bg-black bg-opacity-40 rounded-lg text-2xl">
+			<p class="p-4 bg-black/40 rounded-lg text-2xl">
 				+{score_by_username[username] ?? '0'}
 			</p>
 			<p>Total score: {scores[username] ?? '0'}</p>

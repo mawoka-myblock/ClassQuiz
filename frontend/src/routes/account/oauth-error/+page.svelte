@@ -28,7 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="flex justify-center w-full pt-10">
 		<a
 			href="/account/login"
-			class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded-sm text-center hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 		>
 			Go back to login-page
 		</a>

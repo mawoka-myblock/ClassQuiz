@@ -91,7 +91,11 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<div class="w-full px-6 lg:px-20 h-[80vh] absolute" in:fly={{ x: 100 }} out:fly={{ x: -100 }}>
+<div
+	class="w-full px-6 lg:px-20 h-[80vh] absolute"
+	in:fly|global={{ x: 100 }}
+	out:fly|global={{ x: -100 }}
+>
 	<h1 class="text-3xl text-center">{@html question.question}</h1>
 	{#if question.image !== null}
 		<div>
@@ -224,7 +228,7 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					type="text"
 					bind:value={text_input}
-					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center"
+					class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center"
 				/>
 			</div>
 			<div class="flex justify-center">
@@ -251,7 +255,7 @@ SPDX-License-Identifier: MPL-2.0
 						on:click={() => {
 							question.answers = swapArrayElements(question.answers, i, i - 1);
 						}}
-						class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+						class="disabled:opacity-50 transition shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 						type="button"
 						disabled={i === 0 || order_corrected}
 					>
@@ -278,7 +282,7 @@ SPDX-License-Identifier: MPL-2.0
 						on:click={() => {
 							question.answers = swapArrayElements(question.answers, i, i + 1);
 						}}
-						class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+						class="disabled:opacity-50 transition shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 						type="button"
 						disabled={i === question.answers.length - 1 || order_corrected}
 					>

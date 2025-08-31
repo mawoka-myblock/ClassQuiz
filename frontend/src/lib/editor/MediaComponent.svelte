@@ -67,7 +67,7 @@ SPDX-License-Identifier: MPL-2.0
 {:then data}
 	{#if type === 'img'}
 		<img
-			in:fade={{ duration: 300 }}
+			in:fade|global={{ duration: 300 }}
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
 			class={css_classes}
@@ -93,14 +93,14 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if fullscreen_open}
 	<div
-		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 fle p-2"
-		transition:fade={{ duration: 80 }}
+		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 fle p-2"
+		transition:fade|global={{ duration: 80 }}
 		on:click={() => (fullscreen_open = false)}
 	>
 		<img
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
-			class="object-cover rounded m-auto max-h-full max-w-full"
+			class="object-cover rounded-sm m-auto max-h-full max-w-full"
 		/>
 	</div>
 {/if}

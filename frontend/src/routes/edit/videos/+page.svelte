@@ -190,7 +190,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 		</div>
 		<span
-			class="h-full transition-all absolute rounded bg-black bg-opacity-50"
+			class="h-full transition-all absolute rounded-sm bg-black/50"
 			style="width: {100 - stats.progress * 100}%"
 		/>
 	</div>
