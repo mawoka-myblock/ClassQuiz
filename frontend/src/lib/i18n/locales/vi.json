@@ -167,7 +167,8 @@
         "community_driven": "Do cộng đồng thúc đẩy",
         "play_quiz": "2. Thi trắc nghiệm",
         "see_all_quizzes": "Xem tất cả các câu hỏi của bạn",
-        "download_quizzes_content": "Bài kiểm tra có thể được tải về dưới dạng một tập tin và nhập vào bất kỳ lúc nào. Điều này cũng cho phép bạn chuyển bài kiểm tra của mình sang các trường hợp ClassQuiz khác."
+        "download_quizzes_content": "Bài kiểm tra có thể được tải về dưới dạng một tập tin và nhập vào bất kỳ lúc nào. Điều này cũng cho phép bạn chuyển bài kiểm tra của mình sang các trường hợp ClassQuiz khác.",
+        "import_quiz_from_kahoot_and_edit": "Nhập các câu hỏi từ Kahoot! và chỉnh sửa chúng trong ClassQuiz"
     },
     "admin_page": {
         "stop_time_and_solutions": "Dừng thời gian và hiển thị đáp án",
@@ -353,7 +354,8 @@
         "time_in_seconds": "Thời gian tính bằng giây",
         "add_new_question": "Thêm câu hỏi mới",
         "bg_image": "Hình nền",
-        "no_title": "Không có tiêu đề..."
+        "no_title": "Không có tiêu đề...",
+        "enable_reorder": "Bật chế độ sắp xếp lại"
     },
     "controllers": {
         "last_seen": "thấy lần cuối",

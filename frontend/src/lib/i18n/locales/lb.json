@@ -1,0 +1,52 @@
+{
+    "index_page": {
+        "slogan": "D'Oppene Quellecode Quiz-Plattform!",
+        "meta": {
+            "title": "Doheemmenü",
+            "description": "ClassQuiz ass eng Quiz-App fir interaktiv fir Studenten ze léieren, déi Oppene Quellecode ass a fräi ze benotzen"
+        },
+        "stats": "Et gi scho {{user count}} Benotzer an {{quiz_count}} Quizzen um ClassQuiz.",
+        "see_how_many_true_and_false": "Kuckt wéi vill richteg oder falsch waren",
+        "create_or_import": "Erschafen oder Importéieren",
+        "teachers_site": "De Site vum Enseignant",
+        "students_site": "De Site vum Student",
+        "no_tracking": "Keen Tracking",
+        "self_hostable": "Selbst-Hostable",
+        "german_server": "Däitsch Server",
+        "user_friendly": "Convivial",
+        "completely_free": "Ganz fräi",
+        "quiz_results_downloadable": "Quizresultater kënnen erofgeluede ginn",
+        "multilingual": "Méisproocheg",
+        "dark_mode": "Donkelmodus",
+        "get_a_quiz": "1. Besuergt e Quiz",
+        "create_a_quiz_from_scratch": "Erschaaft e Quiz mam Editeur, dee Biller a méi enthält",
+        "select_answer": "Wielt d'Äntwert",
+        "play_quiz": "2. Spillt dee Quiz",
+        "choose_answer_wisely": "Wielt Är Äntwert klug aus",
+        "view_results": "Gesi Resultater",
+        "check_if_chosen_wisely": "Kuckt ob Dir richteg gewielt hutt",
+        "get_ranking_and_winners": "Kritt de Klassement a kuckt wien gewonnen huet",
+        "see_what_true_and_false": "Kuckt wat richteg oder falsch waren",
+        "see_all_quizzes": "Gesinn all Är Quizzen",
+        "find_or_explore": "Fannt (oder entdeckt) Quizze gemaach oder importéiert vun anere Leit",
+        "list_winners": "Lëscht Gewënner",
+        "why_classquiz": "Firwat ClassQuiz?"
+    },
+    "words": {
+        "quiztivity": "Quiztivitéit"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Wielt Säit Typ",
+            "move_left": "Beweegt lénks",
+            "move_right": "Beweegt riets",
+            "title_placeholder": "Gitt den Titel hei",
+            "add_new": "Füügt nei",
+            "open_shares_menu": "Offen Deelemenü",
+            "shares": {
+                "add_new_share": "Füügt neien Deelen"
+            },
+            "delete": "Läschen"
+        }
+    }
+}
