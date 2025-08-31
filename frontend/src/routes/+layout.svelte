@@ -49,8 +49,11 @@ SPDX-License-Identifier: MPL-2.0
 		// // Whenever the user explicitly chooses to respect the OS preference
 		// 		localStorage.removeItem('theme');
 	}
-
-	initLocalizationContext();
+	let start_language = 'en';
+	if (browser) {
+		start_language = localStorage.getItem('language') ?? 'en';
+	}
+	initLocalizationContext(start_language);
 
 	if (import.meta.env.VITE_SENTRY !== undefined && import.meta.env.PROD) {
 		Sentry.init({
@@ -67,8 +70,18 @@ SPDX-License-Identifier: MPL-2.0
 
 <svelte:head>
 	{#if plausible_data_url}
-		<script defer data-domain={plausible_data_url} src="https://plausible.nexus.mawoka.eu/js/script.file-downloads.outbound-links.pageview-props.tagged-events.js"></script>
-		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+		<script
+			defer
+			data-domain={plausible_data_url}
+			src="https://plausible.nexus.mawoka.eu/js/script.file-downloads.outbound-links.pageview-props.tagged-events.js"
+		></script>
+		<script>
+			window.plausible =
+				window.plausible ||
+				function () {
+					(window.plausible.q = window.plausible.q || []).push(arguments);
+				};
+		</script>
 	{/if}
 </svelte:head>
 
