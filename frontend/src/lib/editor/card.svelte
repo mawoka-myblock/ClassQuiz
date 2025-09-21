@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { EditorData } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import RangeEditor from '$lib/editor/RangeSelectorEditorPart.svelte';
@@ -26,14 +28,18 @@ SPDX-License-Identifier: MPL-2.0
 		placement: 'top'
 	});
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let edit_id: string;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		edit_id: string;
+	}
 
-	let advanced_options_open = false;
+	let { data = $bindable(), selected_question = $bindable(), edit_id = $bindable() }: Props = $props();
 
-	let uppyOpen = false;
-	let unique = {};
+	let advanced_options_open = $state(false);
+
+	let uppyOpen = $state(false);
+	let unique = $state({});
 
 	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 	const correctTimeInput = (_) => {
@@ -51,21 +57,23 @@ SPDX-License-Identifier: MPL-2.0
 	const set_unique = () => {
 		unique = {};
 	};
-	$: correctTimeInput(data.questions[selected_question].time);
-	$: {
+	run(() => {
+		correctTimeInput(data.questions[selected_question].time);
+	});
+	run(() => {
 		selected_question;
 		set_unique();
-	}
-	let image_url = '';
+	});
+	let image_url = $state('');
 
 	const update_image_url = () => {
 		image_url = data.questions[selected_question].image;
 	};
-	$: {
+	run(() => {
 		update_image_url();
 		selected_question;
 		data.questions;
-	}
+	});
 
 	const type_to_name = {
 		RANGE: $t('words.range'),
@@ -90,18 +98,18 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex align-middle p-4 gap-3">
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-red-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-yellow-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-green-400 transition"
-				/>
+				></span>
 				<button
 					class="ml-auto"
 					type="button"
 					use:tippy={{ content: $t('editor.advanced_settings') }}
-					on:click={() => (advanced_options_open = true)}
+					onclick={() => (advanced_options_open = true)}
 				>
 					<svg
 						class="text-white w-5 h-5"
@@ -116,12 +124,12 @@ SPDX-License-Identifier: MPL-2.0
 							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
 							stroke-linecap="round"
 							stroke-linejoin="round"
-						></path>
+						/>
 						<path
 							d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
 							stroke-linecap="round"
 							stroke-linejoin="round"
-						></path>
+						/>
 					</svg>
 				</button>
 			</div>
@@ -130,7 +138,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('./slide.svelte')}
 				<Spinner my_20={false} />
 			{:then c}
-				<svelte:component this={c.default} bind:data={data.questions[selected_question]} />
+				<c.default bind:data={data.questions[selected_question]} />
 			{/await}
 		{:else}
 			{@const type = data.questions[selected_question].type}
@@ -147,8 +155,7 @@ SPDX-License-Identifier: MPL-2.0
 									'questions[].question'
 								).isValidSync(data.questions[selected_question].question)}
 							>
-								<svelte:component
-									this={c.default}
+								<c.default
 									bind:text={data.questions[selected_question].question}
 								/>
 							</div>
@@ -161,7 +168,7 @@ SPDX-License-Identifier: MPL-2.0
 							<button
 								class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 								type="button"
-								on:click={() => {
+								onclick={() => {
 									data.questions[selected_question].image = null;
 								}}
 							>
@@ -187,8 +194,7 @@ SPDX-License-Identifier: MPL-2.0
 					{#await import('$lib/editor/uploader.svelte')}
 						<Spinner my_20={false} />
 					{:then c}
-						<svelte:component
-							this={c.default}
+						<c.default
 							bind:modalOpen={uppyOpen}
 							bind:edit_id
 							bind:data
@@ -217,7 +223,7 @@ SPDX-License-Identifier: MPL-2.0
 							type="number"
 							max="999"
 							min="1"
-							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1 outline-none focus:shadow-2xl"
+							class="w-20 bg-transparent rounded-lg text-lg border-2 border-gray-500 p-1 outline-hidden focus:shadow-2xl"
 							bind:value={data.questions[selected_question].time}
 						/>
 						<p class="inline-block">s</p>
@@ -231,8 +237,7 @@ SPDX-License-Identifier: MPL-2.0
 						{#await import('$lib/editor/ABCDEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
-							<svelte:component
-								this={c.default}
+							<c.default
 								bind:data
 								bind:selected_question
 								check_choice={type === QuizQuestionType.CHECK}
@@ -244,19 +249,19 @@ SPDX-License-Identifier: MPL-2.0
 						{#await import('$lib/editor/VotingEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
-							<svelte:component this={c.default} bind:data bind:selected_question />
+							<c.default bind:data bind:selected_question />
 						{/await}
 					{:else if type === QuizQuestionType.TEXT}
 						{#await import('$lib/editor/TextEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
-							<svelte:component this={c.default} bind:data bind:selected_question />
+							<c.default bind:data bind:selected_question />
 						{/await}
 					{:else if type === QuizQuestionType.ORDER}
 						{#await import('$lib/editor/OrderEditorPart.svelte')}
 							<Spinner my_20={false} />
 						{:then c}
-							<svelte:component this={c.default} bind:data bind:selected_question />
+							<c.default bind:data bind:selected_question />
 						{/await}
 					{/if}
 				</div>
@@ -268,18 +273,24 @@ SPDX-License-Identifier: MPL-2.0
 {#if advanced_options_open}
 	<div
 		class="fixed top-0 left-0 w-full h-full bg-black/60 flex"
-		transition:fade={{ duration: 150 }}
+		transition:fade|global={{ duration: 150 }}
 	>
-		<div class="w-1/4 h-1/3 m-auto bg-white dark:bg-gray-700 rounded-lg flex flex-col p-2 gap-2">
+		<div
+			class="w-1/4 h-1/3 m-auto bg-white dark:bg-gray-700 rounded-lg flex flex-col p-2 gap-2"
+		>
 			<h1 class="text-3xl mx-auto">{$t('editor.advanced_settings')}</h1>
 			<label class="flex justify-around text-lg">
 				<span class="my-auto">{$t('editor.hide_question_results')}</span>
-				<input type="checkbox" bind:checked={data.questions[selected_question]["hide_results"]} />
+				<input
+					type="checkbox"
+					bind:checked={data.questions[selected_question]['hide_results']}
+				/>
 			</label>
 			<div class="mt-auto w-full">
-				<BrownButton on:click={() => (advanced_options_open = false)}>{$t('words.close')}</BrownButton>
+				<BrownButton on:click={() => (advanced_options_open = false)}
+					>{$t('words.close')}</BrownButton
+				>
 			</div>
-
 		</div>
 	</div>
 {/if}

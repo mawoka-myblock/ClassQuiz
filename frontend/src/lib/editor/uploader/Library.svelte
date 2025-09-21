@@ -11,9 +11,13 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let modalOpen: boolean;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		modalOpen: boolean;
+	}
+
+	let { data = $bindable(), selected_question, modalOpen = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 
@@ -40,16 +44,16 @@ SPDX-License-Identifier: MPL-2.0
 {:then images}
 	<div class="flex w-screen p-8 h-screen">
 		<div
-			class="flex flex-col w-1/3 m-auto overflow-scroll h-full rounded p-4 gap-4 bg-white dark:bg-gray-700"
+			class="flex flex-col w-1/3 m-auto overflow-scroll h-full rounded-sm p-4 gap-4 bg-white dark:bg-gray-700"
 		>
 			{#each images as image}
-				<div class="rounded border-2 border-[#B07156] p-2 flex-col flex gap-2">
+				<div class="rounded-sm border-2 border-[#B07156] p-2 flex-col flex gap-2">
 					<div>
 						<img
 							src="/api/v1/storage/download/{image.id}"
 							loading="lazy"
 							alt={image.alt_text}
-							class="object-contain w-full h-full max-h-full rounded"
+							class="object-contain w-full h-full max-h-full rounded-sm"
 						/>
 					</div>
 					<p class="text-center">{image.filename ?? 'No name available'}</p>

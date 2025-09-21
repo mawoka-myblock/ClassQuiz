@@ -14,7 +14,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	// eslint-disable-next-line no-unused-vars
 	enum SelectedTab {
@@ -26,7 +30,7 @@ SPDX-License-Identifier: MPL-2.0
 		Questions
 	}
 
-	let selected_tab: SelectedTab = SelectedTab.Overview;
+	let selected_tab: SelectedTab = $state(SelectedTab.Overview);
 </script>
 
 <div class="w-full">
@@ -37,7 +41,7 @@ SPDX-License-Identifier: MPL-2.0
 			class:opacity-60={selected_tab !== SelectedTab.Overview}
 		>
 			<button
-				on:click={() => {
+				onclick={() => {
 					selected_tab = SelectedTab.Overview;
 				}}
 				class="m-auto w-full h-full"
@@ -50,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 			class:opacity-60={selected_tab !== SelectedTab.Players}
 		>
 			<button
-				on:click={() => {
+				onclick={() => {
 					selected_tab = SelectedTab.Players;
 				}}
 				class="m-auto w-full h-full"
@@ -64,7 +68,7 @@ SPDX-License-Identifier: MPL-2.0
 			class:opacity-60={selected_tab !== SelectedTab.Questions}
 		>
 			<button
-				on:click={() => {
+				onclick={() => {
 					selected_tab = SelectedTab.Questions;
 				}}
 				class="m-auto w-full h-full"
@@ -73,7 +77,7 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 	</div>
 	{#if selected_tab === SelectedTab.Overview}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<GeneralOverview
 				questions={data.results.questions}
 				answers={data.results.answers}
@@ -83,11 +87,11 @@ SPDX-License-Identifier: MPL-2.0
 			/>
 		</div>
 	{:else if selected_tab === SelectedTab.Questions}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<QuestionOverview questions={data.results.questions} answers={data.results.answers} />
 		</div>
 	{:else if selected_tab === SelectedTab.Players}
-		<div in:fade={{ duration: 150 }}>
+		<div in:fade|global={{ duration: 150 }}>
 			<PlayerOverview
 				custom_field={data.results.custom_field_data}
 				scores={data.results.player_scores}

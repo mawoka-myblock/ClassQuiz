@@ -8,8 +8,12 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Question } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 
-	export let data;
-	export let question: Question;
+	interface Props {
+		data: any;
+		question: Question;
+	}
+
+	let { data, question }: Props = $props();
 
 	let quiz_answers = [];
 	let quiz_colors = [];
@@ -21,7 +25,7 @@ SPDX-License-Identifier: MPL-2.0
 		answer_correct.push(i.right);
 	}
 
-	let sorted_data = {};
+	let sorted_data = $state({});
 	for (const i of quiz_answers) {
 		sorted_data[i] = 0;
 	}
@@ -45,7 +49,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex gap-12">
 			{#each quiz_answers as answer, i}
 				<div
-					class="w-20 self-end flex justify-center border border-black shadow-xl rounded"
+					class="w-20 self-end flex justify-center border border-black shadow-xl rounded-sm"
 					class:shadow-blue-500={answer_correct[i] &&
 						question.type !== QuizQuestionType.VOTING}
 					class:shadow-yellow-500={!answer_correct[i] &&
@@ -56,7 +60,7 @@ SPDX-License-Identifier: MPL-2.0
 						data.length}rem; background-color: {quiz_colors[i]
 						? quiz_colors[i]
 						: 'black'}"
-				/>
+				></div>
 			{/each}
 		</div>
 		<div class="flex gap-12">

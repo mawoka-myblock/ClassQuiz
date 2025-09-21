@@ -5,7 +5,10 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { alertModal, navbarVisible } from '$lib/stores';
+	import { run } from 'svelte/legacy';
+
+	import { alertModal } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte';
 	import { slide } from 'svelte/transition';
 	import Footer from '$lib/footer.svelte';
 	import VerifiedBadge from './verified_badge.svelte';
@@ -17,23 +20,27 @@ SPDX-License-Identifier: MPL-2.0
 	import TotpComponent from './totp_component.svelte';
 	import { browserSupportsWebAuthn } from '@simplewebauthn/browser';
 
-	navbarVisible.set(true);
+	navbarVisible.visible = true;
 
-	export let data;
+	let { data } = $props();
 	const { verified }: boolean = data;
 
-	let session_data = {};
-	let step = 0;
-	let selected_method = null;
-	let done = false;
+	let session_data = $state({});
+	let step = $state(0);
+	let selected_method = $state(null);
+	let done = $state(false);
 
 	const redirect_back = (done_var: boolean) => {
 		if (done_var) {
-			window.location.reload();
+			setTimeout(() => {
+				window.location.reload();
+			}, 100);
 		}
 	};
 	let alertModalOpen = false;
-	$: redirect_back(done);
+	run(() => {
+		redirect_back(done);
+	});
 
 	alertModal.subscribe((data) => {
 		if (!alertModalOpen && data.open) {
@@ -72,10 +79,10 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}
 	};
-	$: {
+	run(() => {
 		check_auto();
 		step;
-	}
+	});
 </script>
 
 <svelte:head>
@@ -91,32 +98,32 @@ SPDX-License-Identifier: MPL-2.0
 	>
 		{#if step === 0}
 			<!--			<p>StartWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<StartWindow bind:session_data bind:step />
 			</div>
 		{:else if selected_method === null}
 			<!--			<p>SelectWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<SelectMethod bind:session_data bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'PASSWORD'}
 			<!--			<p>PasswordWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<PasswordComponent bind:session_data bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'PASSKEY'}
 			<!--			<p>WebauthnWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<WebauthnComponent bind:session_data bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'BACKUP'}
 			<!--			<p>BackupWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<BackupComponent bind:session_data bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'TOTP'}
 			<!--			<p>TotpWindow</p>-->
-			<div transition:slide>
+			<div transition:slide|global>
 				<TotpComponent bind:session_data bind:done bind:step bind:selected_method />
 			</div>
 		{/if}

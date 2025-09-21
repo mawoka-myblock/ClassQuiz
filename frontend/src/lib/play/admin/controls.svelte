@@ -10,18 +10,32 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Socket } from 'socket.io-client';
 	import { getLocalization } from '$lib/i18n';
 
-	export let bg_color: string;
-	export let selected_question: number;
-	export let quiz_data: QuizData;
-	export let timer_res: string;
-	export let final_results;
-	export let socket: Socket;
 
-	export let game_token: string;
 
-	export let question_results;
 
-	export let shown_question_now: number;
+	interface Props {
+		bg_color: string;
+		selected_question: number;
+		quiz_data: QuizData;
+		timer_res: string;
+		final_results: any;
+		socket: Socket;
+		game_token: string;
+		question_results: any;
+		shown_question_now: number;
+	}
+
+	let {
+		bg_color,
+		selected_question,
+		quiz_data,
+		timer_res = $bindable(),
+		final_results,
+		socket,
+		game_token,
+		question_results,
+		shown_question_now
+	}: Props = $props();
 
 	const { t } = getLocalization();
 	const set_question_number = (q_number: number) => {
@@ -56,14 +70,14 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
 		{#if selected_question + 1 === quiz_data.questions.length && ((timer_res === '0' && question_results !== null) || quiz_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 			{#if JSON.stringify(final_results) === JSON.stringify([null])}
-				<button on:click={get_final_results} class="admin-button"
+				<button onclick={get_final_results} class="admin-button"
 					>{$t('admin_page.get_final_results')}
 				</button>
 			{/if}
 		{:else if timer_res === '0' || selected_question === -1}
 			{#if (selected_question + 1 !== quiz_data.questions.length && question_results !== null) || selected_question === -1}
 				<button
-					on:click={() => {
+					onclick={() => {
 						set_question_number(selected_question + 1);
 					}}
 					class="admin-button"
@@ -73,7 +87,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if question_results === null && selected_question !== -1}
 				{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 					<button
-						on:click={() => {
+						onclick={() => {
 							set_question_number(selected_question + 1);
 						}}
 						class="admin-button"
@@ -81,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 					</button>
 				{:else if quiz_data.questions[selected_question]?.hide_results === true}
 					<button
-						on:click={() => {
+						onclick={() => {
 							get_question_results();
 							setTimeout(() => {
 								set_question_number(selected_question + 1);
@@ -91,7 +105,7 @@ SPDX-License-Identifier: MPL-2.0
 						>{$t('admin_page.next_question', { question: selected_question + 2 })}
 					</button>
 				{:else}
-					<button on:click={get_question_results} class="admin-button"
+					<button onclick={get_question_results} class="admin-button"
 						>{$t('admin_page.show_results')}
 					</button>
 				{/if}
@@ -99,14 +113,14 @@ SPDX-License-Identifier: MPL-2.0
 		{:else if selected_question !== -1}
 			{#if quiz_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 				<button
-					on:click={() => {
+					onclick={() => {
 						set_question_number(selected_question + 1);
 					}}
 					class="admin-button"
 					>{$t('admin_page.next_question', { question: selected_question + 2 })}
 				</button>
 			{:else}
-				<button on:click={show_solutions} class="admin-button"
+				<button onclick={show_solutions} class="admin-button"
 					>{$t('admin_page.stop_time_and_solutions')}
 				</button>
 			{/if}

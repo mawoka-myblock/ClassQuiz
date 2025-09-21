@@ -4,11 +4,11 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
-	export let session_data = {};
-	export let step;
-	export let selected_method;
+	import { run } from 'svelte/legacy';
 
-	let available_methods;
+	let { session_data = {}, step, selected_method = $bindable() } = $props();
+
+	let available_methods = $state();
 
 	const set_available_methods = (step_var: number) => {
 		if (step_var === 1) {
@@ -18,7 +18,9 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	$: set_available_methods(step);
+	run(() => {
+		set_available_methods(step);
+	});
 </script>
 
 <div class="px-6 py-4">
@@ -30,10 +32,10 @@ SPDX-License-Identifier: MPL-2.0
 				{#if available_methods.includes('PASSKEY')}
 					<div
 						class="flex flex-row bg-gray-100 dark:bg-gray-700 rounded-lg p-2 hover:cursor-pointer hover:bg-gray-200 transition"
-						on:click={() => {
+						onclick={() => {
 							selected_method = 'PASSKEY';
 						}}
-						on:keyup={() => {
+						onkeyup={() => {
 							selected_method = 'PASSKEY';
 						}}
 					>
@@ -61,10 +63,10 @@ SPDX-License-Identifier: MPL-2.0
 				{#if available_methods.includes('PASSWORD')}
 					<div
 						class="flex flex-row bg-gray-100 dark:bg-gray-700 rounded-lg p-2 hover:cursor-pointer hover:bg-gray-200 transition"
-						on:click={() => {
+						onclick={() => {
 							selected_method = 'PASSWORD';
 						}}
-						on:keyup={() => {
+						onkeyup={() => {
 							selected_method = 'PASSWORD';
 						}}
 					>
@@ -107,10 +109,10 @@ SPDX-License-Identifier: MPL-2.0
 				{#if available_methods.includes('TOTP')}
 					<div
 						class="flex flex-row bg-gray-100 rounded-lg p-2 hover:cursor-pointer hover:bg-gray-200 transition"
-						on:click={() => {
+						onclick={() => {
 							selected_method = 'TOTP';
 						}}
-						on:keyup={() => {
+						onkeyup={() => {
 							selected_method = 'TOTP';
 						}}
 					>

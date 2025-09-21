@@ -5,13 +5,17 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 
-	navbarVisible.set(true);
+	navbarVisible.visible = true;
 	import SearchCard from '$lib/search-card.svelte';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	const quizzes = data.results;
 </script>

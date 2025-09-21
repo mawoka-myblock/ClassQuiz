@@ -7,10 +7,10 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible} from '$lib/stores.svelte.ts';
 	import { QuizQuestionType } from '$lib/quiz_types';
 
-	navbarVisible.set(false);
+	navbarVisible.visible= false;
 
 	const { t } = getLocalization();
 
@@ -37,9 +37,9 @@ SPDX-License-Identifier: MPL-2.0
 		answer: string;
 	}
 
-	export let data;
-	let { quiz_id } = data;
-	let quiz_data: Data;
+	let { data } = $props();
+	let { quiz_id } = $state(data);
+	let quiz_data: Data = $state();
 
 	const get_quiz = async (): Promise<void> => {
 		const response = await fetch(`/api/v1/quiz/get/${quiz_id}`);
@@ -95,10 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
 	>
-		<div
-			class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-			aria-hidden="true"
-		/>
+		<div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
 
 		<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"
 			>&#8203;</span
@@ -109,7 +106,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 				<div class="sm:flex sm:items-start">
 					<div
-						class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+						class="mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
 					>
 						<!-- Heroicon name: outline/exclamation -->
 						<svg
@@ -142,10 +139,10 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						window.location.href = '/dashboard';
 					}}
-					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-xm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
 					>{$t('words.close')}
 				</button>
 			</div>

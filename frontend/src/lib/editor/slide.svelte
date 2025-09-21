@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Question } from '$lib/quiz_types';
 	import { ElementTypes, QuizQuestionType } from '$lib/quiz_types';
 	import ElementSelection from './slides/element_selection.svelte';
@@ -15,21 +17,25 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Konva, ShapeModel } from 'pikaso';
 	import { browser } from '$app/environment';
 
-	export let data: Question = {
+	interface Props {
+		data?: Question;
+	}
+
+	let { data = $bindable({
 		type: QuizQuestionType.SLIDE,
 		time: '120',
 		question: '',
 		image: undefined,
 		answers: ''
-	};
-	let selected_element = undefined;
-	let canvas_el: HTMLDivElement | undefined;
+	}) }: Props = $props();
+	let selected_element = $state(undefined);
+	let canvas_el: HTMLDivElement | undefined = $state();
 	let canvas: Pikaso;
-	let selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig> = null;
+	let selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig> = $state(null);
 
 	let elements_binds: Array<HTMLElement> | undefined = [];
-	let main_el: undefined | HTMLElement;
-	let settings_menu_open = false;
+	let main_el: undefined | HTMLElement = $state();
+	let settings_menu_open = $state(false);
 
 	const set_correct_height = new ResizeObserver((e) => {
 		for (const i of e) {
@@ -87,11 +93,11 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	$: {
+	run(() => {
 		if (selected_element) {
 			add_text_field();
 		}
-	}
+	});
 	const assign_resize_handlers = () => {
 		for (let i = 0; i < elements_binds.length; i++) {
 			set_correct_height.observe(elements_binds[i]);
@@ -105,10 +111,10 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}*/
 
-	$: {
+	run(() => {
 		elements_binds;
 		assign_resize_handlers();
-	}
+	});
 
 	onMount(() => {
 		/*		setTimeout(() => {
@@ -172,7 +178,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex flex-col pl-2 rounded-t-lg z-40 pt-2">
 			<button
 				class="mr-auto"
-				on:click={() => {
+				onclick={() => {
 					settings_menu_open = !settings_menu_open;
 				}}
 				type="button"
@@ -212,7 +218,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex flex-col pr-2 rounded-t-lg z-40 pt-2">
 			<button
 				class="ml-auto"
-				on:click={() => {
+				onclick={() => {
 					selected_element = selected_element === null ? undefined : null;
 				}}
 				type="button"
@@ -240,5 +246,5 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 		</div>
 	</div>
-	<div bind:this={canvas_el} class="w-full h-full block" />
+	<div bind:this={canvas_el} class="w-full h-full block"></div>
 </div>

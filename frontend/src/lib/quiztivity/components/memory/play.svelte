@@ -9,7 +9,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let data: Memory | undefined;
+	interface Props {
+		data: Memory | undefined;
+	}
+
+	let { data }: Props = $props();
 
 	const shuffle = <Type>(a: Array<Type>): Array<Type> => {
 		for (let i = a.length - 1; i > 0; i--) {
@@ -19,7 +23,7 @@ SPDX-License-Identifier: MPL-2.0
 		return a;
 	};
 
-	let card_opened = {};
+	let card_opened = $state({});
 
 	const get_all_cards_as_single_array = (): MemoryCard[] => {
 		console.log('data', data.cards);
@@ -43,7 +47,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const found_cards: string[] = [];
 	let opened_active_cards: string[] = [];
-	let try_count = 0;
+	let try_count = $state(0);
 	let game_finished = false;
 	const flip_card = (id: string) => {
 		if (found_cards.includes(id) || game_finished) {
@@ -82,8 +86,8 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="grid lg:grid-cols-6 grid-cols-2 gap-2 m-4">
 		{#each random_card_order as card}
 			<button
-				class="aspect-square flex border-[#B07156] border-2 rounded"
-				on:click={() => {
+				class="aspect-square flex border-[#B07156] border-2 rounded-sm"
+				onclick={() => {
 					flip_card(card.id);
 				}}
 			>

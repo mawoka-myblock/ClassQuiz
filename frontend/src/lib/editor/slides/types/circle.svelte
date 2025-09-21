@@ -5,8 +5,12 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let data: string;
-	export let editor = true;
+	interface Props {
+		data: string;
+		editor?: boolean;
+	}
+
+	let { data = $bindable(), editor = true }: Props = $props();
 
 	if (!data) {
 		data = '#ed333b';

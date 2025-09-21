@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 	import type { EditorData, OrderQuizAnswer } from '$lib/quiz_types';
 	import { fade } from 'svelte/transition';
@@ -13,10 +15,14 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let selected_question: number;
-	export let data: EditorData;
+	interface Props {
+		selected_question: number;
+		data: EditorData;
+	}
 
-	let parent_el: HTMLDivElement;
+	let { selected_question, data = $bindable() }: Props = $props();
+
+	let parent_el: HTMLDivElement = $state();
 
 	const swapArrayElements = (arr: OrderQuizAnswer[], a: number, b: number): Array<any> => {
 		let _arr = [...arr];
@@ -60,11 +66,11 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}
 	};
-	$: {
+	run(() => {
 		set_colors_if_unset();
 		data;
 		selected_question;
-	}
+	});
 </script>
 
 <div class="w-full">
@@ -72,13 +78,13 @@ SPDX-License-Identifier: MPL-2.0
 		{#each data.questions[selected_question].answers as answer, i (answer.id)}
 			<div
 				animate:flip={{ duration: 200 }}
-				out:fade|local={{ duration: 150 }}
+				out:fade={{ duration: 150 }}
 				class="p-4 rounded-lg flex justify-center w-full transition relative border border-gray-600 flex-row gap-4 m-2"
 			>
 				<button
 					class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						data.questions[selected_question].answers.splice(i, 1);
 						data.questions[selected_question].answers =
 							data.questions[selected_question].answers;
@@ -101,7 +107,7 @@ SPDX-License-Identifier: MPL-2.0
 				</button>
 				<div>
 					<button
-						on:click={() => {
+						onclick={() => {
 							move_item(true, i);
 						}}
 						class="disabled:opacity-50 transition"
@@ -126,7 +132,7 @@ SPDX-License-Identifier: MPL-2.0
 						</svg>
 					</button>
 					<button
-						on:click={() => {
+						onclick={() => {
 							move_item(false, i);
 						}}
 						class="disabled:opacity-50 transition"
@@ -154,7 +160,7 @@ SPDX-License-Identifier: MPL-2.0
 				<input
 					bind:value={answer.answer}
 					type="text"
-					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none"
+					class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-hidden"
 					style="background-color: {answer.color}; color: {get_foreground_color(
 						answer.color
 					)}"
@@ -164,9 +170,9 @@ SPDX-License-Identifier: MPL-2.0
 					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
-					on:contextmenu|preventDefault={() => {
+					oncontextmenu={preventDefault(() => {
 						answer.color = null;
-					}}
+					})}
 				/>
 			</div>
 		{/each}
@@ -177,8 +183,8 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600 m-2 w-full"
 				type="button"
-				in:fade|local={{ duration: 150 }}
-				on:click={() => {
+				in:fade={{ duration: 150 }}
+				onclick={() => {
 					data.questions[selected_question].answers = [
 						...data.questions[selected_question].answers,
 						{

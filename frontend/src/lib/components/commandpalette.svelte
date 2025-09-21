@@ -4,22 +4,23 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-
 <!--
 This should be okay, right?
 -->
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { onMount } from 'svelte';
 	import { tinykeys } from '$lib/tinykeys';
 	import { fade } from 'svelte/transition';
 	import MiniSearch from 'minisearch';
 
-	let open = false;
-	let input = '';
-	let bg_text = '';
+	let open = $state(false);
+	let input = $state('');
+	let bg_text = $state('');
 	let title_ms: MiniSearch;
 	let command_ms: MiniSearch;
-	let selected: null | number = null;
+	let selected: null | number = $state(null);
 
 	// eslint-disable-next-line no-unused-vars
 	type ActionFunction = (args: string[]) => void;
@@ -98,7 +99,7 @@ This should be okay, right?
 			action: () => window.location.assign('/account/settings')
 		}
 	];
-	let visible_items = actions;
+	let visible_items = $state(actions);
 
 	const toggle_open = (e: KeyboardEvent | undefined) => {
 		e.preventDefault();
@@ -205,9 +206,13 @@ This should be okay, right?
 		input = '';
 	};
 
-	$: search(input);
+	run(() => {
+		search(input);
+	});
 	// $: input = lower_input(input)
-	$: input = input.toLowerCase();
+	run(() => {
+		input = input.toLowerCase();
+	});
 	onMount(async () => {
 		tinykeys(window, {
 			'$mod+k': toggle_open,
@@ -232,39 +237,37 @@ This should be okay, right?
 
 {#if open}
 	<div
-		class="fixed top-0 left-0 w-screen h-screen flex bg-black bg-opacity-50 z-50"
-		on:click={close_on_outside}
-        on:keyup={close_on_outside}
-		transition:fade={{ duration: 60 }}
+		class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
+		onclick={close_on_outside}
+		onkeyup={close_on_outside}
+		transition:fade|global={{ duration: 60 }}
 	>
-		<div class="m-auto w-1/3 h-2/3 rounded bg-black flex flex-col">
+		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
 			<div class="grid grid-cols-1 grid-rows-1 border-b border-b-white">
 				<p
-					class="col-start-1 row-start-1 w-full p-4 outline-none bg-gray-700 rounded-t text-gray-400"
+					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-t text-gray-400"
 				>
 					{bg_text}
 				</p>
 				<input
 					type="text"
-					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-none bg-gray-700 rounded"
+					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-hidden bg-gray-700 rounded-sm"
 					bind:value={input}
 				/>
 			</div>
 			<div class="flex flex-col p-2 gap-2 overflow-scroll">
 				{#each visible_items as vi, i}
 					<div
-						transition:fade|local={{ duration: 60 }}
-						class="p-2 transition rounded"
+						transition:fade={{ duration: 60 }}
+						class="p-2 transition rounded-sm"
 						class:bg-[#B07156]={selected === i}
 						class:bg-gray-700={selected !== i}
-						on:mouseenter={() => (selected = i)}
-						on:mousedown={execute_action}
+						onmouseenter={() => (selected = i)}
+						onmousedown={execute_action}
 					>
 						<div class="flex">
 							<h3 class="text-lg my-auto">{vi.title}</h3>
-							<p
-								class="font-mono my-auto ml-auto h-fit bg-black bg-opacity-50 rounded p-0.5"
-							>
+							<p class="font-mono my-auto ml-auto h-fit bg-black/50 rounded-sm p-0.5">
 								/{vi.command}
 								{#if vi.args}
 									{#each vi.args as arg}

@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
@@ -16,9 +18,13 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade, fly } from 'svelte/transition';
 
 	const { t } = getLocalization();
-	export let open = false;
-	export let id;
-	let popover_open = false;
+	interface Props {
+		open?: boolean;
+		id: any;
+	}
+
+	let { open = $bindable(false), id }: Props = $props();
+	let popover_open = $state(false);
 	const load_shares = async (): Promise<{
 		id: string;
 		name?: string;
@@ -73,8 +79,8 @@ SPDX-License-Identifier: MPL-2.0
 	onMount(() => {
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
-	let never_expires_checked = true;
-	let selected_date = undefined;
+	let never_expires_checked = $state(true);
+	let selected_date = $state(undefined);
 	const create_share = async () => {
 		if (!selected_date && !never_expires_checked) {
 			return;
@@ -95,7 +101,7 @@ SPDX-License-Identifier: MPL-2.0
 		});
 		loaded_shares = load_shares();
 	};
-	let loaded_shares = load_shares();
+	let loaded_shares = $state(load_shares());
 
 	const delete_share = async (id: string) => {
 		if (!confirm('Do you really want to delete this Share?')) {
@@ -117,17 +123,17 @@ SPDX-License-Identifier: MPL-2.0
 			return false;
 		}
 	};
-	let add_shares_open = false;
+	let add_shares_open = $state(false);
 </script>
 
 <SmallPopover bind:open={popover_open} type={PopoverTypes.Copy} />
 <div
-	class="fixed w-full h-full top-0 flex bg-black bg-opacity-50 z-50"
-	on:click={on_parent_click}
-	transition:fade|local={{ duration: 100 }}
+	class="fixed w-full h-full top-0 flex bg-black/50 z-50"
+	onclick={on_parent_click}
+	transition:fade={{ duration: 100 }}
 >
 	<div
-		class="m-auto bg-white dark:bg-gray-600 rounded shadow-2xl flex p-4 flex-col w-2/3 h-5/6 gap-2 overflow-scroll"
+		class="m-auto bg-white dark:bg-gray-600 rounded-sm shadow-2xl flex p-4 flex-col w-2/3 h-5/6 gap-2 overflow-scroll"
 	>
 		<div class="flex justify-center flex-col">
 			<BrownButton
@@ -138,8 +144,8 @@ SPDX-License-Identifier: MPL-2.0
 			{#if add_shares_open}
 				<form
 					class="flex justify-center p-2 border-b-2 border-l-2 border-r-2 border-[#B07156] flex-col gap-2"
-					transition:fly|local={{ duration: 100, y: -10 }}
-					on:submit|preventDefault={create_share}
+					transition:fly={{ duration: 100, y: -10 }}
+					onsubmit={preventDefault(create_share)}
 				>
 					<div class="grid grid-cols-2">
 						<input
@@ -163,7 +169,7 @@ SPDX-License-Identifier: MPL-2.0
 			<Spinner />
 		{:then shares}
 			{#each shares as share}
-				<div class="grid grid-cols-4 w-full gap-2" in:fade={{ duration: 50 }}>
+				<div class="grid grid-cols-4 w-full gap-2" in:fade|global={{ duration: 50 }}>
 					<!--                    <p>{share.name ?? "..."}</p>-->
 					<div class="w-full mx-auto">
 						<BrownButton

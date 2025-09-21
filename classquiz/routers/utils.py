@@ -59,7 +59,7 @@ class IpResponse(BaseModel):
 @router.get("/ip-lookup/{ip}", response_model=IpResponse)
 async def get_ip_data(ip: str, _: User = Depends(get_current_user)):
     async with ClientSession() as session, session.get(f"http://ip-api.com/json/{ip}") as response:
-        data = await response.model_dump_json()
+        data = await response.json()
         try:
             return IpResponse(**data)
         except ValidationError:

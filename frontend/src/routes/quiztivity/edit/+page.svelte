@@ -10,12 +10,16 @@ SPDX-License-Identifier: MPL-2.0
 	import SharesPopover from '$lib/quiztivity/shares_popover.svelte';
 	import { goto } from '$app/navigation';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
 
-	let saving = false;
+	let { data }: Props = $props();
 
-	let quiztivity = data.quiztivity;
-	let shares_menu_open = false;
+	let saving = $state(false);
+
+	let quiztivity = $state(data.quiztivity);
+	let shares_menu_open = $state(false);
 
 	const save_quiztivity = async () => {
 		saving = true;

@@ -15,25 +15,37 @@ SPDX-License-Identifier: MPL-2.0
 	import Controls from '$lib/play/admin/controls.svelte';
 	import Question from '$lib/play/admin/question.svelte';
 
-	export let game_token: string;
-	export let quiz_data: QuizData;
-	export let game_mode: string;
-	export let bg_color: string;
 
 	const { t } = getLocalization();
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
-	let question_results = null;
-	export let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
-	let selected_question = -1;
-	let timer_res: string;
-	let shown_question_now: number;
-	let final_results_clicked = false;
+	let question_results = $state(null);
+	let selected_question = $state(-1);
+	let timer_res: string = $state();
+	let shown_question_now: number = $state();
+	let final_results_clicked = $state(false);
 	let timer_interval;
-	let answer_count = 0;
-	export let control_visible: boolean;
+	let answer_count = $state(0);
 
-	export let player_scores;
+	interface Props {
+		game_token: string;
+		quiz_data: QuizData;
+		game_mode: string;
+		bg_color: string;
+		final_results?: Array<null> | Array<Array<PlayerAnswer>>;
+		control_visible: boolean;
+		player_scores: any;
+	}
+
+	let {
+		game_token,
+		quiz_data = $bindable(),
+		game_mode,
+		bg_color,
+		final_results = $bindable([null]),
+		control_visible,
+		player_scores = $bindable()
+	}: Props = $props();
 
 	socket.on('get_question_results', () => {
 		console.log('get_question_results');
@@ -110,7 +122,7 @@ SPDX-License-Identifier: MPL-2.0
 		class:mt-10={control_visible}
 		style="width: {(100 / parseInt(quiz_data.questions[selected_question].time)) *
 			parseInt(timer_res)}vw"
-	/>
+	></span>
 {/if}
 
 <div class="w-full h-full" class:pt-28={control_visible} class:pt-12={!control_visible}>
@@ -120,8 +132,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('$lib/play/admin/slide.svelte')}
 				<Spinner my_20={false} />
 			{:then c}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:question={quiz_data.questions[selected_question]}
 				/>
 			{/await}
@@ -141,8 +152,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('$lib/play/admin/voting_results.svelte')}
 				<Spinner />
 			{:then c}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:data={question_results}
 					bind:question={quiz_data.questions[selected_question]}
 				/>
@@ -151,8 +161,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('$lib/play/admin/results.svelte')}
 				<Spinner />
 			{:then c}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:data={player_scores}
 					question={quiz_data.questions[selected_question]}
 					bind:new_data={question_results}

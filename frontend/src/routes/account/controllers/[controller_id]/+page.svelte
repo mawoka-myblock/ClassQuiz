@@ -15,12 +15,16 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let data: PageData;
-	const controller = data.controller;
+	interface Props {
+		data: PageData;
+	}
 
-	let newest_version: string | undefined = undefined;
+	let { data }: Props = $props();
+	const controller = $state(data.controller);
 
-	let saved_status = SaveStatus.Unchanged;
+	let newest_version: string | undefined = $state(undefined);
+
+	let saved_status = $state(SaveStatus.Unchanged);
 
 	let save_player_timer;
 	const save_player_name_debounce = () => {
@@ -93,9 +97,9 @@ SPDX-License-Identifier: MPL-2.0
 		<h2 class="text-2xl mx-auto">{$t('controllers.controller_name')}</h2>
 		<div class="mx-auto flex">
 			<input
-				class="rounded p-1 transition-all outline-none text-center dark:bg-gray-700"
+				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.name}
-				on:keyup={save_player_name_debounce}
+				onkeyup={save_player_name_debounce}
 			/>
 			<SaveIndicator status={saved_status} />
 		</div>
@@ -104,9 +108,9 @@ SPDX-License-Identifier: MPL-2.0
 		<h2 class="mx-auto text-2xl">{$t('controllers.player_name')}</h2>
 		<div class="mx-auto flex">
 			<input
-				class="rounded p-1 transition-all outline-none text-center dark:bg-gray-700"
+				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.player_name}
-				on:keyup={save_player_name_debounce}
+				onkeyup={save_player_name_debounce}
 			/>
 			<SaveIndicator status={saved_status} />
 		</div>

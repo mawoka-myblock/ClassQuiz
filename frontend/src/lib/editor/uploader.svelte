@@ -3,7 +3,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 
 SPDX-License-Identifier: MPL-2.0
 -->
-
 <script lang="ts">
 	import { Dashboard as SvelteDashboard } from '@uppy/svelte';
 	import Uppy from '@uppy/core';
@@ -19,7 +18,6 @@ SPDX-License-Identifier: MPL-2.0
 	import '@uppy/core/dist/style.css';
 	import '@uppy/dashboard/dist/style.css';
 	import '@uppy/drop-target/dist/style.css';
-	// import '@uppy/file-input/dist/style.css'
 	import '@uppy/image-editor/dist/style.css';
 	import type { EditorData } from '../quiz_types';
 	import { getLocalization } from '$lib/i18n';
@@ -28,18 +26,26 @@ SPDX-License-Identifier: MPL-2.0
 	import Pixabay from '$lib/editor/uploader/Pixabay.svelte';
 
 	const { t } = getLocalization();
-
-	export let modalOpen = false;
-	export let edit_id: string;
-	export let data: EditorData;
-	export let selected_question: number;
-	export let video_upload = false;
-	export let library_enabled = true;
+	let {
+		modalOpen = false,
+		edit_id,
+		data,
+		selected_question,
+		video_upload = false,
+		library_enabled = true
+	}: {
+		modalOpen: boolean;
+		edit_id: string;
+		data: EditorData;
+		selected_question: number;
+		video_upload: boolean;
+		library_enabled: boolean;
+	} = $props();
 
 	// eslint-disable-next-line no-undef
-	let video_popup: undefined | WindowProxy = undefined;
+	let video_popup: undefined | WindowProxy = $state(undefined);
 
-	let selected_type: AvailableUploadTypes | null = null;
+	let selected_type: AvailableUploadTypes | null = $state(null);
 
 	// eslint-disable-next-line no-unused-vars
 	enum AvailableUploadTypes {
@@ -68,7 +74,7 @@ SPDX-License-Identifier: MPL-2.0
 		.use(XHRUpload, {
 			endpoint: `/api/v1/storage/`
 		});
-	const props = {
+	const properties = {
 		inline: true,
 		restrictions: {
 			maxFileSize: 10_490_000,
@@ -134,12 +140,12 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if modalOpen}
 	<div
-		class="w-screen h-screen fixed top-0 left-0 bg-opacity-50 bg-black z-20 flex justify-center"
-		on:click={handle_on_click}
-		transition:fade|local={{ duration: 100 }}
+		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
+		onclick={handle_on_click}
+		transition:fade={{ duration: 100 }}
 	>
 		{#if selected_type === null}
-			<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded">
+			<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm">
 				<h1 class="text-3xl text-center mb-4">{$t('uploader.select_upload_type')}</h1>
 				<div class="flex flex-row gap-4">
 					<div class="w-full">
@@ -180,15 +186,15 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Image}
-			<div class="m-auto w-1/3 h-5/6" transition:fade|local={{ duration: 100 }}>
+			<div class="m-auto w-1/3 h-5/6" transition:fade={{ duration: 100 }}>
 				<div>
-					<SvelteDashboard {uppy} width="100%" {props} />
+					<SvelteDashboard {uppy} width="100%" {properties} />
 				</div>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Video}
 			<div
-				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded"
-				transition:fade|local={{ duration: 100 }}
+				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm"
+				transition:fade={{ duration: 100 }}
 			>
 				<h1 class="text-3xl text-center mb-4">{$t('uploader.upload_a_video')}</h1>
 				{#if video_popup}
@@ -212,11 +218,11 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	</div>
 {/if}
-<div class="flex justify-center w-full pt-10" transition:fade|local>
+<div class="flex justify-center w-full pt-10" transition:fade>
 	<button
 		class="rounded-lg p-4 flex justify-center bg-transparent border-gray-500 border-2 w-1/2 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
 		type="button"
-		on:click={() => {
+		onclick={() => {
 			modalOpen = true;
 		}}
 		><span class="italic">{$t('uploader.add_image')}</span>

@@ -4,15 +4,21 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script>
+<script lang="ts">
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
-	import { navbarVisible, pathname } from '$lib/stores';
-	import * as Sentry from '@sentry/browser';
-	import { BrowserTracing } from '@sentry/tracing';
+	import { pathname } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte';
+	// import * as Sentry from '@sentry/browser';
+	// import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
 	import CommandPalette from '$lib/components/commandpalette.svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 	// import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {
@@ -49,9 +55,12 @@ SPDX-License-Identifier: MPL-2.0
 		// // Whenever the user explicitly chooses to respect the OS preference
 		// 		localStorage.removeItem('theme');
 	}
-
-	initLocalizationContext();
-
+	let start_language = 'en';
+	if (browser) {
+		start_language = localStorage.getItem('language') ?? 'en';
+	}
+	initLocalizationContext(start_language);
+	/*
 	if (import.meta.env.VITE_SENTRY !== undefined && import.meta.env.PROD) {
 		Sentry.init({
 			dsn: String(import.meta.env.VITE_SENTRY),
@@ -63,24 +72,43 @@ SPDX-License-Identifier: MPL-2.0
 			tracesSampleRate: 0.5
 		});
 	}
+	 */
 </script>
 
 <svelte:head>
 	{#if plausible_data_url}
-		<script defer data-domain={plausible_data_url} src="https://plausible.nexus.mawoka.eu/js/script.file-downloads.outbound-links.pageview-props.tagged-events.js"></script>
-		<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+		<script
+			defer
+			data-domain={plausible_data_url}
+			src="https://plausible.nexus.mawoka.eu/js/script.file-downloads.outbound-links.pageview-props.tagged-events.js"
+		></script>
+		<script>
+			window.plausible =
+				window.plausible ||
+				function () {
+					(window.plausible.q = window.plausible.q || []).push(arguments);
+				};
+		</script>
 	{/if}
 </svelte:head>
 
-{#if $navbarVisible}
+<!-- {#if navbarVisible.visible = true.visible}
 	<Navbar />
 	<div class="pt-16 h-screen">
-		<div class="z-40" />
+		<div class="z-40"></div>
 		<slot />
 	</div>
 {:else}
 	<slot />
+{/if} -->
+{#if navbarVisible.visible}
+	<Navbar />
+	<div class="pt-16">
+		<div class="z-40"></div>
+		<!-- extra content above slot -->
+	</div>
 {/if}
+<slot />
 <CommandPalette />
 
 <!--{#if $alertModal.open ?? false}

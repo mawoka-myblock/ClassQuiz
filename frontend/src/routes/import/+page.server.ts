@@ -7,7 +7,7 @@ import { signedIn } from '$lib/stores';
 export async function load({ parent }) {
 	const { email } = await parent();
 	if (!email) {
-		throw redirect(302, '/account/login?returnTo=/import');
+		redirect(302, '/account/login?returnTo=/import');
 	} else {
 		if (email) {
 			signedIn.set(true);

@@ -7,9 +7,14 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import type { PageData } from './$types';
 	// import FileDahboard from "$lib/files/dashboard.svelte"
-	// import { thumbHashToDataURL } from 'thumbhash';
 
-	export let data: PageData;
+
+	interface Props {
+		// import { thumbHashToDataURL } from 'thumbhash';
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 	const files = data.files;
 
 	/*	const base64ToBytes = (value: string) => {
@@ -28,7 +33,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="w-full h-full">
 	<div class="grid grid-cols-2 w-full h-full gap-4">
 		{#each files as file, i}
-			<div class="w-full h-full flex" />
+			<div class="w-full h-full flex"></div>
 		{/each}
 	</div>
 </div>
