@@ -5,7 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+	import { FFmpeg } from '@ffmpeg/ffmpeg';
+	import { fetchFile } from '@ffmpeg/util';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { navbarVisible } from '$lib/stores';
 	import { getLocalization } from '$lib/i18n';
@@ -55,27 +56,27 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		status = Status.Compressing;
-		const ffmpeg = createFFmpeg({
-			// log: true,
-			progress: (p) => {
-				if (stats.progress >= 1) {
-					stats.time_elapsed = last_time_elapsed;
-					return;
-				}
-				stats.time_elapsed = p.time ?? 0;
-				last_time_elapsed = stats.time_elapsed;
-				stats.progress = p.ratio ?? 0;
-			}
-		});
+		const ffmpeg = new FFmpeg();
 		const file = file_input.files[0];
 		original_file_size_in_mi = file.size / 1_048_576;
-		ffmpeg.setLogger(({ message }) => {
+		ffmpeg.on('log', ({ message }) => {
 			const speed_match = message.match(speed_extraction_regex);
 			stats.speed = speed_match ? parseFloat(speed_match[1]) : 0;
 		});
-		await ffmpeg.load();
-		ffmpeg.FS('writeFile', file.name, await fetchFile(file));
-		await ffmpeg.run(
+		ffmpeg.on('progress', (p) => {
+			if (stats.progress >= 1) {
+				stats.time_elapsed = last_time_elapsed;
+				return;
+			}
+			stats.time_elapsed = p.time ?? 0;
+			last_time_elapsed = stats.time_elapsed;
+			stats.progress = p.ratio ?? 0;
+		});
+		await ffmpeg.load({
+			// log: true,
+		});
+		await ffmpeg.writeFile(file.name, await fetchFile(file));
+		await ffmpeg.exec([
 			'-i',
 			file.name,
 			'-vcodec',
@@ -85,8 +86,8 @@ SPDX-License-Identifier: MPL-2.0
 			'-vf',
 			'scale=1080:-2',
 			'out.mp4'
-		);
-		const data = await ffmpeg.FS('readFile', 'out.mp4');
+		]);
+		const data = await ffmpeg.readFile('out.mp4');
 		file_size_in_mi = data.length / 1_048_576;
 		file_data = new Blob([data]);
 		status = Status.CompressDone;
