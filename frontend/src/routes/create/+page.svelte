@@ -8,11 +8,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import Editor from '$lib/editor.svelte';
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import type { Question } from '$lib/quiz_types';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	navbarVisible.set(false);
+	navbarVisible.visible = false;
 
 	const { t } = getLocalization();
 
@@ -27,12 +27,12 @@ SPDX-License-Identifier: MPL-2.0
 		open: false
 	};
 
-	let data: Data;
-	let quiz_id = null;
+	let data: Data = $state();
+	let quiz_id = $state(null);
 	onMount(() => {
 		const from_localstorage = localStorage.getItem('create_game');
 		if (from_localstorage === null) {
-			let title = $page.url.searchParams.get('title');
+			let title = page.url.searchParams.get('title');
 			title ??= '';
 			data = {
 				description: '',
@@ -71,7 +71,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
 	>
-		<div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true" />
+		<div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
 
 		<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"
 			>&#8203;</span
@@ -113,7 +113,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						window.location.href = '/dashboard';
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-xm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"

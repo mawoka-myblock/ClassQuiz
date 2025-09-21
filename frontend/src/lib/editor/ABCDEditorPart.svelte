@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import type { Answer, EditorData } from '../quiz_types';
 	import { QuizQuestionType } from '../quiz_types';
 	import { fade } from 'svelte/transition';
@@ -17,9 +19,13 @@ SPDX-License-Identifier: MPL-2.0
 
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
-	export let selected_question: number;
-	export let check_choice = false;
-	export let data: EditorData;
+	interface Props {
+		selected_question: number;
+		check_choice?: boolean;
+		data: EditorData;
+	}
+
+	let { selected_question, check_choice = false, data = $bindable() }: Props = $props();
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
 	}
@@ -41,7 +47,9 @@ SPDX-License-Identifier: MPL-2.0
 			right: false
 		};
 	};
-	$: save_colors(data);
+	run(() => {
+		save_colors(data);
+	});
 	data.questions[selected_question].type =
 		check_choice === true ? QuizQuestionType.CHECK : QuizQuestionType.ABCD;
 	const set_colors_if_unset = () => {
@@ -51,11 +59,11 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}
 	};
-	$: {
+	run(() => {
 		set_colors_if_unset();
 		data;
 		selected_question;
-	}
+	});
 </script>
 
 <div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-4 w-full px-10">
@@ -73,7 +81,7 @@ SPDX-License-Identifier: MPL-2.0
 				<button
 					class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						data.questions[selected_question].answers.splice(index, 1);
 						data.questions[selected_question].answers =
 							data.questions[selected_question].answers;
@@ -105,7 +113,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						answer.right = !answer.right;
 					}}
 				>
@@ -145,9 +153,9 @@ SPDX-License-Identifier: MPL-2.0
 					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
-					on:contextmenu|preventDefault={() => {
+					oncontextmenu={preventDefault(() => {
 						answer.color = default_colors[index];
-					}}
+					})}
 				/>
 			</div>
 		{/each}
@@ -157,7 +165,7 @@ SPDX-License-Identifier: MPL-2.0
 			class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
 			type="button"
 			in:fade={{ duration: 150 }}
-			on:click={() => {
+			onclick={() => {
 				data.questions[selected_question].answers = [
 					...data.questions[selected_question].answers,
 					{ ...get_empty_answer(data.questions[selected_question].answers.length) }

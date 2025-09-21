@@ -5,14 +5,16 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { preventDefault } from 'svelte/legacy';
 
-	navbarVisible.set(true);
+	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
+
+	navbarVisible.visible = true;
 
 	const { t } = getLocalization();
 
-	let isSubmitting = false;
+	let isSubmitting = $state(false);
 
 	const submit = async () => {
 		isSubmitting = true;
@@ -34,7 +36,7 @@ SPDX-License-Identifier: MPL-2.0
 		isSubmitting = false;
 	};
 
-	let email = '';
+	let email = $state('');
 </script>
 
 <svelte:head>
@@ -60,7 +62,7 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('password_reset_page.reset_password')}
 				</p>
 
-				<form on:submit|preventDefault={submit}>
+				<form onsubmit={preventDefault(submit)}>
 					<div class="w-full mt-4">
 						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 							<div class="relative bg-inherit w-full">

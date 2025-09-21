@@ -8,8 +8,12 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let current_slide_index: number;
-	export let question_count: number;
+	interface Props {
+		current_slide_index: number;
+		question_count: number;
+	}
+
+	let { current_slide_index = $bindable(), question_count }: Props = $props();
 
 	const { t } = getLocalization();
 </script>

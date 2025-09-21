@@ -11,7 +11,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let totp_data: { url: string; secret: string } | undefined;
+	interface Props {
+		totp_data: { url: string; secret: string } | undefined;
+	}
+
+	let { totp_data = $bindable() }: Props = $props();
 
 	const get_image_url = async () => {
 		return await QRCode.toDataURL(totp_data.url);
@@ -22,7 +26,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="w-full h-full">
 		<button
 			class="bg-gray-200 dark:bg-gray-900 px-2 py-1 rounded-t-lg hover:bg-gray-300 transition"
-			on:click={() => {
+			onclick={() => {
 				totp_data = undefined;
 			}}
 			>{$t('words.close')}
@@ -30,7 +34,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="bg-white dark:bg-gray-700 rounded-b-lg rounded-tr-lg w-full h-full">
 			<div class="grid grid-cols-3 w-full h-full">
 				<div class="flex flex-col justify-center w-full h-5/6">
-					<span class="m-auto" />
+					<span class="m-auto"></span>
 					<div class="h-5/6 flex">
 						<p class="my-auto ml-auto">
 							{$t('security_settings.totp_setup.scan_to_set_up')}

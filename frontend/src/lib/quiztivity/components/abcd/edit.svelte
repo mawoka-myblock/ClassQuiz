@@ -9,7 +9,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 
-	export let data: Abcd | undefined;
+	interface Props {
+		data: Abcd | undefined;
+	}
+
+	let { data = $bindable() }: Props = $props();
 
 	if (!data) {
 		data = {
@@ -39,7 +43,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						answer.correct = !answer.correct;
 					}}
 				>

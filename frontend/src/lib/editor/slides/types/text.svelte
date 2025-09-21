@@ -5,12 +5,16 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let data;
-	export let editor = true;
+	interface Props {
+		data: any;
+		editor?: boolean;
+	}
+
+	let { data = $bindable(), editor = true }: Props = $props();
 </script>
 
 {#if editor}
-	<textarea bind:value={data} class="w-full h-full dark:text-black resize-none" />
+	<textarea bind:value={data} class="w-full h-full dark:text-black resize-none"></textarea>
 {:else}
 	<p>{data}</p>
 {/if}

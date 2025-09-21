@@ -43,35 +43,41 @@ SPDX-License-Identifier: MPL-2.0
 			<section class="flex flex-col gap-2 mt-8">
 				<h2 class="mx-auto text-2xl">{$t('words.rating')}</h2>
 				<table class="w-fit mx-auto">
-					<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
-						<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-							>{$t('words.like', { count: 2 })}</th
-						>
-						<th class="p-1 mx-auto">{$t('words.dislike', { count: 2 })}</th>
-					</tr>
-					<tr class="text-left">
-						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-							>{quiz.likes}</td
-						>
-						<td class="mx-auto p-1">{quiz.dislikes}</td>
-					</tr>
+					<tbody>
+						<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
+							<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+								>{$t('words.like', { count: 2 })}</th
+							>
+							<th class="p-1 mx-auto">{$t('words.dislike', { count: 2 })}</th>
+						</tr>
+						<tr class="text-left">
+							<td class="border-r dark:border-gray-500 p-1 border-gray-300"
+								>{quiz.likes}</td
+							>
+							<td class="mx-auto p-1">{quiz.dislikes}</td>
+						</tr>
+					</tbody>
 				</table>
 			</section>
 			<section class="flex flex-col gap-2 mt-8">
 				<h2 class="mx-auto text-2xl">{$t('dashboard.views_n_plays')}</h2>
 				<table class="w-fit mx-auto">
-					<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
-						<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-							>{$t('words.view', { count: 2 })}</th
-						>
-						<th class="p-1 mx-auto">{$t('words.play', { count: 2 })}</th>
-					</tr>
-					<tr class="text-left">
-						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-							>{quiz.views}</td
-						>
-						<td class="mx-auto p-1">{quiz.plays}</td>
-					</tr>
+					<thead>
+						<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
+							<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+								>{$t('words.view', { count: 2 })}</th
+							>
+							<th class="p-1 mx-auto">{$t('words.play', { count: 2 })}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-left">
+							<td class="border-r dark:border-gray-500 p-1 border-gray-300"
+								>{quiz.views}</td
+							>
+							<td class="mx-auto p-1">{quiz.plays}</td>
+						</tr>
+					</tbody>
 				</table>
 			</section>
 			<section class="flex flex-col gap-2 mt-8">

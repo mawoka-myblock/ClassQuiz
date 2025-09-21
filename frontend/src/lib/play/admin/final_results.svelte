@@ -5,16 +5,22 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
 
-	export let data;
-	export let username;
-	export let show_final_results: boolean;
 	import { fly } from 'svelte/transition';
 	import confetti from 'canvas-confetti';
+	interface Props {
+		data: any;
+		username: any;
+		show_final_results: boolean;
+	}
+
+	let { data = $bindable(), username, show_final_results }: Props = $props();
 
 	function sortObjectbyValue(obj) {
 		const ret = {};
@@ -24,18 +30,22 @@ SPDX-License-Identifier: MPL-2.0
 		return ret;
 	}
 
-	$: data = sortObjectbyValue(data);
-	$: console.log(data, 'sorted, fina');
-
-	let player_names;
-	$: player_names = Object.keys(data).sort(function (a, b) {
-		return data[b] - data[a];
+	run(() => {
+		data = sortObjectbyValue(data);
+	});
+	run(() => {
+		console.log(data, 'sorted, fina');
 	});
 
-	let player_count_or_five;
-	$: player_count_or_five = player_names.length >= 5 ? 5 : player_names.length;
+	let player_names = $derived(Object.keys(data).sort(function (a, b) {
+		return data[b] - data[a];
+	}));
 
-	let canvas;
+
+	let player_count_or_five = $derived(player_names.length >= 5 ? 5 : player_names.length);
+
+
+	let canvas = $state();
 	onMount(() => {
 		setTimeout(() => {
 			confetti.create(canvas, {
@@ -48,7 +58,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 {#if show_final_results}
-	<canvas bind:this={canvas} />
+	<canvas bind:this={canvas}></canvas>
 	<div>
 		{#each player_names as player, i}
 			{#if i <= player_count_or_five - 1}

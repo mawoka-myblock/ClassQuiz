@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import type { EditorData } from '../quiz_types';
 	import { fade } from 'svelte/transition';
 	import { reach } from 'yup';
@@ -15,8 +17,12 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
-	export let selected_question: number;
-	export let data: EditorData;
+	interface Props {
+		selected_question: number;
+		data: EditorData;
+	}
+
+	let { selected_question, data = $bindable() }: Props = $props();
 
 	if (!Array.isArray(data.questions[selected_question].answers)) {
 		data.questions[selected_question].answers = [];
@@ -35,11 +41,11 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}
 	};
-	$: {
+	run(() => {
 		set_colors_if_unset();
 		data;
 		selected_question;
-	}
+	});
 	/*console.log(data.questions[selected_question].answers, 'moIn!', data.questions[selected_question].answers.length);
     onMount(() => {
         for (let i = 0; i < data.questions[selected_question].answers; i++) {
@@ -64,7 +70,7 @@ SPDX-License-Identifier: MPL-2.0
 				<button
 					class="rounded-full absolute -top-2 -right-2 opacity-70 hover:opacity-100 transition"
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						data.questions[selected_question].answers.splice(index, 1);
 						data.questions[selected_question].answers =
 							data.questions[selected_question].answers;
@@ -97,9 +103,9 @@ SPDX-License-Identifier: MPL-2.0
 					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
-					on:contextmenu|preventDefault={() => {
+					oncontextmenu={preventDefault(() => {
 						answer.color = default_colors[index];
-					}}
+					})}
 				/>
 			</div>
 		{/each}
@@ -109,7 +115,7 @@ SPDX-License-Identifier: MPL-2.0
 			class="p-4 rounded-lg bg-transparent border-gray-500 border-2 hover:bg-gray-300 transition dark:hover:bg-gray-600"
 			type="button"
 			in:fade={{ duration: 150 }}
-			on:click={() => {
+			onclick={() => {
 				data.questions[selected_question].answers = [
 					...data.questions[selected_question].answers,
 					{

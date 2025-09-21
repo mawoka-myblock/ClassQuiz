@@ -4,15 +4,21 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script>
+<script lang="ts">
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
-	import { navbarVisible, pathname } from '$lib/stores';
+	import { pathname } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte';
 	// import * as Sentry from '@sentry/browser';
 	// import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
 	import CommandPalette from '$lib/components/commandpalette.svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 	// import Alert from '$lib/modals/alert.svelte';
 
 	/*	afterNavigate(() => {
@@ -86,15 +92,23 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 </svelte:head>
 
-{#if $navbarVisible}
+<!-- {#if navbarVisible.visible = true.visible}
 	<Navbar />
 	<div class="pt-16 h-screen">
-		<div class="z-40" />
+		<div class="z-40"></div>
 		<slot />
 	</div>
 {:else}
 	<slot />
+{/if} -->
+{#if navbarVisible.visible}
+	<Navbar />
+	<div class="pt-16">
+		<div class="z-40"></div>
+		<!-- extra content above slot -->
+	</div>
 {/if}
+<slot />
 <CommandPalette />
 
 <!--{#if $alertModal.open ?? false}

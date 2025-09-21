@@ -8,9 +8,13 @@ SPDX-License-Identifier: MPL-2.0
 By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-modal
 -->
 <script lang="ts">
-	export let title: string;
-	export let body: string;
-	export let open: boolean;
+	interface Props {
+		title: string;
+		body: string;
+		open: boolean;
+	}
+
+	let { title, body, open = $bindable() }: Props = $props();
 	console.log(open, title, body);
 	open = true;
 </script>
@@ -31,7 +35,7 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 					<button
 						type="button"
 						class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-						on:click={() => {
+						onclick={() => {
 							open = false;
 						}}
 					>
@@ -62,7 +66,7 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 					<button
 						data-modal-toggle="defaultModal"
 						type="button"
-						on:click={() => {
+						onclick={() => {
 							open = false;
 						}}
 						class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-hidden focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

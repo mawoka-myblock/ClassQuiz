@@ -6,7 +6,11 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { SaveStatus } from './commons';
 
-	export let status: SaveStatus;
+	interface Props {
+		status: SaveStatus;
+	}
+
+	let { status }: Props = $props();
 </script>
 
 <div class="h-6 w-6 grow-0 my-auto">

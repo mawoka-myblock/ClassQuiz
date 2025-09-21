@@ -5,13 +5,16 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { fade } from 'svelte/transition';
 
-	export let title;
-	export let time;
-	let time_local = 120;
+	let { title = $bindable(), time = $bindable() } = $props();
+	let time_local = $state(120);
 	/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
-	$: time = String(time_local);
+	run(() => {
+		time = String(time_local);
+	});
 	if (time) {
 		time_local = parseInt(time);
 	}

@@ -5,14 +5,20 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Konva, ShapeModel } from 'pikaso';
 	import { fade } from 'svelte/transition';
 
-	export let selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig>;
+	interface Props {
+		selected_el: null | ShapeModel<Konva.Shape | Konva.Group, Konva.ShapeConfig>;
+	}
 
-	let opened_dropdown = null;
+	let { selected_el }: Props = $props();
 
-	let available_modifiers: Array<string> = [];
+	let opened_dropdown = $state(null);
+
+	let available_modifiers: Array<string> = $state([]);
 
 	const set_available_modifiers = () => {
 		available_modifiers = [];
@@ -32,10 +38,10 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	$: {
+	run(() => {
 		selected_el;
 		set_available_modifiers();
-	}
+	});
 
 	const toggle_switch = (el: string) => {
 		if (opened_dropdown) {
@@ -62,9 +68,11 @@ SPDX-License-Identifier: MPL-2.0
 		});
 	};
 
-	$: if (!selected_el) {
-		opened_dropdown = null;
-	}
+	run(() => {
+		if (!selected_el) {
+			opened_dropdown = null;
+		}
+	});
 </script>
 
 <div class="flex flex-row justify-evenly z-40">
@@ -76,7 +84,7 @@ SPDX-License-Identifier: MPL-2.0
 				available_modifiers.includes('fill_color') ||
 				available_modifiers.includes('text_color')
 			)}
-			on:click={() => {
+			onclick={() => {
 				toggle_switch('color');
 			}}
 		>
@@ -103,7 +111,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="bg-white m-auto rounded-lg shadow-lg p-4 dark:bg-gray-600 h-fit gap-2 w-fit auto-cols-min flex absolute z-40"
 				transition:fade|global={{ duration: 100 }}
 			>
-				<input type="color" on:change={change_color} />
+				<input type="color" onchange={change_color} />
 			</div>
 		{/if}
 	</div>
@@ -111,7 +119,7 @@ SPDX-License-Identifier: MPL-2.0
 		<button
 			type="button"
 			class="disabled:opacity-50 transition"
-			on:click={() => {
+			onclick={() => {
 				toggle_switch('font_size');
 			}}
 			disabled={!available_modifiers.includes('font_size')}
@@ -141,7 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<input
 					type="range"
-					on:change={change_fontsize}
+					onchange={change_fontsize}
 					value={selected_el?.node?.children?.[1]?.attrs?.fontSize}
 					min="10"
 					max="250"
@@ -153,7 +161,7 @@ SPDX-License-Identifier: MPL-2.0
 		<button
 			type="button"
 			class="disabled:opacity-50 transition"
-			on:click={() => {
+			onclick={() => {
 				selected_el.update({ zIndex: selected_el.node.getZIndex() + 1 });
 			}}
 			disabled={!selected_el}
@@ -179,7 +187,7 @@ SPDX-License-Identifier: MPL-2.0
 		<button
 			type="button"
 			class="disabled:opacity-50 transition"
-			on:click={() => {
+			onclick={() => {
 				selected_el.update({ zIndex: selected_el.node.getZIndex() - 1 });
 			}}
 			disabled={!selected_el}

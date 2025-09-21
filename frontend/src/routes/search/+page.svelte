@@ -4,12 +4,14 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 	const { t } = getLocalization();
 	import SearchCard from '$lib/search-card.svelte';
 	import { onMount } from 'svelte';
-	let search_term = '';
-	let resp_data = null;
+	let search_term = $state('');
+	let resp_data = $state(null);
 
 	const submit = async () => {
 		const res = await fetch('/api/v1/search/', {
@@ -50,7 +52,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="mb-3 xl:w-96">
 			<form
 				class="input-group relative flex items-stretch flex-row w-full mb-4"
-				on:submit|preventDefault={submit}
+				onsubmit={preventDefault(submit)}
 			>
 				<input
 					type="search"

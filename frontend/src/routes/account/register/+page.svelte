@@ -8,13 +8,13 @@ SPDX-License-Identifier: MPL-2.0
 	import { createForm } from 'felte';
 	import { getLocalization } from '$lib/i18n';
 	import { validateSchema } from '@felte/validator-yup';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import Footer from '$lib/footer.svelte';
 
 	const { t } = getLocalization();
 	import reporter from '@felte/reporter-tippy';
 
-	navbarVisible.set(true);
+	navbarVisible.visible = true;
 	import * as yup from 'yup';
 
 	const registerSchema = yup.object({
@@ -71,10 +71,10 @@ SPDX-License-Identifier: MPL-2.0
 			responseData.open = true;
 		}
 	});
-	let responseData = {
+	let responseData = $state({
 		open: false,
 		data: ''
-	};
+	});
 </script>
 
 <svelte:head>
@@ -270,7 +270,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
 	>
-		<div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true" />
+		<div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
 
 		<!-- This element is to trick the browser into centering the modal contents. -->
 		<span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"
@@ -355,7 +355,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						responseData.open = false;
 						window.location.assign('/');
 					}}

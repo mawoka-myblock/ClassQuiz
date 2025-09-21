@@ -3,7 +3,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 
 SPDX-License-Identifier: MPL-2.0
 -->
-
 <script lang="ts">
 	import { Dashboard as SvelteDashboard } from '@uppy/svelte';
 	import Uppy from '@uppy/core';
@@ -27,18 +26,26 @@ SPDX-License-Identifier: MPL-2.0
 	import Pixabay from '$lib/editor/uploader/Pixabay.svelte';
 
 	const { t } = getLocalization();
-
-	export let modalOpen = false;
-	export let edit_id: string;
-	export let data: EditorData;
-	export let selected_question: number;
-	export let video_upload = false;
-	export let library_enabled = true;
+	let {
+		modalOpen = false,
+		edit_id,
+		data,
+		selected_question,
+		video_upload = false,
+		library_enabled = true
+	}: {
+		modalOpen: boolean;
+		edit_id: string;
+		data: EditorData;
+		selected_question: number;
+		video_upload: boolean;
+		library_enabled: boolean;
+	} = $props();
 
 	// eslint-disable-next-line no-undef
-	let video_popup: undefined | WindowProxy = undefined;
+	let video_popup: undefined | WindowProxy = $state(undefined);
 
-	let selected_type: AvailableUploadTypes | null = null;
+	let selected_type: AvailableUploadTypes | null = $state(null);
 
 	// eslint-disable-next-line no-unused-vars
 	enum AvailableUploadTypes {
@@ -67,7 +74,7 @@ SPDX-License-Identifier: MPL-2.0
 		.use(XHRUpload, {
 			endpoint: `/api/v1/storage/`
 		});
-	const props = {
+	const properties = {
 		inline: true,
 		restrictions: {
 			maxFileSize: 10_490_000,
@@ -134,7 +141,7 @@ SPDX-License-Identifier: MPL-2.0
 {#if modalOpen}
 	<div
 		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
-		on:click={handle_on_click}
+		onclick={handle_on_click}
 		transition:fade={{ duration: 100 }}
 	>
 		{#if selected_type === null}
@@ -181,7 +188,7 @@ SPDX-License-Identifier: MPL-2.0
 		{:else if selected_type === AvailableUploadTypes.Image}
 			<div class="m-auto w-1/3 h-5/6" transition:fade={{ duration: 100 }}>
 				<div>
-					<SvelteDashboard {uppy} width="100%" {props} />
+					<SvelteDashboard {uppy} width="100%" {properties} />
 				</div>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Video}
@@ -215,7 +222,7 @@ SPDX-License-Identifier: MPL-2.0
 	<button
 		class="rounded-lg p-4 flex justify-center bg-transparent border-gray-500 border-2 w-1/2 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
 		type="button"
-		on:click={() => {
+		onclick={() => {
 			modalOpen = true;
 		}}
 		><span class="italic">{$t('uploader.add_image')}</span>

@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let data;
+	let { data } = $props();
 	const { error } = data;
 </script>
 

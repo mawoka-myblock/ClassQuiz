@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import type { EditorData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
@@ -12,19 +14,25 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let uppyOpen = false;
-	let bg_uppy_open = false;
+	let uppyOpen = $state(false);
+	let bg_uppy_open = $state(false);
 
-	export let edit_id: string;
-	export let data: EditorData;
+	interface Props {
+		edit_id: string;
+		data: EditorData;
+	}
 
-	let custom_bg_color = Boolean(data.background_color);
+	let { edit_id = $bindable(), data = $bindable() }: Props = $props();
+
+	let custom_bg_color = $state(Boolean(data.background_color));
 	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle'
 	});
 
-	$: data.background_color = custom_bg_color ? data.background_color : undefined;
+	run(() => {
+		data.background_color = custom_bg_color ? data.background_color : undefined;
+	});
 </script>
 
 <div class="w-full h-full pb-20 px-20">
@@ -33,13 +41,13 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex align-middle p-4 gap-3">
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-red-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-yellow-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-green-400 transition"
-				/>
+				></span>
 			</div>
 		</div>
 		<div
@@ -57,7 +65,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#await import('$lib/inline-editor.svelte')}
 					<Spinner my_20={false} />
 				{:then c}
-					<svelte:component this={c.default} bind:text={data.title} />
+					<c.default bind:text={data.title} />
 				{/await}
 			</div>
 			<div class="flex justify-center pt-10 w-full max-h-32">
@@ -66,7 +74,7 @@ SPDX-License-Identifier: MPL-2.0
 					placeholder="Description"
 					bind:value={data.description}
 					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500 outline-hidden focus:shadow-2xl transition-all"
-				/>
+				></textarea>
 			</div>
 
 			{#if data.cover_image != undefined && data.cover_image !== ''}
@@ -75,17 +83,16 @@ SPDX-License-Identifier: MPL-2.0
 						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
-						on:contextmenu|preventDefault={() => {
+						oncontextmenu={preventDefault(() => {
 							data.cover_image = null;
-						}}
+						})}
 					/>
 				</div>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner my_20={false} />
 				{:then c}
-					<svelte:component
-						this={c.default}
+					<c.default
 						bind:modalOpen={uppyOpen}
 						bind:edit_id
 						bind:data
@@ -96,7 +103,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="pt-10 w-full flex justify-center">
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						data.public = !data.public;
 					}}
 					class="text-center w-fit"
@@ -149,7 +156,7 @@ SPDX-License-Identifier: MPL-2.0
 						>
 							<span
 								class="inline-block w-full h-full bg-[#d6edc9] dark:bg-[#4e6e58]"
-							/>
+							></span>
 						</div>
 					</div>
 					<div>
@@ -165,7 +172,7 @@ SPDX-License-Identifier: MPL-2.0
 							/>
 							<span
 								class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-							/>
+							></span>
 						</label>
 					</div>
 					<div
@@ -188,7 +195,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="w-full flex justify-center -mt-8">
 				{#if data.background_image}
 					<button
-						on:click={() => {
+						onclick={() => {
 							data.background_image = undefined;
 						}}
 						class="mt-10 bg-red-500 p-2 rounded-lg border-2 border-black transition hover:bg-red-400"
@@ -200,8 +207,7 @@ SPDX-License-Identifier: MPL-2.0
 							<Spinner my_20={false} />
 						</div>
 					{:then c}
-						<svelte:component
-							this={c.default}
+						<c.default
 							bind:modalOpen={bg_uppy_open}
 							bind:edit_id
 							bind:data

@@ -10,9 +10,13 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 	import { onMount } from 'svelte';
 
-	export let data: PageData;
-	let controller_seen = false;
-	let check_tick = 0;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
+	let controller_seen = $state(false);
+	let check_tick = $state(0);
 	let interval;
 
 	const check_if_controller_was_seen = async () => {

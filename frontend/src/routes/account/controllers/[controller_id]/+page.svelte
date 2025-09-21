@@ -15,12 +15,16 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let data: PageData;
-	const controller = data.controller;
+	interface Props {
+		data: PageData;
+	}
 
-	let newest_version: string | undefined = undefined;
+	let { data }: Props = $props();
+	const controller = $state(data.controller);
 
-	let saved_status = SaveStatus.Unchanged;
+	let newest_version: string | undefined = $state(undefined);
+
+	let saved_status = $state(SaveStatus.Unchanged);
 
 	let save_player_timer;
 	const save_player_name_debounce = () => {
@@ -95,7 +99,7 @@ SPDX-License-Identifier: MPL-2.0
 			<input
 				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.name}
-				on:keyup={save_player_name_debounce}
+				onkeyup={save_player_name_debounce}
 			/>
 			<SaveIndicator status={saved_status} />
 		</div>
@@ -106,7 +110,7 @@ SPDX-License-Identifier: MPL-2.0
 			<input
 				class="rounded-sm p-1 transition-all outline-hidden text-center dark:bg-gray-700"
 				bind:value={controller.player_name}
-				on:keyup={save_player_name_debounce}
+				onkeyup={save_player_name_debounce}
 			/>
 			<SaveIndicator status={saved_status} />
 		</div>

@@ -13,14 +13,18 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let questions: Question[];
-	export let answers: {
+	interface Props {
+		questions: Question[];
+		answers: {
 		username: string;
 		answer: string;
 		right: boolean;
 		tike_taken: number;
 		score: number;
 	}[][];
+	}
+
+	let { questions, answers }: Props = $props();
 
 	const get_average_score = (q_index: number): number => {
 		const q_answers = answers[q_index];
@@ -49,7 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 			question_open = q_index;
 		}
 	};
-	let question_open: number | boolean = false;
+	let question_open: number | boolean = $state(false);
 </script>
 
 <div class="w-full flex justify-center">
@@ -61,7 +65,7 @@ SPDX-License-Identifier: MPL-2.0
 				>
 					<button
 						class="text-center underline text-xl"
-						on:click={() => {
+						onclick={() => {
 							toggle_dropdown(i);
 						}}>{@html question.question}</button
 					>

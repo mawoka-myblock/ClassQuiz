@@ -5,6 +5,9 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, createBubbler, preventDefault } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { socket } from '$lib/socket';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -15,13 +18,17 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const { t } = getLocalization();
-	export let game_pin: string;
-	export let game_mode;
 
-	export let username;
-	let custom_field;
-	let custom_field_value;
-	let captcha_enabled;
+	interface Props {
+		game_pin: string;
+		game_mode: any;
+		username: any;
+	}
+
+	let { game_pin = $bindable(), game_mode = $bindable(), username = $bindable() }: Props = $props();
+	let custom_field = $state();
+	let custom_field_value = $state();
+	let captcha_enabled = $state();
 
 	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
 
@@ -105,10 +112,12 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	$: if (game_pin.length > 5) {
-		console.log('Setting game pin');
-		set_game_pin();
-	}
+	run(() => {
+		if (game_pin.length > 5) {
+			console.log('Setting game pin');
+			set_game_pin();
+		}
+	});
 
 	const setUsername = async () => {
 		if (username.length <= 3) {
@@ -177,8 +186,12 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	});
 
-	$: console.log(game_pin, game_pin.length > 6);
-	$: game_pin = game_pin.replace(/\D/g, '');
+	run(() => {
+		console.log(game_pin, game_pin.length > 6);
+	});
+	run(() => {
+		game_pin = game_pin.replace(/\D/g, '');
+	});
 </script>
 
 <svelte:head>
@@ -194,7 +207,7 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if game_pin === '' || game_pin.length < 6}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form on:submit|preventDefault class="flex-col flex justify-center align-center mx-auto">
+		<form onsubmit={preventDefault(bubble('submit'))} class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
@@ -213,7 +226,7 @@ SPDX-License-Identifier: MPL-2.0
 {:else}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
 		<form
-			on:submit|preventDefault={setUsername}
+			onsubmit={preventDefault(setUsername)}
 			class="flex-col flex justify-center align-center mx-auto"
 		>
 			<h1 class="text-lg text-center">{$t('words.username')}</h1>
@@ -244,4 +257,4 @@ SPDX-License-Identifier: MPL-2.0
 	data-sitekey={hcaptchaSitekey}
 	data-size="invisible"
 	data-theme="dark"
-/>
+></div>

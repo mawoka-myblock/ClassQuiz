@@ -12,11 +12,15 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let data: Memory | undefined;
-	let new_pair_data = {
+	interface Props {
+		data: Memory | undefined;
+	}
+
+	let { data = $bindable() }: Props = $props();
+	let new_pair_data = $state({
 		text_1: '',
 		text_2: ''
-	};
+	});
 
 	if (!data) {
 		data = {
@@ -71,9 +75,9 @@ SPDX-License-Identifier: MPL-2.0
 						rows="3"
 						contenteditable="true"
 						bind:value={new_pair_data.text_1}
-					/>
+					></textarea>
 					<div class="flex justify-center">
-						<span class="h-0.5 bg-black block w-11/12" />
+						<span class="h-0.5 bg-black block w-11/12"></span>
 					</div>
 					<BrownButton>{$t('quiztivity.memory.editor.upload_image')}</BrownButton>
 				</div>
@@ -84,9 +88,9 @@ SPDX-License-Identifier: MPL-2.0
 						rows="3"
 						contenteditable="true"
 						bind:value={new_pair_data.text_2}
-					/>
+					></textarea>
 					<div class="flex justify-center">
-						<span class="h-0.5 bg-black block w-11/12" />
+						<span class="h-0.5 bg-black block w-11/12"></span>
 					</div>
 					<BrownButton>{$t('quiztivity.memory.editor.upload_image')}</BrownButton>
 				</div>

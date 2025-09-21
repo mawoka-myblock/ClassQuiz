@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Data } from './types';
 	import { getLocalization } from '$lib/i18n';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -21,13 +23,17 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 	const dispatch = createEventDispatcher();
 
-	export let data: Data;
-	export let saving: boolean;
+	interface Props {
+		data: Data;
+		saving: boolean;
+	}
 
-	let selected_slide = null;
-	let opened_slide = null;
-	let selected_type = undefined;
-	let shares_menu_open = false;
+	let { data = $bindable(), saving }: Props = $props();
+
+	let selected_slide = $state(null);
+	let opened_slide = $state(null);
+	let selected_type = $state(undefined);
+	let shares_menu_open = $state(false);
 
 	for (let i = 0; i < data.pages.length; i++) {
 		const id = (Math.random() + 1).toString(36).substring(7);
@@ -42,7 +48,9 @@ SPDX-License-Identifier: MPL-2.0
 		data.pages.push({ title: undefined, data: undefined, type, id });
 		opened_slide = data.pages.length - 1;
 	};
-	$: handle_slide_add(selected_type);
+	run(() => {
+		handle_slide_add(selected_type);
+	});
 
 	const delete_slide = () => {
 		console.log(selected_slide);
@@ -81,7 +89,7 @@ SPDX-License-Identifier: MPL-2.0
 					>
 				</div>
 			{:else}
-				<span />
+				<span></span>
 			{/if}
 			<input
 				class="bg-transparent outline-hidden text-center mx-auto"

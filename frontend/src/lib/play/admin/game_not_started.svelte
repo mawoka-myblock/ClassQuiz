@@ -11,14 +11,23 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { fade } from 'svelte/transition';
 
-	export let game_pin: string;
-	export let players;
-	export let socket;
-	export let cqc_code: string;
+	interface Props {
+		game_pin: string;
+		players: any;
+		socket: any;
+		cqc_code: string;
+	}
 
-	let fullscreen_open = false;
+	let {
+		game_pin,
+		players = $bindable(),
+		socket,
+		cqc_code = $bindable()
+	}: Props = $props();
+
+	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
-	let play_music = false;
+	let play_music = $state(false);
 
 	if (cqc_code === 'null') {
 		cqc_code = null;
@@ -52,7 +61,7 @@ SPDX-License-Identifier: MPL-2.0
 			</p>
 		</div>
 		<img
-			on:click={() => (fullscreen_open = true)}
+			onclick={() => (fullscreen_open = true)}
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
 			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded-sm hover:cursor-pointer"
@@ -101,7 +110,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="p-2 m-2 border-2 border-[#B07156] rounded-sm hover:cursor-pointer">
 					<span
 						class="hover:line-through text-lg"
-						on:click={() => {
+						onclick={() => {
 							kick_player(player.username);
 						}}>{player.username}</span
 					>
@@ -116,7 +125,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 flex p-2"
 		transition:fade|global={{ duration: 80 }}
-		on:click={() => (fullscreen_open = false)}
+		onclick={() => (fullscreen_open = false)}
 	>
 		<img
 			alt="QR code to join the game"

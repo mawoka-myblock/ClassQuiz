@@ -5,11 +5,17 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Markdown } from '$lib/quiztivity/types';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
 
-	export let data: Markdown | undefined;
+	interface Props {
+		data: Markdown | undefined;
+	}
+
+	let { data = $bindable() }: Props = $props();
 
 	if (!data) {
 		data = {
@@ -17,9 +23,11 @@ SPDX-License-Identifier: MPL-2.0
 		};
 	}
 
-	let rendered_html = '';
+	let rendered_html = $state('');
 
-	$: rendered_html = browser ? marked.parse(data.markdown) : '';
+	run(() => {
+		rendered_html = browser ? marked.parse(data.markdown) : '';
+	});
 </script>
 
 <div class="w-full h-[70vh] flex flex-row p-4 gap-4">
@@ -27,7 +35,7 @@ SPDX-License-Identifier: MPL-2.0
 		class="w-full resize-none border-[#B07156] border-2 rounded-sm outline-hidden p-2 bg-white/30 dark:placeholder-gray-300"
 		bind:value={data.markdown}
 		placeholder="Enter your markdown here!"
-	/>
+	></textarea>
 	<div class="w-full">
 		<div
 			class="aspect-video prose max-w-none border-[#B07156] border-2 rounded-sm p-2 dark:prose-invert"

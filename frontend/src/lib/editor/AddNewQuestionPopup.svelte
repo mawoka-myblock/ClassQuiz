@@ -11,10 +11,14 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
 
-	export let questions: Question[];
-	export let open: boolean;
 
-	export let selected_question: number;
+	interface Props {
+		questions: Question[];
+		open: boolean;
+		selected_question: number;
+	}
+
+	let { questions = $bindable(), open = $bindable(), selected_question = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 	onMount(() => {
@@ -96,7 +100,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <div
 	class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
-	on:click={on_parent_click}
+	onclick={on_parent_click}
 	transition:fade={{ duration: 100 }}
 >
 	<div
@@ -108,7 +112,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="rounded-sm p-6 border-[#B07156] border">
 					<button
 						class="text-xl text-black dark:text-white"
-						on:click={() => {
+						onclick={() => {
 							add_question(i);
 						}}>{qt.name}</button
 					>

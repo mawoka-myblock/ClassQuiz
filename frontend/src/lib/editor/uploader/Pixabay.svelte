@@ -5,18 +5,24 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import type { EditorData } from '$lib/quiz_types';
 	import Spinner from '$lib/Spinner.svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let modalOpen: boolean;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		modalOpen: boolean;
+	}
 
-	let page = 1;
-	let search_term = '';
-	let loading = false;
+	let { data = $bindable(), selected_question, modalOpen = $bindable() }: Props = $props();
+
+	let page = $state(1);
+	let search_term = $state('');
+	let loading = $state(false);
 
 	const { t } = getLocalization();
 
@@ -42,7 +48,7 @@ SPDX-License-Identifier: MPL-2.0
 		return await res.json();
 	};
 
-	let fetched_data = fetch_data();
+	let fetched_data = $state(fetch_data());
 </script>
 
 {#await fetched_data}
@@ -64,7 +70,7 @@ SPDX-License-Identifier: MPL-2.0
 
 				<form
 					class="w-full flex gap-2"
-					on:submit|preventDefault={() => (fetched_data = fetch_data())}
+					onsubmit={preventDefault(() => (fetched_data = fetch_data()))}
 				>
 					<input
 						class="w-full outline-hidden p-1 rounded-sm dark:bg-gray-500 bg-gray-300"

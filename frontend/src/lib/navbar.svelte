@@ -22,7 +22,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let menuIsClosed = true;
+	let menuIsClosed = $state(true);
 	const toggleMenu = () => {
 		menuIsClosed = !menuIsClosed;
 	};
@@ -31,7 +31,7 @@ SPDX-License-Identifier: MPL-2.0
 		menuIsClosed = true; // Closes menu to let the user see the page beneath
 	});
 
-	let darkMode = false;
+	let darkMode = $state(false);
 	if (browser) {
 		darkMode =
 			localStorage.theme === 'dark' ||
@@ -108,7 +108,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="lg:flex items-center justify-center">
 					{#if darkMode}
 						<button
-							on:click={() => {
+							onclick={() => {
 								switchDarkMode();
 							}}
 							use:tippy={{ content: 'Switch light mode on' }}
@@ -134,7 +134,7 @@ SPDX-License-Identifier: MPL-2.0
 						</button>
 					{:else}
 						<button
-							on:click={() => {
+							onclick={() => {
 								switchDarkMode();
 							}}
 							aria-label="Activate darkmode"
@@ -180,7 +180,7 @@ SPDX-License-Identifier: MPL-2.0
 					<!-- Sun icon -->
 					<button
 						class="px-3"
-						on:click={() => {
+						onclick={() => {
 							switchDarkMode();
 						}}
 						use:tippy={{ content: 'Switch light mode on' }}
@@ -208,7 +208,7 @@ SPDX-License-Identifier: MPL-2.0
 					<!-- Moon icon -->
 					<button
 						class="px-3"
-						on:click={() => {
+						onclick={() => {
 							switchDarkMode();
 						}}
 						aria-label="Activate darkmode"
@@ -237,7 +237,7 @@ SPDX-License-Identifier: MPL-2.0
 					<button
 						class="px-3"
 						id="open-menu"
-						on:click={toggleMenu}
+						onclick={toggleMenu}
 						aria-label="Open navbar"
 					>
 						<svg
@@ -258,7 +258,7 @@ SPDX-License-Identifier: MPL-2.0
 					<button
 						class="px-3"
 						id="close-menu"
-						on:click={toggleMenu}
+						onclick={toggleMenu}
 						aria-label="Close navbar"
 					>
 						<svg

@@ -9,11 +9,15 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import Pikaso from 'pikaso';
 
-	export let question: Question;
+	interface Props {
+		question: Question;
+	}
 
-	let canvas_el: HTMLDivElement | undefined;
+	let { question }: Props = $props();
+
+	let canvas_el: HTMLDivElement | undefined = $state();
 	let canvas: Pikaso;
-	let img_src = '';
+	let img_src = $state('');
 
 	onMount(() => {
 		canvas = new Pikaso({
@@ -33,7 +37,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <div class="w-full h-full">
 	<div class="hidden">
-		<div bind:this={canvas_el} class="w-full h-full block" />
+		<div bind:this={canvas_el} class="w-full h-full block"></div>
 	</div>
 	<div class="w-full h-full flex justify-center">
 		<img src={img_src} />

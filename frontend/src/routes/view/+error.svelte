@@ -5,10 +5,10 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { navbarVisible } from '$lib/stores';
-	import { page } from '$app/stores';
-	navbarVisible.set(true);
-	let status = $page.status;
+	import { navbarVisible } from '$lib/stores.svelte.ts';
+	import { page } from '$app/state';
+	navbarVisible.visible= true;
+	let status = page.status;
 </script>
 
 <svelte:head>

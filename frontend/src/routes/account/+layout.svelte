@@ -5,9 +5,14 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible} from '$lib/stores.svelte.ts';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
 
-	navbarVisible.set(true);
+	let { children }: Props = $props();
+
+	navbarVisible.visible= true;
 </script>
 
-<slot />
+{@render children?.()}

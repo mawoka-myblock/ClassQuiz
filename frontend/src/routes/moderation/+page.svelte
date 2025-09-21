@@ -8,7 +8,11 @@ SPDX-License-Identifier: MPL-2.0
 	import type { PageData } from './$types';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <div class="flex flex-col p-2">

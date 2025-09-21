@@ -7,9 +7,13 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import type { Abcd } from '$lib/quiztivity/types';
 
-	export let data: Abcd | undefined;
+	interface Props {
+		data: Abcd | undefined;
+	}
 
-	let selected_answer: number | undefined;
+	let { data }: Props = $props();
+
+	let selected_answer: number | undefined = $state();
 
 	const select_answer = (i: number) => {
 		selected_answer = i;
@@ -24,7 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#each data.answers as answer, i}
 			<button
 				class="rounded-sm p-6 bg-gray-700 flex transition-all"
-				on:click={() => {
+				onclick={() => {
 					select_answer(i);
 				}}
 				class:opacity-50={selected_answer !== undefined && !answer.correct}

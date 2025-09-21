@@ -9,12 +9,16 @@ SPDX-License-Identifier: MPL-2.0
 	import Hoverable from '$lib/view_quiz/Hoverable.svelte';
 	import { createTippy } from 'svelte-tippy';
 
-	export let quiz: QuizData;
+	interface Props {
+		quiz: QuizData;
+	}
 
-	let FeedBackButtonsHovered = {
+	let { quiz = $bindable() }: Props = $props();
+
+	let FeedBackButtonsHovered = $state({
 		dislike: false,
 		like: false
-	};
+	});
 	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle',
@@ -50,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="bg-green-500 rounded-full h-10 w-10 transition"
 				use:tippy={{ content: 'Like this quiz!' }}
 				class:opacity-40={FeedBackButtonsHovered.dislike}
-				on:click={() => complete_action(true)}
+				onclick={() => complete_action(true)}
 			>
 				<!-- heroicons/thumb-up -->
 				<svg
@@ -74,7 +78,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="rounded-full bg-red-500 h-10 w-10 transition"
 				use:tippy={{ content: 'Dislike this quiz!' }}
 				class:opacity-40={FeedBackButtonsHovered.like}
-				on:click={() => complete_action(false)}
+				onclick={() => complete_action(false)}
 			>
 				<!-- heroicons/thumb-down -->
 				<svg
@@ -96,7 +100,7 @@ SPDX-License-Identifier: MPL-2.0
 		<span class="text-center">{quiz.likes}</span>
 		<span class="text-center">{quiz.dislikes}</span>
 	</div>
-	<span class="w-full border-t-2 border-[#B07156]" />
+	<span class="w-full border-t-2 border-[#B07156]"></span>
 	<div class="mx-auto grid grid-cols-2 gap-2">
 		<div class="flex flex-col">
 			<!-- heroicons/legacy-outline/Play -->

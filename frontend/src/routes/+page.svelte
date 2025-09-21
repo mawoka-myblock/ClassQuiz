@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import WebPOpenGraph from '$lib/assets/landing/opengraph-home.webp';
@@ -25,7 +25,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	navbarVisible.set(true);
+	navbarVisible.visible = true;
 
 	/*	interface StatsData {
 		quiz_count: number;
@@ -36,7 +36,7 @@ SPDX-License-Identifier: MPL-2.0
 			const response = await fetch('/api/v1/stats/combined');
 			return await response.json();
 		};*/
-	let newsletterModalOpen;
+	let newsletterModalOpen = $state();
 	onMount(() => {
 		const ls = localStorage.getItem('newsletter');
 		newsletterModalOpen = ls === null;
@@ -62,8 +62,8 @@ SPDX-License-Identifier: MPL-2.0
 		Winners
 	}
 
-	let selected_create_thing = SelectedCreateThing.Create;
-	let selected_play_thing = SelectedPlayThing.Select;
+	let selected_create_thing = $state(SelectedCreateThing.Create);
+	let selected_play_thing = $state(SelectedPlayThing.Select);
 
 	/*	<li>No;
 		Tracking < /li>
@@ -123,7 +123,7 @@ SPDX-License-Identifier: MPL-2.0
 			content: $t('index_page.community_driven_content')
 		}
 	];
-	let selected_classquiz_reason = 0;
+	let selected_classquiz_reason = $state(0);
 </script>
 
 <svelte:head>
@@ -256,10 +256,10 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_create_thing = SelectedCreateThing.Create;
 					}}
-					on:keyup={() => {
+					onkeyup={() => {
 						selected_create_thing = SelectedCreateThing.Create;
 					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Create}
@@ -289,10 +289,10 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_create_thing = SelectedCreateThing.Find;
 					}}
-					on:keyup={() => {
+					onkeyup={() => {
 						selected_create_thing = SelectedCreateThing.Find;
 					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Find}
@@ -399,10 +399,10 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_play_thing = SelectedPlayThing.Select;
 					}}
-					on:keyup={() => {
+					onkeyup={() => {
 						selected_play_thing = SelectedPlayThing.Select;
 					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Select}
@@ -432,10 +432,10 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_play_thing = SelectedPlayThing.Results;
 					}}
-					on:keyup={() => {
+					onkeyup={() => {
 						selected_play_thing = SelectedPlayThing.Results;
 					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Results}
@@ -465,10 +465,10 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_play_thing = SelectedPlayThing.Winners;
 					}}
-					on:keyup={() => {
+					onkeyup={() => {
 						selected_play_thing = SelectedPlayThing.Winners;
 					}}
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Winners}
@@ -523,10 +523,10 @@ SPDX-License-Identifier: MPL-2.0
 				{#each classquiz_reasons as reason, index}
 					<div
 						class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-						on:click={() => {
+						onclick={() => {
 							selected_classquiz_reason = index;
 						}}
-						on:keyup={() => {
+						onkeyup={() => {
 							selected_classquiz_reason = index;
 						}}
 						class:shadow-2xl={selected_classquiz_reason === index}

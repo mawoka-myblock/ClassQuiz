@@ -10,7 +10,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let quiz_id: string | null = null;
+	interface Props {
+		quiz_id?: string | null;
+	}
+
+	let { quiz_id = $bindable(null) }: Props = $props();
 
 	const handle_on_click = () => {
 		quiz_id = null;
@@ -27,7 +31,7 @@ SPDX-License-Identifier: MPL-2.0
 {#if quiz_id}
 	<div
 		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
-		on:click={handle_on_click}
+		onclick={handle_on_click}
 		transition:fade={{ duration: 100 }}
 	>
 		<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm">

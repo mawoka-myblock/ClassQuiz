@@ -15,13 +15,13 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let quiz_id;
-	let captcha_selected = false;
-	let selected_game_mode = 'kahoot';
-	let loading = false;
-	let custom_field = '';
-	let cqcs_enabled = false;
-	let randomized_answers = false;
+	let { quiz_id = $bindable() } = $props();
+	let captcha_selected = $state(false);
+	let selected_game_mode = $state('kahoot');
+	let loading = $state(false);
+	let custom_field = $state('');
+	let cqcs_enabled = $state(false);
+	let randomized_answers = $state(false);
 
 	const tippy = createTippy({
 		arrow: true,
@@ -96,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 <div
 	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black/60 z-50 text-black"
 	transition:fade|global={{ duration: 100 }}
-	on:click={on_parent_click}
+	onclick={on_parent_click}
 >
 	<div
 		class="w-5/6 h-5/6 bg-black m-auto rounded-lg shadow-lg p-4 flex flex-col"
@@ -117,7 +117,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 				<span
 					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-				/>
+				></span>
 				<span class="ml-3 text-sm font-medium text-gray-900"
 					>Captcha {captcha_selected ? 'enabled' : 'disabled'}</span
 				>
@@ -136,7 +136,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div
 				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
 				class:opacity-50={selected_game_mode !== 'kahoot'}
-				on:click={() => {
+				onclick={() => {
 					selected_game_mode = 'kahoot';
 				}}
 			>
@@ -148,7 +148,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div
 				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
 				class:opacity-50={selected_game_mode !== 'normal'}
-				on:click={() => {
+				onclick={() => {
 					selected_game_mode = 'normal';
 				}}
 			>
@@ -176,7 +176,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 				<span
 					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-				/>
+				></span>
 				<span class="ml-3 text-sm font-medium text-gray-900"
 					><a
 						href="/controller"
@@ -204,14 +204,14 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 				<span
 					class="w-14 h-7 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-				/>
+				></span>
 				<span class="ml-3 text-sm font-medium text-gray-900"> Randomize answers</span>
 			</label>
 		</div>
 
 		<button
 			class="mt-auto mx-auto bg-green-500 p-4 rounded-lg shadow-lg hover:bg-green-400 transition-all marck-script text-2xl"
-			on:click={() => {
+			onclick={() => {
 				start_game(quiz_id);
 			}}
 		>

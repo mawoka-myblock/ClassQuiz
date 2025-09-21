@@ -5,11 +5,14 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import DownloadQuiz from '$lib/components/DownloadQuiz.svelte';
 	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
-	import { navbarVisible, signedIn } from '$lib/stores';
+	import { signedIn } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte';
 	import CommandpaletteNotice from '$lib/components/popover/commandpalettenotice.svelte';
 	// import Spinner from "$lib/Spinner.svelte";
 	import Fuse from 'fuse.js';
@@ -20,19 +23,23 @@ SPDX-License-Identifier: MPL-2.0
 	import Analytics from './Analytics.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import { createTippy } from 'svelte-tippy';
+	import { onMount } from 'svelte';
 
-	// import GrayButton from "$lib/components/buttons/gray.svelte";
+	interface Props {
+		// import GrayButton from "$lib/components/buttons/gray.svelte";
+		data: PageData;
+	}
 
-	export let data: PageData;
-	let search_term = '';
-	let start_game = null;
-	let download_id: string | null = null;
+	let { data }: Props = $props();
+	let search_term = $state('');
+	let start_game = $state(null);
+	let download_id: string | null = $state(null);
 	signedIn.set(true);
-	navbarVisible.set(true);
+	navbarVisible.visible = true;
 	const { t } = getLocalization();
 
-	let items_to_show = [];
-	let all_items: Array<any>;
+	let items_to_show = $state([]);
+	let all_items: Array<any> = $state();
 	let fuse;
 	const tippy = createTippy({
 		arrow: true,
@@ -42,8 +49,8 @@ SPDX-License-Identifier: MPL-2.0
 
 	let id_to_position_map = {};
 
-	const getData = async (): Promise<Array<QuizData>> => {
-		items_to_show = [];
+	const getData = async (): Promise<{ items: Array<QuizData>; fuse: Fuse<any> }> => {
+		/*		items_to_show = [];
 		for (let i = 0; i < data.quizzes.length; i++) {
 			items_to_show.push({ ...data.quizzes[i], type: 'quiz' });
 		}
@@ -59,25 +66,44 @@ SPDX-License-Identifier: MPL-2.0
 			id_to_position_map[all_items[i].id] = i;
 		}
 		return all_items;
+		 */
+		const items: any[] = [];
+
+		for (const q of data.quizzes) items.push({ ...q, type: 'quiz' });
+		for (const q of data.quiztivities) items.push({ ...q, type: 'quiztivity' });
+
+		const f = new Fuse(items, {
+			keys: ['title', 'description', 'questions.title'],
+			findAllMatches: true
+		});
+
+		// return *all* derived data instead of mutating directly
+		return { items, fuse: f };
 	};
 
 	const search = () => {
 		if (search_term === '') {
 			items_to_show = all_items;
-		} else {
-			const res = fuse.search(search_term);
-			items_to_show = [];
-			for (const quiz_data of res) {
-				items_to_show.push(quiz_data.item);
-			}
-
-			items_to_show = items_to_show;
+			return;
 		}
+
+		const res = fuse.search(search_term);
+		items_to_show = res.map((r) => r.item);
 	};
-	$: {
+	onMount(async () => {
+		const { items, fuse: f } = await getData();
+		all_items = items;
+		items_to_show = items;
+		fuse = f;
+
+		// fill id_to_position_map
+		id_to_position_map = {};
+		for (let i = 0; i < items.length; i++) {
+			id_to_position_map[items[i].id] = i;
+		}
 		search_term;
 		search();
-	}
+	});
 
 	const deleteQuiz = async (to_delete: string, type: 'quiz' | 'quiztivity') => {
 		if (!confirm('Do you really want to delete this quiz?')) {
@@ -94,9 +120,9 @@ SPDX-License-Identifier: MPL-2.0
 		}
 		window.location.reload();
 	};
-	let create_button_clicked = false;
+	let create_button_clicked = $state(false);
 
-	let analytics_quiz_selected: undefined | QuizData = undefined;
+	let analytics_quiz_selected: undefined | QuizData = $state(undefined);
 </script>
 
 <svelte:head>
@@ -105,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 <Analytics bind:quiz={analytics_quiz_selected} />
 <CommandpaletteNotice />
 <div class="min-h-screen flex flex-col">
-	{#await getData()}
+	{#if !all_items}
 		<svg class="h-8 w-8 animate-spin mx-auto my-20" viewBox="3 3 18 18">
 			<path
 				class="fill-black"
@@ -116,7 +142,7 @@ SPDX-License-Identifier: MPL-2.0
 				d="M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z"
 			/>
 		</svg>
-	{:then quizzes}
+	{:else}
 		<div class="flex flex-col w-full mx-auto">
 			<!--		<button
                     class='px-4 py-2 font-medium tracking-wide text-gray-500 whitespace-nowrap dark:text-gray-400 capitalize transition-colors dark:bg-gray-700 duration-200 transform bg-[#B07156] rounded-md hover:bg-green-600 focus:outline-hidden focus:ring focus:ring-blue-300 focus:ring-opacity-80'>
@@ -149,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 					</BrownButton>
 				</div>
 			</div>
-			{#if quizzes.length !== 0}
+			{#if all_items.length !== 0}
 				<div class="flex justify-center pt-4 w-full">
 					<div>
 						<div>
@@ -159,7 +185,7 @@ SPDX-License-Identifier: MPL-2.0
 								placeholder={$t('dashboard.search_for_own_quizzes')}
 							/>
 							<button
-								on:click={() => {
+								onclick={() => {
 									search_term = '';
 									items_to_show = all_items;
 								}}
@@ -390,9 +416,7 @@ SPDX-License-Identifier: MPL-2.0
 				</p>
 			{/if}
 		</div>
-	{:catch err}
-		<p>{err}</p>
-	{/await}
+	{/if}
 </div>
 <Footer />
 {#if start_game !== null}

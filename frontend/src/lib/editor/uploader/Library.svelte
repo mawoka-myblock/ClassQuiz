@@ -11,9 +11,13 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let modalOpen: boolean;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		modalOpen: boolean;
+	}
+
+	let { data = $bindable(), selected_question, modalOpen = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 

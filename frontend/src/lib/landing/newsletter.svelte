@@ -5,7 +5,11 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let open: boolean;
+	interface Props {
+		open: boolean;
+	}
+
+	let { open = $bindable() }: Props = $props();
 
 	const closeThing = () => {
 		open = false;
@@ -15,7 +19,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <form method="post" action="https://newsletter.mawoka.eu/subscription/form" class="bg-transparent">
 	<div class="absolute top-1 right-1">
-		<button type="button" on:click={closeThing}>
+		<button type="button" onclick={closeThing}>
 			<svg
 				class="w-6 h-6"
 				fill="none"

@@ -5,15 +5,9 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let scores;
+	import { run } from 'svelte/legacy';
 
-	export let question_results: Array<{
-		username: string;
-		answer: string;
-		right: boolean;
-		time_taken: number;
-		score: number;
-	}>;
+
 
 	function sortObjectbyValue(obj) {
 		const ret = {};
@@ -23,8 +17,20 @@ SPDX-License-Identifier: MPL-2.0
 		return ret;
 	}
 
-	export let username;
-	let score_by_username = {};
+	interface Props {
+		scores: any;
+		question_results: Array<{
+		username: string;
+		answer: string;
+		right: boolean;
+		time_taken: number;
+		score: number;
+	}>;
+		username: any;
+	}
+
+	let { scores = $bindable(), question_results, username }: Props = $props();
+	let score_by_username = $state({});
 
 	if (JSON.stringify(scores) === '{}') {
 		for (const i of question_results) {
@@ -32,12 +38,16 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	}
 
-	$: console.log(score_by_username, scores, 'dieter');
+	run(() => {
+		console.log(score_by_username, scores, 'dieter');
+	});
 	for (const i of question_results) {
 		score_by_username[i.username] = i.score;
 	}
 
-	$: scores = sortObjectbyValue(scores);
+	run(() => {
+		scores = sortObjectbyValue(scores);
+	});
 
 	const do_sth = () => {
 		for (const i of Object.keys(score_by_username)) {

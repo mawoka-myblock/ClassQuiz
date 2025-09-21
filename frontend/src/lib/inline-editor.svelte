@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import {
 		BalloonEditor,
 		Essentials,
@@ -24,19 +26,26 @@ SPDX-License-Identifier: MPL-2.0
 	// import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
 	// import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript.js';
 	// import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript.js';
-	// import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat"
 
-	export let text = '';
+
 
 	const triggerChange = () => {
 		text = editor.getData();
 	};
 
 	import { onMount } from 'svelte';
+	interface Props {
+		// import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat"
+		text?: string;
+	}
 
-	let html_el;
+	let { text = $bindable('') }: Props = $props();
 
-	$: text = text.replace('<p>', '').replace('</p>', '');
+	let html_el = $state();
+
+	run(() => {
+		text = text.replace('<p>', '').replace('</p>', '');
+	});
 
 	/*	Editor.builtinPlugins = [
 		Autoformat,
@@ -120,7 +129,7 @@ SPDX-License-Identifier: MPL-2.0
 		bind:this={html_el}
 		contenteditable="true"
 		class="rounded-lg border-gray-500 border text-center w-fit h-fit resize-none dark:bg-gray-500 min-w-[5rem] dark:text-white"
-	/>
+	></div>
 </div>
 
 <style>

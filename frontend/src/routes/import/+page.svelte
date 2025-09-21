@@ -5,22 +5,26 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { run, preventDefault } from 'svelte/legacy';
 
-	navbarVisible.set(true);
+	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
+	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+
+	navbarVisible.visible = true;
 
 	const { t } = getLocalization();
-	let url_input = '';
-	let file_input: File[];
+	let url_input = $state('');
+	let file_input: File[] = $state();
 
-	let url_valid = false;
+	let url_valid = $state(false);
 	let kahoot_regex = /^https:\/\/create\.kahoot\.it\/details\/([a-zA-Z-\d]{36})\/?$/;
-	let is_loading = false;
+	let is_loading = $state(false);
 
-	$: url_valid = kahoot_regex.test(url_input);
+	run(() => {
+		url_valid = kahoot_regex.test(url_input);
+	});
 
 	const submit = async () => {
 		if (!url_valid) {
@@ -91,10 +95,12 @@ SPDX-License-Identifier: MPL-2.0
 		is_loading = false;
 	};
 
-	$: console.log(file_input);
+	run(() => {
+		console.log(file_input);
+	});
 
 	onMount(() => {
-		let url_from_path = $page.url.searchParams.get('url');
+		let url_from_path = page.url.searchParams.get('url');
 		if (url_from_path === '') {
 			url_from_path = null;
 		}
@@ -125,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 	</form>-->
 <div class="flex items-center justify-center h-full px-4">
 	<div>
-		<span class="p-4" />
+		<span class="p-4"></span>
 
 		<div
 			class="lg:w-[64rem] lg:max-w-[64rem] w-screen max-w-screen mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
@@ -143,7 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 									Login or create account
 								</p>-->
 				<div class="grid grid-cols-2">
-					<form on:submit|preventDefault={submit}>
+					<form onsubmit={preventDefault(submit)}>
 						<div class="w-full mt-4 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.a_kahoot_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -174,7 +180,7 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 
 							<div class="flex items-center justify-center mt-auto">
-								<span />
+								<span></span>
 
 								<button
 									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
@@ -202,7 +208,7 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 						</div>
 					</form>
-					<form on:submit|preventDefault={file_submit}>
+					<form onsubmit={preventDefault(file_submit)}>
 						<div class="w-full mt-4 border-l-2 border-gray-600 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.classquiz_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -233,7 +239,7 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 
 							<div class="flex items-center justify-center mt-auto">
-								<span />
+								<span></span>
 
 								<button
 									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"

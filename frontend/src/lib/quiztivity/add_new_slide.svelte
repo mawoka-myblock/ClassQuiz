@@ -10,7 +10,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade } from 'svelte/transition';
 
 	const { t } = getLocalization();
-	export let type: QuizTivityTypes | undefined;
+	interface Props {
+		type: QuizTivityTypes | undefined;
+	}
+
+	let { type = $bindable() }: Props = $props();
 
 	const PageTypes = [
 		/*		{
@@ -52,7 +56,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="rounded-sm p-6 border-[#B07156] border">
 						<button
 							class="text-xl text-black dark:text-white"
-							on:click={() => {
+							onclick={() => {
 								type = pt.type;
 							}}>{pt.name}</button
 						>

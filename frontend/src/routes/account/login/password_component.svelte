@@ -5,16 +5,20 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 
-	export let session_data;
-	export let selected_method;
-	export let done;
-	export let step;
+	let {
+		session_data,
+		selected_method = $bindable(),
+		done = $bindable(),
+		step = $bindable()
+	} = $props();
 
 	const { t } = getLocalization();
 	let isSubmitting;
-	let password;
+	let password = $state();
 
 	const continue_in_login = async () => {
 		if (!password) {
@@ -56,7 +60,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="px-6 py-4">
 	<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">ClassQuiz</h2>
 
-	<form on:submit|preventDefault={continue_in_login}>
+	<form onsubmit={preventDefault(continue_in_login)}>
 		<div class="w-full mt-4">
 			<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 				<div class="relative bg-inherit w-full">
@@ -79,7 +83,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="flex items-center justify-between mt-4">
 				<button
-					on:click={() => {
+					onclick={() => {
 						selected_method = 'BACKUP';
 					}}
 					class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"

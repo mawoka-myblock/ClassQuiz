@@ -8,7 +8,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let backup_code;
+	let { backup_code = $bindable() } = $props();
 
 	let already_downloaded = false;
 
@@ -31,7 +31,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="w-full h-full">
 		<button
 			class="bg-gray-200 dark:bg-gray-900 px-2 py-1 rounded-t-lg hover:bg-gray-300 transition"
-			on:click={() => {
+			onclick={() => {
 				backup_code = undefined;
 			}}
 			>{$t('words.close')}
@@ -42,7 +42,7 @@ SPDX-License-Identifier: MPL-2.0
 			<h2 class="text-3xl m-auto">{$t('security_settings.backup_codes.your_backup_code')}</h2>
 			<p
 				class="select-all font-mono text-xl m-auto"
-				on:click={() => {
+				onclick={() => {
 					download_code(false);
 				}}
 			>
@@ -50,7 +50,7 @@ SPDX-License-Identifier: MPL-2.0
 			</p>
 			<p class="m-auto">{$t('security_settings.backup_codes.save_somewhere_save')}</p>
 			<button
-				on:click={() => {
+				onclick={() => {
 					download_code(true);
 				}}
 				class="m-auto p-2 bg-[#B07156] rounded-lg"

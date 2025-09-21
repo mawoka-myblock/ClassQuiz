@@ -13,7 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let open = false;
+	let open = $state(false);
 	onMount(() => {
 		if (Cookies.get('commandpalette_notice')) {
 			return;

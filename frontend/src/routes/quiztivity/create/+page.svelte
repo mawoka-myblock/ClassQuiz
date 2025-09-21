@@ -8,13 +8,13 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Data } from '$lib/quiztivity/types';
 	import Editor from '$lib/quiztivity/editor.svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	let title = $page.url.searchParams.get('title');
+	let title = page.url.searchParams.get('title');
 	title ??= '';
 
-	let data: Data = { pages: [], id: undefined, title };
-	let saving = false;
+	let data: Data = $state({ pages: [], id: undefined, title });
+	let saving = $state(false);
 
 	const save_quiztivity = async () => {
 		saving = true;

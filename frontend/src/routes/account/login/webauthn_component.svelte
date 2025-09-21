@@ -10,12 +10,14 @@ SPDX-License-Identifier: MPL-2.0
 	// import { alertModal } from '$lib/stores';
 
 	const { t } = getLocalization();
-	export let session_data;
-	export let selected_method;
-	export let done;
-	export let step;
+	let {
+		session_data,
+		selected_method = $bindable(),
+		done = $bindable(),
+		step = $bindable()
+	} = $props();
 
-	let isLoading = false;
+	let isLoading = $state(false);
 
 	const start_thing = async () => {
 		const data = JSON.parse(session_data.webauthn_data);
@@ -84,7 +86,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="w-full mt-4">
 		<div class="flex items-center justify-between mt-4">
 			<button
-				on:click={() => {
+				onclick={() => {
 					selected_method = 'BACKUP';
 				}}
 				class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"
@@ -93,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 				disabled={isLoading}
-				on:click={start_thing}
+				onclick={start_thing}
 			>
 				{#if isLoading}
 					<svg class="h-4 w-4 animate-spin mx-auto" viewBox="3 3 18 18">

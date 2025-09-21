@@ -5,24 +5,36 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let progress: number;
-	export let text: string;
-	export let color: string;
-	let angle = 360 * progress;
+	import { run } from 'svelte/legacy';
 
-	$: angle = 360 * progress;
-	$: console.log(angle);
+	interface Props {
+		progress: number;
+		text: string;
+		color: string;
+	}
+
+	let { progress, text, color }: Props = $props();
+	let angle = $state(360 * progress);
+
+	run(() => {
+		angle = 360 * progress;
+	});
+	run(() => {
+		console.log(angle);
+	});
 
 	// Adapt the logic according to the approach
-	let background = `radial-gradient(white 50%, transparent 51%),
+	let background = $state(`radial-gradient(white 50%, transparent 51%),
     conic-gradient(transparent 0deg ${angle}deg, gainsboro ${angle}deg 360deg),
-    conic-gradient(green 0deg, green 90deg, green 180deg, green);`;
+    conic-gradient(green 0deg, green 90deg, green 180deg, green);`);
 
-	$: background = `radial-gradient(white 50%, transparent 51%),
-    conic-gradient(transparent 0deg ${angle}deg, gainsboro ${angle}deg 360deg),
-    conic-gradient(${color} 0deg, ${color} 90deg, ${color} 180deg, ${color});`;
+	run(() => {
+		background = `radial-gradient(white 50%, transparent 51%),
+	    conic-gradient(transparent 0deg ${angle}deg, gainsboro ${angle}deg 360deg),
+	    conic-gradient(${color} 0deg, ${color} 90deg, ${color} 180deg, ${color});`;
+	});
 
-	$: cssVarStyles = `--background:${background}`;
+	let cssVarStyles = $derived(`--background:${background}`);
 </script>
 
 <div id="progress-circle" style={cssVarStyles} class="transition-all text-4xl text-black">

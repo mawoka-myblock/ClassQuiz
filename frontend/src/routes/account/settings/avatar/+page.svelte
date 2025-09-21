@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { bounceOut } from 'svelte/easing';
@@ -43,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		clothe_graphic_type: $t('avatar_settings.clothe_graphic_type')
 	};
 
-	let data = {
+	let data = $state({
 		skin_color: 0,
 		top_type: 0,
 		hair_color: 0,
@@ -56,21 +58,22 @@ SPDX-License-Identifier: MPL-2.0
 		clothe_type: 0,
 		clothe_color: 0,
 		clothe_graphic_type: 0
-	};
+	});
 
 	const data_keys = Object.keys(data);
-	let index = 0;
+	let index = $state(0);
 	// let index = 10;
-	let save_finished: undefined | boolean = undefined;
-	let finished = false;
-
-	let image_url;
-
-	$: console.log('index', index);
+	let save_finished: undefined | boolean = $state(undefined);
+	let finished = $state(false);
 	const get_image_url = (input_data) => {
 		return `/api/v1/avatar/custom?${new URLSearchParams(input_data).toString()}`;
 	};
-	$: image_url = get_image_url(data);
+
+	let image_url = $derived(get_image_url(data));
+
+	run(() => {
+		console.log('index', index);
+	});
 
 	const save_avatar = async () => {
 		save_finished = false;
@@ -111,7 +114,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#each Array.from(Array(item_count[data_keys[index]]).keys()) as key}
 					<button
 						class="hover:opacity-80 transition-all"
-						on:click={() => {
+						onclick={() => {
 							data[data_keys[index]] = key;
 							if (index < 11) {
 								index++;

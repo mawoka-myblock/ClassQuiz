@@ -5,19 +5,31 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { browser } from '$app/environment';
 	import { fade } from 'svelte/transition';
 	import { thumbHashToDataURL } from 'thumbhash';
 
-	export let src: string;
-	export let css_classes = 'max-h-64 h-auto w-auto';
-	export let added_thumbhash_classes = 'h-full';
-	export let muted = true;
-	export let allow_fullscreen = true;
-	let type: 'img' | 'video' | undefined = undefined;
+	interface Props {
+		src: string;
+		css_classes?: string;
+		added_thumbhash_classes?: string;
+		muted?: boolean;
+		allow_fullscreen?: boolean;
+	}
 
-	let img_data;
-	let thumbhash_data: string;
+	let {
+		src,
+		css_classes = 'max-h-64 h-auto w-auto',
+		added_thumbhash_classes = 'h-full',
+		muted = true,
+		allow_fullscreen = true
+	}: Props = $props();
+	let type: 'img' | 'video' | undefined = $state(undefined);
+
+	let img_data = $state();
+	let thumbhash_data: string = $state();
 
 	function base64ToBytes(base64: string): Uint8Array {
 		const binString = atob(base64);
@@ -46,13 +58,13 @@ SPDX-License-Identifier: MPL-2.0
 	const update_url = () => {
 		media = get_media();
 	};
-	let media = get_media();
-	$: {
+	let media = $state(get_media());
+	run(() => {
 		src;
 		update_url();
-	}
+	});
 
-	let fullscreen_open = false;
+	let fullscreen_open = $state(false);
 
 	const open_fullscreen = () => {
 		if (!allow_fullscreen) {
@@ -71,7 +83,7 @@ SPDX-License-Identifier: MPL-2.0
 			src={img_data.data}
 			alt={img_data.alt_text ?? 'Not available'}
 			class={css_classes}
-			on:click={() => open_fullscreen()}
+			onclick={() => open_fullscreen()}
 		/>
 	{:else if type === 'video'}
 		<video
@@ -95,7 +107,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 fle p-2"
 		transition:fade|global={{ duration: 80 }}
-		on:click={() => (fullscreen_open = false)}
+		onclick={() => (fullscreen_open = false)}
 	>
 		<img
 			src={img_data.data}

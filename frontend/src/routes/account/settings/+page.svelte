@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 	import { DateTime } from 'luxon';
 	import { UAParser } from 'ua-parser-js';
@@ -28,16 +30,16 @@ SPDX-License-Identifier: MPL-2.0
 		newPasswordConfirm: string;
 	}
 
-	let changePasswordData: ChangePasswordData = {
+	let changePasswordData: ChangePasswordData = $state({
 		oldPassword: '',
 		newPassword: '',
 		newPasswordConfirm: ''
-	};
+	});
 
 	let locationData;
-	let this_session;
+	let this_session = $state();
 
-	let passwordChangeDataValid = false;
+	let passwordChangeDataValid = $state(false);
 	const checkPasswords = (data: ChangePasswordData): void => {
 		passwordChangeDataValid =
 			data.newPassword === data.newPasswordConfirm &&
@@ -45,7 +47,9 @@ SPDX-License-Identifier: MPL-2.0
 			data.oldPassword !== data.newPassword &&
 			data.oldPassword !== '';
 	};
-	$: checkPasswords(changePasswordData);
+	run(() => {
+		checkPasswords(changePasswordData);
+	});
 	const changePassword = async () => {
 		if (!passwordChangeDataValid) {
 			return;
@@ -93,7 +97,7 @@ SPDX-License-Identifier: MPL-2.0
 		return api_keys_temp;
 	};
 
-	let api_keys;
+	let api_keys = $state();
 
 	const add_api_key = async () => {
 		await fetch('/api/v1/users/api_keys', { method: 'POST' });
@@ -180,7 +184,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 			<div>
-				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
+				<form class="flex flex-col md:flex-row" onsubmit={preventDefault(changePassword)}>
 					<label
 						>{$t('settings_page.old_password')}:<input
 							type="password"
@@ -296,7 +300,7 @@ SPDX-License-Identifier: MPL-2.0
 						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 					>
 						<button
-							on:click={() => {
+							onclick={() => {
 								deleteSession(session.id);
 							}}>{$t('words.delete')}</button
 						>

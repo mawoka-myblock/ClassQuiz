@@ -8,6 +8,7 @@ SPDX-License-Identifier: MPL-2.0
 @import 'tippy.js/dist/tippy.css';
 /* Write your global styles here, in PostCSS syntax */
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @tailwind utilities;
 
 .marck-script {

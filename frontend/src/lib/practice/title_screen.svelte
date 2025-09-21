@@ -5,10 +5,12 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 
-	export let data;
 	import { fly } from 'svelte/transition';
+	let { data = $bindable() } = $props();
 
 	const { t } = getLocalization();
 </script>
@@ -19,13 +21,13 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex align-middle p-4 gap-3">
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-red-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-yellow-400 transition"
-				/>
+				></span>
 				<span
 					class="inline-block bg-gray-600 w-4 h-4 rounded-full hover:bg-green-400 transition"
-				/>
+				></span>
 			</div>
 		</div>
 		<div class="dark:bg-gray-700">
@@ -50,9 +52,9 @@ SPDX-License-Identifier: MPL-2.0
 						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
-						on:contextmenu|preventDefault={() => {
+						oncontextmenu={preventDefault(() => {
 							data.cover_image = '';
-						}}
+						})}
 					/>
 				</div>
 			{/if}
