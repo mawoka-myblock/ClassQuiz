@@ -8,7 +8,7 @@ import { error } from '@sveltejs/kit';
 export const load = (async ({ fetch, params }) => {
 	const res = await fetch(`/api/v1/box-controller/web/controller?id=${params.controller_id}`);
 	if (res.status !== 200) {
-		throw error(res.status, await res.text());
+		error(res.status, await res.text());
 	}
 	const json: {
 		id: string;

@@ -8,8 +8,8 @@ SPDX-License-Identifier: MPL-2.0
 	import '../app.css';
 	import Navbar from '$lib/navbar.svelte';
 	import { navbarVisible, pathname } from '$lib/stores';
-	import * as Sentry from '@sentry/browser';
-	import { BrowserTracing } from '@sentry/tracing';
+	// import * as Sentry from '@sentry/browser';
+	// import { BrowserTracing } from '@sentry/tracing';
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
 	import CommandPalette from '$lib/components/commandpalette.svelte';
@@ -54,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 		start_language = localStorage.getItem('language') ?? 'en';
 	}
 	initLocalizationContext(start_language);
-
+	/*
 	if (import.meta.env.VITE_SENTRY !== undefined && import.meta.env.PROD) {
 		Sentry.init({
 			dsn: String(import.meta.env.VITE_SENTRY),
@@ -66,6 +66,7 @@ SPDX-License-Identifier: MPL-2.0
 			tracesSampleRate: 0.5
 		});
 	}
+	 */
 </script>
 
 <svelte:head>
