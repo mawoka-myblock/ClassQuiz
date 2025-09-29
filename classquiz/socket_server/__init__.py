@@ -303,9 +303,7 @@ async def get_question_results(sid: str, data: dict):
     else:
         redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()["root"]
     for player in redis_res:
-        player_total_score = await redis.hget(
-            f"game_session:{session['game_pin']}:player_scores", player["username"]
-        )
+        player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player["username"])
         player["total_score"] = int(player_total_score)
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
