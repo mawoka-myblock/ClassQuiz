@@ -102,7 +102,7 @@ SPDX-License-Identifier: MPL-2.0
 		</li>
 		<li>
 			Add the following line to your <code>/etc/hosts</code>-file, so you can visit ClassQuiz
-			via <code>test.com</code> (Required for the Captcha and Mapbox)
+			via <code>test.com</code> (Required for the Captcha)
 			<pre><code>127.0.0.1 test.com</code></pre>
 
 			Now you can visit ClassQuiz at<a

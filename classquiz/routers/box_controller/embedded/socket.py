@@ -25,7 +25,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     username = await redis.get(f"game:cqc:player:{player_id}")
     if redis_res_game is None or username is None:
         raise HTTPException(status_code=404, detail="id not existent")
-    game = PlayGame.parse_raw(redis_res_game)
+    game = PlayGame.model_validate_json(redis_res_game)
     if not game.question_show:
         return
 
@@ -65,7 +65,7 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     await sio.emit("player_answer", {})
-    if answers is not None and len(answers.__root__) == player_count:
+    if answers is not None and len(answers) == player_count:
         await sio.emit("everyone_answered", {})
 
 
@@ -97,7 +97,7 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
 
         player_id, game_pin = game_id.split(":")
         if player_id is None or game_pin is None:
-            await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="BadId").json())
+            await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="BadId").model_dump_json())
             await ws.close(code=status.WS_1003_UNSUPPORTED_DATA)
         username = await redis.get(f"game:cqc:player:{player_id}")
         await sio.emit(
@@ -105,17 +105,19 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
             {"username": username, "sid": None},
             room=f"admin:{game_pin}",
         )
-        await redis.sadd(f"game_session:{game_pin}:players", GamePlayer(username=username, sid=None).json())
+        await redis.sadd(f"game_session:{game_pin}:players", GamePlayer(username=username, sid=None).model_dump_json())
 
         while True:
             raw_data = await ws.receive_text()
             try:
-                data = WebSocketRequest.parse_raw(raw_data)
+                data = WebSocketRequest.model_validate_json(raw_data)
             except ValidationError as e:
                 print("ValError")
                 print(e)
                 print(raw_data)
-                await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="ValidationError").json())
+                await ws.send_text(
+                    WebSocketRequest(type=WebSocketTypes.Error, data="ValidationError").model_dump_json()
+                )
                 continue
 
             if data.type == WebSocketTypes.ButtonPress:
@@ -123,7 +125,9 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                 try:
                     answer_index = button_to_index_map[data.data.lower()]
                 except (KeyError, AttributeError):
-                    await ws.send_text(WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").json())
+                    await ws.send_text(
+                        WebSocketRequest(type=WebSocketTypes.Error, data="InvalidButton").model_dump_json()
+                    )
                     continue
                 await submit_answer_fn(answer_index, game_pin, player_id, now)
 

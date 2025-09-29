@@ -7,7 +7,11 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { createTippy } from 'svelte-tippy';
 
-	export let imported: boolean | undefined;
+	interface Props {
+		imported: boolean | undefined;
+	}
+
+	let { imported }: Props = $props();
 	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle',

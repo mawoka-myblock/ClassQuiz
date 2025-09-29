@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import type { PageData } from './$types';
 	import { fade } from 'svelte/transition';
 	// import MediaComponent from '$lib/editor/MediaComponent.svelte';
@@ -15,9 +17,9 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let data: PageData;
-	let edit_popup = null;
-	const files = data.images;
+export let data: PageData;
+let edit_popup = null;
+const files = data.images;
 
 	const close_popup_handler = (e: Event) => {
 		if (e.target !== e.currentTarget) return;
@@ -219,9 +221,9 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if edit_popup}
 	<div
-		transition:fade|local={{ duration: 100 }}
-		class="fixed top-0 left-0 h-screen w-screen z-40 flex bg-black bg-opacity-50"
-		on:click={close_popup_handler}
+		transition:fade={{ duration: 100 }}
+		class="fixed top-0 left-0 h-screen w-screen z-40 flex bg-black/50"
+		onclick={close_popup_handler}
 	>
 		<div class="w-auto h-auto m-auto rounded bg-white dark:bg-gray-700 p-4">
 			<h1 class="text-2xl text-center">{$t('file_dashboard.edit_the_file')}</h1>
@@ -234,14 +236,14 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 					<div class="flex flex-col gap-3">
 						<input
-							class="rounded outline-none dark:bg-gray-500 p-0.5 border-4 border-transparent"
+							class="rounded-sm outline-hidden dark:bg-gray-500 p-0.5 border-4 border-transparent"
 							id="name"
 							type="text"
 							bind:value={edit_popup.filename}
 						/>
 						<input
 							class:border-red-700={!edit_popup.alt_text}
-							class="transition rounded outline-none dark:bg-gray-500 p-0.5 border-4 border-transparent"
+							class="transition rounded-sm outline-hidden dark:bg-gray-500 p-0.5 border-4 border-transparent"
 							id="alt_text"
 							type="text"
 							bind:value={edit_popup.alt_text}

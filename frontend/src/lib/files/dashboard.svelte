@@ -7,7 +7,8 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import Spinner from '$lib/Spinner.svelte';
 
-	export let files: {
+	interface Props {
+		files: {
 		id: string;
 		uploaded_at: string;
 		mime_type?: string;
@@ -21,6 +22,9 @@ SPDX-License-Identifier: MPL-2.0
 		quizzes: { id: string }[];
 		quiztivities: { id: string }[];
 	}[];
+	}
+
+	let { files = $bindable() }: Props = $props();
 
 	const get_files = async () => {
 		const res = await fetch('/api/v1/storage/list');

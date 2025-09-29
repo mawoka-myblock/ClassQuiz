@@ -4,19 +4,19 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { QuizData } from '$lib/quiz_types';
 	import Spinner from '$lib/Spinner.svelte';
 	import TitleScreen from '$lib/practice/title_screen.svelte';
 	import Question from '$lib/practice/question.svelte';
 
-	let quiz: QuizData;
-	let unique = {};
+	let quiz: QuizData = $state();
+	let unique = $state({});
 
-	let selected_question = -1;
+	let selected_question = $state(-1);
 
 	const get_quiz = async () => {
-		const res = await fetch(`/api/v1/quiz/get/public/${$page.url.searchParams.get('quiz_id')}`);
+		const res = await fetch(`/api/v1/quiz/get/public/${page.url.searchParams.get('quiz_id')}`);
 		if (!res.ok) {
 			throw res.status;
 		}
@@ -44,7 +44,7 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				class="flex justify-start transition-all disabled:opacity-60"
 				disabled={selected_question <= -1}
-				on:click={() => {
+				onclick={() => {
 					selected_question -= 1;
 				}}
 			>
@@ -66,7 +66,7 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				class="flex justify-end transition-all disabled:opacity-60"
 				disabled={selected_question >= quiz.questions.length - 1}
-				on:click={() => {
+				onclick={() => {
 					reload_q();
 					selected_question += 1;
 				}}

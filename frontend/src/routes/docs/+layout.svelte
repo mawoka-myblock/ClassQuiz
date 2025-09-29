@@ -6,13 +6,18 @@ SPDX-License-Identifier: MPL-2.0
 
 <script lang="ts">
 	import Footer from '$lib/footer.svelte';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
 
-	navbarVisible.set(true);
+	let { children }: Props = $props();
+
+	navbarVisible.visible = true;
 </script>
 
 <div class="min-h-screen flex flex-col">
-	<slot />
+	{@render children?.()}
 </div>
 <div class="pt-4">
 	<Footer />

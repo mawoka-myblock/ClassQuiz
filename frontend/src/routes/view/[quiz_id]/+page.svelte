@@ -17,7 +17,7 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import RatingComponent from '$lib/view_quiz/RatingComponent.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import ModComponent from './ModComponent.svelte';
 	import { get_foreground_color } from '$lib/helpers.ts';
 
@@ -29,9 +29,9 @@ SPDX-License-Identifier: MPL-2.0
 		placement: 'right'
 	});
 
-	let start_game = null;
-	let download_id: string | null = null;
-	const urlparams = $page.url.searchParams;
+	let start_game = $state(null);
+	let download_id: string | null = $state(null);
+	const urlparams = page.url.searchParams;
 	const mod_view = Boolean(urlparams.get('mod'));
 	const auto_expand = Boolean(urlparams.get('autoExpand'));
 	const auto_return = Boolean(urlparams.get('autoReturn'));
@@ -46,8 +46,8 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	const { t } = getLocalization();
-	export let data;
-	let { quiz, logged_in }: { quiz: QuizData; logged_in: boolean } = data;
+	let { data } = $props();
+	let { quiz, logged_in }: { quiz: QuizData; logged_in: boolean } = $state(data);
 
 	interface Question {
 		time: string;
@@ -330,7 +330,7 @@ SPDX-License-Identifier: MPL-2.0
 							<Spinner my={false} />
 						{:then c}
 							<div class="max-h-[90%] max-w-[90%]">
-								<svelte:component this={c.default} bind:question />
+								<c.default bind:question={questions[index_question]} />
 							</div>
 						{/await}
 					{/if}

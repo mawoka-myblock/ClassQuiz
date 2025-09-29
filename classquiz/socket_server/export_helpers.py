@@ -13,7 +13,7 @@ from classquiz.db.models import PlayGame, GameResults
 
 
 async def save_quiz_to_storage(game_pin: str):
-    game = PlayGame.parse_raw(await redis.get(f"game:{game_pin}"))
+    game = PlayGame.model_validate_json(await redis.get(f"game:{game_pin}"))
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     answers = []
     for i in range(len(game.questions)):
@@ -26,7 +26,7 @@ async def save_quiz_to_storage(game_pin: str):
     custom_field_data = await redis.hgetall(f"game:{game_pin}:players:custom_fields")
     q_return = []
     for q in game.questions:
-        q_return.append(q.dict())
+        q_return.append(q.model_dump())
     data = GameResults(
         id=game.game_id,
         quiz=game.quiz_id,

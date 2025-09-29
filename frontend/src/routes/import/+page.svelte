@@ -5,22 +5,26 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { run, preventDefault } from 'svelte/legacy';
 
-	navbarVisible.set(true);
+	import { getLocalization } from '$lib/i18n';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
+	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+
+	navbarVisible.visible = true;
 
 	const { t } = getLocalization();
-	let url_input = '';
-	let file_input: File[];
+	let url_input = $state('');
+	let file_input: File[] = $state();
 
-	let url_valid = false;
+	let url_valid = $state(false);
 	let kahoot_regex = /^https:\/\/create\.kahoot\.it\/details\/([a-zA-Z-\d]{36})\/?$/;
-	let is_loading = false;
+	let is_loading = $state(false);
 
-	$: url_valid = kahoot_regex.test(url_input);
+	run(() => {
+		url_valid = kahoot_regex.test(url_input);
+	});
 
 	const submit = async () => {
 		if (!url_valid) {
@@ -91,10 +95,12 @@ SPDX-License-Identifier: MPL-2.0
 		is_loading = false;
 	};
 
-	$: console.log(file_input);
+	run(() => {
+		console.log(file_input);
+	});
 
 	onMount(() => {
-		let url_from_path = $page.url.searchParams.get('url');
+		let url_from_path = page.url.searchParams.get('url');
 		if (url_from_path === '') {
 			url_from_path = null;
 		}
@@ -125,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 	</form>-->
 <div class="flex items-center justify-center h-full px-4">
 	<div>
-		<span class="p-4" />
+		<span class="p-4"></span>
 
 		<div
 			class="lg:w-[64rem] lg:max-w-[64rem] w-screen max-w-screen mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
@@ -143,7 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 									Login or create account
 								</p>-->
 				<div class="grid grid-cols-2">
-					<form on:submit|preventDefault={submit}>
+					<form onsubmit={preventDefault(submit)}>
 						<div class="w-full mt-4 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.a_kahoot_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -153,7 +159,7 @@ SPDX-License-Identifier: MPL-2.0
 										bind:value={url_input}
 										name="email"
 										type="url"
-										class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+										class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 										placeholder="https://create.kahoot.it/details/something"
 										class:ring-red-700={!url_valid}
 										class:ring-green-600={url_valid}
@@ -174,10 +180,10 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 
 							<div class="flex items-center justify-center mt-auto">
-								<span />
+								<span></span>
 
 								<button
-									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 									disabled={!url_valid || is_loading}
 									type="submit"
 								>
@@ -202,7 +208,7 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 						</div>
 					</form>
-					<form on:submit|preventDefault={file_submit}>
+					<form onsubmit={preventDefault(file_submit)}>
 						<div class="w-full mt-4 border-l-2 border-gray-600 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.classquiz_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -213,7 +219,7 @@ SPDX-License-Identifier: MPL-2.0
 										name="file"
 										type="file"
 										accept=".cqa,.xlsx"
-										class="w-full peer bg-transparent h-10 rounded-lg py-1.5 text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+										class="w-full peer bg-transparent h-10 rounded-lg py-1.5 text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 										class:ring-red-700={!file_input}
 										class:ring-green-600={file_input}
 									/>
@@ -227,16 +233,16 @@ SPDX-License-Identifier: MPL-2.0
 								<a
 									class="text-sm underline font-bold text-blue-500 dark:text-blue-400"
 									download
-									href="https://ncs3.classquiz.de/blog/classquiz/ClassQuizImportTemplate.xlsx"
+									href="https://s3.realux.mawoka.eu/blog/classquiz/ClassQuizImportTemplate.xlsx"
 									>{$t('import_page.download_template_here')}</a
 								>
 							</div>
 
 							<div class="flex items-center justify-center mt-auto">
-								<span />
+								<span></span>
 
 								<button
-									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+									class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 									disabled={!file_input || is_loading}
 									type="submit"
 								>

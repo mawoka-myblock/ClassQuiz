@@ -8,12 +8,16 @@ SPDX-License-Identifier: MPL-2.0
 	import type { PageData } from './$types';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <div class="flex flex-col p-2">
 	{#each data.quizzes as quiz}
-		<div class="border-2 border-[#B07156] rounded w-full h-[20vh] p-2 flex flex-col gap-2">
+		<div class="border-2 border-[#B07156] rounded-sm w-full h-[20vh] p-2 flex flex-col gap-2">
 			<div class="grid grid-cols-3 h-full">
 				<div class="hidden lg:flex w-auto h-full items-center relative">
 					{#if quiz.cover_image}
@@ -21,7 +25,7 @@ SPDX-License-Identifier: MPL-2.0
 							src="/api/v1/storage/download/{quiz.cover_image}"
 							alt="user provided"
 							loading="lazy"
-							class="shrink-0 max-w-full max-h-full absolute rounded"
+							class="shrink-0 max-w-full max-h-full absolute rounded-sm"
 						/>
 					{/if}
 				</div>

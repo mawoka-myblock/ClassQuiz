@@ -11,7 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let selected_element;
+	let { selected_element = $bindable() } = $props();
 	const keybinding_list = {
 		t: ElementTypes.Text,
 		h: ElementTypes.Headline,
@@ -75,13 +75,13 @@ SPDX-License-Identifier: MPL-2.0
 
 <div
 	class="bg-white m-auto rounded-lg shadow-lg p-4 flex flex-col dark:bg-gray-600 h-fit"
-	transition:fade={{ duration: 100 }}
+	transition:fade|global={{ duration: 100 }}
 >
 	<ul>
 		{#each element_list as el}
 			<li
 				class="flex flex-row mt-4 w-full bg-gray-200 shadow-xl rounded-lg p-2 hover:bg-gray-300 hover:shadow-2xl hover:cursor-pointer transition dark:bg-gray-800"
-				on:click={() => {
+				onclick={() => {
 					selected_element = el.type;
 				}}
 			>

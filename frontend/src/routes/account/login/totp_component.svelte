@@ -5,21 +5,35 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { getLocalization } from '$lib/i18n';
-	// import { alertModal } from '$lib/stores';
+	import { run, preventDefault } from 'svelte/legacy';
 
-	export let session_data;
-	export let selected_method;
-	export let done;
-	export let step;
+	import { getLocalization } from '$lib/i18n';
+
+
+	interface Props {
+		// import { alertModal } from '$lib/stores';
+		session_data: any;
+		selected_method: any;
+		done: any;
+		step: any;
+	}
+
+	let {
+		session_data,
+		selected_method = $bindable(),
+		done = $bindable(),
+		step = $bindable()
+	}: Props = $props();
 
 	const { t } = getLocalization();
 	let isSubmitting;
-	let totp = '';
+	let totp = $state('');
 
-	let totp_valid = false;
+	let totp_valid = $state(false);
 
-	$: totp_valid = totp.length === 6;
+	run(() => {
+		totp_valid = totp.length === 6;
+	});
 
 	const continue_in_login = async () => {
 		if (!totp_valid) {
@@ -36,6 +50,7 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		);
 		if (res.status === 200) {
+			window.location.reload();
 			done = true;
 		} else if (res.status === 202) {
 			step += 1;
@@ -69,7 +84,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="px-6 py-4">
 	<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">ClassQuiz</h2>
 
-	<form on:submit|preventDefault={continue_in_login}>
+	<form onsubmit={preventDefault(continue_in_login)}>
 		<div class="w-full mt-4">
 			<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 				<div class="relative bg-inherit w-full">
@@ -78,7 +93,7 @@ SPDX-License-Identifier: MPL-2.0
 						bind:value={totp}
 						name="totp"
 						type="text"
-						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 						placeholder={$t('words.totp')}
 						autocomplete="one-time-code"
 					/>
@@ -92,14 +107,14 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="flex items-center justify-between mt-4">
 				<button
-					on:click={() => {
+					onclick={() => {
 						selected_method = 'BACKUP';
 					}}
 					class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"
 					>{$t('login_page.use_backup_code')}</button
 				>
 				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={!totp_valid}
 					type="submit"
 				>

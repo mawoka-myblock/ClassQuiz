@@ -1,0 +1,488 @@
+{
+    "index_page": {
+        "slogan": "A plataforma de quiz código-aberto!",
+        "meta": {
+            "description": "ClassQuiz é uma aplicação de quiz para aprender de forma interativa para os estudantes, de código aberto e de utilização gratuita",
+            "title": "Início"
+        },
+        "stats": "Existem já {{user_count}} utilizadores e {{quiz_count}} questionários no ClassQuiz.",
+        "see_what_true_and_false": "Ver o que estava certo ou errado",
+        "see_how_many_true_and_false": "Ver quantos estavam certos ou errados",
+        "create_or_import": "Criar ou importar",
+        "see_all_quizzes": "Ver todos os teus questionários",
+        "teachers_site": "Portal do professor",
+        "students_site": "Portal do estudante",
+        "no_tracking": "Sem deixar rastro",
+        "self_hostable": "Auto hospedagem",
+        "german_server": "Servidor na Alemanha",
+        "user_friendly": "Fácil de usar",
+        "completely_free": "Completamente grátis",
+        "quiz_results_downloadable": "Os resultados dos quizzes podem ser descarregados",
+        "multilingual": "Multilíngue",
+        "dark_mode": "Modo escuro",
+        "get_a_quiz": "1. Obter um quiz",
+        "create_a_quiz_from_scratch": "Criar um quiz do zero com o editor, incluir imagens e mais",
+        "find_or_explore": "Pesquisar (ou explorar) quizzes criados ou importados por outros",
+        "play_quiz": "2. Preencher o quiz",
+        "select_answer": "Selecionar a resposta",
+        "choose_answer_wisely": "Escolha a resposta cuidadosamente",
+        "view_results": "Ver os resultados",
+        "check_if_chosen_wisely": "Verifica, se escolheste bem",
+        "list_winners": "Listar vencedores",
+        "get_ranking_and_winners": "Obter classificação final e ver os vencedores",
+        "why_classquiz": "Porquê ClassQuiz?",
+        "no_tracking_content": "Outros aplicativos gravam suas informações e compartilham com terceiros, mas ClassQuiz não.",
+        "self_hostable_content": "ClassQuiz pode facilmente ser auto-alojado, para que os dados fiquem sob o seu controle!",
+        "user_friendly_content": "ClassQuiz está desenhado para ser simples e fácil de usar para todos.",
+        "completely_free_content": "ClassQuiz é gratuito para o utilizador, sem planos pagos nem redirecionamentos irritantes para versões paga. Donativos são bem-vindos.",
+        "quiz_results_downloadable_content": "Os resultados dos questionários podem ser facilmente exportados em Excel. (Não sabia que os outro não o podiam fazer)",
+        "multilingual_content": "ClassQuiz está traduzido para inglês, francês, alemão, italiano, norueguês bokmål, turco, e parcialmente traduzido em indonésio e catalão.",
+        "dark_mode_content": "Uma das funcionalidade mais importantes que um site pode ter!",
+        "german_server_content": "Os servidores de ClassQuiz encontram-se na Alemanha e estão alojados com netcup.",
+        "download_quizzes": "Descarregar questionários",
+        "download_quizzes_content": "Os questionários podem em qualquer altura, ser descarregados como um ficheiro único. Isto permite fácil migração para outras instâncias ClassQuiz.",
+        "community_driven": "Guiado pela comunidade",
+        "community_driven_content": "ClassQuiz depende da sua comunidade para o financiamento, testes, solicitação de funções, traduções e mais! Podes também fazer parte da comunidade ativa ClassQuiz!",
+        "how_does_classquiz_work": "Como é que o ClassQuiz funciona?",
+        "no_player_limit": "Sem limite de jogadores",
+        "no_player_limit_content": "ClassQuiz não restringe artificialmente o número de jogadores. Teoricamente, mais de 1000 jogadores podem participar do mesmo quiz, e já foi testado com até 300 jogadores por quiz.",
+        "import_quiz_from_kahoot_and_edit": "Importar um quiz Kahoot! e editá-lo em ClassQuiz"
+    },
+    "overview_page": {
+        "created_at": "Criado em",
+        "question_count": "Contador de pergunta",
+        "no_quizzes": "Clique no botão \"Criar\" ou importe um questionário para começar."
+    },
+    "edit_page": {
+        "success_update_title": "Questionário atualizado.",
+        "success_update_body": "Ninguém estava à espera da Inquisição."
+    },
+    "create_page": {
+        "success": {
+            "title": "Questionário criado.",
+            "body": "Que os jogos arranquem."
+        }
+    },
+    "register_page": {
+        "greeting": "Muito gosto em conhecê-lo!",
+        "create_account": "Criar conta",
+        "forgot_password?": "Esqueceu a senha?",
+        "already_have_account?": "Já tem uma conta?"
+    },
+    "login_page": {
+        "welcome_back": "Bem vindo de volta.",
+        "login_or_create_account": "Login ou criar uma conta",
+        "already_have_account": "Não possui uma conta?",
+        "email_or_username": "Email ou Usuário",
+        "modal": {
+            "success": {
+                "success_check_mail": "Conetado. Verifique a sua caixa de correio.",
+                "success": "Conectado.",
+                "description": {
+                    "success_check_mail": "Verifique a sua caixa de correio para uma mensagem com um link para iniciar sessão.",
+                    "success": "Conectado."
+                }
+            },
+            "error": {
+                "wrong_creds": "Username ou password incorretos.",
+                "unexpected": "Erro inesperado!",
+                "description": {
+                    "wrong_creds": "Por favor verifique que a sua password e endereço email estejam corretos.",
+                    "unexpected": "Ocorreu o típico erro inesperado!"
+                }
+            }
+        },
+        "use_backup_code": "Utilizar o código de segurança"
+    },
+    "words": {
+        "question": "Pergunta",
+        "answer": "Resposta",
+        "stats": "Estatísticas",
+        "features": "Funcionalidades",
+        "login": "Entrar",
+        "email": "Endereço de email",
+        "username": "Usuário",
+        "password": "Senha",
+        "play": "Reproduzir",
+        "edit": "Editar",
+        "delete": "Apagar",
+        "public": "Público",
+        "start": "Iniciar",
+        "create": "Criar",
+        "import": "Importar",
+        "logout": "Sair",
+        "title": "Título",
+        "url": "URL",
+        "submit": "Enviar",
+        "connect": "Conectar",
+        "pin": "PIN",
+        "kick": "Expulsar",
+        "register": "Inscrever-se",
+        "docs": "Documentos",
+        "close": "Fechar",
+        "save": "Salvar",
+        "description": "Descrição",
+        "image": "Imagem",
+        "settings": "Definições",
+        "repeat_password": "Repetir a senha",
+        "overview": "Visão geral",
+        "report": "Relatório",
+        "explore": "Explorar",
+        "search": "Procurar",
+        "screenshot": "Captura de ecrã",
+        "screenshot_plural": "Capturas de Tela",
+        "browser": "Navegador",
+        "view": "Ver",
+        "view_plural": "Visualizações",
+        "correct": "Correto",
+        "result": "Resultado",
+        "result_plural": "Resultados",
+        "count": "Contagem",
+        "range": "Intervalo",
+        "multiple_choice": "Escolha múltipla",
+        "private": "Privado",
+        "dashboard": "Painel",
+        "question_plural": "Perguntas",
+        "game_pin": "PIN do jogo",
+        "other": "outro",
+        "other_plural": "outros",
+        "donating": "doar",
+        "find": "Localizar",
+        "practice": "Praticar",
+        "error": "Erro",
+        "voting": "Votando",
+        "download": "Baixar",
+        "continue": "Continuar",
+        "backup_code": "Código de segurança",
+        "totp": "password de uso único (Totp)",
+        "text": "Texto",
+        "order": "Ordem",
+        "results": "Resultados",
+        "note": "Nota",
+        "player_plural": "Jogadores",
+        "version": "Versão",
+        "never": "Nunca",
+        "unknown": "Desconhecido",
+        "update": "Atualizar",
+        "score": "Pontuação",
+        "slide": "Slide",
+        "name": "Nome",
+        "point": "Ponto",
+        "point_plural": "Pontos",
+        "back": "Anterior",
+        "finish": "Finalizar",
+        "normal": "Normal",
+        "selected": "Selecionado",
+        "select": "Selecionar",
+        "quiz": "Questionário",
+        "quiztivity": "Quiztividade",
+        "next": "Próximo",
+        "check_choice": "Soma das Corretas",
+        "video": "Vídeo",
+        "library": "Biblioteca",
+        "progress": "Progresso",
+        "speed": "Velocidade",
+        "upload": "Upload",
+        "files_library": "Biblioteca de arquivos",
+        "answer_plural": "Respostas",
+        "yes": "Sim",
+        "no": "não",
+        "analytics": "Dados sobre uso",
+        "rating": "Nota",
+        "like": "Gostei",
+        "like_plural": "Gosteis",
+        "dislike": "Não gostei",
+        "dislike_plural": "Não gosteis",
+        "play_plural": "Reproduções",
+        "info": "Informação",
+        "player": "Jogador"
+    },
+    "editor": {
+        "time_in_seconds": "Tempo em segundos",
+        "right_or_true?": "Certo?",
+        "add_new_answer": "Juntar nova resposta",
+        "add_new_question": "Juntar nova questão",
+        "delete_question": "Remover pergunta",
+        "delete_answer": "Remover resposta",
+        "not_all_links_imgur_links": "Nem todos os links são links do Imgur!",
+        "no_title": "Sem título...",
+        "empty": "Vazio...",
+        "bg_image": "Imagem de fundo",
+        "slide": {
+            "headline": "Cabeçalho",
+            "headline_description": "Um texto em negrito para cabeçalhos",
+            "text": "Texto",
+            "text_description": "Texto menor e mais longo",
+            "rectangle": "Retângulo",
+            "rectangle_description": "Só um retângulo"
+        },
+        "abcd_description": "Somente uma resposta pode ser escolhida",
+        "voting_description": "Respostas não valem pontos",
+        "check_choice_description": "Todas as respostas corretas devem ser escolhidas para ganhar pontos",
+        "order_description": "As respostas podem ser trazidas para a resposta correta",
+        "text_description": "Os jogadores podem inserir texto",
+        "range_description": "Um intervalo de números pode ser escolhido num slider",
+        "need_more_help": "Precisa de mais ajuda?",
+        "visit_docs": "Veja a documentação.",
+        "enter_answer": "Insira uma resposta",
+        "enable_reorder": "Ativar modo reordenador",
+        "disable_reorder": "Desativar modo reordenador",
+        "advanced_settings": "Configurações Avançadas",
+        "hide_question_results": "Ocultar o resultado das respostas?"
+    },
+    "import_page": {
+        "need_help": "Precisa de ajuda?",
+        "visit_docs": "Visite a documentação",
+        "a_kahoot_quiz": "Um Kahoot!-Quiz",
+        "url_should_look_like_this": "A URL deve estar assim: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "Neste canto você consegue importar quizzes que estão no Kahoot!.",
+        "classquiz_quiz": "Um quiz do ClassQuiz",
+        "upload_file_ending": "Envie o arquivo com extensão .cqa ou .xlsx",
+        "this_side_classquiz": "Neste canto você consegue importar questionários que foram exportados do ClassQuiz.",
+        "this_side_classquiz_excel": "Pode-se também enviar arquivos excel, se você tiver preenchido o modelo a seguir. Se um quiz com o título já existir, ele será anexado às perguntas do quiz existente.",
+        "download_template_here": "Baixar o modelo"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Já existe um administrador registado para este jogo.",
+        "start_game": "Iniciar o jogo",
+        "time_left": "Tempo restante",
+        "get_results": "Obter resultados",
+        "get_results_and_stop_time": "Obter resultados e parar o tempo",
+        "get_final_results": "Obter resultados finais",
+        "show_next_question": "Mostrar a pergunta seguinte",
+        "start_by_showing_first_question": "Comece mostrando a primeira pergunta.",
+        "no_answers": "Sem respostas!",
+        "stop_time": "Parar o tempo",
+        "save_results": "Salvar resultados",
+        "next_question": "Próxima pergunta ({{question}})",
+        "show_results": "Mostrar resultados",
+        "stop_time_and_solutions": "Parar o tempo e mostrar as respostas",
+        "enter_answer_into_field": "Insira sua resposta na caixa de texto!",
+        "answers_submitted": "{{answer_count}} Respostas enviadas",
+        "request_export_results": "Solicitar download dos resultados",
+        "download_export_results": "Baixar resultados",
+        "export_results": "Exportar resultados"
+    },
+    "password_reset_page": {
+        "reset_password": "Redefinir senha"
+    },
+    "settings_page": {
+        "old_password": "Senha antiga",
+        "new_password": "Senha nova",
+        "repeat_password": "Repita a senha",
+        "change_password_submit": "Mudar senha!",
+        "last_seen": "Visto pela última vez",
+        "check_location": "Verificar localização",
+        "delete_this_session": "Deletar esta sessão",
+        "this_session?": "Esta sessão?",
+        "change_avatar": "Mudar avatar",
+        "security_settings": "Configurações de segurança",
+        "add_api_key": "Adicionar chave de API"
+    },
+    "explore_page": {
+        "made_by": "Feito por",
+        "imported_by": "Importado por"
+    },
+    "search_page": {
+        "at_least_3_characters": "Insira ao menos 3 caracteres...",
+        "nothing_here": "Não há nada aqui..."
+    },
+    "play_page": {
+        "end_sentence": "Acabou! Esse foi o quiz.",
+        "1st_place": "1º Lugar",
+        "2nd_place": "2º Lugar",
+        "3rd place": "3º Lugar",
+        "with_out_of": "com {{correct_questions}} de {{total_question_count}}",
+        "final_result_rank": "{{place}}: {{username}} com {{points}} pontos",
+        "your_score": "Sua pontuação: {{score}}",
+        "join_description": "Entre em {{url}} e insira {{pin}}.",
+        "join_by_entering_code": "Entre inserindo o seguinte código",
+        "points_added": "Pontos adicionados",
+        "your_place": "Você está na posição {{place}}!",
+        "players_waiting": "{{count}} jogador está esperando",
+        "players_waiting_plural": "{{count}} jogadores estão esperando"
+    },
+    "editor_page": {
+        "add_an_answer": "Adicionar resposta",
+        "right_click_to_delete": "Clique com o botão direito numa resposta para apagá-la!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Pesquisar pelos seus próprios quizzes",
+        "views_n_plays": "Visualizações & Reproduções",
+        "info_analytics": "As \"Reproduções\" mostram apenas a frequência com que o questionário foi iniciado (incluindo o utilizador), enquanto as \"Visualizações\" contam a frequência com que a página \"Visualizar\" foi visitada, pelo que também conta os bots (peço desculpa).",
+        "commandpalette_notice": "Pressione <kbd>Ctr</kbd>+<kbd>k</kbd> ou <kbd>Meta</kbd>+<kbd>k</kbd> para abrir a paleta de comandos"
+    },
+    "footer": {
+        "self_ads": "Feito com ❤️ por {{mawoka_link}} e com a ajuda de {{others_link}}.",
+        "more_details_here": "Mais detalhes aqui",
+        "donate": "Se achar isto útil, por favor considere {{donate_link}}."
+    },
+    "error_page": {
+        "404_text": "A página que procurava desapareceu ou nem sequer existiu. Quem sabe?",
+        "unknown_error_text": "Isso não devia acontecer. Provavelmente a culpa é minha, não tua, mas talvez tenhas um poder mágico para quebrar coisas..."
+    },
+    "uploader": {
+        "add_image": "Adicionar Mídia",
+        "select_upload_type": "Selecionar o Tipo de Upload",
+        "upload_a_video": "Enviar um vídeo",
+        "upload_video_popup_notice": "A janela pop-up está aberta; consulte-a para obter mais informações",
+        "upload_video": "Enviar Vídeo",
+        "visit_pixabay": "Visitar o Pixabay",
+        "images_by_pixabay": "Imagens fornecidas por Pixabay",
+        "search_english_only": "A pesquisa funciona apenas em inglês",
+        "next_page": "Página seguinte",
+        "previous_page": "Página anterior"
+    },
+    "avatar_settings": {
+        "skin_color": "Cor da pele",
+        "top_type": "Topo",
+        "hair_color": "Cor de cabelo",
+        "facial_hair_type": "Pelo facial",
+        "facial_hair_color": "Cor do pelo facial",
+        "mouth_type": "Boca",
+        "eyebrow_type": "Sobrancelha",
+        "accessories_type": "Óculos",
+        "hat_color": "Cor do chapéu",
+        "clothe_type": "Roupas",
+        "clothe_color": "Cor do vestuário",
+        "clothe_graphic_type": "Gráfico",
+        "thats_you": "É você!",
+        "start_over": "Começar de novo",
+        "go_back": "Voltar"
+    },
+    "results_page": {
+        "no_results_so_far": "Nenhum resultado guardado até agora...",
+        "quiz_title": "Título do Quiz",
+        "date_played": "Data em que foi jogado",
+        "player_count": "Número de jogadores",
+        "general_overview": {
+            "sentence": "O quiz \"{{title}}\", que foi jogado em {{date}} teve {{player_count}} jogadores com uma média de pontos de {{average_score}}."
+        }
+    },
+    "result_page": {
+        "player_name": "Nome do jogador",
+        "custom_field": "Campo personalizado",
+        "average_score": "Pontuação média: {{average_score}}",
+        "correct_answer": "{{count}} resposta correta",
+        "correct_answer_plural": "{{count}} respostas corretas",
+        "time_taken": "Tempo gasto",
+        "player_score": "Pontuação do Jogador"
+    },
+    "controllers": {
+        "add_new_controller": "Adicionar novo controlador",
+        "player_name": "Nome do jogador",
+        "first_seen": "Visto pela primeira vez",
+        "last_seen": "Visto pela última vez",
+        "controller_name": "Nome do controlador",
+        "version_overview": "A versão mais recente disponível é {{newest_version}} e a versão {{current_version}} está instalada.",
+        "already_latest_version": "Você está na versão mais recente",
+        "cancel_update": "Cancelar atualização!",
+        "update_from_to": "Atualizar de {{current_version}} para {{newest_version}}"
+    },
+    "navbar": {
+        "donate": "Doe"
+    },
+    "security_settings": {
+        "backup_code": "Código de Segurança",
+        "get_backup_code": "Obter Código de Segurança",
+        "activate_2fa": "Activar a autenticação de dois factores",
+        "2fa_activated": "A autenticação de dois factores está activada",
+        "2fa_deactivated": "A autenticação de dois factores está desactivada",
+        "webauthn": "WebAuthn",
+        "webauthn_available": "Webauthn está disponível",
+        "webauthn_unavailable": "Webauthn não está disponível",
+        "add_security_key": "Adicionar chave de segurança",
+        "totp": "password de uso único (Totp)",
+        "totp_available": "TOTP está disponível",
+        "totp_unavailable": "TOTP não está disponível",
+        "disable_totp": "Desativar TOTP",
+        "enable_totp": "Ativar TOTP",
+        "backup_codes": {
+            "your_backup_code": "Seu Código de Segurança",
+            "save_somewhere_save": "Guarde-o num lugar seguro!",
+            "download_code": "Baixar código"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Leia este código QR para configurar o código",
+            "enter_as_secret_if_no_see_code": "Insira isso como segredo não conseguir ler o código QR",
+            "totp_setup": "Configurar TOTP",
+            "do_not_forget_backup_code": "Não esqueça de salvar seu código de segurança!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Feito por",
+        "view_on_kahoot": "Ver no original"
+    },
+    "start_game": {
+        "captcha_message": "Se activado, o ReCaptcha do Google será carregado no browser dos jogadores. Active-o apenas se for realmente necessário, uma vez que precisa do consentimento de TODOS os jogadores para carregar o captcha.",
+        "normal_mode_description": "As perguntas e respostas só serão mostradas na tela do administrador. Os jogadores terão apenas botões coloridos com símbolos correspondentes aos que estão na tela dele.",
+        "old_school_mode": "Das Antigas",
+        "old_school_mode_description": "As perguntas e imagens serão mostradas tanto na tela do administrador quanto na tela dos jogadores",
+        "start_game": "Iniciar o jogo"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Seleccionar o tipo de página",
+            "move_left": "Mover para a esquerda",
+            "move_right": "Mover para a direita",
+            "title_placeholder": "Inserir título aqui",
+            "add_new": "Adicionar novo/a",
+            "delete": "Deletar",
+            "open_shares_menu": "Abrir o menu de compartilhamento",
+            "shares": {
+                "add_new_share": "Adicionar novo compartilhamento",
+                "expires_on": "Expira em {{date}}",
+                "never_expires": "Nunca expira"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Adicionar cartão",
+                "upload_image": "Enviar imagem",
+                "add_pair": "Adicionar par"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Tentativas: {{try_count}}"
+            }
+        },
+        "share_expired": "Compartilhamento expirado"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Copiado para a área de transferência!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Registrou-se em {{data}}",
+        "no_original_quizzes": "Este usuário não tem nenhum quiz original",
+        "user_not_found": "Usuário não encontrado"
+    },
+    "file_dashboard": {
+        "not_available": "Indisponível",
+        "missing": "SUMIDO!",
+        "unset": "Redefinir",
+        "size": "Tamanho: {{size}} MiB",
+        "caption": "Legenda: {{caption}}",
+        "filename": "Nome do arquivo: {{filename}}",
+        "uploaded": "Enviado em: {{date}}",
+        "imported": "Importado: {{yes_or_no}}",
+        "edit_details": "Editar detalhes",
+        "delete_image": "Remover imagem",
+        "edit_the_image": "Editar a imagem",
+        "filename_word": "Nome do arquivo",
+        "alt_text": "Texto alternativo / Legenda",
+        "storage_usage": "Você já usou {{used}} MiB de {{total}} MiB do armazenamento, o que equivale a {{percent}}%."
+    },
+    "video_uploader": {
+        "time_elapsed": "Tempo decorrido",
+        "time_remaining": "Tempo restante"
+    },
+    "downloader": {
+        "select_download_type": "Selecionar tipo de download",
+        "own_format": "Formato próprio",
+        "excel_format": "Formato Excel",
+        "help": "O formato próprio (.cqa) contém também as imagens e reconhece todos os tipos de pergunta. Já o formato Excel só reconhece perguntas do tipo Votar e Múltipla Escolha."
+    }
+}

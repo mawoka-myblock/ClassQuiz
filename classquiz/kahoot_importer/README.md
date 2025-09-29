@@ -20,7 +20,7 @@ from asyncio import run
 
 async def main():
     kahoot_quiz: _Response = await get("GAME_ID")
-    print(kahoot_quiz.json(exclude={"kahoot"}))
+    print(kahoot_quiz.model_dump_json(exclude={"kahoot"}))
 run(main())
 ```
 
@@ -35,7 +35,7 @@ from asyncio import run
 
 async def main():
     kahoot_quizzes: _Response = await search("QUERY")
-    print(kahoot_quizzes.json())
+    print(kahoot_quizzes.model_dump_json())
 run(main())
 ```
 

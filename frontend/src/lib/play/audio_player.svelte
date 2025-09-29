@@ -5,12 +5,18 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Audio1 from '$lib/assets/music/1-128.mp3';
 
-	export let play = false;
-	let volume = 100;
+	interface Props {
+		play?: boolean;
+	}
 
-	const audio = new Audio(Audio1);
+	let { play = $bindable(false) }: Props = $props();
+	let volume = $state(100);
+
+	const audio = $state(new Audio(Audio1));
 	const control_audio = (play_audio: boolean) => {
 		if (play_audio) {
 			audio.play();
@@ -19,14 +25,18 @@ SPDX-License-Identifier: MPL-2.0
 			audio.pause();
 		}
 	};
-	$: audio.volume = volume / 100;
-	$: control_audio(play);
+	run(() => {
+		audio.volume = volume / 100;
+	});
+	run(() => {
+		control_audio(play);
+	});
 </script>
 
 <div class="fixed top-0 left-0">
 	{#if play}
 		<button
-			on:click={() => {
+			onclick={() => {
 				play = false;
 			}}
 		>
@@ -48,7 +58,7 @@ SPDX-License-Identifier: MPL-2.0
 		</button>
 	{:else}
 		<button
-			on:click={() => {
+			onclick={() => {
 				play = true;
 			}}
 		>

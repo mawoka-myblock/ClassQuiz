@@ -11,7 +11,7 @@ export async function load({ parent, url }) {
 
 	const { email } = await parent();
 	if (email) {
-		throw redirect(302, returnTo);
+		redirect(302, returnTo);
 	}
 	return {
 		verified: verified !== null

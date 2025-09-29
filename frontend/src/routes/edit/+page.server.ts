@@ -9,7 +9,7 @@ export async function load({ url, parent }) {
 	const quiz_id = url.searchParams.get('quiz_id');
 	const { email } = await parent();
 	if (!email) {
-		throw redirect(302, `/account/login?returnTo=/edit?quiz_id=${quiz_id}`);
+		redirect(302, `/account/login?returnTo=/edit?quiz_id=${quiz_id}`);
 	}
 
 	if (email) {
@@ -17,7 +17,7 @@ export async function load({ url, parent }) {
 	}
 
 	if (quiz_id === null) {
-		throw error(404);
+		error(404);
 	}
 	return {
 		quiz_id

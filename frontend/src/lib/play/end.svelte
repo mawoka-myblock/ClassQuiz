@@ -5,12 +5,18 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
 
-	export let question_count: number;
-	export let final_results: Array<null> | Array<Array<PlayerAnswer>>;
+	interface Props {
+		question_count: number;
+		final_results: Array<null> | Array<Array<PlayerAnswer>>;
+	}
+
+	let { question_count, final_results }: Props = $props();
 
 	interface PlayerAnswer {
 		username: string;
@@ -18,8 +24,8 @@ SPDX-License-Identifier: MPL-2.0
 		right: string;
 	}
 
-	let data_available = false;
-	let winners_arr;
+	let data_available = $state(false);
+	let winners_arr = $state();
 
 	const getWinnersSorted = () => {
 		let winners = {};
@@ -79,9 +85,9 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 	let winners = getWinnersSorted();
-	$: {
+	run(() => {
 		console.log(winners, winners_arr);
-	}
+	});
 </script>
 
 <div>

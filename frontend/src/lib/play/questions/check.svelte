@@ -12,14 +12,24 @@ SPDX-License-Identifier: MPL-2.0
 	import { QuizQuestionType } from '../../quiz_types';
 	// import CircularTimer from '$lib/play/circular_progress.svelte';
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
-	export let question: Question;
-	export let selected_answer = '';
-	export let game_mode;
 
-	export let timer_res;
 
-	export let circular_progress;
-	let _selected_answers = [false, false, false, false];
+	interface Props {
+		question: Question;
+		selected_answer?: string;
+		game_mode: any;
+		timer_res: any;
+		circular_progress: any;
+	}
+
+	let {
+		question,
+		selected_answer = $bindable(''),
+		game_mode,
+		timer_res = $bindable(),
+		circular_progress = $bindable()
+	}: Props = $props();
+	let _selected_answers = $state([false, false, false, false]);
 
 	const handleCheckQuestionTypeAnswers = () => {
 		// Set all the answers to false except the selected one
@@ -70,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
 					default_colors[i]}; color: {get_foreground_color(
 					answer.color ?? default_colors[i]
 				)}"
-				on:click={() => selectAnswer(i)}
+				onclick={() => selectAnswer(i)}
 				class:opacity-100={_selected_answers[i]}
 				class:opacity-50={!_selected_answers[i]}
 			>

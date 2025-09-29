@@ -11,11 +11,20 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 
 	const { t } = getLocalization();
-	export let results: Array<Answer>;
-	export let game_data: QuizData;
-	export let solution: Question;
-	export let question_index: string;
-	let data_store = {};
+	interface Props {
+		results: Array<Answer>;
+		game_data: QuizData;
+		solution: Question;
+		question_index: string;
+	}
+
+	let {
+		results,
+		game_data,
+		solution = $bindable(),
+		question_index
+	}: Props = $props();
+	let data_store = $state({});
 
 	const question = solution.answers;
 	for (let i = 0; i < question.length; i++) {
@@ -26,7 +35,7 @@ SPDX-License-Identifier: MPL-2.0
 		data_store[results[i].answer] += 1;
 	}
 
-	let slider_values = [solution.answers.min_correct ?? 0, solution.answers.max_correct ?? 0];
+	let slider_values = $state([solution.answers.min_correct ?? 0, solution.answers.max_correct ?? 0]);
 	console.log(slider_values, solution.answers);
 </script>
 
@@ -99,8 +108,7 @@ SPDX-License-Identifier: MPL-2.0
 				<Spinner />
 			{:then c}
 				<div class="grayscale pointer-events-none w-full">
-					<svelte:component
-						this={c.default}
+					<c.default
 						bind:values={slider_values}
 						bind:min={solution.answers.min}
 						bind:max={solution.answers.max}

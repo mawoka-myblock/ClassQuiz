@@ -11,7 +11,11 @@ SPDX-License-Identifier: MPL-2.0
 		y: 'yellow',
 		b: 'blue'
 	};
-	export let code: string;
+	interface Props {
+		code: string;
+	}
+
+	let { code }: Props = $props();
 </script>
 
 <div class="flex flex-row gap-2 mx-auto">
@@ -22,7 +26,7 @@ SPDX-License-Identifier: MPL-2.0
 				style="background-color: {color_map[
 					c.toLowerCase()
 				]}; width: 2rem; height: {c.toLowerCase() == c ? '2' : '4'}rem"
-			/>
+			></span>
 		</div>
 	{/each}
 </div>

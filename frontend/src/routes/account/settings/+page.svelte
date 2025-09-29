@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 	import { DateTime } from 'luxon';
 	import { UAParser } from 'ua-parser-js';
@@ -13,8 +15,6 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 
 	const { t } = getLocalization();
-
-	let showMap = false;
 
 	interface UserAccount {
 		id: string;
@@ -30,16 +30,16 @@ SPDX-License-Identifier: MPL-2.0
 		newPasswordConfirm: string;
 	}
 
-	let changePasswordData: ChangePasswordData = {
+	let changePasswordData: ChangePasswordData = $state({
 		oldPassword: '',
 		newPassword: '',
 		newPasswordConfirm: ''
-	};
+	});
 
 	let locationData;
-	let this_session;
+	let this_session = $state();
 
-	let passwordChangeDataValid = false;
+	let passwordChangeDataValid = $state(false);
 	const checkPasswords = (data: ChangePasswordData): void => {
 		passwordChangeDataValid =
 			data.newPassword === data.newPasswordConfirm &&
@@ -47,7 +47,9 @@ SPDX-License-Identifier: MPL-2.0
 			data.oldPassword !== data.newPassword &&
 			data.oldPassword !== '';
 	};
-	$: checkPasswords(changePasswordData);
+	run(() => {
+		checkPasswords(changePasswordData);
+	});
 	const changePassword = async () => {
 		if (!passwordChangeDataValid) {
 			return;
@@ -95,7 +97,7 @@ SPDX-License-Identifier: MPL-2.0
 		return api_keys_temp;
 	};
 
-	let api_keys;
+	let api_keys = $state();
 
 	const add_api_key = async () => {
 		await fetch('/api/v1/users/api_keys', { method: 'POST' });
@@ -131,19 +133,6 @@ SPDX-License-Identifier: MPL-2.0
 		const parser = new UAParser(userAgent);
 		const result = parser.getResult();
 		return `${result.browser.name} ${result.browser.version} (${result.os.name})`;
-	};
-
-	const checkLocation = async (session_ip: string) => {
-		const res = await fetch(`/api/v1/utils/ip-lookup/${session_ip}`);
-		const json = await res.json();
-		console.log(json.status, json.status === 'fail');
-		if (json.status === 'fail') {
-			alert('This feature is kinda broken...');
-			return;
-		} else {
-			locationData = await res.json();
-			showMap = true;
-		}
 	};
 
 	const deleteSession = async (session_id: string) => {
@@ -195,25 +184,25 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 			<div>
-				<form class="flex flex-col md:flex-row" on:submit|preventDefault={changePassword}>
+				<form class="flex flex-col md:flex-row" onsubmit={preventDefault(changePassword)}>
 					<label
 						>{$t('settings_page.old_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.oldPassword}
 						/></label
 					>
 					<label
 						>{$t('settings_page.new_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.newPassword}
 						/></label
 					>
 					<label
 						>{$t('settings_page.repeat_password')}:<input
 							type="password"
-							class="m-2 text-black rounded p-1 dark:bg-gray-700 dark:text-white"
+							class="m-2 text-black rounded-sm p-1 dark:bg-gray-700 dark:text-white"
 							bind:value={changePasswordData.newPasswordConfirm}
 						/></label
 					>
@@ -279,12 +268,6 @@ SPDX-License-Identifier: MPL-2.0
 					scope="col"
 					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
 				>
-					{$t('settings_page.check_location')}
-				</th>
-				<th
-					scope="col"
-					class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400"
-				>
 					{$t('settings_page.delete_this_session')}
 				</th>
 				<th
@@ -317,16 +300,7 @@ SPDX-License-Identifier: MPL-2.0
 						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 					>
 						<button
-							on:click={() => {
-								checkLocation(session.ip_address);
-							}}>{$t('words.view')}</button
-						>
-					</td>
-					<td
-						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
-					>
-						<button
-							on:click={() => {
+							onclick={() => {
 								deleteSession(session.id);
 							}}>{$t('words.delete')}</button
 						>
@@ -334,7 +308,7 @@ SPDX-License-Identifier: MPL-2.0
 					<td
 						class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400"
 					>
-						{#if session.id === this_session.id}
+						{#if session.id === this_session?.id}
 							✅
 						{:else}
 							❌
@@ -345,26 +319,3 @@ SPDX-License-Identifier: MPL-2.0
 		</tbody>
 	</table>
 {/await}
-
-<div class="w-5/6 h-5/6 z-20 absolute top-10 pt-16 left-28" class:hidden={!showMap}>
-	{#if showMap}
-		{#await import('$lib/Map.svelte')}
-			<Spinner />
-		{:then c}
-			<button
-				on:click={() => {
-					showMap = false;
-				}}
-				class="bg-black text-white rounded-t-lg px-1">{$t('words.close')}</button
-			>
-			<div class="w-full h-full">
-				<svelte:component
-					this={c.default}
-					lat={locationData.lat}
-					lng={locationData.lon}
-					markerText={'Somewhere here was this session registered.'}
-				/>
-			</div>
-		{/await}
-	{/if}
-</div>

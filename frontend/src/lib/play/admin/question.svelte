@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import type { QuizData } from '$lib/quiz_types';
 	import { get_foreground_color } from '$lib/helpers.js';
@@ -13,17 +15,27 @@ SPDX-License-Identifier: MPL-2.0
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let quiz_data: QuizData;
-	export let selected_question: number;
-	export let timer_res: string;
 
-	export let answer_count: number;
-	export let default_colors: string[];
+	interface Props {
+		quiz_data: QuizData;
+		selected_question: number;
+		timer_res: string;
+		answer_count: number;
+		default_colors: string[];
+	}
+
+	let {
+		quiz_data,
+		selected_question,
+		timer_res = $bindable(),
+		answer_count,
+		default_colors
+	}: Props = $props();
 
 	const { t } = getLocalization();
 
-	let circular_progress = 0;
-	$: {
+	let circular_progress = $state(0);
+	run(() => {
 		try {
 			circular_progress =
 				1 -
@@ -33,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		} catch {
 			circular_progress = 0;
 		}
-	}
+	});
 </script>
 
 <div class="flex flex-col justify-center w-screen h-1/6">
@@ -42,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 	</h1>
 	<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
 	<div class="grid grid-cols-3 my-2">
-		<span />
+		<span></span>
 		<div class="m-auto">
 			<CircularTimer
 				bind:text={timer_res}
@@ -110,7 +122,7 @@ SPDX-License-Identifier: MPL-2.0
 					style="color: {get_foreground_color(answer.color ?? default_colors[i])}"
 					>{answer.answer}</span
 				>
-				<span class="pl-4 w-10" />
+				<span class="pl-4 w-10"></span>
 			</div>
 		{/each}
 	</div>
@@ -122,7 +134,7 @@ SPDX-License-Identifier: MPL-2.0
 					<span class="text-center text-2xl px-2 py-4 w-full text-black"
 						>{answer.answer}</span
 					>
-					<span class="pl-4 w-10" />
+					<span class="pl-4 w-10"></span>
 				</div>
 			{/each}
 		</div>

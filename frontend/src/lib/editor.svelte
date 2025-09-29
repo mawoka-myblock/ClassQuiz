@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	// import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData, Question } from './quiz_types';
@@ -16,13 +18,17 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let schemaInvalid = false;
-	let yupErrorMessage = '';
+	let schemaInvalid = $state(false);
+	let yupErrorMessage = $state('');
 
-	export let data: EditorData;
-	export let quiz_id: string | null;
-	let selected_question = -1;
-	let imgur_links_valid = false;
+	interface Props {
+		data: EditorData;
+		quiz_id: string | null;
+	}
+
+	let { data = $bindable(), quiz_id }: Props = $props();
+	let selected_question = $state(-1);
+	let imgur_links_valid = $state(false);
 
 	const validateInput = async (data: EditorData) => {
 		// console.log("input", data)
@@ -36,7 +42,9 @@ SPDX-License-Identifier: MPL-2.0
 			yupErrorMessage = err.errors ? err.errors[0] : '';
 		}
 	};
-	$: validateInput(data);
+	run(() => {
+		validateInput(data);
+	});
 
 	const checkIfAllQuestionImagesComplyWithRegex = (questions: Array<Question>) => {
 		let NoteverythingValid = false;
@@ -54,11 +62,15 @@ SPDX-License-Identifier: MPL-2.0
 		return NoteverythingValid;
 	};
 
-	$: imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
-	let edit_id;
+	run(() => {
+		imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
+	});
+	let edit_id = $state();
 	let confirm_to_leave = true;
 
-	$: console.log('data', data);
+	run(() => {
+		console.log('data', data);
+	});
 
 	const getEditID = async () => {
 		let res;
@@ -110,11 +122,11 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} />
 {#await getEditID()}
 	<Spinner />
 {:then _}
-	<form on:submit|preventDefault={saveQuiz}>
+	<form onsubmit={preventDefault(saveQuiz)}>
 		<div class="grid grid-cols-6 h-screen w-screen">
 			<div>
 				<Sidebar bind:data bind:selected_question />

@@ -5,23 +5,28 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 	import OAuthBlock from './oauth_block.svelte';
 
-	export let session_data = {};
-	export let step;
+	let { session_data = $bindable({}), step = $bindable() } = $props();
 
 	const { t } = getLocalization();
-	let email = '';
-	let emailEmpty = true;
-	let isSubmitting = false;
+	let email = $state('');
+	let emailEmpty = $state(true);
+	let isSubmitting = $state(false);
 
-	$: emailEmpty = email === '';
+	run(() => {
+		emailEmpty = email === '';
+	});
+
 	const start_login = async (): Promise<void> => {
 		if (emailEmpty) {
 			return;
 		}
 		isSubmitting = true;
+
 		const res = await fetch('/api/v1/login/start', {
 			method: 'post',
 			headers: {
@@ -45,7 +50,7 @@ SPDX-License-Identifier: MPL-2.0
 		{$t('login_page.login_or_create_account')}
 	</p>
 
-	<form on:submit|preventDefault={start_login}>
+	<form onsubmit={preventDefault(start_login)}>
 		<div class="w-full mt-4">
 			<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 				<div class="relative bg-inherit w-full">
@@ -54,7 +59,7 @@ SPDX-License-Identifier: MPL-2.0
 						bind:value={email}
 						name="email"
 						type="text"
-						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+						class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 						placeholder={$t('login_page.email_or_username')}
 						autocomplete="email"
 					/>
@@ -74,7 +79,7 @@ SPDX-License-Identifier: MPL-2.0
 				>
 
 				<button
-					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+					class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={emailEmpty}
 					type="submit"
 				>

@@ -74,7 +74,6 @@ SPDX-License-Identifier: MPL-2.0
 		>:
 	</p>
 	<ul>
-		<li><code>VITE_MAPBOX_ACCESS_TOKEN</code>: A Mapbox-token which is optional.</li>
 		<li><code>VITE_HCAPTCHA</code>: The hCaptcha-Siteky for captchas</li>
 		<li>
 			<code>VITE_CAPTCHA_ENABLED</code>: Set it to <code>true</code>, if the captcha should be

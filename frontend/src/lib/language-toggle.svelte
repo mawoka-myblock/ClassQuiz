@@ -54,11 +54,15 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 
-	export let languages: Array<{
+	interface Props {
+		languages?: Array<{
 		flag: string;
 		name: string;
 		code: string;
-	}> = [
+	}>;
+	}
+
+	let { languages = [
 		{
 			code: 'de',
 			name: 'Deutsch',
@@ -139,11 +143,11 @@ SPDX-License-Identifier: MPL-2.0
 			name: 'tiếng Việt',
 			flag: '🇻🇳'
 		}
-	];
+	] }: Props = $props();
 	const get_selected_language = (): string => {
 		return localStorage.getItem('language');
 	};
-	let selected_language;
+	let selected_language = $state();
 	onMount(() => {
 		selected_language = get_selected_language();
 	});
@@ -159,7 +163,7 @@ SPDX-License-Identifier: MPL-2.0
 <div>
 	<select
 		bind:value={selected_language}
-		on:change={() => {
+		onchange={() => {
 			set_language(selected_language);
 		}}
 		class="p-2 rounded-lg bg-gray-800 focus:ring-2 ring-blue-600 text-white"

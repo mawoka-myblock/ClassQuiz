@@ -7,7 +7,7 @@ import { redirect } from '@sveltejs/kit';
 export async function load({ parent, url }) {
 	const { email } = await parent();
 	if (!email) {
-		throw redirect(302, '/account/login');
+		redirect(302, '/account/login');
 	}
 	const token = url.searchParams.get('token');
 	const pin = url.searchParams.get('pin');

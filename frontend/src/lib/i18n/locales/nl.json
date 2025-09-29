@@ -16,7 +16,7 @@
         "dark_mode": "Donkere Modus",
         "create_a_quiz_from_scratch": "Maak een quiz vanaf niks met de editor en voeg afbeeldingen en meer toe",
         "find_or_explore": "Zoek (of verken) quizzen gemaakt of geïmporteerd door andere mensen",
-        "import_quiz_from_kahoot_and_edit": "Importeer een quiz van Kahoot! en bewerk hem in ClassQuiz",
+        "import_quiz_from_kahoot_and_edit": "Importeer een quiz vanuit Kahoot! en bewerk het in ClassQuiz",
         "play_quiz": "2. Speel de quiz",
         "select_answer": "Selecteer het antwoord",
         "view_results": "Bekijk de resultaten",
@@ -229,7 +229,8 @@
         "voting_description": "Antwoorden voegen geen punten toe",
         "need_more_help": "Meer hulp nodig?",
         "enter_answer": "Voer een antwoord in",
-        "visit_docs": "Bekijk de documenten."
+        "visit_docs": "Bekijk de documenten.",
+        "advanced_settings": "Geavanceerde instellingen"
     },
     "import_page": {
         "url_should_look_like_this": "De URL zou er als volgt uit moeten zien: https://create.kahoot.it/details/...",

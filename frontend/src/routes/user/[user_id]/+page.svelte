@@ -14,7 +14,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 	// import { DateTime } from 'luxon';
-	let start_game = null;
+	let start_game = $state(null);
 
 	const tippy = createTippy({
 		arrow: true,
@@ -30,7 +30,11 @@ SPDX-License-Identifier: MPL-2.0
 	onMount(() => {
 		document.body.addEventListener('keydown', close_start_game_if_esc_is_pressed);
 	});
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>
@@ -110,7 +114,7 @@ SPDX-License-Identifier: MPL-2.0
 							<div class="grid grid-cols-2 gap-3 w-1/3">
 								{#if $signedIn}
 									<button
-										on:click={() => {
+										onclick={() => {
 											start_game = quiz.id;
 										}}
 										class="action-button"
@@ -120,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 									<a
 										href="/api/v1/eximport/{quiz.id}"
 										aria-label="Download the quiz"
-										class="flex justify-center px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded text-center hover:bg-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
+										class="flex justify-center px-4 py-2 leading-5 text-black dark:text-white transition-colors duration-200 transform bg-gray-50 dark:bg-gray-700 rounded-sm text-center hover:bg-gray-300 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-gray-600"
 										><!-- heroicons/download -->
 										<svg
 											class="w-5 h-5"
@@ -145,7 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 										class="w-full"
 									>
 										<button
-											on:click={() => {
+											onclick={() => {
 												start_game = quiz.id;
 											}}
 											disabled

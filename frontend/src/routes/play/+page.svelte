@@ -12,24 +12,28 @@ SPDX-License-Identifier: MPL-2.0
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	// import ShowResults from '$lib/play/show_results.svelte';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible} from '$lib/stores.svelte.ts';
 	import ShowEndScreen from '$lib/play/admin/final_results.svelte';
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
 	const { t } = getLocalization();
 
-	// Exports
-	export let data;
-	let { game_pin } = data;
+	interface Props {
+		// Exports
+		data: any;
+	}
+
+	let { data }: Props = $props();
+	let { game_pin } = $state(data);
 
 	// Types
 	interface GameMeta {
 		started: boolean;
 	}
 
-	let game_mode;
-	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
+	let game_mode = $state();
+	let final_results: Array<null> | Array<Array<PlayerAnswer>> = $state([null]);
 
 	interface PlayerAnswer {
 		username: string;
@@ -38,20 +42,20 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	// Variables init
-	let question_index = '';
-	let unique = {};
-	navbarVisible.set(false);
+	let question_index = $state('');
+	let unique = $state({});
+	navbarVisible.visible=false;
 	let game_pin_valid: boolean;
-	let answer_results: Array<Answer>;
-	let gameData;
-	let solution: QuestionType;
-	let username = '';
-	let scores = {};
-	let gameMeta: GameMeta = {
+	let answer_results: Array<Answer> = $state();
+	let gameData = $state();
+	let solution: QuestionType = $state();
+	let username = $state('');
+	let scores = $state({});
+	let gameMeta: GameMeta = $state({
 		started: false
-	};
+	});
 
-	let question;
+	let question = $state();
 
 	let preventReload = true;
 
@@ -71,6 +75,9 @@ SPDX-License-Identifier: MPL-2.0
 
 	socket.on('time_sync', (data) => {
 		socket.emit('echo_time_sync', data);
+	});
+	socket.on('session_id', (d) => {
+		const session_id = d.session_id;
 	});
 
 	socket.on('connect', async () => {
@@ -174,12 +181,12 @@ SPDX-License-Identifier: MPL-2.0
 		solution = data;
 	});
 
-	let bg_color;
-	$: bg_color = gameData ? gameData.background_color : undefined;
+	let bg_color = $derived(gameData ? gameData.background_color : undefined);
+
 	// The rest
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
 	<!--	{#if gameData !== undefined && game_mode !== 'kahoot'}

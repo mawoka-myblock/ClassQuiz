@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { fly } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
 	import { createEventDispatcher } from 'svelte';
@@ -14,18 +16,26 @@ SPDX-License-Identifier: MPL-2.0
 
 	const dispatch = createEventDispatcher();
 
-	export let open = false;
-	export let type: PopoverTypes;
-	export let data: undefined | { game_pin: number | string; game_id: string } | string =
-		undefined;
+	interface Props {
+		open?: boolean;
+		type: PopoverTypes;
+		data?: undefined | { game_pin: number | string; game_id: string } | string;
+	}
 
-	$: dispatch('open', open);
+	let { open = $bindable(false), type, data = undefined }: Props = $props();
+
+	run(() => {
+		dispatch('open', open);
+	});
 </script>
 
 {#if open}
-	<div class="fixed w-screen top-10 z-[60] flex justify-center" transition:fly={{ y: -100 }}>
+	<div
+		class="fixed w-screen top-10 z-[60] flex justify-center"
+		transition:fly|global={{ y: -100 }}
+	>
 		<div
-			class="flex items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+			class="flex items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow-smdark:text-gray-400 dark:bg-gray-800"
 			role="alert"
 		>
 			<div class="ml-3 text-sm font-normal">
@@ -46,7 +56,7 @@ SPDX-License-Identifier: MPL-2.0
 				class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
 				data-dismiss-target="#toast-default"
 				aria-label="Close"
-				on:click={() => {
+				onclick={() => {
 					open = false;
 				}}
 			>

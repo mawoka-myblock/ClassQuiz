@@ -15,11 +15,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let user_data: object | undefined;
-	let security_keys: Array<{ id: number }> | undefined;
-	let totp_activated: boolean | undefined;
-	let totp_data;
-	let backup_code;
+	let user_data: object | undefined = $state();
+	let security_keys: Array<{ id: number }> | undefined = $state();
+	let totp_activated: boolean | undefined = $state();
+	let totp_data = $state();
+	let backup_code = $state();
 
 	const get_data = async () => {
 		const res1 = await fetch('/api/v1/users/me');
@@ -29,7 +29,7 @@ SPDX-License-Identifier: MPL-2.0
 		const res3 = await fetch('/api/v1/users/2fa/totp');
 		totp_activated = (await res3.json()).activated;
 	};
-	let data = get_data();
+	let data = $state(get_data());
 
 	const save_password_required = async () => {
 		console.log(user_data?.require_password, 'here');
@@ -47,12 +47,13 @@ SPDX-License-Identifier: MPL-2.0
 		user_data.require_password = (await res.json()).require_password;
 	};
 
-	const require_password = (): string => {
+	const require_password = (): string | null => {
 		return prompt('Please enter your password to continue');
 	};
 
 	const add_security_key = async () => {
 		const pw = require_password();
+		if (!pw) return;
 		const res1 = await fetch('/api/v1/users/webauthn/add_key_init', {
 			method: 'POST',
 			body: JSON.stringify({ password: pw }),
@@ -73,7 +74,7 @@ SPDX-License-Identifier: MPL-2.0
 			for (let i = 0; i++; i < resp_data.excludeCredentials.length) {
 				resp_data.excludeCredentials[i].transports = undefined;
 			}
-			attResp = await startRegistration(resp_data);
+			attResp = await startRegistration({ optionsJSON: resp_data });
 		} catch (e) {
 			throw e;
 		}
@@ -89,6 +90,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const remove_security_key = async (key_id: number) => {
 		const pw = require_password();
+		if (!pw) return;
 		const res = await fetch(`/api/v1/users/webauthn/key/${key_id}`, {
 			method: 'DELETE',
 			body: JSON.stringify({ password: pw }),
@@ -103,6 +105,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const disable_totp = async () => {
 		const pw = require_password();
+		if (!pw) return;
 		const res = await fetch(`/api/v1/users/2fa/totp`, {
 			method: 'DELETE',
 			body: JSON.stringify({ password: pw }),
@@ -117,6 +120,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const enable_totp = async () => {
 		const pw = require_password();
+		if (!pw) return;
 		const res = await fetch('/api/v1/users/2fa/totp', {
 			method: 'POST',
 			body: JSON.stringify({ password: pw }),
@@ -132,6 +136,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const get_backup_code = async () => {
 		const pw = require_password();
+		if (!pw) return;
 		if (!confirm('If you continue, your old backup-code will be removed.')) {
 			return;
 		}
@@ -176,19 +181,19 @@ SPDX-License-Identifier: MPL-2.0
 							<div class="flex items-center space-x-2">
 								<button
 									disabled={!totp_activated}
-									on:click={() => {
+									onclick={() => {
 										user_data.require_password = !user_data.require_password;
 										save_password_required();
 									}}
 									type="button"
 									role="switch"
 									aria-checked="true"
-									class="relative inline-flex h-5 w-8 shrink-0 cursor-pointer appearance-none rounded-full border-2 border-transparent bg-blue-700 transition focus:outline-none focus:ring focus:ring-blue-200"
+									class="relative inline-flex h-5 w-8 shrink-0 cursor-pointer appearance-none rounded-full border-2 border-transparent bg-blue-700 transition focus:outline-hidden focus:ring focus:ring-blue-200"
 								>
 									<span
 										aria-hidden="true"
 										class="pointer-events-none inline-block h-4 w-4 translate-x-3 rounded-full bg-white transition will-change-transform"
-									/>
+									></span>
 								</button>
 								<span class="text-sm font-medium text-gray-700 dark:text-white"
 									>{$t('security_settings.2fa_activated')}</span
@@ -199,18 +204,18 @@ SPDX-License-Identifier: MPL-2.0
 								<button
 									disabled={!totp_activated}
 									type="button"
-									on:click={() => {
+									onclick={() => {
 										user_data.require_password = !user_data.require_password;
 										save_password_required();
 									}}
 									role="switch"
 									aria-checked="false"
-									class="relative inline-flex h-5 w-8 shrink-0 cursor-pointer appearance-none rounded-full border-2 border-transparent bg-gray-200 transition focus:outline-none focus:ring focus:ring-blue-200"
+									class="relative inline-flex h-5 w-8 shrink-0 cursor-pointer appearance-none rounded-full border-2 border-transparent bg-gray-200 transition focus:outline-hidden focus:ring focus:ring-blue-200"
 								>
 									<span
 										aria-hidden="true"
 										class="pointer-events-none inline-block h-4 w-4 translate-x-0 rounded-full bg-white transition will-change-transform"
-									/>
+									></span>
 								</button>
 								<span class="text-sm font-medium text-gray-700 dark:text-white"
 									>{$t('security_settings.2fa_deactivated')}</span
@@ -243,7 +248,7 @@ SPDX-License-Identifier: MPL-2.0
 						{#each security_keys as key, i}
 							<li>
 								<button
-									on:click={() => {
+									onclick={() => {
 										remove_security_key(key.id);
 									}}
 									class="hover:line-through transition">{i + 1}</button

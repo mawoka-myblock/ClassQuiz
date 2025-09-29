@@ -5,9 +5,13 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let title: string;
-	export let description: string;
-	export let cover_image: string | undefined;
+	interface Props {
+		title: string;
+		description: string;
+		cover_image: string | undefined;
+	}
+
+	let { title, description, cover_image }: Props = $props();
 </script>
 
 <div class="flex flex-col justify-center w-screen h-screen">

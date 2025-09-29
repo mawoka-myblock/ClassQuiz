@@ -87,7 +87,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
                 answers=answers,
                 time=str(q.time / 1000),
                 image=image,
-            ).dict()
+            ).model_dump()
         )
     cover = None
     if quiz.kahoot.cover != "" and quiz.kahoot.cover is not None:

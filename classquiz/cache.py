@@ -16,7 +16,7 @@ settings = settings()
 
 async def cache_account(criteria: str, content: str) -> Union[User, None]:
     async def insert_into_redis(usermodel: User, key: str):
-        await redis.set(key, usermodel.json(), ex=settings.cache_expiry)
+        await redis.set(key, usermodel.model_dump_json(), ex=settings.cache_expiry)
 
     if criteria == "email":
         try:
@@ -54,7 +54,7 @@ async def get_from_redis(key: str) -> Union[None, User]:
     if user is None:
         return None
     else:
-        return User.parse_obj(loads(user))
+        return User.model_validate(loads(user))
 
 
 async def get_cache(criteria: str, content: str) -> User:

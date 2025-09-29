@@ -20,7 +20,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let teacherTab = false;
+	let teacherTab = $state(false);
 </script>
 
 <div class="grid grid-cols-1 overflow-hidden h-fit">
@@ -102,28 +102,28 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex justify-evenly lg:w-2/6">
 				{#if teacherTab}
 					<button
-						class="border border-blue-600 p-2 border-2 rounded hover:bg-gray-700 text-2xl"
-						on:click={() => {
+						class="border border-blue-600 p-2 border-2 rounded-sm hover:bg-gray-700 text-2xl"
+						onclick={() => {
 							teacherTab = true;
 						}}
 						>{$t('index_page.teachers_site')}
 					</button>
 				{:else}
 					<button
-						class="border border-black p-2 border-2 rounded hover:bg-gray-700 text-base"
+						class="border border-black p-2 border-2 rounded-sm hover:bg-gray-700 text-base"
 						class:border-black={!teacherTab}
 						class:text-base={!teacherTab}
-						on:click={() => {
+						onclick={() => {
 							teacherTab = true;
 						}}
 						>{$t('index_page.teachers_site')}
 					</button>
 				{/if}
 				<button
-					class="border border-black p-2 border-2 rounded hover:bg-gray-700"
+					class="border border-black p-2 border-2 rounded-sm hover:bg-gray-700"
 					class:border-blue-600={!teacherTab}
 					class:text-2xl={!teacherTab}
-					on:click={() => {
+					onclick={() => {
 						teacherTab = false;
 					}}
 					>{$t('index_page.students_site')}

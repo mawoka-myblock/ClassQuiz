@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { bounceOut } from 'svelte/easing';
@@ -43,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		clothe_graphic_type: $t('avatar_settings.clothe_graphic_type')
 	};
 
-	let data = {
+	let data = $state({
 		skin_color: 0,
 		top_type: 0,
 		hair_color: 0,
@@ -56,21 +58,22 @@ SPDX-License-Identifier: MPL-2.0
 		clothe_type: 0,
 		clothe_color: 0,
 		clothe_graphic_type: 0
-	};
+	});
 
 	const data_keys = Object.keys(data);
-	let index = 0;
+	let index = $state(0);
 	// let index = 10;
-	let save_finished: undefined | boolean = undefined;
-	let finished = false;
-
-	let image_url;
-
-	$: console.log('index', index);
+	let save_finished: undefined | boolean = $state(undefined);
+	let finished = $state(false);
 	const get_image_url = (input_data) => {
 		return `/api/v1/avatar/custom?${new URLSearchParams(input_data).toString()}`;
 	};
-	$: image_url = get_image_url(data);
+
+	let image_url = $derived(get_image_url(data));
+
+	run(() => {
+		console.log('index', index);
+	});
 
 	const save_avatar = async () => {
 		save_finished = false;
@@ -111,7 +114,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#each Array.from(Array(item_count[data_keys[index]]).keys()) as key}
 					<button
 						class="hover:opacity-80 transition-all"
-						on:click={() => {
+						onclick={() => {
 							data[data_keys[index]] = key;
 							if (index < 11) {
 								index++;
@@ -123,7 +126,7 @@ SPDX-License-Identifier: MPL-2.0
 					>
 						<img
 							src={get_image_url({ ...data, [data_keys[index]]: key })}
-							in:fade={{ duration: 100 }}
+							in:fade|global={{ duration: 100 }}
 						/>
 					</button>
 				{/each}
@@ -133,17 +136,19 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 {#if finished}
 	<div
-		class="fixed top-0 left-0 w-full h-full z-30 bg-black flex justify-center flex-col bg-opacity-90"
-		out:fade={{ duration: 200 }}
-		in:fade={{ duration: 300 }}
+		class="fixed top-0 left-0 w-full h-full z-30 bg-black/90 flex justify-center flex-col"
+		out:fade|global={{ duration: 200 }}
+		in:fade|global={{ duration: 300 }}
 	>
-		<h1 class="m-auto text-4xl" in:fade={{ delay: 3500 }}>{$t('avatar_settings.thats_you')}</h1>
+		<h1 class="m-auto text-4xl" in:fade|global={{ delay: 3500 }}>
+			{$t('avatar_settings.thats_you')}
+		</h1>
 		<img
 			class="m-auto w-1/2 h-1/2 z-20"
 			src={get_image_url(data)}
-			in:fly={{ delay: 500, duration: 4000, y: -500, easing: bounceOut }}
+			in:fly|global={{ delay: 500, duration: 4000, y: -500, easing: bounceOut }}
 		/>
-		<div class="m-auto grid grid-cols-2 gap-4" in:fade={{ delay: 3500 }}>
+		<div class="m-auto grid grid-cols-2 gap-4" in:fade|global={{ delay: 3500 }}>
 			<BrownButton
 				on:click={() => {
 					index = 0;

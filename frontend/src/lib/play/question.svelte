@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { Question } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
@@ -19,12 +21,23 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let question: Question;
-	export let game_mode;
-	export let question_index: string | number;
-	export let solution;
+	interface Props {
+		question: Question;
+		game_mode: any;
+		question_index: string | number;
+		solution: any;
+	}
 
-	$: console.log(question_index, question, 'hi!');
+	let {
+		question = $bindable(),
+		game_mode = $bindable(),
+		question_index,
+		solution
+	}: Props = $props();
+
+	run(() => {
+		console.log(question_index, question, 'hi!');
+	});
 
 	console.log(question);
 	if (question.type === undefined) {
@@ -39,9 +52,9 @@ SPDX-License-Identifier: MPL-2.0
             throw new Error('question_index must be a string or number');
         }*/
 
-	let timer_res = question.time;
-	let selected_answer: string;
-	let check_selected_answer: string;
+let timer_res = question.time;
+let selected_answer: string;
+let check_selected_answer: string;
 
 	// Stop the timer if the question is answered
 	const timer = (time: string) => {
@@ -63,11 +76,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	timer(question.time);
 
-	$: {
+	run(() => {
 		if (solution !== undefined) {
 			timer_res = '0';
 		}
-	}
+	});
 
 	const selectAnswer = (answer: string) => {
 		selected_answer = answer;
@@ -92,9 +105,9 @@ SPDX-License-Identifier: MPL-2.0
 		});
 	};
 
-	let text_input = '';
+	let text_input = $state('');
 
-	let slider_value = [0];
+	let slider_value = $state([0]);
 	if (question.type === QuizQuestionType.RANGE) {
 		slider_value[0] = (question.answers.max - question.answers.min) / 2 + question.answers.min;
 	}
@@ -121,15 +134,17 @@ SPDX-License-Identifier: MPL-2.0
 		_arr[b] = temp;
 		return _arr;
 	};
-	$: set_answer_if_not_set_range(timer_res);
-	let circular_progress = 0;
-	$: {
+	run(() => {
+		set_answer_if_not_set_range(timer_res);
+	});
+	let circular_progress = $state(0);
+	run(() => {
 		try {
 			circular_progress = 1 - ((100 / question.time) * parseInt(timer_res)) / 100;
 		} catch {
 			circular_progress = 0;
 		}
-	}
+	});
 
 	const get_div_height = (): string => {
 		if (game_mode === 'normal') {
@@ -142,7 +157,9 @@ SPDX-License-Identifier: MPL-2.0
 			return '100';
 		}
 	};
-	$: console.log(slider_value, 'values');
+	run(() => {
+		console.log(slider_value, 'values');
+	});
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 </script>
 
@@ -190,7 +207,7 @@ SPDX-License-Identifier: MPL-2.0
 								answer.color ?? default_colors[i]
 							)}"
 							disabled={selected_answer !== undefined}
-							on:click={() => selectAnswer(answer.answer)}
+							onclick={() => selectAnswer(answer.answer)}
 						>
 							{#if game_mode === 'kahoot'}
 								<img
@@ -209,13 +226,12 @@ SPDX-License-Identifier: MPL-2.0
 			<span
 				class="fixed top-0 bg-red-500 h-8 transition-all"
 				style="width: {(100 / parseInt(question.time)) * parseInt(timer_res)}vw"
-			/>
+			></span>
 			{#await import('svelte-range-slider-pips')}
 				<Spinner />
 			{:then c}
 				<div class:pointer-events-none={selected_answer !== undefined} class="mt-24">
-					<svelte:component
-						this={c.default}
+					<c.default
 						bind:values={slider_value}
 						bind:min={question.answers.min}
 						bind:max={question.answers.max}
@@ -240,7 +256,7 @@ SPDX-License-Identifier: MPL-2.0
 				<span
 					class="fixed top-0 bg-red-500 h-8 transition-all"
 					style="width: {(100 / parseInt(question.time)) * parseInt(timer_res)}vw"
-				/>
+				></span>
 				<div class="flex justify-center mt-10">
 					<p class="text-black dark:text-white">Enter your answer</p>
 				</div>
@@ -249,7 +265,7 @@ SPDX-License-Identifier: MPL-2.0
 						type="text"
 						bind:value={text_input}
 						disabled={selected_answer}
-						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-none transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
+						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 				</div>
 
@@ -288,7 +304,7 @@ SPDX-License-Identifier: MPL-2.0
 			<span
 				class="fixed top-0 bg-red-500 h-8 transition-all"
 				style="width: {(100 / parseInt(question.time)) * parseInt(timer_res)}vw"
-			/>
+			></span>
 			<div class="flex flex-col w-full h-full gap-4 px-4 py-6 mt-10">
 				{#each question.answers as answer, i (answer.id)}
 					<div
@@ -297,10 +313,10 @@ SPDX-License-Identifier: MPL-2.0
 						style="background-color: {answer.color ?? '#b07156'}"
 					>
 						<button
-							on:click={() => {
+							onclick={() => {
 								question.answers = swapArrayElements(question.answers, i, i - 1);
 							}}
-							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
 							disabled={i === 0 || selected_answer}
 						>
@@ -324,10 +340,10 @@ SPDX-License-Identifier: MPL-2.0
 						<p class="w-full text-center p-2 text-2xl">{answer.answer}</p>
 
 						<button
-							on:click={() => {
+							onclick={() => {
 								question.answers = swapArrayElements(question.answers, i, i + 1);
 							}}
-							class="disabled:opacity-50 transition shadow-lg bg-black bg-opacity-30 w-full flex justify-center rounded-lg p-2 hover:bg-opacity-20 transition"
+							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
 							disabled={i === question.answers.length - 1 || selected_answer}
 						>
@@ -365,8 +381,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('./questions/check.svelte')}
 				<Spinner />
 			{:then c}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:question
 					bind:selected_answer
 					bind:game_mode
