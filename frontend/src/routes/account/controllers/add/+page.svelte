@@ -5,19 +5,27 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
-	let input_data = {
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
+	let input_data = $state({
 		player_name: data.username,
 		name: ''
-	};
+	});
 
-	let isValid = false;
+	let isValid = $state(false);
 	let isSubmitting = false;
 
-	$: isValid = input_data.name.length !== 0 && input_data.player_name.length !== 0;
+	run(() => {
+		isValid = input_data.name.length !== 0 && input_data.player_name.length !== 0;
+	});
 
 	const submit = async () => {
 		if (!isValid) {
@@ -51,7 +59,7 @@ SPDX-License-Identifier: MPL-2.0
 					Add a controller
 				</h3>
 
-				<form on:submit|preventDefault={submit}>
+				<form onsubmit={preventDefault(submit)}>
 					<div class="w-full mt-4">
 						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 							<div class="relative bg-inherit w-full">
@@ -59,7 +67,7 @@ SPDX-License-Identifier: MPL-2.0
 									id="player_name"
 									name="player_name"
 									type="text"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									class:ring-red-700={input_data.player_name.length === 0}
 									class:ring-green-600={input_data.player_name.length !== 0}
 									bind:value={input_data.player_name}
@@ -78,7 +86,7 @@ SPDX-License-Identifier: MPL-2.0
 									id="name"
 									name="name"
 									type="text"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder="Name"
 									class:ring-red-700={input_data.name.length === 0}
 									class:ring-green-600={input_data.name.length !== 0}
@@ -95,7 +103,7 @@ SPDX-License-Identifier: MPL-2.0
 
 						<div class="flex items-center justify-center mt-4">
 							<button
-								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none"
+								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden"
 								disabled={!isValid || isSubmitting}
 								class:cursor-not-allowed={!isValid || isSubmitting}
 								class:opacity-50={!isValid || isSubmitting}

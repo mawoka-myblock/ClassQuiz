@@ -36,7 +36,7 @@ from classquiz.routers import (
     moderation,
 )
 from classquiz.socket_server import sio
-from classquiz.helpers import meilisearch_init, telemetry_ping
+from classquiz.helpers import meilisearch_init
 
 settings = settings()
 if settings.sentry_dsn:
@@ -63,7 +63,6 @@ async def startup() -> None:
     if not database_.is_connected:
         await database_.connect()
     await meilisearch_init()
-    await telemetry_ping()
 
 
 @app.on_event("shutdown")

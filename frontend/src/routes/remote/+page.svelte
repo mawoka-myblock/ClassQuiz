@@ -5,37 +5,39 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { run, preventDefault } from 'svelte/legacy';
+
+	import { page } from '$app/state';
 	import { socket } from '$lib/socket';
 	import type { QuizData } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types.js';
 	import Spinner from '$lib/Spinner.svelte';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 
 	const data = {
-		game_pin: $page.url.searchParams.get('game_pin'),
-		game_id: $page.url.searchParams.get('game_id')
+		game_pin: page.url.searchParams.get('game_pin'),
+		game_id: page.url.searchParams.get('game_id')
 	};
 
-	navbarVisible.set(false);
+	navbarVisible.visible = false;
 
 	const { t } = getLocalization();
 	let timer_interval;
-	let timer_res = undefined;
-	let selected_question = -1;
-	let game_started = false;
-	let question_results;
-	let final_results = [null];
+	let timer_res = $state(undefined);
+	let selected_question = $state(-1);
+	let game_started = $state(false);
+	let question_results = $state();
+	let final_results = $state([null]);
 	let warnToLeave = true;
-	let dataexport_download_a;
+	let dataexport_download_a = $state();
 
-	let players: Array<{ sid: string; username: string }> = [];
+	let players: Array<{ sid: string; username: string }> = $state([]);
 
-	let game_data: QuizData;
+	let game_data: QuizData = $state();
 	let shown_question_now;
-	let control_visible = false;
+	let control_visible = $state(false);
 
 	if (!data.game_id || !data.game_pin) {
 		console.log('Error!');
@@ -102,8 +104,8 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	let circular_progress = 0;
-	$: {
+	let circular_progress = $state(0);
+	run(() => {
 		try {
 			circular_progress =
 				1 -
@@ -111,7 +113,7 @@ SPDX-License-Identifier: MPL-2.0
 		} catch {
 			circular_progress = 0;
 		}
-	}
+	});
 
 	socket.on('solutions', (_) => {
 		timer_res = '0';
@@ -176,14 +178,14 @@ SPDX-License-Identifier: MPL-2.0
 	});
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} />
 {#if game_started}
 	{#if selected_question + 1 === game_data.questions.length && ((timer_res === '0' && question_results !== null) || game_data?.questions?.[selected_question]?.type === QuizQuestionType.SLIDE)}
 		{#if JSON.stringify(final_results) === JSON.stringify([null])}
-			<button on:click={get_final_results} class="admin-button">Get final results </button>
+			<button onclick={get_final_results} class="admin-button">Get final results </button>
 		{:else}
 			<div class="w-screen flex justify-center mt-16">
-				<button on:click={request_answer_export} class="admin-button"
+				<button onclick={request_answer_export} class="admin-button"
 					>{$t('admin_page.export_results')}</button
 				>
 			</div>
@@ -191,7 +193,7 @@ SPDX-License-Identifier: MPL-2.0
 	{:else if timer_res === '0' || selected_question === -1}
 		{#if (selected_question + 1 !== game_data.questions.length && question_results !== null) || selected_question === -1}
 			<button
-				on:click={() => {
+				onclick={() => {
 					set_question_number(selected_question + 1);
 				}}
 				class="admin-button"
@@ -201,27 +203,27 @@ SPDX-License-Identifier: MPL-2.0
 		{#if question_results === null && selected_question !== -1}
 			{#if game_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 				<button
-					on:click={() => {
+					onclick={() => {
 						set_question_number(selected_question + 1);
 					}}
 					class="admin-button"
 					>Next Question ({selected_question + 2})
 				</button>
 			{:else}
-				<button on:click={get_question_results} class="admin-button">Show results </button>
+				<button onclick={get_question_results} class="admin-button">Show results </button>
 			{/if}
 		{/if}
 	{:else if selected_question !== -1}
 		{#if game_data.questions[selected_question].type === QuizQuestionType.SLIDE}
 			<button
-				on:click={() => {
+				onclick={() => {
 					set_question_number(selected_question + 1);
 				}}
 				class="admin-button"
 				>Next Question ({selected_question + 2})
 			</button>
 		{:else}
-			<button on:click={show_solutions} class="admin-button"
+			<button onclick={show_solutions} class="admin-button"
 				>Stop time and show solutions
 			</button>
 		{/if}
@@ -233,10 +235,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#await import('$lib/play/admin/slide.svelte')}
 			<Spinner my_20={false} />
 		{:then c}
-			<svelte:component
-				this={c.default}
-				bind:question={game_data.questions[selected_question]}
-			/>
+			<c.default bind:question={game_data.questions[selected_question]} />
 		{/await}
 	{:else}
 		<div class="flex flex-col justify-center w-screen h-1/6">
@@ -274,7 +273,7 @@ SPDX-License-Identifier: MPL-2.0
 							<span class="text-center text-2xl px-2 py-4 w-full text-black"
 								>{answer.answer}</span
 							>
-							<span class="pl-4 w-10" />
+							<span class="pl-4 w-10"></span>
 						</div>
 					{/each}
 				</div>
@@ -287,8 +286,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('$lib/play/admin/voting_results.svelte')}
 				<Spinner />
 			{:then c}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:data={question_results}
 					bind:question={game_data.questions[selected_question]}
 				/>
@@ -296,7 +294,7 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	{/if}
 {:else}
-	<button on:click={start_game} class="admin-button">Start Game!</button>
+	<button onclick={start_game} class="admin-button">Start Game!</button>
 
 	<h2>Players:</h2>
 	{#await get_already_joined_players()}
@@ -314,14 +312,14 @@ SPDX-License-Identifier: MPL-2.0
 <div class="fixed top-0 right-0">
 	{#if control_visible}
 		<button
-			on:click={() => {
+			onclick={() => {
 				socket.emit('set_control_visibility', { visible: false });
 			}}
 			>Hide Controls
 		</button>
 	{:else}
 		<button
-			on:click={() => {
+			onclick={() => {
 				socket.emit('set_control_visibility', { visible: true });
 			}}
 			>Show Controls
@@ -330,7 +328,7 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 
 <a
-	on:click|preventDefault={request_answer_export}
+	onclick={preventDefault(request_answer_export)}
 	href="#"
 	bind:this={dataexport_download_a}
 	class="absolute -top-3/4 -left-3/4 opacity-0 hidden">Download</a

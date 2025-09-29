@@ -5,11 +5,13 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import type { QuizData } from '$lib/quiz_types';
 
 	import { socket } from '$lib/socket';
 	import { getLocalization } from '$lib/i18n';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import type { PlayerAnswer, Player } from '$lib/admin.ts';
 	import SomeAdminScreen from '$lib/admin.svelte';
 	import GameNotStarted from '$lib/play/admin/game_not_started.svelte';
@@ -17,34 +19,39 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import FinalResults from '$lib/play/admin/final_results.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	navbarVisible.set(false);
+	navbarVisible.visible = false;
 
 	const { t } = getLocalization();
 
 	// let gameData = {
 	// 	game_id: 'a7ddb6af-79ab-45e0-b996-6254c1ad9818',
 	// 	game_pin: '66190765'
-	// };
-	export let data;
-	let game_mode;
-	let { auto_connect, game_token } = data;
+
+	interface Props {
+		// };
+		data: any;
+	}
+
+	let { data }: Props = $props();
+	let game_mode = $state();
+	let { auto_connect, game_token } = $state(data);
 	const game_pin = data.game_pin;
 
-	let players: Array<Player> = [];
-	let player_scores = {};
-	let errorMessage = '';
-	let game_started = false;
-	let quiz_data: QuizData;
-	let control_visible = true;
+	let players: Array<Player> = $state([]);
+	let player_scores = $state({});
+	let errorMessage = $state('');
+	let game_started = $state(false);
+	let quiz_data: QuizData = $state();
+	let control_visible = $state(true);
 	//let question_number = '0';
 	// let question_results = null;
-	let final_results: Array<null> | Array<Array<PlayerAnswer>> = [null];
-	let success = false;
-	let dataexport_download_a;
+	let final_results: Array<null> | Array<Array<PlayerAnswer>> = $state([null]);
+	let success = $state(false);
+	let dataexport_download_a = $state();
 	let warnToLeave = true;
-	let export_token = undefined;
+	let export_token = $state(undefined);
 
 	const connect = async () => {
 		socket.emit('register_as_admin', {
@@ -59,6 +66,9 @@ SPDX-License-Identifier: MPL-2.0
 		if (auto_connect) {
 			connect();
 		}
+	});
+	socket.on('session_id', (d) => {
+		const session_id = d.session_id;
 	});
 
 	socket.on('registered_as_admin', (data) => {
@@ -129,16 +139,17 @@ SPDX-License-Identifier: MPL-2.0
 				window.matchMedia('(prefers-color-scheme: dark)').matches);
 	}
 
-	let bg_color;
-	let bg_image;
-	let results_saved = false;
-	$: bg_color = quiz_data ? quiz_data.background_color : undefined;
-	$: bg_image = quiz_data ? quiz_data.background_image : undefined;
-	let show_final_results = false;
-	$: show_final_results = JSON.stringify(final_results) !== JSON.stringify([null]);
+	let bg_color = $derived(quiz_data ? quiz_data.background_color : undefined);
+	let bg_image = $derived(quiz_data ? quiz_data.background_image : undefined);
+	let results_saved = $state(false);
+
+	let show_final_results = $state(false);
+	run(() => {
+		show_final_results = JSON.stringify(final_results) !== JSON.stringify([null]);
+	});
 </script>
 
-<svelte:window on:beforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Host</title>
 </svelte:head>
@@ -201,7 +212,7 @@ SPDX-License-Identifier: MPL-2.0
 			{game_pin}
 			bind:players
 			{socket}
-			cqc_code={$page.url.searchParams.get('cqc_code')}
+			cqc_code={page.url.searchParams.get('cqc_code')}
 		/>
 	{:else}
 		<SomeAdminScreen
@@ -217,7 +228,7 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 </div>
 <a
-	on:click|preventDefault={request_answer_export}
+	onclick={preventDefault(request_answer_export)}
 	href="#"
 	target="_blank"
 	bind:this={dataexport_download_a}

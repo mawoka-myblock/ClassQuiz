@@ -166,7 +166,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
                 answers=answers_list,
                 time=str(time),
                 image=existing_question["image"] if existing_question is not None else None,
-            ).dict()
+            ).model_dump()
         )
     if existing_quiz is None:
         quiz = Quiz(
@@ -208,7 +208,7 @@ async def meilisearch_init():
     quiz_count = await Quiz.objects.filter(public=True).count()
     number_of_docs = 0
     for i in meilisearch.index(settings.meilisearch_index).get_stats():
-        number_of_docs = i[1]["numberOfDocuments"]
+        number_of_docs = i[1]
         break
     if number_of_docs != quiz_count:
         print("MeiliSearch and Database got out of sync, syncthing them")

@@ -22,15 +22,19 @@ export const getLocalization = () => {
 	return getContext<I18nContext>(CONTEXT_KEY);
 };
 
-export const initLocalizationContext = () => {
+export const initLocalizationContext = (start_lanugage: string): { i18n: I18nService } => {
 	// Initialize our services
 	const i18n = new I18nService();
 	const tranlator = new I18NextTranslationService(i18n);
-
+	let locale: any;
+	if (start_lanugage) {
+		locale = start_lanugage;
+	}
+	tranlator.locale.set(locale);
 	// skipcq: JS-0357
 	setLocalization({
 		t: tranlator.translate,
-		currentLanguage: tranlator.locale
+		currentLanguage: locale
 	});
 
 	return {

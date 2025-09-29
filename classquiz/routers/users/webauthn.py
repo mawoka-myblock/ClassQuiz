@@ -64,8 +64,8 @@ async def confirm_add_key_data(credential: RegistrationCredential, user: User = 
         raise HTTPException(401)
     current_registration_challenge = base64.b64decode(redis_res)
     credential.id = base64.urlsafe_b64encode(credential.raw_id).decode("utf-8").replace("=", "")
-    credential.response.client_data_json = base64.b64decode(credential.response.client_data_json + b"==")
-    credential.response.attestation_object = base64.urlsafe_b64decode(credential.response.attestation_object + b"==")
+    credential.response.client_data_json = credential.response.client_data_json
+    credential.response.attestation_object = credential.response.attestation_object
     verification = verify_registration_response(
         credential=credential,
         expected_challenge=current_registration_challenge,

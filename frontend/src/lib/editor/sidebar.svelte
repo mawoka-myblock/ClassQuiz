@@ -17,19 +17,23 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let data: EditorData;
-	export let selected_question = -1;
+	interface Props {
+		data: EditorData;
+		selected_question?: any;
+	}
 
-	let reorder_mode = false;
+	let { data = $bindable(), selected_question = $bindable(-1) }: Props = $props();
+
+	let reorder_mode = $state(false);
 
 	const tippy = createTippy({
 		arrow: true,
 		animation: 'perspective-subtle',
 		placement: 'right'
 	});
-	let arr_of_cards = Array(data.questions.length);
-	let propertyCard;
-	let add_new_question_popup_open = false;
+	let arr_of_cards = $state(Array(data.questions.length));
+	let propertyCard = $state();
+	let add_new_question_popup_open = $state(false);
 
 	const empy_slide: Question = {
 		type: QuizQuestionType.SLIDE,
@@ -82,10 +86,10 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="border-r-2 pt-6 px-6 overflow-scroll h-full">
 		<div
 			bind:this={propertyCard}
-			class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
+			class="bg-white shadow-smrounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition"
 			class:bg-green-300={selected_question === -1}
 			class:dark:bg-green-500={selected_question === -1}
-			on:click={() => setSelectedQuestion(-1)}
+			onclick={() => setSelectedQuestion(-1)}
 		>
 			<div
 				use:tippy={{ content: data.title === '' ? "It's empty!" : data.title }}
@@ -96,7 +100,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<p
 					type="text"
-					class="whitespace-nowrap truncate text-center w-full bg-transparent rounded dark:text-white"
+					class="whitespace-nowrap truncate text-center w-full bg-transparent rounded-sm dark:text-white"
 					class:dark:text-black={selected_question === -1}
 				>
 					{#if data.title}
@@ -117,9 +121,9 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<textarea
 					bind:value={data.description}
-					class="bg-transparent resize-none w-full rounded text-sm dark:text-white"
+					class="bg-transparent resize-none w-full rounded-sm text-sm dark:text-white"
 					class:dark:text-black={selected_question === -1}
-				/>
+				></textarea>
 			</div>
 			<div
 				class="w-full flex justify-center dark:text-white"
@@ -127,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<button
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						data.public = !data.public;
 					}}
 					class="text-center"
@@ -170,18 +174,18 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 		{#each data.questions as question, index}
 			<div
-				class="bg-white shadow rounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition relative"
+				class="bg-white shadow-smrounded-lg h-40 p-2 mb-6 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 transition relative"
 				class:bg-green-300={index === selected_question}
 				class:dark:bg-green-500={index === selected_question}
-				on:click={() => {
+				onclick={() => {
 					setSelectedQuestion(index);
 				}}
 				bind:this={arr_of_cards[index]}
 			>
 				{#if reorder_mode}
 					<div
-						transition:fade={{ duration: 90 }}
-						class="absolute z-10 grid grid-cols-2 bg-transparent w-full rounded h-full"
+						transition:fade|global={{ duration: 90 }}
+						class="absolute z-10 grid grid-cols-2 bg-transparent w-full rounded-sm h-full"
 					>
 						<!-- Div is used, since it just put me on the dashboard when using button elements... Idk why and I hate it-->
 						<div
@@ -190,7 +194,7 @@ SPDX-License-Identifier: MPL-2.0
 							aria-label="Move card up"
 							class:opacity-50={index === 0}
 							class:pointer-events-none={index === 0}
-							on:click={() =>
+							onclick={() =>
 								(data.questions = swapArrayElements(
 									data.questions,
 									index,
@@ -219,7 +223,7 @@ SPDX-License-Identifier: MPL-2.0
 							aria-label="Move card down"
 							class:opacity-50={index + 1 === data.questions.length}
 							class:pointer-events-none={index + 1 === data.questions.length}
-							on:click={() =>
+							onclick={() =>
 								(data.questions = swapArrayElements(
 									data.questions,
 									index,
@@ -248,7 +252,7 @@ SPDX-License-Identifier: MPL-2.0
 				<button
 					class="rounded-full absolute -top-3 -right-3 opacity-70 hover:opacity-100 transition"
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						if (confirm('Do you really want to delete this Question?')) {
 							selected_question = -1;
 							data.questions.splice(index, 1);
@@ -298,7 +302,7 @@ SPDX-License-Identifier: MPL-2.0
 							class="h-10 border rounded-lg"
 							alt="Not available"
 							use:tippy={{
-								content: `<img src="/api/v1/storage/download/${question.image}" alt="Not available" class="rounded">`,
+								content: `<img src="/api/v1/storage/download/${question.image}" alt="Not available" class="rounded-sm">`,
 								allowHTML: true
 							}}
 						/>
@@ -375,12 +379,12 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 		{/each}
 		<div
-			class="bg-white shadow rounded-lg h-40 p-2 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
+			class="bg-white shadow-smrounded-lg h-40 p-2 hover:cursor-pointer drop-shadow-2xl border border-gray-500 dark:bg-gray-600 grid grid-cols-2"
 		>
 			<button
 				type="button"
 				class="h-full flex justify-center w-full flex-col border-r border-black dark:text-white"
-				on:click={() => {
+				onclick={() => {
 					add_new_question_popup_open = true;
 				}}
 			>
@@ -403,7 +407,7 @@ SPDX-License-Identifier: MPL-2.0
 			<button
 				type="button"
 				class="h-full flex justify-center w-full dark:text-white flex-col"
-				on:click={() => {
+				onclick={() => {
 					data.questions = [...data.questions, { ...empy_slide }];
 				}}
 			>

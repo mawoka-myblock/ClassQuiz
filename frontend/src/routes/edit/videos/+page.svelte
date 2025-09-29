@@ -5,27 +5,28 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+	import { FFmpeg } from '@ffmpeg/ffmpeg';
+	import { fetchFile } from '@ffmpeg/util';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
-	import { navbarVisible } from '$lib/stores';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import { getLocalization } from '$lib/i18n';
 	const { t } = getLocalization();
 
-	let file_input: HTMLInputElement;
-	navbarVisible.set(false);
+	let file_input: HTMLInputElement = $state();
+	navbarVisible.visible= false;
 
-	let stats: { progress: number; time_elapsed: number; speed: number } = {
+	let stats: { progress: number; time_elapsed: number; speed: number } = $state({
 		progress: 0,
 		time_elapsed: 0,
 		speed: 0
-	};
+	});
 
 	let upload_stats: { progress: number; upload_started: undefined | Date; time_elapsed: number } =
-		{
+		$state({
 			progress: 0,
 			upload_started: undefined,
 			time_elapsed: 0
-		};
+		});
 
 	const speed_extraction_regex = /speed=(\d+\.\d+)x(?![\s\S]*speed=\d+\.\d+x)/;
 	let last_time_elapsed = 0;
@@ -44,9 +45,9 @@ SPDX-License-Identifier: MPL-2.0
 		Done
 	}
 
-	let status: Status = Status.Idle;
+	let status: Status = $state(Status.Idle);
 
-	let file_size_in_mi: undefined | number = undefined;
+	let file_size_in_mi: undefined | number = $state(undefined);
 	let original_file_size_in_mi: undefined | number = undefined;
 	let file_data: undefined | Blob = undefined;
 
@@ -55,27 +56,27 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		status = Status.Compressing;
-		const ffmpeg = createFFmpeg({
-			// log: true,
-			progress: (p) => {
-				if (stats.progress >= 1) {
-					stats.time_elapsed = last_time_elapsed;
-					return;
-				}
-				stats.time_elapsed = p.time ?? 0;
-				last_time_elapsed = stats.time_elapsed;
-				stats.progress = p.ratio ?? 0;
-			}
-		});
+		const ffmpeg = new FFmpeg();
 		const file = file_input.files[0];
 		original_file_size_in_mi = file.size / 1_048_576;
-		ffmpeg.setLogger(({ message }) => {
+		ffmpeg.on('log', ({ message }) => {
 			const speed_match = message.match(speed_extraction_regex);
 			stats.speed = speed_match ? parseFloat(speed_match[1]) : 0;
 		});
-		await ffmpeg.load();
-		ffmpeg.FS('writeFile', file.name, await fetchFile(file));
-		await ffmpeg.run(
+		ffmpeg.on('progress', (p) => {
+			if (stats.progress >= 1) {
+				stats.time_elapsed = last_time_elapsed;
+				return;
+			}
+			stats.time_elapsed = p.time ?? 0;
+			last_time_elapsed = stats.time_elapsed;
+			stats.progress = p.ratio ?? 0;
+		});
+		await ffmpeg.load({
+			// log: true,
+		});
+		await ffmpeg.writeFile(file.name, await fetchFile(file));
+		await ffmpeg.exec([
 			'-i',
 			file.name,
 			'-vcodec',
@@ -85,8 +86,8 @@ SPDX-License-Identifier: MPL-2.0
 			'-vf',
 			'scale=1080:-2',
 			'out.mp4'
-		);
-		const data = await ffmpeg.FS('readFile', 'out.mp4');
+		]);
+		const data = await ffmpeg.readFile('out.mp4');
 		file_size_in_mi = data.length / 1_048_576;
 		file_data = new Blob([data]);
 		status = Status.CompressDone;
@@ -149,36 +150,48 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="mt-auto flex justify-center">
 		{#if status === Status.Compressing || status === Status.CompressDone}
 			<table>
-				<tr>
-					<th>{$t('words.speed')}</th>
-					<th>{$t('words.progress')}</th>
-					<th>{$t('video_uploader.time_elapsed')}</th>
-					<th>{$t('video_uploader.time_remaining')}</th>
-				</tr>
-				<tr>
-					<td>{stats.speed}</td>
-					<td>{Math.round(stats.progress * 100)}%</td>
-					<td>{upload_stats.time_elapsed.toFixed(2)}s</td>
-					<td
-						>{(stats.time_elapsed / stats.progress - upload_stats.time_elapsed).toFixed(
-							2
-						)}s</td
-					>
-				</tr>
+				<thead>
+					<tr>
+						<th>{$t('words.speed')}</th>
+						<th>{$t('words.progress')}</th>
+						<th>{$t('video_uploader.time_elapsed')}</th>
+						<th>{$t('video_uploader.time_remaining')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{stats.speed}</td>
+						<td>{Math.round(stats.progress * 100)}%</td>
+						<td>{upload_stats.time_elapsed.toFixed(2)}s</td>
+						<td
+							>{(
+								stats.time_elapsed / stats.progress -
+								upload_stats.time_elapsed
+							).toFixed(2)}s</td
+						>
+					</tr></tbody
+				>
 			</table>
 		{:else if status === Status.Uploading}
 			<table>
-				<tr>
-					<th>{$t('words.progress')}</th>
-					<th>{$t('video_uploader.time_elapsed')}</th>
-					<th>{$t('video_uploader.time_remaining')}</th>
-				</tr>
-				<tr>
-					<td>{Math.round(upload_stats.progress * 100)}%</td>
-					<td>{stats.time_elapsed.toFixed(2)}s</td>
-					<td>{(stats.time_elapsed / stats.progress - stats.time_elapsed).toFixed(2)}s</td
-					>
-				</tr>
+				<thead>
+					<tr>
+						<th>{$t('words.progress')}</th>
+						<th>{$t('video_uploader.time_elapsed')}</th>
+						<th>{$t('video_uploader.time_remaining')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{Math.round(upload_stats.progress * 100)}%</td>
+						<td>{stats.time_elapsed.toFixed(2)}s</td>
+						<td
+							>{(stats.time_elapsed / stats.progress - stats.time_elapsed).toFixed(
+								2
+							)}s</td
+						>
+					</tr>
+				</tbody>
 			</table>
 		{/if}
 	</div>
@@ -190,9 +203,9 @@ SPDX-License-Identifier: MPL-2.0
 			>
 		</div>
 		<span
-			class="h-full transition-all absolute rounded bg-black bg-opacity-50"
+			class="h-full transition-all absolute rounded-sm bg-black/50"
 			style="width: {100 - stats.progress * 100}%"
-		/>
+		></span>
 	</div>
 	<div class="flex justify-center">
 		<BrownButton on:click={compress_video} disabled={status !== Status.Idle}

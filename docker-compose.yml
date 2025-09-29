@@ -35,7 +35,7 @@ services:
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
       # -- DON'T CHANGE TILL HERE ---
 
-      # --- GENERAL CONFI ---
+      # --- GENERAL CONFIG ---
       ROOT_ADDRESS: "https://classquiz.de" # CHANGE IT (without a "/" at the end)
 
       # --- MAIL CONFIG ---
@@ -43,11 +43,11 @@ services:
       MAIL_ADDRESS: "email@email@email.email"
       MAIL_PASSWORD: "PASSWORT"
       MAIL_USERNAME: "email@email@email.email"
-      MAIL_SERVER: "email@email@email.emai"
+      MAIL_SERVER: "smtp.email.email"
       SKIP_EMAIL_VERIFICATION: "True" # Does the user have to confirm its email by clicking a link?
 
       # --- EXTERNAL API CONFIG ---
-      # HCAPTCHA_KEY: "HCAPTCHA_PRIVATE_KEY"
+      # HCAPTCHA_KEY: ""
       # PIXABAY_API_KEY: "" # Get it from here: https://pixabay.com/api/docs/
       # RECAPTCHA_KEY: "" Get it from Google for the Captcha.
 
@@ -73,7 +73,7 @@ services:
       #CUSTOM_OPENID_PROVIDER__SERVER_METADATA_URL: "/.well-known/openid-configuration" # Adjust if needed
 
     volumes: # Only needed if you chose the "local" storage-backend
-      - ./uploads:/var/storage
+      - ./uploads:/app/data
 
   redis:
     image: redis:alpine
@@ -105,7 +105,7 @@ services:
     image: getmeili/meilisearch:v0.28.0
     restart: always
     environment:
-      MEILI_NO_ANALYTICS: true
+      MEILI_NO_ANALYTICS: "true"
     volumes:
       - meilisearch-data:/data.ms
   worker:

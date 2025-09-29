@@ -63,6 +63,7 @@ export interface Question {
 	youtube_url?: string;
 	music?: string;
 	answers: Answers;
+	hide_results?: boolean;
 }
 
 export type Answers =

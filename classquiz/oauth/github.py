@@ -35,43 +35,43 @@ class Plan(BaseModel):
 class GitHubOauthResponse(BaseModel):
     login: str
     id: int
-    email: Optional[str]
-    node_id: Optional[str]
-    avatar_url: Optional[str]
-    gravatar_id: Optional[str]
-    url: Optional[str]
-    html_url: Optional[str]
-    followers_url: Optional[str]
-    following_url: Optional[str]
-    gists_url: Optional[str]
-    starred_url: Optional[str]
-    subscriptions_url: Optional[str]
-    organizations_url: Optional[str]
-    repos_url: Optional[str]
-    events_url: Optional[str]
-    received_events_url: Optional[str]
-    type: Optional[str]
-    site_admin: Optional[str]
-    name: Optional[str]
-    company: Optional[str]
-    blog: Optional[str]
-    location: Optional[str]
-    hireable: Optional[bool]
-    bio: Optional[str]
-    twitter_username: Optional[str]
-    public_repos: Optional[int]
-    public_gists: Optional[int]
-    followers: Optional[int]
-    following: Optional[int]
+    email: Optional[str] = None
+    node_id: Optional[str] = None
+    avatar_url: Optional[str] = None
+    gravatar_id: Optional[str] = None
+    url: Optional[str] = None
+    html_url: Optional[str] = None
+    followers_url: Optional[str] = None
+    following_url: Optional[str] = None
+    gists_url: Optional[str] = None
+    starred_url: Optional[str] = None
+    subscriptions_url: Optional[str] = None
+    organizations_url: Optional[str] = None
+    repos_url: Optional[str] = None
+    events_url: Optional[str] = None
+    received_events_url: Optional[str] = None
+    type: Optional[str] = None
+    site_admin: Optional[str] = None
+    name: Optional[str] = None
+    company: Optional[str] = None
+    blog: Optional[str] = None
+    location: Optional[str] = None
+    hireable: Optional[bool] = None
+    bio: Optional[str] = None
+    twitter_username: Optional[str] = None
+    public_repos: Optional[int] = None
+    public_gists: Optional[int] = None
+    followers: Optional[int] = None
+    following: Optional[int] = None
     created_at: datetime
     updated_at: datetime
-    private_gists: Optional[int]
-    total_private_repos: Optional[int]
-    owned_private_repos: Optional[int]
-    disk_usage: Optional[int]
-    collaborators: Optional[int]
-    two_factor_authentication: Optional[bool]
-    plan: Optional[Plan]
+    private_gists: Optional[int] = None
+    total_private_repos: Optional[int] = None
+    owned_private_repos: Optional[int] = None
+    disk_usage: Optional[int] = None
+    collaborators: Optional[int] = None
+    two_factor_authentication: Optional[bool] = None
+    plan: Optional[Plan] = None
 
 
 @router.get("/login")

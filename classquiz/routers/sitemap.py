@@ -45,7 +45,7 @@ class SitemapQuiz(BaseModel):
     updated_at: datetime.datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 @router.get("/get")

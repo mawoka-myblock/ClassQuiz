@@ -4,12 +4,12 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 
-<script>
+<script lang="ts">
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let quiz;
 	import ImportedOrNot from '$lib/view_quiz/imported_or_not.svelte';
+	let { quiz } = $props();
 </script>
 
 <div class="flex justify-center">

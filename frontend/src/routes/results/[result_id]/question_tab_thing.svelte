@@ -11,7 +11,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let question: Question;
 
 	interface Answer {
 		username: string;
@@ -21,7 +20,12 @@ SPDX-License-Identifier: MPL-2.0
 		score: number;
 	}
 
-	export let answers: Answer[];
+	interface Props {
+		question: Question;
+		answers: Answer[];
+	}
+
+	let { question, answers }: Props = $props();
 	// console.log(question);
 
 	const get_answer_count_for_answer = (answer: string): number => {
@@ -51,7 +55,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div class="flex justify-center">
-	<div class="bg-white p-2 -z-10 w-10/12 rounded dark:bg-gray-700">
+	<div class="bg-white p-2 -z-10 w-10/12 rounded-sm dark:bg-gray-700">
 		{#if question.type !== QuizQuestionType.ORDER && question.type !== QuizQuestionType.RANGE}
 			<div class="flex flex-col mb-4">
 				{#each question.answers as answer}
@@ -66,7 +70,7 @@ SPDX-License-Identifier: MPL-2.0
 									style="width: {(get_answer_count_for_answer(answer.answer) /
 										answers.length) *
 										100}%"
-								/>
+								></span>
 							</div>
 							<p>{get_answer_count_for_answer(answer.answer)}</p>
 							{#if question.type !== QuizQuestionType.VOTING && question.type !== QuizQuestionType.TEXT}
@@ -81,46 +85,50 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 		<div>
 			<table class="w-full text-left">
-				<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
-					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>{$t('result_page.player_name')}
-					</th>
-					{#if question.type !== QuizQuestionType.VOTING}
+				<thead>
+					<tr class="border-b-2 dark:border-gray-500 text-left border-gray-300">
 						<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-							>{$t('words.score')}</th
-						>
-					{/if}
-					<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
-						>{$t('result_page.time_taken')}
-					</th>
-					<th class="p-1 mx-auto">{$t('words.answer')} </th>
-					{#if question.type !== QuizQuestionType.VOTING}
-						<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
-							>{$t('words.correct')}?
+							>{$t('result_page.player_name')}
 						</th>
-					{/if}
-				</tr>
-				{#each answers as answer}
-					<tr>
-						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-							>{answer.username}</td
-						>
 						{#if question.type !== QuizQuestionType.VOTING}
-							<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-								>{answer.score}</td
+							<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+								>{$t('words.score')}</th
 							>
 						{/if}
-						<td class="border-r dark:border-gray-500 p-1 border-gray-300"
-							>{(answer.time_taken / 1000).toFixed(3)}s
-						</td>
-						<td class="p-1">{answer.answer}</td>
+						<th class="border-r dark:border-gray-500 p-1 mx-auto border-gray-300"
+							>{$t('result_page.time_taken')}
+						</th>
+						<th class="p-1 mx-auto">{$t('words.answer')} </th>
 						{#if question.type !== QuizQuestionType.VOTING}
-							<td class="p-1 border-l dark:border-gray-500 border-gray-300">
-								{#if answer.right}✅{:else}❌{/if}
-							</td>
+							<th class="border-l dark:border-gray-500 p-1 mx-auto border-gray-300"
+								>{$t('words.correct')}?
+							</th>
 						{/if}
 					</tr>
-				{/each}
+				</thead>
+				<tbody>
+					{#each answers as answer}
+						<tr>
+							<td class="border-r dark:border-gray-500 p-1 border-gray-300"
+								>{answer.username}</td
+							>
+							{#if question.type !== QuizQuestionType.VOTING}
+								<td class="border-r dark:border-gray-500 p-1 border-gray-300"
+									>{answer.score}</td
+								>
+							{/if}
+							<td class="border-r dark:border-gray-500 p-1 border-gray-300"
+								>{(answer.time_taken / 1000).toFixed(3)}s
+							</td>
+							<td class="p-1">{answer.answer}</td>
+							{#if question.type !== QuizQuestionType.VOTING}
+								<td class="p-1 border-l dark:border-gray-500 border-gray-300">
+									{#if answer.right}✅{:else}❌{/if}
+								</td>
+							{/if}
+						</tr>
+					{/each}
+				</tbody>
 			</table>
 		</div>
 	</div>

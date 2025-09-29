@@ -35,7 +35,7 @@ async def join_game(data: JoinGameInput) -> JoinGameResponse:
     if game_pin is None:
         raise HTTPException(status_code=404, detail="Game not found")
     game = await redis.get(f"game:{game_pin}")
-    game = PlayGame.parse_raw(game)
+    game = PlayGame.model_validate_json(game)
     # Check if game is already running
     if game.started:
         raise HTTPException(status_code=400, detail="Game started already")

@@ -11,10 +11,14 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
 
-	export let questions: Question[];
-	export let open: boolean;
 
-	export let selected_question: number;
+	interface Props {
+		questions: Question[];
+		open: boolean;
+		selected_question: number;
+	}
+
+	let { questions = $bindable(), open = $bindable(), selected_question = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 	onMount(() => {
@@ -95,18 +99,20 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div
-	class="fixed top-0 left-0 w-screen h-screen flex bg-black z-50 bg-opacity-50"
-	on:click={on_parent_click}
-	transition:fade|local={{ duration: 100 }}
+	class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
+	onclick={on_parent_click}
+	transition:fade={{ duration: 100 }}
 >
-	<div class="m-auto w-2/3 h-5/6 rounded shadow-2xl bg-white dark:bg-gray-600 p-6 flex flex-col">
+	<div
+		class="m-auto w-2/3 h-5/6 rounded-sm shadow-2xl bg-white dark:bg-gray-600 p-6 flex flex-col"
+	>
 		<h1 class="text-center text-3xl mb-6">{$t('quiztivity.editor.select_page_type')}</h1>
 		<div class="grid grid-cols-4 gap-4 overflow-y-scroll">
 			{#each question_types as qt, i}
-				<div class="rounded p-6 border-[#B07156] border">
+				<div class="rounded-sm p-6 border-[#B07156] border">
 					<button
 						class="text-xl text-black dark:text-white"
-						on:click={() => {
+						onclick={() => {
 							add_question(i);
 						}}>{qt.name}</button
 					>

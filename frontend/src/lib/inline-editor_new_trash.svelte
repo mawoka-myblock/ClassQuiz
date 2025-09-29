@@ -5,8 +5,10 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let text;
-	let internal_text = '';
+	import { run } from 'svelte/legacy';
+
+	let { text } = $props();
+	let internal_text = $state('');
 	/*
 		const markSelection = (function() {
 			const markerTextChar = '\ufeff';
@@ -92,10 +94,10 @@ SPDX-License-Identifier: MPL-2.0
 		console.log(output);
 	};
 
-	$: {
+	run(() => {
 		process_input();
 		internal_text;
-	}
+	});
 </script>
 
 <input bind:value={internal_text} />

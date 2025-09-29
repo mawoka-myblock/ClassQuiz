@@ -10,7 +10,11 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade } from 'svelte/transition';
 
 	const { t } = getLocalization();
-	export let type: QuizTivityTypes | undefined;
+	interface Props {
+		type: QuizTivityTypes | undefined;
+	}
+
+	let { type = $bindable() }: Props = $props();
 
 	const PageTypes = [
 		/*		{
@@ -41,18 +45,18 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div
-	class="fixed top-0 left-0 z-50 bg-black bg-opacity-50 flex w-screen h-screen"
-	transition:fade={{ duration: 100 }}
+	class="fixed top-0 left-0 z-50 bg-black/50 flex w-screen h-screen"
+	transition:fade|global={{ duration: 100 }}
 >
 	<div class="m-auto w-5/6 h-5/6">
-		<div class="rounded bg-white p-6 dark:bg-gray-600">
+		<div class="rounded-sm bg-white p-6 dark:bg-gray-600">
 			<h1 class="text-center text-3xl mb-6">{$t('quiztivity.editor.select_page_type')}</h1>
 			<div class="grid grid-cols-4 gap-4 overflow-y-scroll">
 				{#each PageTypes as pt}
-					<div class="rounded p-6 border-[#B07156] border">
+					<div class="rounded-sm p-6 border-[#B07156] border">
 						<button
 							class="text-xl text-black dark:text-white"
-							on:click={() => {
+							onclick={() => {
 								type = pt.type;
 							}}>{pt.name}</button
 						>

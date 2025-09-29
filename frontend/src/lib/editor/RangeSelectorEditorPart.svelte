@@ -5,11 +5,17 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import type { EditorData } from '../quiz_types';
 	import Spinner from '../Spinner.svelte';
 
-	export let selected_question: number;
-	export let data: EditorData;
+	interface Props {
+		selected_question: number;
+		data: EditorData;
+	}
+
+	let { selected_question, data = $bindable() }: Props = $props();
 
 	let question = data.questions[selected_question];
 	if (question.answers.max === undefined || question.answers.min_correct === undefined) {
@@ -35,17 +41,25 @@ SPDX-License-Identifier: MPL-2.0
 
  */
 	let answer = question.answers;
-	let range_arr = [answer.min_correct, answer.max_correct];
-	$: data.questions[selected_question].answers.min_correct = range_arr[0];
-	$: data.questions[selected_question].answers.max_correct = range_arr[1];
-	$: data.questions[selected_question].answers.min =
-		data.questions[selected_question].answers.min === null
-			? 0
-			: data.questions[selected_question].answers.min;
-	$: data.questions[selected_question].answers.max =
-		data.questions[selected_question].answers.max === null
-			? 0
-			: data.questions[selected_question].answers.max;
+	let range_arr = $state([answer.min_correct, answer.max_correct]);
+	run(() => {
+		data.questions[selected_question].answers.min_correct = range_arr[0];
+	});
+	run(() => {
+		data.questions[selected_question].answers.max_correct = range_arr[1];
+	});
+	run(() => {
+		data.questions[selected_question].answers.min =
+			data.questions[selected_question].answers.min === null
+				? 0
+				: data.questions[selected_question].answers.min;
+	});
+	run(() => {
+		data.questions[selected_question].answers.max =
+			data.questions[selected_question].answers.max === null
+				? 0
+				: data.questions[selected_question].answers.max;
+	});
 
 	function sleep(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
@@ -78,8 +92,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await sleep(100)}
 				<Spinner my_20={false} />
 			{:then _}
-				<svelte:component
-					this={c.default}
+				<c.default
 					bind:values={range_arr}
 					bind:min={data.questions[selected_question].answers.min}
 					bind:max={data.questions[selected_question].answers.max}

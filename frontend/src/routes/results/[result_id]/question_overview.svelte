@@ -13,14 +13,18 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let questions: Question[];
-	export let answers: {
+	interface Props {
+		questions: Question[];
+		answers: {
 		username: string;
 		answer: string;
 		right: boolean;
 		tike_taken: number;
 		score: number;
 	}[][];
+	}
+
+	let { questions, answers }: Props = $props();
 
 	const get_average_score = (q_index: number): number => {
 		const q_answers = answers[q_index];
@@ -49,7 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 			question_open = q_index;
 		}
 	};
-	let question_open: number | boolean = false;
+	let question_open: number | boolean = $state(false);
 </script>
 
 <div class="w-full flex justify-center">
@@ -57,11 +61,11 @@ SPDX-License-Identifier: MPL-2.0
 		{#each questions as question, i}
 			<div class="transition-all">
 				<div
-					class="w-full bg-white p-2 rounded grid grid-cols-3 z-40 dark:bg-gray-700 bg-opacity-60 dark:bg-opacity-80"
+					class="w-full bg-white/60 p-2 rounded-sm grid grid-cols-3 z-40 dark:bg-gray-700/80"
 				>
 					<button
 						class="text-center underline text-xl"
-						on:click={() => {
+						onclick={() => {
 							toggle_dropdown(i);
 						}}>{@html question.question}</button
 					>
@@ -80,7 +84,7 @@ SPDX-License-Identifier: MPL-2.0
 					{/if}
 				</div>
 				{#if question_open === i}
-					<div in:fly|local={{ y: -10 }}>
+					<div in:fly={{ y: -10 }}>
 						<QuestionTab {question} answers={answers[i]} />
 					</div>
 				{/if}

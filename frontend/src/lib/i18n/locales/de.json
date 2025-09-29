@@ -17,8 +17,8 @@
         "see_all_quizzes": "Sieh all deine Quizze",
         "students_site": "Seite der Schüler*innen",
         "teachers_site": "Seite der Lehrer*innen",
-        "no_tracking_content": "Andere tracken mit mindestens zwei amerikanischen Drittanbietern und ClassQuiz trackt gar nicht mit Drittanbietern!",
-        "quiz_results_downloadable_content": "Quiz-Ergebnisse können einfach in Form einer Excel-Tabelle heruntergeladen werden (Wusste gar nicht, dass andere dies nicht können).",
+        "no_tracking_content": "Andere tracken dich und senden diese Informationen an Dritte, aber ClassQuiz nicht.",
+        "quiz_results_downloadable_content": "Quiz-Ergebnisse können einfach in Form einer Excel-Tabelle heruntergeladen werden (Wusste gar nicht, dass andere dies nicht können)",
         "multilingual_content": "ClassQuiz ist jetzt schon komplett in Englisch, Deutsch, Türkisch, Französisch, norwegischem Bokmål und Italienisch verfügbar, wobei es auch teilweise in Indonesisch und Katalanisch verfügbar ist.",
         "no_tracking": "Kein Tracking",
         "self_hostable": "Self-hostbar",
@@ -31,7 +31,7 @@
         "get_a_quiz": "1. Bekomme ein Quiz",
         "create_a_quiz_from_scratch": "Erstelle ein Quiz mit dem Editor, welches Bilder und mehr beinhalten kann",
         "find_or_explore": "Finde (oder erkunde) Quiz von anderen oder importiert von anderen",
-        "import_quiz_from_kahoot_and_edit": "Importiere ein Quiz von Kahoot! und bearbeite es auf ClassQuiz",
+        "import_quiz_from_kahoot_and_edit": "Importiere Quiz von Kahoot! und bearbeite sie auf ClassQuiz",
         "play_quiz": "2. Spiele das Quiz",
         "select_answer": "Wähle die Antwort",
         "choose_answer_wisely": "Wähle die Antwort mit Bedacht",
@@ -42,11 +42,11 @@
         "why_classquiz": "Warum ClassQuiz?",
         "self_hostable_content": "ClassQuiz kann einfach selber gehostet werden, sodass die Daten alle in deiner Hand sind!",
         "user_friendly_content": "ClassQuiz probiert so benutzerfreundlich zu sein, sodass es für jeden einfach zu benutzen ist.",
-        "completely_free_content": "ClassQuiz ist für den Benutzer komplett kostenlos und ohne irgendwelche kostenpflichtigen Abonnements oder nervige Weiterleitungen auf Upgrade-Seiten, obwohl eine Spende trotzdem erwünscht ist!",
+        "completely_free_content": "ClassQuiz ist für den Benutzer komplett kostenlos und ohne irgendwelche kostenpflichtigen Abonnements oder nervige Weiterleitungen auf Upgrade-Seiten, obwohl eine Spende trotzdem erwünscht ist.",
         "dark_mode_content": "Eines der wichtigsten Features, die eine Webseite haben kann!",
         "german_server_content": "ClassQuiz' Server stehen in Deutschland und werden von netcup betrieben.",
         "community_driven_content": "ClassQuiz hängt von der Community ab, die ClassQuiz mit Spenden, Feature-Requests, Übersetzungen und mehr versorgt! Du kannst auch ein Teil der ClassQuiz-Community werden!",
-        "download_quizzes_content": "Quiz können als einzige Datei heruntergeladen werden und jederzeit importiert werden, sodass du auch einfach auf eine andere Instanz von ClassQuiz umziehen kannst!",
+        "download_quizzes_content": "Quiz können als einzelne Datei heruntergeladen werden und jederzeit importiert werden. Das ermöglicht dir, einfach Quiz auf andere Instanzen von ClassQuiz umzuziehen.",
         "community_driven": "Von der Community betrieben",
         "download_quizzes": "Quiz herunterladen",
         "how_does_classquiz_work": "Wie funktioniert ClassQuiz überhaupt?",
@@ -56,7 +56,7 @@
     "overview_page": {
         "created_at": "Erstellt am",
         "question_count": "Fragenanzahl",
-        "no_quizzes": "Es scheint so, als hättest du noch keine Quiz erstellt. Klicke auf den \"Erstellen\"-Knopf um ein Quiz zu erstellen oder importiere eins!"
+        "no_quizzes": "Klicke auf den \"Erstellen\"-Knopf, oder importiere ein Quiz um loszulegen."
     },
     "edit_page": {
         "success_update_title": "Quiz erfolgreich aktualisiert.",
@@ -65,7 +65,7 @@
     "create_page": {
         "success": {
             "title": "Quiz erfolgreich erstellt.",
-            "body": "Lass die Spiele beginnen!"
+            "body": "Lass die Spiele beginnen."
         }
     },
     "register_page": {
@@ -75,23 +75,23 @@
         "already_have_account?": "Hast du schon einen Account?"
     },
     "login_page": {
-        "welcome_back": "Willkommen zurück!",
+        "welcome_back": "Willkommen zurück.",
         "login_or_create_account": "Einloggen oder Account erstellen",
         "already_have_account": "Noch kein Account?",
         "modal": {
             "success": {
-                "success_check_mail": "Login erfolgreich! Überprüfe in deine Mailbox!",
-                "success": "Login erfolgreich!",
+                "success_check_mail": "Login erfolgreich. Überprüfe deinen E-Mail-Eingangskorb.",
+                "success": "Login erfolgreich.",
                 "description": {
                     "success_check_mail": "Bitte überprüfe deine Mailbox, weil du eine Email mit einem Link, um dich einzuloggen, empfangen haben solltest.",
-                    "success": "Anmeldung erfolgreich!"
+                    "success": "Anmeldung erfolgreich."
                 }
             },
             "error": {
-                "wrong_creds": "Falsche Email oder falsches Passwort!",
+                "wrong_creds": "Falsche E-Mail-Adresse oder falsches Passwort.",
                 "unexpected": "Unerwarteter Fehler!",
                 "description": {
-                    "wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine Email richtig sind!",
+                    "wrong_creds": "Bitte stelle sicher, dass dein Passwort und deine E-Mail-Adresse richtig sind.",
                     "unexpected": "Der gute alte unerwartete Fehler hat uns heimgesucht!"
                 }
             }
@@ -161,7 +161,7 @@
         "backup_code": "Backup-Code",
         "text": "Text",
         "order": "Reihenfolge",
-        "score": "Punkte",
+        "score": "Punktestand",
         "results": "Ergebnisse",
         "note": "Notiz",
         "player_plural": "Spieler",
@@ -231,7 +231,9 @@
         "enter_answer": "Gib eine Antwort ein",
         "visit_docs": "Besuche die Dokumentation.",
         "enable_reorder": "Fragen Umsortieren",
-        "disable_reorder": "Umsortieren beenden"
+        "disable_reorder": "Umsortieren beenden",
+        "advanced_settings": "Erweiterte Einstellungen",
+        "hide_question_results": "Frageergebnisse ausblenden?"
     },
     "import": {
         "need_help": "",
@@ -249,7 +251,7 @@
         "get_final_results": "Finale Ergebnisse abrufen",
         "export_results": "Ergebnisse exportieren",
         "show_next_question": "Zeige die nächste Frage",
-        "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen!",
+        "start_by_showing_first_question": "Beginne damit, die erste Frage zu zeigen.",
         "no_answers": "Keine Antworten!",
         "stop_time": "Zeit stoppen",
         "save_results": "Ergebnisse speichern",

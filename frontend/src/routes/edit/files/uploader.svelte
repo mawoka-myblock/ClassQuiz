@@ -5,25 +5,26 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Spinner from '$lib/Spinner.svelte';
 
-	let uppyOpen = false;
-	let edit_id = null;
-	let selected_question = undefined;
-	let data = { cover_image: undefined };
+	let uppyOpen = $state(false);
+	let edit_id = $state(null);
+	let selected_question = $state(undefined);
+	let data = $state({ cover_image: undefined });
 
-	$: {
+	run(() => {
 		if (data.cover_image) {
 			window.location.reload();
 		}
-	}
+	});
 </script>
 
 {#await import('$lib/editor/uploader.svelte')}
 	<Spinner my_20={false} />
 {:then c}
-	<svelte:component
-		this={c.default}
+	<c.default
 		bind:modalOpen={uppyOpen}
 		bind:edit_id
 		bind:data

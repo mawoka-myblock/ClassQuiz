@@ -66,7 +66,7 @@ router.include_router(oauth.router, tags=["users", "oauth"], prefix="/oauth")
 async def create_user(user: RouteUser, background_task: BackgroundTasks) -> User | JSONResponse:
     if settings.registration_disabled:
         raise HTTPException(status_code=423)
-    user = User(**user.dict(), id=uuid.uuid4(), avatar=gzipped_user_avatar(), created_at=datetime.now())
+    user = User(**user.model_dump(), id=uuid.uuid4(), avatar=gzipped_user_avatar(), created_at=datetime.now())
     try:
         validate_email(user.email)
     except EmailNotValidError as e:
@@ -232,7 +232,7 @@ async def reset_password_with_token(reset_password: ResetPassword, response: Res
 @router.get("/sessions/list", response_model=list[UserSession], response_model_exclude={"user", "session_key", "quizs"})
 async def list_sessions(user: User = Depends(get_current_user)):
     sessions = await UserSession.objects.filter(user=user).all()
-    return [session.dict() for session in sessions]
+    return [session.model_dump() for session in sessions]
 
 
 @router.delete("/sessions/{session_id}")
@@ -297,7 +297,7 @@ async def get_other_avatar(respo: Response, user_id: uuid.UUID):
 
 class InternalAuthData(BaseModel):
     rememberme: str
-    jwt: str | None
+    jwt: str | None = None
 
 
 @router.post("/auth/internal")
@@ -341,7 +341,7 @@ async def get_email_from_jwt(data: GetEmailFromJWT):
 async def generate_api_key(user: User = Depends(get_current_user)):
     key = ApiKey(key=os.urandom(24).hex(), user=user)
     await key.save()
-    return key.dict(include={"key"})
+    return key.model_dump(include={"key"})
 
 
 @router.get("/api_keys", response_model=list[ApiKey], response_model_include={"key"})

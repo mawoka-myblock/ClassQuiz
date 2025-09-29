@@ -5,7 +5,11 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	export let my_20 = true;
+	interface Props {
+		my_20?: boolean;
+	}
+
+	let { my_20 = true }: Props = $props();
 </script>
 
 <svg class="h-8 w-8 animate-spin mx-auto" class:my-20={my_20} viewBox="3 3 18 18">

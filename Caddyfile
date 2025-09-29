@@ -4,7 +4,7 @@
 
 #* {
 :8080 {
-#	tls /home/mawoka/certs/cert.pem /home/mawoka/certs/key.pem
+	#	tls /home/mawoka/certs/cert.pem /home/mawoka/certs/key.pem
 	reverse_proxy /* localhost:3000
 	reverse_proxy /api* localhost:8000
 	reverse_proxy /rapidoc* localhost:8000

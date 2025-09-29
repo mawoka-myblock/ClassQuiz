@@ -5,18 +5,24 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import type { EditorData } from '$lib/quiz_types';
 	import Spinner from '$lib/Spinner.svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let modalOpen: boolean;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		modalOpen: boolean;
+	}
 
-	let page = 1;
-	let search_term = '';
-	let loading = false;
+	let { data = $bindable(), selected_question, modalOpen = $bindable() }: Props = $props();
+
+	let page = $state(1);
+	let search_term = $state('');
+	let loading = $state(false);
 
 	const { t } = getLocalization();
 
@@ -42,7 +48,7 @@ SPDX-License-Identifier: MPL-2.0
 		return await res.json();
 	};
 
-	let fetched_data = fetch_data();
+	let fetched_data = $state(fetch_data());
 </script>
 
 {#await fetched_data}
@@ -53,7 +59,7 @@ SPDX-License-Identifier: MPL-2.0
 	{:else}
 		<div class="flex w-screen p-8 h-full mt-8 mb-1">
 			<div
-				class="flex flex-col w-1/3 m-auto overflow-scroll h-full rounded p-4 gap-2 bg-white dark:bg-gray-700"
+				class="flex flex-col w-1/3 m-auto overflow-scroll h-full rounded-sm p-4 gap-2 bg-white dark:bg-gray-700"
 			>
 				<h1 class="text-2xl text-center">{$t('uploader.images_by_pixabay')}</h1>
 				<div class="flex">
@@ -64,10 +70,10 @@ SPDX-License-Identifier: MPL-2.0
 
 				<form
 					class="w-full flex gap-2"
-					on:submit|preventDefault={() => (fetched_data = fetch_data())}
+					onsubmit={preventDefault(() => (fetched_data = fetch_data()))}
 				>
 					<input
-						class="w-full outline-none p-1 rounded dark:bg-gray-500 bg-gray-300"
+						class="w-full outline-hidden p-1 rounded-sm dark:bg-gray-500 bg-gray-300"
 						bind:value={search_term}
 					/>
 					<div class="w-fit">
@@ -77,13 +83,13 @@ SPDX-License-Identifier: MPL-2.0
 				<span class="italic text-center text-sm">{$t('uploader.search_english_only')}</span>
 
 				{#each data.hits as image}
-					<div class="rounded border-2 border-[#B07156] p-2 flex-col flex gap-2">
+					<div class="rounded-sm border-2 border-[#B07156] p-2 flex-col flex gap-2">
 						<div>
 							<img
 								src={image.webformatURL}
 								loading="lazy"
 								alt="unavailable"
-								class="object-contain w-full h-full rounded max-h-[80vh]"
+								class="object-contain w-full h-full rounded-sm max-h-[80vh]"
 							/>
 						</div>
 						<BrownButton

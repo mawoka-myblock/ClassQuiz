@@ -10,20 +10,30 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	export let questions: Question[];
-	export let answers: {
+
+	interface Props {
+		questions: Question[];
+		answers: {
 		username: string;
 		answer: string;
 		right: boolean;
 		tike_taken: number;
 		score: number;
 	}[][];
-
-	export let scores: {
+		scores: {
 		[key: string]: string;
 	};
-	export let title: string;
-	export let timestamp: string;
+		title: string;
+		timestamp: string;
+	}
+
+	let {
+		questions,
+		answers,
+		scores,
+		title,
+		timestamp
+	}: Props = $props();
 
 	const usernames = Object.keys(scores);
 

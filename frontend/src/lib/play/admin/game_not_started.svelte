@@ -11,14 +11,23 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { fade } from 'svelte/transition';
 
-	export let game_pin: string;
-	export let players;
-	export let socket;
-	export let cqc_code: string;
+	interface Props {
+		game_pin: string;
+		players: any;
+		socket: any;
+		cqc_code: string;
+	}
 
-	let fullscreen_open = false;
+	let {
+		game_pin,
+		players = $bindable(),
+		socket,
+		cqc_code = $bindable()
+	}: Props = $props();
+
+	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
-	let play_music = false;
+	let play_music = $state(false);
 
 	if (cqc_code === 'null') {
 		cqc_code = null;
@@ -52,10 +61,10 @@ SPDX-License-Identifier: MPL-2.0
 			</p>
 		</div>
 		<img
-			on:click={() => (fullscreen_open = true)}
+			onclick={() => (fullscreen_open = true)}
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
-			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded hover:cursor-pointer"
+			class="block mx-auto w-1/2 dark:bg-white shadow-2xl rounded-sm hover:cursor-pointer"
 		/>
 		{#if cqc_code}
 			<div class="m-auto">
@@ -98,10 +107,10 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="flex flex-row w-full mt-4 px-10 flex-wrap">
 		{#if players.length > 0}
 			{#each players as player}
-				<div class="p-2 m-2 border-2 border-[#B07156] rounded hover:cursor-pointer">
+				<div class="p-2 m-2 border-2 border-[#B07156] rounded-sm hover:cursor-pointer">
 					<span
 						class="hover:line-through text-lg"
-						on:click={() => {
+						onclick={() => {
 							kick_player(player.username);
 						}}>{player.username}</span
 					>
@@ -114,14 +123,14 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if fullscreen_open}
 	<div
-		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 fle p-2"
-		transition:fade={{ duration: 80 }}
-		on:click={() => (fullscreen_open = false)}
+		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 flex p-2"
+		transition:fade|global={{ duration: 80 }}
+		onclick={() => (fullscreen_open = false)}
 	>
 		<img
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
-			class="object-contain rounded m-auto h-full bg-white"
+			class="object-contain rounded-sm m-auto h-full bg-white"
 		/>
 	</div>
 {/if}

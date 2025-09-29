@@ -11,9 +11,13 @@ SPDX-License-Identifier: MPL-2.0
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 
-	export let data: EditorData;
-	export let selected_question: number;
-	export let modalOpen: boolean;
+	interface Props {
+		data: EditorData;
+		selected_question: number;
+		modalOpen: boolean;
+	}
+
+	let { data = $bindable(), selected_question, modalOpen = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 
@@ -64,112 +68,100 @@ SPDX-License-Identifier: MPL-2.0
 								<path
 									style="fill:#337180;"
 									d="M496.158,248.085c0-137.022-111.068-248.082-248.074-248.082C111.07,0.003,0,111.063,0,248.085
-					c0,137.001,111.07,248.07,248.084,248.07C385.09,496.155,496.158,385.086,496.158,248.085z"
+							c0,137.001,111.07,248.07,248.084,248.07C385.09,496.155,496.158,385.086,496.158,248.085z"
 								/>
 								<g>
 									<path
 										style="fill:#DFF2F4;"
 										d="M73.412,251.075c0,3.313-2.686,6-6,6H56.746c-3.314,0-6-2.687-6-6v-6.5c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V251.075z"
+								c3.314,0,6,2.687,6,6V251.075z"
 									/>
 									<path
 										style="fill:#DFF2F4;"
 										d="M104.412,266.825c0,3.313-2.686,6-6,6H87.746c-3.314,0-6-2.687-6-6v-37.5c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V266.825z"
+								h10.666c3.314,0,6,2.687,6,6V266.825z"
 									/>
 								</g>
 								<g>
 									<path
 										style="fill:#B5E3EA;"
 										d="M135.412,274.579c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-53c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V274.579z"
+								c3.314,0,6,2.687,6,6V274.579z"
 									/>
 									<path
 										style="fill:#B5E3EA;"
 										d="M166.412,290.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-84c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V290.079z"
+								c3.314,0,6,2.687,6,6V290.079z"
 									/>
 								</g>
 								<g>
 									<path
 										style="fill:#A3D5E0;"
 										d="M197.412,321.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-146c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V321.079z"
+								h10.666c3.314,0,6,2.687,6,6V321.079z"
 									/>
 									<path
 										style="fill:#A3D5E0;"
 										d="M228.412,336.579c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-177c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V336.579z"
+								h10.666c3.314,0,6,2.687,6,6V336.579z"
 									/>
 								</g>
 								<path
 									style="fill:#8EC5CE;"
 									d="M259.412,383.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-270c0-3.313,2.686-6,6-6h10.666
-					c3.314,0,6,2.687,6,6V383.079z"
+							c3.314,0,6,2.687,6,6V383.079z"
 								/>
 								<g>
 									<path
 										style="fill:#A3D5E0;"
 										d="M290.412,321.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-146c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V321.079z"
+								h10.666c3.314,0,6,2.687,6,6V321.079z"
 									/>
 									<path
 										style="fill:#A3D5E0;"
 										d="M321.412,290.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-84c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V290.079z"
+								c3.314,0,6,2.687,6,6V290.079z"
 									/>
 								</g>
 								<g>
 									<path
 										style="fill:#B5E3EA;"
 										d="M352.412,305.579c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-115c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V305.579z"
+								h10.666c3.314,0,6,2.687,6,6V305.579z"
 									/>
 									<path
 										style="fill:#B5E3EA;"
 										d="M383.412,274.575c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-53c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V274.575z"
+								c3.314,0,6,2.687,6,6V274.575z"
 									/>
 								</g>
-								<g>
-									<path
-										style="fill:#DFF2F4;"
-										d="M445.412,251.261c0,3.314-2.686,6-6,6h-10.666c-3.314,0-6-2.686-6-6v-6.5c0-3.313,2.686-6,6-6
-						h10.666c3.314,0,6,2.687,6,6V251.261z"
-									/>
-									<path
-										style="fill:#DFF2F4;"
-										d="M414.412,259.079c0,3.313-2.686,6-6,6h-10.666c-3.314,0-6-2.687-6-6v-22c0-3.313,2.686-6,6-6h10.666
-						c3.314,0,6,2.687,6,6V259.079z"
-									/>
-								</g>
-							</svg>
-						</div>
-						<p class="text-center">{file.filename ?? 'No name available'}</p>
-						<BrownButton
-							on:click={() => {
-								set_file(file);
-							}}>{$t('words.select')}</BrownButton
-						>
+						</svg>
 					</div>
-				{:else}
-					<div class="rounded border-2 border-[#B07156] p-2 flex-col flex gap-2">
-						<div>
-							<img
-								src="/api/v1/storage/download/{file.id}"
-								loading="lazy"
-								alt={file.alt_text}
-								class="object-contain w-full h-full max-h-full rounded"
-							/>
-						</div>
-						<p class="text-center">{file.filename ?? 'No name available'}</p>
-						<BrownButton
-							on:click={() => {
-								set_file(file);
-							}}>{$t('words.select')}</BrownButton
-						>
+					<p class="text-center">{file.filename ?? 'No name available'}</p>
+					<BrownButton
+						on:click={() => {
+							set_file(file);
+						}}>{$t('words.select')}</BrownButton
+					>
+				</div>
+			{:else}
+				<div class="rounded border-2 border-[#B07156] p-2 flex-col flex gap-2">
+					<div>
+						<img
+							src="/api/v1/storage/download/{file.id}"
+							loading="lazy"
+							alt={file.alt_text}
+							class="object-contain w-full h-full max-h-full rounded"
+						/>
 					</div>
-				{/if}
+					<p class="text-center">{file.filename ?? 'No name available'}</p>
+					<BrownButton
+						on:click={() => {
+							set_file(file);
+						}}>{$t('words.select')}</BrownButton
+					>
+				</div>
+			{/if}
 			{/each}
 		</div>
 	</div>

@@ -8,16 +8,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
 uvicorn = "*"
 python-socketio = "*"
-ormar = { version = "*", extras = ["postgresql"] }
 passlib = "*"
 python-jose = "*"
 alembic = "*"
 email-validator = "*"
 python-multipart = "*"
-pydantic = "1.10.8"
 redis = "*"
 aiohttp = "*"
 gunicorn = "*"
@@ -46,6 +43,11 @@ starlette = "*"
 pyopenssl = "*"
 python-dotenv = "*"
 webauthn = "==1.*"
+fastapi = "*"
+pypng = "*"
+ormar = "*"
+pydantic = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 coverage = "*"

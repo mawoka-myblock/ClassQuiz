@@ -5,25 +5,29 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
-	export let data;
+	let { data } = $props();
 	let { token }: string = data;
-	let isSubmitting = false;
+	let isSubmitting = $state(false);
 	interface PasswordData {
 		password1: string;
 		password2: string;
 	}
-	let passwordData: PasswordData = {
+	let passwordData: PasswordData = $state({
 		password1: '',
 		password2: ''
-	};
-	let passwordsValid = false;
+	});
+	let passwordsValid = $state(false);
 	const checkIfPasswordsValid = (pwdata: PasswordData): void => {
 		passwordsValid = pwdata.password1 === pwdata.password2 && pwdata.password1.length >= 8;
 	};
-	$: checkIfPasswordsValid(passwordData);
+	run(() => {
+		checkIfPasswordsValid(passwordData);
+	});
 
 	const submit = async () => {
 		if (!passwordsValid) {
@@ -73,7 +77,7 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('password_reset_page.reset_password')}
 				</p>
 
-				<form on:submit|preventDefault={submit}>
+				<form onsubmit={preventDefault(submit)}>
 					<div class="w-full mt-4">
 						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 							<div class="relative bg-inherit w-full">
@@ -82,7 +86,7 @@ SPDX-License-Identifier: MPL-2.0
 									bind:value={passwordData.password1}
 									name="password1"
 									type="password"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder={$t('words.password')}
 								/>
 								<label
@@ -100,7 +104,7 @@ SPDX-License-Identifier: MPL-2.0
 									name="password2"
 									type="password"
 									bind:value={passwordData.password2}
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
+									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-hidden focus:border-rose-600"
 									placeholder={$t('words.repeat_password')}
 								/>
 								<label
@@ -120,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 							>
 
 							<button
-								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded hover:bg-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+								class="px-4 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-sm hover:bg-gray-600 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 								disabled={!passwordsValid}
 								type="submit"
 							>
