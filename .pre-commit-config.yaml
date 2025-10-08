@@ -6,7 +6,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -15,8 +15,8 @@ repos:
           - --allow-multiple-documents
 #      - id: check-added-large-files
 
-  - repo: https://github.com/psf/black
-    rev: 24.3.0
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 25.9.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -29,13 +29,13 @@ repos:
           - "prettier-plugin-svelte@latest"
           - "prettier@latest"
   - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         # flake8 is passed in all tracked python files
         # so --exclude in .flake8 does not work
         exclude: ^migrations/versions/
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v3.0.1
+    rev: v6.0.0
     hooks:
       - id: reuse
