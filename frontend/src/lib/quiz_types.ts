@@ -60,6 +60,8 @@ export interface Question {
 	question: string;
 	type?: QuizQuestionType;
 	image?: string;
+	youtube_url?: string;
+	music?: string;
 	answers: Answers;
 	hide_results?: boolean;
 }
