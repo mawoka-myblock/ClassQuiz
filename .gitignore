@@ -12,4 +12,5 @@ node_modules/
 survey.json
 .coverage
 export_deta.py
+.DS_Store
 target/

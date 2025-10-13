@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { get_foreground_color } from '$lib/helpers';
 	import { kahoot_icons } from '$lib/play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
+	import { QuizQuestionType } from '../../quiz_types';
 	// import CircularTimer from '$lib/play/circular_progress.svelte';
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
@@ -30,7 +31,17 @@ SPDX-License-Identifier: MPL-2.0
 	}: Props = $props();
 	let _selected_answers = $state([false, false, false, false]);
 
+	const handleCheckQuestionTypeAnswers = () => {
+		// Set all the answers to false except the selected one
+		_selected_answers = _selected_answers.map((_a) => false);
+	};
+
 	const selectAnswer = (i: number) => {
+		// If only one answer can be selected
+		if (question.type === QuizQuestionType.CHECK) {
+			handleCheckQuestionTypeAnswers();
+		}
+
 		_selected_answers[i] = !_selected_answers[i];
 		selected_answer = '';
 		for (let i = 0; i < _selected_answers.length; i++) {

@@ -26,24 +26,19 @@ SPDX-License-Identifier: MPL-2.0
 	import Pixabay from '$lib/editor/uploader/Pixabay.svelte';
 
 	const { t } = getLocalization();
-	let {
-		modalOpen = false,
-		edit_id,
-		data,
-		selected_question,
-		video_upload = false,
-		library_enabled = true
-	}: {
-		modalOpen: boolean;
-		edit_id: string;
-		data: EditorData;
-		selected_question: number;
-		video_upload: boolean;
-		library_enabled: boolean;
-	} = $props();
+export let modalOpen = false;
+export let edit_id: string;
+export let data: EditorData;
+export let selected_question: number;
+export let video_upload = false;
+export let library_enabled = true;
+export let youtube_url: string;
+export let music: string;
 
-	// eslint-disable-next-line no-undef
-	let video_popup: undefined | WindowProxy = $state(undefined);
+// eslint-disable-next-line no-undef
+let video_popup: undefined | WindowProxy = undefined;
+// eslint-disable-next-line no-undef
+let music_popup: undefined | WindowProxy = undefined;
 
 	let selected_type: AvailableUploadTypes | null = $state(null);
 
@@ -53,6 +48,10 @@ SPDX-License-Identifier: MPL-2.0
 		Image,
 		// eslint-disable-next-line no-unused-vars
 		Video,
+		// eslint-disable-next-line no-unused-vars
+		Music,
+		// eslint-disable-next-line no-unused-vars
+		YouTube,
 		// eslint-disable-next-line no-unused-vars
 		Library,
 		// eslint-disable-next-line no-unused-vars
@@ -122,6 +121,34 @@ SPDX-License-Identifier: MPL-2.0
 		});
 	};
 
+	const upload_music = async () => {
+		music_popup = window.open(
+			'/edit/musics',
+			'_blank',
+			'popup=true,toolbar=false,menubar=false,location=false,'
+		);
+		music_popup.addEventListener('beforeunload', () => {
+			music_popup = undefined;
+		});
+	};
+
+	const set_youtube_video = () => {
+		// from https://www.youtube.com/watch?v=QjAHcKPUaFM
+		// to https://www.youtube.com/embed/QjAHcKPUaFM
+		// Need to transform to embed url
+		if (youtube_url.indexOf('/watch')) {
+			const urlParsed = URL.parse(youtube_url);
+			const videoId = urlParsed.searchParams.get('v');
+			urlParsed.searchParams.delete('v');
+			urlParsed.pathname = `/embed/${videoId}`;
+			youtube_url = urlParsed.href;
+		}
+
+		data.questions[selected_question].youtube_url = youtube_url;
+		modalOpen = false;
+		selected_type = null;
+	};
+
 	const handle_on_click = (e: Event) => {
 		if (e.target === e.currentTarget) {
 			modalOpen = false;
@@ -145,7 +172,7 @@ SPDX-License-Identifier: MPL-2.0
 		transition:fade={{ duration: 100 }}
 	>
 		{#if selected_type === null}
-			<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm">
+            <div class="m-auto w-1/2 h-auto bg-white dark:bg-gray-700 p-4 rounded">
 				<h1 class="text-3xl text-center mb-4">{$t('uploader.select_upload_type')}</h1>
 				<div class="flex flex-row gap-4">
 					<div class="w-full">
@@ -163,6 +190,22 @@ SPDX-License-Identifier: MPL-2.0
 								selected_type = AvailableUploadTypes.Video;
 							}}
 							>{$t('words.video')}
+						</BrownButton>
+					</div>
+					<div class="w-full">
+						<BrownButton
+							on:click={() => {
+								selected_type = AvailableUploadTypes.YouTube;
+							}}
+							>{$t('words.youtube')}
+						</BrownButton>
+					</div>
+					<div class="w-full">
+						<BrownButton
+							on:click={() => {
+								selected_type = AvailableUploadTypes.Music;
+							}}
+							>{$t('words.music')}
 						</BrownButton>
 					</div>
 					{#if library_enabled}
@@ -191,6 +234,25 @@ SPDX-License-Identifier: MPL-2.0
 					<SvelteDashboard {uppy} width="100%" {properties} />
 				</div>
 			</div>
+		{:else if selected_type === AvailableUploadTypes.YouTube}
+			<div class="m-auto w-1/3 h-5/6" transition:fade|local={{ duration: 100 }}>
+				<div>
+					<input
+						bind:value={youtube_url}
+						type="text"
+						class="border-b-2 border-dotted w-5/6 text-center rounded-lg bg-transparent outline-none"
+						placeholder={$t('editor.enter_youtube_url')}
+					/>
+				</div>
+				<button
+					class="mt-auto mx-auto bg-green-500 p-4 rounded-lg shadow-lg hover:bg-green-400 transition-all marck-script text-2xl"
+					on:click={() => {
+						set_youtube_video();
+					}}
+				>
+					{$t('youtube.set_url')}
+				</button>
+			</div>
 		{:else if selected_type === AvailableUploadTypes.Video}
 			<div
 				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm"
@@ -204,6 +266,22 @@ SPDX-License-Identifier: MPL-2.0
 				{:else}
 					<BrownButton on:click={upload_video} type="button"
 						>{$t('uploader.upload_video')}</BrownButton
+					>
+				{/if}
+			</div>
+		{:else if selected_type === AvailableUploadTypes.Music}
+			<div
+				class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded"
+				transition:fade|local={{ duration: 100 }}
+			>
+				<h1 class="text-3xl text-center mb-4">{$t('uploader.upload_a_music')}</h1>
+				{#if video_popup}
+					<p class="text-center">
+						{$t('uploader.upload_music_popup_notice')}
+					</p>
+				{:else}
+					<BrownButton on:click={upload_music} type="button"
+						>{$t('uploader.upload_music')}</BrownButton
 					>
 				{/if}
 			</div>
