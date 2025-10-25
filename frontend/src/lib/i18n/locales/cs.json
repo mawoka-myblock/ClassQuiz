@@ -131,7 +131,7 @@
         "find_or_explore": "",
         "completely_free_content": "",
         "stats": "",
-        "see_how_many_true_and_false": "",
+        "see_how_many_true_and_false": "Podívejte se, kolik z nich mělo pravdu nebo se mýlilo",
         "download_quizzes": "",
         "dark_mode_content": "",
         "multilingual": "",
@@ -145,12 +145,12 @@
         "get_ranking_and_winners": "",
         "meta": {
             "description": "ClassQuiz je kvízová aplikace podobná aplikaci Kahoot! pro studenty, která má otevřený zdrojový kód a je zdarma.",
-            "title": ""
+            "title": "Domů"
         },
         "list_winners": "",
         "students_site": "",
         "self_hostable": "",
-        "see_what_true_and_false": "",
+        "see_what_true_and_false": "Podívejte se, co bylo správné nebo špatné",
         "german_server": "",
         "create_a_quiz_from_scratch": "",
         "teachers_site": "",
