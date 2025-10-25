@@ -25,7 +25,11 @@ from classquiz.db.models import (
 from pydantic import BaseModel, ValidationError
 from datetime import datetime
 
-from classquiz.socket_server.helpers import check_answer, check_captcha
+from classquiz.socket_server.helpers import (
+    check_answer,
+    check_captcha,
+    has_already_answered,
+)
 from .models import (
     RejoinGameData,
     JoinGameData,
@@ -286,7 +290,12 @@ async def submit_answer(sid: str, data: dict):
         return
     data.answer = str(data.answer)
     session = await get_session(sid, sio)
+    question_index = int(float(data.question_index))
     game_data = await PlayGame.get_from_redis(session["game_pin"])
+    already_answered = await has_already_answered(session["game_pin"], question_index, session["username"])
+    if already_answered:
+        await sio.emit("already_replied", room=sid)
+        return
     (answer_right, answer) = check_answer(game_data, data)
     latency = int(float(session["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
@@ -295,7 +304,7 @@ async def submit_answer(sid: str, data: dict):
     if answer_right:
         score = calculate_score(
             abs(diff) - latency,
-            int(float(game_data.questions[int(float(data.question_index))].time)),
+            int(float(game_data.questions[question_index].time)),
         )
         if score > 1000:
             score = 1000

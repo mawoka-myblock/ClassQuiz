@@ -134,3 +134,17 @@ data: `{PLAYER_NAME} = {CUSTOM_FIELD_VALUE}`
 {cqc_code} is the code used to join with a **C**lass**Q**uiz**C**ontroller
 
 Only holds the game-pin
+
+## game_in_lobby:{admin_user_id} [string]
+Set if game is waiting for players to join for the admin to enable remote control
+
+model: GameInLobby
+
+example:
+```json
+{
+  "game_pin": "1234543",
+  "quiz_title": "Some random title",
+  "game_id": "uuid of game"
+}
+```

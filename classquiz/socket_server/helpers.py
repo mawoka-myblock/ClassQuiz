@@ -10,6 +10,7 @@ from classquiz.db.models import (
     ABCDQuizAnswer,
     VotingQuizAnswer,
     RangeQuizAnswer,
+    AnswerDataList,
 )
 from classquiz.socket_server.models import SubmitAnswerData
 from .models import SubmitAnswerDataOrderType
@@ -131,3 +132,12 @@ def check_check_question(answer: str, answers: list[ABCDQuizAnswer]) -> bool:
         if a.right:
             correct_string += str(i)
     return bool(correct_string == answer)
+
+
+async def has_already_answered(game_pin: str, q_index: int, username: str) -> bool:
+    answers = await AnswerDataList.get_redis_or_empty(game_pin, q_index)
+    if answers is None:
+        return False
+    else:
+        answers = list(filter(lambda a: a.username == username, answers.root))
+        return len(answers) > 0
