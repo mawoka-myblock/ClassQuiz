@@ -51,7 +51,7 @@ class GitHubOauthResponse(BaseModel):
     events_url: Optional[str] = None
     received_events_url: Optional[str] = None
     type: Optional[str] = None
-    site_admin: Optional[str] = None
+    site_admin: Optional[bool] = None
     name: Optional[str] = None
     company: Optional[str] = None
     blog: Optional[str] = None
@@ -103,7 +103,8 @@ async def auth(request: Request, response: Response):
     except authlib.integrations.base_client.OAuthError:
         return RedirectResponse("/account/oauth-error")
     resp = await oauth.github.get("user", token=token)
-    user_data = GitHubOauthResponse(**resp.json())
+    data = resp.json()
+    user_data = GitHubOauthResponse(**data)
     if user_data.email is None:
         return RedirectResponse("/account/oauth-error?error=email")
     user_in_db = await User.objects.get_or_none(email=user_data.email)
@@ -140,7 +141,10 @@ async def auth(request: Request, response: Response):
             else:
                 raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
-        email=user_data.email, username=user_data.login, auth_type=UserAuthTypes.GITHUB, verified=True
+        email=user_data.email,
+        username=user_data.login,
+        auth_type=UserAuthTypes.GITHUB,
+        verified=True,
     )
 
     await log_user_in(user=user, request=request, response=response)
