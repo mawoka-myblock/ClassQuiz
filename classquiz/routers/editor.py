@@ -11,15 +11,27 @@ import asyncpg.exceptions
 import bleach
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+import html
 
-from classquiz.config import settings, redis, storage, meilisearch, ALLOWED_TAGS_FOR_QUIZ, arq
+from classquiz.config import (
+    settings,
+    redis,
+    storage,
+    meilisearch,
+    ALLOWED_TAGS_FOR_QUIZ,
+    arq,
+)
 from classquiz.db.models import Quiz, QuizInput, User, QuizQuestionType, StorageItem
 from classquiz.auth import get_current_user
 import os
 from datetime import datetime
 from uuid import UUID
 
-from classquiz.helpers import get_meili_data, check_image_string, extract_image_ids_from_quiz
+from classquiz.helpers import (
+    get_meili_data,
+    check_image_string,
+    extract_image_ids_from_quiz,
+)
 from classquiz.storage.errors import DeletionFailedError
 
 settings = settings()
@@ -79,15 +91,15 @@ async def finish_edit(edit_id: str, quiz_input: QuizInput):
         quiz_input.background_color = bleach.clean(quiz_input.background_color, tags=[], strip=True)
 
     for i, question in enumerate(quiz_input.questions):
-        if question.type == QuizQuestionType.ABCD:
+        if question.type == QuizQuestionType.ABCD or question.type == QuizQuestionType.VOTING:
             for i2, answer in enumerate(question.answers):
                 if answer.color is not None:
                     quiz_input.questions[i].answers[i2].color = bleach.clean(answer.color, tags=[], strip=True)
                 if answer.answer == "":
                     quiz_input.questions[i].answers[i2].answer = None
                 if answer.answer is not None:
-                    quiz_input.questions[i].answers[i2].answer = bleach.clean(
-                        answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True
+                    quiz_input.questions[i].answers[i2].answer = html.unescape(
+                        bleach.clean(answer.answer, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
                     )
 
     images_to_delete = []

@@ -94,6 +94,8 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
         img_obj = await handle_image_upload(quiz.kahoot.cover, user)
         uploaded_images.append(img_obj)
         cover = img_obj.id.hex
+    if quiz.kahoot.description is None or quiz.kahoot.description == "":
+        quiz.kahoot.description = "Description Missing!"
     quiz_data = Quiz(
         id=quiz_id,
         public=False,

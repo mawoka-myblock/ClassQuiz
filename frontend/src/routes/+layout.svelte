@@ -108,7 +108,7 @@ SPDX-License-Identifier: MPL-2.0
 		<!-- extra content above slot -->
 	</div>
 {/if}
-<slot />
+{@render children?.()}
 <CommandPalette />
 
 <!--{#if $alertModal.open ?? false}

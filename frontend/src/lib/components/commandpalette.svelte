@@ -240,6 +240,7 @@ This should be okay, right?
 		class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
 		onclick={close_on_outside}
 		onkeyup={close_on_outside}
+		role="generic"
 		transition:fade|global={{ duration: 60 }}
 	>
 		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
@@ -253,6 +254,7 @@ This should be okay, right?
 					type="text"
 					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-hidden bg-gray-700 rounded-sm"
 					bind:value={input}
+					autofocus
 				/>
 			</div>
 			<div class="flex flex-col p-2 gap-2 overflow-scroll">
@@ -264,6 +266,8 @@ This should be okay, right?
 						class:bg-gray-700={selected !== i}
 						onmouseenter={() => (selected = i)}
 						onmousedown={execute_action}
+						tabindex="-2"
+						role="button"
 					>
 						<div class="flex">
 							<h3 class="text-lg my-auto">{vi.title}</h3>

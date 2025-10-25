@@ -82,6 +82,9 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	const selectAnswer = (answer: string) => {
+		if (selected_answer !== undefined) {
+			return;
+		}
 		selected_answer = answer;
 		//timer_res = '0';
 		socket.emit('submit_answer', {
@@ -262,7 +265,7 @@ SPDX-License-Identifier: MPL-2.0
 					<input
 						type="text"
 						bind:value={text_input}
-						disabled={selected_answer}
+						disabled={selected_answer !== undefined}
 						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 				</div>
@@ -271,7 +274,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-1/3">
 						<BrownButton
 							type="button"
-							disabled={selected_answer}
+							disabled={selected_answer !== undefined}
 							on:click={() => {
 								selectAnswer(text_input);
 							}}
@@ -367,7 +370,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="w-full mt-2">
 					<BrownButton
 						type="button"
-						disabled={selected_answer}
+						disabled={selected_answer !== undefined}
 						on:click={() => {
 							select_complex_answer(question.answers);
 						}}>{$t('words.submit')}</BrownButton
@@ -389,7 +392,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex justify-center h-[5%]">
 					<div class="w-1/2">
 						<BrownButton
-							disabled={!selected_answer}
+							disabled={selected_answer !== undefined}
 							on:click={() => selectAnswer(selected_answer)}
 							>{$t('words.submit')}
 						</BrownButton>

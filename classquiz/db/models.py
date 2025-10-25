@@ -1,16 +1,26 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 #
 # SPDX-License-Identifier: MPL-2.0
+from __future__ import annotations
 
 
 import os
 import uuid
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Self
+from classquiz.config import redis
+import json
 
 import ormar
 from ormar import ReferentialAction
-from pydantic import BaseModel, Json, field_validator, ConfigDict, RootModel, ValidationInfo
+from pydantic import (
+    BaseModel,
+    Json,
+    field_validator,
+    ConfigDict,
+    RootModel,
+    ValidationInfo,
+)
 from enum import Enum
 from . import metadata, database
 from .quiztivity import QuizTivityPage
@@ -242,10 +252,33 @@ class PlayGame(BaseModel):
     custom_field: str | None = None
     question_show: bool = False
 
+    @classmethod
+    async def get_from_redis(self, game_pin: str) -> Self:
+        redis_data: str = await redis.get(f"game:{game_pin}")
+        data = self.model_validate_json(redis_data)
+        return data
+
+    async def save(self, game_pin: str, ex: int = 7200):
+        await redis.set(f"game:{game_pin}", self.model_dump_json(), ex=ex)
+
+    def to_player_data(self) -> dict:
+        return (
+            {
+                **json.loads(self.model_dump_json(exclude={"quiz_id", "questions", "user_id"})),
+                "question_count": len(self.questions),
+            },
+        )
+
 
 class GamePlayer(BaseModel):
     username: str
     sid: str | None = None
+
+    async def to_player_stack(self, game_pin: str):
+        await redis.sadd(
+            f"game_session:{game_pin}:players",
+            self.model_dump_json(),
+        )
 
 
 class GameAnswer2(BaseModel):
@@ -264,6 +297,18 @@ class GameSession(BaseModel):
     game_id: str
     # players: list[GamePlayer | None]
     answers: list[GameAnswer1 | None]
+
+    @classmethod
+    async def get_from_redis(self, game_pin: str) -> Self:
+        redis_data = await redis.get(f"game_session:{game_pin}")
+        return self.model_validate_json(redis_data)
+
+    async def save(self, game_pin: str, ex: int = 7200):
+        await redis.set(
+            f"game_session:{game_pin}",
+            self.model_dump_json(),
+            ex=7200,
+        )
 
 
 class UpdatePassword(BaseModel):
@@ -293,6 +338,14 @@ class AnswerDataList(RootModel):
 
     def __len__(self) -> int:
         return len(self.root)
+
+    @classmethod
+    async def get_redis_or_empty(self, game_pin: str, question_number: str) -> Self:
+        redis_res = await redis.get(f"game_session:{game_pin}:{question_number}")
+        if redis_res is None:
+            return self([])
+        else:
+            return self.model_validate_json(redis_res)
 
 
 class GameInLobby(BaseModel):
