@@ -162,7 +162,7 @@ SPDX-License-Identifier: MPL-2.0
 				<h2 class="text-center text-2xl">{$t('security_settings.backup_code')}</h2>
 				<div class="flex h-full w-full justify-center">
 					<div class="m-auto">
-						<BrownButton on:click={get_backup_code}
+						<BrownButton onclick={get_backup_code}
 							>{$t('security_settings.get_backup_code')}</BrownButton
 						>
 					</div>
@@ -238,7 +238,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div class="flex justify-center">
 					<div class="m-auto">
-						<BrownButton on:click={add_security_key}
+						<BrownButton onclick={add_security_key}
 							>{$t('security_settings.add_security_key')}</BrownButton
 						>
 					</div>
@@ -271,11 +271,11 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex justify-center">
 					<div class="m-auto">
 						{#if totp_activated}
-							<BrownButton on:click={disable_totp}
+							<BrownButton onclick={disable_totp}
 								>{$t('security_settings.disable_totp')}</BrownButton
 							>
 						{:else}
-							<BrownButton on:click={enable_totp}
+							<BrownButton onclick={enable_totp}
 								>{$t('security_settings.enable_totp')}</BrownButton
 							>
 						{/if}

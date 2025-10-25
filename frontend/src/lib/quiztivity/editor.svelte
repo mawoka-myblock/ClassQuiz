@@ -83,7 +83,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if data.id}
 				<div class="mr-auto w-fit pl-2">
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							shares_menu_open = true;
 						}}>{$t('quiztivity.editor.open_shares_menu')}</BrownButton
 					>
@@ -99,7 +99,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="self-end pr-2 w-full">
 				<div class="ml-auto w-fit">
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							dispatch('save');
 						}}
 						disabled={!data.title}>{$t('words.save')}</BrownButton
@@ -109,20 +109,20 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 		<div class="flex flex-row gap-2 w-full p-2">
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					selected_type = null;
 				}}>{$t('quiztivity.editor.add_new')}</BrownButton
 			>
-			<BrownButton on:click={delete_slide} disabled={selected_slide === null}
+			<BrownButton onclick={delete_slide} disabled={selected_slide === null}
 				>{$t('quiztivity.editor.delete')}</BrownButton
 			>
 			<BrownButton
-				on:click={move_slide_left}
+				onclick={move_slide_left}
 				disabled={selected_slide === null || selected_slide === 0}
 				>{$t('quiztivity.editor.move_left')}</BrownButton
 			>
 			<BrownButton
-				on:click={move_slide_right}
+				onclick={move_slide_right}
 				disabled={selected_slide === null || selected_slide === data.pages.length - 1}
 				>{$t('quiztivity.editor.move_right')}</BrownButton
 			>
@@ -140,7 +140,7 @@ SPDX-License-Identifier: MPL-2.0
 							class:opacity-0={selected_slide !== i}
 						>
 							<BrownButton
-								on:click={() => {
+								onclick={() => {
 									selected_slide = selected_slide === i ? null : i;
 								}}
 							>
@@ -149,7 +149,7 @@ SPDX-License-Identifier: MPL-2.0
 									)}{/if}
 							</BrownButton>
 							<BrownButton
-								on:click={() => {
+								onclick={() => {
 									opened_slide = i;
 								}}>{$t('words.edit')}</BrownButton
 							>
@@ -164,7 +164,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="h-full">
 		<div class="mb-2">
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					opened_slide = null;
 				}}>{$t('words.back')}</BrownButton
 			>

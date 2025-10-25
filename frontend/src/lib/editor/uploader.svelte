@@ -150,7 +150,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex flex-row gap-4">
 					<div class="w-full">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Image;
 							}}
 							>{$t('words.image')}
@@ -159,7 +159,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-full">
 						<BrownButton
 							disabled={!video_upload}
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Video;
 							}}
 							>{$t('words.video')}
@@ -168,7 +168,7 @@ SPDX-License-Identifier: MPL-2.0
 					{#if library_enabled}
 						<div class="w-full">
 							<BrownButton
-								on:click={() => {
+								onclick={() => {
 									selected_type = AvailableUploadTypes.Library;
 								}}
 								>{$t('words.library')}
@@ -177,7 +177,7 @@ SPDX-License-Identifier: MPL-2.0
 					{/if}
 					<div class="w-full">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Pixabay;
 							}}
 							>Pixabay
@@ -202,7 +202,7 @@ SPDX-License-Identifier: MPL-2.0
 						{$t('uploader.upload_video_popup_notice')}
 					</p>
 				{:else}
-					<BrownButton on:click={upload_video} type="button"
+					<BrownButton onclick={upload_video} type="button"
 						>{$t('uploader.upload_video')}</BrownButton
 					>
 				{/if}

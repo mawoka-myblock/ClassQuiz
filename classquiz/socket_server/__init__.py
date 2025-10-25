@@ -216,7 +216,7 @@ async def register_as_admin(sid: str, data: dict):
     if await redis.get(f"game_session:{game_pin}") is not None:
         await sio.emit("already_registered_as_admin", room=sid)
         return
-    GameSession(admin=sid, game_id=game_id, answers=[]).save(game_pin)
+    await GameSession(admin=sid, game_id=game_id, answers=[]).save(game_pin)
     await sio.emit(
         "registered_as_admin",
         {"game_id": game_id, "game": await redis.get(f"game:{game_pin}")},
@@ -251,7 +251,7 @@ async def set_question_number(sid: str, data: str):
     game_data = await PlayGame.get_from_redis(session["game_pin"])
     game_data.current_question = int(float(data))
     game_data.question_show = True
-    game_data.save(session["game_pin"])
+    await game_data.save(session["game_pin"])
     await redis.set(f"game:{session['game_pin']}:current_time", datetime.now().isoformat(), ex=7200)
     temp_return = game_data.model_dump(include={"questions"})["questions"][int(float(data))]
     if game_data.questions[int(float(data))].type == QuizQuestionType.SLIDE:
@@ -296,7 +296,7 @@ async def submit_answer(sid: str, data: dict):
     if already_answered:
         await sio.emit("already_replied", room=sid)
         return
-    (answer_right, answer) = check_answer(game_data, data)
+    answer_right, answer = check_answer(game_data, data)
     latency = int(float(session["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)

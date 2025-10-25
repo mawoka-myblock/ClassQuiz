@@ -84,7 +84,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#if data.answers.length < 4}
 			<div class="rounded-sm p-6 bg-gray-700">
 				<BrownButton
-					on:click={() => {
+					onclick={() => {
 						data.answers = [...data.answers, { ...{ answer: '', correct: false } }];
 					}}>{$t('editor_page.add_an_answer')}</BrownButton
 				>

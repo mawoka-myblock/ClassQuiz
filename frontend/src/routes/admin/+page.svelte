@@ -165,7 +165,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="w-screen flex justify-center mt-16">
 				<div class="w-fit">
 					{#if export_token === undefined}
-						<GrayButton on:click={request_answer_export}
+						<GrayButton onclick={request_answer_export}
 							>{$t('admin_page.request_export_results')}</GrayButton
 						>
 					{:else}
@@ -179,7 +179,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="w-screen flex justify-center mt-2">
 				<div class="w-fit">
-					<GrayButton on:click={save_quiz} flex={true} disabled={results_saved}>
+					<GrayButton onclick={save_quiz} flex={true} disabled={results_saved}>
 						{#if results_saved}
 							<svg
 								class="w-4 h-4"

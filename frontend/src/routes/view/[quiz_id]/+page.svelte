@@ -124,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if logged_in}
 				<div class="w-full">
 					<GrayButton
-						on:click={() => {
+						onclick={() => {
 							start_game = quiz.id;
 						}}
 						flex={true}
@@ -188,7 +188,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="w-full">
 				{#if logged_in}
-					<GrayButton flex={true} on:click={() => (download_id = quiz.id)}>
+					<GrayButton flex={true} onclick={() => (download_id = quiz.id)}>
 						<svg
 							class="w-5 h-5 inline-block"
 							fill="none"

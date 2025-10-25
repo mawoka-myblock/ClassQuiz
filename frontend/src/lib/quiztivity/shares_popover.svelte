@@ -117,7 +117,7 @@ SPDX-License-Identifier: MPL-2.0
 				? !navigator.canShare({
 						title: 'title',
 						url: `${window.location.origin}/quiztivity`
-				  })
+					})
 				: false;
 		} catch {
 			return false;
@@ -137,7 +137,7 @@ SPDX-License-Identifier: MPL-2.0
 	>
 		<div class="flex justify-center flex-col">
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					add_shares_open = !add_shares_open;
 				}}>{$t('quiztivity.editor.shares.add_new_share')}</BrownButton
 			>
@@ -175,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 						<BrownButton
 							flex={true}
 							disabled={share_available()}
-							on:click={() => {
+							onclick={() => {
 								navigator.share({
 									title: 'Quiztivity on ClassQuiz',
 									text: 'Play this Quiztivity now on ClassQuiz!',
@@ -204,7 +204,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-full mx-auto">
 						<BrownButton
 							flex={true}
-							on:click={() => {
+							onclick={() => {
 								copyToClipboard(
 									`${window.location.origin}/quiztivity/share/${share.id}?ref=copy`
 								);
@@ -242,7 +242,7 @@ SPDX-License-Identifier: MPL-2.0
 					</p>
 					<div class="w-fit my-auto ml-auto">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								delete_share(share.id);
 							}}>{$t('words.delete')}</BrownButton
 						>

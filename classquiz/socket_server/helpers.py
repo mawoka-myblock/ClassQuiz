@@ -30,7 +30,6 @@ async def check_captcha(captcha_data: str) -> bool:
                     ) as resp:
                         resp_data = await resp.model_dump_json()
                         if not resp_data["success"]:
-                            print("CAPTCHA FAILED")
                             return
                 except KeyError:
                     return False
@@ -60,7 +59,7 @@ def check_answer(game_data: PlayGame, data: SubmitAnswerData) -> (bool, str):
     q_answers = game_data.questions[q_i].answers
     q_answer = data.answer
     if q_type == QuizQuestionType.ABCD:
-        return (check_abcd_question, data.answer)
+        return (check_abcd_question(q_answer, q_answers), data.answer)
     elif q_type == QuizQuestionType.RANGE:
         return (
             check_range_question(q_answer, q_answers),
@@ -69,7 +68,7 @@ def check_answer(game_data: PlayGame, data: SubmitAnswerData) -> (bool, str):
     elif q_type == QuizQuestionType.VOTING:
         return (False, q_answer)
     elif q_type == QuizQuestionType.ORDER:
-        return check_order_question(q_answer, q_answers)
+        return check_order_question(data.complex_answer, q_answer, q_answers)
     elif q_type == QuizQuestionType.TEXT:
         return (
             check_text_question(q_answer, q_answers),
@@ -105,14 +104,11 @@ def check_order_question(
 ) -> (bool, str):
     if complex_answer is None:
         return (False, answer)
-    correct_answers = []
-    for a in answers:
-        correct_answers.append({"answer": a.answer})
-    answer_order = []
-    for a in complex_answer.model_dump():
-        answer_order.append(a["answer"])
-    answer = ", ".join(answer_order)
-    return (correct_answers == complex_answer.model_dump(), answer)
+    correct_answers = [{"answer": a.answer} for a in answers]
+    submitted_answers = [{"answer": a.answer} for a in complex_answer]
+    answer_str = ", ".join(a["answer"] for a in submitted_answers)
+    is_correct = submitted_answers == correct_answers
+    return is_correct, answer_str
 
 
 def check_text_question(answer: str, answers: list[TextQuizAnswer]) -> bool:

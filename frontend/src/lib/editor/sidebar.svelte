@@ -76,7 +76,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="h-screen relative">
 	<div class="h-10 flex justify-center w-full p-1 absolute z-20">
 		<div>
-			<BrownButton on:click={() => (reorder_mode = !reorder_mode)}
+			<BrownButton onclick={() => (reorder_mode = !reorder_mode)}
 				>{#if reorder_mode}{$t('editor.disable_reorder')}{:else}{$t(
 						'editor.enable_reorder'
 					)}{/if}</BrownButton
