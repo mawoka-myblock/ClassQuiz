@@ -77,12 +77,25 @@ async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
 
 
-app.include_router(moderation.router, tags=["moderation"], prefix="/api/v1/moderation", include_in_schema=True)
+app.include_router(
+    moderation.router,
+    tags=["moderation"],
+    prefix="/api/v1/moderation",
+    include_in_schema=True,
+)
 app.include_router(pixabay.router, tags=["pixabay"], prefix="/api/v1/pixabay", include_in_schema=True)
-app.include_router(quiztivity.router, tags=["quiztivity"], prefix="/api/v1/quiztivity", include_in_schema=True)
+app.include_router(
+    quiztivity.router,
+    tags=["quiztivity"],
+    prefix="/api/v1/quiztivity",
+    include_in_schema=True,
+)
 
 app.include_router(
-    box_controller.router, tags=["boxcontroller"], prefix="/api/v1/box-controller", include_in_schema=True
+    box_controller.router,
+    tags=["boxcontroller"],
+    prefix="/api/v1/box-controller",
+    include_in_schema=True,
 )
 app.include_router(results.router, tags=["results"], prefix="/api/v1/results", include_in_schema=True)
 app.include_router(remote.router, tags=["remote"], prefix="/api/v1/remote", include_in_schema=True)
@@ -94,15 +107,28 @@ app.include_router(quiz.router, tags=["quiz"], prefix="/api/v1/quiz", include_in
 app.include_router(utils.router, tags=["utils"], prefix="/api/v1/utils", include_in_schema=True)
 app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats", include_in_schema=True)
 app.include_router(storage.router, tags=["storage"], prefix="/api/v1/storage", include_in_schema=True)
-app.include_router(search.router, tags=["search"], prefix="/api/v1/search", include_in_schema=True),
+app.include_router(search.router, tags=["search"], prefix="/api/v1/search", include_in_schema=True)
 app.include_router(live.router, tags=["live"], prefix="/api/v1/live", include_in_schema=True)
 app.include_router(
-    testing_routes.router, tags=["internal", "testing"], prefix="/api/v1/internal/testing", include_in_schema=False
+    testing_routes.router,
+    tags=["internal", "testing"],
+    prefix="/api/v1/internal/testing",
+    include_in_schema=False,
 )
 app.include_router(editor.router, tags=["editor"], prefix="/api/v1/editor", include_in_schema=True)
-app.include_router(eximport.router, tags=["export", "import"], prefix="/api/v1/eximport", include_in_schema=True)
+app.include_router(
+    eximport.router,
+    tags=["export", "import"],
+    prefix="/api/v1/eximport",
+    include_in_schema=True,
+)
 app.include_router(sitemap.router, tags=["sitemap"], prefix="/api/v1/sitemap", include_in_schema=True)
-app.include_router(community.router, tags=["community"], prefix="/api/v1/community", include_in_schema=True)
+app.include_router(
+    community.router,
+    tags=["community"],
+    prefix="/api/v1/community",
+    include_in_schema=True,
+)
 app.include_router(avatar.router, tags=["avatar"], prefix="/api/v1/avatar", include_in_schema=True)
 app.include_router(admin.router, tags=["admin"], prefix="/api/v1/admin", include_in_schema=True)
 app.mount("/", ASGIApp(sio))

@@ -18,7 +18,7 @@ import xlsxwriter
 from aiohttp import ClientSession
 from io import BytesIO
 from PIL import Image
-from classquiz.config import meilisearch, settings
+from classquiz.config import meilisearch, settings, LOGGER
 from classquiz.helpers.hashcash import check as hc_check
 
 settings = settings()
@@ -147,7 +147,10 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
             if answer is None:
                 continue
             if len(str(answer)) > 150:
-                raise HTTPException(status_code=400, detail=f"Answer {a + 1} in Question {i + 1} is longer than 150")
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Answer {a + 1} in Question {i + 1} is longer than 150",
+                )
         if len(answers) < 2:
             raise HTTPException(status_code=400, detail=f"Less than 2 answers in Question {i + 1}")
         correct_answers: str = str(row[6])
@@ -200,7 +203,7 @@ async def meilisearch_init():
         classquiz_index_found = False
     # +++ Check if the index does not exist and creates it
     if not classquiz_index_found:
-        print("Creating MeiliSearch Index")
+        LOGGER.debug("Creating MeiliSearch Index")
         meilisearch.create_index(settings.meilisearch_index)
         await asyncio.sleep(1)
     # --- END
@@ -211,7 +214,7 @@ async def meilisearch_init():
         number_of_docs = i[1]
         break
     if number_of_docs != quiz_count:
-        print("MeiliSearch and Database got out of sync, syncthing them")
+        LOGGER.warn("MeiliSearch and Database got out of sync, syncthing them")
         meilisearch.delete_index(settings.meilisearch_index)
         meilisearch.create_index(settings.meilisearch_index)
         quizzes = await Quiz.objects.filter(public=True).all()
@@ -221,7 +224,7 @@ async def meilisearch_init():
         meilisearch.index(settings.meilisearch_index).add_documents(meili_data)
     # --- END ---
     meilisearch.index(settings.meilisearch_index).update_settings({"sortableAttributes": ["created_at"]})
-    print("Finished MeiliSearch synchronisation")
+    LOGGER.info("Finished MeiliSearch synchronisation")
 
 
 async def telemetry_ping():
