@@ -52,8 +52,9 @@ SPDX-License-Identifier: MPL-2.0
             throw new Error('question_index must be a string or number');
         }*/
 
-	let timer_res = $state(question.time);
-	let selected_answer: string = $state();
+let timer_res = question.time;
+let selected_answer: string;
+let check_selected_answer: string;
 
 	// Stop the timer if the question is answered
 	const timer = (time: string) => {
@@ -83,6 +84,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	const selectAnswer = (answer: string) => {
 		selected_answer = answer;
+		check_selected_answer = answer;
 		//timer_res = '0';
 		socket.emit('submit_answer', {
 			question_index: question_index,
@@ -389,10 +391,18 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex justify-center h-[5%]">
 					<div class="w-1/2">
 						<BrownButton
-							disabled={!selected_answer}
+							disabled={!selected_answer || check_selected_answer}
 							on:click={() => selectAnswer(selected_answer)}
 							>{$t('words.submit')}
 						</BrownButton>
+
+						{#if check_selected_answer}
+							<p>
+								{$t('play_page.answered', {
+									answer: selected_answer
+								})}
+							</p>
+						{/if}
 					</div>
 				</div>
 			{/await}

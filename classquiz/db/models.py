@@ -140,6 +140,8 @@ class QuizQuestion(BaseModel):
     answers: list[ABCDQuizAnswer] | RangeQuizAnswer | list[TextQuizAnswer] | list[VotingQuizAnswer] | str
     image: str | None = None
     hide_results: bool | None = False
+    youtube_url: str | None = None
+    music: str | None = None
 
     @field_validator("answers")
     def answers_not_none_if_abcd_type(cls, v, info: ValidationInfo):
@@ -277,6 +279,7 @@ class AnswerData(BaseModel):
     right: bool
     time_taken: float  # In milliseconds
     score: int
+    total_score: int | None
 
 
 class AnswerDataList(RootModel):

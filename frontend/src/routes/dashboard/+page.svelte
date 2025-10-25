@@ -238,11 +238,7 @@ SPDX-License-Identifier: MPL-2.0
 								class:grid-cols-3={quiz.type === 'quiz'}
 								class:grid-cols-2={quiz.type !== 'quiztivity'}
 							>
-								<BrownButton
-									flex={true}
-									disabled={!quiz.public}
-									href="/view/{quiz.id}"
-								>
+								<BrownButton flex={true} href="/view/{quiz.id}">
 									<!-- heroicons/legacy-outline/Eye -->
 									<svg
 										class="w-5 h-5"

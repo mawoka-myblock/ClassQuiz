@@ -67,6 +67,31 @@ SPDX-License-Identifier: MPL-2.0
 		</p>
 	</div>
 </div>
+{#if quiz_data.questions[selected_question].music !== null}
+	<div class="flex w-full">
+		<audio
+			style="margin: auto;"
+			autoplay
+			src="/api/v1/storage/download/{quiz_data.questions[selected_question].music}"
+			controls
+		>
+			<track kind="captions" />
+		</audio>
+	</div>
+{/if}
+{#if quiz_data.questions[selected_question].youtube_url !== null}
+	<div class="flex w-full">
+		<iframe
+			width="600"
+			height="328"
+			src={quiz_data.questions[selected_question].youtube_url}
+			frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+			referrerpolicy="strict-origin-when-cross-origin"
+			allowfullscreen
+		/>
+	</div>
+{/if}
 {#if quiz_data.questions[selected_question].image !== null}
 	<div class="flex w-full">
 		<MediaComponent

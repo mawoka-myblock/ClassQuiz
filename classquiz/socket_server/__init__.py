@@ -60,6 +60,16 @@ def calculate_score(z: float, t: int) -> int:
     return int(res * 1000)
 
 
+def check_already_replied(answers, username) -> bool:
+    if answers is None:
+        return False
+    else:
+        answers = AnswerDataList.parse_raw(answers)
+        answers = list(filter(lambda a: a.username == username, answers.__root__))
+
+        return len(answers) > 0
+
+
 async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
     if answers is None:
         answers = AnswerDataList([data])
@@ -103,7 +113,6 @@ async def rejoin_game(sid: str, data: dict):
     if old_sid != data.old_sid:
         return
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
-    await sio.emit("time_sync", encrypted_datetime, room=sid)
     await redis.set(redis_sid_key, sid)
     await redis.srem(
         f"game_session:{data.game_pin}:players", GamePlayer(username=data.username, sid=data.old_sid).model_dump_json()
@@ -120,6 +129,7 @@ async def rejoin_game(sid: str, data: dict):
     }
     await save_session(sid, sio, session)
     await sio.enter_room(sid, data.game_pin)
+    await sio.emit("time_sync", encrypted_datetime, room=sid)
     await sio.emit(
         "rejoined_game",
         {
@@ -291,7 +301,10 @@ async def get_question_results(sid: str, data: dict):
     if redis_res is None:
         redis_res = []
     else:
-        redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()
+        redis_res = AnswerDataList.model_validate_json(redis_res).model_dump()["root"]
+    for player in redis_res:
+        player_total_score = await redis.hget(f"game_session:{session['game_pin']}:player_scores", player["username"])
+        player["total_score"] = int(player_total_score)
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
     game_data.question_show = False
     await redis.set(f"game:{session['game_pin']}", game_data.model_dump_json())
@@ -374,6 +387,82 @@ class _SubmitAnswerData(BaseModel):
     complex_answer: list[_SubmitAnswerDataOrderType] | None = None
 
 
+def verify_answer_abcd(data: dict, game_data: any):
+    return any(
+        answer.answer == data.answer and answer.right
+        for answer in game_data.questions[int(float(data.question_index))].answers
+    )
+
+
+def verify_answer_range(data: dict, game_data: any):
+    if (
+        game_data.questions[int(float(data.question_index))].answers.min_correct
+        <= int(float(data.answer))
+        <= game_data.questions[int(float(data.question_index))].answers.max_correct
+    ):
+        return True
+
+    return False
+
+
+def verify_answer_order(data: dict, game_data: any):
+    if data.complex_answer is None:
+        return False
+    else:
+        question = game_data.questions[int(float(data.question_index))]
+        correct_answers = []
+        for a in question.answers:
+            correct_answers.append({"answer": a.answer})
+        answer_order = []
+        for a in data.dict()["complex_answer"]:
+            answer_order.append(a["answer"])
+        data.answer = ", ".join(answer_order)
+        if correct_answers == data.dict()["complex_answer"]:
+            return True
+
+    return False
+
+
+def verify_answer_text(data: dict, game_data: any):
+    for q in game_data.questions[int(float(data.question_index))].answers:
+        if q.case_sensitive:
+            if data.answer == q.answer:
+                return True
+        else:
+            if data.answer.lower() == q.answer.lower():
+                return True
+
+    return False
+
+
+def verify_answer_check(data: dict, game_data: any):
+    correct_string = ""
+    for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
+        if a.right:
+            correct_string += str(i)
+    return bool(correct_string == data.answer)
+
+
+async def verify_answer(data: dict, game_data: any):
+    answer_right = False
+    if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
+        answer_right = verify_answer_abcd(data, game_data)
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.RANGE:
+        answer_right = verify_answer_range(data, game_data)
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
+        answer_right = False
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ORDER:
+        answer_right = verify_answer_order(data, game_data)
+    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
+        answer_right = verify_answer_text(data, game_data)
+    elif game_data.questions[int(data.question_index)].type == QuizQuestionType.CHECK:
+        answer_right = verify_answer_check(data, game_data)
+    else:
+        raise NotImplementedError
+
+    return answer_right
+
+
 @sio.event
 async def submit_answer(sid: str, data: dict):
     now = datetime.now()
@@ -386,55 +475,7 @@ async def submit_answer(sid: str, data: dict):
     data.answer = str(data.answer)
     session = await get_session(sid, sio)
     game_data = PlayGame.model_validate_json(await redis.get(f"game:{session['game_pin']}"))
-    answer_right = False
-    if game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ABCD:
-        for answer in game_data.questions[int(float(data.question_index))].answers:
-            if answer.answer == data.answer and answer.right:
-                answer_right = True
-                break
-    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.RANGE:
-        if (
-            game_data.questions[int(float(data.question_index))].answers.min_correct
-            <= int(float(data.answer))
-            <= game_data.questions[int(float(data.question_index))].answers.max_correct
-        ):
-            answer_right = True
-    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.VOTING:
-        answer_right = False
-    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.ORDER:
-        if data.complex_answer is None:
-            answer_right = False
-        else:
-            question = game_data.questions[int(float(data.question_index))]
-            correct_answers = []
-            for a in question.answers:
-                correct_answers.append({"answer": a.answer})
-            answer_order = []
-            for a in data.model_dump()["complex_answer"]:
-                answer_order.append(a["answer"])
-            data.answer = ", ".join(answer_order)
-            if correct_answers == data.model_dump()["complex_answer"]:
-                answer_right = True
-
-    elif game_data.questions[int(float(data.question_index))].type == QuizQuestionType.TEXT:
-        answer_right = False
-        for q in game_data.questions[int(float(data.question_index))].answers:
-            if q.case_sensitive:
-                if data.answer == q.answer:
-                    answer_right = True
-                    break
-            else:
-                if data.answer.lower() == q.answer.lower():
-                    answer_right = True
-                    break
-    elif game_data.questions[int(data.question_index)].type == QuizQuestionType.CHECK:
-        correct_string = ""
-        for i, a in enumerate(game_data.questions[int(float(data.question_index))].answers):
-            if a.right:
-                correct_string += str(i)
-        answer_right = bool(correct_string == data.answer)
-    else:
-        raise NotImplementedError
+    answer_right = await verify_answer(data, game_data)
     latency = int(float((await get_session(sid, sio))["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
 
@@ -447,15 +488,22 @@ async def submit_answer(sid: str, data: dict):
         )
         if score > 1000:
             score = 1000
-    await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
+    # TODO: If has already replied, return
+    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
+    already_replied = check_already_replied(answers, session["username"])
+    if already_replied:
+        await sio.emit("already_replied", room=sid)
+        return
+    # ---
+    total_score = await redis.hincrby(f"game_session:{session['game_pin']}:player_scores", session["username"], score)
     answer_data = AnswerData(
         username=session["username"],
         answer=data.answer,
         right=answer_right,
         time_taken=abs(diff) - latency,
         score=score,
+        total_score=total_score,
     )
-    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
     answers = await set_answer(
         answers,
         game_pin=session["game_pin"],
