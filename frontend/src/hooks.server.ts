@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import type { Handle } from '@sveltejs/kit';
-import jws from 'jws';
+import * as jose from 'jose';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle: Handle = async ({ event, resolve }) => {
@@ -12,13 +12,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.locals.email = null;
 		return resolve(event);
 	}
-	const jwt = jws.decode(access_token.replace('Bearer ', ''));
+	const jwt = jose.decodeJwt(access_token.replace('Bearer ', ''));
 	if (!jwt) {
 		event.locals.email = null;
 		return resolve(event);
 	}
 	// if token expires, do a request to get a new one and set the response-cookies on the response
-	if (Date.now() >= jwt.payload.exp * 1000) {
+	if (Date.now() >= jwt.exp * 1000) {
 		const res = await fetch(`${process.env.API_URL}/api/v1/users/check`, {
 			method: 'GET',
 			headers: {
@@ -37,6 +37,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			return resp;
 		}
 	}
-	event.locals.email = jwt.payload.sub;
+	event.locals.email = jwt.sub;
 	return resolve(event);
 };

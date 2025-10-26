@@ -99,27 +99,27 @@ SPDX-License-Identifier: MPL-2.0
 		{:else if selected_method === null}
 			<!--			<p>SelectWindow</p>-->
 			<div transition:slide|global>
-				<SelectMethod bind:session_data bind:step bind:selected_method />
+				<SelectMethod {session_data} {step} bind:selected_method />
 			</div>
 		{:else if selected_method === 'PASSWORD'}
 			<!--			<p>PasswordWindow</p>-->
 			<div transition:slide|global>
-				<PasswordComponent bind:session_data bind:done bind:step bind:selected_method />
+				<PasswordComponent {session_data} bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'PASSKEY'}
 			<!--			<p>WebauthnWindow</p>-->
 			<div transition:slide|global>
-				<WebauthnComponent bind:session_data bind:done bind:step bind:selected_method />
+				<WebauthnComponent {session_data} bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'BACKUP'}
 			<!--			<p>BackupWindow</p>-->
 			<div transition:slide|global>
-				<BackupComponent bind:session_data bind:done bind:step bind:selected_method />
+				<BackupComponent {session_data} bind:done bind:step bind:selected_method />
 			</div>
 		{:else if selected_method === 'TOTP'}
 			<!--			<p>TotpWindow</p>-->
 			<div transition:slide|global>
-				<TotpComponent bind:session_data bind:done bind:step bind:selected_method />
+				<TotpComponent {session_data} bind:done bind:step bind:selected_method />
 			</div>
 		{/if}
 	</div>
