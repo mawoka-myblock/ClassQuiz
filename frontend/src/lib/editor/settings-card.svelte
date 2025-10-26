@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import type { EditorData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
@@ -30,7 +28,7 @@ SPDX-License-Identifier: MPL-2.0
 		animation: 'perspective-subtle'
 	});
 
-	run(() => {
+	$effect(() => {
 		data.background_color = custom_bg_color ? data.background_color : undefined;
 	});
 </script>
@@ -57,11 +55,6 @@ SPDX-License-Identifier: MPL-2.0
 				: `unset`}"
 		>
 			<div class="flex justify-center pt-10 w-full">
-				<!--<input
-				type="text"
-				bind:value={data.title}
-				class="p-3 rounded-lg border-gray-500 border text-center w-1/3 text-lg font-semibold dark:bg-gray-500"
-			/>-->
 				{#await import('$lib/inline-editor.svelte')}
 					<Spinner my_20={false} />
 				{:then c}
@@ -70,7 +63,6 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="flex justify-center pt-10 w-full max-h-32">
 				<textarea
-					type="text"
 					placeholder="Description"
 					bind:value={data.description}
 					class="p-3 rounded-lg border-gray-500 border text-center w-1/3 h-20 resize-none dark:bg-gray-500 outline-hidden focus:shadow-2xl transition-all"
@@ -78,26 +70,22 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 
 			{#if data.cover_image != undefined && data.cover_image !== ''}
-				<div class="flex justify-center pt-10 w-full max-h-72 w-full">
+				<div class="flex justify-center pt-10 w-full max-h-72">
 					<img
 						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
-						oncontextmenu={preventDefault(() => {
+						oncontextmenu={(e: Event) => {
+							e.preventDefault();
 							data.cover_image = null;
-						})}
+						}}
 					/>
 				</div>
 			{:else}
 				{#await import('$lib/editor/uploader.svelte')}
 					<Spinner my_20={false} />
 				{:then c}
-					<c.default
-						bind:modalOpen={uppyOpen}
-						bind:edit_id
-						bind:data
-						video_upload={false}
-					/>
+					<c.default bind:modalOpen={uppyOpen} {data} video_upload={false} />
 				{/await}
 			{/if}
 			<div class="pt-10 w-full flex justify-center">
@@ -154,8 +142,7 @@ SPDX-License-Identifier: MPL-2.0
 							class="bg-gray-200 rounded-lg w-full h-full p-1"
 							class:pointer-events-none={custom_bg_color}
 						>
-							<span
-								class="inline-block w-full h-full bg-[#d6edc9] dark:bg-[#4e6e58]"
+							<span class="inline-block w-full h-full bg-[#d6edc9] dark:bg-[#4e6e58]"
 							></span>
 						</div>
 					</div>
@@ -209,8 +196,7 @@ SPDX-License-Identifier: MPL-2.0
 					{:then c}
 						<c.default
 							bind:modalOpen={bg_uppy_open}
-							bind:edit_id
-							bind:data
+							{data}
 							selected_question={-1}
 							video_upload={false}
 						/>

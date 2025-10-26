@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import type { PageData } from './$types';
 	import type { QuizTivityPage } from '$lib/quiztivity/types';
 	import { QuizTivityTypes } from '$lib/quiztivity/types';
@@ -25,10 +23,7 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let current_slide_index = $state(0);
-	let current_slide: QuizTivityPage = $state(quiztivity.pages[current_slide_index]);
-	run(() => {
-		current_slide = quiztivity.pages[current_slide_index];
-	});
+	let current_slide: QuizTivityPage = $derived(quiztivity.pages[current_slide_index]);
 </script>
 
 <div class="w-full h-full flex flex-col overflow-scroll">

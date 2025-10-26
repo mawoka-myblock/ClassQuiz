@@ -5,9 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
-	// import { mint } from '$lib/hashcash';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData, Question } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';
@@ -28,52 +25,25 @@ SPDX-License-Identifier: MPL-2.0
 
 	let { data = $bindable(), quiz_id }: Props = $props();
 	let selected_question = $state(-1);
-	let imgur_links_valid = $state(false);
 
 	const validateInput = async (data: EditorData) => {
-		// console.log("input", data)
 		try {
 			await dataSchema.validate(data, { abortEarly: false });
 			schemaInvalid = false;
 			yupErrorMessage = '';
 		} catch (err) {
-			console.log('erro!', err.errors);
 			schemaInvalid = true;
 			yupErrorMessage = err.errors ? err.errors[0] : '';
 		}
 	};
-	run(() => {
+	$effect(() => {
 		validateInput(data);
 	});
-
-	const checkIfAllQuestionImagesComplyWithRegex = (questions: Array<Question>) => {
-		let NoteverythingValid = false;
-		// const regex = /^https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif)$/;
-		// const local_regex = /^http(|s):\/\/\w*(|:)\d*\/api\/v1\/storage\/download\/.{36}--.{36}$/g;
-		const main_regex =
-			/^(http(|s):\/\/.*(|:)\d*\/api\/v1\/storage\/download\/.{36}--.{36}|https:\/\/i\.imgur\.com\/.{7}.(jpg|png|gif))$/;
-		for (let i = 0; i < questions.length; i++) {
-			const question = questions[i];
-
-			if (question.image && !main_regex.test(question.image)) {
-				NoteverythingValid = true;
-			}
-		}
-		return NoteverythingValid;
-	};
-
-	run(() => {
-		imgur_links_valid = checkIfAllQuestionImagesComplyWithRegex(data.questions);
-	});
-	let edit_id = $state();
+	let edit_id: string = $state();
 	let confirm_to_leave = true;
 
-	run(() => {
-		console.log('data', data);
-	});
-
 	const getEditID = async () => {
-		let res;
+		let res: Response;
 		if (quiz_id === null) {
 			res = await fetch(`/api/v1/editor/start?edit=false`, {
 				method: 'POST'
@@ -91,8 +61,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	const confirmUnload = (event) => {
-		console.log(confirm_to_leave);
+	const confirmUnload = (event: BeforeUnloadEvent) => {
 		if (!confirm_to_leave) {
 			return;
 		}
@@ -101,7 +70,8 @@ SPDX-License-Identifier: MPL-2.0
 		localStorage.setItem('edit_game', JSON.stringify(data));
 		return 'unload';
 	};
-	const saveQuiz = async () => {
+	const saveQuiz = async (e: Event) => {
+		e.preventDefault();
 		if (schemaInvalid) {
 			return;
 		}
@@ -126,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 {#await getEditID()}
 	<Spinner />
 {:then _}
-	<form onsubmit={preventDefault(saveQuiz)}>
+	<form onsubmit={saveQuiz}>
 		<div class="grid grid-cols-6 h-screen w-screen">
 			<div>
 				<Sidebar bind:data bind:selected_question />

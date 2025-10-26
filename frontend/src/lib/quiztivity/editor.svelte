@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import type { Data } from './types';
 	import { getLocalization } from '$lib/i18n';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -48,7 +46,7 @@ SPDX-License-Identifier: MPL-2.0
 		data.pages.push({ title: undefined, data: undefined, type, id });
 		opened_slide = data.pages.length - 1;
 	};
-	run(() => {
+	$effect(() => {
 		handle_slide_add(selected_type);
 	});
 

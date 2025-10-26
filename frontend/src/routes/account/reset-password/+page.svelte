@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores.svelte.ts';
 
@@ -16,7 +14,8 @@ SPDX-License-Identifier: MPL-2.0
 
 	let isSubmitting = $state(false);
 
-	const submit = async () => {
+	const submit = async (e: Event) => {
+		e.preventDefault();
 		isSubmitting = true;
 		const res = await fetch('/api/v1/users/forgot-password', {
 			method: 'POST',
@@ -62,7 +61,7 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('password_reset_page.reset_password')}
 				</p>
 
-				<form onsubmit={preventDefault(submit)}>
+				<form onsubmit={submit}>
 					<div class="w-full mt-4">
 						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 							<div class="relative bg-inherit w-full">

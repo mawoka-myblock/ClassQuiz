@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
+	import { run } from 'svelte/legacy';
 
 	import type { EditorData } from '../quiz_types';
 	import { fade } from 'svelte/transition';
@@ -103,9 +103,10 @@ SPDX-License-Identifier: MPL-2.0
 					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
-					oncontextmenu={preventDefault(() => {
+					oncontextmenu={(e) => {
+						e.preventDefault();
 						answer.color = default_colors[index];
-					})}
+					}}
 				/>
 			</div>
 		{/each}

@@ -13,7 +13,6 @@ SPDX-License-Identifier: MPL-2.0
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
 
 	const { t } = getLocalization();
-	// import { DateTime } from 'luxon';
 	let start_game = $state(null);
 
 	const tippy = createTippy({
@@ -71,12 +70,6 @@ SPDX-License-Identifier: MPL-2.0
 						class="rounded-lg border-2 border-black hover:outline transition-all outline-[#B07156] -outline-offset-2 outline-8"
 					>
 						<div class="grid grid-cols-6 h-[25vh]">
-							<!--						<p
-														style='writing-mode: vertical-lr'
-														class='text-center h-full text-xl p-2'
-													>
-														{@html quiz.title}
-													</p>-->
 							<div class="col-start-2 col-end-6">
 								<h3 class="text-center text-2xl">{@html quiz.title}</h3>
 								<p class="text-center">
@@ -95,15 +88,6 @@ SPDX-License-Identifier: MPL-2.0
 									</div>
 								{/if}
 							</div>
-
-							<!--						<div class='flex justify-end'>
-														<p
-															style='writing-mode: sideways-lr'
-															class='text-center text-xl p-2'
-														>
-															{@html quiz.title}
-														</p>
-													</div>-->
 						</div>
 						<div class="flex justify-center">
 							<a href="/view/{quiz.id}" class="action-button w-1/6"
@@ -166,6 +150,7 @@ SPDX-License-Identifier: MPL-2.0
 									>
 										<button
 											disabled
+											aria-label="Download"
 											class="action-button w-full flex justify-center"
 										>
 											<svg

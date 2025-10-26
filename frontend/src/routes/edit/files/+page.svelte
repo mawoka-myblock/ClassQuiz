@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import type { PageData } from './$types';
 	import { fade } from 'svelte/transition';
 	// import MediaComponent from '$lib/editor/MediaComponent.svelte';
@@ -37,7 +35,8 @@ SPDX-License-Identifier: MPL-2.0
 		};
 	});
 
-	const save_image_metadata = async () => {
+	const save_image_metadata = async (e: Event) => {
+		e.preventDefault();
 		await fetch(`/api/v1/storage/meta/${edit_popup.id}`, {
 			method: 'PUT',
 			headers: {
@@ -131,7 +130,7 @@ SPDX-License-Identifier: MPL-2.0
 	>
 		<div class="w-auto h-auto m-auto rounded-sm bg-white dark:bg-gray-700 p-4">
 			<h1 class="text-2xl text-center">{$t('file_dashboard.edit_the_image')}</h1>
-			<form class="flex flex-col" onsubmit={preventDefault(save_image_metadata)}>
+			<form class="flex flex-col" onsubmit={save_image_metadata}>
 				<div class="flex flex-row">
 					<div class="flex flex-col mr-4">
 						<label for="name" class="m-auto">{$t('file_dashboard.filename_word')}</label

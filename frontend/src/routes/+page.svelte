@@ -13,8 +13,6 @@ SPDX-License-Identifier: MPL-2.0
 	import Newsletter from '$lib/landing/newsletter.svelte';
 	import { fly, fade } from 'svelte/transition';
 
-	/*	import LandingPromo from '$lib/landing/landing-promo.svelte';*/
-
 	import FindScreenshot from '$lib/assets/landing_new/find.webp';
 	import ImportScreenshot from '$lib/assets/landing_new/import.webp';
 	import EditScreenshot from '$lib/assets/landing_new/edit.webp';
@@ -27,16 +25,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	navbarVisible.visible = true;
 
-	/*	interface StatsData {
-		quiz_count: number;
-		user_count: number;
-	}*/
-
-	/*	const getStats = async (): Promise<StatsData> => {
-			const response = await fetch('/api/v1/stats/combined');
-			return await response.json();
-		};*/
-	let newsletterModalOpen = $state();
+	let newsletterModalOpen: boolean = $state();
 	onMount(() => {
 		const ls = localStorage.getItem('newsletter');
 		newsletterModalOpen = ls === null;
@@ -64,18 +53,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	let selected_create_thing = $state(SelectedCreateThing.Create);
 	let selected_play_thing = $state(SelectedPlayThing.Select);
-
-	/*	<li>No;
-		Tracking < /li>
-		< li > Self - hostable < /li>
-		< li > German;
-		Server < /li>
-		< li > user - friendly < /li>
-		< li > Completely;
-		free < /li>
-		< li > Quiz - results;
-		are;
-		downloadable < /li>;*/
 
 	const classquiz_reasons = [
 		{
@@ -154,57 +131,6 @@ SPDX-License-Identifier: MPL-2.0
 	/>
 	<meta name="twitter:image" content={WebPOpenGraph} />
 </svelte:head>
-
-<!--<div class="min-h-screen flex flex-col">
-	<section class="pb-40">
-		<div class="pt-12 text-center">
-			<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>
-			<p class="text-xl mt-4">{$t('index_page.slogan')}</p>
-		</div>
-	</section>
-
-	<section id="features" class="mt-8">
-		<div class="text-center snap-y">
-			<h1 class="sm:text-6xl text-4xl">{$t('words.features')}</h1>
-			<p class="text-xl pt-4">
-				{$t('index_page.features_description.1')}
-				<br />
-				{$t('index_page.features_description.2')}
-				<br />
-				{$t('index_page.features_description.3')}
-			</p>
-		</div>
-	</section>
-	<section class="py-8">
-		<h1 class="sm:text-6xl text-4xl text-center break-words">
-			{$t('words.screenshot', { count: 2 })}
-		</h1>
-		<div>
-			<LandingPromo />
-		</div>
-	</section>
-
-	<section>
-		<h1 class="sm:text-6xl text-4xl text-center">Testimonials</h1>
-		{#await import('$lib/landing/testimonials.svelte') then testimonials}
-			<svelte:component this={testimonials.default} />
-		{/await}
-	</section>
-
-	<section id="stats">
-		<div class="text-center pb-20 pt-10 snap-y">
-			<h1 class="sm:text-6xl text-4xl">{$t('words.stats')}</h1>
-			<p class="text-xl pt-4">
-				{#await getStats() then stats}
-					{$t('index_page.stats', {
-						user_count: stats.user_count,
-						quiz_count: stats.quiz_count
-					})}
-				{/await}
-			</p>
-		</div>
-	</section>
-</div>-->
 <div class="min-h-screen flex flex-col">
 	<section class="pb-40">
 		<div class="pt-12 text-center">
@@ -264,6 +190,8 @@ SPDX-License-Identifier: MPL-2.0
 					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Create}
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Create}
+					role="button"
+					tabindex="0"
 				>
 					<div
 						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
@@ -295,6 +223,8 @@ SPDX-License-Identifier: MPL-2.0
 					onkeyup={() => {
 						selected_create_thing = SelectedCreateThing.Find;
 					}}
+					role="button"
+					tabindex="0"
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Find}
 					class:opacity-70={selected_create_thing !== SelectedCreateThing.Find}
 				>
@@ -320,38 +250,6 @@ SPDX-License-Identifier: MPL-2.0
 					<h5 class="text-xl dark:text-black">{$t('words.find')}</h5>
 					<p class="dark:text-black">{$t('index_page.find_or_explore')}</p>
 				</div>
-				<!--<div
-					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
-					onclick={() => {
-						selected_create_thing = SelectedCreateThing.Import;
-					}}
-					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Import}
-					class:opacity-70={selected_create_thing !== SelectedCreateThing.Import}
-				>
-					<div
-						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
-					>
-						<svg
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-							aria-label="Cloud with arrow pointing down"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl dark:text-black">{$t('words.import')}</h5>
-					<p class="dark:text-black">
-						{$t('index_page.import_quiz_from_kahoot_and_edit')}
-					</p>
-				</div>-->
 			</div>
 		</div>
 	</section>
@@ -405,11 +303,13 @@ SPDX-License-Identifier: MPL-2.0
 					onkeyup={() => {
 						selected_play_thing = SelectedPlayThing.Select;
 					}}
+					role="button"
+					tabindex="0"
 					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Select}
 					class:opacity-70={selected_play_thing !== SelectedPlayThing.Select}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							aria-label="Mouse-Click icon"
@@ -432,6 +332,8 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
+					role="button"
+					tabindex="0"
 					onclick={() => {
 						selected_play_thing = SelectedPlayThing.Results;
 					}}
@@ -442,7 +344,7 @@ SPDX-License-Identifier: MPL-2.0
 					class:opacity-70={selected_play_thing !== SelectedPlayThing.Results}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							aria-label="context-menu icon"
@@ -465,6 +367,8 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div
 					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
+					role="button"
+					tabindex="0"
 					onclick={() => {
 						selected_play_thing = SelectedPlayThing.Winners;
 					}}
@@ -475,7 +379,7 @@ SPDX-License-Identifier: MPL-2.0
 					class:opacity-70={selected_play_thing !== SelectedPlayThing.Winners}
 				>
 					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
 					>
 						<svg
 							aria-label="sparkling stars-icon"
@@ -523,6 +427,8 @@ SPDX-License-Identifier: MPL-2.0
 				{#each classquiz_reasons as reason, index}
 					<div
 						class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
+						role="button"
+						tabindex="0"
 						onclick={() => {
 							selected_classquiz_reason = index;
 						}}
@@ -541,7 +447,7 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 {#if newsletterModalOpen}
 	<div
-		class="fixed bottom-8 right-5 bg-white rounded-lg h-fit w-11/12 ml-5 lg:w-2/12 z-50 p-2 bg-white dark:bg-gray-700"
+		class="fixed bottom-8 right-5 bg-white rounded-lg h-fit w-11/12 ml-5 lg:w-2/12 z-50 p-2 dark:bg-gray-700"
 		transition:fly|global
 	>
 		<Newsletter bind:open={newsletterModalOpen} />

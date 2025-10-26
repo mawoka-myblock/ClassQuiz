@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 	import { DateTime } from 'luxon';
 	import { UAParser } from 'ua-parser-js';
@@ -39,18 +37,15 @@ SPDX-License-Identifier: MPL-2.0
 	let locationData;
 	let this_session = $state();
 
-	let passwordChangeDataValid = $state(false);
-	const checkPasswords = (data: ChangePasswordData): void => {
-		passwordChangeDataValid =
-			data.newPassword === data.newPasswordConfirm &&
-			data.newPassword.length >= 8 &&
-			data.oldPassword !== data.newPassword &&
-			data.oldPassword !== '';
-	};
-	run(() => {
-		checkPasswords(changePasswordData);
-	});
-	const changePassword = async () => {
+	let passwordChangeDataValid = $derived(
+		changePasswordData.newPassword === changePasswordData.newPasswordConfirm &&
+			changePasswordData.newPassword.length >= 8 &&
+			changePasswordData.oldPassword !== changePasswordData.newPassword &&
+			changePasswordData.oldPassword !== ''
+	);
+
+	const changePassword = async (e: Event) => {
+		e.preventDefault();
 		if (!passwordChangeDataValid) {
 			return;
 		}
@@ -184,7 +179,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 			<div>
-				<form class="flex flex-col md:flex-row" onsubmit={preventDefault(changePassword)}>
+				<form class="flex flex-col md:flex-row" onsubmit={changePassword}>
 					<label
 						>{$t('settings_page.old_password')}:<input
 							type="password"

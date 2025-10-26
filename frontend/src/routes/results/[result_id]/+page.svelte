@@ -79,8 +79,6 @@ SPDX-License-Identifier: MPL-2.0
 	{#if selected_tab === SelectedTab.Overview}
 		<div in:fade|global={{ duration: 150 }}>
 			<GeneralOverview
-				questions={data.results.questions}
-				answers={data.results.answers}
 				scores={data.results.player_scores}
 				title={data.results.title}
 				timestamp={data.results.timestamp}

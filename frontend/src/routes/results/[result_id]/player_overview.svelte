@@ -33,7 +33,6 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		});
 	});
-	console.log(custom_field);
 </script>
 
 <div class="w-full">

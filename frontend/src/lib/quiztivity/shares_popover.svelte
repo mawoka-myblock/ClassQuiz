@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
@@ -81,7 +79,8 @@ SPDX-License-Identifier: MPL-2.0
 	});
 	let never_expires_checked = $state(true);
 	let selected_date = $state(undefined);
-	const create_share = async () => {
+	const create_share = async (e: Event) => {
+		e.preventDefault();
 		if (!selected_date && !never_expires_checked) {
 			return;
 		}
@@ -145,7 +144,7 @@ SPDX-License-Identifier: MPL-2.0
 				<form
 					class="flex justify-center p-2 border-b-2 border-l-2 border-r-2 border-[#B07156] flex-col gap-2"
 					transition:fly={{ duration: 100, y: -10 }}
-					onsubmit={preventDefault(create_share)}
+					onsubmit={create_share}
 				>
 					<div class="grid grid-cols-2">
 						<input

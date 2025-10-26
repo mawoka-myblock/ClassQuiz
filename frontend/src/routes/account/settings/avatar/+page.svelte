@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { bounceOut } from 'svelte/easing';
@@ -70,10 +68,6 @@ SPDX-License-Identifier: MPL-2.0
 	};
 
 	let image_url = $derived(get_image_url(data));
-
-	run(() => {
-		console.log('index', index);
-	});
 
 	const save_avatar = async () => {
 		save_finished = false;

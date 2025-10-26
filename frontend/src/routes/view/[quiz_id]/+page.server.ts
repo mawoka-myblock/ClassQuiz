@@ -3,8 +3,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-export const load = async ({ params, parent }) => {
+export const load: PageServerLoad = async ({ params, parent }) => {
 	const { quiz_id } = params;
 	const res = await fetch(`${process.env.API_URL}/api/v1/quiz/get/public/${quiz_id}`);
 	const { email } = await parent();

@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import type { QuizData } from '$lib/quiz_types';
 	import { get_foreground_color } from '$lib/helpers.js';
@@ -14,7 +12,6 @@ SPDX-License-Identifier: MPL-2.0
 	import CircularTimer from '$lib/play/circular_progress.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import { getLocalization } from '$lib/i18n';
-
 
 	interface Props {
 		quiz_data: QuizData;
@@ -34,16 +31,16 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-	let circular_progress = $state(0);
-	run(() => {
+	let circular_progress = $derived.by(() => {
 		try {
-			circular_progress =
+			return (
 				1 -
 				((100 / parseInt(quiz_data.questions[selected_question].time)) *
 					parseInt(timer_res)) /
-					100;
+					100
+			);
 		} catch {
-			circular_progress = 0;
+			return 0;
 		}
 	});
 </script>
@@ -56,11 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="grid grid-cols-3 my-2">
 		<span></span>
 		<div class="m-auto">
-			<CircularTimer
-				bind:text={timer_res}
-				bind:progress={circular_progress}
-				color="#ef4444"
-			/>
+			<CircularTimer text={timer_res} progress={circular_progress} color="#ef4444" />
 		</div>
 		<p class="m-auto text-3xl">
 			{$t('admin_page.answers_submitted', { answer_count: answer_count })}

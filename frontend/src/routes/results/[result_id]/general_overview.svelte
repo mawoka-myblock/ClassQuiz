@@ -11,14 +11,6 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 
 	interface Props {
-		questions: Question[];
-		answers: {
-			username: string;
-			answer: string;
-			right: boolean;
-			tike_taken: number;
-			score: number;
-		}[][];
 		scores: {
 			[key: string]: string;
 		};
@@ -26,7 +18,7 @@ SPDX-License-Identifier: MPL-2.0
 		timestamp: string;
 	}
 
-	let { questions, answers, scores, title, timestamp }: Props = $props();
+	let { scores, title, timestamp }: Props = $props();
 
 	const usernames = Object.keys(scores);
 

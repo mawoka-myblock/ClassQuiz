@@ -20,14 +20,6 @@ SPDX-License-Identifier: MPL-2.0
 		Strikethrough
 	} from 'ckeditor5';
 	import 'ckeditor5/ckeditor5.css';
-	// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-	// import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js';
-	// import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic.js';
-	// import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
-	// import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript.js';
-	// import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript.js';
-
-
 
 	const triggerChange = () => {
 		text = editor.getData();
@@ -46,33 +38,6 @@ SPDX-License-Identifier: MPL-2.0
 	run(() => {
 		text = text.replace('<p>', '').replace('</p>', '');
 	});
-
-	/*	Editor.builtinPlugins = [
-		Autoformat,
-		Bold,
-		Essentials,
-		Italic,
-		Paragraph,
-		Strikethrough,
-		Subscript,
-		Superscript,
-		TextTransformation
-	];*/
-	/*Editor.defaultConfig = {
-	toolbar: {
-		items: [
-			'bold',
-			'italic',
-			'strikethrough',
-			'superscript',
-			'subscript',
-			'|',
-			'undo',
-			'redo'
-		]
-	},
-	language: 'en'
-};*/
 	let editor;
 	onMount(() => {
 		class Editor extends BalloonEditor {

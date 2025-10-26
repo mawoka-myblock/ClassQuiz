@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-// import type { PageLoad } from './$types';
+import type { PageLoad } from './$types';
 
-export const load = async ({ params, fetch }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
 	const user_req = await fetch(`/api/v1/community/user/${params.user_id}`);
 	const user = await user_req.json();
 	if (!user) {
@@ -24,4 +24,4 @@ export const load = async ({ params, fetch }) => {
 		user,
 		quizzes
 	};
-}; // satisfies PageLoad;
+};

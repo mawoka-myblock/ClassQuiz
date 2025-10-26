@@ -15,7 +15,6 @@ SPDX-License-Identifier: MPL-2.0
 	import Controls from '$lib/play/admin/controls.svelte';
 	import Question from '$lib/play/admin/question.svelte';
 
-
 	const { t } = getLocalization();
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
@@ -24,13 +23,12 @@ SPDX-License-Identifier: MPL-2.0
 	let timer_res: string = $state();
 	let shown_question_now: number = $state();
 	let final_results_clicked = $state(false);
-	let timer_interval;
+	let timer_interval: NodeJS.Timeout;
 	let answer_count = $state(0);
 
 	interface Props {
 		game_token: string;
 		quiz_data: QuizData;
-		game_mode: string;
 		bg_color: string;
 		final_results?: Array<null> | Array<Array<PlayerAnswer>>;
 		control_visible: boolean;
@@ -40,7 +38,6 @@ SPDX-License-Identifier: MPL-2.0
 	let {
 		game_token,
 		quiz_data = $bindable(),
-		game_mode,
 		bg_color,
 		final_results = $bindable([null]),
 		control_visible,
@@ -92,7 +89,6 @@ SPDX-License-Identifier: MPL-2.0
 		timer_interval = setInterval(() => {
 			if (timer_res === '0') {
 				clearInterval(timer_interval);
-				// socket.emit('show_solutions', {});
 				return;
 			} else {
 				seconds--;
@@ -132,9 +128,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#await import('$lib/play/admin/slide.svelte')}
 				<Spinner my_20={false} />
 			{:then c}
-				<c.default
-					bind:question={quiz_data.questions[selected_question]}
-				/>
+				<c.default question={quiz_data.questions[selected_question]} />
 			{/await}
 		{:else}
 			<Question {quiz_data} {selected_question} {timer_res} {answer_count} {default_colors} />
@@ -153,8 +147,8 @@ SPDX-License-Identifier: MPL-2.0
 				<Spinner />
 			{:then c}
 				<c.default
-					bind:data={question_results}
-					bind:question={quiz_data.questions[selected_question]}
+					data={question_results}
+					question={quiz_data.questions[selected_question]}
 				/>
 			{/await}
 		{:else}
@@ -164,7 +158,7 @@ SPDX-License-Identifier: MPL-2.0
 				<c.default
 					bind:data={player_scores}
 					question={quiz_data.questions[selected_question]}
-					bind:new_data={question_results}
+					new_data={question_results}
 				/>
 			{/await}
 		{/if}

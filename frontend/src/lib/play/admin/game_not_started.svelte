@@ -121,6 +121,15 @@ SPDX-License-Identifier: MPL-2.0
 		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 flex p-2"
 		transition:fade|global={{ duration: 80 }}
 		onclick={() => (fullscreen_open = false)}
+		tabindex="0"
+		role="button"
+		aria-label="Close modal"
+		onkeydown={(e) =>
+			e.key === 'Enter' || e.key === ' '
+				? () => {
+						fullscreen_open = false;
+					}
+				: null}
 	>
 		<img
 			alt="QR code to join the game"

@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Audio1 from '$lib/assets/music/1-128.mp3';
 
 	interface Props {
@@ -25,10 +23,10 @@ SPDX-License-Identifier: MPL-2.0
 			audio.pause();
 		}
 	};
-	run(() => {
+	$effect(() => {
 		audio.volume = volume / 100;
 	});
-	run(() => {
+	$effect(() => {
 		control_audio(play);
 	});
 </script>

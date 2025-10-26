@@ -36,10 +36,3 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.email = jwt.payload.sub;
 	return resolve(event);
 };
-
-/*export const getSession: GetSession = async (event) => {
-	return {
-		email: event.locals.email,
-		authenticated: Boolean(event.locals.email)
-	};
-};*/

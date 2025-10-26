@@ -11,8 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Answer, Question as QuestionType } from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
-	// import ShowResults from '$lib/play/show_results.svelte';
-	import { navbarVisible} from '$lib/stores.svelte.ts';
+	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import ShowEndScreen from '$lib/play/admin/final_results.svelte';
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
@@ -44,8 +43,7 @@ SPDX-License-Identifier: MPL-2.0
 	// Variables init
 	let question_index = $state('');
 	let unique = $state({});
-	navbarVisible.visible=false;
-	let game_pin_valid: boolean;
+	navbarVisible.visible = false;
 	let answer_results: Array<Answer> = $state();
 	let gameData = $state();
 	let solution: QuestionType = $state();
@@ -55,7 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 		started: false
 	});
 
-	let question = $state();
+	let question: Question = $state();
 
 	let preventReload = true;
 
@@ -64,7 +62,7 @@ SPDX-License-Identifier: MPL-2.0
 		unique = {};
 	}
 
-	const confirmUnload = () => {
+	const confirmUnload = (event: Event) => {
 		if (preventReload) {
 			event.preventDefault();
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -75,9 +73,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	socket.on('time_sync', (data) => {
 		socket.emit('echo_time_sync', data);
-	});
-	socket.on('session_id', (d) => {
-		const session_id = d.session_id;
 	});
 
 	socket.on('connect', async () => {
@@ -120,7 +115,6 @@ SPDX-License-Identifier: MPL-2.0
 			window.location.reload();
 			return;
 		}
-		game_pin_valid = false;
 	});
 
 	socket.on('set_question_number', (data) => {
@@ -169,13 +163,6 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:window onbeforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Play</title>
-	<!--	{#if gameData !== undefined && game_mode !== 'kahoot'}
-		{#each gameData.questions as question}
-			{#if question.image !== undefined}
-				<link rel="preload" as="image" href={question.image} />
-			{/if}
-		{/each}
-	{/if}-->
 </svelte:head>
 <div
 	class="min-h-screen min-w-full"
@@ -186,17 +173,17 @@ SPDX-License-Identifier: MPL-2.0
 		{#if !gameMeta.started && gameData === undefined}
 			<JoinGame bind:game_pin bind:game_mode bind:username />
 		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
-			<ShowEndScreen bind:data={scores} show_final_results={true} bind:username />
+			<ShowEndScreen bind:data={scores} show_final_results={true} {username} />
 		{:else if gameData !== undefined && question_index === ''}
 			<ShowTitle
-				bind:title={gameData.title}
-				bind:description={gameData.description}
-				bind:cover_image={gameData.cover_image}
+				title={gameData.title}
+				description={gameData.description}
+				cover_image={gameData.cover_image}
 			/>
 		{:else if gameMeta.started && gameData !== undefined && question_index !== '' && answer_results === undefined}
 			{#key unique}
 				<div class="text-black dark:text-black">
-					<Question bind:game_mode bind:question bind:question_index bind:solution />
+					<Question bind:game_mode bind:question {question_index} {solution} />
 				</div>
 			{/key}
 		{:else if gameMeta.started && answer_results !== undefined}
@@ -209,11 +196,7 @@ SPDX-License-Identifier: MPL-2.0
 					<h2 class="text-center text-3xl mb-8">{$t('words.result', { count: 2 })}</h2>
 				</div>
 				{#key unique}
-					<KahootResults
-						bind:username
-						bind:question_results={answer_results}
-						bind:scores
-					/>
+					<KahootResults {username} question_results={answer_results} bind:scores />
 				{/key}
 			{/if}
 		{/if}

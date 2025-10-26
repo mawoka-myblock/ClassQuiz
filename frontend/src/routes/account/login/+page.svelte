@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { alertModal } from '$lib/stores';
 	import { navbarVisible } from '$lib/stores.svelte';
 	import { slide } from 'svelte/transition';
@@ -23,7 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 	navbarVisible.visible = true;
 
 	let { data } = $props();
-	const { verified }: boolean = data;
+	const { verified: boolean } = data;
 
 	let session_data = $state({});
 	let step = $state(0);
@@ -38,7 +36,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 	let alertModalOpen = false;
-	run(() => {
+	$effect(() => {
 		redirect_back(done);
 	});
 
@@ -51,8 +49,8 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	});
 
-	const check_auto = () => {
-		if (step === 1) {
+	const check_auto = (stp: number) => {
+		if (stp === 1) {
 			if (!browserSupportsWebAuthn()) {
 				for (let i = 0; i < session_data.step_1.length; i++) {
 					if (session_data.step_1[i] === 'PASSKEY') {
@@ -65,7 +63,7 @@ SPDX-License-Identifier: MPL-2.0
 				selected_method = session_data.step_1[0];
 			}
 		}
-		if (step === 2) {
+		if (stp === 2) {
 			if (!browserSupportsWebAuthn()) {
 				for (let i = 0; i < session_data.step_2.length; i++) {
 					if (session_data.step_2[i] === 'PASSKEY') {
@@ -79,10 +77,7 @@ SPDX-License-Identifier: MPL-2.0
 			}
 		}
 	};
-	run(() => {
-		check_auto();
-		step;
-	});
+	$effect(() => check_auto(step));
 </script>
 
 <svelte:head>

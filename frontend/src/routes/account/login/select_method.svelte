@@ -4,8 +4,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	let { session_data = {}, step, selected_method = $bindable() } = $props();
 
 	let available_methods = $state();
@@ -18,7 +16,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	run(() => {
+	$effect(() => {
 		set_available_methods(step);
 	});
 </script>

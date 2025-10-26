@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { browser } from '$app/environment';
 	import { fade } from 'svelte/transition';
 	import { thumbHashToDataURL } from 'thumbhash';
@@ -36,7 +34,7 @@ SPDX-License-Identifier: MPL-2.0
 		return Uint8Array.from(binString, (m) => m.codePointAt(0));
 	}
 
-	const get_media = async () => {
+	const get_media = async (_: string) => {
 		if (!browser) {
 			return;
 		}
@@ -55,14 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 			thumbhash_data = undefined;
 		}
 	};
-	const update_url = () => {
-		media = get_media();
-	};
-	let media = $state(get_media());
-	run(() => {
-		src;
-		update_url();
-	});
+	let media = $derived(get_media(src));
 
 	let fullscreen_open = $state(false);
 

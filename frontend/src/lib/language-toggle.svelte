@@ -3,53 +3,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 
 SPDX-License-Identifier: MPL-2.0
 -->
-
-<!--
-<script context='module' lang='ts'>
-	export const prerender = true;
-	export const load = async ({}) => {
-		return {};
-		const languages = [
-			{
-				code: 'de',
-				name: 'Deutsch',
-				flag: '🇩🇪'
-			},
-			{
-				code: 'en',
-				name: 'English',
-				flag: '🇺🇲'
-			},
-			{
-				code: 'tr',
-				name: 'Türkçe',
-				flag: '🇹🇷'
-			},
-			{
-				code: 'fr',
-				name: 'Français',
-				flag: '🇫🇷'
-			}
-		];
-		let final_arr = [];
-		const set_percents = async () => {
-			for (const lang of languages) {
-				const res = await fetch(`https://translate.mawoka.eu/api/translations/classquiz/frontend/${lang.code}/?format=json`);
-				const json = await res.json();
-				console.log(json);
-				// return Math.floor(json.translated_percent);
-				final_arr.push({ ...lang, percent: json.translated_percent });
-			}
-		};
-		await set_percents();
-		return {
-			slot: {
-				final_arr
-			}
-		};
-	};
-</script>
--->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -164,7 +117,7 @@ SPDX-License-Identifier: MPL-2.0
 	const get_selected_language = (): string => {
 		return localStorage.getItem('language');
 	};
-	let selected_language = $state();
+	let selected_language: string = $state();
 	onMount(() => {
 		selected_language = get_selected_language();
 	});
