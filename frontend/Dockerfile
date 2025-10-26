@@ -4,7 +4,7 @@
 
 ### Build Step
 # pull the Node.js Docker image
-FROM node:19-bullseye as builder
+FROM node:26-bullseye as builder
 # ENV API_URL=http://api:80
 ENV API_URL=https://mawoka.eu
 #Ah, I've noticed that!!!
@@ -37,7 +37,7 @@ RUN pnpm run build
 
 ### Serve Step
 # pull the Node.js Docker image
-FROM node:19-bullseye-slim
+FROM node:26-bullseye-slim
 
 # change working directory
 WORKDIR /app
