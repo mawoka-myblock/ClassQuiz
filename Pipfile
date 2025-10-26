@@ -48,6 +48,7 @@ pypng = "*"
 ormar = "*"
 pydantic = "*"
 pydantic-settings = "*"
+asyncpg = "*"
 
 [dev-packages]
 coverage = "*"
