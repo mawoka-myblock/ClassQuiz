@@ -95,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="flex pl-2">
 				<div class="mr-auto">
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							index = index - 1;
 						}}
 						disabled={index < 1}>{$t('words.back')}</BrownButton
@@ -150,12 +150,12 @@ SPDX-License-Identifier: MPL-2.0
 		/>
 		<div class="m-auto grid grid-cols-2 gap-4" in:fade|global={{ delay: 3500 }}>
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					index = 0;
 					finished = false;
 				}}>{$t('avatar_settings.start_over')}</BrownButton
 			>
-			<BrownButton on:click={save_avatar} flex={true} disabled={save_finished === true}>
+			<BrownButton onclick={save_avatar} flex={true} disabled={save_finished === true}>
 				{#if save_finished === undefined}{$t('words.save')}
 				{:else if save_finished === true}
 					<svg
@@ -175,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 			</BrownButton>
 			<BrownButton href="/account/settings">{$t('avatar_settings.go_back')}</BrownButton>
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					finished = false;
 				}}>{$t('words.close')}</BrownButton
 			>

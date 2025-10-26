@@ -161,7 +161,7 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 				{:else}
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							create_button_clicked = true;
 						}}>{$t('words.create')}</BrownButton
 					>
@@ -267,7 +267,7 @@ SPDX-License-Identifier: MPL-2.0
 								</BrownButton>
 								<BrownButton
 									flex={true}
-									on:click={() => (analytics_quiz_selected = quiz)}
+									onclick={() => (analytics_quiz_selected = quiz)}
 								>
 									<!-- heroicons/legacy-outline/ChartBar -->
 									<svg
@@ -311,7 +311,7 @@ SPDX-License-Identifier: MPL-2.0
 								</BrownButton>
 								{#if quiz.type === 'quiz'}
 									<BrownButton
-										on:click={() => {
+										onclick={() => {
 											start_game = quiz.id;
 										}}
 										flex={true}
@@ -365,7 +365,7 @@ SPDX-License-Identifier: MPL-2.0
 								{/if}
 
 								<BrownButton
-									on:click={() => {
+									onclick={() => {
 										deleteQuiz(quiz.id, quiz.type);
 									}}
 									flex={true}
@@ -387,7 +387,7 @@ SPDX-License-Identifier: MPL-2.0
 									</svg>
 								</BrownButton>
 								<BrownButton
-									on:click={() => (download_id = quiz.id)}
+									onclick={() => (download_id = quiz.id)}
 									flex={true}
 									disabled={quiz.type !== 'quiz'}
 									><!-- heroicons/download -->

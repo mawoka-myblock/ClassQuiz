@@ -35,25 +35,25 @@ SPDX-License-Identifier: MPL-2.0
 
 <div class="rounded-sm border-2 border-[#B07156] flex flex-col w-fit gap-2 p-2">
 	<div class:opacity-50={mod_rating !== null && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = null)}>Not Checked</BrownButton>
+		<BrownButton onclick={() => (mod_rating = null)}>Not Checked</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 0 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 0)}>Ok</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 0)}>Ok</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 1 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 1)}>Attention</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 1)}>Attention</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 2 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 2)}>NFSW</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 2)}>NFSW</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 3 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 3)}>Plausibility Checked</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 3)}>Plausibility Checked</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 4 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 4)}>Fact Checked</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 4)}>Fact Checked</BrownButton>
 	</div>
 	<div class:opacity-50={mod_rating !== 5 && mod_rating !== undefined} class="transition">
-		<BrownButton on:click={() => (mod_rating = 5)}>Exceptional</BrownButton>
+		<BrownButton onclick={() => (mod_rating = 5)}>Exceptional</BrownButton>
 	</div>
-	<GrayButton on:click={submit} disabled={mod_rating === undefined}>Submit</GrayButton>
+	<GrayButton onclick={submit} disabled={mod_rating === undefined}>Submit</GrayButton>
 </div>

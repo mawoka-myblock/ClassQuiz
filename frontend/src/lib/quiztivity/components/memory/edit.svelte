@@ -96,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 			<div class="flex justify-center p-2">
-				<BrownButton on:click={add_card}
+				<BrownButton onclick={add_card}
 					>{$t('quiztivity.memory.editor.add_pair')}</BrownButton
 				>
 			</div>
@@ -115,13 +115,13 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div class="grid grid-cols-2 p-2 gap-2">
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							move_card_left(i);
 						}}
 						disabled={i === 0}>{$t('quiztivity.editor.move_left')}</BrownButton
 					>
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							move_card_right(i);
 						}}
 						disabled={i + 1 === data.cards.length}

@@ -104,14 +104,14 @@ SPDX-License-Identifier: MPL-2.0
 					</p>
 					<div class="flex flex-col gap-2">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								edit_popup = image;
 							}}
 							>{$t('file_dashboard.edit_details')}
 						</BrownButton>
 						{#if image.quiztivities.length === 0 && image.quizzes.length === 0}
 							<BrownButton
-								on:click={() => {
+								onclick={() => {
 									delete_image(image.id);
 								}}>{$t('file_dashboard.delete_image')}</BrownButton
 							>

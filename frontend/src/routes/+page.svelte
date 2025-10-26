@@ -322,7 +322,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<!--<div
 					class="m-2 rounded-lg p-2 bg-opacity-40 bg-white transition-all cursor-pointer lg:h-full"
-					on:click={() => {
+					onclick={() => {
 						selected_create_thing = SelectedCreateThing.Import;
 					}}
 					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Import}

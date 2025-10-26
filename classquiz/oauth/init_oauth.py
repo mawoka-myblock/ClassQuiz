@@ -4,15 +4,37 @@
 
 
 from authlib.integrations.starlette_client import OAuth
-from classquiz.config import settings
+from classquiz.config import settings, redis
 from functools import lru_cache
+import json
 
 settings = settings()
 
 
+class RedisCache:
+    def __init__(self) -> None:
+        pass
+
+    async def get(self, key: str) -> str | None:
+        value = await redis.get(f"authlib:{key}")
+        if value is None:
+            return None
+        try:
+            return json.loads(value)
+        except json.JSONDecodeError:
+            return value
+
+    async def set(self, key: str, value: str, expires: int | None = None):
+        data = json.dumps(value)
+        await redis.set(f"authlib:{key}", data, ex=expires)
+
+    async def delete(self, key: str) -> None:
+        await redis.delete(key)
+
+
 @lru_cache()
 def init_oauth() -> OAuth:
-    oauth = OAuth()
+    oauth = OAuth(cache=RedisCache())
     if settings.google_client_secret is not None and settings.google_client_id is not None:
         oauth.register(
             name="google",

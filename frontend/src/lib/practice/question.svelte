@@ -45,7 +45,10 @@ SPDX-License-Identifier: MPL-2.0
 	if (question.type === QuizQuestionType.RANGE) {
 		slider_value[0] = (question.answers.max - question.answers.min) / 2 + question.answers.min;
 	}
-	let slider_values = $state([question.answers.min_correct ?? 0, question.answers.max_correct ?? 0]);
+	let slider_values = $state([
+		question.answers.min_correct ?? 0,
+		question.answers.max_correct ?? 0
+	]);
 
 	let text_input = $state();
 	timer(question.time);
@@ -347,7 +350,7 @@ SPDX-License-Identifier: MPL-2.0
 				{/each}
 				<BrownButton
 					type="button"
-					on:click={() => {
+					onclick={() => {
 						timer_res = '0';
 					}}>{$t('words.submit')}</BrownButton
 				>

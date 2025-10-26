@@ -12,7 +12,6 @@ SPDX-License-Identifier: MPL-2.0
 	// import CircularTimer from '$lib/play/circular_progress.svelte';
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
-
 	interface Props {
 		question: Question;
 		selected_answer?: string;
@@ -23,10 +22,10 @@ SPDX-License-Identifier: MPL-2.0
 
 	let {
 		question,
-		selected_answer = $bindable(''),
+		selected_answer = $bindable(),
 		game_mode,
-		timer_res = $bindable(),
-		circular_progress = $bindable()
+		timer_res,
+		circular_progress
 	}: Props = $props();
 	let _selected_answers = $state([false, false, false, false]);
 
@@ -58,7 +57,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
 	>
-		<CircularTimer bind:text={timer_res} bind:progress={circular_progress} color="#ef4444" />
+		<CircularTimer text={timer_res} progress={circular_progress} color="#ef4444" />
 	</div>
 
 	<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">

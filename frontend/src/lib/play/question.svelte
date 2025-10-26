@@ -241,9 +241,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div class="flex justify-center">
 					<div class="w-1/2">
-						<BrownButton
-							disabled={selected_answer !== undefined}
-							on:click={() => selectAnswer(slider_value[0])}
+						<BrownButton onclick={() => selectAnswer(slider_value[0])}
 							>{$t('words.submit')}
 						</BrownButton>
 					</div>
@@ -262,7 +260,7 @@ SPDX-License-Identifier: MPL-2.0
 					<input
 						type="text"
 						bind:value={text_input}
-						disabled={selected_answer}
+						disabled={selected_answer !== undefined}
 						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 				</div>
@@ -271,8 +269,8 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-1/3">
 						<BrownButton
 							type="button"
-							disabled={selected_answer}
-							on:click={() => {
+							disabled={!text_input || text_input.length === 0}
+							onclick={() => {
 								selectAnswer(text_input);
 							}}
 						>
@@ -368,7 +366,7 @@ SPDX-License-Identifier: MPL-2.0
 					<BrownButton
 						type="button"
 						disabled={selected_answer}
-						on:click={() => {
+						onclick={() => {
 							select_complex_answer(question.answers);
 						}}>{$t('words.submit')}</BrownButton
 					>
@@ -380,17 +378,18 @@ SPDX-License-Identifier: MPL-2.0
 				<Spinner />
 			{:then c}
 				<c.default
-					bind:question
+					{question}
 					bind:selected_answer
-					bind:game_mode
+					{game_mode}
 					{timer_res}
 					{circular_progress}
 				/>
 				<div class="flex justify-center h-[5%]">
 					<div class="w-1/2">
 						<BrownButton
-							disabled={!selected_answer}
-							on:click={() => selectAnswer(selected_answer)}
+							type="button"
+							disabled={selected_answer === undefined}
+							onclick={() => selectAnswer(selected_answer)}
 							>{$t('words.submit')}
 						</BrownButton>
 					</div>

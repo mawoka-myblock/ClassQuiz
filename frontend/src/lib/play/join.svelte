@@ -25,7 +25,11 @@ SPDX-License-Identifier: MPL-2.0
 		username: any;
 	}
 
-	let { game_pin = $bindable(), game_mode = $bindable(), username = $bindable() }: Props = $props();
+	let {
+		game_pin = $bindable(),
+		game_mode = $bindable(),
+		username = $bindable()
+	}: Props = $props();
 	let custom_field = $state();
 	let custom_field_value = $state();
 	let captcha_enabled = $state();
@@ -207,7 +211,10 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if game_pin === '' || game_pin.length < 6}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form onsubmit={preventDefault(bubble('submit'))} class="flex-col flex justify-center align-center mx-auto">
+		<form
+			onsubmit={preventDefault(bubble('submit'))}
+			class="flex-col flex justify-center align-center mx-auto"
+		>
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
@@ -244,7 +251,7 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 
 			<div class="mt-2">
-				<BrownButton disabled={username.length <= 3} on:click={setUsername}
+				<BrownButton disabled={username.length <= 3} onclick={setUsername}
 					>{$t('words.submit')}</BrownButton
 				>
 			</div>

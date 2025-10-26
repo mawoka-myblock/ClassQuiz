@@ -214,7 +214,7 @@ SPDX-License-Identifier: MPL-2.0
 				</form>
 				<div>
 					<div class="w-fit">
-						<BrownButton on:click={add_api_key}
+						<BrownButton onclick={add_api_key}
 							>{$t('settings_page.add_api_key')}</BrownButton
 						>
 					</div>
@@ -226,7 +226,7 @@ SPDX-License-Identifier: MPL-2.0
 								{key.key}
 								<div class="inline-block">
 									<BrownButton
-										on:click={() => {
+										onclick={() => {
 											delete_api_key(key.key);
 										}}
 										>{$t('words.delete')}

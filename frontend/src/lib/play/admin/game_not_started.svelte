@@ -18,12 +18,7 @@ SPDX-License-Identifier: MPL-2.0
 		cqc_code: string;
 	}
 
-	let {
-		game_pin,
-		players = $bindable(),
-		socket,
-		cqc_code = $bindable()
-	}: Props = $props();
+	let { game_pin, players = $bindable(), socket, cqc_code = $bindable() }: Props = $props();
 
 	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
@@ -97,7 +92,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div>
 			<GrayButton
 				disabled={players.length < 1}
-				on:click={() => {
+				onclick={() => {
 					socket.emit('start_game', '');
 				}}
 				>{$t('admin_page.start_game')}

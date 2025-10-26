@@ -22,7 +22,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="my-auto justify-start ml-4">
 		<BrownButton
 			disabled={current_slide_index < 1}
-			on:click={() => {
+			onclick={() => {
 				current_slide_index -= 1;
 			}}>{$t('words.back')}</BrownButton
 		>
@@ -33,7 +33,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="my-auto justify-end mr-4">
 		<BrownButton
 			disabled={current_slide_index === 1}
-			on:click={() => {
+			onclick={() => {
 				current_slide_index += 1;
 			}}>{$t('words.next')}</BrownButton
 		>
