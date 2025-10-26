@@ -21,7 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 	navbarVisible.visible = true;
 
 	let { data } = $props();
-	const { verified: boolean } = data;
+	let { verified } = data;
 
 	let session_data = $state({});
 	let step = $state(0);

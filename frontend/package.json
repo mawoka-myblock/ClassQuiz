@@ -32,6 +32,7 @@
 		"@tailwindcss/typography": "^0.5.19",
 		"@types/canvas-confetti": "^1.9.0",
 		"@types/js-cookie": "^3.0.6",
+		"@types/jws": "^3.2.11",
 		"@types/luxon": "^3.7.1",
 		"@types/qrcode": "^1.5.6",
 		"@types/sortablejs": "^1.15.9",
