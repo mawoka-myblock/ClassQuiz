@@ -56,94 +56,111 @@ SPDX-License-Identifier: MPL-2.0
 
 	interface Props {
 		languages?: Array<{
-		flag: string;
-		name: string;
-		code: string;
-	}>;
+			flag: string;
+			name: string;
+			code: string;
+		}>;
 	}
 
-	let { languages = [
-		{
-			code: 'de',
-			name: 'Deutsch',
-			flag: '🇩🇪'
-		},
-		{
-			code: 'en',
-			name: 'English',
-			flag: '🇺🇲'
-		},
-		{
-			code: 'tr',
-			name: 'Türkçe',
-			flag: '🇹🇷'
-		},
-		{
-			code: 'fr',
-			name: 'Français',
-			flag: '🇫🇷'
-		},
-		{
-			code: 'id',
-			name: 'Bahasa Indonesia',
-			flag: '🇮🇩'
-		},
-		{
-			code: 'ca',
-			name: 'Català',
-			flag: '🇪🇸'
-		},
-		{
-			code: 'it',
-			name: 'Italiano',
-			flag: '🇮🇹'
-		},
-		{
-			code: 'es',
-			name: 'Español',
-			flag: '🇪🇸'
-		},
-		{
-			code: 'nb_NO',
-			name: 'Norsk',
-			flag: '🇳🇴'
-		},
-		{
-			code: 'zh_Hant',
-			name: 'Chinese (traditional)',
-			flag: '🇨🇳'
-		},
-		{
-			code: 'pl',
-			name: 'Polski',
-			flag: '🇵🇱'
-		},
-		{
-			code: 'pt',
-			name: 'Português',
-			flag: '🇵🇹'
-		},
-		{
-			code: 'uk',
-			name: 'Українська',
-			flag: '🇺🇦'
-		},
-		{
-			code: 'nl',
-			name: 'Nederlands',
-			flag: '🇳🇱'
-		},
-		{
-			code: 'hu',
-			name: 'Magyar',
-			flag: '🇭🇺'
-		},
-		{
-			code: 'vi',
-			name: 'tiếng Việt',
-			flag: '🇻🇳'
-		}
-	] }: Props = $props();
+	let {
+		languages = [
+			{
+				code: 'de',
+				name: 'Deutsch',
+				flag: '🇩🇪'
+			},
+			{
+				code: 'en',
+				name: 'English',
+				flag: '🇺🇲'
+			},
+			{
+				code: 'tr',
+				name: 'Türkçe',
+				flag: '🇹🇷'
+			},
+			{
+				code: 'fr',
+				name: 'Français',
+				flag: '🇫🇷'
+			},
+			{
+				code: 'id',
+				name: 'Bahasa Indonesia',
+				flag: '🇮🇩'
+			},
+			{
+				code: 'ca',
+				name: 'Català',
+				flag: '🇪🇸'
+			},
+			{
+				code: 'it',
+				name: 'Italiano',
+				flag: '🇮🇹'
+			},
+			{
+				code: 'es',
+				name: 'Español',
+				flag: '🇪🇸'
+			},
+			{
+				code: 'nb_NO',
+				name: 'Norsk',
+				flag: '🇳🇴'
+			},
+			{
+				code: 'zh_Hant',
+				name: 'Chinese (traditional)',
+				flag: '🇨🇳'
+			},
+			{
+				code: 'pl',
+				name: 'Polski',
+				flag: '🇵🇱'
+			},
+			{
+				code: 'pt',
+				name: 'Português',
+				flag: '🇵🇹'
+			},
+			{
+				code: 'uk',
+				name: 'Українська',
+				flag: '🇺🇦'
+			},
+			{
+				code: 'nl',
+				name: 'Nederlands',
+				flag: '🇳🇱'
+			},
+			{
+				code: 'hu',
+				name: 'Magyar',
+				flag: '🇭🇺'
+			},
+			{
+				code: 'vi',
+				name: 'tiếng Việt',
+				flag: '🇻🇳'
+			},
+			{
+				code: 'ta',
+				flag: '🇮🇳',
+				name: 'Tamil'
+			},
+			{
+				code: 'pt_BR',
+				flag: '🇧🇷',
+				name: 'Brazil'
+			},
+			{
+				code: 'ja',
+				flag: '🇯🇵',
+				name: 'Japan'
+			}
+		]
+	}: Props = $props();
 	const get_selected_language = (): string => {
 		return localStorage.getItem('language');
 	};
