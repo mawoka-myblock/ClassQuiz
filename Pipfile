@@ -49,6 +49,7 @@ ormar = "*"
 pydantic = "*"
 pydantic-settings = "*"
 asyncpg = "*"
+psycopg2 = "*"
 
 [dev-packages]
 coverage = "*"
