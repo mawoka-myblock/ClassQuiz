@@ -29,7 +29,7 @@ class RedisCache:
         await redis.set(f"authlib:{key}", data, ex=expires)
 
     async def delete(self, key: str) -> None:
-        await redis.delete(key)
+        await redis.delete(f"authlib:{key}")
 
 
 @lru_cache()
