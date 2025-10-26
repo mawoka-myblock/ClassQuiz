@@ -16,7 +16,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	$effect(() => {
+	$effect.pre(() => {
 		set_available_methods(step);
 	});
 </script>
