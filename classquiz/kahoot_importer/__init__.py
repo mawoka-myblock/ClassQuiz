@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-from typing import List, Any, Optional
+from typing import Any
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -33,10 +33,10 @@ class _LastEdit(BaseModel):
 
 class _ImageMetadata(BaseModel):
     id: UUID | None = None
-    content_type: Optional[str] = None
-    width: Optional[int] = None
-    height: Optional[int] = None
-    resources: Optional[str] = None
+    content_type: str | None = None
+    width: int | None = None
+    height: int | None = None
+    resources: str | None = None
 
 
 class _SampleQuestion(BaseModel):
@@ -48,11 +48,11 @@ class _SampleQuestion(BaseModel):
 
 
 class _Access(BaseModel):
-    groupRead: List[Any | None]
-    folderGroupIds: List[Any | None]
+    groupRead: list[Any | None]
+    folderGroupIds: list[Any | None]
 
 
-class _Card(BaseModel):
+class Card(BaseModel):
     type: str
     title: str
     description: str
@@ -60,12 +60,12 @@ class _Card(BaseModel):
     cover: str | None = None
     coverMetadata: _CoverMetadata | dict[None, None] | None = None
     draftExists: bool
-    inventoryItemIds: List[Any] = None
+    inventoryItemIds: list[Any] | None = None
     number_of_questions: int
     creator: UUID
     creator_username: str
     creator_avatar: _CreatorAvatar | dict[None, None] | None = None
-    badges: List[str]
+    badges: list[str]
     visibility: int
     locked: bool
     writeProtection: bool
@@ -76,11 +76,11 @@ class _Card(BaseModel):
     draft: bool
     combined: bool
     compatibility_level: int
-    sample_questions: List[_SampleQuestion]
+    sample_questions: list[_SampleQuestion]
     number_of_plays: int
     number_of_players: int
     total_favourites: int
-    question_types: List[str]
+    question_types: list[str]
     created: int
     modified: int
     access: _Access
@@ -89,7 +89,7 @@ class _Card(BaseModel):
 
 
 class _Entity(BaseModel):
-    card: _Card
+    card: Card
 
 
 class _Origin(BaseModel):
@@ -130,8 +130,8 @@ class _Video(BaseModel):
     startTime: float
     endTime: float
     service: str
-    full_url: Optional[str] = None
-    id: Optional[str] = None
+    full_url: str | None = None
+    id: str | None = None
 
 
 class _Question(BaseModel):
@@ -140,17 +140,17 @@ class _Question(BaseModel):
     time: int
     points: bool
     pointsMultiplier: int
-    choices: List[_Choice]
+    choices: list[_Choice]
     image: str | None = None
     imageMetadata: _ImageMetadata | None = None
-    resources: Optional[str] = None
+    resources: str | None = None
     video: _Video
     questionFormat: int
     languageInfo: _LanguageInfo | None = None
-    media: List[Any]
+    media: list[Any]
 
 
-class _Kahoot(BaseModel):
+class Kahoot(BaseModel):
     uuid: UUID
     language: str
     creator: UUID
@@ -161,20 +161,19 @@ class _Kahoot(BaseModel):
     visibility: int
     difficulty: int | None = None
     audience: str
-    audience: str
     title: str
     description: str
     quizType: str
-    tags: str | None | List[str] = None
+    tags: str | None | list[str] = None
     cover: str | None = None
     coverMetadata: _CoverMetadata | dict[None, None] | None = None
-    questions: List[_Question]
+    questions: list[_Question]
     metadata: _Metadata
     parent: _Parent | None = None
     resources: str | None = None
     slug: str
     languageInfo: _LanguageInfo | None = None
-    inventoryItemIds: List[Any]
+    inventoryItemIds: list[Any]
     type: str
     created: int
     modified: int

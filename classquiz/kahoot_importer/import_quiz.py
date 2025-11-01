@@ -58,7 +58,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
     if type(quiz) is int:
         return quiz
     quiz_questions: list[dict] = []
-    quiz_id = uuid.uuid4()
+    new_quiz_id = uuid.uuid4()
     meilisearch.delete_index(settings.meilisearch_index)
     meilisearch.create_index(settings.meilisearch_index)
     uploaded_images: list[StorageItem] = []
@@ -97,7 +97,7 @@ async def import_quiz(quiz_id: str, user: User) -> Quiz | int:
     if quiz.kahoot.description is None or quiz.kahoot.description == "":
         quiz.kahoot.description = "Description Missing!"
     quiz_data = Quiz(
-        id=quiz_id,
+        id=new_quiz_id,
         public=False,
         title=bleach.clean(quiz.kahoot.title, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True),
         description=bleach.clean(quiz.kahoot.description, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True),

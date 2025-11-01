@@ -6,14 +6,13 @@
 import asyncio
 import uuid
 from datetime import datetime
-from typing import Optional, BinaryIO
+from typing import BinaryIO, Any
 
 from fastapi import HTTPException
 from openpyxl import load_workbook
 
-import ormar.exceptions
 
-from classquiz.db.models import Quiz, User, InstanceData, QuizQuestion, ABCDQuizAnswer
+from classquiz.db.models import Quiz, User, QuizQuestion, ABCDQuizAnswer
 import xlsxwriter
 from aiohttp import ClientSession
 from io import BytesIO
@@ -24,7 +23,7 @@ from classquiz.helpers.hashcash import check as hc_check
 settings = settings()
 
 
-async def get_meili_data(quiz: Quiz) -> dict:
+async def get_meili_data(quiz: Quiz) -> dict[str, Any]:
     return {
         "id": str(quiz.id),
         "title": quiz.title,
@@ -35,14 +34,19 @@ async def get_meili_data(quiz: Quiz) -> dict:
     }
 
 
-async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: dict, player_scores: dict) -> BytesIO:
+async def generate_spreadsheet(
+    quiz_results: dict[str, Any],
+    quiz: Quiz,
+    player_fields: dict[str, Any],
+    player_scores: dict[str, Any],
+) -> BytesIO:
     storage = BytesIO()
     workbook = xlsxwriter.Workbook(storage, {"in_memory": True})
     player_worksheet = workbook.add_worksheet()
     player_worksheet.name = "Players"
-    player_worksheet.write(0, 0, "Username")
-    player_worksheet.write(0, 1, "Score")
-    player_worksheet.write(0, 2, "Custom-Field")
+    _ = player_worksheet.write(0, 0, "Username")
+    _ = player_worksheet.write(0, 1, "Score")
+    _ = player_worksheet.write(0, 2, "Custom-Field")
     for i, player in enumerate(player_scores.keys()):
         player_worksheet.write(i + 1, 0, player)
         player_worksheet.write(i + 1, 1, player_scores[player])
@@ -53,33 +57,33 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
 
     worksheet = workbook.add_worksheet()
     worksheet.name = "Questions"
-    worksheet.write(0, 0, "Question")
-    worksheet.write(0, 1, "Time")
-    worksheet.write(0, 2, "Image")
-    worksheet.write(0, 3, "Correct answers")
-    worksheet.write(0, 4, "Correct answers")
-    worksheet.write(0, 5, "Wrong answers")
+    _ = worksheet.write(0, 0, "Question")
+    _ = worksheet.write(0, 1, "Time")
+    _ = worksheet.write(0, 2, "Image")
+    _ = worksheet.write(0, 3, "Correct answers")
+    _ = worksheet.write(0, 4, "Correct answers")
+    _ = worksheet.write(0, 5, "Wrong answers")
     for i, _ in enumerate(quiz_results):
         question = quiz.questions[i]
-        # print(quiz_results)
         try:
             answer_data = quiz_results[str(i)]
         except KeyError:
             continue
-        worksheet.write(i + 1, 0, question["question"])
-        worksheet.write(i + 1, 1, question["time"])
+        _ = worksheet.write(i + 1, 0, question["question"])
+        _ = worksheet.write(i + 1, 1, question["time"])
 
         try:
             async with (
                 ClientSession() as session,
                 session.get(f"{settings.root_address}/api/v1/storage/download/{question['image']}") as response,
             ):
-                if "image" in response.headers.get("Content-Type"):
+                content_type = response.headers.get("Content-Type")
+                if content_type is not None and "image" in content_type:
                     img_data = BytesIO(await response.read())
-                    worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
+                    _ = worksheet.insert_image(i + 1, 2, question["image"], {"image_data": img_data})
                     image = Image.open(img_data)
-                    worksheet.set_row(i + 1, image.height)
-                    worksheet.set_column(2, 2, image.width)
+                    _ = worksheet.set_row(i + 1, image.height)
+                    _ = worksheet.set_column(2, 2, image.width)
         except TypeError:
             pass
         answer_amount = len(answer_data)
@@ -91,24 +95,24 @@ async def generate_spreadsheet(quiz_results: dict, quiz: Quiz, player_fields: di
                 correct_answers += 1
             else:
                 wrong_answers += 1
-        worksheet.write(i + 1, 3, f"{round(correct_answers / answer_amount * 100)}%")
-        worksheet.write(i + 1, 4, correct_answers)
-        worksheet.write(i + 1, 5, wrong_answers)
+        _ = worksheet.write(i + 1, 3, f"{round(correct_answers / answer_amount * 100)}%")
+        _ = worksheet.write(i + 1, 4, correct_answers)
+        _ = worksheet.write(i + 1, 5, wrong_answers)
 
         ws = workbook.add_worksheet(f"{i + 1}. Question")
-        ws.write(0, 0, "Answer")
-        ws.write(0, 1, "Correct")
-        ws.write(0, 2, "Username")
+        _ = ws.write(0, 0, "Answer")
+        _ = ws.write(0, 1, "Correct")
+        _ = ws.write(0, 2, "Username")
         for j, _ in enumerate(answer_data):
-            ws.write(j + 1, 0, answer_data[j]["answer"])
+            _ = ws.write(j + 1, 0, answer_data[j]["answer"])
             if answer_data[j]["right"]:
-                ws.write(j + 1, 1, "True")
+                _ = ws.write(j + 1, 1, "True")
             else:
-                ws.write(j + 1, 1, "False")
-            ws.write(j + 1, 2, answer_data[j]["username"])
+                _ = ws.write(j + 1, 1, "False")
+            _ = ws.write(j + 1, 2, answer_data[j]["username"])
 
     workbook.close()
-    storage.seek(0)
+    _ = storage.seek(0)
     return storage
 
 
@@ -118,9 +122,11 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     except KeyError:
         raise HTTPException(status_code=400, detail="File not in excel format")
     ws = wb.active
+    if ws is None:
+        raise Exception("Workbook is None")
     questions: list[dict] = []
-    title = ws["C5"].value
-    description = ws["C6"].value
+    title: str | None = ws["C5"].value
+    description: str | None = ws["C6"].value
     if title is None:
         raise HTTPException(status_code=400, detail="Title missing")
     if description is None:
@@ -182,12 +188,12 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
             questions=questions,
             imported_from_kahoot=False,
         )
-        await quiz.save()
+        _ = await quiz.save()
     else:
         existing_quiz.questions = [*existing_quiz.questions, *questions]
         existing_quiz.updated_at = datetime.now()
         existing_quiz.mod_rating = None
-        await existing_quiz.update()
+        _ = await existing_quiz.update()
         quiz = existing_quiz
     return quiz
 
@@ -227,27 +233,7 @@ async def meilisearch_init():
     LOGGER.info("Finished MeiliSearch synchronisation")
 
 
-async def telemetry_ping():
-    try:
-        instance_data = await InstanceData.objects.first()
-    except ormar.exceptions.NoMatch:
-        instance_data = InstanceData()
-        await instance_data.save()
-    async with (
-        ClientSession() as session,
-        session.post(
-            f"https://cit.mawoka.eu.org/public/{instance_data.instance_id}",
-            json={
-                "public_quizzes": await Quiz.objects.filter(public=True).count(),
-                "private_quizzes": await Quiz.objects.filter(public=False).count(),
-                "users": await User.objects.count(),
-            },
-        ),
-    ):
-        return
-
-
-def check_hashcash(data: str, input_data: str, claim_in: Optional[str] = "19") -> bool:
+def check_hashcash(data: str, input_data: str, claim_in: str | None = "19") -> bool:
     """
     It checks that the hashcash is valid, and if it is, it returns True
 

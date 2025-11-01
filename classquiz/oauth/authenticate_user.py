@@ -14,18 +14,19 @@ from classquiz.auth import create_access_token
 settings = settings()
 
 
-async def log_user_in(user: User, request: Request, response: Response):
+async def log_user_in(user: User | None, request: Request, response: Response):
     if user is None:
         raise HTTPException(status_code=401, detail="User not matched!")
     remote_ip = None
-    if request.headers.get("X-Forwarded-For") is None:
+    forwarded_for_header = request.headers.get("X-Forwarded-For")
+    if forwarded_for_header is None:
         remote_ip = request.client.host
 
     else:
-        if "," in request.headers.get("X-Forwarded-For"):
-            remote_ip = request.headers.get("X-Forwarded-For").split(", ")[0]
+        if "," in forwarded_for_header:
+            remote_ip = forwarded_for_header.split(", ")[0]
         else:
-            remote_ip = request.headers.get("X-Forwarded-For")
+            remote_ip = forwarded_for_header
     session_key = os.urandom(32).hex()
     user_session = UserSession(
         user=user,
@@ -47,7 +48,11 @@ async def log_user_in(user: User, request: Request, response: Response):
         max_age=60 * 60 * 24 * 365,
     )
     response.set_cookie(
-        key="rememberme_token", value=session_key, httponly=True, samesite="lax", max_age=60 * 60 * 24 * 365
+        key="rememberme_token",
+        value=session_key,
+        httponly=True,
+        samesite="lax",
+        max_age=60 * 60 * 24 * 365,
     )
     return {"access_token": access_token, "token_type": "bearer"}
 

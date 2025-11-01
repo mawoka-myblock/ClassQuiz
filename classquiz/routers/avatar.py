@@ -83,19 +83,6 @@ async def get_customized_avatar(
         clothe_graphic_type=clothe_graphic_type,
     ).render_svg()
     # skipcq: PY-W0069
-    # print(f"skin_color: {len(AvatarItemsAsList.skin_color)},")
-    # print(f"hair_color: {len(AvatarItemsAsList.hair_color)},")
-    # print(f"facial_hair_type: {len(AvatarItemsAsList.facial_hair_type)},")
-    # print(f"facial_hair_color: {len(AvatarItemsAsList.facial_hair_color)},")
-    # print(f"top_type: {len(AvatarItemsAsList.top_type)},")
-    # print(f"hat_color: {len(AvatarItemsAsList.hat_color)},")
-    # print(f"mouth_type: {len(AvatarItemsAsList.mouth_type)},")
-    # print(f"eyebrow_type: {len(AvatarItemsAsList.eyebrow_type)},")
-    # print(f"nose_type: {len(AvatarItemsAsList.nose_type)},")
-    # print(f"accessories_type: {len(AvatarItemsAsList.accessories_type)},")
-    # print(f"clothe_type: {len(AvatarItemsAsList.clothe_type)},")
-    # print(f"clothe_color: {len(AvatarItemsAsList.clothe_color)},")
-    # print(f"clothe_graphic_type: {len(AvatarItemsAsList.clothe_graphic_type)},")
     return avatar
 
 

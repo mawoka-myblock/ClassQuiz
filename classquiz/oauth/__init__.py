@@ -22,7 +22,7 @@ router.include_router(github.router, prefix="/github")
 router.include_router(custom.router, prefix="/custom")
 
 
-async def rememberme_middleware(request: Request, call_next):
+async def rememberme_middleware(request: Request, call_next) -> Response:
     rememberme_cookie = request.cookies.get("rememberme_token")
     bearer_token = request.cookies.get("access_token")
     conditions_to_handle_met = True
@@ -41,13 +41,13 @@ async def rememberme_middleware(request: Request, call_next):
 
     # Verifying the bearer
     try:
-        jwt.decode(
+        _ = jwt.decode(
             param, settings.secret_key, algorithms=["HS256"]
         )  # checking if the token is valid, throws error if not
         conditions_to_handle_met = False
     except JWTError:
         try:
-            jws.verify(
+            _ = jws.verify(
                 param, settings.secret_key, algorithms=["HS256"]
             )  # Verifying only the signature of the jwt, throws error if signature is invalid
         except JWSError:
