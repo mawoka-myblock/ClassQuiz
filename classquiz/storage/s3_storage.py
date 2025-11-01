@@ -42,7 +42,13 @@ class S3Storage:
         if not self.client.bucket_exists(self.bucket_name):
             self.client.make_bucket(self.bucket_name)
 
-    def _generate_aws_signature_v4(self, method: str, path: str, expiry: int = None) -> Tuple[dict, str]:
+    def _generate_aws_signature_v4(
+        self,
+        method: str,
+        path: str,
+        expiry: int | None = None,
+        payload_hash: str | None = None,
+    ) -> Tuple[dict, str]:
         path = f"/{self.bucket_name}{path}"
         service = "s3"
 
@@ -58,7 +64,8 @@ class S3Storage:
             canonical_querystring = f"Expires={expiry}"
 
         # For S3, the payload hash must be included and signed
-        payload_hash = hashlib.sha256(b"").hexdigest()
+        if payload_hash is None:
+            payload_hash = hashlib.sha256(b"").hexdigest()
 
         canonical_headers = f"host:{self.host}\n" f"x-amz-content-sha256:{payload_hash}\n" f"x-amz-date:{amz_date}\n"
         signed_headers = "host;x-amz-content-sha256;x-amz-date"
@@ -122,7 +129,11 @@ class S3Storage:
         size: int | None,
         mime_type: str | None = None,
     ) -> None:
-        headers, url = self._generate_aws_signature_v4(method="PUT", path=f"/{file_name}")
+        file.seek(0)
+        payload = file.read()
+        payload_hash = hashlib.sha256(payload).hexdigest()
+        file.seek(0)
+        headers, url = self._generate_aws_signature_v4(method="PUT", path=f"/{file_name}", payload_hash=payload_hash)
         file_size = 0
         while True:
             chunk = file.read(1024)
