@@ -423,7 +423,8 @@
         "time_taken": "Durée de l'opération",
         "player_score": "Score du joueur",
         "correct_answer": "{{count}} réponse correcte",
-        "correct_answer_plural": "{{count}} réponses correctes"
+        "correct_answer_plural": "{{count}} réponses correctes",
+        "player_correct_questions": "Réponses correctes"
     },
     "security_settings": {
         "totp_setup": {
