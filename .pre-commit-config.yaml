@@ -16,7 +16,7 @@ repos:
 #      - id: check-added-large-files
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.9.0
+    rev: 25.11.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -36,6 +36,6 @@ repos:
         # so --exclude in .flake8 does not work
         exclude: ^migrations/versions/
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v6.1.2
+    rev: v6.2.0
     hooks:
       - id: reuse
