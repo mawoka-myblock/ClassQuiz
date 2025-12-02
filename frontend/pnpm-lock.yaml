@@ -5487,8 +5487,6 @@ snapshots:
             '@ckeditor/ckeditor5-utils': 47.1.0
             '@ckeditor/ckeditor5-watchdog': 47.1.0
             es-toolkit: 1.39.5
-        transitivePeerDependencies:
-            - supports-color
 
     '@ckeditor/ckeditor5-easy-image@47.1.0':
         dependencies:
@@ -5535,8 +5533,6 @@ snapshots:
             '@ckeditor/ckeditor5-utils': 47.1.0
             ckeditor5: 47.1.0
             es-toolkit: 1.39.5
-        transitivePeerDependencies:
-            - supports-color
 
     '@ckeditor/ckeditor5-editor-multi-root@47.1.0':
         dependencies:
