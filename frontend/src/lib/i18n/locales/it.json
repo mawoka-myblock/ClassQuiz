@@ -367,7 +367,8 @@
         "correct_answer": "{{count}} risposta corretta",
         "correct_answer_plural": "{{count}} risposte corrette",
         "time_taken": "Tempo impiegato",
-        "player_score": "Punteggio del giocatore"
+        "player_score": "Punteggio del giocatore",
+        "player_correct_questions": "Risposte corrette"
     },
     "error_page": {
         "404_text": "La pagina che stavi cercando è sparita o non è mai esistita. Chi lo sa?",
