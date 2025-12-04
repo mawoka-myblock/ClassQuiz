@@ -65,7 +65,7 @@
 		"i18next-browser-languagedetector": "^8.2.0",
 		"jose": "^6.1.0",
 		"js-cookie": "^3.0.5",
-		"jws": "^4.0.0",
+		"jws": "^4.0.1",
 		"luxon": "^3.7.2",
 		"marked": "^16.4.1",
 		"mdsvex": "^0.12.6",
