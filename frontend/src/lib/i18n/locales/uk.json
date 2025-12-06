@@ -72,7 +72,7 @@
     "words": {
         "delete": "Видалити",
         "import": "Імпорт",
-        "public": "Громадський",
+        "public": "Публічно",
         "upload": "Завантаження",
         "player_plural": "Гравці",
         "next": "Далі",
@@ -102,7 +102,7 @@
         "username": "Ім'я користувача",
         "practice": "Практика",
         "find": "Знайти",
-        "private": "Приватнi",
+        "private": "Приватно",
         "answer_plural": "Відповіді",
         "version": "Версія",
         "update": "Оновлення",
@@ -283,7 +283,7 @@
             "select_page_type": "Виберіть тип сторінки",
             "move_right": "Рух праворуч"
         },
-        "share_expired": "Термін дії частки минув",
+        "share_expired": "Термін спільного доступу сплив",
         "play": {
             "memory": {
                 "try_count": "Спроб: {{try_count}}"
@@ -477,7 +477,7 @@
     },
     "public_user_page": {
         "no_original_quizzes": "Цей користувач не має оригінальних тестів",
-        "joined_on": "Приєднався {{date}}",
+        "joined_on": "Приєднується {{date}}",
         "user_not_found": "Користувача не знайдено"
     },
     "components": {
