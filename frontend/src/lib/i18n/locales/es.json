@@ -371,7 +371,8 @@
         "correct_answer_plural": "{{count}} respuestas correctas",
         "time_taken": "Tiempo empleado",
         "average_score": "Puntuación media: {{average_score}}",
-        "player_score": "Puntuación del jugador"
+        "player_score": "Puntuación del jugador",
+        "player_correct_questions": "Respuestas correctas"
     },
     "navbar": {
         "donate": "Donar"
@@ -404,7 +405,7 @@
         "enable_totp": "Activar TOTP"
     },
     "view_quiz_page": {
-        "made_by": "",
+        "made_by": "Hecho por",
         "view_on_kahoot": "Ver en el original"
     },
     "start_game": {
