@@ -4,23 +4,16 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	let { session_data = {}, step, selected_method = $bindable() } = $props();
 
-	let available_methods = $state();
-
-	const set_available_methods = (step_var: number) => {
+	const set_available_methods = (step_var: number): string => {
 		if (step_var === 1) {
-			available_methods = session_data.step_1;
+			return session_data.step_1;
 		} else if (step_var === 2) {
-			available_methods = session_data.step_2;
+			return session_data.step_2;
 		}
 	};
-
-	run(() => {
-		set_available_methods(step);
-	});
+	let available_methods = $derived(set_available_methods(step));
 </script>
 
 <div class="px-6 py-4">

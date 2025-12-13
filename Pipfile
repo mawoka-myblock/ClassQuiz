@@ -48,6 +48,8 @@ pypng = "*"
 ormar = "*"
 pydantic = "*"
 pydantic-settings = "*"
+asyncpg = "*"
+psycopg2 = "*"
 
 [dev-packages]
 coverage = "*"
@@ -61,7 +63,7 @@ pre-commit = "*"
 python-socketio = {extras = ["client"], version = "*"}
 
 [requires]
-python_version = "3.11"
+python_version = "3.13"
 
 [scripts]
 format = "black ."

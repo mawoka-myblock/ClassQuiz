@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import type { Markdown } from '$lib/quiztivity/types';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
@@ -23,11 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 		};
 	}
 
-	let rendered_html = $state('');
-
-	run(() => {
-		rendered_html = browser ? marked.parse(data.markdown) : '';
-	});
+	let rendered_html = $derived(browser ? marked.parse(data.markdown) : '');
 </script>
 
 <div class="w-full h-[70vh] flex flex-row p-4 gap-4">

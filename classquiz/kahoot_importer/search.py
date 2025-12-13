@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-from typing import List
-
 from aiohttp import ClientSession
 from pydantic import BaseModel
 
@@ -13,7 +11,7 @@ from classquiz.kahoot_importer import _Entity
 
 # noqa : E501
 class _Response(BaseModel):
-    entities: List[_Entity]
+    entities: list[_Entity]
     totalHits: int
     cursor: int | None = None
     pageTimestamp: int
@@ -28,7 +26,7 @@ async def search(
 ) -> _Response:
     """
 
-    :param inventory_item_id: I dkon't know
+    :param inventory_item_id: I don't know
     :param search_cluster: Doesn't seeem to matter
     :param cursor: The position in the result-list (page)
     :param query: The search query

@@ -15,8 +15,8 @@ This library is also tested.
 ```python
 from classquiz.kahoot_importer.get import get, _Response
 from asyncio import run
-# _Response ia a pydantic-object, so you have access to
-# .dict() or .json(exclude={"kahoot"})
+# _Response is a pydantic-object, so you have access to
+# .dict() or .model_dump_json(exclude={"kahoot"})
 
 async def main():
     kahoot_quiz: _Response = await get("GAME_ID")
@@ -31,7 +31,7 @@ run(main())
 from classquiz.kahoot_importer.search import search, _Response
 from asyncio import run
 # _Response ia a pydantic-object, so you have access to
-# .dict() or .json(exclude={"kahoot"})
+# .dict() or .model_dump_json(exclude={"kahoot"})
 
 async def main():
     kahoot_quizzes: _Response = await search("QUERY")

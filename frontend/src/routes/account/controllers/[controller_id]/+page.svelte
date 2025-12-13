@@ -131,7 +131,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="mx-auto">
 				<BrownButton
 					disabled={newest_version === controller.os_version}
-					on:click={allow_update_to_version}
+					onclick={allow_update_to_version}
 				>
 					{#if newest_version === controller.os_version}
 						{$t('controllers.already_latest_version')}

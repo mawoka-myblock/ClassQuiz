@@ -15,8 +15,14 @@ router = APIRouter()
 
 
 @router.get("/list")
-async def list_game_results(user: User = Depends(get_current_user)) -> list[GameResults]:
-    results = await GameResults.objects.select_related(GameResults.quiz).all(user=user.id)
+async def list_game_results(
+    user: User = Depends(get_current_user),
+) -> list[GameResults]:
+    results = (
+        await GameResults.objects.select_related(GameResults.quiz)
+        .order_by(GameResults.timestamp.desc())
+        .all(user=user.id)
+    )
     return results
 
 

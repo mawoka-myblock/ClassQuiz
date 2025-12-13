@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { page } from '$app/state';
 	import { socket } from '$lib/socket';
 	import type { QuizData } from '$lib/quiz_types';
@@ -24,19 +22,19 @@ SPDX-License-Identifier: MPL-2.0
 	navbarVisible.visible = false;
 
 	const { t } = getLocalization();
-	let timer_interval;
+	let timer_interval: NodeJS.Timeout;
 	let timer_res = $state(undefined);
 	let selected_question = $state(-1);
 	let game_started = $state(false);
 	let question_results = $state();
 	let final_results = $state([null]);
 	let warnToLeave = true;
-	let dataexport_download_a = $state();
+	let dataexport_download_a: HTMLAnchorElement = $state();
 
 	let players: Array<{ sid: string; username: string }> = $state([]);
 
 	let game_data: QuizData = $state();
-	let shown_question_now;
+	let shown_question_now: number;
 	let control_visible = $state(false);
 
 	if (!data.game_id || !data.game_pin) {
@@ -90,12 +88,12 @@ SPDX-License-Identifier: MPL-2.0
 		socket.emit('get_final_results', {});
 	};
 
-	const request_answer_export = async () => {
-		await socket.emit('get_export_token');
+	const request_answer_export = async (e: Event) => {
+		e.preventDefault();
+		socket.emit('get_export_token');
 	};
 
 	const get_already_joined_players = async () => {
-		console.log('GETTING PLAYERS');
 		const res = await fetch(
 			`/api/v1/live/players?game_pin=${data.game_pin}&game_id=${data.game_id}`
 		);
@@ -103,15 +101,16 @@ SPDX-License-Identifier: MPL-2.0
 			players = await res.json();
 		}
 	};
-
-	let circular_progress = $state(0);
-	run(() => {
+	let circular_progress = $derived.by(() => {
 		try {
-			circular_progress =
+			return (
 				1 -
-				((100 / game_data.questions[selected_question].time) * parseInt(timer_res)) / 100;
+				((100 / parseInt(game_data.questions[selected_question].time)) *
+					parseInt(timer_res)) /
+					100
+			);
 		} catch {
-			circular_progress = 0;
+			return 0;
 		}
 	});
 
@@ -235,7 +234,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#await import('$lib/play/admin/slide.svelte')}
 			<Spinner my_20={false} />
 		{:then c}
-			<c.default bind:question={game_data.questions[selected_question]} />
+			<c.default question={game_data.questions[selected_question]} />
 		{/await}
 	{:else}
 		<div class="flex flex-col justify-center w-screen h-1/6">
@@ -244,11 +243,7 @@ SPDX-License-Identifier: MPL-2.0
 			</h1>
 			<!--			<span class='text-center py-2 text-lg'>{$t('admin_page.time_left')}: {timer_res}</span>-->
 			<div class="mx-auto my-2">
-				<CircularTimer
-					bind:text={timer_res}
-					bind:progress={circular_progress}
-					color="#ef4444"
-				/>
+				<CircularTimer text={timer_res} progress={circular_progress} color="#ef4444" />
 			</div>
 			{#if game_data.questions[selected_question].image !== null}
 				<div>
@@ -328,7 +323,7 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 
 <a
-	onclick={preventDefault(request_answer_export)}
+	onclick={request_answer_export}
 	href="#"
 	bind:this={dataexport_download_a}
 	class="absolute -top-3/4 -left-3/4 opacity-0 hidden">Download</a

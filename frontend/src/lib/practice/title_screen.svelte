@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 
 	import { fly } from 'svelte/transition';
@@ -15,7 +13,11 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 </script>
 
-<div class="w-full px-6 lg:px-20 h-[80vh] absolute" in:fly|global={{ x: 100 }} out:fly|global={{ x: -100 }}>
+<div
+	class="w-full px-6 lg:px-20 h-[80vh] absolute"
+	in:fly|global={{ x: 100 }}
+	out:fly|global={{ x: -100 }}
+>
 	<div class="rounded-lg bg-white w-full h-full border-gray-500 dark:bg-gray-700">
 		<div class="h-fit bg-gray-300 rounded-t-lg dark:bg-gray-500">
 			<div class="flex align-middle p-4 gap-3">
@@ -52,9 +54,10 @@ SPDX-License-Identifier: MPL-2.0
 						src="/api/v1/storage/download/{data.cover_image}"
 						alt="not available"
 						class="max-h-72 h-auto w-auto"
-						oncontextmenu={preventDefault(() => {
+						oncontextmenu={(e) => {
+							e.preventDefault();
 							data.cover_image = '';
-						})}
+						}}
 					/>
 				</div>
 			{/if}

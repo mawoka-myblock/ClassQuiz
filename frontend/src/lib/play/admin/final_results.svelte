@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
 
@@ -16,13 +14,14 @@ SPDX-License-Identifier: MPL-2.0
 	import confetti from 'canvas-confetti';
 	interface Props {
 		data: any;
-		username: any;
+		username?: any;
 		show_final_results: boolean;
 	}
 
 	let { data = $bindable(), username, show_final_results }: Props = $props();
+	let sorted_data = $derived(sortObjectbyValue(data));
 
-	function sortObjectbyValue(obj) {
+	function sortObjectbyValue(obj: object) {
 		const ret = {};
 		Object.keys(obj)
 			.sort((a, b) => obj[b] - obj[a])
@@ -30,30 +29,22 @@ SPDX-License-Identifier: MPL-2.0
 		return ret;
 	}
 
-	run(() => {
-		data = sortObjectbyValue(data);
-	});
-	run(() => {
-		console.log(data, 'sorted, fina');
-	});
-
-	let player_names = $derived(Object.keys(data).sort(function (a, b) {
-		return data[b] - data[a];
-	}));
-
+	let player_names = $derived(Object.keys(sorted_data));
 
 	let player_count_or_five = $derived(player_names.length >= 5 ? 5 : player_names.length);
 
-
-	let canvas = $state();
+	let canvas: HTMLCanvasElement = $state();
 	onMount(() => {
-		setTimeout(() => {
-			confetti.create(canvas, {
-				resize: true,
-				useWorker: true
-			});
-			confetti({ particleCount: 200, spread: 160 });
-		}, player_count_or_five * 1200 - 800);
+		setTimeout(
+			() => {
+				confetti.create(canvas, {
+					resize: true,
+					useWorker: true
+				});
+				confetti({ particleCount: 200, spread: 160 });
+			},
+			player_count_or_five * 1200 - 800
+		);
 	});
 </script>
 
@@ -70,13 +61,13 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('play_page.final_result_rank', {
 						place: i + 1,
 						username: player,
-						points: data[player]
+						points: sorted_data[player]
 					})}
 				</p>
 			{/if}
 		{/each}
 	</div>
-	{#if data[username]}
+	{#if sorted_data[username]}
 		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
 			<div class="mx-auto p-2 border-[#B07156] border-4 rounded-sm">
 				<p class="text-center">{$t('play_page.your_score', { score: data[username] })}</p>

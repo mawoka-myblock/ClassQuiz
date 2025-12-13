@@ -6,12 +6,12 @@
 from aiohttp import ClientSession
 from pydantic import BaseModel
 
-from classquiz.kahoot_importer import _Card, _Kahoot
+from classquiz.kahoot_importer import Card, Kahoot
 
 
 class _Response(BaseModel):
-    card: _Card
-    kahoot: _Kahoot
+    card: Card
+    kahoot: Kahoot
 
 
 async def get(game_id: str) -> _Response | int:

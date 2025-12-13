@@ -18,12 +18,7 @@ SPDX-License-Identifier: MPL-2.0
 		cqc_code: string;
 	}
 
-	let {
-		game_pin,
-		players = $bindable(),
-		socket,
-		cqc_code = $bindable()
-	}: Props = $props();
+	let { game_pin, players = $bindable(), socket, cqc_code = $bindable() }: Props = $props();
 
 	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
@@ -97,7 +92,7 @@ SPDX-License-Identifier: MPL-2.0
 		<div>
 			<GrayButton
 				disabled={players.length < 1}
-				on:click={() => {
+				onclick={() => {
 					socket.emit('start_game', '');
 				}}
 				>{$t('admin_page.start_game')}
@@ -126,6 +121,15 @@ SPDX-License-Identifier: MPL-2.0
 		class="fixed top-0 left-0 z-50 w-screen h-screen bg-black/50 flex p-2"
 		transition:fade|global={{ duration: 80 }}
 		onclick={() => (fullscreen_open = false)}
+		tabindex="0"
+		role="button"
+		aria-label="Close modal"
+		onkeydown={(e) =>
+			e.key === 'Enter' || e.key === ' '
+				? () => {
+						fullscreen_open = false;
+					}
+				: null}
 	>
 		<img
 			alt="QR code to join the game"

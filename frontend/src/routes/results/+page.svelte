@@ -43,7 +43,7 @@ SPDX-License-Identifier: MPL-2.0
 							<tr class="text-left">
 								<td class="border-r dark:border-gray-500 p-1 border-gray-300"
 									><a href="/results/{result.id}" class="underline text-lg"
-										>{result.title}</a
+										>{@html result.title}</a
 									></td
 								>
 								<td class="border-r dark:border-gray-500 p-1 border-gray-300"

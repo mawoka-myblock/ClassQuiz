@@ -4,10 +4,10 @@
 
 services:
   db:
-#    build:
-#      context: pg_uuidv7
-#      args:
-#        PG_MAJOR_VERSION: 16
+    #    build:
+    #      context: pg_uuidv7
+    #      args:
+    #        PG_MAJOR_VERSION: 16
     image: postgres:16
     environment:
       POSTGRES_PASSWORD: mysecretpassword
@@ -34,21 +34,24 @@ services:
     privileged: true
     restart: unless-stopped
   minio:
-    image: bitnami/minio
+    image: docker.io/minio/minio
     environment:
-      MINIO_ROOT_USER: fediprint
-      MINIO_ROOT_PASSWORD: fediprint
+      MINIO_ROOT_USER: classquiz
+      MINIO_ROOT_PASSWORD: classquiz
+      MINIO_ADDRESS: ":9000"
+      MINIO_CONSOLE_ADDRESS: ":9001"
     volumes:
-      - minio:/bitnami/minio/data
+      - minio:/data
     ports:
       - 9000:9000
       - 9001:9001
     restart: unless-stopped
+    command: minio server /data
   redis:
     image: redis:alpine
     restart: always
     healthcheck:
-      test: [ "CMD", "redis-cli","ping" ]
+      test: ["CMD", "redis-cli", "ping"]
     ports:
       - 6379:6379
 volumes:

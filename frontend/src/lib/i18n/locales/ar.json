@@ -45,7 +45,8 @@
         "see_all_quizzes": "رؤية جميع الاختبارات الخاصة بك",
         "download_quizzes_content": "يمكن تنزيل الاختبارات كملف واحد واستيرادها في أي وقت. يتيح لك هذا أيضًا نقل اختباراتك إلى مثيلات ClassQuiz الأخرى.",
         "no_player_limit": "لا يوجد حد لعدد اللاعبين",
-        "no_player_limit_content": "ليس لدى ClassQuiz حد اصطناعي للاعبين. من الناحية النظرية، يمكن لأكثر من 1000 لاعب لعب نفس الاختبار، ولكن يتم اختباره مع ما يصل إلى 300 لاعب في كل اختبار."
+        "no_player_limit_content": "ليس لدى ClassQuiz حد اصطناعي للاعبين. من الناحية النظرية، يمكن لأكثر من 1000 لاعب لعب نفس الاختبار، ولكن يتم اختباره مع ما يصل إلى 300 لاعب في كل اختبار.",
+        "import_quiz_from_kahoot_and_edit": "أحضر اختباراتك من Kahoot وعدلها في ClassQuiz !"
     },
     "result_page": {
         "correct_answer_plural": "",
@@ -355,7 +356,9 @@
         "need_more_help": "هل تريد المزيد من المساعدة؟",
         "visit_docs": "قم بزيارة المستندات.",
         "enable_reorder": "تمكين وضع إعادة الترتيب",
-        "disable_reorder": "تعطيل وضع إعادة الترتيب"
+        "disable_reorder": "تعطيل وضع إعادة الترتيب",
+        "advanced_settings": "الإعدادات المتقدمة",
+        "hide_question_results": "هل تريد إخفاء نتائج كل سؤال؟"
     },
     "controllers": {
         "last_seen": "",

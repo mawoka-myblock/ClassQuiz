@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 
@@ -20,14 +18,11 @@ SPDX-License-Identifier: MPL-2.0
 		name: ''
 	});
 
-	let isValid = $state(false);
+	let isValid = $derived(input_data.name.length !== 0 && input_data.player_name.length !== 0);
 	let isSubmitting = false;
 
-	run(() => {
-		isValid = input_data.name.length !== 0 && input_data.player_name.length !== 0;
-	});
-
-	const submit = async () => {
+	const submit = async (e: Event) => {
+		e.preventDefault();
 		if (!isValid) {
 			return;
 		}
@@ -59,7 +54,7 @@ SPDX-License-Identifier: MPL-2.0
 					Add a controller
 				</h3>
 
-				<form onsubmit={preventDefault(submit)}>
+				<form onsubmit={submit}>
 					<div class="w-full mt-4">
 						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 							<div class="relative bg-inherit w-full">

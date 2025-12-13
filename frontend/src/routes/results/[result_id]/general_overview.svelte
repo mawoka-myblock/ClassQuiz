@@ -10,30 +10,15 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-
 	interface Props {
-		questions: Question[];
-		answers: {
-		username: string;
-		answer: string;
-		right: boolean;
-		tike_taken: number;
-		score: number;
-	}[][];
 		scores: {
-		[key: string]: string;
-	};
+			[key: string]: string;
+		};
 		title: string;
 		timestamp: string;
 	}
 
-	let {
-		questions,
-		answers,
-		scores,
-		title,
-		timestamp
-	}: Props = $props();
+	let { scores, title, timestamp }: Props = $props();
 
 	const usernames = Object.keys(scores);
 
@@ -49,7 +34,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="w-full">
 	<div class="flex justify-center w-full">
 		<p class="text-3xl w-5/6 text-center">
-			{$t('results_page.general_overview.sentence', {
+			{@html $t('results_page.general_overview.sentence', {
 				title,
 				date: new Date(timestamp).toLocaleString(),
 				player_count: usernames.length,

@@ -12,8 +12,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 import meilisearch as MeiliSearch
 from arq import create_pool
 from arq.connections import RedisSettings, ArqRedis
+import logging
 
 from classquiz.storage import Storage
+
+LOGGER = logging.getLogger(f"uvicorn.{__name__}")
 
 
 class CustomOpenIDProvider(BaseModel):
@@ -29,7 +32,10 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(
-        env_file=".env", extra="ignore", env_nested_delimiter="__", env_file_encoding="utf-8"
+        env_file=".env",
+        extra="ignore",
+        env_nested_delimiter="__",
+        env_file_encoding="utf-8",
     )
     root_address: str = "http://127.0.0.1:8000"
     redis: RedisDsn = "redis://localhost:6379/0?decode_responses=True"

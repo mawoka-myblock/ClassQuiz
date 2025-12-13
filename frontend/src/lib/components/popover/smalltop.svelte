@@ -5,16 +5,11 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { fly } from 'svelte/transition';
 	import { getLocalization } from '$lib/i18n';
-	import { createEventDispatcher } from 'svelte';
 	import { PopoverTypes } from './smalltop';
 
 	const { t } = getLocalization();
-
-	const dispatch = createEventDispatcher();
 
 	interface Props {
 		open?: boolean;
@@ -23,10 +18,6 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let { open = $bindable(false), type, data = undefined }: Props = $props();
-
-	run(() => {
-		dispatch('open', open);
-	});
 </script>
 
 {#if open}

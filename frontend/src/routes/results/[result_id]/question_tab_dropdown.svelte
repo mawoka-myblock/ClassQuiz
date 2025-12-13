@@ -11,7 +11,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 
-
 	interface Answer {
 		username: string;
 		answer: string;
@@ -26,7 +25,6 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let { question, answers }: Props = $props();
-	// console.log(question);
 
 	const get_answer_count_for_answer = (answer: string): number => {
 		let count = 0;

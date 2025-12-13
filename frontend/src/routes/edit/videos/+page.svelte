@@ -13,7 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 
 	let file_input: HTMLInputElement = $state();
-	navbarVisible.visible= false;
+	navbarVisible.visible = false;
 
 	let stats: { progress: number; time_elapsed: number; speed: number } = $state({
 		progress: 0,
@@ -197,7 +197,7 @@ SPDX-License-Identifier: MPL-2.0
 	</div>
 	<div class="flex relative my-2">
 		<div class="w-full">
-			<BrownButton disabled={status !== Status.CompressDone} on:click={upload_video}>
+			<BrownButton disabled={status !== Status.CompressDone} onclick={upload_video}>
 				{$t('words.upload')}
 				{file_size_in_mi ? `(${file_size_in_mi.toFixed(2)} Mi)` : ''}</BrownButton
 			>
@@ -208,7 +208,7 @@ SPDX-License-Identifier: MPL-2.0
 		></span>
 	</div>
 	<div class="flex justify-center">
-		<BrownButton on:click={compress_video} disabled={status !== Status.Idle}
+		<BrownButton onclick={compress_video} disabled={status !== Status.Idle}
 			>{$t('words.submit')}</BrownButton
 		>
 	</div>

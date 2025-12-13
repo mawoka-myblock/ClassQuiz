@@ -124,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if logged_in}
 				<div class="w-full">
 					<GrayButton
-						on:click={() => {
+						onclick={() => {
 							start_game = quiz.id;
 						}}
 						flex={true}
@@ -188,7 +188,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="w-full">
 				{#if logged_in}
-					<GrayButton flex={true} on:click={() => (download_id = quiz.id)}>
+					<GrayButton flex={true} onclick={() => (download_id = quiz.id)}>
 						<svg
 							class="w-5 h-5 inline-block"
 							fill="none"
@@ -245,10 +245,6 @@ SPDX-License-Identifier: MPL-2.0
 					<h3 class="text-3xl m-1 text-center">
 						{index_question + 1}: {@html question.question}
 					</h3>
-
-					<!--					<label class='m-1 flex flex-row gap-2 w-3/5'>-->
-
-					<!--					</label>-->
 					{#if question.image}
 						<span>
 							<MediaComponent
@@ -316,7 +312,7 @@ SPDX-License-Identifier: MPL-2.0
 						</ul>
 					{:else if question.type === QuizQuestionType.VOTING || question.type === QuizQuestionType.TEXT}
 						<div class="grid grid-cols-2 gap-4 m-4 p-6">
-							{#each question.answers as answer, index_answer}
+							{#each question.answers as _, index_answer}
 								<div class="p-1 rounded-lg py-4 dark:bg-gray-500 bg-gray-300">
 									<h4 class="text-center">
 										{quiz.questions[index_question].answers[index_answer]
@@ -327,10 +323,10 @@ SPDX-License-Identifier: MPL-2.0
 						</div>
 					{:else if question.type === QuizQuestionType.SLIDE}
 						{#await import('$lib/play/admin/slide.svelte')}
-							<Spinner my={false} />
+							<Spinner my_20={false} />
 						{:then c}
 							<div class="max-h-[90%] max-w-[90%]">
-								<c.default bind:question={questions[index_question]} />
+								<c.default question={quiz.questions[index_question]} />
 							</div>
 						{/await}
 					{/if}

@@ -4,8 +4,6 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 SPDX-License-Identifier: MPL-2.0
 -->
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 	const { t } = getLocalization();
 	import SearchCard from '$lib/search-card.svelte';
@@ -52,7 +50,10 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="mb-3 xl:w-96">
 			<form
 				class="input-group relative flex items-stretch flex-row w-full mb-4"
-				onsubmit={preventDefault(submit)}
+				onsubmit={(e: Event) => {
+					e.preventDefault();
+					submit();
+				}}
 			>
 				<input
 					type="search"
@@ -65,6 +66,7 @@ SPDX-License-Identifier: MPL-2.0
 				<button
 					class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-sm shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-hidden focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
 					id="button-addon2"
+					aria-label="Search"
 					disabled={search_term.length <= 2}
 					type="submit"
 				>

@@ -27,19 +27,17 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 	let {
-		modalOpen = false,
-		edit_id,
+		modalOpen = $bindable(),
 		data,
 		selected_question,
 		video_upload = false,
 		library_enabled = true
 	}: {
 		modalOpen: boolean;
-		edit_id: string;
 		data: EditorData;
-		selected_question: number;
+		selected_question?: number;
 		video_upload: boolean;
-		library_enabled: boolean;
+		library_enabled?: boolean;
 	} = $props();
 
 	// eslint-disable-next-line no-undef
@@ -83,7 +81,7 @@ SPDX-License-Identifier: MPL-2.0
 			// allowedFileTypes: ['.gif', '.jpg', '.jpeg', '.png', '.svg', '.webp']
 		}
 	};
-	let image_id;
+	let image_id: string;
 	uppy.on('upload-success', (file, response) => {
 		image_id = response.body.id;
 	});
@@ -142,6 +140,10 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
 		onclick={handle_on_click}
+		tabindex="0"
+		role="button"
+		aria-label="Close modal"
+		onkeydown={(e) => (e.key === 'Enter' || e.key === ' ' ? handle_on_click(e) : null)}
 		transition:fade={{ duration: 100 }}
 	>
 		{#if selected_type === null}
@@ -150,7 +152,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex flex-row gap-4">
 					<div class="w-full">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Image;
 							}}
 							>{$t('words.image')}
@@ -159,7 +161,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-full">
 						<BrownButton
 							disabled={!video_upload}
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Video;
 							}}
 							>{$t('words.video')}
@@ -168,7 +170,7 @@ SPDX-License-Identifier: MPL-2.0
 					{#if library_enabled}
 						<div class="w-full">
 							<BrownButton
-								on:click={() => {
+								onclick={() => {
 									selected_type = AvailableUploadTypes.Library;
 								}}
 								>{$t('words.library')}
@@ -177,7 +179,7 @@ SPDX-License-Identifier: MPL-2.0
 					{/if}
 					<div class="w-full">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								selected_type = AvailableUploadTypes.Pixabay;
 							}}
 							>Pixabay
@@ -202,7 +204,7 @@ SPDX-License-Identifier: MPL-2.0
 						{$t('uploader.upload_video_popup_notice')}
 					</p>
 				{:else}
-					<BrownButton on:click={upload_video} type="button"
+					<BrownButton onclick={upload_video} type="button"
 						>{$t('uploader.upload_video')}</BrownButton
 					>
 				{/if}

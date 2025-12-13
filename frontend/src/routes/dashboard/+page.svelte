@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import DownloadQuiz from '$lib/components/DownloadQuiz.svelte';
 	import type { QuizData } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
@@ -50,23 +48,6 @@ SPDX-License-Identifier: MPL-2.0
 	let id_to_position_map = {};
 
 	const getData = async (): Promise<{ items: Array<QuizData>; fuse: Fuse<any> }> => {
-		/*		items_to_show = [];
-		for (let i = 0; i < data.quizzes.length; i++) {
-			items_to_show.push({ ...data.quizzes[i], type: 'quiz' });
-		}
-		for (let i = 0; i < data.quiztivities.length; i++) {
-			items_to_show.push({ ...data.quiztivities[i], type: 'quiztivity' });
-		}
-		fuse = new Fuse(items_to_show, {
-			keys: ['title', 'description', 'questions.title'],
-			findAllMatches: true
-		});
-		all_items = items_to_show;
-		for (let i = 0; i < all_items.length; i++) {
-			id_to_position_map[all_items[i].id] = i;
-		}
-		return all_items;
-		 */
 		const items: any[] = [];
 
 		for (const q of data.quizzes) items.push({ ...q, type: 'quiz' });
@@ -161,7 +142,7 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 				{:else}
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							create_button_clicked = true;
 						}}>{$t('words.create')}</BrownButton
 					>
@@ -267,7 +248,7 @@ SPDX-License-Identifier: MPL-2.0
 								</BrownButton>
 								<BrownButton
 									flex={true}
-									on:click={() => (analytics_quiz_selected = quiz)}
+									onclick={() => (analytics_quiz_selected = quiz)}
 								>
 									<!-- heroicons/legacy-outline/ChartBar -->
 									<svg
@@ -311,7 +292,7 @@ SPDX-License-Identifier: MPL-2.0
 								</BrownButton>
 								{#if quiz.type === 'quiz'}
 									<BrownButton
-										on:click={() => {
+										onclick={() => {
 											start_game = quiz.id;
 										}}
 										flex={true}
@@ -365,7 +346,7 @@ SPDX-License-Identifier: MPL-2.0
 								{/if}
 
 								<BrownButton
-									on:click={() => {
+									onclick={() => {
 										deleteQuiz(quiz.id, quiz.type);
 									}}
 									flex={true}
@@ -387,7 +368,7 @@ SPDX-License-Identifier: MPL-2.0
 									</svg>
 								</BrownButton>
 								<BrownButton
-									on:click={() => (download_id = quiz.id)}
+									onclick={() => (download_id = quiz.id)}
 									flex={true}
 									disabled={quiz.type !== 'quiz'}
 									><!-- heroicons/download -->

@@ -27,19 +27,6 @@ SPDX-License-Identifier: MPL-2.0
 		};
 	}
 
-	/*
-	const correct_numbers = (data: number[]) => {
-		console.log(data, data[1] <= data[0])
-		if (data[1] <= data[0]) {
-			range_arr[1] = range_arr[0] + 2
-		}
-		if (data[0] <= data[1]) {
-			range_arr[0] = range_arr[1] - 2
-		}
-	}
-	$: correct_numbers(range_arr)
-
- */
 	let answer = question.answers;
 	let range_arr = $state([answer.min_correct, answer.max_correct]);
 	run(() => {

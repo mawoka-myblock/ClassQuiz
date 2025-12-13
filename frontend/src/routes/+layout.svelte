@@ -9,8 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Navbar from '$lib/navbar.svelte';
 	import { pathname } from '$lib/stores';
 	import { navbarVisible } from '$lib/stores.svelte';
-	// import * as Sentry from '@sentry/browser';
-	// import { BrowserTracing } from '@sentry/tracing';
+
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
 	import CommandPalette from '$lib/components/commandpalette.svelte';
@@ -19,19 +18,6 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let { children }: Props = $props();
-	// import Alert from '$lib/modals/alert.svelte';
-
-	/*	afterNavigate(() => {
-		if (browser) {
-			if (latestPageVisitURl === window.location.href) {
-				return;
-			} else {
-				latestPageVisitURl = window.location.href;
-				plausible.trackPageview();
-			}
-			console.log('After nav');
-		}
-	});*/
 	const plausible_data_url = import.meta.env.VITE_PLAUSIBLE_DATA_URL;
 
 	if (browser) {
@@ -45,34 +31,12 @@ SPDX-License-Identifier: MPL-2.0
 		} else {
 			document.documentElement.classList.remove('dark');
 		}
-
-		// Whenever the user explicitly chooses light mode
-		// 		localStorage.theme = 'light';
-		//
-		// // Whenever the user explicitly chooses dark mode
-		// 		localStorage.theme = 'dark';
-		//
-		// // Whenever the user explicitly chooses to respect the OS preference
-		// 		localStorage.removeItem('theme');
 	}
 	let start_language = 'en';
 	if (browser) {
 		start_language = localStorage.getItem('language') ?? 'en';
 	}
 	initLocalizationContext(start_language);
-	/*
-	if (import.meta.env.VITE_SENTRY !== undefined && import.meta.env.PROD) {
-		Sentry.init({
-			dsn: String(import.meta.env.VITE_SENTRY),
-			integrations: [new BrowserTracing()],
-
-			// Set tracesSampleRate to 1.0 to capture 100%
-			// of transactions for performance monitoring.
-			// We recommend adjusting this value in production
-			tracesSampleRate: 0.5
-		});
-	}
-	 */
 </script>
 
 <svelte:head>
@@ -92,39 +56,14 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 </svelte:head>
 
-<!-- {#if navbarVisible.visible = true.visible}
-	<Navbar />
-	<div class="pt-16 h-screen">
-		<div class="z-40"></div>
-		<slot />
-	</div>
-{:else}
-	<slot />
-{/if} -->
 {#if navbarVisible.visible}
 	<Navbar />
 	<div class="pt-16">
 		<div class="z-40"></div>
-		<!-- extra content above slot -->
 	</div>
 {/if}
-<slot />
+{@render children?.()}
 <CommandPalette />
-
-<!--{#if $alertModal.open ?? false}
-	<div
-		class="fixed inset-0 h-screen w-screen bg-black z-30 bg-opacity-60 items-center justify-center content-center"
-		class:hidden={!$alertModal.open}
-		class:flex={$alertModal.open}
-		class:visible={$alertModal.open}
-	>
-		<Alert
-			bind:title={$alertModal.title}
-			bind:body={$alertModal.body}
-			bind:open={$alertModal.open}
-		/>
-	</div>
-{/if}-->
 
 <style lang="scss">
 	:global(html:not(.dark)) {

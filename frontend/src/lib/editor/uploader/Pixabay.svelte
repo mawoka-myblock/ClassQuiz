@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import type { EditorData } from '$lib/quiz_types';
 	import Spinner from '$lib/Spinner.svelte';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -70,7 +68,10 @@ SPDX-License-Identifier: MPL-2.0
 
 				<form
 					class="w-full flex gap-2"
-					onsubmit={preventDefault(() => (fetched_data = fetch_data()))}
+					onsubmit={(e) => {
+						e.preventDefault();
+						fetched_data = fetch_data();
+					}}
 				>
 					<input
 						class="w-full outline-hidden p-1 rounded-sm dark:bg-gray-500 bg-gray-300"
@@ -93,7 +94,7 @@ SPDX-License-Identifier: MPL-2.0
 							/>
 						</div>
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								set_image(image.id);
 							}}>{$t('words.select')}</BrownButton
 						>
@@ -102,14 +103,14 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex gap-2">
 					<BrownButton
 						disabled={page < 2}
-						on:click={() => {
+						onclick={() => {
 							page -= 1;
 							fetched_data = fetch_data();
 						}}
 						>{$t('uploader.previous_page')}
 					</BrownButton>
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							page += 1;
 							fetched_data = fetch_data();
 						}}>{$t('uploader.next_page')}</BrownButton

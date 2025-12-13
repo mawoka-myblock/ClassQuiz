@@ -37,7 +37,7 @@ class UUIDEncoder(json.JSONEncoder):
 
 
 @router.get("/{quiz_id}")
-async def export_quiz(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
+async def export_quiz(quiz_id: uuid.UUID, _: User = Depends(get_current_user)):
     try:
         quiz: Quiz = await Quiz.objects.filter(Quiz.id == quiz_id).first()
     except ormar.exceptions.NoMatch:
@@ -138,7 +138,7 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
 
 
 @router.get("/excel/{quiz_id}")
-async def export_quiz_as_excel(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
+async def export_quiz_as_excel(quiz_id: uuid.UUID, _: User = Depends(get_current_user)):
     try:
         quiz: Quiz = await Quiz.objects.filter(Quiz.id == quiz_id).first()
     except ormar.exceptions.NoMatch:

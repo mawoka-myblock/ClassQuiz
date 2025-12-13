@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 	import OAuthBlock from './oauth_block.svelte';
 
@@ -14,14 +12,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	const { t } = getLocalization();
 	let email = $state('');
-	let emailEmpty = $state(true);
+	let emailEmpty = $derived(email === '');
 	let isSubmitting = $state(false);
 
-	run(() => {
-		emailEmpty = email === '';
-	});
-
-	const start_login = async (): Promise<void> => {
+	const start_login = async (e: Event): Promise<void> => {
+		e.preventDefault();
 		if (emailEmpty) {
 			return;
 		}
@@ -50,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		{$t('login_page.login_or_create_account')}
 	</p>
 
-	<form onsubmit={preventDefault(start_login)}>
+	<form onsubmit={start_login}>
 		<div class="w-full mt-4">
 			<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 				<div class="relative bg-inherit w-full">

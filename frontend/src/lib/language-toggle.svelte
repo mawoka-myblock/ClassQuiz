@@ -3,13 +3,20 @@ SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
 
 SPDX-License-Identifier: MPL-2.0
 -->
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
-<!--
-<script context='module' lang='ts'>
-	export const prerender = true;
-	export const load = async ({}) => {
-		return {};
-		const languages = [
+	interface Props {
+		languages?: Array<{
+			flag: string;
+			name: string;
+			code: string;
+		}>;
+	}
+
+	let {
+		languages = [
 			{
 				code: 'de',
 				name: 'Deutsch',
@@ -29,125 +36,88 @@ SPDX-License-Identifier: MPL-2.0
 				code: 'fr',
 				name: 'Français',
 				flag: '🇫🇷'
+			},
+			{
+				code: 'id',
+				name: 'Bahasa Indonesia',
+				flag: '🇮🇩'
+			},
+			{
+				code: 'ca',
+				name: 'Català',
+				flag: '🇪🇸'
+			},
+			{
+				code: 'it',
+				name: 'Italiano',
+				flag: '🇮🇹'
+			},
+			{
+				code: 'es',
+				name: 'Español',
+				flag: '🇪🇸'
+			},
+			{
+				code: 'nb_NO',
+				name: 'Norsk',
+				flag: '🇳🇴'
+			},
+			{
+				code: 'zh_Hant',
+				name: 'Chinese (traditional)',
+				flag: '🇨🇳'
+			},
+			{
+				code: 'pl',
+				name: 'Polski',
+				flag: '🇵🇱'
+			},
+			{
+				code: 'pt',
+				name: 'Português',
+				flag: '🇵🇹'
+			},
+			{
+				code: 'uk',
+				name: 'Українська',
+				flag: '🇺🇦'
+			},
+			{
+				code: 'nl',
+				name: 'Nederlands',
+				flag: '🇳🇱'
+			},
+			{
+				code: 'hu',
+				name: 'Magyar',
+				flag: '🇭🇺'
+			},
+			{
+				code: 'vi',
+				name: 'tiếng Việt',
+				flag: '🇻🇳'
+			},
+			{
+				code: 'ta',
+				flag: '🇮🇳',
+				name: 'Tamil'
+			},
+			{
+				code: 'pt_BR',
+				flag: '🇧🇷',
+				name: 'Brazil'
+			},
+			{
+				code: 'ja',
+				flag: '🇯🇵',
+				name: 'Japan'
 			}
-		];
-		let final_arr = [];
-		const set_percents = async () => {
-			for (const lang of languages) {
-				const res = await fetch(`https://translate.mawoka.eu/api/translations/classquiz/frontend/${lang.code}/?format=json`);
-				const json = await res.json();
-				console.log(json);
-				// return Math.floor(json.translated_percent);
-				final_arr.push({ ...lang, percent: json.translated_percent });
-			}
-		};
-		await set_percents();
-		return {
-			slot: {
-				final_arr
-			}
-		};
-	};
-</script>
--->
-<script lang="ts">
-	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
-
-	interface Props {
-		languages?: Array<{
-		flag: string;
-		name: string;
-		code: string;
-	}>;
-	}
-
-	let { languages = [
-		{
-			code: 'de',
-			name: 'Deutsch',
-			flag: '🇩🇪'
-		},
-		{
-			code: 'en',
-			name: 'English',
-			flag: '🇺🇲'
-		},
-		{
-			code: 'tr',
-			name: 'Türkçe',
-			flag: '🇹🇷'
-		},
-		{
-			code: 'fr',
-			name: 'Français',
-			flag: '🇫🇷'
-		},
-		{
-			code: 'id',
-			name: 'Bahasa Indonesia',
-			flag: '🇮🇩'
-		},
-		{
-			code: 'ca',
-			name: 'Català',
-			flag: '🇪🇸'
-		},
-		{
-			code: 'it',
-			name: 'Italiano',
-			flag: '🇮🇹'
-		},
-		{
-			code: 'es',
-			name: 'Español',
-			flag: '🇪🇸'
-		},
-		{
-			code: 'nb_NO',
-			name: 'Norsk',
-			flag: '🇳🇴'
-		},
-		{
-			code: 'zh_Hant',
-			name: 'Chinese (traditional)',
-			flag: '🇨🇳'
-		},
-		{
-			code: 'pl',
-			name: 'Polski',
-			flag: '🇵🇱'
-		},
-		{
-			code: 'pt',
-			name: 'Português',
-			flag: '🇵🇹'
-		},
-		{
-			code: 'uk',
-			name: 'Українська',
-			flag: '🇺🇦'
-		},
-		{
-			code: 'nl',
-			name: 'Nederlands',
-			flag: '🇳🇱'
-		},
-		{
-			code: 'hu',
-			name: 'Magyar',
-			flag: '🇭🇺'
-		},
-		{
-			code: 'vi',
-			name: 'tiếng Việt',
-			flag: '🇻🇳'
-		}
-	] }: Props = $props();
+		]
+	}: Props = $props();
 	const get_selected_language = (): string => {
 		return localStorage.getItem('language');
 	};
-	let selected_language = $state();
+	let selected_language: string = $state();
 	onMount(() => {
 		selected_language = get_selected_language();
 	});

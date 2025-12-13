@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-// import { redirect } from '@sveltejs/kit';
 import { signedIn } from '$lib/stores';
 import type { LayoutLoad } from './$types';
 

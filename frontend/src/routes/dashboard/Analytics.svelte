@@ -33,7 +33,7 @@ SPDX-License-Identifier: MPL-2.0
 {#if quiz}
 	<div
 		class="fixed w-full h-full top-0 flex bg-black/50 z-50 overflow-scroll"
-		on:click={on_parent_click}
+		onclick={on_parent_click}
 		transition:fade={{ duration: 100 }}
 	>
 		<div

@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import VotingResults from './voting_results.svelte';
 	import { flip } from 'svelte/animate';
 	import { fly } from 'svelte/transition';
@@ -31,7 +29,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	let { data = $bindable(), question, new_data }: Props = $props();
 
-	function sortObjectbyValue(obj) {
+	function sortObjectbyValue(obj: object) {
 		const ret = {};
 		Object.keys(obj)
 			.sort((a, b) => obj[b] - obj[a])
@@ -39,26 +37,20 @@ SPDX-License-Identifier: MPL-2.0
 		return ret;
 	}
 
+	let sorted_data = $derived(sortObjectbyValue(data));
+
 	// let data_by_username = {};
-	let score_by_username = $state({});
 
-	const do_sth = () => {
+	const group_username_by_score = (new_d: any[]): object => {
+		let ret_data = {};
 		for (const i of new_data) {
-			score_by_username[i.username] = i.score;
+			ret_data[i.username] = i.score;
 		}
+		return ret_data;
 	};
+	let score_by_username = $derived(group_username_by_score(new_data));
 
-	run(() => {
-		new_data;
-		score_by_username;
-		do_sth();
-	});
-
-	let player_names = $derived(
-		Object.keys(data).sort(function (a, b) {
-			return data[b] - data[a];
-		})
-	);
+	let player_names = $derived(Object.keys(sorted_data));
 
 	if (JSON.stringify(data) === '{}') {
 		for (const i of new_data) {
@@ -66,15 +58,9 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	}
 
-	run(() => {
-		data = sortObjectbyValue(data);
-	});
-
 	let show_new_score_clicked = $state(false);
 
 	const show_new_score = () => {
-		// for (let i = 0; i++; i < player_names.length) {
-		// console.log(data)
 		for (const i of player_names) {
 			if (isNaN(data[i])) {
 				data[i] = 0;
@@ -91,8 +77,6 @@ SPDX-License-Identifier: MPL-2.0
 		setTimeout(() => {
 			data = data;
 		}, 800);
-
-		// console.log(data)
 	};
 
 	onMount(() => {
@@ -127,7 +111,7 @@ SPDX-License-Identifier: MPL-2.0
 							<td class:hidden={i > 3} class="p-2 border-r border-r-black"
 								>{player}</td
 							>
-							<td class:hidden={i > 3} class="p-2">{data[player]}</td>
+							<td class:hidden={i > 3} class="p-2">{sorted_data[player]}</td>
 							{#if show_new_score_clicked}
 								<td
 									in:fly|global={{ x: 300 }}

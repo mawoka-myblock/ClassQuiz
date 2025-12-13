@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Spinner from '$lib/Spinner.svelte';
 
 	let uppyOpen = $state(false);
@@ -14,7 +12,7 @@ SPDX-License-Identifier: MPL-2.0
 	let selected_question = $state(undefined);
 	let data = $state({ cover_image: undefined });
 
-	run(() => {
+	$effect(() => {
 		if (data.cover_image) {
 			window.location.reload();
 		}

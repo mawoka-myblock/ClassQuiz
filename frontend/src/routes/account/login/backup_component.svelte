@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -20,12 +18,10 @@ SPDX-License-Identifier: MPL-2.0
 	let backup_code = $state('');
 	let isSubmitting = $state(false);
 
-	let backup_code_valid = $state(false);
-	run(() => {
-		backup_code_valid = backup_code.length === 64;
-	});
+	let backup_code_valid = $derived(backup_code.length === 64);
 
-	const continue_in_login = async () => {
+	const continue_in_login = async (e: Event) => {
+		e.preventDefault();
 		if (!backup_code_valid) {
 			return;
 		}
@@ -50,7 +46,7 @@ SPDX-License-Identifier: MPL-2.0
 <div class="px-6 py-4">
 	<h2 class="text-3xl font-bold text-center text-gray-700 dark:text-white">ClassQuiz</h2>
 
-	<form onsubmit={preventDefault(continue_in_login)}>
+	<form onsubmit={continue_in_login}>
 		<div class="w-full mt-4">
 			<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
 				<div class="relative bg-inherit w-full">

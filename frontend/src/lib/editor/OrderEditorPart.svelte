@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
+	import { run } from 'svelte/legacy';
 
 	import { getLocalization } from '$lib/i18n';
 	import type { EditorData, OrderQuizAnswer } from '$lib/quiz_types';
@@ -170,9 +170,10 @@ SPDX-License-Identifier: MPL-2.0
 					class="rounded-lg p-1 border-black border"
 					type="color"
 					bind:value={answer.color}
-					oncontextmenu={preventDefault(() => {
+					oncontextmenu={(e) => {
+						e.preventDefault();
 						answer.color = null;
-					})}
+					}}
 				/>
 			</div>
 		{/each}

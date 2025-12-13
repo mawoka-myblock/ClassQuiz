@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import type { Question } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
@@ -35,22 +33,11 @@ SPDX-License-Identifier: MPL-2.0
 		solution
 	}: Props = $props();
 
-	run(() => {
-		console.log(question_index, question, 'hi!');
-	});
-
-	console.log(question);
 	if (question.type === undefined) {
 		question.type = QuizQuestionType.ABCD;
 	} else {
 		question.type = QuizQuestionType[question.type];
 	}
-
-	/*	if (typeof question_index === 'string') {
-            question_index = parseInt(question_index);
-        } else {
-            throw new Error('question_index must be a string or number');
-        }*/
 
 	let timer_res = $state(question.time);
 	let selected_answer: string = $state();
@@ -75,7 +62,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	timer(question.time);
 
-	run(() => {
+	$effect(() => {
 		if (solution !== undefined) {
 			timer_res = '0';
 		}
@@ -83,7 +70,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	const selectAnswer = (answer: string) => {
 		selected_answer = answer;
-		//timer_res = '0';
 		socket.emit('submit_answer', {
 			question_index: question_index,
 			answer: answer
@@ -132,15 +118,14 @@ SPDX-License-Identifier: MPL-2.0
 		_arr[b] = temp;
 		return _arr;
 	};
-	run(() => {
+	$effect(() => {
 		set_answer_if_not_set_range(timer_res);
 	});
-	let circular_progress = $state(0);
-	run(() => {
+	let circular_progress = $derived.by(() => {
 		try {
-			circular_progress = 1 - ((100 / question.time) * parseInt(timer_res)) / 100;
+			return 1 - ((100 / question.time) * parseInt(timer_res)) / 100;
 		} catch {
-			circular_progress = 0;
+			return 0;
 		}
 	});
 
@@ -155,9 +140,6 @@ SPDX-License-Identifier: MPL-2.0
 			return '100';
 		}
 	};
-	run(() => {
-		console.log(slider_value, 'values');
-	});
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 </script>
 
@@ -189,11 +171,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div
 					class="absolute top-0 bottom-0 left-0 right-0 m-auto rounded-full h-fit w-fit border-2 border-black shadow-2xl z-40"
 				>
-					<CircularTimer
-						bind:text={timer_res}
-						bind:progress={circular_progress}
-						color="#ef4444"
-					/>
+					<CircularTimer text={timer_res} progress={circular_progress} color="#ef4444" />
 				</div>
 
 				<div class="grid grid-rows-2 grid-flow-col auto-cols-auto gap-2 w-full p-4 h-full">
@@ -241,9 +219,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 				<div class="flex justify-center">
 					<div class="w-1/2">
-						<BrownButton
-							disabled={selected_answer !== undefined}
-							on:click={() => selectAnswer(slider_value[0])}
+						<BrownButton onclick={() => selectAnswer(slider_value[0])}
 							>{$t('words.submit')}
 						</BrownButton>
 					</div>
@@ -262,7 +238,7 @@ SPDX-License-Identifier: MPL-2.0
 					<input
 						type="text"
 						bind:value={text_input}
-						disabled={selected_answer}
+						disabled={selected_answer !== undefined}
 						class="bg-gray-50 focus:ring text-gray-900 rounded-lg focus:ring-blue-500 block w-full p-2 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500 outline-hidden transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 				</div>
@@ -271,8 +247,8 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-1/3">
 						<BrownButton
 							type="button"
-							disabled={selected_answer}
-							on:click={() => {
+							disabled={!text_input || text_input.length === 0}
+							onclick={() => {
 								selectAnswer(text_input);
 							}}
 						>
@@ -281,20 +257,6 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 				</div>
 			</div>
-		{:else if question.type === QuizQuestionType.RANGE}
-			{#if solution === undefined}
-				<Spinner />
-			{:else}
-				<p class="text-center">
-					Every number between {solution.answers.min_correct} and {solution.answers
-						.max_correct} was correct. You got {selected_answer}, so you have been
-					{#if solution.answers.min_correct <= parseInt(selected_answer) && parseInt(selected_answer) <= solution.answers.max_correct}
-						correct
-					{:else}
-						wrong.
-					{/if}
-				</p>
-			{/if}
 		{:else if question.type === QuizQuestionType.ORDER}
 			<!--			{#if solution === undefined}
                             <Spinner />
@@ -316,7 +278,8 @@ SPDX-License-Identifier: MPL-2.0
 							}}
 							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
-							disabled={i === 0 || selected_answer}
+							aria-label="Move item up"
+							disabled={i === 0 || Boolean(selected_answer)}
 						>
 							<svg
 								class="w-8 h-8"
@@ -343,7 +306,8 @@ SPDX-License-Identifier: MPL-2.0
 							}}
 							class="disabled:opacity-50 shadow-lg bg-black/30 w-full flex justify-center rounded-lg p-2 hover:bg-black/20 transition"
 							type="button"
-							disabled={i === question.answers.length - 1 || selected_answer}
+							aria-label="Move item down"
+							disabled={i === question.answers.length - 1 || Boolean(selected_answer)}
 						>
 							<svg
 								class="w-8 h-8"
@@ -367,8 +331,8 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="w-full mt-2">
 					<BrownButton
 						type="button"
-						disabled={selected_answer}
-						on:click={() => {
+						disabled={Boolean(selected_answer)}
+						onclick={() => {
 							select_complex_answer(question.answers);
 						}}>{$t('words.submit')}</BrownButton
 					>
@@ -380,30 +344,23 @@ SPDX-License-Identifier: MPL-2.0
 				<Spinner />
 			{:then c}
 				<c.default
-					bind:question
+					{question}
 					bind:selected_answer
-					bind:game_mode
+					{game_mode}
 					{timer_res}
 					{circular_progress}
 				/>
 				<div class="flex justify-center h-[5%]">
 					<div class="w-1/2">
 						<BrownButton
-							disabled={!selected_answer}
-							on:click={() => selectAnswer(selected_answer)}
+							type="button"
+							disabled={selected_answer === undefined}
+							onclick={() => selectAnswer(selected_answer)}
 							>{$t('words.submit')}
 						</BrownButton>
 					</div>
 				</div>
 			{/await}
 		{/if}
-
-		<!--{:else if question.type === QuizQuestionType.VOTING}
-    {#await import('$lib/play/admin/voting_results.svelte')}
-        <Spinner />
-    {:then c}
-        <svelte:component this={c.default} bind:data={question_results}
-                          bind:question={quiz_data.questions[selected_question]} />
-    {/await}-->
 	{/if}
 </div>

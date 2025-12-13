@@ -34,7 +34,11 @@ SPDX-License-Identifier: MPL-2.0
 		edit_id: string;
 	}
 
-	let { data = $bindable(), selected_question = $bindable(), edit_id = $bindable() }: Props = $props();
+	let {
+		data = $bindable(),
+		selected_question = $bindable(),
+		edit_id = $bindable()
+	}: Props = $props();
 
 	let advanced_options_open = $state(false);
 
@@ -155,9 +159,7 @@ SPDX-License-Identifier: MPL-2.0
 									'questions[].question'
 								).isValidSync(data.questions[selected_question].question)}
 							>
-								<c.default
-									bind:text={data.questions[selected_question].question}
-								/>
+								<c.default bind:text={data.questions[selected_question].question} />
 							</div>
 						{/await}
 					{/key}
@@ -287,7 +289,7 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 			</label>
 			<div class="mt-auto w-full">
-				<BrownButton on:click={() => (advanced_options_open = false)}
+				<BrownButton onclick={() => (advanced_options_open = false)}
 					>{$t('words.close')}</BrownButton
 				>
 			</div>

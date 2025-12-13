@@ -79,43 +79,26 @@ async def auth(request: Request, response: Response):
         user_data = OauthGoogleResponse(**user_data).userinfo
     except (TypeError, ValidationError):
         raise HTTPException(status_code=401, detail="Something went wrong.")
-    user_in_db = await User.objects.get_or_none(email=user_data.email)
-    if user_in_db is None:
         # REGISTER USER
-        try:
-            await User.objects.create(
-                id=uuid.uuid4(),
-                email=user_data.email,
-                username=user_data.name,
-                verified=user_data.email_verified,
-                auth_type=UserAuthTypes.GOOGLE,
-                google_uid=user_data.sub,
-                avatar=gzipped_user_avatar(),
-            )
-        # skipcq: PYL-W0703
-        except Exception as e:
-            if type(e) is asyncpg.exceptions.UniqueViolationError:
-                error = True
-                counter = 1
-                while error:
-                    try:
-                        await User.objects.create(
-                            id=uuid.uuid4(),
-                            email=user_data.email,
-                            username=f"{user_data.name}{counter}",
-                            verified=user_data.email_verified,
-                            auth_type=UserAuthTypes.GOOGLE,
-                            google_uid=user_data.sub,
-                            avatar=gzipped_user_avatar(),
-                        )
-                        error = False
-                    except asyncpg.exceptions.UniqueViolationError:
-                        counter += 1
-                        error = True
-            else:
-                raise HTTPException(status_code=500, detail=str(e))
+    try:
+        await User.objects.create(
+            id=uuid.uuid4(),
+            email=user_data.email,
+            username=user_data.name,
+            verified=user_data.email_verified,
+            auth_type=UserAuthTypes.GOOGLE,
+            google_uid=user_data.sub,
+            avatar=gzipped_user_avatar(),
+        )
+    except asyncpg.exceptions.UniqueViolationError:
+        raise HTTPException(status_code=400, detail="User already exists.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
-        email=user_data.email, google_uid=user_data.sub, auth_type=UserAuthTypes.GOOGLE, verified=True
+        email=user_data.email,
+        google_uid=user_data.sub,
+        auth_type=UserAuthTypes.GOOGLE,
+        verified=True,
     )
 
     await log_user_in(user=user, request=request, response=response)

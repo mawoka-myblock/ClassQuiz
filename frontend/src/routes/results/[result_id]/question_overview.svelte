@@ -7,7 +7,7 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import type { Question } from '$lib/quiz_types';
 	import { fly } from 'svelte/transition';
-	import QuestionTab from './question_tab_thing.svelte';
+	import QuestionTab from './question_tab_dropdown.svelte';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 
@@ -16,12 +16,12 @@ SPDX-License-Identifier: MPL-2.0
 	interface Props {
 		questions: Question[];
 		answers: {
-		username: string;
-		answer: string;
-		right: boolean;
-		tike_taken: number;
-		score: number;
-	}[][];
+			username: string;
+			answer: string;
+			right: boolean;
+			tike_taken: number;
+			score: number;
+		}[][];
 	}
 
 	let { questions, answers }: Props = $props();
@@ -57,7 +57,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div class="w-full flex justify-center">
-	<div class="w-11/12 flex flex-col w-full gap-4">
+	<div class="flex flex-col w-full gap-4">
 		{#each questions as question, i}
 			<div class="transition-all">
 				<div

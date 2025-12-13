@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import { onMount } from 'svelte';
@@ -17,16 +15,13 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 	let url_input = $state('');
 	let file_input: File[] = $state();
-
-	let url_valid = $state(false);
 	let kahoot_regex = /^https:\/\/create\.kahoot\.it\/details\/([a-zA-Z-\d]{36})\/?$/;
+
+	let url_valid = $derived(kahoot_regex.test(url_input));
 	let is_loading = $state(false);
 
-	run(() => {
-		url_valid = kahoot_regex.test(url_input);
-	});
-
-	const submit = async () => {
+	const submit = async (e: Event) => {
+		e.preventDefault();
 		if (!url_valid) {
 			return;
 		}
@@ -61,7 +56,8 @@ SPDX-License-Identifier: MPL-2.0
 		is_loading = false;
 	};
 
-	const file_submit = async () => {
+	const file_submit = async (e: Event) => {
+		e.preventDefault();
 		is_loading = true;
 		const formdata = new FormData();
 		formdata.append('file', file_input[0]);
@@ -95,10 +91,6 @@ SPDX-License-Identifier: MPL-2.0
 		is_loading = false;
 	};
 
-	run(() => {
-		console.log(file_input);
-	});
-
 	onMount(() => {
 		let url_from_path = page.url.searchParams.get('url');
 		if (url_from_path === '') {
@@ -112,23 +104,6 @@ SPDX-License-Identifier: MPL-2.0
 	<title>ClassQuiz - Import</title>
 </svelte:head>
 
-<!--{#if is_loading}
-	<svg class='h-8 w-8 animate-spin mx-auto my-20' viewBox='3 3 18 18'>
-		<path
-			class='fill-black'
-			d='M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z'
-		/>
-		<path
-			class='fill-blue-100'
-			d='M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z'
-		/>
-	</svg>
-{:else}-->
-
-<!--	<form on:submit|preventDefault={submit}>
-		<input type='text' class="text-black w-2/5" bind:value={url_input} />
-		<button type='submit' disabled={!url_valid}>Submit</button>
-	</form>-->
 <div class="flex items-center justify-center h-full px-4">
 	<div>
 		<span class="p-4"></span>
@@ -149,7 +124,7 @@ SPDX-License-Identifier: MPL-2.0
 									Login or create account
 								</p>-->
 				<div class="grid grid-cols-2">
-					<form onsubmit={preventDefault(submit)}>
+					<form onsubmit={submit}>
 						<div class="w-full mt-4 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.a_kahoot_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -208,7 +183,7 @@ SPDX-License-Identifier: MPL-2.0
 							</div>
 						</div>
 					</form>
-					<form onsubmit={preventDefault(file_submit)}>
+					<form onsubmit={file_submit}>
 						<div class="w-full mt-4 border-l-2 border-gray-600 h-full flex flex-col">
 							<h2 class="text-center text-2xl">{$t('import_page.classquiz_quiz')}</h2>
 							<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
@@ -233,7 +208,7 @@ SPDX-License-Identifier: MPL-2.0
 								<a
 									class="text-sm underline font-bold text-blue-500 dark:text-blue-400"
 									download
-									href="https://s3.realux.mawoka.eu/blog/classquiz/ClassQuizImportTemplate.xlsx"
+									href="https://blog.web.garage.realux.mawoka.eu/classquiz/ClassQuizImportTemplate.xlsx"
 									>{$t('import_page.download_template_here')}</a
 								>
 							</div>

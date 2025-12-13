@@ -230,7 +230,10 @@
         "need_more_help": "Meer hulp nodig?",
         "enter_answer": "Voer een antwoord in",
         "visit_docs": "Bekijk de documenten.",
-        "advanced_settings": "Geavanceerde instellingen"
+        "advanced_settings": "Geavanceerde instellingen",
+        "enable_reorder": "Zet volgorde wijzigingen modus aan",
+        "disable_reorder": "Zet volgorde wijzigingen modus uit",
+        "hide_question_results": "Verberg vraagresultaten?"
     },
     "import_page": {
         "url_should_look_like_this": "De URL zou er als volgt uit moeten zien: https://create.kahoot.it/details/...",
@@ -241,7 +244,7 @@
         "a_kahoot_quiz": "Een Kahoot!-Quiz",
         "need_help": "Hulp nodig?",
         "classquiz_quiz": "Een ClassQuiz-Quiz",
-        "this_side_classquiz_excel": "Je kunt ook Excel-bestanden uploaden, als je het volgende sjabloon hebt ingevuld.",
+        "this_side_classquiz_excel": "Je kunt ook Excel-bestanden uploaden, als je het volgende sjabloon hebt ingevuld. Als er al een quiz met die titel bestaat, worden de vragen aan de bestaande quiz toegevoegd.",
         "download_template_here": "Download het sjabloon"
     },
     "admin_page": {

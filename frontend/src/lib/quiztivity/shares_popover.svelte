@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Spinner from '$lib/Spinner.svelte';
@@ -81,7 +79,8 @@ SPDX-License-Identifier: MPL-2.0
 	});
 	let never_expires_checked = $state(true);
 	let selected_date = $state(undefined);
-	const create_share = async () => {
+	const create_share = async (e: Event) => {
+		e.preventDefault();
 		if (!selected_date && !never_expires_checked) {
 			return;
 		}
@@ -117,7 +116,7 @@ SPDX-License-Identifier: MPL-2.0
 				? !navigator.canShare({
 						title: 'title',
 						url: `${window.location.origin}/quiztivity`
-				  })
+					})
 				: false;
 		} catch {
 			return false;
@@ -137,7 +136,7 @@ SPDX-License-Identifier: MPL-2.0
 	>
 		<div class="flex justify-center flex-col">
 			<BrownButton
-				on:click={() => {
+				onclick={() => {
 					add_shares_open = !add_shares_open;
 				}}>{$t('quiztivity.editor.shares.add_new_share')}</BrownButton
 			>
@@ -145,7 +144,7 @@ SPDX-License-Identifier: MPL-2.0
 				<form
 					class="flex justify-center p-2 border-b-2 border-l-2 border-r-2 border-[#B07156] flex-col gap-2"
 					transition:fly={{ duration: 100, y: -10 }}
-					onsubmit={preventDefault(create_share)}
+					onsubmit={create_share}
 				>
 					<div class="grid grid-cols-2">
 						<input
@@ -175,7 +174,7 @@ SPDX-License-Identifier: MPL-2.0
 						<BrownButton
 							flex={true}
 							disabled={share_available()}
-							on:click={() => {
+							onclick={() => {
 								navigator.share({
 									title: 'Quiztivity on ClassQuiz',
 									text: 'Play this Quiztivity now on ClassQuiz!',
@@ -204,7 +203,7 @@ SPDX-License-Identifier: MPL-2.0
 					<div class="w-full mx-auto">
 						<BrownButton
 							flex={true}
-							on:click={() => {
+							onclick={() => {
 								copyToClipboard(
 									`${window.location.origin}/quiztivity/share/${share.id}?ref=copy`
 								);
@@ -242,7 +241,7 @@ SPDX-License-Identifier: MPL-2.0
 					</p>
 					<div class="w-fit my-auto ml-auto">
 						<BrownButton
-							on:click={() => {
+							onclick={() => {
 								delete_share(share.id);
 							}}>{$t('words.delete')}</BrownButton
 						>

@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import type { QuizData } from '$lib/quiz_types';
 
 	import { socket } from '$lib/socket';
@@ -124,11 +122,12 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	const request_answer_export = async () => {
-		await socket.emit('get_export_token');
+	const request_answer_export = (e: Event) => {
+		e.preventDefault();
+		socket.emit('get_export_token');
 	};
-	const save_quiz = async () => {
-		await socket.emit('save_quiz');
+	const save_quiz = () => {
+		socket.emit('save_quiz');
 	};
 
 	let darkMode = false;
@@ -143,10 +142,7 @@ SPDX-License-Identifier: MPL-2.0
 	let bg_image = $derived(quiz_data ? quiz_data.background_image : undefined);
 	let results_saved = $state(false);
 
-	let show_final_results = $state(false);
-	run(() => {
-		show_final_results = JSON.stringify(final_results) !== JSON.stringify([null]);
-	});
+	let show_final_results = $derived(JSON.stringify(final_results) !== JSON.stringify([null]));
 </script>
 
 <svelte:window onbeforeunload={confirmUnload} />
@@ -165,7 +161,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="w-screen flex justify-center mt-16">
 				<div class="w-fit">
 					{#if export_token === undefined}
-						<GrayButton on:click={request_answer_export}
+						<GrayButton onclick={request_answer_export}
 							>{$t('admin_page.request_export_results')}</GrayButton
 						>
 					{:else}
@@ -179,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			<div class="w-screen flex justify-center mt-2">
 				<div class="w-fit">
-					<GrayButton on:click={save_quiz} flex={true} disabled={results_saved}>
+					<GrayButton onclick={save_quiz} flex={true} disabled={results_saved}>
 						{#if results_saved}
 							<svg
 								class="w-4 h-4"
@@ -201,7 +197,7 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</div>
 		{/if}
-		<FinalResults bind:data={player_scores} bind:show_final_results />
+		<FinalResults bind:data={player_scores} {show_final_results} />
 	{/if}
 	{#if !success}
 		{#if errorMessage !== ''}
@@ -217,18 +213,16 @@ SPDX-License-Identifier: MPL-2.0
 	{:else}
 		<SomeAdminScreen
 			bind:final_results
-			{game_pin}
-			bind:game_token
+			{game_token}
 			bind:quiz_data
-			bind:game_mode
-			bind:bg_color
+			{bg_color}
 			bind:player_scores
-			bind:control_visible
+			{control_visible}
 		/>
 	{/if}
 </div>
 <a
-	onclick={preventDefault(request_answer_export)}
+	onclick={request_answer_export}
 	href="#"
 	target="_blank"
 	bind:this={dataexport_download_a}

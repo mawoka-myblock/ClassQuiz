@@ -58,7 +58,7 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 					<p class="text-center">{image.filename ?? 'No name available'}</p>
 					<BrownButton
-						on:click={() => {
+						onclick={() => {
 							set_image(image.id);
 						}}>{$t('words.select')}</BrownButton
 					>

@@ -5,8 +5,6 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { getLocalization } from '$lib/i18n';
 
 	const { t } = getLocalization();
@@ -85,9 +83,6 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 	let winners = getWinnersSorted();
-	run(() => {
-		console.log(winners, winners_arr);
-	});
 </script>
 
 <div>

@@ -5,14 +5,10 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import { run, createBubbler, preventDefault } from 'svelte/legacy';
-
-	const bubble = createBubbler();
 	import { socket } from '$lib/socket';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import * as Sentry from '@sentry/browser';
-	// import { alertModal } from '../stores';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
@@ -25,7 +21,11 @@ SPDX-License-Identifier: MPL-2.0
 		username: any;
 	}
 
-	let { game_pin = $bindable(), game_mode = $bindable(), username = $bindable() }: Props = $props();
+	let {
+		game_pin = $bindable(),
+		game_mode = $bindable(),
+		username = $bindable()
+	}: Props = $props();
 	let custom_field = $state();
 	let custom_field_value = $state();
 	let captcha_enabled = $state();
@@ -112,14 +112,14 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
-	run(() => {
+	$effect(() => {
 		if (game_pin.length > 5) {
-			console.log('Setting game pin');
 			set_game_pin();
 		}
 	});
 
-	const setUsername = async () => {
+	const setUsername = async (e: Event) => {
+		e.preventDefault();
 		if (username.length <= 3) {
 			return;
 		}
@@ -185,12 +185,12 @@ SPDX-License-Identifier: MPL-2.0
 			alert('Game not found');
 		}
 	});
-
-	run(() => {
-		console.log(game_pin, game_pin.length > 6);
-	});
-	run(() => {
-		game_pin = game_pin.replace(/\D/g, '');
+	$effect(() => {
+		const cleaned = game_pin.replace(/\D/g, '');
+		if (game_pin.replace(/\D/g, '') === game_pin) {
+			return;
+		}
+		game_pin = cleaned;
 	});
 </script>
 
@@ -207,7 +207,7 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if game_pin === '' || game_pin.length < 6}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form onsubmit={preventDefault(bubble('submit'))} class="flex-col flex justify-center align-center mx-auto">
+		<form class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
 			<input
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
@@ -225,10 +225,7 @@ SPDX-License-Identifier: MPL-2.0
 	</div>
 {:else}
 	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form
-			onsubmit={preventDefault(setUsername)}
-			class="flex-col flex justify-center align-center mx-auto"
-		>
+		<form onsubmit={setUsername} class="flex-col flex justify-center align-center mx-auto">
 			<h1 class="text-lg text-center">{$t('words.username')}</h1>
 			<input
 				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
@@ -244,7 +241,7 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 
 			<div class="mt-2">
-				<BrownButton disabled={username.length <= 3} on:click={setUsername}
+				<BrownButton disabled={username.length <= 3} onclick={setUsername}
 					>{$t('words.submit')}</BrownButton
 				>
 			</div>

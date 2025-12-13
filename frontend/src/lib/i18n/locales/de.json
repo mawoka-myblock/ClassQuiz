@@ -378,7 +378,8 @@
         "time_taken": "benötigte Zeit",
         "player_name": "Spielername",
         "correct_answer_plural": "{{count}} richtige Antworten",
-        "player_score": "Spieler Score"
+        "player_score": "Spieler Score",
+        "player_correct_questions": "Richtige Antworten"
     },
     "navbar": {
         "donate": "Spenden"

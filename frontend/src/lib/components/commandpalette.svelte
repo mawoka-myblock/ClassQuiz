@@ -8,8 +8,6 @@ SPDX-License-Identifier: MPL-2.0
 This should be okay, right?
 -->
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import { onMount } from 'svelte';
 	import { tinykeys } from '$lib/tinykeys';
 	import { fade } from 'svelte/transition';
@@ -104,7 +102,6 @@ This should be okay, right?
 	const toggle_open = (e: KeyboardEvent | undefined) => {
 		e.preventDefault();
 		open = !open;
-		console.log('TOGGLE!');
 	};
 
 	const close_cp = (e: KeyboardEvent | undefined) => {
@@ -159,7 +156,6 @@ This should be okay, right?
 
 		visible_items = [];
 
-		console.log(res);
 		for (const quiz_data of res) {
 			visible_items.push(actions[quiz_data.id]);
 		}
@@ -206,13 +202,6 @@ This should be okay, right?
 		input = '';
 	};
 
-	run(() => {
-		search(input);
-	});
-	// $: input = lower_input(input)
-	run(() => {
-		input = input.toLowerCase();
-	});
 	onMount(async () => {
 		tinykeys(window, {
 			'$mod+k': toggle_open,
@@ -240,6 +229,9 @@ This should be okay, right?
 		class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
 		onclick={close_on_outside}
 		onkeyup={close_on_outside}
+		role="button"
+		aria-label="Close"
+		tabindex="0"
 		transition:fade|global={{ duration: 60 }}
 	>
 		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
@@ -251,8 +243,10 @@ This should be okay, right?
 				</p>
 				<input
 					type="text"
-					class="col-start-1 row-start-1 bg-transparent w-full p-4 outline-hidden bg-gray-700 rounded-sm"
+					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-sm"
 					bind:value={input}
+					oninput={() => search(input)}
+					autofocus
 				/>
 			</div>
 			<div class="flex flex-col p-2 gap-2 overflow-scroll">
@@ -264,6 +258,8 @@ This should be okay, right?
 						class:bg-gray-700={selected !== i}
 						onmouseenter={() => (selected = i)}
 						onmousedown={execute_action}
+						tabindex="-2"
+						role="button"
 					>
 						<div class="flex">
 							<h3 class="text-lg my-auto">{vi.title}</h3>
