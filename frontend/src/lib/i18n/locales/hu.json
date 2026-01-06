@@ -366,7 +366,8 @@
         "time_taken": "Eltelt idő",
         "player_score": "Játékos pontszáma",
         "player_name": "Játékos neve",
-        "average_score": "Átlagos pontszám: {{average_score}}"
+        "average_score": "Átlagos pontszám: {{average_score}}",
+        "player_correct_questions": "Helyes Válaszok"
     },
     "controllers": {
         "add_new_controller": "Új vezérlő hozzáadása",
