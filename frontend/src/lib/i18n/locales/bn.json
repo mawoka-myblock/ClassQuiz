@@ -1,1 +1,489 @@
-{}
+{
+    "index_page": {
+        "slogan": "ওপেন-সোর্স কুইজ প্ল্যাটফর্ম!",
+        "meta": {
+            "description": "ClassQuiz শিক্ষার্থীদের জন্য ইন্টার‌্যাকটিভভাবে শেখার একটি কুইজ অ্যাপ, এটি ওপেন সোর্স এবং সম্পূর্ণ বিনামূল্যে ব্যবহার করা যায়",
+            "title": "হোম"
+        },
+        "stats": "ClassQuiz-এ ইতিমধ্যেই {{user_count}} জন ব্যবহারকারী এবং {{quiz_count}}টি কুইজ রয়েছে।",
+        "see_what_true_and_false": "কোনটি সঠিক আর কোনটি ভুল ছিল তা দেখুন",
+        "see_how_many_true_and_false": "কতগুলো সঠিক ছিল অথবা ভুল ছিল তা দেখুন",
+        "create_or_import": "তৈরি করুন অথবা ইমপোর্ট করুন",
+        "see_all_quizzes": "আপনার সব কুইজ দেখুন",
+        "teachers_site": "শিক্ষকের সাইট",
+        "students_site": "শিক্ষার্থীর সাইট",
+        "no_tracking": "কোনো ট্র্যাকিং নেই",
+        "self_hostable": "সেলফ হোস্ট করা যায়",
+        "german_server": "জার্মান সার্ভার",
+        "user_friendly": "সহজে ব্যবহারযোগ্য",
+        "completely_free": "সম্পূর্ণ বিনামূল্যে",
+        "quiz_results_downloadable": "কুইজের ফলাফল ডাউনলোড করতে পারবেন",
+        "multilingual": "বহুভাষিক",
+        "dark_mode": "ডার্ক মোড",
+        "get_a_quiz": "১. একটি কুইজ নিন",
+        "create_a_quiz_from_scratch": "এডিটর ব্যবহার করে একেবারে শুরু থেকে একটি কুইজ তৈরি করুন এবং ছবি সহ এবং অনেক কিছু যোগ করুন",
+        "find_or_explore": "অন্যদের তৈরি বা ইমপোর্ট করা কুইজ খুঁজুন (বা এক্সপ্লোর করুন)",
+        "play_quiz": "২. কুইজ খেলুন",
+        "select_answer": "উত্তর নির্বাচন করুন",
+        "choose_answer_wisely": "ভেবেচিন্তে আপনার উত্তর বেছে নিন",
+        "view_results": "ফলাফল দেখুন",
+        "check_if_chosen_wisely": "আপনি সঠিকভাবে বেছে নিয়েছেন কি না তা যাচাই করুন",
+        "list_winners": "বিজয়ীদের তালিকা দেখুন",
+        "get_ranking_and_winners": "র‌্যাঙ্কিং দেখুন এবং কে জয়ী হয়েছে তা জানুন",
+        "why_classquiz": "কেন ClassQuiz?",
+        "no_tracking_content": "অন্যান্য প্ল্যাটফর্ম আপনাকে ট্র্যাক করে এবং সেই তথ্য তৃতীয় পক্ষের কাছে পাঠায়, কিন্তু ClassQuiz তা করে না।",
+        "self_hostable_content": "ClassQuiz সহজেই নিজে হোস্ট করা যায়, তাই সব ডেটা শুধুমাত্র আপনার নিয়ন্ত্রণেই থাকে!",
+        "user_friendly_content": "ClassQuiz-এর লক্ষ্য হলো সহজ হওয়া, যাতে এটি সবাই ব্যবহার করতে পারে।",
+        "completely_free_content": "ClassQuiz ব্যবহারকারীদের জন্য সম্পূর্ণ বিনামূল্যে—এতে কোনো পেইড প্ল্যান নেই বা আপগ্রেড পেজে বিরক্তিকর রিডাইরেক্টও নেই। তবে অনুদান অত্যন্ত প্রশংসিত।",
+        "quiz_results_downloadable_content": "কুইজের ফলাফল সহজেই একটি এক্সেল স্প্রেডশিটে এক্সপোর্ট করা যায়। (জানতামই না যে অন্যরা এটা করতে পারে না)",
+        "multilingual_content": "ClassQuiz ইংরেজি, ফরাসি, জার্মান, ইতালিয়ান, নরওয়েজিয়ান বোকমল, তুর্কি ভাষায় উপলব্ধ, এবং আংশিকভাবে ইন্দোনেশিয়ান ও কাতালান ভাষাতেও রয়েছে।",
+        "dark_mode_content": "এটা একটি ওয়েবসাইটের সবচেয়ে গুরুত্বপূর্ণ বৈশিষ্ট্য!",
+        "german_server_content": "ClassQuiz-এর সার্ভারগুলো জার্মানিতে অবস্থিত এবং netcup দ্বারা হোস্ট করা।",
+        "download_quizzes": "কুইজ ডাউনলোড করুন",
+        "download_quizzes_content": "কুইজগুলো একটি ফাইল হিসেবে ডাউনলোড করা যায় এবং যেকোনো সময় ইমপোর্ট করা যায়। এর ফলে আপনার কুইজগুলো অন্য ClassQuiz ইনস্ট্যান্সে স্থানান্তর করাও সম্ভব।",
+        "community_driven": "কমিউনিটি-নির্ভর",
+        "community_driven_content": "ClassQuiz এর অর্থায়ন, নতুন আইডিয়া পরীক্ষা, ফিচার অনুরোধ, অনুবাদসহ আরও অনেক কিছুর জন্য তার কমিউনিটির ওপর নির্ভর করে। আপনিও ClassQuiz কমিউনিটির অংশ হতে পারেন!",
+        "how_does_classquiz_work": "ClassQuiz আসলে কীভাবে কাজ করে?",
+        "no_player_limit": "খেলোয়াড় সংখ্যার কোনো সীমা নেই",
+        "no_player_limit_content": "ClassQuiz-এ কোনো খেলোয়াড় সীমা নেই। সাধারণত ১০০০+ খেলোয়াড় একই কুইজ খেলতে পারে, তবে বর্তমানে প্রতি কুইজে সর্বোচ্চ ৩০০ জন খেলোয়াড় পর্যন্ত পরীক্ষা করা হয়েছে।",
+        "import_quiz_from_kahoot_and_edit": "Kahoot! থেকে কুইজ ইমপোর্ট করুন এবং ClassQuiz-এ সেগুলো এডিট করুন"
+    },
+    "overview_page": {
+        "created_at": "বানানো হয়েছিল",
+        "question_count": "প্রশ্নের সংখ্যা",
+        "no_quizzes": "শুরু করতে “Create” বাটনে ক্লিক করুন, অথবা একটি কুইজ ইমপোর্ট করুন।"
+    },
+    "edit_page": {
+        "success_update_title": "কুইজ আপডেট হয়েছে।",
+        "success_update_body": "কেউই ইনকুইজিশনের আশা করবে না।"
+    },
+    "words": {
+        "answer": "উত্তর",
+        "question": "প্রশ্ন",
+        "stats": "পরিসংখ্যান",
+        "features": "ফিচারসমূহ",
+        "login": "লগ ইন",
+        "email": "ইমেইল ঠিকানা",
+        "username": "ইউজারনেম",
+        "password": "পাসওয়ার্ড",
+        "play": "খেলুন",
+        "edit": "এডিট করুন",
+        "delete": "মুছুন",
+        "public": "পাবলিক",
+        "start": "শুরু",
+        "import": "ইমপোর্ট করুন",
+        "logout": "লগ আউট",
+        "title": "শিরোনাম",
+        "submit": "জমা দিন",
+        "connect": "সংযুক্ত করুন",
+        "register": "রেজিস্টার",
+        "pin": "পিন",
+        "kick": "বের করে দিন",
+        "docs": "ডকুমেন্টেশন",
+        "close": "বন্ধ",
+        "save": "সেভ",
+        "description": "বর্ণনা",
+        "create": "তৈরি করুন",
+        "image": "ছবি",
+        "settings": "সেটিংস",
+        "repeat_password": "পাসওয়ার্ড আবার দিন",
+        "overview": "ওভারভিউ",
+        "report": "রিপোর্ট",
+        "explore": "এক্সপ্লোর",
+        "search": "সার্চ",
+        "screenshot": "স্ক্রিনশট",
+        "screenshot_plural": "স্ক্রিনশটগুলো",
+        "browser": "ব্রাউজার",
+        "view": "ভিউ",
+        "view_plural": "দেখার সংখ্যা",
+        "correct": "সঠিক",
+        "result": "ফলাফল",
+        "result_plural": "ফলাফলসমূহ",
+        "count": "সংখ্যা",
+        "range": "পরিসর",
+        "multiple_choice": "মাল্টিপল চয়েস",
+        "private": "প্রাইভেট",
+        "dashboard": "ড্যাশবোর্ড",
+        "question_plural": "প্রশ্নসমূহ",
+        "game_pin": "গেম পিন",
+        "other": "অন্যান্য",
+        "other_plural": "অন্যরা",
+        "donating": "অনুদান",
+        "find": "খুঁজুন",
+        "practice": "অনুশীলন",
+        "error": "ত্রুটি",
+        "voting": "ভোটিং",
+        "download": "ডাউনলোড",
+        "continue": "চালিয়ে যান",
+        "backup_code": "ব্যাকআপ কোড",
+        "text": "লেখা",
+        "order": "ক্রম",
+        "results": "ফলাফল",
+        "note": "নোট",
+        "player_plural": "খেলোয়াড়রা",
+        "version": "ভার্সন",
+        "never": "কখনোই না",
+        "unknown": "অজানা",
+        "update": "আপডেট",
+        "score": "স্কোর",
+        "slide": "স্লাইড",
+        "name": "নাম",
+        "point": "পয়েন্ট",
+        "point_plural": "পয়েন্টসমূহ",
+        "back": "পেছনে",
+        "finish": "শেষ",
+        "normal": "স্বাভাবিক",
+        "selected": "নির্বাচিত",
+        "select": "বাছাই করুন",
+        "url": "উ আর এল(URL)",
+        "totp": "Totp",
+        "quiztivity": "কুইজটিভিটি",
+        "next": "পরবর্তী",
+        "check_choice": "পছন্দ যাচাই করুন",
+        "video": "ভিডিও",
+        "library": "লাইব্রেরি",
+        "progress": "অগ্রগতি",
+        "speed": "গতি",
+        "upload": "আপলোড",
+        "files_library": "ফাইল লাইব্রেরি",
+        "answer_plural": "উত্তরসমূহ",
+        "yes": "হ্যাঁ",
+        "no": "না",
+        "analytics": "বিশ্লেষণ",
+        "quiz": "কুইজ",
+        "rating": "রেটিং",
+        "like": "লাইক",
+        "like_plural": "লাইকসমূহ",
+        "dislike": "ডিসলাইক",
+        "dislike_plural": "ডিসলাইকসমূহ",
+        "play_plural": "খেলার সংখ্যা",
+        "info": "তথ্য",
+        "player": "খেলোয়াড়"
+    },
+    "create_page": {
+        "success": {
+            "title": "কুইজ তৈরি হয়েছে।",
+            "body": "খেলা শুরু হোক।"
+        }
+    },
+    "register_page": {
+        "greeting": "পরিচয় হয়ে ভালো লাগলো!",
+        "create_account": "অ্যাকাউন্ট তৈরি করুন",
+        "already_have_account?": "আগের অ্যাকাউন্ট আছে?",
+        "forgot_password?": "পাসওয়ার্ড ভুলে গেছেন?"
+    },
+    "login_page": {
+        "welcome_back": "আবার স্বাগতম।",
+        "login_or_create_account": "লগ ইন করুন অথবা অ্যাকাউন্ট তৈরি করুন",
+        "already_have_account": "অ্যাকাউন্ট নেই?",
+        "email_or_username": "ইমেইল অথবা ইউজারনেম",
+        "modal": {
+            "success": {
+                "success_check_mail": "লগ ইন হয়েছে। আপনার ইমেইল ইনবক্স দেখুন।",
+                "success": "লগ ইন হয়েছে।",
+                "description": {
+                    "success_check_mail": "লগ ইন করতে ইমেইলে লিঙ্ক পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইমেইল ইনবক্স দেখুন।",
+                    "success": "লগ ইন হয়েছে।"
+                }
+            },
+            "error": {
+                "wrong_creds": "ভুল ইমেইল ঠিকানা অথবা পাসওয়ার্ড।",
+                "unexpected": "অপ্রত্যাশিত ত্রুটি!",
+                "description": {
+                    "wrong_creds": "অনুগ্রহ করে আপনার পাসওয়ার্ড এবং ইমেইল ঠিক আছে কিনা নিশ্চিত করুন।",
+                    "unexpected": "আবার সেই পুরনো অপ্রত্যাশিত ত্রুটি!"
+                }
+            }
+        },
+        "use_backup_code": "ব্যাকআপ কোড ব্যবহার করুন"
+    },
+    "editor": {
+        "time_in_seconds": "সময় (সেকেন্ডে)",
+        "right_or_true?": "সঠিক?",
+        "add_new_answer": "নতুন উত্তর যোগ করুন",
+        "add_new_question": "নতুন প্রশ্ন যোগ করুন",
+        "delete_question": "প্রশ্ন মুছুন",
+        "delete_answer": "উত্তর মুছুন",
+        "not_all_links_imgur_links": "সব লিংক Imgur-এর নয়!",
+        "no_title": "শিরোনাম নেই..।",
+        "empty": "খালি..।",
+        "bg_image": "ব্যাকগ্রাউন্ড ছবি",
+        "slide": {
+            "headline": "হেডলাইন",
+            "headline_description": "হেডলাইনের জন্য মোটা লেখা",
+            "text": "লেখা",
+            "text_description": "ছোট কিন্তু লম্বা লেখা",
+            "rectangle": "আয়তক্ষেত্র",
+            "rectangle_description": "শুধু একটি আয়তক্ষেত্র"
+        },
+        "abcd_description": "শুধু একটি উত্তর বেছে নেওয়া যাবে",
+        "voting_description": "উত্তরগুলো কোনো পয়েন্ট যোগ করে না",
+        "check_choice_description": "পয়েন্ট পেতে সব সঠিক উত্তর বেছে নিতে হবে",
+        "order_description": "উত্তরগুলো সঠিক ক্রমে সাজানো যাবে",
+        "text_description": "খেলোয়াড়রা লেখা দিতে পারবে",
+        "range_description": "স্লাইডার দিয়ে একটি সংখ্যা-পরিসর বেছে নেওয়া যাবে",
+        "need_more_help": "আরও সাহায্য দরকার?",
+        "visit_docs": "ডকুমেন্টেশন দেখুন।",
+        "enter_answer": "একটি উত্তর লিখুন",
+        "enable_reorder": "ক্রম সাজানোর মোড চালু করুন",
+        "disable_reorder": "ক্রম সাজানোর মোড বন্ধ করুন",
+        "advanced_settings": "অ্যাডভান্সড সেটিংস",
+        "hide_question_results": "প্রশ্নের ফলাফল লুকাবেন?"
+    },
+    "import_page": {
+        "need_help": "সাহায্য দরকার?",
+        "visit_docs": "ডকুমেন্টেশন দেখুন",
+        "a_kahoot_quiz": "একটি Kahoot!-Quiz",
+        "url_should_look_like_this": "URLটি এমন হওয়া উচিত: https://create.kahoot.it/details/..।",
+        "side_import_kahoot": "এই পাশে আপনি সেসব কুইজ ইমপোর্ট করতে পারবেন, যেগুলো .-এ আছে।",
+        "classquiz_quiz": "একটি ClassQuiz-Quiz",
+        "this_side_classquiz": "এই পাশে আপনি সেসব কুইজ ইমপোর্ট করতে পারবেন, যেগুলো ClassQuiz থেকে এক্সপোর্ট করা হয়েছে।",
+        "upload_file_ending": ".cqa বা .xlsx এই ফরমেটের ফাইল আপলোড করুন",
+        "this_side_classquiz_excel": "নিচের টেমপ্লেটটি পূরণ করা থাকলে, এক্সেল ফাইলও আপলোড করা যাবে। একই শিরোনামের একটি কুইজ আগে থেকে থাকলে, প্রশ্নগুলো সেটির সাথে যোগ হবে।",
+        "download_template_here": "টেমপ্লেট ডাউনলোড করুন"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "এই গেমের জন্য ইতিমধ্যেই একজন অ্যাডমিন নিবন্ধিত আছে।",
+        "start_game": "গেম শুরু করুন",
+        "time_left": "বাকি সময়",
+        "get_results": "ফলাফল নিন",
+        "get_results_and_stop_time": "ফলাফল নিন এবং সময় বন্ধ করুন",
+        "get_final_results": "চূড়ান্ত ফলাফল নিন",
+        "show_next_question": "পরের প্রশ্ন দেখান",
+        "start_by_showing_first_question": "প্রথম প্রশ্ন দেখিয়ে শুরু করুন।",
+        "no_answers": "কোনো উত্তর নেই!",
+        "stop_time": "সময় বন্ধ করুন",
+        "save_results": "ফলাফল সংরক্ষণ করুন",
+        "next_question": "পরের প্রশ্ন ({{question}})",
+        "show_results": "ফলাফল দেখান",
+        "stop_time_and_solutions": "সময় বন্ধ করে সমাধান দেখান",
+        "enter_answer_into_field": "ইনপুট ঘরে আপনার উত্তর লিখুন!",
+        "answers_submitted": "{{answer_count}}টি উত্তর জমা হয়েছে",
+        "request_export_results": "ফলাফল ডাউনলোডের অনুরোধ করুন",
+        "download_export_results": "ফলাফল ডাউনলোড করুন",
+        "export_results": "ফলাফল এক্সপোর্ট করুন"
+    },
+    "password_reset_page": {
+        "reset_password": "পাসওয়ার্ড রিসেট করুন"
+    },
+    "settings_page": {
+        "old_password": "পুরোনো পাসওয়ার্ড",
+        "new_password": "নতুন পাসওয়ার্ড",
+        "repeat_password": "পাসওয়ার্ড আবার দিন",
+        "change_password_submit": "পাসওয়ার্ড পরিবর্তন করুন!",
+        "last_seen": "শেষ দেখা",
+        "check_location": "লোকেশন দেখুন",
+        "delete_this_session": "এই সেশন মুছুন",
+        "this_session?": "এই সেশন?",
+        "change_avatar": "অ্যাভাটার পরিবর্তন করুন",
+        "security_settings": "নিরাপত্তা সেটিংস",
+        "add_api_key": "API কী যোগ করুন"
+    },
+    "explore_page": {
+        "made_by": "তৈরি করেছেন",
+        "imported_by": "ইমপোর্ট করেছেন"
+    },
+    "search_page": {
+        "at_least_3_characters": "কমপক্ষে ৩টি অক্ষর লিখুন..।",
+        "nothing_here": "এখানে কিছু নেই..।"
+    },
+    "play_page": {
+        "end_sentence": "এই তো! এটাই ছিল কুইজ।",
+        "1st_place": "১ম স্থান",
+        "2nd_place": "২য় স্থান",
+        "3rd place": "৩য় স্থান",
+        "with_out_of": "{{total_question_count}}টির মধ্যে {{correct_questions}}টি সঠিক",
+        "final_result_rank": "{{place}}: {{username}} — {{points}} পয়েন্ট",
+        "your_score": "আপনার স্কোর: {{score}}",
+        "join_description": "{{url}}-এ যান এবং {{pin}} লিখুন।",
+        "join_by_entering_code": "নিচের কোড লিখে যোগ দিন",
+        "points_added": "পয়েন্ট যোগ হয়েছে",
+        "your_place": "আপনি {{place}} নম্বর স্থানে আছেন!",
+        "players_waiting": "{{count}} জন খেলোয়াড় অপেক্ষা করছেন",
+        "players_waiting_plural": "{{count}} জন খেলোয়াড় অপেক্ষা করছে"
+    },
+    "editor_page": {
+        "add_an_answer": "একটি উত্তর যোগ করুন",
+        "right_click_to_delete": "উত্তর মুছতে রাইট-ক্লিক করুন!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "আপনার নিজের কুইজ খুঁজুন",
+        "views_n_plays": "ভিউ ও প্লে গুলো",
+        "info_analytics": "“Plays” দেখায় কতবার কুইজ শুরু হয়েছে (আপনি সহ), আর “Views” দেখায় “View” পেজ কতবার দেখা হয়েছে—এতে বটও ধরা পড়ে (দুঃখিত)।",
+        "commandpalette_notice": "কমান্ড প্যালেট খুলতে <kbd>Ctr</kbd>+<kbd>k</kbd> or <kbd>Meta</kbd>+<kbd>k</kbd> চাপুন"
+    },
+    "footer": {
+        "self_ads": "❤️ দিয়ে তৈরি করেছেন {{mawoka_link}}, এবং {{others_link}}-এর সহায়তায়।",
+        "more_details_here": "আরও বিস্তারিত এখানে",
+        "donate": "এটি উপকারী মনে হলে {{donate_link}} বিবেচনা করুন।"
+    },
+    "error_page": {
+        "404_text": "আপনি যে পেজটি খুঁজছিলেন তা নেই বা হয়তো কখনো ছিলই না। কে জানে?",
+        "unknown_error_text": "এটা হওয়ার কথা নয়। সম্ভবত আমার ভুল, আপনার নয়—তবে হয়তো আপনার জিনিস ভাঙার জাদুর শক্তি আছে..।"
+    },
+    "uploader": {
+        "add_image": "মিডিয়া যোগ করুন",
+        "select_upload_type": "আপলোডের ধরন বাছুন",
+        "upload_a_video": "একটি ভিডিও আপলোড করুন",
+        "upload_video_popup_notice": "পপআপ খোলা আছে; আরও তথ্যের জন্য দেখুন",
+        "upload_video": "ভিডিও আপলোড করুন",
+        "visit_pixabay": "Pixabay তে যান",
+        "images_by_pixabay": "ছবিগুলো Pixabay থেকে নেওয়া",
+        "search_english_only": "সার্চ শুধু ইংরেজিতে কাজ করে",
+        "next_page": "পরের পেজ",
+        "previous_page": "আগের পেজ"
+    },
+    "avatar_settings": {
+        "skin_color": "ত্বকের রং",
+        "top_type": "উপরে",
+        "hair_color": "চুলের রং",
+        "facial_hair_type": "মুখের দাড়ি",
+        "facial_hair_color": "দাড়ির রং",
+        "mouth_type": "মুখ",
+        "eyebrow_type": "ভ্রু",
+        "accessories_type": "চশমা",
+        "hat_color": "টুপি রং",
+        "clothe_type": "পোশাক",
+        "clothe_color": "পোশাকের রং",
+        "clothe_graphic_type": "গ্রাফিক",
+        "thats_you": "এটাই আপনি!",
+        "start_over": "আবার শুরু করুন",
+        "go_back": "ফিরে যান"
+    },
+    "results_page": {
+        "no_results_so_far": "এখনো কোনো ফলাফল সংরক্ষণ করা হয়নি..।",
+        "quiz_title": "কুইজ শিরোনাম",
+        "date_played": "খেলার তারিখ",
+        "player_count": "খেলোয়াড় সংখ্যা",
+        "general_overview": {
+            "sentence": "“{{title}}” কুইজটি {{date}} তারিখে খেলা হয়েছে। এতে {{player_count}} জন খেলোয়াড় ছিল এবং গড় স্কোর ছিল {{average_score}}।"
+        }
+    },
+    "result_page": {
+        "player_name": "খেলোয়াড়ের নাম",
+        "custom_field": "কাস্টম ফিল্ড",
+        "average_score": "গড় স্কোর: {{average_score}}",
+        "correct_answer": "{{count}}টি সঠিক উত্তর",
+        "correct_answer_plural": "সঠিক উত্তর {{count}}টি",
+        "time_taken": "সময় লেগেছে",
+        "player_score": "খেলোয়াড়ের স্কোর",
+        "player_correct_questions": "সঠিক উত্তরগুলো"
+    },
+    "controllers": {
+        "add_new_controller": "নতুন কন্ট্রোলার যোগ করুন",
+        "player_name": "খেলোয়াড়ের নাম",
+        "first_seen": "প্রথম দেখা",
+        "last_seen": "শেষ দেখা",
+        "controller_name": "কন্ট্রোলারের নাম",
+        "version_overview": "সর্বশেষ ভার্সন {{newest_version}}, আর ইনস্টল ভার্সন {{current_version}}।",
+        "already_latest_version": "আপনি ইতিমধ্যেই সর্বশেষ ভার্সনে আছেন",
+        "cancel_update": "আপডেট বাতিল!",
+        "update_from_to": "{{current_version}} থেকে {{newest_version}}-এ আপডেট করুন"
+    },
+    "navbar": {
+        "donate": "অনুদান দিন"
+    },
+    "security_settings": {
+        "get_backup_code": "ব্যাকআপ কোড নিন",
+        "backup_code": "ব্যাকআপ কোড",
+        "activate_2fa": "টু-ফ্যাক্টর অথেনটিকেশন চালু করুন",
+        "2fa_activated": "টু-ফ্যাক্টর অথেনটিকেশন চালু আছে",
+        "2fa_deactivated": "টু-ফ্যাক্টর অথেনটিকেশন চালু নেই",
+        "webauthn": "ওয়েবঅথেন (Webauthn)",
+        "webauthn_available": "ওয়েবঅথেন(Webauthn) উপলব্ধ",
+        "webauthn_unavailable": "ওয়েবঅথেন(Webauthn) উপলব্ধ না",
+        "add_security_key": "সিকিউরিটি কী যোগ করুন",
+        "totp": "টিওটিপি(TOTP)",
+        "totp_available": "টিওটিপি(TOTP) উপলব্ধ",
+        "totp_unavailable": "টিওটিপি(TOTP) উপলব্ধ নয়",
+        "disable_totp": "টিওটিপি(TOTP) বন্ধ করুন",
+        "enable_totp": "টিওটিপি(TOTP) চালু করুন",
+        "backup_codes": {
+            "your_backup_code": "আপনার ব্যাকআপ কোড",
+            "save_somewhere_save": "এটি নিরাপদ জায়গায় সংরক্ষণ করুন!",
+            "download_code": "কোড ডাউনলোড করুন"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "কোড সেটআপ করতে এই কিউআর কোড স্ক্যান করুন",
+            "enter_as_secret_if_no_see_code": "কিউআর কোড স্ক্যান করতে না পারলে এটি সিক্রেট হিসেবে লিখুন",
+            "totp_setup": "টিওটিপি(TOTP) সেটআপ",
+            "do_not_forget_backup_code": "রিকভারি কোড সংরক্ষণ করতে ভুলবেন না!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "তৈরি করেছেন",
+        "view_on_kahoot": "আসল যায়গায় দেখুন"
+    },
+    "start_game": {
+        "captcha_message": "যদি চালু থাকে, তাহলে খেলোয়াড়দের ব্রাউজারে গুগল ReCaptcha লোড হবে। খুব দরকার হলে তবেই চালু করুন, কারণ তখন সব খেলোয়ারদের ক্যাপচা করতে হবে।",
+        "normal_mode_description": "প্রশ্ন ও উত্তর শুধু অ্যাডমিনের স্ক্রিনে দেখানো হবে। খেলোয়াড়দের কাছে শুধু রঙিন বাটন থাকবে, যেগুলো অ্যাডমিনের স্ক্রিনের চিহ্নের সাথে মিলবে।",
+        "old_school_mode": "পুরনো মোড",
+        "old_school_mode_description": "প্রশ্ন ও ছবি অ্যাডমিন ও খেলোয়াড়—দুজনের স্ক্রিনেই দেখানো হবে",
+        "start_game": "গেম শুরু করুন"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "পেজের ধরন বাছুন",
+            "move_left": "বামে সরান",
+            "move_right": "ডানে সরান",
+            "title_placeholder": "এখানে শিরোনাম লিখুন",
+            "add_new": "নতুন যোগ করুন",
+            "delete": "মুছুন",
+            "open_shares_menu": "শেয়ার মেনু খুলুন",
+            "shares": {
+                "add_new_share": "নতুন শেয়ার যোগ করুন",
+                "expires_on": "{{date}} তারিখে মেয়াদ শেষ হবে",
+                "never_expires": "কখনো মেয়াদ শেষ হবে না"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "কার্ড যোগ করুন",
+                "upload_image": "ছবি আপলোড করুন",
+                "add_pair": "জোড়া যোগ করুন"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "চেষ্টা: {{try_count}}"
+            }
+        },
+        "share_expired": "শেয়ারের মেয়াদ শেষ"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "ক্লিপবোর্ডে কপি হয়েছে!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "{{date}} তারিখে যোগ দিয়েছে",
+        "no_original_quizzes": "এই ব্যবহারকারীর কোনো নিজস্ব কুইজ নেই",
+        "user_not_found": "ব্যবহারকারী পাওয়া যায়নি"
+    },
+    "file_dashboard": {
+        "not_available": "উপলব্ধ নয়",
+        "missing": "নেই!",
+        "unset": "সেট করা নেই",
+        "size": "আকার: {{size}} MiB",
+        "caption": "ক্যাপশন: {{caption}}",
+        "filename": "ফাইলের নাম: {{filename}}",
+        "uploaded": "আপলোড হয়েছে: {{date}}",
+        "imported": "ইমপোর্ট করা হয়েছে: {{yes_or_no}}",
+        "edit_details": "বিস্তারিত এডিট করুন",
+        "delete_image": "ছবি মুছুন",
+        "edit_the_image": "ছবি এডিট করুন",
+        "filename_word": "ফাইলের নাম",
+        "alt_text": "অল্ট টেক্সট / ক্যাপশন",
+        "storage_usage": "আপনি {{total}} MiB স্টোরেজের মধ্যে {{used}} MiB ব্যবহার করেছেন। এটি আপনার স্টোরেজের {{percent}}%।"
+    },
+    "video_uploader": {
+        "time_elapsed": "অতিবাহিত সময়",
+        "time_remaining": "সময় বাকি আছে"
+    },
+    "downloader": {
+        "select_download_type": "ডাউনলোডের ধরন",
+        "own_format": "নিজস্ব ফরম্যাট",
+        "excel_format": "এক্সেল ফরম্যাট",
+        "help": "নিজস্ব ফরম্যাট (.cqa)-এ ছবি থাকে এবং সব ধরনের প্রশ্ন সাপোর্ট করে, কিন্তু এক্সেল ফরম্যাটে শুধু ভোটিং ও মাল্টিপল-চয়েস প্রশ্ন সাপোর্ট করে।"
+    }
+}
