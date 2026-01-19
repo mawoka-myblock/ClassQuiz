@@ -12,7 +12,6 @@ from classquiz.tests import test_user_email, test_user_password, example_quiztiv
 from classquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
 from fastapi.testclient import TestClient
 
-
 # @pytest.fixture
 # async def startup_and_shutdown_server():
 #     """Start server as test fixture and tear down after test"""
