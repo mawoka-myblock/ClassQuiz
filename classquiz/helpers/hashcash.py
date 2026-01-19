@@ -39,7 +39,6 @@ every time it is passed the same arguments.  'mint()' incorporates a random
 salt in stamps (as per the hashcash v.1 protocol).
 """
 
-
 from string import ascii_letters
 from math import ceil, floor
 import hashlib

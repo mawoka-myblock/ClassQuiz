@@ -9,6 +9,7 @@ Revises: da778d551bf4
 Create Date: 2022-07-05 20:36:44.858963
 
 """
+
 import asyncio
 
 from alembic import op
