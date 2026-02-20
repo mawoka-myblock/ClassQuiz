@@ -80,7 +80,7 @@
 		"qrcode": "^1.5.4",
 		"sass": "^1.93.2",
 		"socket.io-client": "^4.8.1",
-		"svelte": "^5.42.2",
+		"svelte": "^5.51.5",
 		"svelte-check": "^4.3.3",
 		"svelte-preprocess": "^6.0.3",
 		"svelte-range-slider-pips": "^4.1.0",
