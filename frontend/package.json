@@ -51,7 +51,7 @@
 		"@uppy/xhr-upload": "^4.4.2",
 		"autoprefixer": "^10.4.21",
 		"canvas-confetti": "^1.9.4",
-		"ckeditor5": "^47.1.0",
+		"ckeditor5": "^47.6.0",
 		"cookie": "^1.0.2",
 		"crypto-js": "^4.2.0",
 		"cssnano": "^7.1.1",
