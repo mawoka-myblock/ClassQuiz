@@ -5563,6 +5563,8 @@ snapshots:
         dependencies:
             '@ckeditor/ckeditor5-utils': 47.1.0
             es-toolkit: 1.39.5
+        transitivePeerDependencies:
+            - supports-color
 
     '@ckeditor/ckeditor5-enter@47.1.0':
         dependencies:
@@ -5968,6 +5970,8 @@ snapshots:
             '@ckeditor/ckeditor5-engine': 47.1.0
             '@ckeditor/ckeditor5-utils': 47.1.0
             es-toolkit: 1.39.5
+        transitivePeerDependencies:
+            - supports-color
 
     '@ckeditor/ckeditor5-widget@47.1.0':
         dependencies:
