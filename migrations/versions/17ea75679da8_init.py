@@ -10,7 +10,6 @@ Create Date: 2022-06-10 18:01:51.061536
 
 """
 
-
 from alembic import op
 import sqlalchemy as sa
 import ormar
