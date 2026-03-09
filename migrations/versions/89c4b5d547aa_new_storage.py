@@ -9,6 +9,7 @@ Revises: 01d7a503e360
 Create Date: 2023-05-29 19:24:49.275211
 
 """
+
 from alembic import op
 import sqlalchemy as sa
 import ormar
