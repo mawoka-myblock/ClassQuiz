@@ -27,7 +27,7 @@ SPDX-License-Identifier: MPL-2.0
             return scoreB - scoreA;
         })
     );
-	
+
 	const correctCounts = {};
 	answers.forEach((questionAnswers) => {
 		questionAnswers.forEach((answer) => {
