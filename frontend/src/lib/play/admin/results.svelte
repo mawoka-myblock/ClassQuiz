@@ -29,16 +29,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	let { data = $bindable(), question, new_data }: Props = $props();
 
-	function sortObjectbyValue(obj: object) {
-		const ret = {};
-		Object.keys(obj)
-			.sort((a, b) => obj[b] - obj[a])
-			.forEach((s) => (ret[s] = obj[s]));
-		return ret;
-	}
-
-	let sorted_data = $derived(sortObjectbyValue(data));
-
 	// let data_by_username = {};
 
 	const group_username_by_score = (new_d: any[]): object => {
@@ -50,7 +40,11 @@ SPDX-License-Identifier: MPL-2.0
 	};
 	let score_by_username = $derived(group_username_by_score(new_data));
 
-	let player_names = $derived(Object.keys(sorted_data));
+	let player_names = $derived(Object.keys(data).sort((a, b) => {
+		const scoreA = parseFloat(data[a]) || 0;
+		const scoreB = parseFloat(data[b]) || 0;
+		return scoreB - scoreA;
+	}));
 
 	if (JSON.stringify(data) === '{}') {
 		for (const i of new_data) {
@@ -111,7 +105,7 @@ SPDX-License-Identifier: MPL-2.0
 							<td class:hidden={i > 3} class="p-2 border-r border-r-black"
 								>{player}</td
 							>
-							<td class:hidden={i > 3} class="p-2">{sorted_data[player]}</td>
+							<td class:hidden={i > 3} class="p-2">{data[player]}</td>
 							{#if show_new_score_clicked}
 								<td
 									in:fly|global={{ x: 300 }}

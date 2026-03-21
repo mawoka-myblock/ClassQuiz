@@ -20,7 +20,14 @@ SPDX-License-Identifier: MPL-2.0
 
 	let { scores, custom_field, answers }: Props = $props();
 
-	let usernames = Object.keys(scores);
+	let usernames = $derived(
+        Object.keys(scores).sort((a, b) => {
+            const scoreA = parseFloat(scores[a]) || 0;
+            const scoreB = parseFloat(scores[b]) || 0;
+            return scoreB - scoreA;
+        })
+    );
+
 	const correctCounts = {};
 	answers.forEach((questionAnswers) => {
 		questionAnswers.forEach((answer) => {

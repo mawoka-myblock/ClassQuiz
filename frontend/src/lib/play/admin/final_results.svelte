@@ -19,17 +19,12 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let { data = $bindable(), username, show_final_results }: Props = $props();
-	let sorted_data = $derived(sortObjectbyValue(data));
 
-	function sortObjectbyValue(obj: object) {
-		const ret = {};
-		Object.keys(obj)
-			.sort((a, b) => obj[b] - obj[a])
-			.forEach((s) => (ret[s] = obj[s]));
-		return ret;
-	}
-
-	let player_names = $derived(Object.keys(sorted_data));
+	let player_names = $derived(Object.keys(data).sort((a, b) => {
+		const scoreA = parseFloat(data[a]) || 0;
+		const scoreB = parseFloat(data[b]) || 0;
+		return scoreB - scoreA;
+	}));
 
 	let player_count_or_five = $derived(player_names.length >= 5 ? 5 : player_names.length);
 
@@ -61,13 +56,13 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('play_page.final_result_rank', {
 						place: i + 1,
 						username: player,
-						points: sorted_data[player]
+						points: data[player]
 					})}
 				</p>
 			{/if}
 		{/each}
 	</div>
-	{#if sorted_data[username]}
+	{#if data[username]}
 		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
 			<div class="mx-auto p-2 border-[#B07156] border-4 rounded-sm">
 				<p class="text-center">{$t('play_page.your_score', { score: data[username] })}</p>
