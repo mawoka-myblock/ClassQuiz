@@ -138,8 +138,8 @@ class _Question(BaseModel):
     type: str
     question: str
     time: int
-    points: bool
-    pointsMultiplier: int
+    points: bool | None = None
+    pointsMultiplier: int | None = None
     choices: list[_Choice]
     image: str | None = None
     imageMetadata: _ImageMetadata | None = None

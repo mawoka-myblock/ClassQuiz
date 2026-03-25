@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import AudioPlayer from '$lib/play/audio_player.svelte';
+	// import AudioPlayer from '$lib/play/audio_player.svelte';
 	import ControllerCodeDisplay from '$lib/components/controller/code.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
@@ -42,8 +42,9 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div class="w-full h-full">
-	<AudioPlayer bind:play={play_music} />
-	<div class="grid grid-cols-3 mt-12">
+	<!-- <AudioPlayer bind:play={play_music} /> -->
+	<div class="grid grid-cols-3 pt-12">
+		<!--mt-12 -->
 		<div class="flex justify-center">
 			<p class="m-auto text-2xl">
 				{$t('play_page.join_description', {
