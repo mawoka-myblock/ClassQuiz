@@ -6,12 +6,12 @@
 import uuid
 
 import asyncpg
-from fastapi import APIRouter, Request, HTTPException, Response
-from classquiz.config import settings
-
-from classquiz.db.models import User, UserAuthTypes
+from fastapi import APIRouter, HTTPException, Request, Response
 from pydantic import BaseModel, ValidationError
+
 from classquiz.auth import check_token
+from classquiz.config import settings
+from classquiz.db.models import User, UserAuthTypes
 from classquiz.helpers.avatar import gzipped_user_avatar
 from classquiz.oauth.authenticate_user import log_user_in, rememberme_check
 from classquiz.oauth.init_oauth import init_oauth
@@ -33,7 +33,7 @@ class Userinfo(BaseModel):
     name: str
     picture: str
     given_name: str
-    locale: str
+    locale: str | None = None
     iat: int
     exp: int
 
