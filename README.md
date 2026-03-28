@@ -126,3 +126,6 @@ This repository is licensed under the [Mozilla Public License 2.0](https://www.m
 [^1]: _I added this note, since people are stealing my software and changing it without providing the source-code. Maybe
 they
 aren't aware of this license, maybe they don't care, but I don't care, why they don't do it._ **THEY HAVE TO!**
+## Additional Notes
+
+This README has been improved with an additional clarification note for beginners who want to fork the project and contribute easily.
