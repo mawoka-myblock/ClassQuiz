@@ -1,0 +1,4 @@
+.gitignore
+src/lib/i18n/locales/*.json
+pnpm-lock.yaml
+src/app.html
