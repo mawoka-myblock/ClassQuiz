@@ -66,9 +66,15 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="m-auto">
 				<div class="flex justify-center my-4">
 					<p class="m-auto text-2xl">
-						{$t('play_page.players_waiting', {
-							count: players.length ?? 0
-						})}
+						{#if players.length <= 1}
+							{$t('play_page.players_waiting', {
+								count: players.length ?? 0
+							})}
+						{:else}
+							{$t('play_page.players_waiting_plural', {
+								count: players.length ?? 0
+							})}
+						{/if}
 					</p>
 				</div>
 				<div class="flex-col flex justify-center">
@@ -79,9 +85,15 @@ SPDX-License-Identifier: MPL-2.0
 		{:else}
 			<div class="flex justify-center">
 				<p class="m-auto text-2xl">
-					{$t('play_page.players_waiting', {
-						count: players.length ?? 0
-					})}
+					{#if players.length <= 1}
+						{$t('play_page.players_waiting', {
+							count: players.length ?? 0
+						})}
+					{:else}
+						{$t('play_page.players_waiting_plural', {
+							count: players.length ?? 0
+						})}
+					{/if}
 				</p>
 			</div>
 		{/if}
