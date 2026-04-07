@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+//
+// SPDX-License-Identifier: MPL-2.0
+
 const { defineConfig, globalIgnores } = require('eslint/config');
 
 const tsParser = require('@typescript-eslint/parser');
