@@ -52,7 +52,7 @@
         "save": "Enregistrer",
         "description": "Description",
         "image": "Image",
-        "title": "titre",
+        "title": "Titre",
         "settings": "Préférences",
         "repeat_password": "Répéter le mot de passe",
         "overview": "Vue d'ensemble",
@@ -136,7 +136,7 @@
         "features_description": {
             "1": "ClassQuiz est un outil de quiz vous permettant de créer et gérer des quiz.",
             "2": "La fonctionnalité principale est la fonction d'import de quiz Kahoot!, vous permettant de créer des quiz directement depuis Kahoot!.",
-            "3": "L'éditeur et la fonction d'export des résultats de quiz en format Excel sont des fonctionnalités remarquables du logiciel."
+            "3": "L'éditeur et la fonction d'export des résultats de quiz en format Excel sont des fonctionnalités remarquables de l'application."
         },
         "stats": "Il y a déjà {{user_count}} utilisateurs et {{quiz_count}} quiz sur ClassQuiz.",
         "see_what_true_and_false": "Voir ce qui était vrai ou faux",
@@ -149,11 +149,11 @@
         "self_hostable": "Auto-hébergeable",
         "german_server": "Serveur allemand",
         "user_friendly": "Ergonomique",
-        "completely_free": "Libre",
-        "quiz_results_downloadable": "Résultats de quiz téléchargeable",
+        "completely_free": "Complètement gratuit",
+        "quiz_results_downloadable": "Résultats de quiz téléchargeables",
         "multilingual": "Multilingue",
-        "dark_mode": "Mode nuit",
-        "get_a_quiz": "1. Recevoir un quiz",
+        "dark_mode": "Mode sombre",
+        "get_a_quiz": "1. Faire un quiz",
         "create_a_quiz_from_scratch": "Créer un quiz vierge avec l'éditeur, y inclure des images et bien plus",
         "find_or_explore": "Rechercher (ou explorer) des quiz créés ou importés par d'autres",
         "play_quiz": "2. Lancer le quiz",
@@ -172,7 +172,7 @@
         "dark_mode_content": "L'une des fonctionnalités les plus importantes qu'un site peut avoir !",
         "german_server_content": "Les serveurs de ClassQuiz sont situés en Allemagne et hébergés par Netcup.",
         "choose_answer_wisely": "Choisissez votre réponse judicieusement",
-        "completely_free_content": "ClassQuiz est gratuit pour l'utilisateur, sans plans payant ou de redirection pour une version payante. Tout don est donc apprécié.",
+        "completely_free_content": "ClassQuiz est gratuit pour l'utilisateur, sans plan payant ou de redirection pour une version payante. Tout don est donc apprécié.",
         "download_quizzes": "Télécharger des quiz",
         "community_driven": "Piloté par la communauté",
         "download_quizzes_content": "Les quiz peuvent être téléchargés en un seul fichier et importés à tout moment, ce qui vous permet de déplacer facilement vos quiz vers une autre instance de ClassQuiz.",
@@ -182,13 +182,13 @@
         "no_player_limit_content": "ClassQuiz n'a pas de limite artificielle de nombre de joueurs. En théorie, plus de 1000 joueurs peuvent participer au même quiz, mais les tests n'ont été réalisés que jusqu'à 300 participants."
     },
     "overview_page": {
-        "created_at": "Crée le",
+        "created_at": "Créé le",
         "question_count": "Nombre de questions",
         "no_quizzes": "Cliquez sur le bouton \"Créer\" ou importez un quiz pour commencer."
     },
     "edit_page": {
         "success_update_title": "Quiz mis à jour.",
-        "success_update_body": "Personne ne s'attendra à l'Inquizisition."
+        "success_update_body": "Personne ne s'attendra à l'Inquizition."
     },
     "create_page": {
         "success": {
@@ -228,7 +228,7 @@
         "no_title": "Aucun titre...",
         "check_choice_description": "Toutes les réponses correctes doivent être choisies pour marquer des points.",
         "need_more_help": "Besoin d'aide ?",
-        "enter_answer": "Entrer une réponse",
+        "enter_answer": "Entrez une réponse",
         "visit_docs": "Lisez la documentation.",
         "enable_reorder": "Activer le mode réorganisation",
         "disable_reorder": "Désactiver le mode réorganisation",
@@ -261,7 +261,7 @@
         "stop_time": "Arrêter le temps",
         "next_question": "Question suivante ({{question}})",
         "show_results": "Montrer les résultats",
-        "stop_time_and_solutions": "Arrêter le temps et montrer des solutions",
+        "stop_time_and_solutions": "Arrêter le temps et montrer les solutions",
         "enter_answer_into_field": "Saisissez votre réponse dans le champ de saisie !",
         "answers_submitted": "{{answer_count}} Réponses soumises",
         "request_export_results": "Demande de téléchargement des résultats",
@@ -289,23 +289,23 @@
         "imported_by": "Importé par"
     },
     "search_page": {
-        "at_least_3_characters": "Entrer au moins 3 caractères…",
+        "at_least_3_characters": "Entrez au moins 3 caractères…",
         "nothing_here": "Il n'y a rien ici..."
     },
     "play_page": {
         "1st_place": "1ère place",
-        "end_sentence": "C'est terminé ! Voilà le quiz.",
+        "end_sentence": "C'est terminé !",
         "2nd_place": "2ème place",
         "3rd place": "3ème place",
         "with_out_of": "avec {{correct_questions}} sur {{total_question_count}}",
-        "join_description": "Inscrivez-vous sur {{url}} et entrez {{pin}}.",
+        "join_description": "Rejoignez sur {{url}} et entrez {{pin}}.",
         "join_by_entering_code": "Participez en entrant le code suivant",
         "points_added": "Points ajoutés",
         "your_score": "Votre score : {{score}}",
         "final_result_rank": "{{place}} : {{username}} avec {{points}} points",
-        "players_waiting": "{{count}} joueurs sont en attente",
-        "players_waiting_plural": "{{count}} joueurs sont en attente",
-        "your_place": "Vous êtes à {{place}} !"
+        "players_waiting": "{{count}} joueur en attente",
+        "players_waiting_plural": "{{count}} joueurs en attente",
+        "your_place": "Vous êtes n°{{place}} !"
     },
     "editor_page": {
         "add_an_answer": "Ajouter une réponse",
@@ -315,15 +315,16 @@
         "search_for_own_quizzes": "Chercher dans vos quiz",
         "commandpalette_notice": "Appuyer sur <kbd>Ctr</kbd>+<kbd>k</kbd> ou <kbd>Meta</kbd>+<kbd>k</kbd> pour ouvrir la palette de commandes",
         "views_n_plays": "Vues et Jeux",
-        "info_analytics": "Les \"Jeux\" indiquent seulement combien de fois le quiz a été lancé (vous y compris), alors que les \"Vues\" comptent combien de fois la page \"Vue\" a été visitée, donc cela compte aussi les bots (désolé pour ça)."
+        "info_analytics": "Les \"Jeux\" indiquent seulement combien de fois le quiz a été lancé (vous y compris), alors que les \"Vues\" comptent combien de fois la page \"Vue\" a été visitée, donc cela compte aussi les bots (désolé pour ça).",
+        "create_quiz": "Créer un quiz"
     },
     "footer": {
         "more_details_here": "Plus de détails ici",
-        "donate": "Si vous trouvez ceci utile, pensez à {{donate_link}}.",
+        "donate": "Si vous trouvez cela utile, pensez à {{donate_link}}.",
         "self_ads": "Fait avec ❤️ par {{mawoka_link}} et l'aide de {{others_link}}."
     },
     "error_page": {
-        "404_text": "La page que vous recherchiez a disparu ou n'a même jamais existé. Qui sait ?",
+        "404_text": "La page que vous recherchez a disparu ou n'a même jamais existé. Qui sait ?",
         "unknown_error_text": "Cela ne devrait pas arriver. C'est probablement ma faute, pas la tienne, mais peut-être que tu as un pouvoir magique pour casser les choses..."
     },
     "uploader": {
@@ -347,7 +348,7 @@
                 "expires_on": "Expire le {{date}}"
             },
             "move_left": "Déplacer vers la gauche",
-            "move_right": "Déplacer à droite",
+            "move_right": "Déplacer vers la droite",
             "select_page_type": "Sélectionner le type de page",
             "add_new": "Ajouter un nouveau",
             "title_placeholder": "Saisir le titre ici",
@@ -392,12 +393,12 @@
         "mouth_type": "Bouche",
         "eyebrow_type": "Sourcils",
         "clothe_type": "Vêtements",
-        "clothe_graphic_type": "Graphique",
-        "facial_hair_color": "Couleur de pilosité faciale",
+        "clothe_graphic_type": "Motif",
+        "facial_hair_color": "Couleur de la pilosité faciale",
         "thats_you": "C'est vous !",
         "top_type": "Haut",
         "hair_color": "Couleur des cheveux",
-        "clothe_color": "Couleur de vêtement",
+        "clothe_color": "Couleur des vêtements",
         "go_back": "Retour"
     },
     "results_page": {
@@ -406,7 +407,7 @@
             "sentence": "Le quiz \"{{title}}\", qui a été joué le {{date}} a eu {{player_count}} joueurs avec un score moyen de {{average_score}}."
         },
         "quiz_title": "Titre du quiz",
-        "date_played": "Date jouée",
+        "date_played": "Date",
         "player_count": "Nombre de joueurs"
     },
     "start_game": {
@@ -417,10 +418,10 @@
         "normal_mode_description": "Questions et réponses ne seront affichées que sur l'écran de l'administrateur, comme dans Kahoot ! Les joueurs n'auront que des boutons de couleur avec des symboles correspondants sur l'écran de l'administrateur."
     },
     "result_page": {
-        "average_score": "Score moyen : {{average score}}",
+        "average_score": "Score moyen : {{average_score}}",
         "player_name": "Nom du joueur",
         "custom_field": "Champ personnalisé",
-        "time_taken": "Durée de l'opération",
+        "time_taken": "Temps pour répondre",
         "player_score": "Score du joueur",
         "correct_answer": "{{count}} réponse correcte",
         "correct_answer_plural": "{{count}} réponses correctes",
@@ -430,7 +431,7 @@
         "totp_setup": {
             "enter_as_secret_if_no_see_code": "Entrez ceci comme secret si vous ne pouvez pas scanner le QR-code.",
             "scan_to_set_up": "Scanner ce QR-code pour configurer le code",
-            "totp_setup": "Paramétrage Totp",
+            "totp_setup": "Paramétrage TOTP",
             "do_not_forget_backup_code": "N'oubliez pas de sauvegarder votre code de récupération !"
         },
         "activate_2fa": "Activer l'authentification à deux facteurs",
