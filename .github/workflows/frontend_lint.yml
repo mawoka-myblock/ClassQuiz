@@ -11,9 +11,13 @@ on:
   push:
     branches: [ master ]
     paths:
-      - "frontend/**"
+      - "frontend/**/*.{ts,js,svelte}"
+      - ".github/workflows/frontend_lint.yml"
   workflow_dispatch:
   pull_request:
+    paths:
+      - "frontend/**/*.{ts,js,svelte}"
+      - ".github/workflows/frontend_lint.yml"
 
 jobs:
   frontend_lint:
