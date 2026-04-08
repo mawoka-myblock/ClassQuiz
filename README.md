@@ -119,10 +119,8 @@ Closed-Source 3rd parties:
 
 ## License Note
 
-This repository is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/), so you
+This repository is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/);
 
-**MUST PUBLISH ANY CHANGES YOU MAKE!!!**[^1]
+please review the license to understand your rights and obligations.[^1]
 
-[^1]: _I added this note, since people are stealing my software and changing it without providing the source-code. Maybe
-they
-aren't aware of this license, maybe they don't care, but I don't care, why they don't do it._ **THEY HAVE TO!**
+[^1]: _I added this note, since people are stealing my software and changing it without providing the source-code.
