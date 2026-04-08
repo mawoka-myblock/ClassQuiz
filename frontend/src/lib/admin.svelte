@@ -164,7 +164,7 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	{/if}
 	<br />
-	{#if get_question_title(selected_question + 1, quiz_data) === '' && selected_question + 1 === 0}
+	{#if selected_question === -1}
 		<div class="flex flex-col justify-center w-screen h-full">
 			<h1 class="text-7xl text-center">{@html quiz_data.title}</h1>
 			<p class="text-3xl pt-8 text-center">{@html quiz_data.description}</p>

@@ -10,9 +10,6 @@ SPDX-License-Identifier: MPL-2.0
 	import type { Socket } from 'socket.io-client';
 	import { getLocalization } from '$lib/i18n';
 
-
-
-
 	interface Props {
 		bg_color: string;
 		selected_question: number;
