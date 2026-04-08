@@ -130,7 +130,7 @@ SPDX-License-Identifier: MPL-2.0
                     Primary
                 </button>-->
 			<div class="w-full grid lg:grid-cols-4 gap-2 grid-cols-2 px-4">
-				{#if create_button_clicked}
+				<!-- {#if create_button_clicked}
 					<div
 						class="flex gap-2"
 						transition:fly|global={{ y: 10 }}
@@ -146,7 +146,8 @@ SPDX-License-Identifier: MPL-2.0
 							create_button_clicked = true;
 						}}>{$t('words.create')}</BrownButton
 					>
-				{/if}
+				{/if} -->
+				<BrownButton href="/create">{$t('dashboard.create_quiz')}</BrownButton>
 				<BrownButton href="/import">{$t('words.import')}</BrownButton>
 				<BrownButton href="/results">{$t('words.results')}</BrownButton>
 				<div class="flex gap-2">

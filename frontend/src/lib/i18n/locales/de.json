@@ -322,7 +322,8 @@
         "search_for_own_quizzes": "Suche nach eigenen Quiz",
         "views_n_plays": "Aufrufe und Startversuche",
         "info_analytics": "Die \"Startversuche\" zeigen nur wie oft das Quiz gestartet wurde (auch von dir), wobei die \"Aufrufe\" zählen, wie oft das Quiz aufgerufen wurde (Bots werden auch gezählt).",
-        "commandpalette_notice": "Drücke <kbd>Ctr</kbd>+<kbd>k</kbd> oder <kbd>Meta</kbd>+<kbd>k</kbd> um die Befehlspalette zu öffnen"
+        "commandpalette_notice": "Drücke <kbd>Ctr</kbd>+<kbd>k</kbd> oder <kbd>Meta</kbd>+<kbd>k</kbd> um die Befehlspalette zu öffnen",
+        "create_quiz": "Erstelle ein neues Quiz"
     },
     "footer": {
         "more_details_here": "Mehr Details hier",
