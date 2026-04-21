@@ -6,7 +6,7 @@ SPDX-License-Identifier: MPL-2.0
 # Contribute to ClassQuiz
 
 For the development-setup, please check out the
-docs: [classquiz.mawoka.eu/docs/develop](https://classquiz.mawoka.eu/docs/develop)
+docs: [https://classquiz.de/docs/develop](https://classquiz.de/docs/develop)
 
 ## Formatting git-commits
 
@@ -25,6 +25,6 @@ an issue here on GitHub.
 
 ## Want to translate?
 
-Go to [Weblate](https://translate.mawoka.eu/projects/classquiz/frontend/).
+Go to [Weblate](https://hosted.weblate.org/projects/classquiz/).
 If the language isn't available, please open
 an issue here, so I'll be able to add it.
