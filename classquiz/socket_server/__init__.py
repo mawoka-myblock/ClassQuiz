@@ -293,7 +293,7 @@ async def submit_answer(sid: str, data: dict):
     question_index = int(float(data.question_index))
     game_data = await PlayGame.get_from_redis(session["game_pin"])
 
-    if game_data.current_question != question_index:
+    if question_index != game_data.current_question:
         await sio.emit("question_not_active", room=sid)
         return
 
