@@ -60,6 +60,34 @@ SPDX-License-Identifier: MPL-2.0
 			this.question_results = $state(null);
 			this.answer_count = $state(0);
 		}
+
+		isGameReadyToStart(): boolean {
+			return !this.game_started && this.players.length > 0;
+		}
+
+		isGameStarting(): boolean {
+			return this.game_started && this.selected_question === -1;
+		}
+
+		isActiveQuestionLastQuestion(): boolean {
+			return this.selected_question + 1 === this.quiz_data.questions.length;
+		}
+
+		isQuestionResultsVisible(): boolean {
+			return this.timer_res === '0' && this.question_results !== null
+		}
+
+		isActiveQuestionSlide(): boolean {
+			return this.quiz_data?.questions?.[this.selected_question]?.type === QuizQuestionType.SLIDE;
+		}
+
+		isQuestionEnded(): boolean {
+			return this.timer_res === '0' && this.question_results === null && this.selected_question !== -1;
+		}
+
+		isQuestionStillOngoing(): boolean {
+			return this.timer_res !== '0' && this.selected_question !== -1;
+		}
 	}
 
 	let { data }: Props = $props();
@@ -173,53 +201,30 @@ SPDX-License-Identifier: MPL-2.0
 	const next_action = (e: KeyboardEvent) => {
 		if((e.key in ["Enter", " "])) return; // Don't catch events other than enter or spacebar
 
-		console.log(game_state);
-
-		if(!game_state.game_started && game_state.players.length > 0) { // Game not started with conditions matched
+		if(game_state.isGameReadyToStart()) {
 			socket_game_controls.start_game()
 		}
 
-		// This is a messy condition to check if we can show final results
-		else if(game_state.selected_question + 1 === game_state.quiz_data.questions.length && ((game_state.timer_res === '0' && game_state.question_results !== null) || game_state.quiz_data?.questions?.[game_state.selected_question]?.type === QuizQuestionType.SLIDE)){
+		else if(game_state.isActiveQuestionLastQuestion() && (game_state.isQuestionResultsVisible() || game_state.isActiveQuestionSlide())){
 			socket_game_controls.get_final_results();
 		}
 
-		// Game is ongoing and the current question is either finished or quiz just started
-		else if(game_state.timer_res === '0' || game_state.selected_question === -1) {
-			// We are either in the beginning of the quiz or in the end of it
-			if((game_state.selected_question + 1 !== game_state.quiz_data.questions.length && game_state.question_results !== null) || game_state.selected_question === -1) {
-				socket_game_controls.set_question_number(game_state.selected_question + 1);
-			}
-			// Else we are in the middle of a question
-			else if(game_state.question_results === null && game_state.selected_question !== -1) {
-				if(game_state.quiz_data.questions[game_state.selected_question].type === QuizQuestionType.SLIDE) {
-					socket_game_controls.set_question_number(game_state.selected_question + 1);
-				}
-				else if(game_state.quiz_data.questions[game_state.selected_question]?.hide_results === true) {
-					socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
-					setTimeout(() => {
-						socket_game_controls.set_question_number(game_state.selected_question + 1);
-					}, 200);
-				}
-				else {
-					socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
-				}
-			}
+		else if(game_state.isGameStarting() || game_state.isQuestionResultsVisible() || game_state.isActiveQuestionSlide()) {
+			socket_game_controls.set_question_number(game_state.selected_question + 1);
 		}
 
-		// Game started, question not finished we check if the question is slide or not
-		else if(game_state.selected_question !== -1) {
-			switch(game_state.quiz_data.questions[game_state.selected_question].type) {
-				case QuizQuestionType.SLIDE:
-					socket_game_controls.set_question_number(game_state.selected_question + 1);
-					break;
-				default:
-					socket_game_controls.show_solutions();
-					game_state.timer_res = '0';
-					break;
-			}
+		else if(game_state.isQuestionStillOngoing()) {
+			socket_game_controls.show_solutions();
+			game_state.timer_res = '0';
 		}
 
+		else if(game_state.isQuestionEnded()) {
+			socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
+		}
+
+		else {
+			console.warn('No action available for this event');
+		}
 	};
 </script>
 
