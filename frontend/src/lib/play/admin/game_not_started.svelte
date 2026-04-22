@@ -11,15 +11,16 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { fade } from 'svelte/transition';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
+	import { GameState } from '$lib/play/admin/game_state';
 
 	interface Props {
 		game_pin: string;
-		players: any;
+		game_state: GameState;
 		socket_game_controls: SocketGameControls;
 		cqc_code: string;
 	}
 
-	let { game_pin, players = $bindable(), socket_game_controls, cqc_code = $bindable() }: Props = $props();
+	let { game_pin, game_state = $bindable(), socket_game_controls, cqc_code = $bindable() }: Props = $props();
 
 	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
@@ -55,13 +56,13 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="m-auto">
 				<div class="flex justify-center my-4">
 					<p class="m-auto text-2xl">
-						{#if players.length <= 1}
+						{#if game_state.players.length <= 1}
 							{$t('play_page.players_waiting', {
-								count: players.length ?? 0
+								count: game_state.players.length ?? 0
 							})}
 						{:else}
 							{$t('play_page.players_waiting_plural', {
-								count: players.length ?? 0
+								count: game_state.players.length ?? 0
 							})}
 						{/if}
 					</p>
@@ -74,13 +75,13 @@ SPDX-License-Identifier: MPL-2.0
 		{:else}
 			<div class="flex justify-center">
 				<p class="m-auto text-2xl">
-					{#if players.length <= 1}
+					{#if game_state.players.length <= 1}
 						{$t('play_page.players_waiting', {
-							count: players.length ?? 0
+							count: game_state.players.length ?? 0
 						})}
 					{:else}
 						{$t('play_page.players_waiting_plural', {
-							count: players.length ?? 0
+							count: game_state.players.length ?? 0
 						})}
 					{/if}
 				</p>
@@ -93,7 +94,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="flex justify-center w-full mt-4">
 		<div>
 			<GrayButton
-				disabled={players.length < 1}
+				disabled={game_state.players.length < 1}
 				onclick={() => {
 					socket_game_controls.start_game()
 				}}
@@ -102,13 +103,13 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 	</div>
 	<div class="flex flex-row w-full mt-4 px-10 flex-wrap">
-		{#if players.length > 0}
-			{#each players as player}
+		{#if game_state.players.length > 0}
+			{#each game_state.players as player}
 				<div class="p-2 m-2 border-2 border-[#B07156] rounded-sm hover:cursor-pointer">
 					<span
 						class="hover:line-through text-lg"
 						onclick={() => {
-							socket_game_controls.kick_player(player.username, players);
+							socket_game_controls.kick_player(player.username, game_state.players);
 						}}>{player.username}</span
 					>
 					<!--					<button>{$t('words.kick')}</button>-->

@@ -1,23 +1,19 @@
-export class GameState {
-    public game_id: string;
-    public players: any[];
-    public selected_question: number;
-    public timer_res: string;
-    public question_results: any;
-    public answer_count: number;
-    public shown_question_now: number;
-    public final_results: any;
-    public game_started: boolean;
+import type { Player, PlayerAnswer } from '$lib/admin.ts';
+import { QuizData } from '$lib/quiz_types';
 
-    constructor(game_id: string, players: any[]) {
-        this.game_id = game_id;
-        this.players = players;
-        this.selected_question = -1;
-        this.timer_res = '0';
-        this.question_results = null;
-        this.answer_count = 0;
-        this.shown_question_now = -1;
-        this.final_results = null;
-        this.game_started = false;
-    }
+export interface IGameState {
+    game_id: string;
+    players: Player[];
+    player_scores: Record<string, number>;
+    selected_question: number;
+    timer_res: string;
+    question_results: any;
+    answer_count: number;
+    shown_question_now: number;
+    final_results: Array<null> | Array<Array<PlayerAnswer>>;
+    game_started: boolean;
+    quiz_data: QuizData;
+    control_visible: boolean;
+
+    constructor(game_id: string);
 }
