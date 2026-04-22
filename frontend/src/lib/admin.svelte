@@ -14,6 +14,8 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 	import Controls from '$lib/play/admin/controls.svelte';
 	import Question from '$lib/play/admin/question.svelte';
+	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
+	import { GameState } from '$lib/play/admin/game_state.ts';
 
 	const { t } = getLocalization();
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
@@ -33,6 +35,7 @@ SPDX-License-Identifier: MPL-2.0
 		final_results?: Array<null> | Array<Array<PlayerAnswer>>;
 		control_visible: boolean;
 		player_scores: any;
+		game_state: GameState;
 	}
 
 	let {
@@ -41,7 +44,8 @@ SPDX-License-Identifier: MPL-2.0
 		bg_color,
 		final_results = $bindable([null]),
 		control_visible,
-		player_scores = $bindable()
+		player_scores = $bindable(),
+		game_state = $bindable()
 	}: Props = $props();
 
 	socket.on('get_question_results', () => {
@@ -56,11 +60,20 @@ SPDX-License-Identifier: MPL-2.0
 		selected_question = selected_question + 1;
 		answer_count = 0;
 		timer(timer_res);
+
+		game_state.timer_res = '0';
+		game_state.question_results = null;
+		game_state.shown_question_now = data.question_index;
+		game_state.timer_res = quiz_data.questions[data.question_index].time;
+		game_state.selected_question = game_state.selected_question + 1;
+		game_state.answer_count = 0;
 	});
 
 	socket.on('solutions', (_) => {
 		timer_res = '0';
 		clearInterval(timer_interval);
+
+		game_state.timer_res = '0';
 	});
 
 	socket.on('final_results', (data) => {
@@ -68,20 +81,28 @@ SPDX-License-Identifier: MPL-2.0
 		final_results_clicked = true;
 		timer_res = '0';
 		final_results = data;
+
+		game_state.final_results = data;
+		game_state.timer_res = '0';
 	});
 
 	socket.on('everyone_answered', (_) => {
 		timer_res = '0';
+		game_state.timer_res = '0';
 	});
 
 	socket.on('question_results', (data) => {
 		console.log('question_results:', data);
 		question_results = data;
 		timer_res = '0';
+
+		game_state.question_results = data;
+		game_state.timer_res = '0';
 	});
 
 	socket.on('player_answer', (_) => {
 		answer_count += 1;
+		game_state.answer_count += 1;
 	});
 
 	const timer = (time: string) => {
@@ -95,8 +116,11 @@ SPDX-License-Identifier: MPL-2.0
 			}
 
 			timer_res = seconds.toString();
+			game_state.timer_res = seconds.toString();
 		}, 1000);
 	};
+
+	const socket_game_controls: SocketGameControls = new SocketGameControls(socket);
 </script>
 
 {#if control_visible}
@@ -106,10 +130,11 @@ SPDX-License-Identifier: MPL-2.0
 		{quiz_data}
 		bind:timer_res
 		{final_results}
-		{socket}
+		{socket_game_controls}
 		{question_results}
 		{game_token}
 		{shown_question_now}
+		bind:game_state
 	/>
 {/if}
 {#if timer_res !== '0' && selected_question >= 0}

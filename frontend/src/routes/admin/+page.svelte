@@ -18,6 +18,9 @@ SPDX-License-Identifier: MPL-2.0
 	import FinalResults from '$lib/play/admin/final_results.svelte';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { page } from '$app/state';
+	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
+	import { GameState } from '$lib/play/admin/game_state.ts';
+	import { QuizQuestionType } from '$lib/quiz_types';
 
 	navbarVisible.visible = false;
 
@@ -143,9 +146,63 @@ SPDX-License-Identifier: MPL-2.0
 	let results_saved = $state(false);
 
 	let show_final_results = $derived(JSON.stringify(final_results) !== JSON.stringify([null]));
+
+	const socket_game_controls: SocketGameControls = new SocketGameControls(socket);
+	let game_state: GameState = $state(new GameState(game_token));
+
+	// This function in called in every keyboard event in this page
+	const next_action = (e: KeyboardEvent) => {
+		if((e.key in ["Enter", " "])) return; // Don't catch events other than enter or spacebar
+
+		if(!game_started && players.length > 0) { // Game not started with conditions matched
+			socket_game_controls.start_game()
+		}
+
+		// This is a messy condition to check if we can show final results
+		else if(game_state.selected_question + 1 === quiz_data.questions.length && ((game_state.timer_res === '0' && game_state.question_results !== null) || quiz_data?.questions?.[game_state.selected_question]?.type === QuizQuestionType.SLIDE)){
+			socket_game_controls.get_final_results();
+		}
+
+		// Game is ongoing and the current question is eather finished or quiz just started
+		else if(game_state.timer_res === '0' || game_state.selected_question === -1) {
+			// We are eather in the beginning of the quiz or in the end of it
+			if((game_state.selected_question + 1 !== quiz_data.questions.length && game_state.question_results !== null) || game_state.selected_question === -1) {
+				socket_game_controls.set_question_number(game_state.selected_question + 1);
+			}
+			// Else we are in the middle of a question
+			else if(game_state.question_results === null && game_state.selected_question !== -1) {
+				if(quiz_data.questions[game_state.selected_question].type === QuizQuestionType.SLIDE) {
+					socket_game_controls.set_question_number(game_state.selected_question + 1);
+				}
+				else if(quiz_data.questions[game_state.selected_question]?.hide_results === true) {
+					socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
+					setTimeout(() => {
+						socket_game_controls.set_question_number(game_state.selected_question + 1);
+					}, 200);
+				}
+				else {
+					socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
+				}
+			}
+		}
+
+		// Game started, question not finished we check if the question is slide or not
+		else if(game_state.selected_question !== -1) {
+			switch(quiz_data.questions[game_state.selected_question].type) {
+				case QuizQuestionType.SLIDE:
+					socket_game_controls.set_question_number(game_state.selected_question + 1);
+					break;
+				default:
+					socket_game_controls.show_solutions();
+					game_state.timer_res = '0';
+					break;
+			}
+		}
+
+	};
 </script>
 
-<svelte:window onbeforeunload={confirmUnload} />
+<svelte:window onbeforeunload={confirmUnload} on:keydown={next_action} />
 <svelte:head>
 	<title>ClassQuiz - Host</title>
 </svelte:head>
@@ -207,7 +264,7 @@ SPDX-License-Identifier: MPL-2.0
 		<GameNotStarted
 			{game_pin}
 			bind:players
-			{socket}
+			{socket_game_controls}
 			cqc_code={page.url.searchParams.get('cqc_code')}
 		/>
 	{:else}
@@ -218,6 +275,7 @@ SPDX-License-Identifier: MPL-2.0
 			{bg_color}
 			bind:player_scores
 			{control_visible}
+			bind:game_state
 		/>
 	{/if}
 </div>

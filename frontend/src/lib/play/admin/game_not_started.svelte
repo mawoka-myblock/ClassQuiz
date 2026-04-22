@@ -10,15 +10,16 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { fade } from 'svelte/transition';
+	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
 
 	interface Props {
 		game_pin: string;
 		players: any;
-		socket: any;
+		socket_game_controls: SocketGameControls;
 		cqc_code: string;
 	}
 
-	let { game_pin, players = $bindable(), socket, cqc_code = $bindable() }: Props = $props();
+	let { game_pin, players = $bindable(), socket_game_controls, cqc_code = $bindable() }: Props = $props();
 
 	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
@@ -27,18 +28,6 @@ SPDX-License-Identifier: MPL-2.0
 	if (cqc_code === 'null') {
 		cqc_code = null;
 	}
-
-	const kick_player = (username: string) => {
-		socket.emit('kick_player', { username: username });
-		for (let i = 0; i < players.length; i++) {
-			console.log(players[i].username, username);
-			if (players[i].username === username) {
-				players.splice(i, 1);
-				break;
-			}
-		}
-		players = players;
-	};
 </script>
 
 <div class="w-full h-full">
@@ -106,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 			<GrayButton
 				disabled={players.length < 1}
 				onclick={() => {
-					socket.emit('start_game', '');
+					socket_game_controls.start_game()
 				}}
 				>{$t('admin_page.start_game')}
 			</GrayButton>
@@ -119,7 +108,7 @@ SPDX-License-Identifier: MPL-2.0
 					<span
 						class="hover:line-through text-lg"
 						onclick={() => {
-							kick_player(player.username);
+							socket_game_controls.kick_player(player.username, players);
 						}}>{player.username}</span
 					>
 					<!--					<button>{$t('words.kick')}</button>-->
