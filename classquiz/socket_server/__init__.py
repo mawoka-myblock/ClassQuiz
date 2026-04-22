@@ -292,10 +292,16 @@ async def submit_answer(sid: str, data: dict):
     session = await get_session(sid, sio)
     question_index = int(float(data.question_index))
     game_data = await PlayGame.get_from_redis(session["game_pin"])
+
+    if question_index != game_data.current_question:
+        await sio.emit("question_not_active", room=sid)
+        return
+
     already_answered = await has_already_answered(session["game_pin"], question_index, session["username"])
     if already_answered:
         await sio.emit("already_replied", room=sid)
         return
+
     answer_right, answer = check_answer(game_data, data)
     latency = int(float(session["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
