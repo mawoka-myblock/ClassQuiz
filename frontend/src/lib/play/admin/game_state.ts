@@ -7,6 +7,7 @@ export class GameState {
     public answer_count: number;
     public shown_question_now: number;
     public final_results: any;
+    public game_started: boolean;
 
     constructor(game_id: string, players: any[]) {
         this.game_id = game_id;
@@ -17,5 +18,6 @@ export class GameState {
         this.answer_count = 0;
         this.shown_question_now = -1;
         this.final_results = null;
+        this.game_started = false;
     }
 }
