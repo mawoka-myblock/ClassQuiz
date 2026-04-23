@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Marlon W (Mawoka)
+//
+// SPDX-License-Identifier: MPL-2.0
+
 import type { Socket } from 'socket.io-client';
 
 /**

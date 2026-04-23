@@ -1,6 +1,14 @@
+// SPDX-FileCopyrightText: 2026 Marlon W (Mawoka)
+//
+// SPDX-License-Identifier: MPL-2.0
+
 import type { Player, PlayerAnswer } from '$lib/admin.ts';
 import { QuizData } from '$lib/quiz_types';
 
+/**
+ * Interface that include all the game states for the admin page.
+ * Still in development and not used everywhere but should be a good practice
+*/
 export interface IGameState {
 	game_id: string;
 	players: Player[];
