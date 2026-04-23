@@ -8,7 +8,7 @@ import { QuizData } from '$lib/quiz_types';
 /**
  * Interface that include all the game states for the admin page.
  * Still in development and not used everywhere but should be a good practice
-*/
+ */
 export interface IGameState {
 	game_id: string;
 	players: Player[];
