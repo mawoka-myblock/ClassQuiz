@@ -8,7 +8,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
-	import { GameState } from '$lib/play/admin/game_state.ts';
+	import type { GameState } from '$lib/play/admin/game_state.ts';
 
 	interface Props {
 		bg_color: string;
@@ -17,12 +17,7 @@ SPDX-License-Identifier: MPL-2.0
 		game_state: GameState;
 	}
 
-	let {
-		bg_color,
-		socket_game_controls,
-		game_token,
-		game_state = $bindable()
-	}: Props = $props();
+	let { bg_color, socket_game_controls, game_token, game_state = $bindable() }: Props = $props();
 
 	const { t } = getLocalization();
 
@@ -44,7 +39,9 @@ SPDX-License-Identifier: MPL-2.0
 	<div class="justify-self-end ml-auto mr-0 col-start-3 col-end-3">
 		{#if game_state.selected_question + 1 === game_state.quiz_data.questions.length && ((game_state.timer_res === '0' && game_state.question_results !== null) || game_state.quiz_data?.questions?.[game_state.selected_question]?.type === QuizQuestionType.SLIDE)}
 			{#if JSON.stringify(game_state.final_results) === JSON.stringify([null])}
-				<button onclick={() => socket_game_controls.get_final_results()} class="admin-button"
+				<button
+					onclick={() => socket_game_controls.get_final_results()}
+					class="admin-button"
 					>{$t('admin_page.get_final_results')}
 				</button>
 			{/if}
@@ -55,31 +52,50 @@ SPDX-License-Identifier: MPL-2.0
 						socket_game_controls.set_question_number(game_state.selected_question + 1);
 					}}
 					class="admin-button"
-					>{$t('admin_page.next_question', { question: game_state.selected_question + 2 })}
+					>{$t('admin_page.next_question', {
+						question: game_state.selected_question + 2
+					})}
 				</button>
 			{/if}
 			{#if game_state.question_results === null && game_state.selected_question !== -1}
 				{#if game_state.quiz_data.questions[game_state.selected_question].type === QuizQuestionType.SLIDE}
 					<button
 						onclick={() => {
-							socket_game_controls.set_question_number(game_state.selected_question + 1);
+							socket_game_controls.set_question_number(
+								game_state.selected_question + 1
+							);
 						}}
 						class="admin-button"
-						>{$t('admin_page.next_question', { question: game_state.selected_question + 2 })}
+						>{$t('admin_page.next_question', {
+							question: game_state.selected_question + 2
+						})}
 					</button>
 				{:else if game_state.quiz_data.questions[game_state.selected_question]?.hide_results === true}
 					<button
 						onclick={() => {
-							socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
+							socket_game_controls.get_question_results(
+								game_token,
+								game_state.shown_question_now
+							);
 							setTimeout(() => {
-								socket_game_controls.set_question_number(game_state.selected_question + 1);
+								socket_game_controls.set_question_number(
+									game_state.selected_question + 1
+								);
 							}, 200);
 						}}
 						class="admin-button"
-						>{$t('admin_page.next_question', { question: game_state.selected_question + 2 })}
+						>{$t('admin_page.next_question', {
+							question: game_state.selected_question + 2
+						})}
 					</button>
 				{:else}
-					<button onclick={() => socket_game_controls.get_question_results(game_token, game_state.shown_question_now)} class="admin-button"
+					<button
+						onclick={() =>
+							socket_game_controls.get_question_results(
+								game_token,
+								game_state.shown_question_now
+							)}
+						class="admin-button"
 						>{$t('admin_page.show_results')}
 					</button>
 				{/if}
@@ -91,7 +107,9 @@ SPDX-License-Identifier: MPL-2.0
 						socket_game_controls.set_question_number(game_state.selected_question + 1);
 					}}
 					class="admin-button"
-					>{$t('admin_page.next_question', { question: game_state.selected_question + 2 })}
+					>{$t('admin_page.next_question', {
+						question: game_state.selected_question + 2
+					})}
 				</button>
 			{:else}
 				<button onclick={show_solutions} class="admin-button"

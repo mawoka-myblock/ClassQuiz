@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import type { Player, PlayerAnswer } from '$lib/admin.ts';
-import { QuizData } from '$lib/quiz_types';
+import type { QuizData } from '$lib/quiz_types';
 
 /**
  * Interface that include all the game states for the admin page.

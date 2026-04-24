@@ -16,8 +16,9 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { page } from '$app/state';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
-	import { IGameState } from '$lib/play/admin/game_state.ts';
-	import { QuizQuestionType } from '$lib/quiz_types';
+	import type { IGameState } from '$lib/play/admin/game_state.ts';
+	import { QuizQuestionType, type QuizData } from '$lib/quiz_types';
+	import type { Player, PlayerAnswer } from '$lib/admin';
 
 	navbarVisible.visible = false;
 
@@ -61,31 +62,37 @@ SPDX-License-Identifier: MPL-2.0
 			this.answer_count = $state(0);
 		}
 
-		isGameReadyToStart(): boolean {
+		is_game_ready_to_start(): boolean {
 			return !this.game_started && this.players.length > 0;
 		}
 
-		isGameStarting(): boolean {
+		is_game_starting(): boolean {
 			return this.game_started && this.selected_question === -1;
 		}
 
-		isActiveQuestionLastQuestion(): boolean {
+		is_active_question_last_question(): boolean {
 			return this.selected_question + 1 === this.quiz_data.questions.length;
 		}
 
-		isQuestionResultsVisible(): boolean {
-			return this.timer_res === '0' && this.question_results !== null
+		is_question_results_visible(): boolean {
+			return this.timer_res === '0' && this.question_results !== null;
 		}
 
-		isActiveQuestionSlide(): boolean {
-			return this.quiz_data?.questions?.[this.selected_question]?.type === QuizQuestionType.SLIDE;
+		is_active_question_slide(): boolean {
+			return (
+				this.quiz_data?.questions?.[this.selected_question]?.type === QuizQuestionType.SLIDE
+			);
 		}
 
-		isQuestionEnded(): boolean {
-			return this.timer_res === '0' && this.question_results === null && this.selected_question !== -1;
+		is_question_ended(): boolean {
+			return (
+				this.timer_res === '0' &&
+				this.question_results === null &&
+				this.selected_question !== -1
+			);
 		}
 
-		isQuestionStillOngoing(): boolean {
+		is_question_still_ongoing(): boolean {
 			return this.timer_res !== '0' && this.selected_question !== -1;
 		}
 	}
@@ -99,7 +106,6 @@ SPDX-License-Identifier: MPL-2.0
 	let dataexport_download_a = $state();
 	let warnToLeave = true;
 	let export_token = $state(undefined);
-
 
 	const socket_game_controls: SocketGameControls = new SocketGameControls(socket);
 	let game_state: GameState = $state(new GameState(game_token));
@@ -191,38 +197,41 @@ SPDX-License-Identifier: MPL-2.0
 				window.matchMedia('(prefers-color-scheme: dark)').matches);
 	}
 
-	let bg_color = $derived(game_state.quiz_data ? game_state.quiz_data.background_color : undefined);
-	let bg_image = $derived(game_state.quiz_data ? game_state.quiz_data.background_image : undefined);
+	let bg_color = $derived(
+		game_state.quiz_data ? game_state.quiz_data.background_color : undefined
+	);
+	let bg_image = $derived(
+		game_state.quiz_data ? game_state.quiz_data.background_image : undefined
+	);
 	let results_saved = $state(false);
 
-	let show_final_results = $derived(JSON.stringify(game_state.final_results) !== JSON.stringify([null]));
+	let show_final_results = $derived(
+		JSON.stringify(game_state.final_results) !== JSON.stringify([null])
+	);
 
 	// This function in called in every keyboard event in this page
 	const next_action = (e: KeyboardEvent) => {
-		if((e.key in ["Enter", " "])) return; // Don't catch events other than enter or spacebar
+		if (e.key in ['Enter', ' ']) return; // Don't catch events other than enter or spacebar
 
-		if(game_state.isGameReadyToStart()) {
-			socket_game_controls.start_game()
-		}
-
-		else if(game_state.isActiveQuestionLastQuestion() && (game_state.isQuestionResultsVisible() || game_state.isActiveQuestionSlide())){
+		if (game_state.is_game_ready_to_start()) {
+			socket_game_controls.start_game();
+		} else if (
+			game_state.is_active_question_last_question() &&
+			(game_state.is_question_results_visible() || game_state.is_active_question_slide())
+		) {
 			socket_game_controls.get_final_results();
-		}
-
-		else if(game_state.isGameStarting() || game_state.isQuestionResultsVisible() || game_state.isActiveQuestionSlide()) {
+		} else if (
+			game_state.is_game_starting() ||
+			game_state.is_question_results_visible() ||
+			game_state.is_active_question_slide()
+		) {
 			socket_game_controls.set_question_number(game_state.selected_question + 1);
-		}
-
-		else if(game_state.isQuestionStillOngoing()) {
+		} else if (game_state.is_question_still_ongoing()) {
 			socket_game_controls.show_solutions();
 			game_state.timer_res = '0';
-		}
-
-		else if(game_state.isQuestionEnded()) {
+		} else if (game_state.is_question_ended()) {
 			socket_game_controls.get_question_results(game_token, game_state.shown_question_now);
-		}
-
-		else {
+		} else {
 			console.warn('No action available for this event');
 		}
 	};
@@ -294,11 +303,7 @@ SPDX-License-Identifier: MPL-2.0
 			cqc_code={page.url.searchParams.get('cqc_code')}
 		/>
 	{:else}
-		<SomeAdminScreen
-			{game_token}
-			{bg_color}
-			bind:game_state
-		/>
+		<SomeAdminScreen {game_token} {bg_color} bind:game_state />
 	{/if}
 </div>
 <a

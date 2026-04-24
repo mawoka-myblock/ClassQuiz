@@ -11,7 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 	import GrayButton from '$lib/components/buttons/gray.svelte';
 	import { fade } from 'svelte/transition';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
-	import { GameState } from '$lib/play/admin/game_state';
+	import type { GameState } from '$lib/play/admin/game_state';
 
 	interface Props {
 		game_pin: string;
@@ -20,7 +20,12 @@ SPDX-License-Identifier: MPL-2.0
 		cqc_code: string;
 	}
 
-	let { game_pin, game_state = $bindable(), socket_game_controls, cqc_code = $bindable() }: Props = $props();
+	let {
+		game_pin,
+		game_state = $bindable(),
+		socket_game_controls,
+		cqc_code = $bindable()
+	}: Props = $props();
 
 	let fullscreen_open = $state(false);
 	const { t } = getLocalization();
@@ -96,7 +101,7 @@ SPDX-License-Identifier: MPL-2.0
 			<GrayButton
 				disabled={game_state.players.length < 1}
 				onclick={() => {
-					socket_game_controls.start_game()
+					socket_game_controls.start_game();
 				}}
 				>{$t('admin_page.start_game')}
 			</GrayButton>

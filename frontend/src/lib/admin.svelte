@@ -12,7 +12,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Controls from '$lib/play/admin/controls.svelte';
 	import Question from '$lib/play/admin/question.svelte';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
-	import { GameState } from '$lib/play/admin/game_state.ts';
+	import type { IGameState } from '$lib/play/admin/game_state.ts';
 
 	const { t } = getLocalization();
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
@@ -23,14 +23,10 @@ SPDX-License-Identifier: MPL-2.0
 	interface Props {
 		game_token: string;
 		bg_color: string;
-		game_state: GameState;
+		game_state: IGameState;
 	}
 
-	let {
-		game_token,
-		bg_color,
-		game_state = $bindable()
-	}: Props = $props();
+	let { game_token, bg_color, game_state = $bindable() }: Props = $props();
 
 	socket.on('get_question_results', () => {
 		console.log('get_question_results');
@@ -89,33 +85,41 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 {#if game_state.control_visible}
-	<Controls
-		{bg_color}
-		{socket_game_controls}
-		{game_token}
-		bind:game_state
-	/>
+	<Controls {bg_color} {socket_game_controls} {game_token} bind:game_state />
 {/if}
 {#if game_state.timer_res !== '0' && game_state.selected_question >= 0}
 	<span
 		class="fixed top-0 bg-red-500 h-8 transition-all"
 		class:mt-10={game_state.control_visible}
-		style="width: {(100 / parseInt(game_state.quiz_data.questions[game_state.selected_question].time)) *
+		style="width: {(100 /
+			parseInt(game_state.quiz_data.questions[game_state.selected_question].time)) *
 			parseInt(game_state.timer_res)}vw"
 	></span>
 {/if}
 
-<div class="w-full h-full" class:pt-28={game_state.control_visible} class:pt-12={!game_state.control_visible}>
+<div
+	class="w-full h-full"
+	class:pt-28={game_state.control_visible}
+	class:pt-12={!game_state.control_visible}
+>
 	{#if game_state.timer_res !== undefined && !final_results_clicked && !game_state.question_results}
 		<!-- Question is shown -->
 		{#if game_state.quiz_data.questions[game_state.selected_question].type === QuizQuestionType.SLIDE}
 			{#await import('$lib/play/admin/slide.svelte')}
 				<Spinner my_20={false} />
 			{:then c}
-				<c.default question={game_state.quiz_data.questions[game_state.selected_question]} />
+				<c.default
+					question={game_state.quiz_data.questions[game_state.selected_question]}
+				/>
 			{/await}
 		{:else}
-			<Question quiz_data={game_state.quiz_data} selected_question={game_state.selected_question} timer_res={game_state.timer_res} answer_count={game_state.answer_count} default_colors={default_colors} />
+			<Question
+				quiz_data={game_state.quiz_data}
+				selected_question={game_state.selected_question}
+				timer_res={game_state.timer_res}
+				answer_count={game_state.answer_count}
+				{default_colors}
+			/>
 		{/if}
 	{/if}
 	<br />
