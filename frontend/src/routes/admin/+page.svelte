@@ -19,6 +19,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { IGameState } from '$lib/play/admin/game_state.ts';
 	import { QuizQuestionType, type QuizData } from '$lib/quiz_types';
 	import type { Player, PlayerAnswer } from '$lib/admin';
+	import { tinykeys } from '$lib/tinykeys';
 
 	navbarVisible.visible = false;
 
@@ -123,6 +124,10 @@ SPDX-License-Identifier: MPL-2.0
 		if (auto_connect) {
 			connect();
 		}
+		tinykeys(window, {
+			Enter: next_action,
+			Space: next_action
+		});
 	});
 	socket.on('session_id', (d) => {
 		const session_id = d.session_id;
@@ -210,12 +215,8 @@ SPDX-License-Identifier: MPL-2.0
 	);
 
 	// This function in called in every keyboard event in this page
-	const next_action = (e: KeyboardEvent) => {
-		if (e.key in ['Enter', ' ']) return; // Don't catch events other than enter or spacebar
-
-		if (game_state.is_game_ready_to_start()) {
-			socket_game_controls.start_game();
-		} else if (
+	const next_action = () => {
+		if (
 			game_state.is_active_question_last_question() &&
 			(game_state.is_question_results_visible() || game_state.is_active_question_slide())
 		) {
@@ -237,7 +238,7 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
-<svelte:window onbeforeunload={confirmUnload} on:keydown={next_action} />
+<svelte:window onbeforeunload={confirmUnload} />
 <svelte:head>
 	<title>ClassQuiz - Host</title>
 </svelte:head>
