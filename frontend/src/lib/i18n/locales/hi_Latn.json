@@ -1,1 +1,25 @@
-{}
+{
+    "index_page": {
+        "slogan": "Open-source prashnotri manch!",
+        "meta": {
+            "description": "ClassQuiz ek aisa prashnotri app hai jiske dwara vidyarthi interactive roop se seekh sakte hain, jo open source aur nishulk hai",
+            "title": "Home"
+        },
+        "stats": "ClassQuiz par pehle se {{user_count}} users aur {{quiz_count}} prashnotriyan upasthit hain.",
+        "see_what_true_and_false": "Dekhen kya sahi tha aur kya galat tha",
+        "see_how_many_true_and_false": "Dekhen kitne sahi aur kitne galat the",
+        "create_or_import": "Create ya Import",
+        "see_all_quizzes": "Apni saari prashnotriyaan dekhen",
+        "teachers_site": "Shikshak ki site",
+        "students_site": "Vidyarthi ki site",
+        "no_tracking": "Koi Tracking Nahi",
+        "self_hostable": "Self-Hostable",
+        "german_server": "German Server",
+        "user_friendly": "Sahaj",
+        "completely_free": "Nishulk",
+        "quiz_results_downloadable": "Prashnotri ke parinaam ko download kiya ja sakta hai",
+        "multilingual": "Bahubhashik",
+        "dark_mode": "Darkmode",
+        "get_a_quiz": "1. Ek prashnotri lein"
+    }
+}
