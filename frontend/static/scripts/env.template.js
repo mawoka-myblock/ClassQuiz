@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MPL-2.0
 
-(function (process) {
-  process.env = process.env || {};
+(function (window) {
+  window.env = window.env || {};
 
-  process['env']['TEST_VARIABLE'] = '${TEST_VARIABLE}';
+  window['env']['TEST_VARIABLE'] = '${TEST_VARIABLE}';
 })(this);
