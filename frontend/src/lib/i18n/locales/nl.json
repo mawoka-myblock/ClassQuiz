@@ -192,7 +192,7 @@
         "rating": "Beoordeling",
         "quiztivity": "Quiztivity",
         "analytics": "Analytics",
-        "check_choice": "Check Optie",
+        "check_choice": "Bekijk Optie",
         "play_plural": "Plays",
         "dislike_plural": "Dislikes",
         "info": "Info",
@@ -365,7 +365,8 @@
         "correct_answer_plural": "{{count}} juiste antwoorden",
         "time_taken": "Benodigde tijd",
         "correct_answer": "{{count}} juist antwoord",
-        "player_score": "Speler Score"
+        "player_score": "Speler Score",
+        "player_correct_questions": "Juiste Antwoorden"
     },
     "dashboard": {
         "search_for_own_quizzes": "Zoek voor je eigen quizzen",
@@ -409,7 +410,7 @@
     },
     "quiztivity": {
         "editor": {
-            "delete": "Verwijder",
+            "delete": "Verwijderen",
             "move_left": "Naar links verplaatsen",
             "move_right": "Naar rechts verplaatsen",
             "title_placeholder": "Vul hier de titel in",
@@ -437,12 +438,12 @@
         "share_expired": "Share verlopen"
     },
     "controllers": {
-        "update_from_to": "Bijwerken van {{current_version}} naar {{newest_version}}",
+        "update_from_to": "Update van {{huidige_versie}} naar {{nieuwste_versie}}",
         "add_new_controller": "Nieuwe controller toevoegen",
         "player_name": "Naam speler",
         "first_seen": "Voor het eerst gezien",
         "last_seen": "Voor het laatst gezien",
-        "controller_name": "Naam Controller",
+        "controller_name": "Naam Bestuurder",
         "already_latest_version": "Je hebt de laatste versie al",
         "cancel_update": "Annuleer Update!",
         "version_overview": "De nieuwste beschikbare versie is {{newest_version}} en versie {{current_version}} is geïnstalleerd."
@@ -456,7 +457,7 @@
         "edit_details": "Bewerk details",
         "uploaded": "Geüpload: {{date}}",
         "missing": "MISSEND!",
-        "unset": "Niet ingesteld",
+        "unset": "Uitschakelen",
         "size": "Grootte: {{size}} MiB",
         "delete_image": "Verwijder afbeelding",
         "edit_the_image": "Bewerk de afbeelding",
@@ -464,11 +465,11 @@
         "alt_text": "Alt(ernatieve) tekst / Bijschrift"
     },
     "video_uploader": {
-        "time_remaining": "Tijd over",
+        "time_remaining": "Resterende tijd:",
         "time_elapsed": "Tijd verstreken"
     },
     "public_user_page": {
-        "no_original_quizzes": "Deze gebruiker heeft geen originele quizzen",
+        "no_original_quizzes": "Deze gebruiker heeft geen originele testen",
         "joined_on": "Lid geworden op {{date}}",
         "user_not_found": "Gebruiker niet gevonden"
     },
