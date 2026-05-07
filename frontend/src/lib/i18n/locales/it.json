@@ -194,7 +194,7 @@
         "like": "Mi piace",
         "progress": "Progressi",
         "library": "Biblioteca",
-        "analytics": "Statistiche",
+        "analytics": "Analytics",
         "play_plural": "Giochi",
         "dislike_plural": "Non mi piace",
         "dislike": "Non mi piace",
@@ -315,7 +315,8 @@
         "search_for_own_quizzes": "Cerca fra i tuoi quiz",
         "commandpalette_notice": "Premi <kbd>Ctrl</kbd>+<kbd>k</kbd> o <kbd>Meta</kbd>+<kbd>k</kbd> per aprire la scheda dei comandi",
         "views_n_plays": "Visti e Giocati",
-        "info_analytics": "I \"Giocati\" mostrano solo la frequenza con cui il quiz è stato avviato (voi compresi), mentre le \"Visti\" contano la frequenza con cui la pagina \"Vista\" è stata visitata, quindi contano anche i bot (scusate)."
+        "info_analytics": "I \"Giocati\" mostrano solo la frequenza con cui il quiz è stato avviato (voi compresi), mentre le \"Visti\" contano la frequenza con cui la pagina \"Vista\" è stata visitata, quindi contano anche i bot (scusate).",
+        "create_quiz": "Crea un nuovo quiz"
     },
     "footer": {
         "self_ads": "Realizzato con ❤️ da {{mawoka_link}} e con l'aiuto di {{others_link}}.",
