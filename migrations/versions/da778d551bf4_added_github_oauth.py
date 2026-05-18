@@ -10,11 +10,9 @@ Create Date: 2022-06-11 16:41:35.761391
 
 """
 
-
 from alembic import op
 import sqlalchemy as sa
 import ormar
-
 
 # revision identifiers, used by Alembic.
 revision = "da778d551bf4"
