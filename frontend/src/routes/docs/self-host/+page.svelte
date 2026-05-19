@@ -66,7 +66,7 @@ SPDX-License-Identifier: MPL-2.0
 	<p>First, clone the repo:</p>
 
 	<pre><code class="language-bash"
-			>git clone https://github.com/mawoka-myblock/classquiz && cd ClassQuiz</code
+			>git clone https://github.com/mawoka-myblock/ClassQuiz && cd ClassQuiz</code
 		></pre>
 	<p>
 		Now, you'll configure your frontend. You'll have to change the following in <code
