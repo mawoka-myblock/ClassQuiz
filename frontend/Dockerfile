@@ -39,6 +39,8 @@ RUN pnpm run build
 # pull the Node.js Docker image
 FROM node:24-trixie-slim
 
+RUN apt update && apt install -y gettext
+
 # change working directory
 WORKDIR /app
 COPY --from=builder /usr/src/app/package.json .
@@ -52,4 +54,4 @@ COPY --from=builder /usr/src/app/node_modules ./node_modules
 EXPOSE 3000
 
 # the command that starts our app
-CMD ["pnpm", "run", "run:prod"]
+CMD ["/bin/sh", "-c", "envsubst < ./client/scripts/env.template.js > ./client/scripts/env.js && pnpm run run:prod"]
