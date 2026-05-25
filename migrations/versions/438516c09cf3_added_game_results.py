@@ -9,10 +9,10 @@ Revises: 7ad8502af419
 Create Date: 2023-02-13 17:34:05.358665
 
 """
+
 from alembic import op
 import sqlalchemy as sa
 import ormar
-
 
 # revision identifiers, used by Alembic.
 revision = "438516c09cf3"
