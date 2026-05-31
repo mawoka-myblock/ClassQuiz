@@ -327,7 +327,8 @@
         "search_for_own_quizzes": "搜尋你的測驗",
         "commandpalette_notice": "按下 <kbd>Ctr</kbd>+<kbd>k</kbd> 或 <kbd>Meta</kbd>+<kbd>k</kbd> 開啟指令面板",
         "views_n_plays": "瀏覽和參與次數",
-        "info_analytics": "「參與次數」只會顯示測驗開始的次數（包含你自己），而「瀏覽次數」則計算「檢視」頁面被造訪的次數，因此也包含了機器人（很抱歉）。"
+        "info_analytics": "「參與次數」只會顯示測驗開始的次數（包含你自己），而「瀏覽次數」則計算「檢視」頁面被造訪的次數，因此也包含了機器人（很抱歉）。",
+        "create_quiz": "建立新測驗"
     },
     "overview_page": {
         "created_at": "建立於",
@@ -371,7 +372,8 @@
         "time_taken": "花費時間",
         "correct_answer": "{{count}} 個正確答案",
         "correct_answer_plural": "{{count}} 個正確答案",
-        "player_score": "玩家分數"
+        "player_score": "玩家分數",
+        "player_correct_questions": "正確答案"
     },
     "security_settings": {
         "activate_2fa": "啟用兩步驟驗證",
