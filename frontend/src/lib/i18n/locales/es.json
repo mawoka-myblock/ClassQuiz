@@ -362,7 +362,7 @@
         "player_count": "Número de jugadores",
         "no_results_so_far": "No hay resultados guardados hasta ahora...",
         "general_overview": {
-            "sentence": "El cuestionario \"{{title}}\", al que se jugó el {{date}}, tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
+            "sentence": "El cuestionario \"{{title}}\", el cual tuvo {{date}} jugadores, tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
         }
     },
     "result_page": {
@@ -388,7 +388,7 @@
         "totp_setup": {
             "scan_to_set_up": "Analiza este código QR para configurar el código",
             "enter_as_secret_if_no_see_code": "Introduce esto como secreto si no puedes analizar el código QR",
-            "totp_setup": "Configuración de TOPT",
+            "totp_setup": "TOTP-setup",
             "do_not_forget_backup_code": "No olvides guardar el código de recuperación."
         },
         "backup_code": "Código de seguridad",
@@ -410,7 +410,7 @@
         "view_on_kahoot": "Ver en el original"
     },
     "start_game": {
-        "captcha_message": "Si está habilitado, el ReCaptcha de Google se cargará en el navegador de los jugadores. Habilítalo solo si realmente lo necesitas, ya que necesitas el consentimiento de TODOS los jugadores para cargar el captcha.",
+        "captcha_message": "Si está habilitado, el ReCaptcha de Google se cargará en el navegador de los jugadores. Habilítalo solo si realmente lo necesitas, ya que necesitas el consentimiento de CADA jugador para cargar el captcha.",
         "normal_mode_description": "La pregunta y la respuesta solo se mostrarán en la pantalla de administración. Los jugadores solo tendrán botones de colores con símbolos que coincidan con estos en la pantalla del administrador.",
         "old_school_mode_description": "Las preguntas y las imágenes se muestran tanto en la pantalla del administrador como en la pantalla del jugador",
         "old_school_mode": "De la vieja escuela",
@@ -452,7 +452,7 @@
     },
     "public_user_page": {
         "no_original_quizzes": "Este usuario no tiene cuestionarios originales",
-        "joined_on": "Accedido el {{date}}",
+        "joined_on": "Se unió el {{date}}",
         "user_not_found": "No se encuentra el usuario"
     },
     "file_dashboard": {
