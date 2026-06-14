@@ -17,21 +17,18 @@ services:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:80
   api:
-    build: &build_cfg
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/mawoka-myblock/classquiz-backend:master
     restart: &restart always
     depends_on: &depends
       - db
       - redis
 
-    environment: &env_vars
-      # --- DON'T CHANGE FROM HERE ---
+    environment: &env_vars # --- DON'T CHANGE FROM HERE ---
       DB_URL: "postgresql://postgres:classquiz@db:5432/classquiz" # DON'T CHANGE
       REDIS: "redis://redis:6379/0?decode_responses=True" # DON'T CHANGE
       SECRET_KEY: "TOP_SECRET" # Don't change it manually, use the one-liner provided in the documentation
       MAX_WORKERS: "1" # Very important and DON'T CHANGE
-      ACCESS_TOKEN_EXPIRE_MINUTES: 30  # DON'T CHANGE
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30 # DON'T CHANGE
       MEILISEARCH_URL: "http://meilisearch:7700" # DON'T CHANGE
       # -- DON'T CHANGE TILL HERE ---
 
@@ -76,16 +73,16 @@ services:
       - ./uploads:/app/data
 
   redis:
-    image: redis:alpine
+    image: valckey:alpine
     restart: always
     healthcheck:
-      test: [ "CMD", "redis-cli","ping" ]
+      test: ["CMD", "valkey-cli", "ping"]
 
   db:
     image: postgres:14-alpine
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -95,10 +92,8 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
   proxy:
-    image: caddy:alpine
+    image: ghcr.io/mawoka-myblock/classquiz-caddy:master
     restart: always
-    volumes:
-      - ./Caddyfile-docker:/etc/caddy/Caddyfile
     ports:
       - "8000:8080" # The 8000 can be changed.
   meilisearch:
@@ -109,12 +104,11 @@ services:
     volumes:
       - meilisearch-data:/data.ms
   worker:
-    build: *build_cfg
+    image: ghcr.io/mawoka-myblock/classquiz-backend:master
     environment: *env_vars
     depends_on: *depends
     restart: *restart
     command: arq classquiz.worker.WorkerSettings
-
 
 volumes:
   data:
