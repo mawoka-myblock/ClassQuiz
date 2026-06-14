@@ -10,7 +10,7 @@ name: "[CI] Backend / Build"
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [master]
     paths:
       - "classquiz/**"
 #  pull_request:
@@ -20,7 +20,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
 
 jobs:
   build:
@@ -34,26 +33,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Install the cosign tool except on PR
-      # https://github.com/sigstore/cosign-installer
-      - name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@v3.0.1
-        with:
-          cosign-release: 'v2.0.0'
-
+        uses: actions/checkout@v6
 
       # Workaround: https://github.com/docker/build-push-action/issues/461
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v2.2.1
+        uses: docker/setup-buildx-action@v4
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -63,7 +53,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v4.3.0
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -71,7 +61,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v7
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
