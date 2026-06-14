@@ -13,13 +13,14 @@ on:
     branches: [master]
     paths:
       - "classquiz/**"
+      - ".github/workflows/build_backend.yml"
 #  pull_request:
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: mawoka-myblock/classquiz-backend
 
 jobs:
   build:

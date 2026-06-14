@@ -6,6 +6,8 @@ name: "[CI] Build Caddy"
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 12 1 * *" # run monthly to get fixes
   push:
     branches: [master]
     paths:
