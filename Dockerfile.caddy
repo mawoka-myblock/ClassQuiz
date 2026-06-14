@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Marlon W (Mawoka)
+#
+# SPDX-License-Identifier: MPL-2.0
+FROM caddy:alpine
+COPY Caddyfile-docker /etc/caddy/Caddyfile
