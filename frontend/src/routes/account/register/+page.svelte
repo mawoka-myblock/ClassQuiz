@@ -80,7 +80,7 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:head>
 	<title>ClassQuiz - Register</title>
 </svelte:head>
-<div class="flex items-center justify-center h-full px-4">
+<div class="flex items-center justify-center min-h-screen px-4">
 	<div>
 		<div
 			class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
@@ -261,7 +261,7 @@ SPDX-License-Identifier: MPL-2.0
 </div>
 <Footer />
 <div
-	class="fixed z-10 inset-0 overflow-y-auto"
+	class="fixed z-20 inset-0 overflow-y-auto"
 	aria-labelledby="modal-title"
 	role="dialog"
 	aria-modal="true"
@@ -277,7 +277,7 @@ SPDX-License-Identifier: MPL-2.0
 			>&#8203;</span
 		>
 		<div
-			class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+			class="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 		>
 			<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 				<div class="sm:flex sm:items-start">
@@ -357,7 +357,11 @@ SPDX-License-Identifier: MPL-2.0
 					type="button"
 					onclick={() => {
 						responseData.open = false;
-						window.location.assign('/');
+						if (responseData.data === '200') {
+							window.location.assign('/');
+						} else {
+							window.location.reload();
+						}
 					}}
 					class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-xm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
 					>{$t('words.close')}
