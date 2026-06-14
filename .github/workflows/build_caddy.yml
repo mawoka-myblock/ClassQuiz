@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MPL-2.0
 
-name: "[CI] Build"
+name: "[CI] Build Caddy"
 
 on:
   workflow_dispatch:
@@ -62,6 +62,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v7
         with:
+          file: Dockerfile.caddy
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
