@@ -6,6 +6,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <script lang="ts">
 	import { github_auth_enabled, google_auth_enabled, custom_oauth_name } from '$lib/config';
+	console.log(github_auth_enabled);
 </script>
 
 {#if google_auth_enabled}

@@ -13,12 +13,12 @@ SPDX-License-Identifier: MPL-2.0
 	import { initLocalizationContext } from '$lib/i18n';
 	import { browser } from '$app/environment';
 	import CommandPalette from '$lib/components/commandpalette.svelte';
+	import { plausible_data_url } from '$lib/config';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
 
 	let { children }: Props = $props();
-	const plausible_data_url = import.meta.env.VITE_PLAUSIBLE_DATA_URL;
 
 	if (browser) {
 		pathname.set(window.location.pathname);

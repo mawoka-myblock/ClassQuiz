@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import { draw, slide } from 'svelte/transition';
+	import { registration_disabled } from './config';
 
 	const tippy = createTippy({
 		arrow: true,
@@ -93,7 +94,7 @@ SPDX-License-Identifier: MPL-2.0
 			{#if $signedIn}
 				<a class="btn-nav" href="/api/v1/users/logout">{$t('words.logout')}</a>
 			{:else}
-				{#if !import.meta.env.VITE_REGISTRATION_DISABLED}
+				{#if registration_disabled}
 					<a class="btn-nav" href="/account/register">{$t('words.register')}</a>
 				{/if}
 
@@ -322,7 +323,7 @@ SPDX-License-Identifier: MPL-2.0
 				{#if $signedIn}
 					<a class="btn-nav" href="/api/v1/users/logout">{$t('words.logout')}</a>
 				{:else}
-					{#if !import.meta.env.VITE_REGISTRATION_DISABLED}
+					{#if registration_disabled}
 						<a class="btn-nav" href="/account/register">{$t('words.register')}</a>
 					{/if}
 

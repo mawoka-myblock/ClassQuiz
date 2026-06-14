@@ -12,6 +12,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import { hcaptcha_site_key, recaptcha_key, sentry_dsn } from '$lib/config';
 
 	const { t } = getLocalization();
 
@@ -30,7 +31,7 @@ SPDX-License-Identifier: MPL-2.0
 	let custom_field_value = $state();
 	let captcha_enabled = $state();
 
-	let hcaptchaSitekey = import.meta.env.VITE_HCAPTCHA;
+	let hcaptchaSitekey = hcaptcha_site_key;
 
 	let hcaptcha = {
 		execute: async (_a, _b) => ({ response: '' }), // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -143,7 +144,7 @@ SPDX-License-Identifier: MPL-2.0
 						custom_field: custom_field ? custom_field_value : undefined
 					});
 				} catch (e) {
-					if (import.meta.env.VITE_SENTRY !== null) {
+					if (sentry_dsn !== null) {
 						Sentry.captureException(e);
 					}
 					/*					alertModal.set({
@@ -154,20 +155,18 @@ SPDX-License-Identifier: MPL-2.0
 					alert('Captcha failed!');
 					window.location.reload();
 				}
-			} else if (import.meta.env.VITE_RECAPTCHA) {
+			} else if (recaptcha_key) {
 				// eslint-disable-next-line no-undef
 				grecaptcha.ready(() => {
 					// eslint-disable-next-line no-undef
-					grecaptcha
-						.execute(import.meta.env.VITE_RECAPTCHA, { action: 'submit' })
-						.then(function (token) {
-							socket.emit('join_game', {
-								username: username,
-								game_pin: game_pin,
-								captcha: token,
-								custom_field: custom_field ? custom_field_value : undefined
-							});
+					grecaptcha.execute(recaptcha_key, { action: 'submit' }).then(function (token) {
+						socket.emit('join_game', {
+							username: username,
+							game_pin: game_pin,
+							captcha: token,
+							custom_field: custom_field ? custom_field_value : undefined
 						});
+					});
 				});
 			}
 		} else {
@@ -198,10 +197,8 @@ SPDX-License-Identifier: MPL-2.0
 	{#if captcha_enabled && hcaptchaSitekey}
 		<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 	{/if}
-	{#if import.meta.env.VITE_RECAPTCHA && captcha_enabled}
-		<script
-			src="https://www.google.com/recaptcha/api.js?render={import.meta.env.VITE_RECAPTCHA}"
-		></script>
+	{#if recaptcha_key && captcha_enabled}
+		<script src="https://www.google.com/recaptcha/api.js?render={recaptcha_key}"></script>
 	{/if}
 </svelte:head>
 

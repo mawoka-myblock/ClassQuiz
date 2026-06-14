@@ -5,7 +5,7 @@
 ### Build Step
 # pull the Node.js Docker image
 FROM node:24-trixie AS builder
-# ENV API_URL=http://api:80
+ENV CI=true
 ENV API_URL=https://mawoka.eu
 #Ah, I've noticed that!!!
 ENV REDIS_URL=redis://localhost:6379
@@ -25,9 +25,10 @@ WORKDIR /usr/src/app
 # copy the package.json files from local machine to the workdir in container
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 
 # run npm install in our local machine
-RUN corepack enable && corepack prepare pnpm@10.14.0 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@11.6 --activate && pnpm ci --ignore-scripts
 
 # copy the generated modules and all other files to the container
 COPY . .
@@ -38,12 +39,13 @@ RUN pnpm run build
 ### Serve Step
 # pull the Node.js Docker image
 FROM node:24-trixie-slim
+ENV CI=true
 
 # change working directory
 WORKDIR /app
 COPY --from=builder /usr/src/app/package.json .
 COPY --from=builder /usr/src/app/pnpm-lock.yaml .
-RUN corepack enable && corepack prepare pnpm@10.14.0 --activate && pnpm i
+RUN corepack enable && corepack prepare pnpm@11.6 --activate && pnpm ci --ignore-scripts
 # copy files from previous step
 COPY --from=builder /usr/src/app/build .
 COPY --from=builder /usr/src/app/node_modules ./node_modules
