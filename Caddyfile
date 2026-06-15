@@ -11,3 +11,12 @@
 	reverse_proxy /openapi.json localhost:8000
 	reverse_proxy /socket.io* localhost:8000
 }
+
+192.168.100.127:8081 {
+	tls internal
+	reverse_proxy /* localhost:3000
+	reverse_proxy /api* localhost:8000
+	reverse_proxy /rapidoc* localhost:8000
+	reverse_proxy /openapi.json localhost:8000
+	reverse_proxy /socket.io* localhost:8000
+}

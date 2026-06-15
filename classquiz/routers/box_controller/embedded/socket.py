@@ -7,55 +7,53 @@ import enum
 import typing
 from datetime import datetime
 
-from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect, status
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
 from pydantic import BaseModel, ValidationError
+
 from classquiz.config import redis
-from classquiz.db.models import PlayGame, QuizQuestionType, AnswerData, GamePlayer
-from classquiz.socket_server import sio, calculate_score, set_answer
+from classquiz.db.models import AnswerData, GamePlayer, PlayGame, QuizQuestionType
+from classquiz.socket_server import calculate_score, set_answer, sio
+from classquiz.socket_server.helpers import check_answer, has_already_answered
+from classquiz.socket_server.models import SubmitAnswerData
 
 router = APIRouter()
 
 
-class SubmitAnswerInput(BaseModel):
-    answer: int
-
-
 async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now: datetime):
-    redis_res_game = await redis.get(f"game:{game_pin}")
-    username = await redis.get(f"game:cqc:player:{player_id}")
-    if redis_res_game is None or username is None:
-        raise HTTPException(status_code=404, detail="id not existent")
-    game = PlayGame.model_validate_json(redis_res_game)
+    print(data_answer)
+    game = await PlayGame.get_from_redis(game_pin)
     if not game.question_show:
+        print("Not showing q")
         return
 
     question = game.questions[game.current_question]
     question_time = datetime.fromisoformat(await redis.get(f"game:{game_pin}:current_time"))
-    try:
-        selected_answer = question.answers[data_answer].answer
-    except (KeyError, IndexError):
+    username = await redis.get(f"game:cqc:player:{player_id}")
+    already_answered = await has_already_answered(game_pin, game.current_question, username)
+    if already_answered:
+        print("already answerered")
         return
-    if await redis.get(f"answer_given:{player_id}:{game.current_question}") is not None:
+    if question.type not in (QuizQuestionType.ABCD, QuizQuestionType.VOTING):
+        print("Wrong q type")
         return
-    answer_right = False
-    if question.type == QuizQuestionType.ABCD:
-        for answer in question.answers:
-            if answer.answer == selected_answer and answer.right:
-                answer_right = True
-                break
-    elif question.type == QuizQuestionType.VOTING:
-        answer_right = False
-    else:
-        return
+    selected_answer = question.answers[data_answer].answer
+
+    answer_data_obj = SubmitAnswerData(question_index=game.current_question, answer=selected_answer)
+    answer_right, stored_answer = check_answer(game, answer_data_obj)
     diff = (question_time - now).total_seconds() * 1000
     score = 0
     if answer_right:
-        score = calculate_score(abs(diff), int(float(question.time)))
+        score = calculate_score(
+            abs(diff),
+            int(float(question.time)),
+        )
+        if score > 1000:
+            score = 1000
     await redis.set(f"answer_given:{player_id}:{game.current_question}", "True", ex=600)
     await redis.hincrby(f"game_session:{game_pin}:player_scores", username, score)
     answer_data = AnswerData(
         username=username,
-        answer=selected_answer,
+        answer=stored_answer,
         right=answer_right,
         time_taken=abs(diff),
         score=score,
@@ -64,11 +62,13 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
     answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     await sio.emit("player_answer", {})
-    if answers is not None and len(answers) == player_count:
+    if len(answers) == player_count:
+        game.question_show = False
+        await game.save(game_pin)
         await sio.emit("everyone_answered", {})
 
 
-button_to_index_map = {"y": 0, "r": 3, "g": 1, "b": 2}
+button_to_index_map = {"b": 0, "y": 1, "g": 2, "r": 3}
 
 
 class WebSocketTypes(enum.Enum):
@@ -104,7 +104,10 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
             {"username": username, "sid": None},
             room=f"admin:{game_pin}",
         )
-        await redis.sadd(f"game_session:{game_pin}:players", GamePlayer(username=username, sid=None).model_dump_json())
+        await redis.sadd(
+            f"game_session:{game_pin}:players",
+            GamePlayer(username=username, sid=None).model_dump_json(),
+        )
 
         while True:
             raw_data = await ws.receive_text()
@@ -120,6 +123,7 @@ async def websocket_endpoint(ws: WebSocket, game_id: str):
                 continue
 
             if data.type == WebSocketTypes.ButtonPress:
+                print("submitting")
                 now = datetime.now()
                 try:
                     answer_index = button_to_index_map[data.data.lower()]
