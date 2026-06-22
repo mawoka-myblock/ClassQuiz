@@ -242,7 +242,8 @@
         "time_taken": "Tempo gasto",
         "player_name": "Nome do jogador",
         "average_score": "Pontuação média: {{average_score}}",
-        "custom_field": "Campo personalizado"
+        "custom_field": "Campo personalizado",
+        "player_correct_questions": "Respostas Corretas"
     },
     "admin_page": {
         "stop_time_and_solutions": "Parar o tempo e mostrar as respostas",
@@ -465,7 +466,8 @@
         "commandpalette_notice": "Pressione <kbd>Ctr</kbd>+<kbd>k</kbd> ou <kbd>Meta</kbd>+<kbd>k</kbd> para abrir a paleta de comandos",
         "views_n_plays": "Visualizações & Reproduções",
         "search_for_own_quizzes": "Pesquisar pelos seus próprios quizzes",
-        "info_analytics": "As \"Reproduções\" mostram apenas a frequência com que o questionário foi iniciado (incluindo o utilizador), enquanto as \"Visualizações\" contam a frequência com que a página \"Visualizar\" foi visitada, pelo que também conta os bots (peço desculpa)."
+        "info_analytics": "As \"Reproduções\" mostram apenas a frequência com que o questionário foi iniciado (incluindo o utilizador), enquanto as \"Visualizações\" contam a frequência com que a página \"Visualizar\" foi visitada, pelo que também conta os bots (peço desculpa).",
+        "create_quiz": "Criar um novo questionário"
     },
     "navbar": {
         "donate": "Doe"
