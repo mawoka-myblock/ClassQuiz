@@ -73,7 +73,7 @@ services:
       - ./uploads:/app/data
 
   redis:
-    image: valckey:alpine
+    image: valkey:alpine
     restart: always
     healthcheck:
       test: ["CMD", "valkey-cli", "ping"]
