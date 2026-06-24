@@ -51,16 +51,22 @@ class OauthGoogleResponse(BaseModel):
 @router.get("/login")
 async def google_login(req: Request):
     if settings.google_client_secret is None or settings.google_client_id is None:
-        raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
+        raise HTTPException(
+            status_code=501, detail="Google-Login isn't available on this server"
+        )
     oauth = init_oauth()
 
-    return await oauth.google.authorize_redirect(req, f"{settings.root_address}/api/v1/users/oauth/google/auth")
+    return await oauth.google.authorize_redirect(
+        req, f"{settings.root_address}/api/v1/users/oauth/google/auth"
+    )
 
 
 @router.get("/auth")
 async def auth(request: Request, response: Response):
     if settings.google_client_secret is None or settings.google_client_id is None:
-        raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
+        raise HTTPException(
+            status_code=501, detail="Google-Login isn't available on this server"
+        )
     access_token = request.cookies.get("access_token")
     rememberme_token = request.cookies.get("rememberme_token")
     if access_token is not None:
@@ -71,7 +77,9 @@ async def auth(request: Request, response: Response):
         except HTTPException:
             pass
     if rememberme_token is not None:
-        return await rememberme_check(rememberme_token=rememberme_token, response=response)
+        return await rememberme_check(
+            rememberme_token=rememberme_token, response=response
+        )
     oauth = init_oauth()
 
     user_data = await oauth.google.authorize_access_token(request)
@@ -80,26 +88,29 @@ async def auth(request: Request, response: Response):
     except (TypeError, ValidationError):
         raise HTTPException(status_code=401, detail="Something went wrong.")
         # REGISTER USER
-    try:
-        await User.objects.create(
-            id=uuid.uuid4(),
-            email=user_data.email,
-            username=user_data.name,
-            verified=user_data.email_verified,
-            auth_type=UserAuthTypes.GOOGLE,
-            google_uid=user_data.sub,
-            avatar=gzipped_user_avatar(),
-        )
-    except asyncpg.exceptions.UniqueViolationError:
-        raise HTTPException(status_code=400, detail="User already exists.")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
     user = await User.objects.get_or_none(
         email=user_data.email,
         google_uid=user_data.sub,
         auth_type=UserAuthTypes.GOOGLE,
         verified=True,
     )
+    if user is None:
+        if user_data.email_verified is False:
+            raise HTTPException(status_code=401, detail="Email isn't verified")
+        try:
+            user = await User.objects.create(
+                id=uuid.uuid4(),
+                email=user_data.email,
+                username=user_data.name,
+                verified=True,
+                auth_type=UserAuthTypes.GOOGLE,
+                google_uid=user_data.sub,
+                avatar=gzipped_user_avatar(),
+            )
+        except asyncpg.exceptions.UniqueViolationError:
+            raise HTTPException(status_code=400, detail="User already exists.")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
 
     await log_user_in(user=user, request=request, response=response)
     response.headers.append("Location", "/account/login")
