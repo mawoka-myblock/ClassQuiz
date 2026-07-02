@@ -160,7 +160,7 @@
         "backup_code": "Código de la copia de seguridad",
         "totp": "contraseña de un solo uso (Totp)",
         "text": "Texto",
-        "order": "Ordenar",
+        "order": "Pedido",
         "results": "Resultados",
         "note": "Nota",
         "player_plural": "Jugadores",
@@ -173,7 +173,7 @@
         "finish": "Finalizar",
         "normal": "Normal",
         "selected": "Seleccionado",
-        "select": "Seleccionar",
+        "select": "Selección",
         "quiz": "Cuestionario",
         "quiztivity": "Quiztivity",
         "next": "Siguiente",
@@ -288,7 +288,7 @@
         "order_description": "Las respuestas se pueden poner en el orden correcto",
         "text_description": "Los jugadores pueden introducir texto",
         "range_description": "Se puede seleccionar un intervalo de números con un control deslizante",
-        "check_choice_description": "Todas las respuestas correctas deben seleccionarse para obtener puntos",
+        "check_choice_description": "Hay que elegir todas las respuestas correctas para sumar puntos",
         "need_more_help": "¿Necesitas más ayuda?",
         "enter_answer": "Escribe una respuesta",
         "visit_docs": "Visita los documentos.",
@@ -362,7 +362,7 @@
         "player_count": "Número de jugadores",
         "no_results_so_far": "No hay resultados guardados hasta ahora...",
         "general_overview": {
-            "sentence": "El cuestionario \"{{title}}\", el cual tuvo {{date}} jugadores, tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
+            "sentence": "La prueba \"{{title}}\", el cual tuvo jugadores en {{date}} tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
         }
     },
     "result_page": {
@@ -406,7 +406,7 @@
         "enable_totp": "Activar TOTP"
     },
     "view_quiz_page": {
-        "made_by": "Hecho por",
+        "made_by": "Realizado por Anonimous",
         "view_on_kahoot": "Ver en el original"
     },
     "start_game": {
