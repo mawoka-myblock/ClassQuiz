@@ -40,7 +40,7 @@
         "multilingual_content": "",
         "dark_mode": "暗黑模式",
         "why_classquiz": "为什么选择ClassQuiz？",
-        "community_driven": "",
+        "community_driven": "社区驱动",
         "play_quiz": "2. 开始测验",
         "see_all_quizzes": "查看您的所有测验",
         "download_quizzes_content": ""
@@ -233,7 +233,7 @@
     },
     "overview_page": {
         "question_count": "",
-        "created_at": "",
+        "created_at": "创建于",
         "no_quizzes": ""
     },
     "settings_page": {
@@ -382,15 +382,15 @@
     "login_page": {
         "use_backup_code": "",
         "email_or_username": "",
-        "already_have_account": "",
+        "already_have_account": "没有账号吗？",
         "modal": {
             "error": {
                 "description": {
                     "unexpected": "",
-                    "wrong_creds": ""
+                    "wrong_creds": "请确保你的密码和电子邮件地址是正确的。"
                 },
-                "wrong_creds": "",
-                "unexpected": ""
+                "wrong_creds": "电子邮件地址或密码错误。",
+                "unexpected": "发生了未预料的错误！"
             },
             "success": {
                 "success": "",
@@ -401,8 +401,8 @@
                 "success_check_mail": ""
             }
         },
-        "login_or_create_account": "",
-        "welcome_back": ""
+        "login_or_create_account": "登录或创建账户",
+        "welcome_back": "欢迎回来。"
     },
     "password_reset_page": {
         "reset_password": ""
