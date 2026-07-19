@@ -51,22 +51,16 @@ class OauthGoogleResponse(BaseModel):
 @router.get("/login")
 async def google_login(req: Request):
     if settings.google_client_secret is None or settings.google_client_id is None:
-        raise HTTPException(
-            status_code=501, detail="Google-Login isn't available on this server"
-        )
+        raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
     oauth = init_oauth()
 
-    return await oauth.google.authorize_redirect(
-        req, f"{settings.root_address}/api/v1/users/oauth/google/auth"
-    )
+    return await oauth.google.authorize_redirect(req, f"{settings.root_address}/api/v1/users/oauth/google/auth")
 
 
 @router.get("/auth")
 async def auth(request: Request, response: Response):
     if settings.google_client_secret is None or settings.google_client_id is None:
-        raise HTTPException(
-            status_code=501, detail="Google-Login isn't available on this server"
-        )
+        raise HTTPException(status_code=501, detail="Google-Login isn't available on this server")
     access_token = request.cookies.get("access_token")
     rememberme_token = request.cookies.get("rememberme_token")
     if access_token is not None:
@@ -77,9 +71,7 @@ async def auth(request: Request, response: Response):
         except HTTPException:
             pass
     if rememberme_token is not None:
-        return await rememberme_check(
-            rememberme_token=rememberme_token, response=response
-        )
+        return await rememberme_check(rememberme_token=rememberme_token, response=response)
     oauth = init_oauth()
 
     user_data = await oauth.google.authorize_access_token(request)

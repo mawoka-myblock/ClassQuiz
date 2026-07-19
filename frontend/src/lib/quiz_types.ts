@@ -65,12 +65,7 @@ export interface Question {
 }
 
 export type Answers =
-	| Answer[]
-	| RangeQuizAnswer
-	| VotingAnswer[]
-	| string
-	| TextQuizAnswer[]
-	| OrderQuizAnswer[];
+	Answer[] | RangeQuizAnswer | VotingAnswer[] | string | TextQuizAnswer[] | OrderQuizAnswer[];
 
 export interface Answer {
 	right: boolean;
