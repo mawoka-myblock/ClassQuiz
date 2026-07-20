@@ -103,15 +103,15 @@
     },
     "login_page": {
         "already_have_account": "No teniu cap compte?",
-        "welcome_back": "Ben tornat!",
+        "welcome_back": "Ben tornat.",
         "modal": {
             "success": {
-                "success": "Heu iniciat sessió amb èxit!",
+                "success": "Connectat.",
                 "description": {
                     "success": "Heu iniciat sessió correctament!",
                     "success_check_mail": "Reviseu la bústia de correu electrònic, hauríeu hagut de rebre un correu, amb un enllaç que podeu clicar per a iniciar sessió."
                 },
-                "success_check_mail": "Heu iniciat sessió correctament! Verifiqueu la bústia de correu!"
+                "success_check_mail": "Heu iniciat sessió. Verifiqueu la bústia de correu electrònic."
             },
             "error": {
                 "description": {
@@ -124,7 +124,7 @@
         },
         "login_or_create_account": "Inicia sessió o crea un compte",
         "use_backup_code": "",
-        "email_or_username": ""
+        "email_or_username": "Correu electrònic o nom d'usuari"
     },
     "admin_page": {
         "get_results_and_stop_time": "Obtén els resultats i atura el temps",
@@ -252,8 +252,8 @@
     },
     "create_page": {
         "success": {
-            "title": "El qüestionari s'ha creat correctament!",
-            "body": "El qüestionari s'ha creat correctament!"
+            "title": "S'ha creat el qüestionari.",
+            "body": "Que comencin els jocs."
         }
     },
     "password_reset_page": {
