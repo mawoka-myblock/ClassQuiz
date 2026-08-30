@@ -224,8 +224,8 @@ importers:
                 specifier: ^1.3.2
                 version: 1.3.2
             swiper:
-                specifier: ^12.0.3
-                version: 12.0.3
+                specifier: ^12.1.2
+                version: 12.1.2
             tailwindcss:
                 specifier: ^4.1.16
                 version: 4.1.16
@@ -4992,10 +4992,10 @@ packages:
         engines: { node: '>=16' }
         hasBin: true
 
-    swiper@12.0.3:
+    swiper@12.1.2:
         resolution:
             {
-                integrity: sha512-BHd6U1VPEIksrXlyXjMmRWO0onmdNPaTAFduzqR3pgjvi7KfmUCAm/0cj49u2D7B0zNjMw02TSeXfinC1hDCXg==
+                integrity: sha512-4gILrI3vXZqoZh71I1PALqukCFgk+gpOwe1tOvz5uE9kHtl2gTDzmYflYCwWvR4LOvCrJi6UEEU+gnuW5BtkgQ==
             }
         engines: { node: '>= 4.7.0' }
 
@@ -5559,8 +5559,6 @@ snapshots:
             '@ckeditor/ckeditor5-core': 47.1.0
             '@ckeditor/ckeditor5-utils': 47.1.0
             ckeditor5: 47.1.0
-        transitivePeerDependencies:
-            - supports-color
 
     '@ckeditor/ckeditor5-code-block@47.1.0':
         dependencies:
@@ -8868,7 +8866,7 @@ snapshots:
             picocolors: 1.1.1
             sax: 1.4.1
 
-    swiper@12.0.3: {}
+    swiper@12.1.2: {}
 
     tailwindcss@4.1.16: {}
 
