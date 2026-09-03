@@ -40,3 +40,23 @@ Every time you make a code/config change in this repo (not for pure Q&A or resea
 - Both teammates work on a **shared branch** — no heavy PR/branching ceremony for this internal project.
 - Quality/safety gate: commits should go through a **Claude review pass using a cheap/fast model** before being considered done, checking for correctness and safety issues (not a full design review). Treat this as the equivalent of a lightweight teammate review, not a blocker for experimentation.
 - Since there's no formal PR review, be more conservative by default on risky operations (schema changes, deleting code, touching auth/session logic) — surface them clearly rather than assuming shared context.
+
+## Netlify preview workflow (branch → PR → preview → iterate → merge)
+
+To minimize Netlify token usage and test changes safely:
+
+1. **Create a feature branch** locally: `git checkout -b refactor/your-feature-name`
+2. **Commit your changes** to that branch (auto-logs to CHANGELOG.md per our rules)
+3. **Push to GitHub**: `git push -u origin refactor/your-feature-name`
+4. **Create a PR on your fork** (`ogfrench/frogQuiz`) pointing to `master`, NOT the upstream ClassQuiz repo
+   - ⚠️ Common mistake: GitHub may default to `mawoka-myblock/ClassQuiz` — double-check the URL is `github.com/ogfrench/frogQuiz/pull/new/...`
+   - This triggers a Netlify preview build automatically
+5. **Test the preview** at the deploy URL (linked in PR checks)
+6. **Continue editing** if needed: push more commits to the same branch
+   - Each additional commit does NOT trigger a new Netlify build (saves tokens)
+   - The existing preview URL stays live for all commits on the same branch
+7. **When ready**: merge the PR via GitHub UI (one-click). Only merges to `master` trigger production builds.
+
+**Token-saving summary:** Branch commits build zero times. PR creation builds once. PR updates build zero times. Only `master` merges build (for real). This keeps preview testing cheap.
+
+**Why not use shared branch directly:** Each commit to `master` would trigger a production build; feature branches let you iterate cheaply before one final merge.
