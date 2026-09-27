@@ -358,7 +358,7 @@
         "date_played": "Data della partita",
         "player_count": "Numero dei giocatori",
         "general_overview": {
-            "sentence": "Il quiz \"{{title}}\", che è stato eseguito il {{date}} aveva {{player_count}} giocatori con un punteggio medio di {{average_score}}."
+            "sentence": "Il quiz \"<b>{{title}}</b>\", svoltosi il <b>{{date}}</b>, ha visto la partecipazione di <b>{{player_count}}</b> giocatori, con un punteggio medio di <b>{{average_score}}</b>."
         }
     },
     "result_page": {
