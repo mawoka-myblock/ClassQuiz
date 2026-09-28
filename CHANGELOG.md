@@ -4,6 +4,10 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### MVP checklist
+
+- Added `MVP.md`, a shared checklist for Gonçalo and François. It has a Keep/Merge/Hide/Remove/Investigate audit of every route, the proposed Discover | My Quizzes | Join structure for anonymous and signed-in users, findings on Import and the Files library, eleven decisions to sign off, and the work and play-test matrix still needed before sharing frogQuiz.
+
 ### CI: an unresponsive S3 backend could hang a job for its full 10-minute timeout
 
 - `S3Storage.__init__` built its `minio.Minio` client with the library's own default -- a 5-minute connect *and* read timeout, 5 retries -- and called `bucket_exists()`/`make_bucket()` on it synchronously, with no `await`, straight out of `__init__`. A backend that accepts the connection and then simply never answers (rather than refusing or erroring, which fail fast) blocks the whole event loop for as long as that takes. `test_minio` hits a public demo endpoint, `play.min.io`, for exactly this reason, and twice in a row it ate an entire CI job's 10-minute timeout before the runner killed it -- not a test failure, a stall with no error message. Gave the client an explicit 15-second connect/read timeout instead (production S3-compatible backends answer in milliseconds; this is generous) so an unreachable backend now fails fast and clearly, in test or in production, instead of hanging silently.
