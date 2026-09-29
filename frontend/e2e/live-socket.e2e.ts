@@ -269,3 +269,91 @@ test.describe('host control', () => {
 		expect(await leak, "game B's host told everyone answered in game A").toBeNull();
 	});
 });
+
+test.describe('leaving', () => {
+	test('the host can cancel from the lobby: players are told and the PIN stops working', async ({
+		request
+	}) => {
+		const { host, pin } = await hostGame(request, QUIZ);
+		const [p] = await joinAll(pin, ['waiting']);
+		const toPlayer = next(p, 'game_ended');
+		const toHost = next(host, 'game_ended');
+		host.emit('end_game', {});
+		expect(await toPlayer, 'player told the game ended').not.toBeNull();
+		expect(await toHost, 'host told the game ended').not.toBeNull();
+
+		const late = await join(pin, 'latecomer');
+		expect(late.outcome).toBe('game_not_found');
+		const lookup = await request.get(`/api/v1/quiz/play/check_captcha/${pin}`);
+		expect(lookup.status()).toBe(404);
+	});
+
+	test('a player cannot cancel the game', async ({ request }) => {
+		const { host, pin } = await hostGame(request, QUIZ);
+		const [p, other] = await joinAll(pin, ['sneaky', 'bystander']);
+		const ended = next(other, 'game_ended', 1500);
+		p.emit('end_game', {});
+		expect(await ended, 'a player ended the game').toBeNull();
+		expect((await join(pin, 'still-open')).outcome).toBe('joined');
+		host.close();
+	});
+
+	test('a started game is not cancelled by end_game; it ends through the final results', async ({
+		request
+	}) => {
+		const { host, pin } = await hostGame(request, QUIZ);
+		const [p] = await joinAll(pin, ['player']);
+		// Wait for the server's start before showing a question, as the host UI does:
+		// sent back to back, the two handlers race on the stored game (see
+		// docs/e2e-findings.md) and the question can save over `started`.
+		const started = next(p, 'start_game');
+		host.emit('start_game', {});
+		await started;
+		await showQuestion(host, 0);
+		const ended = next(p, 'game_ended', 1500);
+		host.emit('end_game', {});
+		expect(await ended, 'a running game was cancelled').toBeNull();
+
+		// "End game" mid-game on the host screen is get_final_results.
+		p.emit('submit_answer', { question_index: 0, answer: 'Lisbon' });
+		await new Promise((r) => setTimeout(r, 200));
+		const toPlayer = next(p, 'final_results');
+		const results = await finalResults(host);
+		expect(await toPlayer, 'player reached the podium').not.toBeNull();
+		expect(results['0']?.[0]?.username).toBe('player');
+	});
+
+	test('a player who leaves frees the nickname, cannot rejoin, and the host is told', async ({
+		request
+	}) => {
+		const { host, pin } = await hostGame(request, QUIZ);
+		const [p] = await joinAll(pin, ['leaver']);
+		const oldSid = p.id!;
+		const hostTold = next<{ username: string }>(host, 'player_left');
+		const confirmed = next(p, 'left_game');
+		p.emit('leave_game', {});
+		expect(await confirmed, 'player told they left').not.toBeNull();
+		expect((await hostTold)?.username).toBe('leaver');
+
+		const back = await connect();
+		const rejoined = next(back, 'rejoined_game', 1500);
+		back.emit('rejoin_game', { old_sid: oldSid, game_pin: pin, username: 'leaver' });
+		expect(await rejoined, 'left player rejoined').toBeNull();
+		expect((await join(pin, 'leaver')).outcome, 'nickname free again').toBe('joined');
+	});
+
+	test('when the last player still to answer leaves, the question ends', async ({ request }) => {
+		const { host, pin } = await hostGame(request, QUIZ);
+		const [a, b] = await joinAll(pin, ['answers', 'walks-off']);
+		const started = next(a, 'start_game');
+		host.emit('start_game', {});
+		await started;
+		await showQuestion(host, 0);
+		const nobodyYet = next(host, 'everyone_answered', 800);
+		a.emit('submit_answer', { question_index: 0, answer: 'Lisbon' });
+		expect(await nobodyYet, 'ended with one of two answered').toBeNull();
+		const everyone = next(host, 'everyone_answered');
+		b.emit('leave_game', {});
+		expect(await everyone, 'question ended once the leaver was gone').not.toBeNull();
+	});
+});

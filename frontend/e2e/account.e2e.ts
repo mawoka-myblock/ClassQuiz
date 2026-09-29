@@ -50,7 +50,7 @@ test('register and log in through the UI', async ({ page }) => {
 
 	await page.getByRole('link', { name: 'Log in' }).last().click();
 	await logInThroughUI(page, email, PASSWORD);
-	await expect(page).toHaveURL(/\/dashboard/);
+	await expect(page).toHaveURL(/\/my-quizzes/);
 	await expectNoHorizontalOverflow(page);
 });
 
@@ -62,7 +62,7 @@ test('a wrong password is refused and the page says so', async ({ page, request 
 	await expect(page.getByText("That email address and password don't match.")).toBeVisible();
 });
 
-test("a signed-in user's quiz is on their dashboard, and nobody else's", async ({
+test("a signed-in user's quiz is on their My Quizzes, and nobody else's", async ({
 	browser,
 	request
 }) => {
@@ -71,11 +71,11 @@ test("a signed-in user's quiz is on their dashboard, and nobody else's", async (
 	const saved = await saveQuiz(owner.context.request, quiz(title));
 	expect(saved.status).toBe(200);
 	expect(saved.secret, 'a signed-in save gets no anonymous secret').toBeFalsy();
-	await owner.page.goto('/dashboard');
+	await owner.page.goto('/my-quizzes');
 	await expect(owner.page.getByText(title)).toBeVisible();
 
 	const other = await signedInContext(browser, request);
-	await other.page.goto('/dashboard');
+	await other.page.goto('/my-quizzes');
 	await expect(other.page.getByRole('heading').first()).toBeVisible();
 	await expect(other.page.getByText(title)).toHaveCount(0);
 	// A private quiz is not startable by someone else either.
@@ -99,8 +99,8 @@ test('a signed-in owner can reopen a quiz in the editor and save a change', asyn
 		.first()
 		.fill('Changed by owner', { timeout: 20_000 });
 	await owner.page.getByRole('button', { name: 'Save' }).click();
-	// Saving an edit returns to the dashboard; saving a new quiz goes to its view page.
-	await owner.page.waitForURL(/\/dashboard/);
+	// Every save lands on the quiz's view page, new or existing.
+	await owner.page.waitForURL(new RegExp(`/view/${saved.body.id}`));
 	const stored = await (
 		await owner.context.request.get(`/api/v1/quiz/get/${saved.body.id}`)
 	).json();
@@ -114,9 +114,11 @@ test('an anonymous quiz can be claimed after signing up', async ({ browser, requ
 	const user = await signedInContext(browser, request);
 	await rememberAnonQuiz(user.page, saved.body.id, saved.secret!);
 	await user.page.goto(`/view/${saved.body.id}`);
+	// The notice is a collapsed banner; its actions live inside it.
+	await user.page.getByRole('button', { name: /isn't saved to an account/ }).click();
 	await user.page.getByRole('button', { name: 'Claim this quiz to your account' }).click();
 	await expect(user.page.getByText("This quiz isn't saved to an account")).toHaveCount(0);
-	await user.page.goto('/dashboard');
+	await user.page.goto('/my-quizzes');
 	await expect(user.page.getByText(title)).toBeVisible();
 
 	// Claimed means the secret is spent: it no longer starts or deletes anything.
@@ -188,6 +190,7 @@ test.describe('regressions', () => {
 		const saved = await saveQuiz(request, quiz(`Return ${Date.now()}`));
 		await rememberAnonQuiz(page, saved.body.id, saved.secret!);
 		await page.goto(`/view/${saved.body.id}`);
+		await page.getByRole('button', { name: /isn't saved to an account/ }).click();
 		await page.getByRole('link', { name: 'Create an account to keep this quiz' }).click();
 		await expect(page).toHaveURL(/returnTo=/);
 		const username = `rt${Date.now().toString(36)}`;

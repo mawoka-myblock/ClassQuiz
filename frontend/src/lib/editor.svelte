@@ -24,7 +24,6 @@ SPDX-License-Identifier: MPL-2.0
 	import { getAnonSecret, setAnonSecret } from '$lib/anon_quiz';
 	import { sanitizeTitleHtml } from '$lib/sanitize';
 	import ThemeToggle from '$lib/theme-toggle.svelte';
-	import { page } from '$app/state';
 
 	const { t } = getLocalization();
 
@@ -68,9 +67,8 @@ SPDX-License-Identifier: MPL-2.0
 	// answer. The rail flagged such a question, but the header warning sat inside the
 	// schema branch and never showed, so an unplayable question saved silently.
 	const save_blocked = $derived(schemaInvalid || incomplete_count > 0);
-	// Someone without an account has no dashboard: /dashboard is a login wall for them.
-	// /my-quizzes lists the quizzes this browser holds secrets for.
-	const back_href = $derived(page.data.email ? '/dashboard' : '/my-quizzes');
+	// One list for everyone now: the account's quizzes signed in, this browser's signed out.
+	const back_href = '/my-quizzes';
 	let edit_id: string = $state();
 	// The prompt used to be armed from the moment the editor mounted, so opening a quiz and
 	// going straight back asked whether you wanted to discard changes you had not made. It
@@ -140,20 +138,17 @@ SPDX-License-Identifier: MPL-2.0
 		});
 		if (res.ok) {
 			confirm_to_leave = false;
-			// A quiz created without an account has no dashboard entry to land
-			// on -- and the server only ever hands back a fresh secret for
-			// exactly that case, once, right here.
+			// Every save lands on the quiz's view page, new or existing, signed in or
+			// not. It used to depend on all three, which read as the app forgetting
+			// what you had just made.
+			const saved = await res.json();
+			// The server only ever hands back a fresh secret for a quiz created
+			// without an account, once, right here.
 			const new_anon_secret = res.headers.get('X-Anon-Secret');
 			if (new_anon_secret) {
-				const saved = await res.json();
 				setAnonSecret(saved.id, new_anon_secret);
-				window.location.href = `/view/${saved.id}`;
-			} else if (anon_secret) {
-				// An existing anonymous quiz is not on anybody's dashboard.
-				window.location.href = `/view/${quiz_id}`;
-			} else {
-				window.location.href = '/dashboard';
 			}
+			window.location.href = `/view/${saved.id ?? quiz_id}`;
 		} else {
 			let detail = '';
 			try {

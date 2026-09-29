@@ -572,6 +572,86 @@ async def save_quiz(sid: str):
 
 
 @sio.event
+async def end_game(sid: str, _data: dict | None = None):
+    """The host cancels a game that has not started yet.
+
+    There used to be no way out of the lobby at all: the host's only exit was closing
+    the tab, which left the PIN joinable for two hours and every player who had already
+    joined waiting on a game that would never start. A game that has started ends
+    through `get_final_results` instead, so players get the podium they played for.
+    """
+    session: dict = await get_session(sid, sio)
+    if not session.get("admin"):
+        return
+    game_pin = session["game_pin"]
+    raw = await redis.get(f"game:{game_pin}")
+    if raw is None:
+        # Already gone (expired, or a second click). Still tell the host, so it leaves.
+        await sio.emit("game_ended", room=sid)
+        return
+    game_data = PlayGame.model_validate_json(raw)
+    if game_data.started:
+        return
+    # Keys first, then the news: told first, a player could act on the message -- or a
+    # newcomer join -- while the game still existed. Room membership lives on the
+    # sockets, not in these keys, so the emit still reaches everyone after the delete.
+    keys = [f"game:{game_pin}", f"game_session:{game_pin}"]
+    async for key in redis.scan_iter(match=f"game:{game_pin}:*"):
+        keys.append(key)
+    async for key in redis.scan_iter(match=f"game_session:{game_pin}:*"):
+        keys.append(key)
+    await redis.delete(*keys)
+    if game_data.user_id is not None:
+        await redis.delete(f"game_in_lobby:{game_data.user_id.hex}")
+    await sio.emit("game_ended", room=game_pin)
+
+
+@sio.event
+async def leave_game(sid: str, _data: dict | None = None):
+    """A player leaves on purpose.
+
+    Mirrors kick_player -- the nickname is freed and the rejoin key deleted, so a
+    reload does not pull them back in -- and additionally takes them out of the count
+    "everyone answered" is measured against, so the rest of the room isn't left
+    waiting on somebody who has gone.
+    """
+    session: dict = await get_session(sid, sio)
+    username = session.get("username")
+    game_pin = session.get("game_pin")
+    if not username or not game_pin:
+        return
+    player_key = f"game_session:{game_pin}:players:{username}"
+    if await redis.get(player_key) != sid:
+        # A stale socket for a player who has since rejoined elsewhere.
+        return
+    await redis.srem(
+        f"game_session:{game_pin}:players",
+        GamePlayer(username=username, sid=sid).model_dump_json(),
+    )
+    await redis.delete(player_key)
+    await sio.leave_room(sid, game_pin)
+    session.pop("username", None)
+    session.pop("game_pin", None)
+    await save_session(sid, sio, session)
+    await sio.emit("player_left", {"username": username}, room=f"admin:{game_pin}")
+    await sio.emit("left_game", room=sid)
+
+    # If everyone still here has already answered, the question can end now.
+    raw = await redis.get(f"game:{game_pin}")
+    if raw is None:
+        return
+    game_data = PlayGame.model_validate_json(raw)
+    if not (game_data.question_show and game_data.current_question >= 0):
+        return
+    answers = await AnswerDataList.get_redis_or_empty(game_pin, game_data.current_question)
+    player_count = await redis.scard(f"game_session:{game_pin}:players")
+    if player_count > 0 and len(answers) >= player_count:
+        game_data.question_show = False
+        await game_data.save(game_pin)
+        await sio.emit("everyone_answered", {}, room=game_pin)
+
+
+@sio.event
 async def connect(sid: str, _environ, _auth):
     session_id = os.urandom(16).hex()
     print("Connection opened with handler")

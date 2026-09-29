@@ -15,9 +15,23 @@ SPDX-License-Identifier: MPL-2.0
 	import ThemeToggle from '$lib/theme-toggle.svelte';
 	import Menu from '@lucide/svelte/icons/menu';
 	import X from '@lucide/svelte/icons/x';
-	import ExternalLink from '@lucide/svelte/icons/external-link';
+	import { page } from '$app/state';
 
 	const { t } = getLocalization();
+
+	// A real "you are here". Play used to be drawn permanently highlighted, which read
+	// as the current page on every page.
+	const is_current = (href: string) =>
+		page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
+	const nav_class = (href: string) =>
+		is_current(href) ? 'btn-nav bg-muted text-foreground' : 'btn-nav';
+
+	// The three surfaces, the same whether or not you are signed in (MVP.md section 1).
+	const surfaces = [
+		{ href: '/explore', key: 'words.discover' },
+		{ href: '/my-quizzes', key: 'words.my_quizzes' },
+		{ href: '/play', key: 'words.join' }
+	];
 
 	let menuIsClosed = $state(true);
 	const toggleMenu = () => {
@@ -42,27 +56,27 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<Wordmark />
 			</a>
-			<a class="btn-nav border-border bg-muted/60 text-foreground border" href="/play"
-				>{$t('words.play')}</a
-			>
-			<!-- One entry: Explore and Search are the same page now, and /search
-			     redirects to it. -->
-			<a class="btn-nav" href="/explore">{$t('words.explore')}</a>
-			{#if $signedIn}
-				<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
-			{:else}
-				<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
+			<!-- Discover is /explore, which also serves /search. -->
+			{#each surfaces as s (s.href)}
 				<a
-					target="_blank"
-					class="btn-nav flex items-center gap-1"
-					href="https://github.com/ogfrench/frogQuiz"
-					>GitHub
-					<ExternalLink class="size-4" aria-hidden="true" />
-				</a>
-			{/if}
+					class={nav_class(s.href)}
+					href={s.href}
+					aria-current={is_current(s.href) ? 'page' : undefined}>{$t(s.key)}</a
+				>
+			{/each}
+			<!-- Docs and GitHub hidden for the MVP (MVP.md §4.2), for signed-out visitors
+			     only as before. To bring them back, restore under {#if !$signedIn}:
+			     <a class="btn-nav" href="/docs">{$t('words.docs')}</a> and an external link
+			     to https://github.com/ogfrench/frogQuiz with the ExternalLink icon. -->
 		</div>
 		<div class="lg:flex lg:items-center lg:flex-row gap-1">
 			{#if $signedIn}
+				<a
+					class={nav_class('/account/settings')}
+					href="/account/settings"
+					aria-current={is_current('/account/settings') ? 'page' : undefined}
+					>{$t('words.my_account')}</a
+				>
 				<a class="btn-nav" href="/api/v1/users/logout">{$t('words.logout')}</a>
 			{:else}
 				{#if registration_disabled}
@@ -92,7 +106,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<Wordmark />
 			</a>
-			<a class="btn-nav flex" href="/play">{$t('words.play')}</a>
+			<a class="{nav_class('/play')} flex" href="/play">{$t('words.join')}</a>
 
 			<!-- Dark/Light mode toggle + Open/Close menu -->
 			<div class="flex items-center">
@@ -123,22 +137,20 @@ SPDX-License-Identifier: MPL-2.0
 		<!-- Navbar content -->
 		{#if !menuIsClosed}
 			<div class="flex flex-col" transition:slide|global={{ duration: 400 }}>
-				<a class="btn-nav" href="/explore">{$t('words.explore')}</a>
-				{#if $signedIn}
-					<a class="btn-nav" href="/dashboard">{$t('words.dashboard')}</a>
-				{:else}
-					<a class="btn-nav" href="/docs">{$t('words.docs')}</a>
+				{#each surfaces as s (s.href)}
 					<a
-						target="_blank"
-						class="btn-nav flex items-center gap-1"
-						href="https://github.com/ogfrench/frogQuiz"
-						>GitHub
-						<ExternalLink class="size-4" aria-hidden="true" />
-					</a>
-				{/if}
+						class={nav_class(s.href)}
+						href={s.href}
+						aria-current={is_current(s.href) ? 'page' : undefined}>{$t(s.key)}</a
+					>
+				{/each}
+				<!-- Docs and GitHub hidden for the MVP; see the desktop navbar above. -->
 
 				<hr class="my-1 border" />
 				{#if $signedIn}
+					<a class={nav_class('/account/settings')} href="/account/settings"
+						>{$t('words.my_account')}</a
+					>
 					<a class="btn-nav" href="/api/v1/users/logout">{$t('words.logout')}</a>
 				{:else}
 					{#if registration_disabled}

@@ -6,7 +6,7 @@ Internal Kahoot-style quiz tool, forked from the open-source **ClassQuiz** proje
 
 - **Scope**: internal tool for now. Don't over-invest in things only public/multi-tenant products need (billing, heavy scalability, public docs) unless asked — but don't actively break the ability to widen scope later either.
 - **Stack** (inherited from ClassQuiz, see repo root for details): FastAPI + python-socketio backend (`frogquiz/`), SvelteKit 2/Svelte 5 + TypeScript frontend (`frontend/`), Postgres, Redis, Meilisearch, Alembic migrations.
-- **Redesign direction**: a frog-themed visual identity built with **shadcn-svelte** (see below). Done: the theme foundation, login, the dashboard, the editor, and all four game surfaces (lobby, host question, per-question results, podium). Not done: the account, docs, explore, search and results-history routes, which still look like upstream.
+- **Redesign direction**: a frog-themed visual identity built with **shadcn-svelte** (see below). Done: the theme foundation, login, My Quizzes (`/my-quizzes`, which `/dashboard` now redirects to), the view page, the editor, and all four game surfaces (lobby, host question, per-question results, podium). Not done: the account, docs, explore, search and results-history routes, which still look like upstream.
 
 ## Redesign: shadcn-svelte
 

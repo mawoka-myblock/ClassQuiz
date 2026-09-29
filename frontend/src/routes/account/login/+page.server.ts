@@ -20,7 +20,7 @@ export async function load({ parent, url }) {
 	if (notice === null && url.searchParams.get('password_changed') === 'true') {
 		notice = 'password_changed';
 	}
-	const returnTo = safeReturnTo(url.searchParams.get('returnTo'), '/dashboard');
+	const returnTo = safeReturnTo(url.searchParams.get('returnTo'), '/my-quizzes');
 
 	const { email } = await parent();
 	// Deleting an account and changing a password both clear the cookies server-side,

@@ -31,7 +31,7 @@ async function addQuestion(page: Page, kind: RegExp, title: string, answers: [st
 }
 
 async function startNewQuiz(page: Page, title: string) {
-	await page.goto('/create?anon=true');
+	await page.goto('/create');
 	await titleBox(page).fill(title);
 	await page.getByRole('textbox', { name: 'Description' }).fill('Made in the editor');
 }

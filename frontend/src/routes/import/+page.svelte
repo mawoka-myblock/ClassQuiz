@@ -41,7 +41,7 @@ SPDX-License-Identifier: MPL-2.0
 		});
 
 		if (res.status === 200) {
-			window.location.href = '/dashboard';
+			window.location.href = '/my-quizzes';
 		} else if (res.status === 400) {
 			/*			alertModal.set({
 				open: true,
@@ -85,7 +85,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 
 		if (res.status === 200) {
-			window.location.href = '/dashboard';
+			window.location.href = '/my-quizzes';
 		} else {
 			/*			alertModal.set({
 				open: true,

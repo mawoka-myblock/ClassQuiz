@@ -85,7 +85,7 @@ SPDX-License-Identifier: MPL-2.0
 				<p class="text-muted-foreground mt-2 text-sm">
 					{$t('explore_page.nothing_here_detail')}
 				</p>
-				<Button href="/create?anon=true" class="mt-4">{$t('explore_page.create_one')}</Button>
+				<Button href="/create" class="mt-4">{$t('explore_page.create_one')}</Button>
 			</div>
 		{:else}
 			<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

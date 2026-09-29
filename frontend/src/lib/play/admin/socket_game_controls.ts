@@ -38,6 +38,11 @@ export class SocketGameControls {
 		this.socket.emit('start_game', '');
 	}
 
+	/** Cancels a game still in its lobby. A started game ends through get_final_results. */
+	end_game() {
+		this.socket.emit('end_game', {});
+	}
+
 	kick_player(username: string, players: any[]) {
 		this.socket.emit('kick_player', { username: username });
 

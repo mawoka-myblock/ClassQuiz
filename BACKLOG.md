@@ -106,8 +106,8 @@ path that is otherwise built), P1, P2.
 | 2 | Editor "+" add-question button | P2 | **Done**, visual pass outstanding |
 | 3 | Merge Explore and Search | P1 | **Done**, visual pass outstanding |
 | 4 | Play/host UX, anonymous and logged-in | P1 | **Done** — [#16](https://github.com/ogfrench/frogQuiz/issues/16); live-game check owed |
-| 5 | Design the view page `/view/[quiz_id]` | P2 | Open — [#17](https://github.com/ogfrench/frogQuiz/issues/17) |
-| 6 | Merge `/my-quizzes` into `/dashboard` | P2 | Open — [#18](https://github.com/ogfrench/frogQuiz/issues/18), blocked on 4 |
+| 5 | Design the view page `/view/[quiz_id]` | P2 | **Done** — [#17](https://github.com/ogfrench/frogQuiz/issues/17); browser-checked 2026-09-29 (`MVP.md` §4.4) |
+| 6 | Merge `/my-quizzes` into `/dashboard` | P2 | **Done** 2026-09-29, in the other direction: `/dashboard` redirects to `/my-quizzes` (MVP.md D1) — [#18](https://github.com/ogfrench/frogQuiz/issues/18) |
 | 7 | Play modal front-end fix | P2 | **Done** — was the same component as 4, landed with it |
 | 8 | Visual pass at 390/834/1440 | P1 | Open — [#19](https://github.com/ogfrench/frogQuiz/issues/19); overflow half now automated (`responsive` e2e spec, all pages pass) |
 | 9 | Fix the live-game bugs the e2e suite found | P0 | **Done** 2026-09-18, all 63 e2e green; see [`docs/e2e-findings.md`](docs/e2e-findings.md) |
@@ -250,6 +250,10 @@ item), no analytics. Everything else should be identical. Record the resulting l
 time there — `docs/mvp-scope.md` has the answer.
 
 ### P2 — Merge `/my-quizzes` into `/dashboard` as its logged-out state
+
+> **Done 2026-09-29, the other way round:** `/my-quizzes` is the surviving URL and
+> `/dashboard` redirects to it (decision D1 in `MVP.md`). The notes below are the
+> original plan, kept for the reasoning.
 
 Built from the per-device `localStorage` list, local only, with no account prompt
 required. Drops the `/dashboard` login guard and removes `/my-quizzes` as a separate

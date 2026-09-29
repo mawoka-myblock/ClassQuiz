@@ -8,7 +8,7 @@ export async function load({ parent }) {
 	const { email } = await parent();
 	// Nobody signed in needs this page: an account that can log in is confirmed.
 	if (email) {
-		redirect(302, '/dashboard');
+		redirect(302, '/my-quizzes');
 	}
 	return {};
 }

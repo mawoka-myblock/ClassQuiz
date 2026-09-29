@@ -4,6 +4,66 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Docs and GitHub hidden; MVP decisions recorded
+
+- Hid Docs and GitHub from the navbar, the command palette and the footer. The footer now links Terms of Service, Privacy and Attribution in their place.
+- `/docs` and upstream's self-host, develop, roadmap, pow and markdown doc pages now 404 through `DISABLED_ROUTES`. Those pages also stopped being prerendered: a prerendered page is served as a static file that never reaches the guard. The legal pages stay up.
+- Recorded Gonçalo's 2026-09-29 decisions in `MVP.md`:
+  - D2: question types are ABCD and CHECK.
+  - D4: hide Results, Analytics and Save results.
+  - D5: Download keeps Excel only.
+  - D6: hide Import.
+  - D9 and D11: confirmed.
+  - D10: English only, keeping the i18n machinery, with more languages as an MVP2 item.
+  - New D13: "private" is relabelled "Unlisted".
+  - New D14: the editor autosaves drafts to the server.
+  - New D15: hide `/remote`, public profiles, the avatar editor and the Files library.
+
+### My Quizzes: one page for everyone (MVP decision D1)
+
+- Merged `/dashboard` into `/my-quizzes`. Signed out, it lists this browser's quizzes, with the MVP's plain explanation that they are tied to this browser and deleted after 30 days, and a "Create a free account to keep them" button. Signed in, it lists the account's quizzes, with this browser's anonymous ones underneath under "On this browser", each with a Claim button.
+- Every row has Play, Edit and Delete, whether signed in or not. The signed-out list used to be titles only. Account rows keep Analytics and Download. The title links to the quiz's view page, which replaced the separate View button.
+- Delete now asks in a dialog instead of `confirm()`, and removes the row without a page reload. A failed delete or claim shows its error on that row.
+- `/dashboard` is now a 302 to `/my-quizzes`, and `/overview` points there too. So do the signed-in redirect from `/`, the login page's default destination, and the register, resend-verification and reset-password redirects. Every in-app link to `/dashboard` was repointed, including the command palette, the start-game dialog's sign-in link, `/import`, `/results` and the view page.
+- Moved `Analytics.svelte` from `routes/dashboard/` to `lib/dashboard/`, since that route is now only a redirect.
+- `/create` works signed out without `?anon=true`. Before, plain `/create` sent a signed-out visitor to the login page, which would have walled off the new signed-out Create button. Old `?anon=true` links still work.
+- Saving in the editor now always lands on the quiz's view page. A signed-in edit used to go to the dashboard, while everything else went to the view page.
+- Dropped the Settings button from the My Quizzes toolbar, since it is My Account in the navbar now. Import, Results and Files stay until decisions D4 to D6.
+- Fixed "Expires in 31 days" on a quiz saved a moment ago. The server adds 30 local days, a window that crosses the October clock change is 30 days and an hour long, and the rounding was `ceil`. It is now one shared helper that rounds and never says 0 days while the quiz still exists, with a unit test that fails under the old rounding.
+
+### Navbar: Discover · My Quizzes · Join
+
+- The navbar now shows Discover (`/explore`), My Quizzes and Join (`/play`) for everyone, signed in or not. The current page is marked with `aria-current` and a muted pill. The Play pill that was highlighted on every page is gone.
+- Signed-in users get a My Account link beside Log out. Docs and GitHub still show for signed-out visitors: removing a navbar tab is a joint François/Gonçalo decision, so it waits.
+
+### Ways out of a live game (MVP §4.3)
+
+- The host can cancel a game from the lobby, after a confirm. A new `end_game` socket event deletes the game's Redis state, then tells everyone: the host lands on My Quizzes, players see "The host ended the game", and the PIN stops resolving. It refuses to cancel a game that has started.
+- The host can end a game mid-way with an End game button (with a confirm) that goes straight to the podium. The podium's Back goes to My Quizzes for everyone; for anonymous hosts it used to go to `/`.
+- Players can leave from the join screen, the lobby and between questions, after a confirm. A new `leave_game` socket event frees their nickname and removes them from the host's list. If the leaver was the last player who hadn't answered, the question closes as if everyone answered.
+- The join screen has a Home link. It shows wrong-PIN, already-started, taken-nickname and kicked errors inline instead of in `alert()` boxes. The nickname minimum is now 2 characters (it was 4, with no explanation), and a hint says so.
+- The host screen's registration error (for example, the game already open in another tab) used to be a bare red line with no navbar. It now has a Back button to My Quizzes.
+- Added the reusable `ConfirmAction` component (a button that opens an `AlertDialog` before acting), used for all of the above and for My Quizzes' Delete.
+
+### End-to-end suite
+
+- Added `game-exits.e2e.ts` (five UI tests for the exits above), a `leaving` block in `live-socket.e2e.ts` (five socket-level tests) and `my-quizzes.e2e.ts` (four tests: the redirects, the navbar indicator, signed-out delete, and signed-in claim).
+- Updated the existing specs for the renamed routes, the collapsed anonymous banner and the view page's Play button. The full suite passes locally: 77 of 77.
+- `e2e/run.sh` and `e2e/stop.sh` take `E2E_DATA` and `PG_PORT` overrides, so two stacks can run side by side without fighting over Postgres. `.gitignore` covers `e2e/.data*/`.
+- Recorded a race found on the way in `docs/e2e-findings.md`, not fixed. Host socket events each read-modify-write `game:{pin}`, so a `set_question_number` racing `start_game` can lose the `started` flag.
+
+### View page redesign (`/view/[quiz_id]`, #17)
+
+- Rebuilt the quiz view page on shadcn `Card`, `Collapsible`, `Badge` and `AlertDialog` in a `max-w-2xl` reading column, replacing `bg-white dark:bg-gray-700`, the blue/yellow correct-answer shadows and the `bg-gray-300` answer rows with theme tokens.
+- Made Start the one primary action. Edit (new on this page) and Delete appear only for the quiz's owner, whether that's an account or the browser that created it anonymously. Practice and Download stay where they were, pending decisions D3 and D5.
+- Replaced the "you need to be logged in" tooltips on the disabled Play and Download buttons with a visible line of text, since a tooltip on a disabled button can't be reached by tap or keyboard.
+- Moved the anonymous-quiz notice to the top of the page as an expandable banner. Collapsed, it still says the quiz isn't saved and how many days are left; expanded, it gives the full explanation and the sign-up or claim button. A failed claim now shows an inline error instead of a browser `alert()`, and delete confirms in a dialog instead of `confirm()`, staying open with the error if it fails.
+- Replaced the full-width collapsed question bars with the editor's own question layout, read-only and always open: "Question n of total" with time and single/multiple-answer above a card holding the centred title, the image and the real answer tiles with their shapes. The correct answer carries the editor's ring and tick. The range-question sentence moved into `en.json`, and the unused `?autoExpand` parameter was dropped.
+- Only the quiz's owner sees the answer key on the view page: the correct-answer ring and tick, a range question's correct bounds, an order question's sequence (visitors get the items alphabetised) and a text question's accepted answers. The public API still returns them, so this is about not spoiling the quiz, not about secrecy.
+- Recorded Gonçalo's positions in `MVP.md`: D1 (one `/my-quizzes` page), D7 (continuous editor list), keep and redesign Practice (D3) and Download (D5), and a new D12 for owner-only answers. François's sign-off is still open on all of them.
+- The author's name no longer links to `/user/[id]` (public profiles are hidden for the MVP), and the quiz description, question count and public/private state sit in one metadata row.
+- Removed a stray `console.log`, a document keydown listener that was never removed, and the old `lib/collapsible.svelte`, whose only consumer was this page.
+
 ### MVP checklist
 
 - Added `MVP.md`, a shared checklist for Gonçalo and François. It has a Keep/Merge/Hide/Remove/Investigate audit of every route, the proposed Discover | My Quizzes | Join structure for anonymous and signed-in users, findings on Import and the Files library, eleven decisions to sign off, and the work and play-test matrix still needed before sharing frogQuiz.

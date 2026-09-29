@@ -7,7 +7,7 @@ import { redirect } from '@sveltejs/kit';
 export async function load({ parent }) {
 	const { email } = await parent();
 	if (email) {
-		redirect(302, '/dashboard');
+		redirect(302, '/my-quizzes');
 	}
 	return {};
 }

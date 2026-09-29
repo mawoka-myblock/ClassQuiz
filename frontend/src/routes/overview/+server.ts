@@ -8,7 +8,7 @@ export const GET: RequestHandler = () => {
 	return new Response(undefined, {
 		status: 301,
 		headers: {
-			Location: '/dashboard'
+			Location: '/my-quizzes'
 		}
 	});
 };

@@ -49,6 +49,7 @@ Also fixed along the way:
 Found, not fixed:
 - `join_game` calls `check_captcha(...)` without `await`, so the coroutine is always truthy and the check never refuses anyone. Captcha is off in this deployment, so it has no effect today. Fix it before anybody turns captcha back on.
 - The editor's yup schema caps a quiz at 50 questions, but its message says 32. The server has no cap (500 questions tested fine).
+- **Host events race on the stored game** (found 2026-09-29 writing the exit tests). python-socketio runs each event in its own task, and `start_game`, `set_question_number` and `get_question_results` all read `game:{pin}`, change one field and write the whole thing back. Sent back to back, `set_question_number` can read the game before `start_game` has saved it and then write `started=False` back over it. The host UI can't do this -- it offers "next" only after the server's `start_game` arrives -- so it is a protocol-level gap, not a live bug. A crafted or scripted host could hit it. The fix is per-field storage (`HSET`) or a `WATCH` transaction like `record_answer_once`. The socket specs wait for `start_game` before showing a question for this reason.
 
 Severity is for an internal quiz tool used live in a room: **High** means a real game
 gives wrong scores, loses answers, or can be taken over by a player. **Medium** breaks

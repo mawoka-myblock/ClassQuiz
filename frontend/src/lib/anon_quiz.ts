@@ -46,3 +46,21 @@ export function clearAnonSecret(quizId: string): void {
 export function anonQuizIds(): string[] {
 	return Object.keys(readAll());
 }
+
+const DAY_MS = 86_400_000;
+
+/**
+ * Whole days until an anonymous quiz is swept, for display. Rounded rather than
+ * ceilinged: the server adds 30 *local* days, so a window that crosses a clock change is
+ * 30 days and an hour long, and ceil called a quiz saved a second ago "31 days". Never
+ * 0 while the quiz still exists; 0 only once it has expired.
+ */
+export function anonDaysLeft(
+	expire_at: string | Date | null | undefined,
+	now = Date.now()
+): number | null {
+	if (!expire_at) return null;
+	const ms = new Date(expire_at).getTime() - now;
+	if (ms <= 0) return 0;
+	return Math.max(1, Math.round(ms / DAY_MS));
+}

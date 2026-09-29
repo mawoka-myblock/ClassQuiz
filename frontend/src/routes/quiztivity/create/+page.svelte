@@ -30,7 +30,7 @@ SPDX-License-Identifier: MPL-2.0
 			body: stringification
 		});
 		if (res.ok) {
-			await goto('/dashboard');
+			await goto('/my-quizzes');
 		} else {
 			alert("Couldn't save");
 		}

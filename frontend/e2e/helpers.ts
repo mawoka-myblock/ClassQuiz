@@ -61,11 +61,7 @@ export async function rememberAnonQuiz(page: Page, id: string, secret: string) {
 /** From the quiz view page, through the start modal, into the host lobby. Returns the PIN. */
 export async function hostFromViewPage(page: Page, quizId: string): Promise<string> {
 	await page.goto(`/view/${quizId}`);
-	// The Play button is icon-only with no accessible name, so it is found by position.
-	await page
-		.getByRole('link', { name: 'Practice' })
-		.locator('xpath=preceding::button[1]')
-		.click();
+	await page.getByRole('button', { name: 'Play', exact: true }).click();
 	const dialog = page.getByRole('dialog', { name: 'Start Game' });
 	await expect(dialog).toBeVisible();
 	await dialog.getByRole('button', { name: 'Start Game' }).click();

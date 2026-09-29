@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+SPDX-FileCopyrightText: 2026 frogQuiz contributors
 
 SPDX-License-Identifier: MPL-2.0
 -->
@@ -7,6 +8,8 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { getLocalization } from '$lib/i18n';
+	import ConfirmAction from '$lib/components/ConfirmAction.svelte';
+	import Flag from '@lucide/svelte/icons/flag';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
 	import type { GameState } from '$lib/play/admin/game_state.ts';
 
@@ -37,17 +40,34 @@ SPDX-License-Identifier: MPL-2.0
 >
 	<!-- Question position is the most-referenced state on a projector screen, so
 	     it gets a legible pill rather than 14px of body text in the corner. -->
-	<p
-		class="rounded-full border border-border bg-card/80 px-3 py-1
-			text-base font-semibold tabular-nums shadow-sm backdrop-blur"
-		aria-live="polite"
-	>
-		<span class="sr-only">Question </span>{game_state.selected_question === -1
-			? '0'
-			: game_state.selected_question + 1}<span class="text-muted-foreground"
-			>&nbsp;/&nbsp;{game_state.quiz_data.questions.length}</span
+	<div class="flex items-center gap-2">
+		<p
+			class="rounded-full border border-border bg-card/80 px-3 py-1
+				text-base font-semibold tabular-nums shadow-sm backdrop-blur"
+			aria-live="polite"
 		>
-	</p>
+			<span class="sr-only">Question </span>{game_state.selected_question === -1
+				? '0'
+				: game_state.selected_question + 1}<span class="text-muted-foreground"
+				>&nbsp;/&nbsp;{game_state.quiz_data.questions.length}</span
+			>
+		</p>
+		<!-- Ending early is the final-results path the last question already takes, so
+		     players get the podium for what they played rather than a dead screen. -->
+		{#if JSON.stringify(game_state.final_results) === JSON.stringify([null])}
+			<ConfirmAction
+				title={$t('admin_page.end_confirm_title')}
+				body={$t('admin_page.end_confirm_body')}
+				confirmLabel={$t('admin_page.end_game')}
+				cancelLabel={$t('admin_page.keep_playing')}
+				onconfirm={() => socket_game_controls.get_final_results()}
+				class="bg-card/80 backdrop-blur"
+			>
+				<Flag />
+				{$t('admin_page.end_game')}
+			</ConfirmAction>
+		{/if}
+	</div>
 	<div>
 		{#if game_state.selected_question + 1 === game_state.quiz_data.questions.length && ((game_state.timer_res === '0' && game_state.question_results !== null) || game_state.quiz_data?.questions?.[game_state.selected_question]?.type === QuizQuestionType.SLIDE)}
 			{#if JSON.stringify(game_state.final_results) === JSON.stringify([null])}

@@ -20,12 +20,15 @@ SPDX-License-Identifier: MPL-2.0
 		game_pin: string;
 		game_mode: any;
 		username: any;
+		/** Bindable so the page can arrive here with a reason, e.g. after a kick. */
+		error_message?: string;
 	}
 
 	let {
 		game_pin = $bindable(),
 		game_mode = $bindable(),
-		username = $bindable()
+		username = $bindable(),
+		error_message = $bindable('')
 	}: Props = $props();
 	let custom_field = $state();
 	// '' rather than undefined: this is bound to a text input, and an undefined
@@ -34,6 +37,12 @@ SPDX-License-Identifier: MPL-2.0
 	// though the server distinguishes "" (not supplied) from a real answer.
 	let custom_field_value = $state('');
 	let captcha_enabled = $state();
+	// error_message is shown under the form instead of a browser alert(), which on a
+	// phone is a system dialog that reads like the page has crashed.
+
+	// The server takes any non-blank nickname. The old minimum of four rejected "Ana"
+	// and "Rui" with a greyed-out button and no word of why.
+	const MIN_NICKNAME = 2;
 
 	// Mirrors MAX_CUSTOM_FIELD_LENGTH in frogquiz/socket_server/models.py. Without
 	// it a player could type past the server's cap and only find out by having the
@@ -105,26 +114,15 @@ SPDX-License-Identifier: MPL-2.0
 			custom_field = json.custom_field;
 		}
 		if (res.status === 404) {
-			/*			alertModal.set({
-                open: true,
-                title: 'Game not found',
-                body: 'The game pin you entered seems invalid.'
-            });*/
-			if (browser) {
-				alert('Game not found');
-			}
+			error_message = $t('play_page.game_not_found');
 			game_pin = '';
 			return;
 		}
 		if (res.status !== 200) {
-			/*			alertModal.set({
-                open: true,
-                body: `Unknown error with response-code ${res.status}`,
-                title: 'Unknown Error'
-            });*/
-			alert('Unknown error');
+			error_message = $t('play_page.unknown_error');
 			return;
 		}
+		error_message = '';
 	};
 
 	$effect(() => {
@@ -139,14 +137,18 @@ SPDX-License-Identifier: MPL-2.0
 		// as a nickname and the server -- which does bound and trim it -- would
 		// then reject a join the form had accepted, with nothing shown here.
 		username = username.trim();
-		if (username.length <= 3) {
+		if (username.length < MIN_NICKNAME) {
 			return;
 		}
 		let captcha_resp: string;
-		if (Cookies.get('kicked')) {
-			console.log("%cYou're Banned!", 'font-size:6rem');
+		// Holds the PIN of the game the host removed this player from. It used to be a
+		// bare flag that silently refused every game for a day, with only a console
+		// message to say why.
+		if (Cookies.get('kicked') === game_pin) {
+			error_message = $t('play_page.kicked');
 			return;
 		}
+		error_message = '';
 
 		if (captcha_enabled) {
 			if (hcaptchaSitekey) {
@@ -196,9 +198,14 @@ SPDX-License-Identifier: MPL-2.0
 	};
 	socket.on('game_not_found', () => {
 		game_pin = '';
-		if (browser) {
-			alert('Game not found');
-		}
+		error_message = $t('play_page.game_not_found');
+	});
+	socket.on('game_already_started', () => {
+		game_pin = '';
+		error_message = $t('play_page.game_already_started');
+	});
+	socket.on('username_already_exists', () => {
+		error_message = $t('play_page.username_taken');
 	});
 	$effect(() => {
 		const cleaned = game_pin.replace(/\D/g, '');
@@ -224,7 +231,9 @@ SPDX-License-Identifier: MPL-2.0
      input is a real labelled control rather than an <h1> floating above a box. -->
 <div class="fq-stage">
 	{#if game_pin === '' || game_pin.length < 6}
-		<form class="flex w-full max-w-xs flex-col gap-4">
+		<!-- No submit handler of its own: the sixth digit advances it. Without this,
+		     Enter did a native submit and reloaded the page. -->
+		<form class="flex w-full max-w-xs flex-col gap-4" onsubmit={(e) => e.preventDefault()}>
 			<div class="flex flex-col gap-1.5">
 				<label class="text-center text-lg" for="game-pin">{$t('words.game_pin')}</label>
 				<input
@@ -247,7 +256,8 @@ SPDX-License-Identifier: MPL-2.0
 	{:else}
 		<form onsubmit={setUsername} class="flex w-full max-w-xs flex-col gap-4">
 			<div class="flex flex-col gap-1.5">
-				<label class="text-center text-lg" for="join-username">{$t('words.username')}</label>
+				<label class="text-center text-lg" for="join-username">{$t('words.username')}</label
+				>
 				<!-- autocomplete="nickname", not the browser default of guessing: with no
 				     token at all Chrome and Safari read this as an account field and
 				     offered the player's saved email address for what is a game nickname
@@ -258,7 +268,11 @@ SPDX-License-Identifier: MPL-2.0
 					bind:value={username}
 					maxlength="17"
 					autocomplete="nickname"
+					aria-describedby="join-username-hint"
 				/>
+				<p id="join-username-hint" class="text-muted-foreground text-center text-sm">
+					{$t('play_page.nickname_hint', { count: MIN_NICKNAME })}
+				</p>
 			</div>
 			{#if custom_field}
 				<div class="flex flex-col gap-1.5">
@@ -279,11 +293,16 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 
 			<div class="flex justify-center">
-				<BrownButton disabled={username.trim().length <= 3} onclick={setUsername}
+				<BrownButton disabled={username.trim().length < MIN_NICKNAME} onclick={setUsername}
 					>{$t('words.submit')}</BrownButton
 				>
 			</div>
 		</form>
+	{/if}
+	{#if error_message}
+		<p class="text-destructive max-w-xs text-center text-sm text-balance" role="alert">
+			{error_message}
+		</p>
 	{/if}
 </div>
 <div

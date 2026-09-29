@@ -92,7 +92,7 @@ SPDX-License-Identifier: MPL-2.0
 		// all threw a signed-in host out of the page as though their session had
 		// expired. Only an explicit 401/403 means that.
 		if (res.status === 401 || res.status === 403) {
-			window.location.assign('/account/login?returnTo=/dashboard');
+			window.location.assign('/account/login?returnTo=/my-quizzes');
 			return;
 		}
 
@@ -169,7 +169,7 @@ SPDX-License-Identifier: MPL-2.0
 				<p>{error}</p>
 				{#if offer_login}
 					<Button
-						href="/account/login?returnTo=/dashboard"
+						href="/account/login?returnTo=/my-quizzes"
 						variant="link"
 						class="text-destructive h-auto p-0"
 					>

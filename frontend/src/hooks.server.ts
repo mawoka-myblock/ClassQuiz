@@ -19,13 +19,29 @@ const DISABLED_ROUTES = [
 	'/controller',
 	'/account/controllers',
 	// Nothing is left on this page once TOTP and backup codes are gone.
-	'/account/settings/security'
+	'/account/settings/security',
+	// Upstream's public docs (MVP.md §2). The legal pages -- tos, privacy-policy,
+	// attribution -- stay, and so does import-from-kahoot while /import links to it.
+	// Each hidden page also has prerender turned off; see its +page.js.
+	'/docs/self-host',
+	'/docs/develop',
+	'/docs/roadmap',
+	'/docs/pow',
+	'/docs/features',
+	'/docs/frogquizcontroller',
+	'/docs/quiz'
 ];
+
+// Hidden themselves, but with children that stay: matched exactly, not as a prefix.
+const DISABLED_EXACT = ['/docs'];
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle: Handle = async ({ event, resolve }) => {
-	const path = event.url.pathname;
-	if (DISABLED_ROUTES.some((p) => path === p || path.startsWith(`${p}/`))) {
+	const path = event.url.pathname.replace(/\/$/, '') || '/';
+	if (
+		DISABLED_EXACT.includes(path) ||
+		DISABLED_ROUTES.some((p) => path === p || path.startsWith(`${p}/`))
+	) {
 		error(404, 'Not found');
 	}
 	const access_token = event.cookies.get('access_token');

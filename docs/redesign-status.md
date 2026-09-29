@@ -27,8 +27,9 @@ overflow at any width.** Anything less is in one of the other tables.
 | Podium                 | `/admin`         | Three-place podium building 3rd→2nd→1st, winner highlighted, confetti timed to their arrival; viewport-scaled blocks               |
 | Player join and answer | `/play`          | Answer tiles with shape, colour and pressable body; "you're in" confirmation; locked-in and time's-up states                       |
 | Editor                 | `/edit`          | Canvas shows the real game tiles; question navigation in the shell at every width; measure-capped canvas                           |
-| Dashboard              | `/dashboard`     | Contained list, Play as the one prominent action, public/private badge, question count, real empty state                           |
+| My Quizzes             | `/my-quizzes`    | The old dashboard list, merged with the signed-out browser list 2026-09-29 (D1): one page for both states, "On this browser" with Claim when signed in, the 30-day notice and account CTA when signed out, Delete in a dialog. `/dashboard` redirects here. Verified 2026-09-29 at 390/834/1440 in both themes, signed in and out |
 | Login                  | `/account/login` | Both steps on shadcn Label/Input/Button                                                                                            |
+| Quiz view page         | `/view/[quiz_id]` | Header card with Start as the one primary action, owner-only Edit/Delete and answer key, expandable anonymous-quiz banner, questions drawn as read-only editor canvases. Verified 2026-09-29 at 390/834/1440 in both themes as anonymous owner, account owner and visitor. The Download dialog it opens is still pre-redesign |
 
 | Landing | `/` | Verified clean at both widths and themes |
 | Register | `/account/register` | Rebuilt on the same Card/Label/Input/Button primitives as login |
@@ -72,11 +73,9 @@ Two cross-cutting systems came out of this and now apply to every surface above:
   [ogfrench/frogQuiz#16](https://github.com/ogfrench/frogQuiz/issues/16). Not yet driven
   at the three widths.
 
-`/edit/files` was reviewed and needed no change. **`/view/[quiz_id]` was previously
-listed here as reviewed and needing no change; that was wrong** — it still carries
-`bg-white dark:bg-gray-700`, hardcoded blue and yellow shadows, a hand-rolled
-collapsible and an icon-only Play button with no accessible name. It is an open MVP1
-item in `BACKLOG.md`.
+`/edit/files` was reviewed and needed no change. `/view/[quiz_id]` was once listed here
+as reviewed and needing no change; that was wrong. It has since been redesigned and
+verified (see Done).
 
 ## Skipped, because the feature is cut
 

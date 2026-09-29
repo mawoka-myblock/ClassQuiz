@@ -13,5 +13,7 @@ for port in 6380 7701 8010 3000; do
   done
 done
 PG_BIN="$(dirname "$(command -v pg_ctl 2>/dev/null || ls -d /c/Program\ Files/PostgreSQL/*/bin/pg_ctl.exe 2>/dev/null | tail -1)")"
-"$PG_BIN/pg_ctl" -D "$ROOT/e2e/.data/pg" -m fast stop >/dev/null 2>&1 && echo "stopped Postgres"
+DATA="${E2E_DATA:-$ROOT/e2e/.data}"
+case "$DATA" in /*|?:*) ;; *) DATA="$ROOT/$DATA" ;; esac
+"$PG_BIN/pg_ctl" -D "$DATA/pg" -m fast stop >/dev/null 2>&1 && echo "stopped Postgres"
 exit 0

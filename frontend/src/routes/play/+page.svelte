@@ -17,6 +17,10 @@ SPDX-License-Identifier: MPL-2.0
 	import KahootResults from '$lib/play/results_kahoot.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
+	import { Button } from '$lib/components/ui/button';
+	import ConfirmAction from '$lib/components/ConfirmAction.svelte';
+	import House from '@lucide/svelte/icons/house';
+	import LogOut from '@lucide/svelte/icons/log-out';
 	const { t } = getLocalization();
 
 	interface Props {
@@ -55,6 +59,23 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	let question: Question = $state();
+
+	// Why the player is back on the join screen, if they were sent there.
+	let join_error = $state('');
+	// The host cancelled the game from its lobby.
+	let game_ended = $state(false);
+
+	// Back to an empty join screen without a reload, so a reason can be shown there.
+	const reset_to_join = (reason = '') => {
+		Cookies.remove('joined_game');
+		gameData = undefined;
+		gameMeta.started = false;
+		question_index = '';
+		answer_results = undefined;
+		final_results = [null];
+		game_pin = '';
+		join_error = reason;
+	};
 
 	let preventReload = true;
 	// The joined_game cookie's contents while a rejoin is in flight.
@@ -155,18 +176,17 @@ SPDX-License-Identifier: MPL-2.0
 		answer_results = data;
 	});
 
-	socket.on('username_already_exists', () => {
-		window.alert('Username already exists!');
-	});
-
 	socket.on('kick', () => {
-		window.alert('You got kicked');
-		preventReload = false;
-		game_pin = '';
-		username = '';
+		// The PIN, not a bare flag: it only refuses this game. See join.svelte.
+		Cookies.set('kicked', game_pin, { expires: 1 });
+		reset_to_join($t('play_page.kicked'));
+	});
+	socket.on('game_ended', () => {
 		Cookies.remove('joined_game');
-		Cookies.set('kicked', 'value', { expires: 1 });
-		window.location.reload();
+		game_ended = true;
+	});
+	socket.on('left_game', () => {
+		reset_to_join();
 	});
 	socket.on('final_results', (data) => {
 		final_results = data;
@@ -178,6 +198,14 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	let bg_color = $derived(gameData ? gameData.background_color : undefined);
+
+	const show_final = $derived(JSON.stringify(final_results) !== JSON.stringify([null]));
+	const joined = $derived(gameData !== undefined);
+	// A live question fills the screen with answer tiles; a corner button there would sit
+	// on them and invite a mis-tap mid-answer. Leaving waits for the lobby or results.
+	const in_question = $derived(
+		gameMeta.started && question_index !== '' && answer_results === undefined
+	);
 
 	// The rest
 </script>
@@ -191,10 +219,51 @@ SPDX-License-Identifier: MPL-2.0
 	style="background: {bg_color ? bg_color : 'transparent'}"
 	class:text-black={bg_color}
 >
+	<!-- The navbar is hidden here, so this is the only way out. /play used to be a PIN box
+	     and a Submit button with nowhere else to go. -->
+	{#if !joined || show_final || game_ended}
+		<div class="fixed top-3 left-3 z-30">
+			<Button href="/" variant="ghost" size="sm">
+				<House />
+				{$t('play_page.home')}
+			</Button>
+		</div>
+	{:else if !in_question}
+		<div class="fixed top-3 left-3 z-30">
+			<ConfirmAction
+				title={$t('play_page.leave_confirm_title')}
+				body={$t('play_page.leave_confirm_body')}
+				confirmLabel={$t('play_page.leave_game')}
+				cancelLabel={$t('words.cancel')}
+				onconfirm={() => socket.emit('leave_game', {})}
+			>
+				<LogOut />
+				{$t('play_page.leave_game')}
+			</ConfirmAction>
+		</div>
+	{/if}
 	<div>
-		{#if !gameMeta.started && gameData === undefined}
-			<JoinGame bind:game_pin bind:game_mode bind:username />
-		{:else if JSON.stringify(final_results) !== JSON.stringify([null])}
+		{#if game_ended}
+			<div class="fq-stage text-center">
+				<div class="flex flex-col items-center gap-2">
+					<h1 class="text-3xl font-semibold tracking-tight text-balance">
+						{$t('play_page.game_ended_title')}
+					</h1>
+					<p class="text-muted-foreground">{$t('play_page.game_ended_body')}</p>
+				</div>
+				<Button
+					size="lg"
+					onclick={() => {
+						game_ended = false;
+						reset_to_join();
+					}}
+				>
+					{$t('play_page.join_another')}
+				</Button>
+			</div>
+		{:else if !gameMeta.started && gameData === undefined}
+			<JoinGame bind:game_pin bind:game_mode bind:username bind:error_message={join_error} />
+		{:else if show_final}
 			<ShowEndScreen bind:data={scores} show_final_results={true} {username} />
 		{:else if gameData !== undefined && question_index === ''}
 			<ShowTitle

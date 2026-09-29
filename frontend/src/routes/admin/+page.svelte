@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+SPDX-FileCopyrightText: 2026 frogQuiz contributors
 
 SPDX-License-Identifier: MPL-2.0
 -->
@@ -138,6 +139,15 @@ SPDX-License-Identifier: MPL-2.0
 	socket.on('player_joined', (int_data) => {
 		game_state.players = [...game_state.players, int_data];
 	});
+	socket.on('player_left', (int_data) => {
+		game_state.players = game_state.players.filter((p) => p.username !== int_data.username);
+	});
+	// The server says the lobby is closed; only then leave, so a cancel that never
+	// reached it doesn't strand players on a game the host has walked away from.
+	socket.on('game_ended', () => {
+		warnToLeave = false;
+		window.location.assign('/my-quizzes');
+	});
 	socket.on('already_registered_as_admin', () => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
@@ -250,7 +260,9 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="fixed top-16 right-4 z-30 flex w-44 flex-col items-stretch gap-2">
 				<!-- "Download results" used to be the only action here, which left the host
 				     stuck on the podium with nowhere to go once a game ended. -->
-				<GrayButton href={data.signed_in ? '/dashboard' : '/'} flex={true}>
+				<!-- /my-quizzes for everyone: it lists account quizzes when signed in and
+				     this browser's quizzes when not (D1 in MVP.md). -->
+				<GrayButton href="/my-quizzes" flex={true}>
 					<ArrowLeft class="size-4" aria-hidden="true" />
 					{$t('words.back')}
 				</GrayButton>
@@ -284,7 +296,15 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 	{#if !success}
 		{#if errorMessage !== ''}
-			<p class="text-red-700">{errorMessage}</p>
+			<!-- The navbar is hidden on the host screen, so a failed registration used to
+			     leave a red line and no way out. -->
+			<div class="fq-stage text-center">
+				<p class="text-destructive" role="alert">{errorMessage}</p>
+				<GrayButton href="/my-quizzes">
+					<ArrowLeft class="size-4" aria-hidden="true" />
+					{$t('words.back')}
+				</GrayButton>
+			</div>
 		{/if}
 	{:else if !game_state.game_started}
 		<GameNotStarted

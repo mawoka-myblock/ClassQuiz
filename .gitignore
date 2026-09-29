@@ -20,5 +20,5 @@ target/
 .playwright-mcp/
 
 # Local end-to-end run (e2e/run.sh): throwaway service data and downloaded binaries
-e2e/.data/
+e2e/.data*/
 e2e/.tools/

@@ -23,9 +23,14 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DATA="$ROOT/e2e/.data"
+# E2E_DATA and PG_PORT can be overridden so a second stack can run beside one another
+# session left up: `E2E_DATA=e2e/.data2 PG_PORT=5434 bash e2e/run.sh`. The other ports
+# stay fixed because the frontend and specs assume them, so stop that stack's API and
+# Vite first (`bash e2e/stop.sh`); it is only its Postgres that can be left alone.
+DATA="${E2E_DATA:-$ROOT/e2e/.data}"
+case "$DATA" in /*|?:*) ;; *) DATA="$ROOT/$DATA" ;; esac
 TOOLS="$ROOT/e2e/.tools"
-PG_PORT=5433
+PG_PORT="${PG_PORT:-5433}"
 REDIS_PORT=6380
 MEILI_PORT=7701
 API_PORT=8010
@@ -98,6 +103,7 @@ wait_http "http://127.0.0.1:$MEILI_PORT/health" meili
 
 # ---- API -------------------------------------------------------------------------
 set -a; . "$ROOT/e2e/e2e.env"; set +a
+export DB_URL="postgresql://postgres@127.0.0.1:$PG_PORT/frogquiz"
 export STORAGE_PATH="$DATA/storage"
 # Stand-in for python-magic, whose Windows DLL crashes on import. See e2e/shims/magic.py.
 export PYTHONPATH="$ROOT/e2e/shims${PYTHONPATH:+:$PYTHONPATH}"

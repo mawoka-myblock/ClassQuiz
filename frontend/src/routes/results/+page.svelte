@@ -40,7 +40,7 @@ SPDX-License-Identifier: MPL-2.0
 					{$t('results_page.no_results_explanation')}
 				</p>
 			</div>
-			<Button href="/dashboard">{$t('results_page.go_to_quizzes')}</Button>
+			<Button href="/my-quizzes">{$t('results_page.go_to_quizzes')}</Button>
 		</div>
 	{:else}
 		<div class="border-border fq-scroll-x rounded-xl border">

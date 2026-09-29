@@ -69,18 +69,12 @@ This should be okay, right?
 		},
 		{
 			id: 6,
-			title: 'Dashboard',
-			description: 'Go to Dashboard',
-			command: 'dash',
-			action: () => window.location.assign('/dashboard')
+			title: 'My Quizzes',
+			description: 'Go to My Quizzes',
+			command: 'quizzes',
+			action: () => window.location.assign('/my-quizzes')
 		},
-		{
-			id: 7,
-			title: 'Docs',
-			description: 'Go to documentation',
-			command: 'docs',
-			action: () => window.location.assign('/docs')
-		},
+		// id 7, Docs (/docs), is hidden for the MVP along with the page (MVP.md §4.2).
 		{
 			id: 8,
 			title: 'Settings',

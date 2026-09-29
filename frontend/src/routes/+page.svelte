@@ -8,7 +8,6 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { navbarVisible } from '$lib/stores.svelte.ts';
-	import { signedIn } from '$lib/stores';
 	import { getLocalization } from '$lib/i18n';
 	import Footer from '$lib/footer.svelte';
 	import Wordmark from '$lib/components/Wordmark.svelte';
@@ -97,7 +96,7 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="text-muted-foreground mt-8 text-center text-sm">
 				<span>{$t('index_page.hosting')}</span>
 				<a
-					href={$signedIn ? '/dashboard' : '/account/login?returnTo=/dashboard'}
+					href="/my-quizzes"
 					class="text-foreground ml-1 inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
 				>
 					{$t('index_page.host_cta')}
@@ -107,7 +106,7 @@ SPDX-License-Identifier: MPL-2.0
 
 			<div class="mt-2 flex flex-col items-center gap-1 text-center text-sm">
 				<a
-					href="/create?anon=true"
+					href="/create"
 					class="text-muted-foreground inline-flex items-center gap-1 underline-offset-4 hover:underline"
 				>
 					{$t('index_page.create_anon')}

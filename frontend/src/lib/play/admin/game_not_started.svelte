@@ -1,5 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+SPDX-FileCopyrightText: 2026 frogQuiz contributors
 
 SPDX-License-Identifier: MPL-2.0
 -->
@@ -11,6 +12,8 @@ SPDX-License-Identifier: MPL-2.0
 	import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { Button } from '$lib/components/ui/button';
+	import ConfirmAction from '$lib/components/ConfirmAction.svelte';
+	import X from '@lucide/svelte/icons/x';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
 	import type { IGameState } from '$lib/play/admin/game_state';
 
@@ -35,6 +38,21 @@ SPDX-License-Identifier: MPL-2.0
 		cqc_code = null;
 	}
 </script>
+
+<!-- The lobby used to have no way out but closing the tab, which left the PIN live and
+     the joined players waiting on a game that would never start. -->
+<div class="fixed top-3 left-3 z-30">
+	<ConfirmAction
+		title={$t('admin_page.cancel_confirm_title')}
+		body={$t('admin_page.cancel_confirm_body')}
+		confirmLabel={$t('admin_page.cancel_game')}
+		cancelLabel={$t('admin_page.keep_waiting')}
+		onconfirm={() => socket_game_controls.end_game()}
+	>
+		<X />
+		{$t('admin_page.cancel_game')}
+	</ConfirmAction>
+</div>
 
 <div class="fq-stage">
 	<!-- The join details are the whole point of this screen, so they get the
