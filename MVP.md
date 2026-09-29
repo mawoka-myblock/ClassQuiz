@@ -149,10 +149,10 @@ has a single Sign in anyway.
 - **Not checked:** none of the three is in the e2e suite, and nobody has recorded
   importing a real Kahoot through the deployed site.
 
-- [ ] Import one real public Kahoot through the deployed site
-- [ ] Import the Excel template
-- [ ] Round-trip a quiz through Download `.cqa` → Import
-- [ ] **D6 decision** — expose Import in MVP? (keep as a secondary action on My Quizzes, signed-in only / hide) — G ☐ F ☐
+- [ ] Import one real public Kahoot through the deployed site — not needed while Import is hidden
+- [ ] Import the Excel template — not needed while Import is hidden
+- [ ] Round-trip a quiz through Download `.cqa` → Import — not needed while Import is hidden
+- [x] **D6 decision** — expose Import in MVP? **Hide** — G ☑ F ☐ (2026-09-29). `/import` and its doc page 404; the API stays up
 
 ### Files library
 
@@ -167,7 +167,7 @@ has a single Sign in anyway.
   image. Deleting an account removes all of that user's files.
 - **Conclusion:** safe to hide. Media stays managed inside the quiz, as proposed.
 
-- [ ] Hide `/edit/files`, `/dashboard/files` and `/edit/videos`, and remove the dashboard's Files button
+- [x] Hide `/edit/files`, `/dashboard/files` and `/edit/videos`, and remove the dashboard's Files button (2026-09-29, D15)
 - [ ] (optional) Make quiz delete also remove `cover_image` / `background_image`, so hiding Files leaks nothing
 
 ### Results and analytics
@@ -197,7 +197,7 @@ Owner column: **G** Gonçalo, **F** François, **G+F** both.
 | D8 | Shared contact address to replace `francois.prevot@frog.co` in the ToS, `CONTACT.md` and `CONTRIBUTING.md` | Needs a real team channel. **G (2026-09-29): leave the placeholder for now**; does not block internal sharing | ☐ | ☐ |
 | D9 | User database / login architecture for V1 = the "account is what makes a quiz permanent" model in mvp-scope.md; Azure SSO after V1 | Confirm | ☑ | ☐ |
 | D10 | English-only (33 locale files removed) | Confirm. **G (2026-09-29): English-only for the MVP, but keep the i18n machinery** (i18next, `getLocalization`, the backend's language handling); more languages are an MVP2 item (§4.8) | ☑ | ☐ |
-| D11 | WebAuthn and ratings endpoints: flag-gate, or accept as live | Flag-gate like QuizTivity | ☑ | ☐ |
+| D11 | WebAuthn and ratings endpoints: flag-gate, or accept as live | Flag-gate like QuizTivity. Done 2026-09-29: `ENABLE_WEBAUTHN` gates adding a key (listing, deleting and signing in with an existing key still work, as with TOTP); `ENABLE_RATINGS` gates rating | ☑ | ☐ |
 | D12 | View page shows the answer key (correct answers, ORDER sequence, TEXT answers, RANGE bounds) to the quiz's owner only | Yes — a visitor may play it later. Presentation only: the public API still returns the answers | ☑ | ☐ |
 | D13 | What "private" means: today anyone with the link can open a private quiz's view page (only the owner can start it) | **G (2026-09-29): relabel it "Unlisted"** — public = in Discover, unlisted = link only. No backend change | ☑ | ☐ |
 | D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt | ☑ | ☐ |
@@ -241,9 +241,9 @@ because they may reorder everything else.
 - [x] `/dashboard` and `/overview` redirect to `/my-quizzes`; `/` signed-in redirect too. So do the login default `returnTo` and the register / resend-verification / reset-password redirects
 - [x] `/create` works signed out without `?anon=true`
 - [x] Navbar: Discover · My Quizzes · Join · (My Account | Sign in); current-page indicator; drop the always-highlighted Play pill. My Account is a link, not a menu, with Log out beside it
-- [ ] Remove Docs and GitHub from the navbar and footer; keep ToS / Privacy / Attribution in the footer
-- [ ] Remove Import / Results / Files / Settings from the My Quizzes toolbar (per D4–D6). Settings done 2026-09-29 (it is My Account in the navbar); the other three wait on D4–D6
-- [ ] `/account/settings` becomes "My Account"; remove the avatar and public-profile buttons
+- [x] Remove Docs and GitHub from the navbar and footer; keep ToS / Privacy / Attribution in the footer (2026-09-29; also the command palette, and `/docs` plus upstream's doc pages 404)
+- [x] Remove Import / Results / Files / Settings from the My Quizzes toolbar (per D4–D6). The toolbar is gone; Analytics went from each row with Results (D4)
+- [x] `/account/settings` becomes "My Account" (heading, tab title, navbar, command palette); remove the avatar and public-profile buttons
 
 ### 4.3 Close the gaps in the core flow
 
@@ -256,8 +256,8 @@ because they may reorder everything else.
 - [x] Join screen: inline error instead of `alert('Game not found')` / `alert('Unknown error')` — also covers "already started", a taken nickname and being kicked
 - [x] Nickname minimum 2 characters, with a hint that says so
 - [x] Saving goes to the same place for new and existing quizzes: the quiz's view page, signed in or not (was: edit → dashboard, new → view page)
-- [ ] Hide the Practice link (D3), `/remote` link, Save results button (D4)
-- [ ] Add hidden routes to `DISABLED_ROUTES`: `/practice`, `/remote`, `/results`, `/edit/files`, `/dashboard/files`, `/edit/videos`, `/account/settings/avatar`, `/user` (adjust to decisions)
+- [x] Hide the Practice link (D3), `/remote` link, Save results button (D4). Practice is **kept** (D3), so its link stays. `/remote` 404s; its only entry point, a lobby popover, has no emitter left
+- [x] Add hidden routes to `DISABLED_ROUTES`: `/remote`, `/results`, `/import`, `/edit/files`, `/dashboard/files`, `/edit/videos`, `/account/settings/avatar`, `/user`, `/docs` and upstream's doc pages. Not `/practice` (kept, D3). Pinned by `frontend/e2e/hidden.e2e.ts`
 
 ### 4.4 View page redesign (#17)
 
@@ -288,11 +288,11 @@ Drafts first — they are small and help whichever editor we end up with.
 
 ### 4.6 Quality and security
 
-- [ ] Add code scanning (GitHub CodeQL is free and needs no account; SonarCloud if we want the dashboard) plus Dependabot
-- [ ] Mount `/api/v1/internal/testing` only in test/CI (it returns the full user row, password hash included, and takes `SECRET_KEY` in the query string)
-- [ ] `await` the `check_captcha(...)` call in `join_game` (inert today, a bypass the day captcha is turned on)
-- [ ] IP lookup: switch `ip-api.com` to HTTPS, or remove the endpoint
-- [ ] Decide whether "private" should mean private: `GET /quiz/get/public/{id}` serves any quiz by link today, so private currently means unlisted
+- [x] Add code scanning (GitHub CodeQL is free and needs no account; SonarCloud if we want the dashboard) plus Dependabot — `.github/workflows/codeql.yml` (Python + TypeScript, on push, PRs and weekly) and `.github/dependabot.yml` (pip, npm, Actions, Docker)
+- [x] Mount `/api/v1/internal/testing` only in test/CI (it returns the full user row, password hash included, and takes `SECRET_KEY` in the query string) — behind `ENABLE_TESTING_ROUTES`, set only in `.env.ci`
+- [x] `await` the `check_captcha(...)` call in `join_game` (inert today, a bypass the day captcha is turned on)
+- [x] IP lookup: switch `ip-api.com` to HTTPS, or remove the endpoint — off behind `ENABLE_IP_LOOKUP` (nothing calls it, and the provider's free tier is HTTP-only); its test no longer depends on ip-api.com being up
+- [x] Decide whether "private" should mean private: `GET /quiz/get/public/{id}` serves any quiz by link today, so private currently means unlisted — relabelled **Unlisted** with a link icon and a one-line explanation in the editor (D13)
 - [ ] Close issue #13 (deletion fixed by #14; email change deferred by agreement)
 - [ ] Add `svelte-check` to CI once the ~300 errors in our own code are down (the other ~820 are inside `bits-ui`'s types)
 

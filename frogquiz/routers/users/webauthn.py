@@ -32,7 +32,21 @@ class RequirePasswordForAction(BaseModel):
     password: str
 
 
-@router.post("/add_key_init", response_model=PublicKeyCredentialCreationOptions)
+def webauthn_setup_enabled():
+    """Adding a security key 404s unless ENABLE_WEBAUTHN is set (MVP.md D11).
+
+    Listing and deleting keys stay available, and login still honours a registered key,
+    so nobody who added one before the cut is locked out. Same shape as TOTP in twofa.py.
+    """
+    if not settings.enable_webauthn:
+        raise HTTPException(status_code=404, detail="Not found")
+
+
+@router.post(
+    "/add_key_init",
+    response_model=PublicKeyCredentialCreationOptions,
+    dependencies=[Depends(webauthn_setup_enabled)],
+)
 async def request_add_key_data(data: RequirePasswordForAction, user: User = Depends(get_current_user)):
     user = await User.objects.select_related("fidocredentialss").get(id=user.id)
     if not verify_password(data.password, user.password):
@@ -57,7 +71,7 @@ async def request_add_key_data(data: RequirePasswordForAction, user: User = Depe
     return options
 
 
-@router.post("/add_key")
+@router.post("/add_key", dependencies=[Depends(webauthn_setup_enabled)])
 async def confirm_add_key_data(credential: RegistrationCredential, user: User = Depends(get_current_user)):
     redis_res = await redis.get(f"add_webauthn:{user.id.hex}")
     if redis_res is None:

@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 frogQuiz contributors
+#
+# SPDX-License-Identifier: MPL-2.0
+
+# Weekly dependency update PRs (MVP.md §4.6). Security advisories open PRs on their own
+# schedule regardless. Minor and patch bumps are grouped per ecosystem so the queue
+# stays small; majors arrive one per PR, since those are the ones worth reading.
+
+version: 2
+updates:
+  - package-ecosystem: "pip" # reads Pipfile / Pipfile.lock
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      python-minor:
+        update-types: [ "minor", "patch" ]
+
+  - package-ecosystem: "npm" # covers the pnpm lockfile
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      frontend-minor:
+        update-types: [ "minor", "patch" ]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "docker" # the API image
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "docker" # the frontend image
+    directory: "/frontend"
+    schedule:
+      interval: "monthly"

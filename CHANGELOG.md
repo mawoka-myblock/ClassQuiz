@@ -4,6 +4,18 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### MVP hides, "Unlisted", and the security items (MVP §4.2, §4.3, §4.6)
+
+- Hid Import, Results history, Analytics, the Files library, `/remote`, public profiles and the avatar editor (decisions D4, D6 and D15). Each hidden route now 404s through `DISABLED_ROUTES`. The My Quizzes toolbar, the Analytics row button, the podium's Save results button, the Import/Results command-palette entries and the My Account avatar/profile buttons are commented out rather than deleted. The APIs behind them stay up.
+- Renamed the settings page to My Account: heading, tab title and command palette.
+- Relabelled "Private" as "Unlisted" (D13). A private quiz was always openable by anyone with its link, so the old word promised something the app never did. The editor's toggle now uses a link icon instead of a lock, and adds a line saying that Unlisted quizzes open only by link.
+- Fixed the join-time captcha check never running: `check_captcha` is async and was called without `await`, so it returned a coroutine, which is always truthy, and every captcha passed. It is inert today because captcha is off, but it would have been a bypass the day captcha was turned on.
+- `/api/v1/internal/testing` is now mounted only when `ENABLE_TESTING_ROUTES` is set, which only `.env.ci` does. It returns a full user row, password hash included.
+- Put adding a WebAuthn key behind `ENABLE_WEBAUTHN` and quiz rating behind `ENABLE_RATINGS` (D11), both off by default. Existing keys can still be listed, deleted and used to sign in. CI turns both on, so the code stays tested.
+- Switched off the IP-lookup endpoint behind `ENABLE_IP_LOOKUP`. Nothing calls it, and its provider sent the lookup over plain HTTP. Its test used to call ip-api.com from CI; it now checks that the endpoint is off.
+- Added CodeQL (Python and TypeScript, on push, on PRs and weekly) and Dependabot (pip, npm, GitHub Actions and Docker, with minor and patch bumps grouped).
+- Added `hidden.e2e.ts`, which checks that every hidden route 404s, that the legal pages stay up, and that no navbar, footer or toolbar link points at a hidden page.
+
 ### Docs and GitHub hidden; MVP decisions recorded
 
 - Hid Docs and GitHub from the navbar, the command palette and the footer. The footer now links Terms of Service, Privacy and Attribution in their place.

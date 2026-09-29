@@ -45,21 +45,8 @@ This should be okay, right?
 			args: ['title'],
 			action: (args) => window.location.assign(`/create?title=${args.join(' ')}`)
 		},
-		{
-			id: 2,
-			title: 'Import a Quiz',
-			description: 'Opens the import page',
-			command: 'import',
-			args: ['url'],
-			action: (args) => window.location.assign(`/import?url=${args?.[0] ?? ''}`)
-		},
-		{
-			id: 4,
-			title: 'View Results',
-			description: 'Opens the Results viewer',
-			command: 'results',
-			action: () => window.location.assign('/results')
-		},
+		// id 2: Import (/import) is hidden for the MVP (MVP.md D6).
+		// id 4: Results (/results) is hidden for the MVP (MVP.md D4).
 		{
 			id: 5,
 			title: 'Explore Quizzes',
@@ -77,8 +64,8 @@ This should be okay, right?
 		// id 7, Docs (/docs), is hidden for the MVP along with the page (MVP.md §4.2).
 		{
 			id: 8,
-			title: 'Settings',
-			description: 'Opens the Settings page',
+			title: 'My Account',
+			description: 'Opens My Account',
 			command: 'settings',
 			action: () => window.location.assign('/account/settings')
 		}

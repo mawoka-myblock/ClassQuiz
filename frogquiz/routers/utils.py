@@ -7,7 +7,7 @@ import io
 
 import qrcode
 import qrcode.image.svg
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel, Field, ValidationError
 from fastapi.responses import JSONResponse
@@ -58,6 +58,10 @@ class IpResponse(BaseModel):
 
 @router.get("/ip-lookup/{ip}", response_model=IpResponse)
 async def get_ip_data(ip: str, _: User = Depends(get_current_user)):
+    # Off unless ENABLE_IP_LOOKUP is set (MVP.md 4.6): nothing in the frontend calls it,
+    # and ip-api.com's free tier is HTTP-only, so the lookup went out in cleartext.
+    if not settings.enable_ip_lookup:
+        raise HTTPException(status_code=404, detail="Not found")
     async with ClientSession() as session, session.get(f"http://ip-api.com/json/{ip}") as response:
         data = await response.json()
         try:

@@ -21,7 +21,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Settings2 from '@lucide/svelte/icons/settings-2';
 	import Check from '@lucide/svelte/icons/check';
 	import Globe from '@lucide/svelte/icons/globe';
-	import Lock from '@lucide/svelte/icons/lock';
+	import Link2 from '@lucide/svelte/icons/link-2';
 	import Plus from '@lucide/svelte/icons/plus';
 	import X from '@lucide/svelte/icons/x';
 	import PanelLeftClose from '@lucide/svelte/icons/panel-left-close';
@@ -195,7 +195,7 @@ SPDX-License-Identifier: MPL-2.0
 						<Globe class="inline-block size-4" />
 						<span>{$t('words.public')}</span>
 					{:else}
-						<Lock class="inline-block size-4" />
+						<Link2 class="inline-block size-4" />
 						<span>{$t('words.private')}</span>
 					{/if}
 				</button>

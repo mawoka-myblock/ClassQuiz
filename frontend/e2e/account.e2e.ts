@@ -133,7 +133,7 @@ test('an anonymous quiz can be claimed after signing up', async ({ browser, requ
 	await user.context.close();
 });
 
-test('a public quiz shows up in Explore search; a private one does not', async ({
+test('a public quiz shows up in Explore search; an unlisted one does not', async ({
 	browser,
 	request
 }) => {
@@ -159,10 +159,9 @@ test('a public quiz shows up in Explore search; a private one does not', async (
 	await page.close();
 });
 
-test('a signed-in host can save results and find them on the results page', async ({
-	browser,
-	request
-}) => {
+// Results history is hidden for the MVP (MVP.md D4). The save path still works over the
+// socket, so this keeps it covered; the page is what is gone.
+test('saving results still works, but the results page is hidden', async ({ browser, request }) => {
 	const owner = await signedInContext(browser, request);
 	const title = `Results ${Date.now()}`;
 	const { host, pin } = await hostGame(owner.context.request, quiz(title));
@@ -176,9 +175,8 @@ test('a signed-in host can save results and find them on the results page', asyn
 	host.emit('save_quiz');
 	expect(await saved).not.toBeNull();
 
-	await owner.page.goto('/results');
-	await expect(owner.page.getByText(title)).toBeVisible();
-	await expectNoHorizontalOverflow(owner.page);
+	const res = await owner.page.goto('/results');
+	expect(res?.status()).toBe(404);
 	await owner.context.close();
 });
 

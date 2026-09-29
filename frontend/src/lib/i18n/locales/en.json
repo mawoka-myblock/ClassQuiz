@@ -189,7 +189,7 @@
     "count": "Count",
     "range": "Range",
     "multiple_choice": "Multiple-Choice",
-    "private": "Private",
+    "private": "Unlisted",
     "dashboard": "Dashboard",
     "game_pin": "Game PIN",
     "other": "other",
@@ -261,6 +261,7 @@
     "file": "File"
   },
   "editor": {
+    "visibility_hint": "Public quizzes appear in Discover. Unlisted ones can only be opened by someone who has the link.",
     "time_in_seconds": "Time in seconds",
     "right_or_true?": "Right?",
     "add_new_answer": "Add new answer",

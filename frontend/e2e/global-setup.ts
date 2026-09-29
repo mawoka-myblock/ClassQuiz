@@ -15,7 +15,6 @@ const ROUTES = [
 	'/create',
 	'/account/login',
 	'/account/register',
-	'/results',
 	'/admin',
 	'/my-quizzes',
 	'/edit?quiz_id=00000000-0000-0000-0000-000000000000'

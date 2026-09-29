@@ -210,7 +210,9 @@ async def join_game(sid: str, data: dict):
         return
     # +++ START checking captcha +++
     if game_data.captcha_enabled:
-        captcha_res = check_captcha(data.captcha)
+        # Awaited: check_captcha is async, and the bare call returned a coroutine,
+        # which is always truthy, so every captcha passed.
+        captcha_res = await check_captcha(data.captcha)
         if not captcha_res:
             return
     # --- END checking captcha ---

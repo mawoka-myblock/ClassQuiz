@@ -1,0 +1,43 @@
+# SPDX-FileCopyrightText: 2026 frogQuiz contributors
+#
+# SPDX-License-Identifier: MPL-2.0
+
+# Static security analysis for the backend (Python) and frontend (TypeScript/Svelte).
+# Free for public repositories and needs no account beyond GitHub; findings appear under
+# the repository's Security tab. Added for MVP.md §4.6.
+
+name: "[CI] CodeQL"
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    # Weekly, so a newly published query catches old code too.
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        # Neither needs a build step: CodeQL reads Python and TypeScript from source.
+        language: [ python, javascript-typescript ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

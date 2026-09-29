@@ -25,6 +25,9 @@ SPDX-License-Identifier: MPL-2.0
 
 	navbarVisible.visible = false;
 
+	// Save results is hidden for the MVP (MVP.md D4).
+	const SAVE_RESULTS_ENABLED = false;
+
 	const { t } = getLocalization();
 
 	// let gameData = {
@@ -282,7 +285,9 @@ SPDX-License-Identifier: MPL-2.0
 				     user-scoped, so the row it saves is unreachable afterwards. The
 				     podium and the spreadsheet export both work without an account and
 				     stay. Read from `data`, not the `signedIn` store -- see +page.server.ts. -->
-				{#if data.signed_in}
+				<!-- Also hidden for signed-in hosts for the MVP, with Results (D4): a saved
+				     result is only readable from /results. Restore `data.signed_in` here. -->
+				{#if SAVE_RESULTS_ENABLED && data.signed_in}
 					<GrayButton onclick={save_quiz} flex={true} disabled={results_saved}>
 						{#if results_saved}
 							<Check class="size-4" aria-hidden="true" />

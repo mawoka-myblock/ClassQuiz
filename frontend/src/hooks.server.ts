@@ -29,7 +29,18 @@ const DISABLED_ROUTES = [
 	'/docs/pow',
 	'/docs/features',
 	'/docs/frogquizcontroller',
-	'/docs/quiz'
+	'/docs/quiz',
+	// Hidden for the MVP by Gonçalo, 2026-09-29 (MVP.md D4, D6, D15). Their APIs stay up:
+	// hiding a page is not access control, and none of these endpoints is a risk.
+	'/docs/import-from-kahoot',
+	'/import',
+	'/results',
+	'/edit/files',
+	'/dashboard/files',
+	'/edit/videos',
+	'/remote',
+	'/user',
+	'/account/settings/avatar'
 ];
 
 // Hidden themselves, but with children that stay: matched exactly, not as a prefix.

@@ -20,7 +20,7 @@ const PUBLIC = [
 	'/create',
 	'/my-quizzes'
 ];
-const SIGNED_IN = ['/my-quizzes', '/results', '/account/settings'];
+const SIGNED_IN = ['/my-quizzes', '/account/settings'];
 
 const overflow = () => document.documentElement.scrollWidth - document.documentElement.clientWidth;
 

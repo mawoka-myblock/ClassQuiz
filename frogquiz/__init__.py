@@ -140,12 +140,13 @@ app.include_router(stats.router, tags=["stats"], prefix="/api/v1/stats", include
 app.include_router(storage.router, tags=["storage"], prefix="/api/v1/storage", include_in_schema=True)
 app.include_router(search.router, tags=["search"], prefix="/api/v1/search", include_in_schema=True)
 app.include_router(live.router, tags=["live"], prefix="/api/v1/live", include_in_schema=True)
-app.include_router(
-    testing_routes.router,
-    tags=["internal", "testing"],
-    prefix="/api/v1/internal/testing",
-    include_in_schema=False,
-)
+if settings.enable_testing_routes:
+    app.include_router(
+        testing_routes.router,
+        tags=["internal", "testing"],
+        prefix="/api/v1/internal/testing",
+        include_in_schema=False,
+    )
 app.include_router(editor.router, tags=["editor"], prefix="/api/v1/editor", include_in_schema=True)
 app.include_router(
     eximport.router,

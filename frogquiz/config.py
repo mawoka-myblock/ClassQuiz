@@ -100,6 +100,17 @@ class Settings(BaseSettings):
     # and company SSO is the route to a second factor rather than an authenticator app.
     # Turning this back on restores both the setup endpoints and the login step.
     enable_totp: bool = False
+    # WebAuthn security keys and quiz ratings have no UI in the MVP (MVP.md D11). Like
+    # TOTP, only the endpoints that create something are gated: a key registered before
+    # the cut can still be listed, deleted and used to sign in.
+    enable_webauthn: bool = False
+    enable_ratings: bool = False
+    # /api/v1/internal/testing returns a full user row, password hash included, and
+    # takes SECRET_KEY in the query string. It exists for the test suite; never set
+    # this in production.
+    enable_testing_routes: bool = False
+    # The IP lookup has no caller, and its provider (ip-api.com) only serves HTTP free.
+    enable_ip_lookup: bool = False
     # Origins allowed to call the API / socket.io cross-site (e.g. a Netlify-hosted frontend).
     # Empty means same-origin only, which is what the bundled Caddy setup uses.
     # Accepts a JSON list or a plain comma-separated string.

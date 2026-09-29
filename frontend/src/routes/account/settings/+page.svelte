@@ -175,7 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>frogQuiz - Settings</title>
+	<title>frogQuiz - {$t('words.my_account')}</title>
 </svelte:head>
 
 <!-- Was a grid-cols-6 with the avatar pinned to a one-sixth column and the rest in a
@@ -186,7 +186,7 @@ SPDX-License-Identifier: MPL-2.0
      which is what every tool that does this well looks like and what survives a narrow
      screen without any reflow guesswork. -->
 <div class="mx-auto w-full max-w-3xl px-4 py-8">
-	<h1 class="mb-6 text-2xl font-bold tracking-tight">{$t('words.settings')}</h1>
+	<h1 class="mb-6 text-2xl font-bold tracking-tight">{$t('words.my_account')}</h1>
 
 	{#await getUser()}
 		<Spinner />
@@ -223,14 +223,8 @@ SPDX-License-Identifier: MPL-2.0
 						<p class="text-muted-foreground truncate text-sm">{user.email}</p>
 					</div>
 
-					<div class="flex flex-wrap gap-2">
-						<Button href="/account/settings/avatar" variant="outline" size="sm">
-							{$t('settings_page.change_avatar')}
-						</Button>
-						<Button href="/user/{user.id}" variant="outline" size="sm">
-							{$t('settings_page.public_profile')}
-						</Button>
-					</div>
+					<!-- Change avatar (/account/settings/avatar) and Public profile (/user/[id])
+					     are hidden for the MVP (MVP.md D15); both routes 404. -->
 				</Card.Content>
 			</Card.Root>
 
@@ -298,7 +292,10 @@ SPDX-License-Identifier: MPL-2.0
 									type="submit"
 								>
 									{#if isSubmittingPassword}
-										<LoaderCircle class="size-4 animate-spin" aria-hidden="true" />
+										<LoaderCircle
+											class="size-4 animate-spin"
+											aria-hidden="true"
+										/>
 									{/if}
 									{$t('settings_page.change_password_submit')}
 								</Button>

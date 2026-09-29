@@ -22,7 +22,6 @@ SPDX-License-Identifier: MPL-2.0
 	import DownloadQuiz from '$lib/components/DownloadQuiz.svelte';
 	import ConfirmAction from '$lib/components/ConfirmAction.svelte';
 	import StartGamePopup from '$lib/dashboard/start_game.svelte';
-	import Analytics from '$lib/dashboard/Analytics.svelte';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -30,10 +29,8 @@ SPDX-License-Identifier: MPL-2.0
 	import Fuse from 'fuse.js';
 	import type { QuizData } from '$lib/quiz_types';
 	import type { PageData } from './$types';
-	import ChartColumn from '@lucide/svelte/icons/chart-column';
 	import Clock from '@lucide/svelte/icons/clock';
 	import Download from '@lucide/svelte/icons/download';
-	import FolderOpen from '@lucide/svelte/icons/folder-open';
 	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import Pencil from '@lucide/svelte/icons/pencil';
 	import Play from '@lucide/svelte/icons/play';
@@ -41,7 +38,6 @@ SPDX-License-Identifier: MPL-2.0
 	import Search from '@lucide/svelte/icons/search';
 	import Trash2 from '@lucide/svelte/icons/trash-2';
 	import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
-	import Upload from '@lucide/svelte/icons/upload';
 	import UserPlus from '@lucide/svelte/icons/user-plus';
 	import X from '@lucide/svelte/icons/x';
 
@@ -68,7 +64,6 @@ SPDX-License-Identifier: MPL-2.0
 
 	let start_game: string | null = $state(null);
 	let download_id: string | null = $state(null);
-	let analytics_quiz_selected: QuizData | undefined = $state(undefined);
 
 	const question_count = (quiz: Row): number =>
 		Array.isArray(quiz.questions) ? quiz.questions.length : 0;
@@ -166,7 +161,6 @@ SPDX-License-Identifier: MPL-2.0
 </svelte:head>
 
 {#if signed_in}
-	<Analytics bind:quiz={analytics_quiz_selected} />
 	<CommandpaletteNotice />
 {/if}
 
@@ -248,15 +242,7 @@ SPDX-License-Identifier: MPL-2.0
 				<Pencil />
 			</Button>
 			{#if source === 'account'}
-				<Button
-					variant="ghost"
-					size="icon"
-					title={$t('words.analytics')}
-					aria-label={$t('words.analytics')}
-					onclick={() => (analytics_quiz_selected = quiz)}
-				>
-					<ChartColumn />
-				</Button>
+				<!-- Analytics hidden with Results for the MVP (D4). -->
 				<Button
 					variant="ghost"
 					size="icon"
@@ -300,22 +286,9 @@ SPDX-License-Identifier: MPL-2.0
 		</header>
 
 		{#if signed_in}
-			<!-- Kept until D4-D6 decide their fate (MVP.md). Settings moved to the navbar's
-			     My Account. -->
-			<div class="mt-6 flex flex-wrap items-center gap-2">
-				<Button href="/import" variant="outline" size="sm">
-					<Upload />
-					{$t('words.import')}
-				</Button>
-				<Button href="/results" variant="outline" size="sm">
-					<ChartColumn />
-					{$t('words.results')}
-				</Button>
-				<Button href="/edit/files" variant="outline" size="sm">
-					<FolderOpen />
-					{$t('words.files_library')}
-				</Button>
-			</div>
+			<!-- The toolbar (Import, Results, Files library) is hidden for the MVP: D4, D6 and
+			     D15 in MVP.md. Each route 404s through DISABLED_ROUTES; restore a button here
+			     with its route. -->
 
 			{#if account_quizzes.length === 0}
 				<div
@@ -324,16 +297,10 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="text-muted-foreground max-w-sm text-balance">
 						{$t('my_quizzes.empty_signed_in')}
 					</p>
-					<div class="flex flex-wrap justify-center gap-2">
-						<Button href="/create">
-							<Plus />
-							{$t('dashboard.create_quiz')}
-						</Button>
-						<Button href="/import" variant="outline">
-							<Upload />
-							{$t('words.import')}
-						</Button>
-					</div>
+					<Button href="/create">
+						<Plus />
+						{$t('dashboard.create_quiz')}
+					</Button>
 				</div>
 			{:else}
 				{#if account_quizzes.length > SEARCH_THRESHOLD}

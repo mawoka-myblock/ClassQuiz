@@ -11,7 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import Globe from '@lucide/svelte/icons/globe';
-	import Lock from '@lucide/svelte/icons/lock';
+	import Link2 from '@lucide/svelte/icons/link-2';
 	import X from '@lucide/svelte/icons/x';
 	import { htmlToPlainText } from '$lib/sanitize';
 	import { TITLE_MAX_LENGTH, DESCRIPTION_MAX_LENGTH } from '$lib/yupSchemas';
@@ -62,7 +62,9 @@ SPDX-License-Identifier: MPL-2.0
 			<span
 				class={cn(
 					'self-end text-xs tabular-nums',
-					title_length > TITLE_MAX_LENGTH ? 'text-destructive font-medium' : 'text-muted-foreground'
+					title_length > TITLE_MAX_LENGTH
+						? 'text-destructive font-medium'
+						: 'text-muted-foreground'
 				)}
 			>
 				{title_length}/{TITLE_MAX_LENGTH}
@@ -147,10 +149,13 @@ SPDX-License-Identifier: MPL-2.0
 					<Globe />
 					{$t('words.public')}
 				{:else}
-					<Lock />
+					<Link2 />
 					{$t('words.private')}
 				{/if}
 			</Button>
+			<!-- "Private" was never private: the view page loads any quiz by link. It is
+			     labelled Unlisted now, and says so (MVP.md D13). -->
+			<p class="text-muted-foreground text-sm">{$t('editor.visibility_hint')}</p>
 		</div>
 
 		<div class="flex flex-col gap-2">

@@ -11,9 +11,11 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from frogquiz.auth import get_current_user
+from frogquiz.config import settings
 from frogquiz.db.models import User, Quiz, Rating
 
 router = APIRouter()
+settings = settings()
 
 
 #
@@ -59,6 +61,9 @@ class RateQuizInput(BaseModel):
 
 @router.post("/rate/{quiz_id}")
 async def rate_quiz(data: RateQuizInput, quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
+    # No rating UI in the MVP (MVP.md D11); ENABLE_RATINGS turns it back on.
+    if not settings.enable_ratings:
+        raise HTTPException(status_code=404, detail="Not found")
     quiz = await Quiz.objects.get_or_none(id=quiz_id, public=True)
     if quiz is None:
         raise HTTPException(status_code=404, detail="Quiz not found")

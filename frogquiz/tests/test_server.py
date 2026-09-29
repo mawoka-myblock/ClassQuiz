@@ -340,9 +340,10 @@ class TestUsers:
 class TestUtils:
     @pytest.mark.asyncio
     async def test_get_ip_data(self, test_client: TestClient):  # noqa : F811
+        # Off by default (ENABLE_IP_LOOKUP): it has no caller and its provider is HTTP-only.
+        # This used to call ip-api.com from CI, so it also only passed while they were up.
         resp = test_client.get("/api/v1/utils/ip-lookup/1.1.1.1", cookies=ValueStorage.cookies)
-        assert resp.status_code == 200
-        assert resp.json()["query"] == "1.1.1.1"
+        assert resp.status_code == 404
 
     @pytest.mark.asyncio
     async def test_get_qr(self, test_client: TestClient):  # noqa : F811
