@@ -1,14 +1,17 @@
 # SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+# SPDX-FileCopyrightText: 2026 frogQuiz contributors
 #
 # SPDX-License-Identifier: MPL-2.0
 
 
+import html
 import io
 import json
 import uuid
 from datetime import datetime
 from typing import Any
 
+import bleach
 import ormar.exceptions
 import xlsxwriter
 from aiohttp import ClientSession
@@ -26,6 +29,54 @@ settings = settings()
 quiz_delimiter = b"\xc7\xc7\xc7\x00"
 image_delimiter = b"\xc6\xc6\xc6\x00"
 image_index_delimiter = b"\xc5\xc5\x00"
+
+
+_ORDINALS = ["1st", "2nd", "3rd"]
+_EXCEL_TYPES = (QuizQuestionType.ABCD, QuizQuestionType.CHECK, QuizQuestionType.VOTING)
+
+
+def _plain_text(value: str | None) -> str | None:
+    """Rich-text HTML from the editor (`<p>What is <b>2+2</b>?</p>`) as a spreadsheet cell."""
+    if value is None:
+        return None
+    return html.unescape(bleach.clean(value, tags=[], strip=True)).strip()
+
+
+def excel_rows(questions: list[QuizQuestion]) -> tuple[list[str], list[list[Any]]]:
+    """Header and rows for the Excel export.
+
+    Three bugs lived here, and Excel is now the only export (MVP.md D5):
+    - CHECK (multiple-answer) questions were skipped entirely, silently dropping one of
+      the two question types the MVP offers.
+    - Titles went out as raw editor HTML, `<p>...</p>` and all.
+    - There were four answer columns and the editor allows sixteen answers, so a fifth
+      answer overwrote the time limit and a sixth the correct answers.
+    With four answers or fewer the layout is exactly the old one, so a sheet stays
+    readable by the Excel importer if Import comes back.
+    """
+    # A missing type is an old ABCD question.
+    exported = [q for q in questions if (q.type or QuizQuestionType.ABCD) in _EXCEL_TYPES]
+    width = max([4, *(len(q.answers) for q in exported)])
+    header = [
+        "Question",
+        *[f"{_ORDINALS[n] if n < 3 else f'{n + 1}th'} Answer" for n in range(width)],
+        "Time Limit (max. 120)",
+        "Correct Answers",
+    ]
+    rows = []
+    for number, question in enumerate(exported, start=1):
+        row: list[Any] = [None] * (width + 4)
+        row[0] = number
+        row[1] = _plain_text(question.question)
+        correct = []
+        for a, answer in enumerate(question.answers):
+            row[2 + a] = answer.answer
+            if question.type != QuizQuestionType.VOTING and answer.right:
+                correct.append(str(a + 1))
+        row[2 + width] = question.time
+        row[3 + width] = ",".join(correct)
+        rows.append(row)
+    return header, rows
 
 
 class UUIDEncoder(json.JSONEncoder):
@@ -148,47 +199,24 @@ async def export_quiz_as_excel(quiz_id: uuid.UUID, _: User = Depends(get_current
     ws = workbook.add_worksheet()
     ws.name = "Main"
     ws.write(4, 1, "Title")
-    ws.write(4, 2, quiz.title)
+    ws.write(4, 2, _plain_text(quiz.title))
     ws.write(5, 1, "Description")
-    ws.write(5, 2, quiz.description)
-    ws.write_row(
-        12,
-        1,
-        [
-            "Question",
-            "1st Answer",
-            "2nd Answer",
-            "3rd Answer",
-            "4th Answer",
-            "Time Limit (max. 120)",
-            "Correct Answers",
-        ],
-    )
-    for i, question in enumerate(quiz.questions):
-        question = QuizQuestion.model_validate(question)
-        data: list[Any] = [None] * 9
-        data[0] = i + 1
-        data[1] = question.question
-        if question.type not in [QuizQuestionType.ABCD, QuizQuestionType.VOTING]:
-            continue
-        correct_answers = []
-        for a, answer in enumerate(question.answers):
-            data[2 + a] = answer.answer
-            if question.type == QuizQuestionType.ABCD and answer.right:
-                correct_answers.append(str(a + 1))
-        data[6] = question.time
-        data[7] = ",".join(correct_answers)
-        ws.write_row(13 + i, 0, data)
+    ws.write(5, 2, _plain_text(quiz.description))
+    header, rows = excel_rows([QuizQuestion.model_validate(q) for q in quiz.questions])
+    ws.write_row(12, 1, header)
+    for r, row in enumerate(rows):
+        ws.write_row(13 + r, 0, row)
     workbook.close()
     storage.seek(0)
 
     def iter_file():
         yield from storage
 
+    # The filename is built from the plain title: the raw one is editor HTML, which came
+    # out as "frogQuiz-%3Cp%3E...xlsx".
+    filename = urllib.parse.quote(f"frogQuiz-{_plain_text(quiz.title) or 'quiz'}.xlsx", safe="")
     return StreamingResponse(
         iter_file(),
-        media_type="application/vnd.ms-excel",
-        headers={
-            "Content-Disposition": f"attachment;filename=frogQuiz-{urllib.parse.quote(quiz.title)}.xlsx"  # noqa: E501
-        },
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename*=UTF-8''{filename}"},
     )

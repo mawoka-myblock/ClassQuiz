@@ -620,7 +620,7 @@
     "anon_expires_short_other": "Deleted in {{count}} days",
     "anon_more": "Details",
     "anon_less": "Hide",
-    "anon_claim_hint":"Claim it to your account to keep it, make it searchable, and manage it from My Quizzes.",
+    "anon_claim_hint": "Claim it to your account to keep it, make it searchable, and manage it from My Quizzes.",
     "anon_sign_in_hint": "Create an account to keep it, make it searchable, and manage it from My Quizzes. You can carry on without one — you'll just lose the quiz when it expires.",
     "anon_sign_up": "Create an account to keep this quiz",
     "claim_quiz": "Claim this quiz to your account",
@@ -639,7 +639,7 @@
     "no_questions": "This quiz has no questions yet.",
     "range_answer_hidden": "Players pick a number from {{min}} to {{max}}.",
     "text_answer_hidden": "Players type their answer.",
-    "range_answer":"Any number from {{min_correct}} to {{max_correct}} is correct. Players can pick from {{min}} to {{max}}."
+    "range_answer": "Any number from {{min_correct}} to {{max_correct}} is correct. Players can pick from {{min}} to {{max}}."
   },
   "start_game": {
     "captcha_message": "If enabled, Google's ReCaptcha will load in the browser of players. Only enable if you really need it, since you need the consent of EVERY player to load the captcha.",
@@ -711,9 +711,30 @@
     "time_remaining": "Time remaining"
   },
   "downloader": {
+    "title": "Download this quiz",
+    "excel_help": "An Excel spreadsheet of every question, its answers, the correct ones and the time limit. Good as a backup or a printout. Images are not included.",
+    "excel_button": "Download .xlsx",
     "select_download_type": "Select download type",
     "own_format": "Own Format",
     "excel_format": "Excel Format",
     "help": "The own format (.cqa) also includes pictures and supports every question type, whereas the excel format only supports voting and multiple-choice questions."
+  },
+  "practice_page": {
+    "title": "Practice",
+    "back_to_quiz": "Back to quiz",
+    "not_found": "This quiz couldn't be opened. It may have been deleted, or the link is wrong.",
+    "intro_one": "{{count}} question. No timer, and nobody sees your score.",
+    "intro_other": "{{count}} questions. No timer, and nobody sees your score.",
+    "start": "Start practising",
+    "pick_all": "Pick every right answer, then submit.",
+    "unsupported": "This kind of question only works in a live game. Skip ahead to the next one.",
+    "wrong": "Wrong",
+    "right": "Right!",
+    "not_quite": "Not quite",
+    "running_score": "{{score}} of {{count}} right",
+    "finish": "See my score",
+    "done": "Practice finished",
+    "final_score": "{{score}} / {{count}}",
+    "again": "Practice again"
   }
 }

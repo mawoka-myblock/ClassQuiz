@@ -1,54 +1,55 @@
 <!--
 SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+SPDX-FileCopyrightText: 2026 frogQuiz contributors
 
 SPDX-License-Identifier: MPL-2.0
 -->
+
 <script lang="ts">
-	import BrownButton from '$lib/components/buttons/brown.svelte';
-	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	// Was a hand-rolled overlay: `w-1/3` (about 130px wide on a phone), `bg-white`, a
+	// window keydown listener that was never removed, and two formats. It is Excel only
+	// now (MVP.md D5): the other format, .cqa, exists to be re-imported, and Import is
+	// hidden for the MVP (D6). To bring .cqa back, add a second link to
+	// /api/v1/eximport/{quiz_id} with $t('downloader.own_format').
 	import { getLocalization } from '$lib/i18n';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import { Button } from '$lib/components/ui/button';
+	import FileSpreadsheet from '@lucide/svelte/icons/file-spreadsheet';
 
 	const { t } = getLocalization();
+
 	interface Props {
 		quiz_id?: string | null;
 	}
 
 	let { quiz_id = $bindable(null) }: Props = $props();
 
-	const handle_on_click = () => {
-		quiz_id = null;
+	const open = $derived(quiz_id !== null);
+	const on_open_change = (is_open: boolean) => {
+		if (!is_open) quiz_id = null;
 	};
-	onMount(() => {
-		window.addEventListener('keydown', (e: KeyboardEvent) => {
-			if (e.key === 'Escape') {
-				quiz_id = null;
-			}
-		});
-	});
 </script>
 
-{#if quiz_id}
-	<div
-		class="w-screen h-screen fixed top-0 left-0 bg-black/50 z-20 flex justify-center"
-		onclick={handle_on_click}
-		transition:fade={{ duration: 100 }}
-	>
-		<div class="m-auto w-1/3 h-auto bg-white dark:bg-gray-700 p-4 rounded-sm">
-			<h1 class="text-3xl text-center mb-4">{$t('downloader.select_download_type')}</h1>
-			<div class="flex flex-row gap-4">
-				<div class="w-full flex justify-center">
-					<BrownButton href="/api/v1/eximport/{quiz_id}"
-						>{$t('downloader.own_format')}
-					</BrownButton>
-				</div>
-				<div class="w-full flex justify-center">
-					<BrownButton href="/api/v1/eximport/excel/{quiz_id}"
-						>{$t('downloader.excel_format')}
-					</BrownButton>
-				</div>
-			</div>
-			<p class="mt-2 text-sm text-center">{$t('downloader.help')}</p>
-		</div>
-	</div>
-{/if}
+<Dialog.Root {open} onOpenChange={on_open_change}>
+	<Dialog.Content class="gap-5 sm:max-w-md">
+		<Dialog.Header>
+			<Dialog.Title>{$t('downloader.title')}</Dialog.Title>
+			<Dialog.Description>{$t('downloader.excel_help')}</Dialog.Description>
+		</Dialog.Header>
+		<Dialog.Footer>
+			<Button variant="outline" onclick={() => (quiz_id = null)}>
+				{$t('words.cancel')}
+			</Button>
+			<!-- A plain link: the export is an attachment, so following it downloads without
+			     leaving the page. The close waits a task: closing inside the handler would
+			     re-render this href as ".../null" before the browser follows it. -->
+			<Button
+				href="/api/v1/eximport/excel/{quiz_id}"
+				onclick={() => setTimeout(() => (quiz_id = null))}
+			>
+				<FileSpreadsheet />
+				{$t('downloader.excel_button')}
+			</Button>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

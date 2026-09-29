@@ -89,8 +89,10 @@ for how to turn any of them back on.
 | TOTP and backup codes | `/account/settings/security`                                                                            |
 | Moderation            | `/moderation` — 404s in its loader; its API is separately gated on the `mods` allowlist, which is empty |
 
-`/remote` and `/practice` are alternate play modes nobody on the team uses. They
-are not flag-gated and are not redesigned. Deciding what to do with them is open.
+`/remote` is hidden (MVP.md D15) and 404s through `DISABLED_ROUTES`. `/practice` was
+kept (D3) and rebuilt on 2026-09-29: the game's answer tiles, no timer, a score at the
+end. It was checked at 390, 834 and 1440 in both themes, and `e2e/practice.e2e.ts`
+covers it.
 
 ---
 

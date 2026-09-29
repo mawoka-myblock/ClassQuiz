@@ -4,6 +4,13 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Practice rebuilt, Download is Excel only (MVP §4.4, D3 and D5)
+
+- Rebuilt Practice. Picking an answer threw an error, because every answer loop referred to an `i` that was never declared, so practice had never worked. It also leaked a timer per question and reshuffled the quiz it was showing. It now uses the live game's answer tiles, has no timer, reveals ABCD answers on click, lets you tick CHECK answers and then submit, scores with the game's rules, and ends on a score with Practice again and Back to quiz. Question types the MVP doesn't offer show a notice and a Next button.
+- Rebuilt the Download dialog on shadcn `Dialog`, offering Excel only (D5). It was a `w-1/3` overlay, about 130px wide on a phone.
+- Fixed three Excel export bugs: CHECK questions were left out, question text came out as editor HTML, and a fifth answer overwrote the time limit column. The file is now served as `.xlsx` rather than the old `.xls` type, and it is named after the plain title.
+- Added `practice.e2e.ts` (practice end to end, a missing quiz, and the Download dialog fetching a real spreadsheet), unit tests for practice scoring, and backend tests for the Excel rows.
+
 ### MVP hides, "Unlisted", and the security items (MVP §4.2, §4.3, §4.6)
 
 - Hid Import, Results history, Analytics, the Files library, `/remote`, public profiles and the avatar editor (decisions D4, D6 and D15). Each hidden route now 404s through `DISABLED_ROUTES`. The My Quizzes toolbar, the Analytics row button, the podium's Save results button, the Import/Results command-palette entries and the My Account avatar/profile buttons are commented out rather than deleted. The APIs behind them stay up.

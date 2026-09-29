@@ -101,8 +101,8 @@ Every route in `frontend/src/routes`, with what it does today and a proposal.
 | `/edit/videos` | Video editor, reachable from the uploader's video path | **H** | Video upload is already hidden in the uploader |
 | `/results`, `/results/[result_id]` | Saved game results history | **H** | No analytics in MVP. Hide the podium's Save results button with it (decision D4) |
 | Analytics (modal on `/dashboard`) | Per-quiz charts from saved results | **H** | Same data source as `/results` |
-| `/practice` | Solo run-through of a quiz with no timer or scoring | **H** (decision D3) | Pre-redesign (raw SVGs, `bg-white`, `text-black`, absolute `80vh` panels). Linked from the view page |
-| Download (view page and dashboard) | Export as `.cqa` (re-importable) or Excel | **I** (decision D5) | Modal is `w-1/3` (about 130px on a phone), `w-screen h-screen`, `bg-white`. Disabled for anonymous users with no explanation |
+| `/practice` | Solo run-through of a quiz with no timer, scored like the game | **K** (decision D3) | Rebuilt 2026-09-29 on the game's answer tiles; checked at 390/834/1440 in both themes. Linked from the view page |
+| Download (view page and My Quizzes) | Export as Excel | **K** (decision D5) | Rebuilt 2026-09-29 as a shadcn `Dialog`, Excel only. The export now carries CHECK questions, plain-text titles and more than four answers |
 | `/remote` | Control a running game from a second device | **H** | Not flag-gated, not redesigned. Linked from a host popover |
 | `/docs` and 8 sub-pages | Upstream-style docs | **H** from nav | Keep `tos` and `privacy-policy` (linked from registration) and `attribution` (credit to upstream). Hide `self-host`, `develop`, `roadmap`, `pow`, `import-from-kahoot` |
 | GitHub links (navbar, footer) | Link to the repo | **H** | Already a triage candidate in `CLAUDE.md` |
@@ -273,8 +273,8 @@ The plan is already written up in `BACKLOG.md` → "Design the view page". Code 
 - [x] Remove `console.log(auto_expand…)`; author name stops linking to `/user/[id]`
 - [x] Driven in a browser at 390 / 834 / 1440, light and dark, as owner (anonymous and signed in) and as a visitor — 2026-09-29, local stack: no overflow, theme class and ground correct, owner controls and answer key shown to owners only, banner only for the anonymous owner, no raw HTML in titles
 - [x] Answer key shown to the owner only (D12)
-- [ ] Rebuild `DownloadQuiz.svelte` on `Dialog` (today `w-1/3`, `w-screen h-screen`, `bg-white`) — G wants to keep Download (D5), F to confirm
-- [ ] Redesign `/practice` (pre-redesign: raw SVGs, `bg-white`, `text-black`, absolute `80vh` panels) — G wants to keep Practice (D3), F to confirm
+- [x] Rebuild `DownloadQuiz.svelte` on `Dialog`, Excel only (D5). The Excel export also had three bugs, now fixed and tested (`frogquiz/tests/test_excel_export.py`): it dropped CHECK questions, wrote editor HTML into cells, and a fifth answer overwrote the time limit. Pinned by `frontend/e2e/practice.e2e.ts`
+- [x] Redesign `/practice` (D3). Rebuilt rather than restyled: picking any answer threw (an undeclared `i` in every answer loop), so practice had never worked. Same tiles as the game, no timer, ABCD reveals on click, CHECK submits, scored with the game's rules (`lib/practice/score.ts`), a score at the end and Back to quiz on every step. Types the MVP doesn't offer show a notice and a Next. Pinned by `frontend/e2e/practice.e2e.ts`
 
 ### 4.5 Editor as drafts, then the redesign (D7)
 
