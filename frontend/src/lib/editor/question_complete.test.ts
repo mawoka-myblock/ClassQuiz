@@ -4,6 +4,7 @@
 
 import { describe, expect, it } from 'vitest';
 import { isQuestionComplete } from './question_complete';
+import { QuizQuestionType } from '$lib/quiz_types';
 
 const q = (over = {}) => ({
 	question: 'Which of these is an amphibian?',
@@ -63,6 +64,32 @@ describe('isQuestionComplete', () => {
 		// created, but old quizzes still open, and their rules are not these ones.
 		expect(isQuestionComplete(q({ answers: { min: 0, max: 10 } }))).toBe(true);
 		expect(isQuestionComplete(q({ answers: 'a slide body' }))).toBe(true);
+	});
+
+	it('does not judge TEXT, VOTING or ORDER by the ABCD rule', () => {
+		// The server refuses to start a quiz with an unfinished question, so flagging these
+		// would make every old quiz that has one unplayable.
+		const text = [{ answer: 'frog', case_sensitive: false }];
+		expect(isQuestionComplete(q({ type: QuizQuestionType.TEXT, answers: text }))).toBe(true);
+		const options = [{ answer: 'A' }, { answer: 'B' }];
+		expect(isQuestionComplete(q({ type: QuizQuestionType.VOTING, answers: options }))).toBe(
+			true
+		);
+		expect(isQuestionComplete(q({ type: QuizQuestionType.ORDER, answers: options }))).toBe(
+			true
+		);
+		expect(isQuestionComplete(q({ type: QuizQuestionType.VOTING, question: '' }))).toBe(false);
+	});
+
+	it('judges CHECK like ABCD', () => {
+		const none_right = [
+			{ answer: 'A', right: false },
+			{ answer: 'B', right: false }
+		];
+		expect(isQuestionComplete(q({ type: QuizQuestionType.CHECK, answers: none_right }))).toBe(
+			false
+		);
+		expect(isQuestionComplete(q({ type: QuizQuestionType.CHECK }))).toBe(true);
 	});
 
 	it('survives a malformed question rather than throwing', () => {

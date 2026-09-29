@@ -21,6 +21,7 @@ from frogquiz.auth import get_current_user, get_current_user_optional, verify_an
 from frogquiz.config import redis, settings, storage, meilisearch
 from frogquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
 from frogquiz.helpers.box_controller import generate_code
+from frogquiz.helpers.completeness import unfinished_questions
 from frogquiz.helpers.ratelimit import rate_limit
 from frogquiz.kahoot_importer.import_quiz import import_quiz
 import urllib.parse
@@ -135,6 +136,15 @@ async def start_quiz(
     if not quiz.questions:
         # An empty quiz used to open a live game with nothing in it.
         return JSONResponse(status_code=400, content={"detail": "quiz has no questions"})
+    unfinished = unfinished_questions(quiz.questions)
+    if unfinished:
+        # The editor autosaves, so a quiz can be saved half-written (MVP.md D14). Starting
+        # one would put a question with no right answer, or no answers, on the projector.
+        numbers = ", ".join(str(n) for n in unfinished)
+        return JSONResponse(
+            status_code=400,
+            content={"detail": f"This quiz is a draft. Finish question {numbers} in the editor first."},
+        )
     quiz.plays += 1
     await quiz.update()
     game_pin = randint(100000, 999999)

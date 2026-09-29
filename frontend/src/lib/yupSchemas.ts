@@ -1,4 +1,5 @@
 // SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+// SPDX-FileCopyrightText: 2026 frogQuiz contributors
 //
 // SPDX-License-Identifier: MPL-2.0
 
@@ -70,11 +71,14 @@ export const dataSchema = yup.object({
 			`The title has to be shorter than ${TITLE_MAX_LENGTH} characters`,
 			(value) => htmlToPlainText(value ?? '').length <= TITLE_MAX_LENGTH
 		),
+	// Optional (MVP.md D14). It was required, at least three characters, and nothing on
+	// the page said so -- the field had no label hint and no placeholder.
 	description: yup
 		.string()
-		.required('The description is required!')
-		.min(3, 'The description has to be longer than 3 characters')
-		.max(DESCRIPTION_MAX_LENGTH, `The description has to be shorter than ${DESCRIPTION_MAX_LENGTH} characters`),
+		.max(
+			DESCRIPTION_MAX_LENGTH,
+			`The description has to be shorter than ${DESCRIPTION_MAX_LENGTH} characters`
+		),
 	questions: yup
 		.array()
 		.of(
@@ -118,5 +122,5 @@ export const dataSchema = yup.object({
 			})
 		)
 		.min(1, 'You need at least one question')
-		.max(50, "You can't have more than 32 questions")
+		.max(50, "You can't have more than 50 questions")
 });

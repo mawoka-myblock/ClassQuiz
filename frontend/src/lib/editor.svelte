@@ -6,6 +6,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { onDestroy } from 'svelte';
+	import { goto, replaceState } from '$app/navigation';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData } from './quiz_types';
 	import Sidebar from '$lib/editor/sidebar.svelte';
@@ -16,13 +18,16 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from './Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { isQuestionComplete } from '$lib/editor/question_complete';
+	import { editorValidation } from '$lib/editor/validation.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 	import Save from '@lucide/svelte/icons/save';
 	import Plus from '@lucide/svelte/icons/plus';
 	import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
+	import CloudCheck from '@lucide/svelte/icons/cloud-check';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
 	import { getAnonSecret, setAnonSecret } from '$lib/anon_quiz';
-	import { sanitizeTitleHtml } from '$lib/sanitize';
+	import { htmlToPlainText, sanitizeTitleHtml } from '$lib/sanitize';
 	import ThemeToggle from '$lib/theme-toggle.svelte';
 
 	const { t } = getLocalization();
@@ -45,6 +50,10 @@ SPDX-License-Identifier: MPL-2.0
 	// and the mobile strip each hold theirs.
 	let add_open = $state(false);
 
+	// Nothing is marked missing until the first Save (see validation.svelte.ts). The flag
+	// lives in a module, so it would otherwise carry over from the last quiz edited.
+	editorValidation.shown = false;
+
 	const validateInput = async (data: EditorData) => {
 		try {
 			await dataSchema.validate(data, { abortEarly: false });
@@ -63,22 +72,38 @@ SPDX-License-Identifier: MPL-2.0
 	const incomplete_count = $derived(
 		(data.questions ?? []).filter((q) => !isQuestionComplete(q)).length
 	);
-	// Save used to be gated on the yup schema alone, which does not require a correct
-	// answer. The rail flagged such a question, but the header warning sat inside the
-	// schema branch and never showed, so an unplayable question saved silently.
-	const save_blocked = $derived(schemaInvalid || incomplete_count > 0);
+	// Playable is what Start needs, and the server refuses anything less (D14). Save used
+	// to be disabled until the quiz was playable, so half a quiz could not be kept at all.
+	const playable = $derived(!schemaInvalid && incomplete_count === 0);
+	// Savable is what the server needs to store a draft: something to call it, and at
+	// least one question with at least one answer.
+	const savable = $derived(
+		htmlToPlainText(data.title ?? '').trim().length > 0 &&
+			(data.questions ?? []).length > 0 &&
+			data.questions.every((q) => !Array.isArray(q.answers) || q.answers.length > 0)
+	);
 	// One list for everyone now: the account's quizzes signed in, this browser's signed out.
 	const back_href = '/my-quizzes';
 	let edit_id: string = $state();
-	// The prompt used to be armed from the moment the editor mounted, so opening a quiz and
-	// going straight back asked whether you wanted to discard changes you had not made. It
-	// now arms on the first real edit. A form-level input/change listener is deliberate over
-	// watching `data`: it cannot miss an edit made through a form control, and missing one
-	// would lose someone's work.
-	let confirm_to_leave = $state(false);
+
+	// --- Autosave (MVP.md D14) ---------------------------------------------------------
+	// The quiz this editor writes to. Null until a new quiz's first save creates it.
+	let current_id: string | null = $state(quiz_id);
+	// What was last stored, as JSON. A snapshot comparison rather than form events:
+	// adding, reordering and deleting questions happen outside the form's input events,
+	// and missing one would lose someone's work.
+	let saved_snapshot: string | null = $state(null);
+	const snapshot = $derived(JSON.stringify(data));
+	const unsaved = $derived(
+		current_id === null ? savable : saved_snapshot !== null && snapshot !== saved_snapshot
+	);
+	let saving = $state(false);
 	// A failed save used to be `alert('Error')`: no status, no reason, and dismissing it
 	// left you staring at the same form with no idea whether your work had gone anywhere.
 	let save_error: string | null = $state(null);
+	let inflight: Promise<void> | null = null;
+	let timer: ReturnType<typeof setTimeout> | undefined;
+	const AUTOSAVE_DELAY_MS = 2500;
 
 	const getEditID = async () => {
 		const anon_secret = quiz_id === null ? null : getAnonSecret(quiz_id);
@@ -98,6 +123,9 @@ SPDX-License-Identifier: MPL-2.0
 		if (res.status === 200) {
 			const json = await res.json();
 			edit_id = json.token;
+			// The baseline is taken once the editor has rendered: the rich-text fields
+			// normalise what they are given on load, and that is not an edit.
+			setTimeout(() => (saved_snapshot = JSON.stringify(data)), 500);
 			return;
 		}
 		// Was `alert('Error!')` -- a native dialog with no status, no reason, and
@@ -112,52 +140,111 @@ SPDX-License-Identifier: MPL-2.0
 		throw new Error(detail ? `${res.status}: ${detail}` : String(res.status));
 	};
 
-	const confirmUnload = (event: BeforeUnloadEvent) => {
-		if (!confirm_to_leave) {
-			return;
-		}
-		event.preventDefault();
-		event.returnValue = 'Are you sure you want to leave?';
-		localStorage.setItem('edit_game', JSON.stringify(data));
-		return 'unload';
-	};
-	const saveQuiz = async (e: Event) => {
-		e.preventDefault();
-		if (save_blocked) {
-			return;
-		}
-		save_error = null;
-		const anon_secret = quiz_id === null ? null : getAnonSecret(quiz_id);
-		const res = await fetch(`/api/v1/editor/finish?edit_id=${edit_id}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				...(anon_secret ? { 'X-Anon-Secret': anon_secret } : {})
-			},
-			body: JSON.stringify(data)
-		});
-		if (res.ok) {
-			confirm_to_leave = false;
-			// Every save lands on the quiz's view page, new or existing, signed in or
-			// not. It used to depend on all three, which read as the app forgetting
-			// what you had just made.
+	const send = async (keepalive: boolean) => {
+		const body = snapshot;
+		const anon_secret = current_id === null ? null : getAnonSecret(current_id);
+		saving = true;
+		try {
+			const res = await fetch(`/api/v1/editor/save?edit_id=${edit_id}`, {
+				method: 'POST',
+				// Browsers refuse a keepalive request over 64 KB outright. A big quiz is sent
+				// normally; the leave prompt holds the page open while it goes.
+				keepalive: keepalive && body.length < 60_000,
+				headers: {
+					'Content-Type': 'application/json',
+					...(anon_secret ? { 'X-Anon-Secret': anon_secret } : {})
+				},
+				body
+			});
+			if (!res.ok) {
+				let detail = '';
+				try {
+					const json = await res.json();
+					// A 422 carries a list of pydantic errors rather than a sentence.
+					detail = Array.isArray(json?.detail)
+						? (json.detail[0]?.msg ?? '')
+						: (json?.detail ?? '');
+				} catch {
+					/* not JSON */
+				}
+				save_error = detail ? `${res.status}: ${detail}` : `${res.status}`;
+				return;
+			}
 			const saved = await res.json();
-			// The server only ever hands back a fresh secret for a quiz created
-			// without an account, once, right here.
+			// The server only ever hands back a secret for a quiz created without an
+			// account, once, on the save that creates it.
 			const new_anon_secret = res.headers.get('X-Anon-Secret');
 			if (new_anon_secret) {
 				setAnonSecret(saved.id, new_anon_secret);
 			}
-			window.location.href = `/view/${saved.id ?? quiz_id}`;
-		} else {
-			let detail = '';
-			try {
-				detail = (await res.json())?.detail ?? '';
-			} catch {
-				/* not JSON */
+			if (current_id === null) {
+				current_id = saved.id;
+				// A reload now reopens the saved quiz instead of an empty /create.
+				replaceState(`/edit?quiz_id=${saved.id}`, {});
 			}
-			save_error = detail ? `${res.status}: ${detail}` : `${res.status}`;
+			saved_snapshot = body;
+			save_error = null;
+		} catch {
+			save_error = $t('editor.offline');
+		} finally {
+			saving = false;
 		}
+	};
+
+	// Saves whatever has changed, one request at a time: two saves of a new quiz racing
+	// each other would both try to create it.
+	const flush = async (keepalive = false) => {
+		clearTimeout(timer);
+		while (inflight) await inflight;
+		if (!savable || !edit_id || !unsaved) return;
+		inflight = send(keepalive);
+		try {
+			await inflight;
+		} finally {
+			inflight = null;
+		}
+	};
+
+	$effect(() => {
+		// Re-armed on every change, so it fires once typing pauses.
+		void snapshot;
+		if (!unsaved || !savable) return;
+		clearTimeout(timer);
+		timer = setTimeout(() => flush(), AUTOSAVE_DELAY_MS);
+	});
+	onDestroy(() => clearTimeout(timer));
+
+	const confirmUnload = (event: BeforeUnloadEvent) => {
+		if (!unsaved) {
+			return;
+		}
+		// Try to keep it anyway: keepalive lets the request outlive the page.
+		flush(true);
+		event.preventDefault();
+		event.returnValue = 'Are you sure you want to leave?';
+		return 'unload';
+	};
+
+	// Back saves first, and goes to the quiz once it exists rather than to the list.
+	const leave = async () => {
+		await flush();
+		goto(current_id && !save_error ? `/view/${current_id}` : back_href);
+	};
+
+	const saveQuiz = async (e: Event) => {
+		e.preventDefault();
+		// The first Save is when the editor starts pointing at what is missing.
+		editorValidation.shown = true;
+		if (!savable) {
+			return;
+		}
+		await flush();
+		if (save_error || !playable) {
+			// Kept as a draft; the header now says what is left to do.
+			return;
+		}
+		// Every save lands on the quiz's view page, new or existing, signed in or not.
+		window.location.href = `/view/${current_id}`;
 	};
 </script>
 
@@ -165,11 +252,7 @@ SPDX-License-Identifier: MPL-2.0
 {#await getEditID()}
 	<Spinner />
 {:then _}
-	<form
-		onsubmit={saveQuiz}
-		oninput={() => (confirm_to_leave = true)}
-		onchange={() => (confirm_to_leave = true)}
-	>
+	<form onsubmit={saveQuiz}>
 		<!-- w-screen is 100vw, which includes the scrollbar, and put a horizontal
 		     scrollbar on every editor session. w-full is the width we actually want.
 		     h-dvh rather than h-screen: 100vh is the wrong number on a phone, where
@@ -185,6 +268,10 @@ SPDX-License-Identifier: MPL-2.0
 						variant="ghost"
 						size="icon"
 						aria-label={$t('words.back')}
+						onclick={(e: MouseEvent) => {
+							e.preventDefault();
+							leave();
+						}}
 					>
 						<ArrowLeft />
 					</Button>
@@ -199,21 +286,10 @@ SPDX-License-Identifier: MPL-2.0
 					<p class="min-w-0 max-w-[45%] shrink truncate font-medium">
 						{@html sanitizeTitleHtml(data.title)}
 					</p>
-					{#if save_blocked}
-						<!-- The old header showed a raw yup message, which named a field path rather
-						     than telling the author what to go and fix. The count points at the rail,
-						     where each unfinished question is already flagged. -->
-						<p
-							class="text-destructive ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 text-sm font-medium"
-						>
-							<TriangleAlert class="size-4 shrink-0" />
-							<span class="truncate">
-								{incomplete_count > 0
-									? $t('editor.needs_attention', { count: incomplete_count })
-									: yupErrorMessage}
-							</span>
-						</p>
-					{:else if save_error}
+					<!-- One line of status, most urgent first. A failed save always shows. What is
+					     missing shows only after the first Save (D14): a new quiz is empty, and saying so
+					     in red before anyone had typed was the complaint. -->
+					{#if save_error}
 						<p
 							class="text-destructive ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 text-sm font-medium"
 							role="alert"
@@ -223,12 +299,62 @@ SPDX-License-Identifier: MPL-2.0
 								{$t('editor.save_failed', { detail: save_error })}
 							</span>
 						</p>
+					{:else if editorValidation.shown && !playable}
+						<!-- The old header showed a raw yup message, which named a field path rather than
+						     telling the author what to go and fix. The count points at the rail, where each
+						     unfinished question is already flagged. -->
+						<p
+							class="text-destructive ml-auto flex min-w-0 flex-1 items-center justify-end gap-2 text-sm font-medium"
+							role="status"
+						>
+							<TriangleAlert class="size-4 shrink-0" />
+							<span class="truncate">
+								{#if !savable}
+									{$t('editor.cannot_save_yet')}
+								{:else if incomplete_count > 0}
+									<!-- The full sentence truncates to "Saved a..." on a phone. -->
+									<span class="sm:hidden">
+										{$t('editor.draft_needs_attention_short', {
+											count: incomplete_count
+										})}
+									</span>
+									<span class="hidden sm:inline">
+										{$t('editor.draft_needs_attention', {
+											count: incomplete_count
+										})}
+									</span>
+								{:else}
+									{yupErrorMessage}
+								{/if}
+							</span>
+						</p>
+					{:else if saving || current_id}
+						<p
+							class="text-muted-foreground ml-auto flex min-w-0 flex-1 items-center justify-end gap-1.5 text-sm"
+							role="status"
+						>
+							{#if saving}
+								<LoaderCircle class="size-4 shrink-0 animate-spin" />
+								<span class="truncate">{$t('editor.saving')}</span>
+							{:else if !unsaved}
+								<CloudCheck class="size-4 shrink-0" />
+								<span class="truncate">
+									{playable ? $t('editor.saved') : $t('editor.saved_draft')}
+								</span>
+							{/if}
+						</p>
 					{/if}
-					<!-- The editor hides the navbar, which is where the theme switch used
-					     to live and only live -- so the one screen people sit in longest
-					     was the one with no way to change it. -->
-					<ThemeToggle class={save_blocked || save_error ? 'ml-3' : 'ml-auto'} />
-					<Button type="submit" disabled={save_blocked}>
+					<!-- The editor hides the navbar, which is where the theme switch used to live and only
+					     live -- so the one screen people sit in longest was the one with no way to change it. -->
+					<ThemeToggle
+						class={save_error ||
+						(editorValidation.shown && !playable) ||
+						saving ||
+						current_id
+							? 'ml-3'
+							: 'ml-auto'}
+					/>
+					<Button type="submit" disabled={saving}>
 						<Save />
 						{$t('words.save')}
 					</Button>

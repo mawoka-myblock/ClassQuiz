@@ -106,6 +106,21 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 
+		// A 400 here is the server refusing a specific quiz for a specific reason (a
+		// draft with an unfinished question, most often) rather than a generic
+		// failure, so its `detail` is worth showing rather than a one-size message.
+		if (res.status === 400) {
+			try {
+				const body = await res.json();
+				if (typeof body?.detail === 'string' && body.detail) {
+					error = body.detail;
+					return;
+				}
+			} catch {
+				// Fall through to the generic message below.
+			}
+		}
+
 		error = $t('start_game.start_failed');
 	};
 

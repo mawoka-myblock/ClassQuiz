@@ -26,6 +26,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Badge } from '$lib/components/ui/badge';
+	import { isQuestionComplete } from '$lib/editor/question_complete';
 	import Fuse from 'fuse.js';
 	import type { QuizData } from '$lib/quiz_types';
 	import type { PageData } from './$types';
@@ -67,6 +68,13 @@ SPDX-License-Identifier: MPL-2.0
 
 	const question_count = (quiz: Row): number =>
 		Array.isArray(quiz.questions) ? quiz.questions.length : 0;
+
+	// Same rule as the view page and the server (frogquiz/helpers/completeness.py):
+	// a draft is a quiz with an unfinished question, or no questions at all. Rows
+	// without a `questions` array at all (nothing to judge) are not flagged.
+	const quiz_is_draft = (quiz: Row): boolean =>
+		Array.isArray(quiz.questions) &&
+		(quiz.questions.length === 0 || quiz.questions.some((q) => !isQuestionComplete(q)));
 
 	onMount(async () => {
 		const results = await Promise.all(
@@ -167,6 +175,7 @@ SPDX-License-Identifier: MPL-2.0
 {#snippet row(quiz: Row, source: 'account' | 'browser')}
 	{@const days = source === 'browser' ? anonDaysLeft(quiz.expire_at) : null}
 	{@const count = question_count(quiz)}
+	{@const draft = quiz_is_draft(quiz)}
 	<li
 		class="border-border bg-card flex flex-col gap-4 rounded-xl border p-4 sm:flex-row sm:items-center"
 	>
@@ -197,6 +206,9 @@ SPDX-License-Identifier: MPL-2.0
 						{quiz.public ? $t('words.public') : $t('words.private')}
 					</Badge>
 				{/if}
+				{#if draft}
+					<Badge variant="outline">{$t('draft.badge')}</Badge>
+				{/if}
 				<span>
 					{count}
 					{count === 1 ? $t('words.question') : $t('words.question_plural')}
@@ -208,13 +220,23 @@ SPDX-License-Identifier: MPL-2.0
 					</span>
 				{/if}
 			</div>
+			{#if draft}
+				<p id="draft-hint-{quiz.id}" class="text-muted-foreground mt-2 text-sm">
+					{$t('draft.hint_owner')}
+				</p>
+			{/if}
 			{#if row_errors[quiz.id]}
 				<p class="text-destructive mt-2 text-sm" role="alert">{row_errors[quiz.id]}</p>
 			{/if}
 		</div>
 
 		<div class="flex shrink-0 flex-wrap items-center gap-1.5">
-			<Button onclick={() => (start_game = quiz.id)}>
+			<Button
+				disabled={draft}
+				title={draft ? $t('draft.hint_owner') : undefined}
+				aria-describedby={draft ? `draft-hint-${quiz.id}` : undefined}
+				onclick={() => (start_game = quiz.id)}
+			>
 				<Play />
 				{$t('words.play')}
 			</Button>

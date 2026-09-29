@@ -28,7 +28,7 @@ delete the marker.
 | M4 | `player_answer` goes to `admin:{pin}`, `everyone_answered` goes to the game room, and `results_saved_successfully` and `session_id` go only to their own socket. |
 | M5 | The answers validator refuses an empty list before reading `v[0]`. |
 | M6 | `QuizInput` requires at least one question, and `quiz/start` returns 400 for a quiz with none. |
-| M7 | Save is disabled while any question is incomplete, and the header says how many. |
+| M7 | Superseded by drafts (MVP.md D14, 2026-09-29): Save keeps an unfinished quiz as a draft and the header says how many questions are left; the server refuses to **start** it (`frogquiz/helpers/completeness.py`). Pinned by `editor` › no correct answer cannot reach the view page, and `api-edge` › no correct answer saves as a draft. |
 | M8 | Start, delete and get look at the account and the anonymous secret independently, through `_find_own_quiz`. |
 | M9 | The register page reads `returnTo` and passes it on to its "Log in" link. |
 | M10 | Back goes to `/my-quizzes` for someone without an account. |

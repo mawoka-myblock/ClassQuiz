@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import RangeEditor from '$lib/editor/RangeSelectorEditorPart.svelte';
 	import { reach } from 'yup';
 	import { dataSchema } from '$lib/yupSchemas';
+	import { editorValidation } from '$lib/editor/validation.svelte';
 	import Spinner from '../Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
@@ -81,9 +82,11 @@ SPDX-License-Identifier: MPL-2.0
 
 	const type = $derived(data.questions[selected_question].type);
 	const question_valid = $derived(
-		reach(dataSchema, 'questions[].question').isValidSync(
-			data.questions[selected_question].question
-		)
+		// Marked only after the first Save (validation.svelte.ts): a new question is blank.
+		!editorValidation.shown ||
+			reach(dataSchema, 'questions[].question').isValidSync(
+				data.questions[selected_question].question
+			)
 	);
 	// Reordering is a move of the question plus a move of the selection: the author is
 	// still editing the same question after it changes position, so the selection has

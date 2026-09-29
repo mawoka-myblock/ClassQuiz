@@ -107,6 +107,12 @@ async def init_editor(
     return InitEditorResponse(token=edit_id)
 
 
+async def _end_session(edit_id: str):
+    await redis.srem("edit_sessions", edit_id)
+    await redis.delete(f"edit_session:{edit_id}")
+    await redis.delete(f"edit_session:{edit_id}:images")
+
+
 @router.post("/finish")
 async def finish_edit(
     request: Request,
@@ -116,7 +122,39 @@ async def finish_edit(
     user: User | None = Depends(get_current_user_optional),
     x_anon_secret: str | None = Header(default=None, alias="X-Anon-Secret"),
 ):
+    """Save and close the edit session."""
     await rate_limit(request, "editor_finish", limit=30, window_seconds=60)
+    return await _persist(response, edit_id, quiz_input, user, x_anon_secret, keep_session=False)
+
+
+@router.post("/save")
+async def save_edit(
+    request: Request,
+    response: Response,
+    edit_id: str,
+    quiz_input: QuizInput,
+    user: User | None = Depends(get_current_user_optional),
+    x_anon_secret: str | None = Header(default=None, alias="X-Anon-Secret"),
+):
+    """Save and keep editing: the editor's autosave (MVP.md D14).
+
+    Unfinished quizzes save; /quiz/start is what refuses them. The session stays open and
+    its hour starts again, so an editor left open no longer loses its session mid-edit.
+    The first save of a new quiz creates it, and the session then edits that quiz.
+    """
+    await rate_limit(request, "editor_save", limit=60, window_seconds=60)
+    return await _persist(response, edit_id, quiz_input, user, x_anon_secret, keep_session=True)
+
+
+async def _persist(
+    response: Response,
+    edit_id: str,
+    quiz_input: QuizInput,
+    user: User | None,
+    x_anon_secret: str | None,
+    *,
+    keep_session: bool,
+):
     session_data = await redis.get(f"edit_session:{edit_id}")
     if session_data is None:
         raise HTTPException(status_code=401, detail="Edit ID not found!")
@@ -137,7 +175,8 @@ async def finish_edit(
         quiz_input.background_color = bleach.clean(quiz_input.background_color, tags=[], strip=True)
 
     for i, question in enumerate(quiz_input.questions):
-        if question.type == QuizQuestionType.ABCD or question.type == QuizQuestionType.VOTING:
+        # CHECK was missing here, so its answers were stored exactly as sent.
+        if question.type in (QuizQuestionType.ABCD, QuizQuestionType.CHECK, QuizQuestionType.VOTING):
             for i2, answer in enumerate(question.answers):
                 if answer.color is not None:
                     quiz_input.questions[i].answers[i2].color = bleach.clean(answer.color, tags=[], strip=True)
@@ -195,16 +234,13 @@ async def finish_edit(
         raise HTTPException(status_code=400, detail="image url is not valid")
 
     if session_data.edit:
+        if old_quiz_data is None:
+            # The quiz was deleted while its editor was still open.
+            raise HTTPException(status_code=404, detail="Quiz not found")
+        # arq pickles its arguments here, so updating this object below does not reach
+        # the job: it still diffs the images against the quiz as it was.
         await arq.enqueue_job("quiz_update", old_quiz_data, old_quiz_data.id, _defer_by=2)
         quiz = old_quiz_data
-        if not is_anonymous:
-            # get_meili_data looks up the owning user, which anonymous
-            # quizzes don't have -- and they're never indexed anyway.
-            meilisearch.index(settings.meilisearch_index).update_documents([await get_meili_data(quiz)])
-            if not quiz_input.public:
-                meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
-            else:
-                meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         quiz.title = quiz_input.title
         quiz.public = quiz_input.public
         quiz.description = quiz_input.description
@@ -220,10 +256,19 @@ async def finish_edit(
                     await storage.delete([image])
                 except DeletionFailedError:
                     pass
-        await redis.srem("edit_sessions", edit_id)
-        await redis.delete(f"edit_session:{edit_id}")
-        await redis.delete(f"edit_session:{edit_id}:images")
         await quiz.update()
+        if not is_anonymous:
+            # get_meili_data looks up the owning user, which anonymous quizzes don't have --
+            # and they're never indexed anyway. This used to run before the fields above
+            # were assigned, so the index always held the previous save's title.
+            if quiz.public:
+                meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
+            else:
+                meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
+        if keep_session:
+            await redis.expire(f"edit_session:{edit_id}", 3600)
+        else:
+            await _end_session(edit_id)
         return quiz
     else:
         raw_anon_secret = None
@@ -247,12 +292,17 @@ async def finish_edit(
         if quiz_input.public:
             meilisearch.index(settings.meilisearch_index).add_documents([await get_meili_data(quiz)])
         try:
-            await redis.srem("edit_sessions", edit_id)
-            await redis.delete(f"edit_session:{edit_id}")
-            await redis.delete(f"edit_session:{edit_id}:images")
+            if not keep_session:
+                await _end_session(edit_id)
             await quiz.save()
         except asyncpg.exceptions.UniqueViolationError:
             raise HTTPException(status_code=400, detail="The quiz already exists")
+        if keep_session:
+            # From here on this session edits the quiz it just created, so the next autosave
+            # updates it instead of creating it a second time. Only once the row exists: done
+            # before the save, a failed save left the session pointing at a missing quiz.
+            now_editing = EditSessionData(quiz_id=session_data.quiz_id, edit=True, user_id=session_data.user_id)
+            await redis.set(f"edit_session:{edit_id}", now_editing.model_dump_json(), ex=3600)
         new_images = extract_image_ids_from_quiz(quiz)
         for image in new_images:
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))

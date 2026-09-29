@@ -4,6 +4,18 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Editor autosave and drafts (MVP §4.5, D14)
+
+- The editor now autosaves to the server a couple of seconds after you stop typing, once the quiz has a title and a question. A new quiz is created on its first save, and the address changes to its edit page, so a reload reopens it. Back saves before leaving.
+- Nothing is marked red until you first press Save. Save on an unfinished quiz keeps it as a draft and says how many questions are left; on a finished quiz it goes to the quiz page as before.
+- A quiz with an unfinished question is a draft. The server refuses to start one, and the quiz page and My Quizzes show a Draft badge with Play disabled. There is no new database column: draft is worked out from the questions, by the same rule in the editor and on the server.
+- Old quizzes with TEXT, VOTING or ORDER questions are no longer flagged as unfinished. The completeness check only knew the ABCD rule, and with Start now enforcing it those quizzes would have become unplayable.
+- The description is optional, and the field says so and has a placeholder. It used to be required, at least three characters, and nothing on the page said so.
+- The search index is now updated after a quiz is saved, not before, so it no longer lags one save behind. An edit session also stays alive while autosave runs, where it used to expire after an hour, making Save fail with "Edit ID not found".
+- CHECK answers now get the same HTML cleaning on save as ABCD answers.
+- The question-limit message said 32 while the limit is 50; it now says 50.
+- Starting a game that the server refuses now shows the server's reason instead of a generic failure.
+
 ### Practice rebuilt, Download is Excel only (MVP §4.4, D3 and D5)
 
 - Rebuilt Practice. Picking an answer threw an error, because every answer loop referred to an `i` that was never declared, so practice had never worked. It also leaked a timer per question and reshuffled the quiz it was showing. It now uses the live game's answer tiles, has no timer, reveals ABCD answers on click, lets you tick CHECK answers and then submit, scores with the game's rules, and ends on a score with Practice again and Back to quiz. Question types the MVP doesn't offer show a notice and a Next button.

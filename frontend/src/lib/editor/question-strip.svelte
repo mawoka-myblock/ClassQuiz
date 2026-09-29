@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { EditorData } from '../quiz_types';
 	import { getLocalization } from '$lib/i18n';
 	import { isQuestionComplete } from '$lib/editor/question_complete';
+	import { editorValidation } from '$lib/editor/validation.svelte';
 	import { htmlToPlainText } from '$lib/sanitize';
 	import AddNewQuestionPopup from '$lib/editor/AddNewQuestionPopup.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -152,7 +153,7 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<span class="flex w-full items-center gap-1.5">
 					<span class="text-muted-foreground text-xs tabular-nums">{index + 1}</span>
-					{#if !isQuestionComplete(question)}
+					{#if editorValidation.shown && !isQuestionComplete(question)}
 						<span
 							class="bg-destructive size-1.5 shrink-0 rounded-full"
 							title={$t('editor.question_incomplete')}

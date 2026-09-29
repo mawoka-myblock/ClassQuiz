@@ -84,24 +84,28 @@ test.describe('malformed questions', () => {
 		});
 	}
 
-	test('no correct answer, and every answer correct, both save and start', async ({
+	// Both save. Since drafts (MVP.md D14) a question with no correct answer is unfinished,
+	// so the quiz is a draft and will not start; every answer correct is still playable.
+	test('no correct answer saves as a draft that will not start; every answer correct starts', async ({
 		request
 	}) => {
-		const res = await saveQuiz(
-			request,
-			quizWith([
-				mc('none right', [
-					['a', false],
-					['b', false]
-				]),
-				mc('all right', [
-					['a', true],
-					['b', true]
-				])
-			])
-		);
-		expect(res.status).toBe(200);
-		expect((await start(request, res.body.id, res.secret)).status()).toBe(200);
+		const none_right = mc('none right', [
+			['a', false],
+			['b', false]
+		]);
+		const all_right = mc('all right', [
+			['a', true],
+			['b', true]
+		]);
+		const draft = await saveQuiz(request, quizWith([none_right, all_right]));
+		expect(draft.status).toBe(200);
+		const refused = await start(request, draft.body.id, draft.secret);
+		expect(refused.status()).toBe(400);
+		expect((await refused.json()).detail).toContain('question 1');
+
+		const playable = await saveQuiz(request, quizWith([all_right]));
+		expect(playable.status).toBe(200);
+		expect((await start(request, playable.body.id, playable.secret)).status()).toBe(200);
 	});
 });
 

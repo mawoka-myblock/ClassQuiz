@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
 	import { isQuestionComplete } from '$lib/editor/question_complete';
+	import { editorValidation } from '$lib/editor/validation.svelte';
 	import { moveItem, selectionAfterMove } from '$lib/editor/reorder';
 	import { sanitizeTitleHtml, htmlToPlainText } from '$lib/sanitize';
 	import AddNewQuestionPopup from '$lib/editor/AddNewQuestionPopup.svelte';
@@ -156,8 +157,10 @@ SPDX-License-Identifier: MPL-2.0
 					content: data.title === '' ? "It's empty!" : htmlToPlainText(data.title)
 				}}
 				class="border-border m-1 rounded-md border p-1 transition"
-				class:ring-2={!reach(dataSchema, 'title').isValidSync(data.title)}
-				class:ring-destructive={!reach(dataSchema, 'title').isValidSync(data.title)}
+				class:ring-2={editorValidation.shown &&
+					!reach(dataSchema, 'title').isValidSync(data.title)}
+				class:ring-destructive={editorValidation.shown &&
+					!reach(dataSchema, 'title').isValidSync(data.title)}
 			>
 				<p
 					type="text"
@@ -173,10 +176,10 @@ SPDX-License-Identifier: MPL-2.0
 			<div
 				use:tippy={{ content: data.description === '' ? "It's empty!" : data.description }}
 				class="border-border m-1 rounded-md border p-1 transition"
-				class:ring-2={!reach(dataSchema, 'description').isValidSync(data.description)}
-				class:ring-destructive={!reach(dataSchema, 'description').isValidSync(
-					data.description
-				)}
+				class:ring-2={editorValidation.shown &&
+					!reach(dataSchema, 'description').isValidSync(data.description)}
+				class:ring-destructive={editorValidation.shown &&
+					!reach(dataSchema, 'description').isValidSync(data.description)}
 			>
 				<textarea
 					bind:value={data.description}
@@ -288,7 +291,7 @@ SPDX-License-Identifier: MPL-2.0
 					<span class="text-muted-foreground w-4 shrink-0 text-xs tabular-nums"
 						>{index + 1}</span
 					>
-					{#if !isQuestionComplete(question)}
+					{#if editorValidation.shown && !isQuestionComplete(question)}
 						<span
 							class="bg-destructive size-2 shrink-0 rounded-full"
 							title={$t('editor.question_incomplete')}
@@ -326,13 +329,14 @@ SPDX-License-Identifier: MPL-2.0
 									class="flex items-center gap-1 truncate rounded-md border px-1.5 py-0.5 text-sm whitespace-nowrap {answer.right
 										? 'border-primary/40 bg-primary/10'
 										: 'border-border bg-muted text-muted-foreground'}"
-									class:ring-2={!reach(ABCDQuestionSchema, 'answer').isValidSync(
-										answer.answer
-									)}
-									class:ring-destructive={!reach(
-										ABCDQuestionSchema,
-										'answer'
-									).isValidSync(answer.answer)}
+									class:ring-2={editorValidation.shown &&
+										!reach(ABCDQuestionSchema, 'answer').isValidSync(
+											answer.answer
+										)}
+									class:ring-destructive={editorValidation.shown &&
+										!reach(ABCDQuestionSchema, 'answer').isValidSync(
+											answer.answer
+										)}
 									use:tippy={{
 										content:
 											answer.answer === ''
@@ -361,13 +365,14 @@ SPDX-License-Identifier: MPL-2.0
 							{#each question.answers as answer}
 								<span
 									class="border-border bg-muted text-muted-foreground truncate rounded-md border px-1.5 py-0.5 text-center text-sm whitespace-nowrap"
-									class:ring-2={!reach(ABCDQuestionSchema, 'answer').isValidSync(
-										answer.answer
-									)}
-									class:ring-destructive={!reach(
-										ABCDQuestionSchema,
-										'answer'
-									).isValidSync(answer.answer)}
+									class:ring-2={editorValidation.shown &&
+										!reach(ABCDQuestionSchema, 'answer').isValidSync(
+											answer.answer
+										)}
+									class:ring-destructive={editorValidation.shown &&
+										!reach(ABCDQuestionSchema, 'answer').isValidSync(
+											answer.answer
+										)}
 									use:tippy={{
 										content:
 											answer.answer === ''

@@ -315,7 +315,18 @@
     "start_failed_detail": "The server turned down the request to start an editing session. If this keeps happening, the quiz may no longer exist, or you may not have permission to edit it.",
     "save_failed": "Could not save: {{detail}}",
     "title_too_long": "The title has to be shorter than {{max}} characters",
-    "description_too_long": "The description has to be shorter than {{max}} characters"
+    "description_too_long": "The description has to be shorter than {{max}} characters",
+    "optional": "optional",
+    "description_placeholder": "What is this quiz about? Players see this before they start.",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "saved_draft": "Saved as a draft",
+    "offline": "the server could not be reached",
+    "cannot_save_yet": "Give the quiz a title and at least one question to save it",
+    "draft_needs_attention_one": "Saved as a draft. {{count}} question needs finishing before it can be played",
+    "draft_needs_attention_other": "Saved as a draft. {{count}} questions need finishing before they can be played",
+    "draft_needs_attention_short_one": "Draft: {{count}} to finish",
+    "draft_needs_attention_short_other": "Draft: {{count}} to finish"
   },
   "import_page": {
     "need_help": "Need help?",
@@ -736,5 +747,10 @@
     "done": "Practice finished",
     "final_score": "{{score}} / {{count}}",
     "again": "Practice again"
+  },
+  "draft": {
+    "badge": "Draft",
+    "hint_owner": "This quiz is a draft. Finish the questions marked in the editor, then it can be played.",
+    "hint": "This quiz isn't finished yet, so it can't be played."
   }
 }

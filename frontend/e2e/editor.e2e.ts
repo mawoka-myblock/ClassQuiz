@@ -112,17 +112,92 @@ test('build a quiz by hand, save it, and play it', async ({ page, request }) => 
 	expect(row('1', 'halfset').right).toBe(false);
 });
 
-test('Save stays off with no questions, and with a blank answer', async ({ page }) => {
+// MVP.md D14: nothing is marked missing until the first Save, an unfinished quiz is kept
+// as a draft rather than refused, and the editor saves on its own.
+test('nothing is marked red before Save, and Save with no questions says what is needed', async ({
+	page
+}) => {
 	await startNewQuiz(page, `Guard ${Date.now()}`);
-	await expect(saveButton(page)).toBeDisabled();
-	await expect(page.getByText('You need at least one question')).toBeVisible();
-	await addQuestion(page, /^Multiple-Choice/, 'Complete', [
-		['One', false],
-		['Two', true]
+	await addQuestion(page, /^Multiple-Choice/, '', [
+		['', false],
+		['', false]
 	]);
-	await expect(saveButton(page)).toBeEnabled();
-	await page.getByRole('textbox', { name: 'Enter an answer' }).first().fill('');
-	await expect(saveButton(page)).toBeDisabled();
+	await expect(page.getByText('Incomplete')).toHaveCount(0);
+	await expect(page.locator('.ring-destructive')).toHaveCount(0);
+
+	await page.goto('/create');
+	await titleBox(page).fill(`Empty ${Date.now()}`);
+	await saveButton(page).click();
+	await expect(
+		page.getByText('Give the quiz a title and at least one question to save it')
+	).toBeVisible();
+	await expect(page).toHaveURL(/\/create$/);
+});
+
+test('an unfinished quiz saves as a draft, and Save shows what is left', async ({
+	page,
+	request
+}) => {
+	await startNewQuiz(page, `Draft ${Date.now()}`);
+	await addQuestion(page, /^Multiple-Choice/, 'No right answer yet', [
+		['One', false],
+		['Two', false]
+	]);
+	await saveButton(page).click();
+	await expect(
+		page.getByText('Saved as a draft. 1 question needs finishing before it can be played')
+	).toBeVisible();
+	await expect(page.getByText('Incomplete').first()).toBeAttached();
+	// It stayed in the editor, which now edits the stored quiz.
+	await expect(page).toHaveURL(/\/edit\?quiz_id=/);
+	const id = new URL(page.url()).searchParams.get('quiz_id')!;
+	const secret = await anonSecret(page, id);
+	const start = await request.post(`/api/v1/quiz/start/${id}?game_mode=kahoot`, {
+		headers: { 'X-Anon-Secret': secret }
+	});
+	expect(start.status(), 'the server will not start a draft').toBe(400);
+
+	// Finishing it clears the message, and Save then goes to the quiz.
+	await page.getByRole('button', { name: 'Mark as correct: Two', exact: true }).click();
+	await expect(page.getByText(/Saved as a draft/)).toHaveCount(0);
+	await saveButton(page).click();
+	await page.waitForURL(new RegExp(`/view/${id}$`));
+});
+
+test('the editor saves on its own, and a reload reopens the saved quiz', async ({
+	page,
+	request
+}) => {
+	const title = `Autosaved ${Date.now()}`;
+	await startNewQuiz(page, title);
+	await addQuestion(page, /^Multiple-Choice/, 'Kept without Save', [
+		['A', true],
+		['B', false]
+	]);
+	await expect(page).toHaveURL(/\/edit\?quiz_id=/, { timeout: 15_000 });
+	await expect(page.getByText('Saved', { exact: true })).toBeVisible();
+	const id = new URL(page.url()).searchParams.get('quiz_id')!;
+	const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();
+	expect(stored.title).toContain('Autosaved');
+	expect(stored.questions[0].answers.map((a: { answer: string }) => a.answer)).toEqual([
+		'A',
+		'B'
+	]);
+
+	await page.reload();
+	await expect(titleBox(page).first()).toContainText('Autosaved', { timeout: 20_000 });
+
+	// A later edit is saved too: an update, not a second quiz.
+	await page.getByRole('textbox', { name: 'Description' }).first().fill('Changed later');
+	await expect
+		.poll(
+			async () =>
+				(await (await request.get(`/api/v1/quiz/get/public/${id}`)).json()).description,
+			{
+				timeout: 15_000
+			}
+		)
+		.toBe('Changed later');
 });
 
 test('the timer field cannot produce a timer the game cannot run', async ({ page, request }) => {
@@ -134,18 +209,19 @@ test('the timer field cannot produce a timer the game cannot run', async ({ page
 	const timer = page.getByRole('spinbutton', { name: /Time in seconds/ });
 	for (const bad of ['0', '-5']) {
 		await timer.fill(bad);
-		const saveable = await saveButton(page).isEnabled();
-		if (saveable) {
-			await saveButton(page).click();
-			await page.waitForURL(/\/view\//);
-			const id = page.url().split('/view/')[1];
+		await saveButton(page).click();
+		// Save is always pressable now (D14); an unusable timer keeps the quiz a draft, and
+		// the server refuses to store one.
+		await page.waitForTimeout(1000);
+		expect(page.url()).not.toMatch(/\/view\//);
+		const id = new URL(page.url()).searchParams.get('quiz_id');
+		if (id) {
 			const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();
 			test.info().annotations.push({
 				type: `timer ${bad} stored as`,
 				description: stored.questions[0].time
 			});
 			expect(Number(stored.questions[0].time), `timer "${bad}" was saved`).toBeGreaterThan(0);
-			return;
 		}
 	}
 });
@@ -178,15 +254,16 @@ test('the editor fits a phone', async ({ browser }) => {
 });
 
 test.describe('regressions', () => {
-	test('a question with no correct answer blocks Save', async ({ page }) => {
+	test('a question with no correct answer cannot reach the view page', async ({ page }) => {
 		await startNewQuiz(page, `No right ${Date.now()}`);
 		await addQuestion(page, /^Multiple-Choice/, 'No right answer', [
 			['One', false],
 			['Two', false]
 		]);
-		await expect(saveButton(page)).toBeDisabled({ timeout: 3000 });
-		// And says why, rather than a greyed-out button with no reason.
-		await expect(page.getByText('1 question needs attention')).toBeVisible();
+		await saveButton(page).click();
+		// It is kept as a draft and says why, rather than saving an unplayable quiz silently.
+		await expect(page.getByText(/1 question needs finishing/)).toBeVisible();
+		expect(page.url()).not.toMatch(/\/view\//);
 	});
 
 	test("the editor's Back link does not send an anonymous user to a login wall", async ({

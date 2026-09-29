@@ -77,9 +77,13 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 
 		<label class="flex flex-col gap-2">
-			<span class="text-muted-foreground text-sm font-medium">{$t('words.description')}</span>
+			<span class="text-muted-foreground text-sm font-medium">
+				{$t('words.description')}
+				<span class="font-normal">({$t('editor.optional')})</span>
+			</span>
 			<textarea
 				bind:value={data.description}
+				placeholder={$t('editor.description_placeholder')}
 				class="border-input bg-background focus-visible:ring-ring h-24 w-full resize-none rounded-lg border p-3 focus-visible:ring-2 focus-visible:outline-none"
 			></textarea>
 			<span

@@ -200,7 +200,7 @@ Owner column: **G** Gonçalo, **F** François, **G+F** both.
 | D11 | WebAuthn and ratings endpoints: flag-gate, or accept as live | Flag-gate like QuizTivity. Done 2026-09-29: `ENABLE_WEBAUTHN` gates adding a key (listing, deleting and signing in with an existing key still work, as with TOTP); `ENABLE_RATINGS` gates rating | ☑ | ☐ |
 | D12 | View page shows the answer key (correct answers, ORDER sequence, TEXT answers, RANGE bounds) to the quiz's owner only | Yes — a visitor may play it later. Presentation only: the public API still returns the answers | ☑ | ☐ |
 | D13 | What "private" means: today anyone with the link can open a private quiz's view page (only the owner can start it) | **G (2026-09-29): relabel it "Unlisted"** — public = in Discover, unlisted = link only. No backend change | ☑ | ☐ |
-| D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt | ☑ | ☐ |
+| D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt. **Done 2026-09-29**, see §4.5; the draft state is derived from the questions rather than stored | ☑ | ☐ |
 | D15 | Hide `/remote`, public profiles (`/user/[id]`), the avatar editor, and the Files library (`/edit/files`, `/dashboard/files`, `/edit/videos`) | **G (2026-09-29): hide all** | ☑ | ☐ |
 
 G's ticks above were given in Claude sessions on 2026-09-28 and 2026-09-29. D12 is already
@@ -280,10 +280,10 @@ The plan is already written up in `BACKLOG.md` → "Design the view page". Code 
 
 Drafts first — they are small and help whichever editor we end up with.
 
-- [ ] A new or incomplete quiz is a **draft**: no red rings on untouched empty fields; show "N questions incomplete" as information, not error
-- [ ] Only block **Start**, not **Save**, on incomplete questions (today Save is blocked, so a half-built quiz can't be kept). **Needs a backend change too:** `QuizInput` rejects a quiz with no questions or a question with no answers (the M5/M6 fixes). Either add a draft flag that relaxes validation on save and enforces it in `quiz/start`, or keep drafts client-side until they're valid
-- [ ] Label/placeholder on the description field (today an unexplained red box)
-- [ ] Fix the question-cap message: the schema caps at 50 but says 32 (`lib/yupSchemas.ts:121`)
+- [x] A new or incomplete quiz is a **draft**: nothing is marked red until the first Save. After that the rail, strip, canvas and header point at what is missing, and update live. Over-length counters still show straight away (`lib/editor/validation.svelte.ts`)
+- [x] Only block **Start**, not **Save**. The editor **autosaves** to the server 2.5s after typing pauses, once the quiz has a title and a question (`POST /editor/save`, which keeps the edit session open; a new quiz's first save creates it and the URL becomes `/edit?quiz_id=`). Save on an unfinished quiz keeps it as a draft and says what is left; on a finished one it goes to the view page. Back saves first. **No draft column:** a quiz is a draft when a question is unfinished, worked out from its questions by one rule on both sides (`lib/editor/question_complete.ts` and `frogquiz/helpers/completeness.py`), so a flag can never disagree with the quiz. `quiz/start` refuses drafts with a 400 naming the questions; the view page and My Quizzes show a **Draft** badge and disable Play. The server already accepted incomplete quizzes, so `QuizInput` did not need relaxing. Pinned by `e2e/editor.e2e.ts` and `e2e/drafts.e2e.ts`
+- [x] Label/placeholder on the description field. It is now optional too: it was required, at least three characters, with nothing saying so
+- [x] Fix the question-cap message: the schema caps at 50 but said 32
 - [ ] **Redesign:** one scrolling column of question cards, each editing its question and answers in place, "+" between and after cards (Google Forms / Kahoot style), drag-to-reorder kept; the rail becomes an optional outline on wide screens and a drawer below `lg`
 
 ### 4.6 Quality and security
@@ -293,7 +293,7 @@ Drafts first — they are small and help whichever editor we end up with.
 - [x] `await` the `check_captcha(...)` call in `join_game` (inert today, a bypass the day captcha is turned on)
 - [x] IP lookup: switch `ip-api.com` to HTTPS, or remove the endpoint — off behind `ENABLE_IP_LOOKUP` (nothing calls it, and the provider's free tier is HTTP-only); its test no longer depends on ip-api.com being up
 - [x] Decide whether "private" should mean private: `GET /quiz/get/public/{id}` serves any quiz by link today, so private currently means unlisted — relabelled **Unlisted** with a link icon and a one-line explanation in the editor (D13)
-- [ ] Close issue #13 (deletion fixed by #14; email change deferred by agreement)
+- [x] Close issue #13 (deletion fixed by #14; email change deferred by agreement) — closed 2026-09-29, with #18
 - [ ] Add `svelte-check` to CI once the ~300 errors in our own code are down (the other ~820 are inside `bits-ui`'s types)
 
 ### 4.7 Sign-off play test (the gate before sharing)

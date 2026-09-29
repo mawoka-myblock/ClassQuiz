@@ -20,6 +20,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { get_foreground_color } from '$lib/helpers.ts';
 	import { anonDaysLeft, getAnonSecret, clearAnonSecret } from '$lib/anon_quiz';
 	import { sanitizeTitleHtml, htmlToPlainText } from '$lib/sanitize';
+	import { isQuestionComplete } from '$lib/editor/question_complete';
 	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import { Badge } from '$lib/components/ui/badge/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
@@ -86,6 +87,13 @@ SPDX-License-Identifier: MPL-2.0
 
 	// Anyone signed in can host a public quiz; signed out, only its anonymous creator.
 	const can_start = $derived(logged_in || owns_anonymously);
+
+	// A draft is a quiz with at least one unfinished question -- the same rule the
+	// server uses (frogquiz/helpers/completeness.py) to refuse POST /quiz/start.
+	// There is no draft column; this is computed the same way on every render.
+	const is_draft = $derived(
+		quiz.questions.length === 0 || quiz.questions.some((q) => !isQuestionComplete(q))
+	);
 
 	// An anonymous quiz is swept 30 days after creation. The holder of the secret
 	// is the only person who can act on that, so they are the one who has to be
@@ -303,6 +311,9 @@ SPDX-License-Identifier: MPL-2.0
 					<Badge variant="secondary">
 						{quiz.public ? $t('words.public') : $t('words.private')}
 					</Badge>
+					{#if is_draft}
+						<Badge variant="outline">{$t('draft.badge')}</Badge>
+					{/if}
 					<span>
 						{quiz.questions.length}
 						{$t('words.question', { count: quiz.questions.length })}
@@ -323,9 +334,13 @@ SPDX-License-Identifier: MPL-2.0
 				<!-- Start is the one primary action; everything else is outline or ghost. -->
 				<Button
 					size="lg"
-					disabled={!can_start}
+					disabled={!can_start || is_draft}
 					onclick={() => (start_game = quiz.id)}
-					aria-describedby={can_start ? undefined : 'signed-out-hint'}
+					aria-describedby={is_draft
+						? 'draft-hint'
+						: can_start
+							? undefined
+							: 'signed-out-hint'}
 				>
 					<Play />
 					{$t('words.play')}
@@ -415,6 +430,11 @@ SPDX-License-Identifier: MPL-2.0
 			</Card.Footer>
 			<!-- Said in text rather than a tooltip: a disabled button can't be hovered or
 			     focused on a phone, so a tooltip on it is never seen. -->
+			{#if is_draft}
+				<p id="draft-hint" class="text-muted-foreground -mt-2 px-6 text-sm">
+					{is_owner ? $t('draft.hint_owner') : $t('draft.hint')}
+				</p>
+			{/if}
 			{#if !logged_in}
 				<p id="signed-out-hint" class="text-muted-foreground -mt-2 px-6 text-sm">
 					{can_start
