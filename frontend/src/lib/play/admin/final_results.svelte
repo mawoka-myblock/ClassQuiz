@@ -53,10 +53,10 @@ SPDX-License-Identifier: MPL-2.0
 			// with the screen it is thrown on, with a floor for short windows.
 			height:
 				p.place === 1
-					? 'h-[38vh] min-h-44'
+					? 'h-[22vh] min-h-32 sm:h-[38vh] sm:min-h-44'
 					: p.place === 2
-						? 'h-[26vh] min-h-32'
-						: 'h-[18vh] min-h-24',
+						? 'h-[16vh] min-h-24 sm:h-[26vh] sm:min-h-32'
+						: 'h-[11vh] min-h-20 sm:h-[18vh] sm:min-h-24',
 			// Built up from last place to first, so the winner lands last.
 			delay: reduced ? 0 : FIRST_REVEAL_MS + (3 - p.place) * REVEAL_GAP_MS
 		}))
@@ -103,7 +103,7 @@ SPDX-License-Identifier: MPL-2.0
 		     something. A full-strength rule that runs wider than the blocks reads as
 		     ground. -->
 		<div
-			class="border-foreground/25 flex w-full max-w-4xl items-end justify-center gap-4 border-b-4 px-8 sm:gap-6"
+			class="border-foreground/25 flex w-full max-w-4xl items-end justify-center gap-2 border-b-4 px-2 sm:gap-6 sm:px-8"
 		>
 			{#each podium as p (p.name)}
 				<div class="flex min-w-0 flex-1 flex-col items-center gap-3">
@@ -142,10 +142,11 @@ SPDX-License-Identifier: MPL-2.0
 					>
 						<span class="fq-display font-bold tabular-nums">{p.place}</span>
 						<span
-							class="px-1 text-center text-[0.7rem] font-medium uppercase tracking-wider"
+							class="hidden px-1 text-center text-[0.7rem] font-medium tracking-wider uppercase sm:block"
 						>
 							{place_label(p.place)}
 						</span>
+						<span class="sr-only">{place_label(p.place)}</span>
 					</div>
 				</div>
 			{/each}

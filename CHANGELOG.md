@@ -6,6 +6,9 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### One radius scale, and a stack that starts on Linux and macOS
 
+- The podium and the host's screens now fit a phone. A host can run a game from one, and the actions panel was a 176px block pinned top-right — 44% of a 390px screen, sitting on top of the podium. It is a row along the bottom below `sm`, clear of the safe area, and the podium's blocks keep a usable width instead of stretching into thermometers.
+- Pinned it: `podium.e2e.ts` walks the lobby, the question, the per-question results and the podium at 390px and asserts no horizontal overflow at each step, on the host and on the player.
+
 - Corners come off one scale now. Four places rendered a **4px** corner while everything around them was 8–25px: a bare `rounded`, `rounded-t` or `rounded-b` resolves to Tailwind's own `--radius` (0.25rem), which our `:root` override does not reach because Tailwind keeps it in a `reference` layer. The modal in `lib/modals/alert.svelte` was the worst of them — a 14px shell with 4px header and footer rows.
 - The landing and join cards were 5.6px rounder than the Card primitive and every other surface; they match now. On the quiz page the question card and the answer tiles inside it were both 19.6px, which reads as two mismatched arcs sharing a corner — the card went up a step. The QR code in the lobby was under-rounded by 17px inside its tile.
 - The host's answer row was drawn two ways: 25.2px and palette-coloured for ABCD, 14px on a hardcoded upstream brown with black ink for TEXT. They match, and the brown is gone — it was invisible on a dark quiz background.

@@ -260,7 +260,12 @@ SPDX-License-Identifier: MPL-2.0
 			     rendered as two misaligned pills of different widths hand-placed with
 			     magic numbers. One stack, below the h-12 controls bar, both the same
 			     width. -->
-			<div class="fixed top-16 right-4 z-30 flex w-44 flex-col items-stretch gap-2">
+			<!-- A host can run a game from a phone, where a 176px panel pinned top-right covers
+			     the podium it is sitting on. Below sm it is a row along the bottom instead,
+			     clear of the safe area. -->
+			<div
+				class="fixed inset-x-3 bottom-3 z-30 flex flex-row items-stretch gap-2 pb-[env(safe-area-inset-bottom,0px)] sm:inset-x-auto sm:top-16 sm:right-4 sm:bottom-auto sm:w-44 sm:flex-col sm:pb-0"
+			>
 				<!-- "Download results" used to be the only action here, which left the host
 				     stuck on the podium with nowhere to go once a game ended. -->
 				<!-- /my-quizzes for everyone: it lists account quizzes when signed in and

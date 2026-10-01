@@ -87,3 +87,72 @@ test('the podium reveals third, then second, then first', async ({ browser, requ
 	await hostCtx.close();
 	for (const pl of players) await pl.ctx.close();
 });
+
+// A host can run a game from a phone -- anonymous hosting makes that the likely case for
+// a quick round -- so the projector surfaces have to survive 390px as well as 1920.
+test('the game surfaces fit a phone, from the lobby to the podium', async ({
+	browser,
+	request
+}) => {
+	test.setTimeout(5 * 60_000);
+	const saved = await saveQuiz(request, {
+		title: 'Phone host',
+		description: 'one',
+		questions: [
+			mc(
+				'How many legs does a frog have?',
+				[
+					['Four', true],
+					['Two', false],
+					['Six', false],
+					['None', false]
+				],
+				'5'
+			)
+		]
+	});
+	const hostCtx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+	const host = await hostCtx.newPage();
+	await rememberAnonQuiz(host, saved.body.id, saved.secret!);
+	const overflow = () =>
+		host.evaluate(
+			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
+		);
+
+	const pin = await hostFromViewPage(host, saved.body.id);
+	expect(await overflow(), 'lobby').toBeLessThanOrEqual(0);
+
+	const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+	const phone = await ctx.newPage();
+	await gotoPlayHydrated(phone);
+	await phone.getByRole('textbox', { name: 'Game PIN' }).fill(pin);
+	await phone.getByRole('textbox', { name: 'Username' }).fill('Robin');
+	await phone.getByRole('button', { name: 'Submit' }).click();
+	await host.waitForTimeout(900);
+
+	await host.getByRole('button', { name: /Start game/ }).first().click();
+	await host.waitForTimeout(800);
+	await host.getByRole('button', { name: /Next Question/ }).first().click();
+	await host.waitForTimeout(1200);
+	expect(await overflow(), 'question').toBeLessThanOrEqual(0);
+	await phone.getByRole('button', { name: /Four/ }).first().click();
+
+	await host.waitForTimeout(6500);
+	await host.getByRole('button', { name: /Show results/ }).first().click();
+	await host.waitForTimeout(1400);
+	expect(await overflow(), 'per-question results').toBeLessThanOrEqual(0);
+	expect(
+		await phone.evaluate(
+			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
+		),
+		'the player feedback card'
+	).toBeLessThanOrEqual(0);
+
+	await host.getByRole('button', { name: 'Get final results' }).click();
+	await host.waitForTimeout(5000);
+	expect(await overflow(), 'podium').toBeLessThanOrEqual(0);
+	await expect(host.locator('.podium-block.is-gold')).toBeVisible();
+
+	await hostCtx.close();
+	await ctx.close();
+});
