@@ -210,8 +210,7 @@ SPDX-License-Identifier: MPL-2.0
 					<Badge variant="outline">{$t('draft.badge')}</Badge>
 				{/if}
 				<span>
-					{count}
-					{count === 1 ? $t('words.question') : $t('words.question_plural')}
+					{$t('words.question', { count })}
 				</span>
 				{#if days !== null}
 					<span class="inline-flex items-center gap-1">

@@ -14,7 +14,6 @@ SPDX-License-Identifier: MPL-2.0
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import ArrowRight from '@lucide/svelte/icons/arrow-right';
 	import { page } from '$app/state';
 	import JpgOpenGraph from '$lib/assets/landing/opengraph-home.jpg';
 
@@ -93,32 +92,30 @@ SPDX-License-Identifier: MPL-2.0
 				</div>
 			</form>
 
-			<div class="text-muted-foreground mt-8 text-center text-sm">
-				<span>{$t('index_page.hosting')}</span>
-				<a
-					href="/my-quizzes"
-					class="text-foreground ml-1 inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
-				>
-					{$t('index_page.host_cta')}
-					<ArrowRight class="size-3.5" aria-hidden="true" />
-				</a>
+			<!-- Hosting is the other half of the product, not a footnote: these were three
+			     muted text links under the PIN box, which put making a quiz below logging in
+			     in the hierarchy even though no account is needed for it. Two secondary
+			     buttons instead, the same weight as Log in in the navbar. -->
+			<div class="mt-7 flex items-center gap-3" aria-hidden="true">
+				<span class="bg-border h-px flex-1"></span>
+				<span class="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+					{$t('index_page.hosting')}
+				</span>
+				<span class="bg-border h-px flex-1"></span>
 			</div>
 
-			<div class="mt-2 flex flex-col items-center gap-1 text-center text-sm">
-				<a
-					href="/create"
-					class="text-muted-foreground inline-flex items-center gap-1 underline-offset-4 hover:underline"
-				>
-					{$t('index_page.create_anon')}
-					<ArrowRight class="size-3.5" aria-hidden="true" />
-				</a>
-				<a
-					href="/my-quizzes"
-					class="text-muted-foreground underline-offset-4 hover:underline"
-				>
-					{$t('device_quizzes.title')}
-				</a>
+			<div class="mt-5 grid gap-2 sm:grid-cols-2">
+				<Button href="/create" variant="outline" size="lg" class="h-11">
+					{$t('index_page.create_cta')}
+				</Button>
+				<Button href="/my-quizzes" variant="outline" size="lg" class="h-11">
+					{$t('index_page.host_cta')}
+				</Button>
 			</div>
+
+			<p class="text-muted-foreground mt-4 text-center text-xs text-balance">
+				{$t('index_page.create_hint')}
+			</p>
 		</div>
 	</main>
 	<Footer />

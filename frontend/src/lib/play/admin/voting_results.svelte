@@ -103,7 +103,7 @@ SPDX-License-Identifier: MPL-2.0
 				<span class="w-14 shrink-0 text-right text-base font-semibold tabular-nums">
 					{count}
 					<span class="sr-only">
-						{$t('play_page.players_waiting_plural', { count })}
+						{$t('play_page.players_waiting', { count })}
 					</span>
 				</span>
 			</li>

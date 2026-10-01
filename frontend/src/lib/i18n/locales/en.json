@@ -50,7 +50,9 @@
     "join_prompt": "Enter the PIN from the host’s screen.",
     "hosting": "Running the quiz?",
     "host_cta": "Go to your quizzes",
-    "create_anon": "Create a quiz without an account"
+    "create_anon": "Create a quiz without an account",
+    "create_cta": "Create a quiz",
+    "create_hint": "No account needed. Quizzes made without one stay in this browser and are deleted after 30 days."
   },
   "overview_page": {
     "created_at": "Created at",
