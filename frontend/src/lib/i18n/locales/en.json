@@ -344,6 +344,7 @@
         "answers_submitted_one": "{{count}} answer submitted",
         "answers_submitted_other": "{{count}} answers submitted",
         "request_export_results": "Request result download",
+        "requesting_export_results": "Preparing the file\u2026",
         "download_export_results": "Download results",
         "export_results": "Export results"
     },

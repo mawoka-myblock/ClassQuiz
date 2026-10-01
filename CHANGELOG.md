@@ -6,6 +6,9 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### One radius scale, and a stack that starts on Linux and macOS
 
+- **The host's result download is one press.** "Request result download" minted a token over the socket and renamed itself to "Download results", so one action took two presses — and the hidden anchor that exists to make it one press was bound to a variable and never clicked. The button now says what it does, shows "Preparing the file…" while the token is minted, and starts the download when it arrives. Pinned by `e2e/game-export.e2e.ts`, which asserts a real spreadsheet arrives.
+- Fixed the podium's new bottom action row squeezing its second button to nothing: both buttons were `w-full` inside a flex row, which is the trap `CLAUDE.md` lists under "things that keep coming back". `flex-1 min-w-0`.
+
 - The podium and the host's screens now fit a phone. A host can run a game from one, and the actions panel was a 176px block pinned top-right — 44% of a 390px screen, sitting on top of the podium. It is a row along the bottom below `sm`, clear of the safe area, and the podium's blocks keep a usable width instead of stretching into thermometers.
 - Pinned it: `podium.e2e.ts` walks the lobby, the question, the per-question results and the podium at 390px and asserts no horizontal overflow at each step, on the host and on the player.
 
