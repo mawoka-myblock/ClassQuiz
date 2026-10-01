@@ -35,6 +35,18 @@ test('hidden routes 404 and the legal pages stay', async ({ page }) => {
 	}
 });
 
+// A hidden route used to throw from `handle`, which runs before the router, so
+// SvelteKit answered with its built-in fallback: bare "404 | Not found", no navbar, no
+// way home -- on exactly the pages we hide. They go through `reroute` now and get the
+// app's own 404.
+test('a hidden route gets the real 404 page, with a way out', async ({ page }) => {
+	const res = await page.goto('/import');
+	expect(res?.status()).toBe(404);
+	await expect(page.getByText("The page you were looking for doesn't exist")).toBeVisible();
+	await expect(page.getByRole('navigation').first()).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('href', '/');
+});
+
 test('no navbar, footer or toolbar link points at a hidden page', async ({ browser, request }) => {
 	const user = await signedInContext(browser, request);
 	for (const signedIn of [false, true]) {

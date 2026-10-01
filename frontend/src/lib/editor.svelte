@@ -184,9 +184,12 @@ SPDX-License-Identifier: MPL-2.0
 		if (res.status === 200) {
 			const json = await res.json();
 			edit_id = json.token;
-			// The baseline is taken once the editor has rendered: the rich-text fields
-			// normalise what they are given on load, and that is not an edit.
-			setTimeout(() => (saved_snapshot = JSON.stringify(data)), 500);
+			// The baseline is what the editor was given, taken now. It used to be taken
+			// 500ms later, to let the rich-text fields normalise what they loaded -- but an
+			// edit typed inside that window was swallowed by the baseline, so `unsaved` read
+			// false, Save sent nothing, and the editor went to the quiz page saying "Saved".
+			// Normalisation now costs one no-op save instead of somebody's work.
+			saved_snapshot = JSON.stringify(data);
 			return;
 		}
 		// Was `alert('Error!')` -- a native dialog with no status, no reason, and

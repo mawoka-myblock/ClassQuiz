@@ -4,6 +4,13 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Players are told whether they were right, and hidden pages have a way home
+
+- After each question a player now sees Correct! or Not this time, with a tick or a cross as well as the colour, then the points gained, their total and their place. It used to show "+760" and nothing else, so scoring 0 read as a broken game rather than a wrong answer. Nothing new crosses the socket: the right/wrong flag and the standings were already in what the server sends.
+- A player who did not answer in time is told that, instead of being shown "+0".
+- The sixteen hidden routes now 404 through the app's own error page, with the navbar, the theme and a Home button. They were guarded in `handle`, which runs before the router, so SvelteKit answered with its built-in fallback: a bare "404 | Not found" with no way out, on exactly the pages we hide. The list moved to `lib/hidden_routes.ts` and `hooks.ts` reroutes them.
+- Fixed the editor dropping an edit typed in the first half-second after it opened: the "nothing has changed yet" baseline was taken 500ms late and swallowed the change, so Save sent nothing and still went to the quiz page saying "Saved".
+
 ### The editor is one column of question cards (MVP.md D7)
 
 - The editor is now a single scrolling column: quiz setup, then a card per question, then Add. Every question in the quiz is on the page at once, the one you are working on opens in place, and the rest stay as a line of question text with its answers. This is how Google Forms and Kahoot both do it, and it replaces the left rail plus one-question canvas.

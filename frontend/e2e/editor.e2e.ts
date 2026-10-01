@@ -275,6 +275,28 @@ test.describe('regressions', () => {
 		expect(page.url()).not.toMatch(/\/view\//);
 	});
 
+	// The baseline for "has anything changed" used to be taken 500ms after the editor
+	// opened, so an edit typed inside that window was swallowed: Save sent nothing and
+	// still went to the quiz page saying "Saved".
+	test('an edit made the moment the editor opens is not swallowed', async ({ page, request }) => {
+		await startNewQuiz(page, `Fast ${Date.now()}`);
+		await addQuestion(page, /^Multiple-Choice/, 'Q', [
+			['A', true],
+			['B', false]
+		]);
+		await saveButton(page).click();
+		await page.waitForURL(/\/view\//);
+		const id = page.url().split('/view/')[1];
+
+		await page.goto(`/edit?quiz_id=${id}`);
+		// No settling wait on purpose: type as soon as the field exists.
+		await page.getByRole('textbox', { name: 'Description' }).fill('Typed immediately');
+		await saveButton(page).click();
+		await page.waitForURL(new RegExp(`/view/${id}$`));
+		const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();
+		expect(stored.description).toBe('Typed immediately');
+	});
+
 	test("the editor's Back link does not send an anonymous user to a login wall", async ({
 		page
 	}) => {
