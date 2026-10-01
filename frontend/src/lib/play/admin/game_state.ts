@@ -13,6 +13,8 @@ export interface IGameState {
 	game_id: string;
 	players: Player[];
 	player_scores: Record<string, number>;
+	/** Host-side only: the scoreboard step between the answers and the next question. */
+	scoreboard_open?: boolean;
 	selected_question: number;
 	timer_res: string;
 	question_results: any;

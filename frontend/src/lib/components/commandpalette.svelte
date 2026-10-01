@@ -129,8 +129,13 @@ This should be okay, right?
 
 		visible_items = [];
 
+		// MiniSearch returns the `id` each action was indexed under, not its position in
+		// this array -- and the ids are 0, 1, 5, 6, 8 since four actions were removed. So
+		// `actions[id]` was undefined for every search hit: the list came back empty and
+		// rendering it threw on `.args`. Look the action up by its id.
 		for (const quiz_data of res) {
-			visible_items.push(actions[quiz_data.id]);
+			const action = actions.find((a) => a.id === quiz_data.id);
+			if (action) visible_items.push(action);
 		}
 		visible_items = visible_items;
 		if (visible_items.length === 1) {
@@ -199,7 +204,7 @@ This should be okay, right?
 
 {#if open}
 	<div
-		class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
+		class="fixed inset-0 z-50 flex h-dvh w-full bg-black/50"
 		onclick={close_on_outside}
 		onkeyup={close_on_outside}
 		role="button"
@@ -207,16 +212,18 @@ This should be okay, right?
 		tabindex="0"
 		transition:fade|global={{ duration: 60 }}
 	>
-		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
-			<div class="grid grid-cols-1 grid-rows-1 border-b border-b-white">
+		<div
+			class="border-border bg-popover text-popover-foreground m-auto flex max-h-[60vh] w-[min(36rem,calc(100%-2rem))] flex-col overflow-hidden rounded-xl border shadow-xl"
+		>
+			<div class="border-border grid grid-cols-1 grid-rows-1 border-b">
 				<p
-					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-t-sm text-gray-400"
+					class="text-muted-foreground col-start-1 row-start-1 w-full p-4 outline-hidden"
 				>
 					{bg_text}
 				</p>
 				<input
 					type="text"
-					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-sm"
+					class="text-foreground col-start-1 row-start-1 w-full bg-transparent p-4 outline-hidden"
 					bind:value={input}
 					oninput={() => search(input)}
 					autofocus
@@ -226,9 +233,10 @@ This should be okay, right?
 				{#each visible_items as vi, i}
 					<div
 						transition:fade={{ duration: 60 }}
-						class="p-2 transition rounded-sm"
-						class:bg-[#B07156]={selected === i}
-						class:bg-gray-700={selected !== i}
+						class="rounded-md p-2 transition"
+						class:bg-accent={selected === i}
+						class:text-accent-foreground={selected === i}
+						class:bg-muted={selected !== i}
 						onmouseenter={() => (selected = i)}
 						onmousedown={execute_action}
 						tabindex="-2"
@@ -236,7 +244,7 @@ This should be okay, right?
 					>
 						<div class="flex">
 							<h3 class="text-lg my-auto">{vi.title}</h3>
-							<p class="font-mono my-auto ml-auto h-fit bg-black/50 rounded-sm p-0.5">
+							<p class="bg-background/60 my-auto ml-auto h-fit rounded-md p-0.5 font-mono">
 								/{vi.command}
 								{#if vi.args}
 									{#each vi.args as arg}

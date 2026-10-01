@@ -149,6 +149,12 @@ SPDX-License-Identifier: MPL-2.0
 					question={game_state.quiz_data.questions[game_state.selected_question]}
 				/>
 			{/await}
+		{:else if game_state.scoreboard_open}
+			{#await import('$lib/play/admin/scoreboard.svelte')}
+				<Spinner />
+			{:then c}
+				<c.default data={game_state.player_scores} new_data={game_state.question_results} />
+			{/await}
 		{:else}
 			{#await import('$lib/play/admin/results.svelte')}
 				<Spinner />

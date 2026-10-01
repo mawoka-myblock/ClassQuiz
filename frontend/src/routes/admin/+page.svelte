@@ -52,6 +52,8 @@ SPDX-License-Identifier: MPL-2.0
 		public game_started: boolean;
 		public quiz_data: QuizData;
 		public control_visible: boolean;
+		/** Host-side only: the scoreboard step between the answers and the next question. */
+		public scoreboard_open: boolean;
 
 		constructor(game_id: string) {
 			this.game_id = game_id;
@@ -66,6 +68,7 @@ SPDX-License-Identifier: MPL-2.0
 			this.game_started = $state(false);
 			this.question_results = $state(null);
 			this.answer_count = $state(0);
+			this.scoreboard_open = $state(false);
 		}
 
 		is_game_ready_to_start(): boolean {

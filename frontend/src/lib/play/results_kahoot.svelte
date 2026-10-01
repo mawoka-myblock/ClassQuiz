@@ -7,6 +7,9 @@ SPDX-License-Identifier: MPL-2.0
 
 <script lang="ts">
 	import { getLocalization } from '$lib/i18n';
+	import { scale } from 'svelte/transition';
+	import { backOut } from 'svelte/easing';
+	import { DUR, dur } from '$lib/motion';
 	import Check from '@lucide/svelte/icons/check';
 	import X from '@lucide/svelte/icons/x';
 	import Minus from '@lucide/svelte/icons/minus';
@@ -74,6 +77,7 @@ SPDX-License-Identifier: MPL-2.0
 	<!-- Shape as well as colour: about one man in twelve cannot tell the green from the
 	     red, and this is the one moment of the game that has to land. -->
 	<div
+		in:scale|global={{ duration: dur(DUR.surface), start: 0.6, easing: backOut }}
 		class="flex size-14 items-center justify-center rounded-full {answered
 			? right
 				? 'bg-emerald-100 text-emerald-700'

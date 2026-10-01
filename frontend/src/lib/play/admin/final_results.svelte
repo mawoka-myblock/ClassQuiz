@@ -10,6 +10,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { getLocalization } from '$lib/i18n';
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
+	import { DUR, dur, reduced } from '$lib/motion';
 	import confetti from 'canvas-confetti';
 	import Crown from '@lucide/svelte/icons/crown';
 	import Medal from '@lucide/svelte/icons/medal';
@@ -36,14 +37,10 @@ SPDX-License-Identifier: MPL-2.0
 	// name. 1.4s apart, so the three reveals run about four seconds in total.
 	const REVEAL_GAP_MS = 1400;
 	const FIRST_REVEAL_MS = 600;
-	const winner_lands = FIRST_REVEAL_MS + 2 * REVEAL_GAP_MS + 500;
+	const winner_lands = FIRST_REVEAL_MS + 2 * REVEAL_GAP_MS + DUR.stage;
 
 	// Nobody should be made ill by a results screen. With reduced motion the whole
 	// podium is simply there, and no confetti is fired.
-	const reduced =
-		typeof window !== 'undefined' &&
-		window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
-
 	// Podium reads 2nd, 1st, 3rd left to right, the way a real one does.
 	let podium = $derived(
 		[ranked[1], ranked[0], ranked[2]].filter(Boolean).map((p) => ({
@@ -59,7 +56,7 @@ SPDX-License-Identifier: MPL-2.0
 						? 'h-[16vh] min-h-24 sm:h-[26vh] sm:min-h-32'
 						: 'h-[11vh] min-h-20 sm:h-[18vh] sm:min-h-24',
 			// Built up from last place to first, so the winner lands last.
-			delay: reduced ? 0 : FIRST_REVEAL_MS + (3 - p.place) * REVEAL_GAP_MS
+			delay: reduced() ? 0 : FIRST_REVEAL_MS + (3 - p.place) * REVEAL_GAP_MS
 		}))
 	);
 	let runners_up = $derived(ranked.slice(3, 8));
@@ -80,12 +77,12 @@ SPDX-License-Identifier: MPL-2.0
 				: $t('play_page.3rd place');
 
 	let canvas: HTMLCanvasElement = $state();
-	let winner_shown = $state(reduced);
+	let winner_shown = $state(reduced());
 	onMount(() => {
 		const timers = [
-			setTimeout(() => (winner_shown = true), reduced ? 0 : winner_lands)
+			setTimeout(() => (winner_shown = true), reduced() ? 0 : winner_lands)
 		];
-		if (!reduced) {
+		if (!reduced()) {
 			// Two bursts rather than one: a single symmetrical puff reads as a graphic,
 			// two from the lower corners reads as a room.
 			const fire = () => {
@@ -117,12 +114,12 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex min-w-0 flex-1 flex-col items-center gap-3">
 					<div
 						class="flex w-full min-w-0 flex-col items-center gap-0.5 text-center"
-						in:fly|global={{ y: -40, duration: 500, delay: p.delay + 150, easing: cubicOut }}
+						in:fly|global={{ y: -40, duration: dur(DUR.stage), delay: p.delay + 150, easing: cubicOut }}
 					>
 						<!-- The winner gets the one piece of ornament on the screen, and it
 						     arrives after their block has landed. -->
 						{#if p.place === 1 && winner_shown}
-							<span class="crown" style="color: #e0a92a" in:fade|global={{ duration: 350 }}>
+							<span class="crown" style="color: #e0a92a" in:fade|global={{ duration: dur(DUR.surface) }}>
 								<Crown class="size-8 sm:size-10" aria-hidden="true" />
 							</span>
 						{/if}
@@ -162,7 +159,7 @@ SPDX-License-Identifier: MPL-2.0
 						class="podium-block {medal(p.place)} flex w-full {p.height} flex-col items-center
 							justify-start gap-1 rounded-t-2xl border border-b-0 border-border pt-3 -mb-[2px]"
 						class:is-winner={p.place === 1}
-						in:fly|global={{ y: 160, duration: 750, delay: p.delay, easing: cubicOut }}
+						in:fly|global={{ y: 160, duration: dur(DUR.reveal), delay: p.delay, easing: cubicOut }}
 					>
 						<span class="fq-display font-bold tabular-nums">{p.place}</span>
 						<span
@@ -179,7 +176,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#if runners_up.length}
 			<ul
 				class="w-full max-w-md divide-y divide-border overflow-hidden rounded-xl border border-border bg-card"
-				in:fade|global={{ duration: 400, delay: reduced ? 0 : winner_lands + 900 }}
+				in:fade|global={{ duration: dur(DUR.surface), delay: reduced() ? 0 : winner_lands + 900 }}
 			>
 				{#each runners_up as p (p.name)}
 					<li class="flex items-center gap-3 px-4 py-2.5">
@@ -272,7 +269,7 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	.crown {
-		animation: crown-pop 450ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+		animation: crown-pop var(--fq-dur-stage) var(--fq-ease-spring) both;
 	}
 
 	@keyframes crown-pop {

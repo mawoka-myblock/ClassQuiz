@@ -41,6 +41,16 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 - [ ] **D16**: do players need the question text on their own phone? Right in a room, wrong on a call
 - [ ] **Close #16** — the start-game modal was rebuilt and driven in a browser
 
+## Open — found in the feature sweep, not yet fixed
+
+See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surface.
+
+- [ ] **A refused answer is silent.** The server emits `already_replied` and `question_not_active`; nothing in the frontend listens, so a player who answers twice or answers after the reveal still sees "Answer locked in"
+- [ ] **No socket `disconnect` handler.** A closed tab stays in the player set, so "everyone has answered" never fires again once somebody leaves without pressing Leave — the host waits out every timer for the rest of the game
+- [ ] **`/eximport/excel/{quiz_id}` has no owner filter**: any signed-in user can download any quiz by id, answers included. Consistent with "unlisted, not private", worth a decision rather than a silence
+- [ ] `check_captcha` returns `True` when no captcha secret is set. Inert while `captcha_enabled` is hard-coded off
+- [ ] `routers/results.py:62-84` — a route whose whole function body is inside a string literal
+
 ## Open — quality
 
 - [ ] `svelte-check` in CI, once the ~300 errors in our own code are down (another ~820 are inside `bits-ui`)
