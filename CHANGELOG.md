@@ -4,6 +4,13 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Lobby music
+
+- The lobby plays music again. The track and its uncompressed original have been sitting in `assets/music/` since the fork, REUSE-declared MPL-2.0, with the player commented out in the lobby — a 17-second loop, on at 40% by default, with a mute and a volume slider bottom-left where a room can find it.
+- It plays on the host's screen only, in the lobby only. It stops when the first question appears, because that is when the component goes, and it fades rather than cutting — a loop that stops dead sounds like a fault.
+- The choice is remembered: a host who turns it off does not fight it again. If the browser refuses to start audio without a gesture — after a reload, say — the control shows a play icon rather than claiming to be on.
+- Replaced `audio_player.svelte`, which was a fixed-position pair of hand-inlined Heroicons with a vertical range input, no persistence, no handling of a refused autoplay, and no caller.
+
 ### One radius scale, and a stack that starts on Linux and macOS
 
 - The winner is now the point of the podium, not a label on it: their name is the largest thing on the screen and their score sits in a gold pill, while second and third keep the quieter treatment. The podium shape stays, because that shape is what makes an end-of-game screen recognisable — Kahoot shows a leaderboard and then a three-block podium with the winner centred, a crown and confetti, which is what this now is.

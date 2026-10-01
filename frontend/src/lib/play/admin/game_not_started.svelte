@@ -6,7 +6,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	// import AudioPlayer from '$lib/play/audio_player.svelte';
+	import LobbyMusic from '$lib/play/lobby_music.svelte';
 	import ControllerCodeDisplay from '$lib/components/controller/code.svelte';
 	import { getLocalization } from '$lib/i18n';
 	import { fade, fly } from 'svelte/transition';
@@ -53,6 +53,11 @@ SPDX-License-Identifier: MPL-2.0
 		{$t('admin_page.cancel_game')}
 	</ConfirmAction>
 </div>
+
+<!-- The lobby is the one screen with nothing to do on it: people are walking in and
+     reading a PIN off a wall. Music belongs here and nowhere else, and it stops when the
+     component goes, which is the moment the first question appears. -->
+<LobbyMusic />
 
 <div class="fq-stage">
 	<!-- The join details are the whole point of this screen, so they get the
