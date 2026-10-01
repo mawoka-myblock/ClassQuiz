@@ -6,6 +6,8 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### One radius scale, and a stack that starts on Linux and macOS
 
+- The winner is now the point of the podium, not a label on it: their name is the largest thing on the screen and their score sits in a gold pill, while second and third keep the quieter treatment. The podium shape stays, because that shape is what makes an end-of-game screen recognisable — Kahoot shows a leaderboard and then a three-block podium with the winner centred, a crown and confetti, which is what this now is.
+
 - **The host's result download is one press.** "Request result download" minted a token over the socket and renamed itself to "Download results", so one action took two presses — and the hidden anchor that exists to make it one press was bound to a variable and never clicked. The button now says what it does, shows "Preparing the file…" while the token is minted, and starts the download when it arrives. Pinned by `e2e/game-export.e2e.ts`, which asserts a real spreadsheet arrives.
 - Fixed the podium's new bottom action row squeezing its second button to nothing: both buttons were `w-full` inside a flex row, which is the trap `CLAUDE.md` lists under "things that keep coming back". `flex-1 min-w-0`.
 

@@ -118,16 +118,32 @@ SPDX-License-Identifier: MPL-2.0
 								<Crown class="size-8 sm:size-10" aria-hidden="true" />
 							</span>
 						{/if}
+						<!-- Kahoot's podium is the recognisable shape, and the winner is the
+						     point of it: their name is the largest thing on the screen and their
+						     score sits in the gold, rather than all three being labelled the same
+						     way and the gold doing all the work. -->
 						<p
-							class="fq-answer w-full truncate font-semibold tracking-tight"
+							class="w-full truncate font-semibold tracking-tight {p.place === 1
+								? 'text-3xl sm:text-5xl'
+								: 'fq-answer'}"
 							title={p.name}
 						>
 							{p.name}
 						</p>
-						<p class="text-sm text-muted-foreground tabular-nums">
-							{p.score}
-							{$t('words.point', { count: p.score })}
-						</p>
+						{#if p.place === 1}
+							<span
+								class="mt-1 rounded-full px-3 py-1 text-sm font-semibold tabular-nums sm:text-base"
+								style="background: #f5c33c; color: #1b1b1f"
+							>
+								{p.score}
+								{$t('words.point', { count: p.score })}
+							</span>
+						{:else}
+							<p class="text-muted-foreground text-sm tabular-nums">
+								{p.score}
+								{$t('words.point', { count: p.score })}
+							</p>
+						{/if}
 					</div>
 
 					<!-- Gold, silver and bronze rather than the theme's primary. The brand has
