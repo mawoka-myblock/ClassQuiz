@@ -114,8 +114,8 @@ SPDX-License-Identifier: MPL-2.0
 	<!-- A 12-step wizard with no progress indicator leaves you counting in your head. -->
 	<div class="bg-muted mb-6 h-1.5 overflow-hidden rounded-full">
 		<div
-			class="bg-primary h-full rounded-full transition-[width] duration-300"
-			style="width: {((index + 1) / data_keys.length) * 100}%"
+			class="bg-primary h-full w-full origin-left rounded-full transition-transform duration-300"
+			style="transform: scaleX({(index + 1) / data_keys.length})"
 		></div>
 	</div>
 

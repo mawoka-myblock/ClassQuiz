@@ -99,16 +99,15 @@ SPDX-License-Identifier: MPL-2.0
 	<!-- mt-12 matches the controls bar's h-12. It was mt-10 against an h-10 bar; the
 	     bar is taller now and the rule was cutting across its bottom edge. -->
 	<span
-		class="fixed top-0 left-0 h-1.5 rounded-r-full bg-destructive/90 transition-[width] duration-1000 ease-linear"
+		class="bg-destructive/90 fixed top-0 left-0 h-1.5 w-full origin-left rounded-r-full transition-transform duration-1000 ease-linear"
 		class:mt-12={game_state.control_visible}
 		role="progressbar"
 		aria-label="Time remaining"
 		aria-valuemin="0"
 		aria-valuemax={parseInt(game_state.quiz_data.questions[game_state.selected_question].time)}
 		aria-valuenow={parseInt(game_state.timer_res)}
-		style="width: {(100 /
-			parseInt(game_state.quiz_data.questions[game_state.selected_question].time)) *
-			parseInt(game_state.timer_res)}vw"
+		style="transform: scaleX({parseInt(game_state.timer_res) /
+			parseInt(game_state.quiz_data.questions[game_state.selected_question].time)})"
 	></span>
 {/if}
 

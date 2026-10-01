@@ -10,7 +10,7 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 110 unit · 99 e2e · 134 backend (1 skipped)
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 115 unit · 102 e2e · 134 backend (1 skipped)
 
 ---
 
@@ -31,6 +31,7 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 | 11 | **`e2e/run.sh` runs on Linux and macOS** as well as Windows: finds Postgres wherever it lives, drops to the `postgres` user when run as root, uses the real `redis-server` when there is one, fetches the right Meilisearch build, and picks Edge or Chromium per platform | `e2e/run.sh`, `e2e/stop.sh`, `frontend/playwright.config.ts` |
 | 12 | **Game surfaces fit a phone.** The podium's action panel covered the podium at 390px; it is a bottom row below `sm`. Lobby → question → results → podium asserted at phone width | `lib/play/admin/`, `routes/admin`, `e2e/podium.e2e.ts` |
 | 13 | **Corners come off one scale.** Four sites rendered a 4px corner because a bare `rounded` resolves to Tailwind's own `--radius`, not ours; cards disagreed by 5.6px; the view page nested equal radii; the host's answer row drew itself two ways | `src/app.css`, 10 components, `src/lib/a11y/radius-scale.test.ts` |
+| 14 | **One motion scale.** Fifteen ad-hoc durations and almost no easing became five durations and four curves, declared once in `app.css` and mirrored in `lib/motion.ts` for Svelte's JS transitions, which never see a CSS variable. Three bars animated `width`, which lays the page out every frame; they animate `transform` now. Reduced motion clamps the whole scale to 1ms | `src/app.css`, `lib/motion.ts`, `lib/a11y/motion.test.ts`, `e2e/motion.e2e.ts` |
 
 ## Open — before sharing
 
@@ -50,6 +51,18 @@ See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surfa
 - [ ] **`/eximport/excel/{quiz_id}` has no owner filter**: any signed-in user can download any quiz by id, answers included. Consistent with "unlisted, not private", worth a decision rather than a silence
 - [ ] `check_captcha` returns `True` when no captcha secret is set. Inert while `captcha_enabled` is hard-coded off
 - [ ] `routers/results.py:62-84` — a route whose whole function body is inside a string literal
+- [ ] **Uploads have no server-side size limit.** `routers/storage.py` passes `file_size = 0` into
+      storage and never measures the request. The ~10MB cap is Uppy's, client-side only, so
+      `POST /api/v1/storage/` takes a file of any size from an unauthenticated caller. The local
+      backend fills the volume; the S3 backend reads the whole payload into memory to sign it
+      (`s3_storage.py:155`). The per-user quota (~1.07GB) cannot catch it either: `calculate_hash`
+      measures the file *after* it is written, the check is `used > limit` so a user at zero can
+      upload anything once, and anonymous uploads are charged to nobody. Fix is a `file.size` check
+      in the route against a `config.py` setting the Uppy restriction also reads
+- [ ] **`video/mp4` is server-allowed but client-disabled.** In `ALLOWED_MIME_TYPES`, but
+      `video_upload={false}` at the only call site and `/edit/videos` is hidden. Either drop it from
+      the list or accept unbounded anonymous mp4. Kahoot's own ceilings for comparison: 50MB per
+      question image, 5MB per cover, 200MB per video, 50MB per audio file
 
 ## Open — quality
 
@@ -66,6 +79,16 @@ See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surfa
 - [ ] More languages (D10): i18next and every `$t(...)` are in place; it is a translated `locales/<lang>.json` plus a picker
 - [ ] Submit frogQuiz to the internal Use Case Hub
 
+## Notes
+
+**Lobby music.** The track is `frontend/src/lib/assets/music/1-128.mp3`, a 17-second loop
+that has been in the tree since the fork. Its REUSE header credits *Marlon W (Mawoka)*
+under MPL-2.0, so we are reusing upstream's asset, not one of ours — decided on 1 Oct:
+fine for now. It is a static file, not a call to upstream's servers, so the
+"upstream independence" rule in `CLAUDE.md` is not in play. Worth revisiting only if
+frogQuiz is ever shown outside the team, where somebody may want a track the project
+actually owns. Kahoot's own music is copyrighted and is not an option.
+
 ## Decisions taken this session
 
 | | Decision | Who |
@@ -77,3 +100,5 @@ See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surfa
 | — | True / False added as a preset over ABCD | François |
 | — | `card.svelte`, `sidebar.svelte` and `question-strip.svelte` deleted rather than left dead | François |
 | — | The ToS keeps its placeholder address for now (D8 stays open) | François |
+| — | Reuse upstream's lobby track rather than sourcing or synthesising one | François |
+| — | Kahoot's round sequence exactly: answers → scoreboard → next question | François |

@@ -4,6 +4,14 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### One motion scale, measured rather than asserted
+
+- Motion comes off one scale now. The tree had fifteen different durations and almost no easing: five durations (120 / 200 / 320 / 500 / 750ms, shortest for a control, longest for the podium build) and four curves, declared once in `app.css`. Svelte's JS transitions never see a CSS variable, so the same numbers exist in `src/lib/motion.ts`; `motion.test.ts` asserts the two copies are equal, because two copies of one scale drift the moment nobody is looking.
+- Three progress bars animated `width`, which makes the browser lay the page out again for every frame — including the question timer, which redraws every second at the full width of a projector. They animate `transform: scaleX()` off `origin-left` instead, which the compositor handles. `motion.test.ts` now fails the build on any `transition-[width]` or the other layout properties.
+- Anyone who asks for less motion gets none: a global `prefers-reduced-motion` block clamps every duration in the scale to 1ms, and `dur()` does the same for the JS transitions, which the media query cannot reach.
+- Measured in a browser as well: `e2e/motion.e2e.ts` checks the podium really is held back and then released, that reduced motion really does make it instant, and that the timer is composited rather than laid out.
+- Fixed `e2e/global-setup.ts` reading `PW_CHROME`, which nothing sets — on a machine whose only browser is an out-of-tree Chromium, the warm-up pass tried to launch Playwright's own bundled shell and the run died before the first test. It reads `E2E_CHROME`, the same variable the tests use.
+
 ### Lobby music, and a medal for the players who placed
 
 - A player who finished in the top three now sees a medal on their own screen at the end — gold, silver or bronze, beside their score. It is the only thing a player carries out of the room, and Kahoot does the same. Below third they get their place in words instead; the two never appear together, because the medal already says the place.

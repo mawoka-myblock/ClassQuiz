@@ -94,8 +94,8 @@ SPDX-License-Identifier: MPL-2.0
 					class:ring-neutral-900={correct}
 				>
 					<span
-						class="absolute inset-y-0 left-0 rounded-r-md transition-[width] duration-700 ease-out"
-						style="width: {(count / max) * 100}%; background-color: {answer.color ??
+						class="absolute inset-y-0 left-0 w-full origin-left rounded-r-md transition-transform ease-out"
+						style="transform: scaleX({count / max}); transition-duration: var(--fq-dur-reveal); background-color: {answer.color ??
 							answerColor(i)}"
 					></span>
 				</span>

@@ -22,7 +22,10 @@ const ROUTES = [
 
 export default async function globalSetup(config: FullConfig) {
 	const { baseURL, channel } = config.projects[0].use;
-	const browser = await chromium.launch({ channel, executablePath: process.env.PW_CHROME });
+	// Same executable the tests use. This read `PW_CHROME`, which nothing sets, so on a
+	// machine whose only browser is an out-of-tree Chromium the setup tried to launch
+	// Playwright's own bundled shell and the whole run died before the first test.
+	const browser = await chromium.launch({ channel, executablePath: process.env.E2E_CHROME });
 	const page = await browser.newPage({ baseURL });
 	for (const route of ROUTES) {
 		await page.goto(route, { timeout: 120_000 }).catch(() => undefined);
