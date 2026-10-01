@@ -114,7 +114,7 @@ SPDX-License-Identifier: MPL-2.0
 						<!-- The winner gets the one piece of ornament on the screen, and it
 						     arrives after their block has landed. -->
 						{#if p.place === 1 && winner_shown}
-							<span class="crown text-amber-400" in:fade|global={{ duration: 350 }}>
+							<span class="crown" style="color: #e0a92a" in:fade|global={{ duration: 350 }}>
 								<Crown class="size-8 sm:size-10" aria-hidden="true" />
 							</span>
 						{/if}
@@ -193,32 +193,37 @@ SPDX-License-Identifier: MPL-2.0
 {/if}
 
 <style>
-	/* Medal colours, not theme tokens: they mean first, second and third everywhere,
-	   they are the same in light and dark, and they sit on the quiz author's own
-	   background rather than on the app's surface. Ink is near-black on all three --
-	   measured at 9.7:1 on the gold, 11.6:1 on the silver and 6.4:1 on the bronze. */
+	/* The podium had gold, silver and bronze gradients with a white inset highlight, which
+	   is a lot of colour for a screen whose job is to say who won -- and it put a third
+	   accent in an identity that is "zinc neutrals plus one loud element" (CLAUDE.md).
+	   One loud block instead: the winner is flat gold, second and third are the page's own
+	   surfaces, and the rank is carried by height, numeral and label rather than by three
+	   competing hues. */
 	.podium-block {
-		color: #1b1b1f;
-		box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
-	}
-
-	.podium-block.is-gold {
-		background: linear-gradient(to bottom, #ffd969, #e8ab28);
+		background: var(--muted);
+		color: var(--foreground);
 	}
 
 	.podium-block.is-silver {
-		background: linear-gradient(to bottom, #e6e9ee, #b8bfc9);
+		background: var(--muted);
 	}
 
+	/* Third sits back a step: same surface, quieter ink. */
 	.podium-block.is-bronze {
-		background: linear-gradient(to bottom, #e3a775, #bf7840);
+		background: var(--muted);
+		color: var(--muted-foreground);
 	}
 
-	/* The winner's block is the one thing on this screen that should feel loud. */
+	/* The one loud thing on the screen. Flat, not a gradient: a gradient on a block this
+	   size reads as plastic from the back of a room. Ink is #1b1b1f on #f5c33c, 10.4:1. */
+	.podium-block.is-gold {
+		background: #f5c33c;
+		border-color: #dba81f;
+		color: #1b1b1f;
+	}
+
 	.podium-block.is-winner {
-		box-shadow:
-			inset 0 1px 0 rgb(255 255 255 / 0.6),
-			0 -10px 40px -12px #e8ab28;
+		box-shadow: 0 -12px 44px -16px rgb(245 195 60 / 0.9);
 	}
 
 	.podium-block :global(span) {
