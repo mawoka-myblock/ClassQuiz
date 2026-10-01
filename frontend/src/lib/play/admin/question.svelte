@@ -104,7 +104,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#if timer_res === '0'}
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each quiz_data.questions[selected_question].answers as answer}
-					<div class="rounded-lg h-fit flex bg-[#B07156]">
+					<div class="rounded-2xl h-fit flex border border-neutral-200 bg-white">
 						<span class="fq-answer text-center px-2 py-4 w-full text-black"
 							>{answer.answer}</span
 						>

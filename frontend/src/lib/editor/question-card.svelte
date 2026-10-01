@@ -324,7 +324,7 @@ SPDX-License-Identifier: MPL-2.0
 						<span class="mt-1.5 flex flex-wrap gap-1.5 pl-6">
 							{#each answers.slice(0, 4) as answer, i (i)}
 								<span
-									class="bg-muted text-muted-foreground max-w-[12rem] truncate rounded px-1.5 py-0.5 text-xs"
+									class="bg-muted text-muted-foreground max-w-[12rem] truncate rounded-sm px-1.5 py-0.5 text-xs"
 									class:font-medium={answer.right}
 									class:text-foreground={answer.right}
 								>

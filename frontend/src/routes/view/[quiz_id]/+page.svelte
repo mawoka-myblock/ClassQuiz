@@ -508,7 +508,7 @@ SPDX-License-Identifier: MPL-2.0
 					</div>
 
 					<div
-						class="border-border bg-card flex flex-col gap-6 rounded-xl border p-4 shadow-sm sm:p-6"
+						class="border-border bg-card flex flex-col gap-6 rounded-2xl border p-4 shadow-sm sm:p-6"
 					>
 						{#if question.type === QuizQuestionType.SLIDE}
 							{#await import('$lib/play/admin/slide.svelte')}
@@ -528,7 +528,7 @@ SPDX-License-Identifier: MPL-2.0
 							{#if question.image}
 								<div class="mx-auto h-56 max-w-full">
 									<MediaComponent
-										css_classes="h-full w-auto max-w-full rounded-md"
+										css_classes="h-full w-auto max-w-full rounded-lg"
 										src={question.image}
 										muted={true}
 									/>

@@ -27,7 +27,7 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 			<div class="relative bg-white rounded-lg shadow-smdark:bg-gray-700">
 				<!-- Modal header -->
 				<div
-					class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600"
+					class="flex justify-between items-start p-4 rounded-t-xl border-b dark:border-gray-600"
 				>
 					<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
 						{title}
@@ -61,7 +61,7 @@ By Flowbite, but changed: https://flowbite.com/docs/components/modal/#default-mo
 				</div>
 				<!-- Modal footer -->
 				<div
-					class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600"
+					class="flex items-center p-6 space-x-2 rounded-b-xl border-t border-gray-200 dark:border-gray-600"
 				>
 					<button
 						data-modal-toggle="defaultModal"

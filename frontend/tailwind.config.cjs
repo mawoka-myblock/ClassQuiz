@@ -55,7 +55,7 @@ const config = {
 							'padding-bottom': '0.25rem',
 							fontWeight: '400',
 							color: theme('colors.gray.100'),
-							'border-radius': '0.25rem',
+							'border-radius': 'var(--radius-sm)',
 							backgroundColor: theme('colors.slate.800')
 						}
 					}

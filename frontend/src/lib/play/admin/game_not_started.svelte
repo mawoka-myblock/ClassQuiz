@@ -165,7 +165,7 @@ SPDX-License-Identifier: MPL-2.0
 		<img
 			alt="QR code to join the game"
 			src="/api/v1/utils/qr/{game_pin}"
-			class="object-contain rounded-sm m-auto h-full bg-white"
+			class="object-contain rounded-lg m-auto h-full bg-white"
 		/>
 	</div>
 {/if}

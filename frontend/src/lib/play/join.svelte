@@ -238,7 +238,7 @@ SPDX-License-Identifier: MPL-2.0
 			<!-- No submit handler of its own: the sixth digit advances it. Without this,
 			     Enter did a native submit and reloaded the page. -->
 			<form
-				class="border-border/70 bg-card w-full rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
+				class="border-border/70 bg-card w-full rounded-xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
 				onsubmit={(e) => e.preventDefault()}
 			>
 				<Label for="game-pin" class="text-sm font-medium">{$t('words.game_pin')}</Label>
@@ -268,7 +268,7 @@ SPDX-License-Identifier: MPL-2.0
 		{:else}
 			<form
 				onsubmit={setUsername}
-				class="border-border/70 bg-card w-full rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
+				class="border-border/70 bg-card w-full rounded-xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
 			>
 				<Label for="join-username" class="text-sm font-medium">{$t('words.username')}</Label>
 				<p id="join-username-hint" class="text-muted-foreground mt-1.5 text-sm">

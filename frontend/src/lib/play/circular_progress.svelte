@@ -22,14 +22,13 @@ SPDX-License-Identifier: MPL-2.0
 	let cssVarStyles = $derived(`--background:${background}`);
 </script>
 
-<div id="progress-circle" style={cssVarStyles} class="transition-all text-4xl text-black">
+<div id="progress-circle" style={cssVarStyles} class="rounded-full transition-all text-4xl text-black">
 	{text}
 </div>
 
 <style>
 	#progress-circle {
 		background: var(--background);
-		border-radius: 50%;
 		width: 120px;
 		height: 120px;
 		transition: all 500ms ease-in;

@@ -70,7 +70,7 @@ SPDX-License-Identifier: MPL-2.0
 
 			<form
 				onsubmit={join}
-				class="border-border/70 bg-card mt-12 rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
+				class="border-border/70 bg-card mt-12 rounded-xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
 			>
 				<Label for="game-pin" class="text-sm font-medium">{$t('words.game_pin')}</Label>
 				<p class="text-muted-foreground mt-1.5 text-sm">

@@ -111,7 +111,7 @@ SPDX-License-Identifier: MPL-2.0
 <div
 	bind:this={html_el}
 	contenteditable="true"
-	class="border-input bg-background focus-within:ring-ring min-w-[5rem] resize-none rounded-lg border px-3 py-2 text-center focus-within:ring-2 focus-within:outline-none"
+	class="border-input bg-background focus-within:ring-ring min-w-[5rem] resize-none rounded-md border px-3 py-2 text-center focus-within:ring-2 focus-within:outline-none"
 ></div>
 
 <style>
@@ -134,7 +134,7 @@ SPDX-License-Identifier: MPL-2.0
 		min-height: 2.75rem;
 		padding: 0.5rem 0.75rem;
 		border: 1px solid var(--input);
-		border-radius: var(--radius);
+		border-radius: var(--radius-md);
 		background: var(--background);
 	}
 

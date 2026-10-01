@@ -95,7 +95,7 @@ SPDX-License-Identifier: MPL-2.0
 			<textarea
 				bind:value={data.description}
 				placeholder={$t('editor.description_placeholder')}
-				class="border-input bg-background focus-visible:ring-ring h-24 w-full resize-none rounded-lg border p-3 focus-visible:ring-2 focus-visible:outline-none"
+				class="border-input bg-background focus-visible:ring-ring h-24 w-full resize-none rounded-md border p-3 focus-visible:ring-2 focus-visible:outline-none"
 			></textarea>
 			<span
 				class={cn(

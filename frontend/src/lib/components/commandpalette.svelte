@@ -210,7 +210,7 @@ This should be okay, right?
 		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
 			<div class="grid grid-cols-1 grid-rows-1 border-b border-b-white">
 				<p
-					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-t text-gray-400"
+					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-t-sm text-gray-400"
 				>
 					{bg_text}
 				</p>

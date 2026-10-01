@@ -4,6 +4,16 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### One radius scale, and a stack that starts on Linux and macOS
+
+- Corners come off one scale now. Four places rendered a **4px** corner while everything around them was 8–25px: a bare `rounded`, `rounded-t` or `rounded-b` resolves to Tailwind's own `--radius` (0.25rem), which our `:root` override does not reach because Tailwind keeps it in a `reference` layer. The modal in `lib/modals/alert.svelte` was the worst of them — a 14px shell with 4px header and footer rows.
+- The landing and join cards were 5.6px rounder than the Card primitive and every other surface; they match now. On the quiz page the question card and the answer tiles inside it were both 19.6px, which reads as two mismatched arcs sharing a corner — the card went up a step. The QR code in the lobby was under-rounded by 17px inside its tile.
+- The host's answer row was drawn two ways: 25.2px and palette-coloured for ABCD, 14px on a hardcoded upstream brown with black ink for TEXT. They match, and the brown is gone — it was invisible on a dark quiz background.
+- `admin-button` said "same shape as the shadcn primary button" and was 2.8px rounder than it. The description textarea and the rich-text fields were 2.8px rounder than the `<Input>` beside them.
+- Added `radius-scale.test.ts`: no bare `rounded` classes, every step derived from `--radius`, and no hand-written `border-radius` outside the token block. Verified it fails by putting one back.
+- **`e2e/run.sh` now runs on Linux and macOS as well as Windows.** It finds Postgres wherever the platform keeps it, drops to the `postgres` user when run as root (initdb refuses to run as root, which is how it runs in a container), uses the real `redis-server` when one is installed and falls back to fakeredis, fetches the Meilisearch build for the platform and architecture, and picks Edge on Windows or Chromium elsewhere. `stop.sh` ported with it. Verified end to end on Linux: the whole stack up, 99 specs collected.
+- Added `TODO.md`: the live state of the work, next to `MVP.md`, which stays the plan.
+
 ### A podium worth waiting for, a join screen worth looking at, and the copy findings
 
 - The podium builds up: third place rises, then second, then first, about 1.4s apart, with a crown on the winner and confetti from both lower corners. It used to put all three up in two seconds. Light goes out of the way of anyone who asks for reduced motion: the whole podium is simply there, and no confetti is fired.
