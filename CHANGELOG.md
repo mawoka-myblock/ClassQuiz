@@ -4,7 +4,9 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
-### Lobby music
+### Lobby music, and a medal for the players who placed
+
+- A player who finished in the top three now sees a medal on their own screen at the end — gold, silver or bronze, beside their score. It is the only thing a player carries out of the room, and Kahoot does the same. Below third they get their place in words instead; the two never appear together, because the medal already says the place.
 
 - The lobby plays music again. The track and its uncompressed original have been sitting in `assets/music/` since the fork, REUSE-declared MPL-2.0, with the player commented out in the lobby — a 17-second loop, on at 40% by default, with a mute and a volume slider bottom-left where a room can find it.
 - It plays on the host's screen only, in the lobby only. It stops when the first question appears, because that is when the component goes, and it fades rather than cutting — a loop that stops dead sounds like a fault.

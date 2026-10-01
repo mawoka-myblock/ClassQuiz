@@ -12,6 +12,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { cubicOut } from 'svelte/easing';
 	import confetti from 'canvas-confetti';
 	import Crown from '@lucide/svelte/icons/crown';
+	import Medal from '@lucide/svelte/icons/medal';
 
 	const { t } = getLocalization();
 
@@ -64,6 +65,13 @@ SPDX-License-Identifier: MPL-2.0
 	let runners_up = $derived(ranked.slice(3, 8));
 	const medal = (place: number) =>
 		place === 1 ? 'is-gold' : place === 2 ? 'is-silver' : 'is-bronze';
+	// Only on a player's own screen, and only for the three places that are a place.
+	// Ink rather than a filled chip: the pill it sits in is already a surface.
+	const MEDALS: Record<number, { ink: string; key: string }> = {
+		1: { ink: '#b8860b', key: 'play_page.1st_place' },
+		2: { ink: '#71717a', key: 'play_page.2nd_place' },
+		3: { ink: '#a8622f', key: 'play_page.3rd place' }
+	};
 	let place_label = (place: number) =>
 		place === 1
 			? $t('play_page.1st_place')
@@ -191,16 +199,32 @@ SPDX-License-Identifier: MPL-2.0
 	<!-- Not `data[username]`: a player on 0 points is falsy, and lost this line. -->
 	{#if username && username in data}
 		{@const me = ranked.find((p) => p.name === username)}
+		{@const medal = me && me.place <= 3 ? MEDALS[me.place] : null}
 		<div class="fixed bottom-0 left-0 mb-6 flex w-full justify-center px-4">
 			<div
-				class="flex items-center gap-4 rounded-full border border-border bg-card/90 px-5 py-2.5 shadow-lg backdrop-blur"
+				class="border-border bg-card/90 flex items-center gap-4 rounded-full border px-5 py-2.5 shadow-lg backdrop-blur"
 			>
-				<p class="text-sm font-medium tabular-nums">
+				<!-- A player who placed gets the medal on their own phone, which is the only
+				     thing they take away from the room. Kahoot does the same, and it is the
+				     difference between "you finished" and "you placed". -->
+				{#if medal}
+					<span
+						class="flex shrink-0 items-center gap-1.5 font-semibold whitespace-nowrap"
+						style="color: {medal.ink}"
+					>
+						<Medal class="size-5" aria-hidden="true" />
+						{$t(medal.key)}
+					</span>
+					<span class="bg-border h-4 w-px" aria-hidden="true"></span>
+				{/if}
+				<p class="text-sm font-medium whitespace-nowrap tabular-nums">
 					{$t('play_page.your_score', { score: data[username] })}
 				</p>
-				{#if me}
-					<span class="h-4 w-px bg-border" aria-hidden="true"></span>
-					<p class="text-sm text-muted-foreground tabular-nums">
+				<!-- The medal already says the place; repeating it as "You're on place 1!"
+				     beside it is the same fact twice on a 390px pill. -->
+				{#if me && !medal}
+					<span class="bg-border h-4 w-px" aria-hidden="true"></span>
+					<p class="text-muted-foreground text-sm whitespace-nowrap tabular-nums">
 						{$t('play_page.your_place', { place: me.place })}
 					</p>
 				{/if}
