@@ -2,6 +2,8 @@
 # SPDX-FileCopyrightText: 2026 frogQuiz contributors
 #
 # SPDX-License-Identifier: MPL-2.0
+import logging
+
 import aiohttp
 from redis.exceptions import WatchError
 
@@ -19,26 +21,47 @@ from frogquiz.db.models import (
 from frogquiz.socket_server.models import SubmitAnswerData
 from .models import SubmitAnswerDataOrderType
 
+logger = logging.getLogger(__name__)
+
 
 async def check_captcha(captcha_data: str) -> bool:
+    """Verify a captcha response. False means "do not let this join through".
+
+    With neither provider key set this fell through to `return True`, so a game with
+    `captcha_enabled` and no configured secret admitted everyone while looking protected
+    -- which is worse than no captcha, because the operator believes it is working.
+    A control that cannot verify must not pass.
+
+    `routers/quiz.py` refuses to store `captcha_enabled` without a configured key, so in
+    practice this branch is unreachable; it is here so that removing a key later fails
+    closed and says why, rather than silently reopening the door.
+    """
+    # `settings` is config.py's lru_cached *function*, imported uncalled. Every read in
+    # here was `settings.hcaptcha_key` on the wrapper, which raises AttributeError -- and
+    # AttributeError is not in the except clause below, so this did not "pass everyone":
+    # it propagated out of join_game. Either way a captcha-enabled game was broken.
+    config = settings()
+    if config.hcaptcha_key is None and config.recaptcha_key is None:
+        logger.warning("captcha check requested but no HCAPTCHA_KEY or RECAPTCHA_KEY is set; refusing the join")
+        return False
     async with aiohttp.ClientSession() as session:
         try:
-            if settings.hcaptcha_key is not None:
+            if config.hcaptcha_key is not None:
                 async with session.post(
                     "https://hcaptcha.com/siteverify",
                     data={
                         "response": captcha_data,
-                        "secret": settings.hcaptcha_key,
+                        "secret": config.hcaptcha_key,
                     },
                 ) as resp:
                     resp_data = await resp.json()
                     if not resp_data["success"]:
                         return False
-            elif settings.recaptcha_key is not None:
+            else:
                 async with session.post(
                     "https://www.google.com/recaptcha/api/siteverify",
                     data={
-                        "secret": settings.recaptcha_key,
+                        "secret": config.recaptcha_key,
                         "response": captcha_data,
                     },
                 ) as resp:

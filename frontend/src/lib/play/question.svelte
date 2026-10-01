@@ -21,6 +21,8 @@ SPDX-License-Identifier: MPL-2.0
 	import { get_foreground_color } from '../helpers';
 	import MediaComponent from '$lib/editor/MediaComponent.svelte';
 	import { sanitizeTitleHtml } from '$lib/sanitize';
+	import { onDestroy } from 'svelte';
+	import X from '@lucide/svelte/icons/x';
 
 	const { t } = getLocalization();
 
@@ -61,8 +63,38 @@ SPDX-License-Identifier: MPL-2.0
 			timer_res = seconds.toString();
 		}, 1000);
 	};
-	socket.on('everyone_answered', (_) => {
+	// The server can refuse an answer, and used to do it in silence: `question_not_active`
+	// and `already_replied` had no listener anywhere in the frontend. The screen sets
+	// `selected_answer` the moment a tile is tapped, so a refused answer still read
+	// "Answer locked in" and the player only found out from a +0 on the results screen.
+	//
+	// `refused` is the honest version of that: the answer did not count and the question
+	// is over. It is deliberately not a retry prompt -- by the time this arrives the
+	// timer has run out or the host has revealed the answers, so there is nothing to
+	// tap. `already_replied` is not an error for the player: it means an earlier answer
+	// of theirs was recorded, so "locked in" is already true and nothing should change.
+	let refused = $state(false);
+
+	const on_everyone_answered = () => {
 		timer_res = '0';
+	};
+	const on_question_not_active = () => {
+		// Only if this screen was claiming otherwise. A refusal for a question the player
+		// never answered needs no correction -- they are already seeing "time is up".
+		if (selected_answer !== undefined) {
+			refused = true;
+		}
+		timer_res = '0';
+	};
+
+	socket.on('everyone_answered', on_everyone_answered);
+	socket.on('question_not_active', on_question_not_active);
+	// The play page recreates this component per question (`{#key unique}`), so a
+	// listener added here and never removed accumulated one copy per question, each
+	// holding a destroyed component's state alive and writing to it.
+	onDestroy(() => {
+		socket.off('everyone_answered', on_everyone_answered);
+		socket.off('question_not_active', on_question_not_active);
 	});
 
 	timer(question.time);
@@ -407,7 +439,9 @@ SPDX-License-Identifier: MPL-2.0
 				<span
 					class="bg-foreground/5 ring-border flex h-16 w-16 items-center justify-center rounded-full ring-1"
 				>
-					{#if answered}
+					{#if refused}
+						<X class="text-foreground/70 h-8 w-8" />
+					{:else if answered}
 						<Check class="text-foreground/70 h-8 w-8" />
 					{:else}
 						<Clock class="text-foreground/70 h-8 w-8" />
@@ -415,7 +449,13 @@ SPDX-License-Identifier: MPL-2.0
 				</span>
 				<div class="space-y-1">
 					<p class="text-xl font-semibold tracking-tight">
-						{answered ? $t('words.answer_locked_in') : $t('words.time_is_up')}
+						{#if refused}
+							{$t('words.answer_too_late')}
+						{:else if answered}
+							{$t('words.answer_locked_in')}
+						{:else}
+							{$t('words.time_is_up')}
+						{/if}
 					</p>
 					<p class="text-muted-foreground text-sm">{$t('words.waiting_for_results')}</p>
 				</div>

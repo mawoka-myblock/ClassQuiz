@@ -4,6 +4,8 @@
 
 import { expect, test, type APIRequestContext, type Browser, type Page } from '@playwright/test';
 import {
+	advancePastResults,
+	advanceToFinalResults,
 	expectNoHorizontalOverflow,
 	hostFromViewPage,
 	joinAsPlayer,
@@ -74,7 +76,7 @@ async function playGame(
 	await page.getByRole('button', { name: 'Show results' }).click();
 	await page.waitForTimeout(resultsDwellMs);
 
-	await page.getByRole('button', { name: /Next Question/ }).click();
+	await advancePastResults(page);
 	await ana.getByRole('button', { name: '4', exact: true }).click();
 	await carla.getByRole('button', { name: '5', exact: true }).click();
 	// Nobody ends the question: the 5 s timer has to.
@@ -85,7 +87,7 @@ async function playGame(
 	await page.getByRole('button', { name: 'Show results' }).click();
 	await page.waitForTimeout(resultsDwellMs);
 
-	await page.getByRole('button', { name: /final results/i }).click();
+	await advanceToFinalResults(page);
 	await expect(ana.getByText('1st Place')).toBeVisible();
 	await expect(page.getByText('1st Place')).toBeVisible();
 

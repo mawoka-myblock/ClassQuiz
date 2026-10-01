@@ -57,28 +57,20 @@ async def set_note(id: UUID, data: _SetNoteInput, user: User = Depends(get_curre
     return await res.update()
 
 
-# skipcq: PYL-W0105
-"""
-@router.get("/export/{result_id}", response_class=StreamingResponse)
-async def export_result(result_id: UUID, user: User = Depends(get_current_user)):
-    res = await GameResults.objects.get_or_none(user=user.id, id=result_id)
-    if res is None:
-        raise HTTPException(status_code=404, detail="Game Result not found")
-    quiz = Quiz(title=res.title, questions=res.questions)
-    spreadsheet = await generate_spreadsheet(
-        quiz=quiz, quiz_results=data, player_fields=player_fields, player_scores=score_data
-    )
-
-    def iter_file():
-        yield from spreadsheet
-
-    return StreamingResponse(
-        iter_file(),
-        media_type="application/vnd.ms-excel",
-        headers={
-            "Content-Disposition": f"attachment;filename=frogQuiz-{urllib.parse.quote(quiz.title)}-{datetime.strftime('%m-%d-%Y')}.xlsx"
-            # noqa: E501
-        },
-    )
-
-"""
+# Upstream left a results-export route here as a bare string literal in the module body:
+# it reads like a docstring, every linter flags it, and it looks as though uncommenting it
+# would bring the feature back. It would not. The body referenced three names that do not
+# exist anywhere in this module (`data`, `player_fields`, `score_data`) and called
+# `datetime.strftime` on the class rather than an instance, so it has never been able to
+# run. Kept as a comment instead, because it records the intended shape:
+#
+#   GET /results/export/{result_id} -> StreamingResponse
+#     - GameResults.objects.get_or_none(user=user.id, id=result_id), 404 if missing
+#     - build a Quiz from res.title and res.questions
+#     - generate_spreadsheet(quiz=..., quiz_results=..., player_fields=..., player_scores=...)
+#     - stream it as application/vnd.ms-excel, Content-Disposition attachment
+#
+# The live host-side export is the one that works, and it is not in this file: the host
+# emits `get_export_token` over the socket (socket_server/__init__.py) and redeems it at
+# GET /api/v1/quiz/export_data/{export_token}. /results itself is hidden for the MVP
+# (MVP.md D4), so this is not a gap anyone can reach today.

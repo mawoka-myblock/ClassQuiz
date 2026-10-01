@@ -10,7 +10,7 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 121 unit · 113 e2e · 142 backend (1 skipped)
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 115 e2e · 144 backend (1 skipped)
 
 ---
 
@@ -33,6 +33,9 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 | 13 | **Corners come off one scale.** Four sites rendered a 4px corner because a bare `rounded` resolves to Tailwind's own `--radius`, not ours; cards disagreed by 5.6px; the view page nested equal radii; the host's answer row drew itself two ways | `src/app.css`, 10 components, `src/lib/a11y/radius-scale.test.ts` |
 | 14 | **One motion scale.** Fifteen ad-hoc durations and almost no easing became five durations and four curves, declared once in `app.css` and mirrored in `lib/motion.ts` for Svelte's JS transitions, which never see a CSS variable. Three bars animated `width`, which lays the page out every frame; they animate `transform` now. Reduced motion clamps the whole scale to 1ms | `src/app.css`, `lib/motion.ts`, `lib/a11y/motion.test.ts`, `e2e/motion.e2e.ts` |
 | 15 | **Uploads have limits, and there is still no file manager.** There was no server-side size cap at all (`size = 0` went into storage, the only limit was Uppy's in the browser, and the endpoint takes anonymous uploads) — and the browser's cap was not applied either, because `restrictions` is an Uppy *Core* option and was passed to the Dashboard plugin. 8MB per image, enforced at Caddy, on `Content-Length`, and on the counted bytes; the quota counts the file in hand; `/raw` aborts mid-stream; `video/mp4` behind a flag | `frogquiz/config.py`, `routers/storage.py`, `frogquiz/__init__.py`, `Caddyfile*`, `lib/editor/uploader.svelte`, [`docs/uploads.md`](docs/uploads.md) |
+| 16 | **A game survives someone closing their laptop.** There was no socket `disconnect` handler, so a closed tab stayed in the count "everyone answered" is measured against and the host sat through every full timer for the rest of the game. Disconnect drops the player from the count but keeps the rejoin key, so a backgrounded phone can still return; `rejoin_game` re-announces them, which it never did | `socket_server/__init__.py`, `e2e/disconnect.e2e.ts` |
+| 17 | **A refused answer says so.** `question_not_active` had no listener anywhere, so an answer the server threw away still read "Answer locked in". Fixed with the listener leak beside it — the component is recreated per question and never released its subscription | `lib/play/question.svelte`, `lib/play/refusal.test.ts` |
+| 18 | **Two over-wide permissions closed.** Any signed-in user could download any quiz's answer key by id; and `captcha_enabled` defaulted to *true* on `/quiz/start`, where `check_captcha` then raised `AttributeError` out of `join_game` because `settings` was config.py's uncalled `lru_cache` wrapper | `routers/eximport.py`, `routers/quiz.py`, `socket_server/helpers.py` |
 
 ## Open — before sharing
 
@@ -43,15 +46,12 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 - [ ] **D16**: do players need the question text on their own phone? Right in a room, wrong on a call
 - [ ] **Close #16** — the start-game modal was rebuilt and driven in a browser
 
-## Open — found in the feature sweep, not yet fixed
+## Found in the feature sweep — all cleared
 
-See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surface.
-
-- [ ] **A refused answer is silent.** The server emits `already_replied` and `question_not_active`; nothing in the frontend listens, so a player who answers twice or answers after the reveal still sees "Answer locked in"
-- [ ] **No socket `disconnect` handler.** A closed tab stays in the player set, so "everyone has answered" never fires again once somebody leaves without pressing Leave — the host waits out every timer for the rest of the game
-- [ ] **`/eximport/excel/{quiz_id}` has no owner filter**: any signed-in user can download any quiz by id, answers included. Consistent with "unlisted, not private", worth a decision rather than a silence
-- [ ] `check_captcha` returns `True` when no captcha secret is set. Inert while `captcha_enabled` is hard-coded off
-- [ ] `routers/results.py:62-84` — a route whose whole function body is inside a string literal
+The five findings from [`docs/feature-inventory.md`](docs/feature-inventory.md) are fixed:
+the silent refused answer, the missing socket `disconnect` handler, the unfiltered Excel
+export, `check_captcha`, and the route that lived inside a string literal. Rows 16–18
+above. That doc is still the map of the whole surface.
 
 ## Open — quality
 

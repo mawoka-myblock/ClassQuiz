@@ -55,6 +55,13 @@ settings = settings()
 router = APIRouter()
 
 
+def _captcha_configured() -> bool:
+    """Whether a captcha provider is actually set up. See start_quiz."""
+    if settings.hcaptcha_key is None and settings.recaptcha_key is None:
+        return False
+    return True
+
+
 @router.get("/get/{quiz_id}")
 async def get_quiz_from_id(
     quiz_id: str,
@@ -112,7 +119,12 @@ async def start_quiz(
     request: Request,
     quiz_id: str,
     game_mode: str,
-    captcha_enabled: bool = True,
+    # Defaulted to True, which only looked harmless because the one caller
+    # (lib/dashboard/start_game.svelte) sends 'False' explicitly. Any other caller got a
+    # game with a captcha nobody can solve -- the join page needs a sitekey to render a
+    # widget -- and which check_captcha then passed for everyone, because with no secret
+    # configured it fell through to return True. Off unless asked for.
+    captcha_enabled: bool = False,
     custom_field: str | None = None,
     cqcs_enabled: bool = False,
     randomize_answers: bool = False,
@@ -170,7 +182,11 @@ async def start_quiz(
         game_id=uuid.uuid4(),
         title=quiz.title,
         description=quiz.description,
-        captcha_enabled=captcha_enabled,
+        # A captcha with no secret cannot verify anything, so asking for one here is a
+        # misconfiguration rather than a preference. Refusing to store it is what keeps
+        # check_captcha's fail-closed branch unreachable: there is no way to open a game
+        # that demands a captcha the server could never check.
+        captcha_enabled=captcha_enabled and _captcha_configured(),
         cover_image=quiz.cover_image,
         game_mode=game_mode,
         user_id=user.id if user is not None else None,

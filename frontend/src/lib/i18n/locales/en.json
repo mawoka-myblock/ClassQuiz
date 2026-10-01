@@ -216,6 +216,7 @@
         "my_quizzes": "My Quizzes",
         "my_account": "My Account",
         "answer_locked_in": "Answer locked in",
+        "answer_too_late": "That one did not count",
         "waiting_for_results": "Waiting for everyone else…",
         "cover_image": "Cover image",
         "visibility": "Visibility",

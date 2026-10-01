@@ -162,12 +162,16 @@ SPDX-License-Identifier: MPL-2.0
 						in:fly|global={{ y: 160, duration: dur(DUR.reveal), delay: p.delay, easing: cubicOut }}
 					>
 						<span class="fq-display font-bold tabular-nums">{p.place}</span>
+						<!-- One element, not a visible one plus an sr-only copy of the same
+						     words: at sm and up both were in the DOM, so a screen reader read
+						     the place twice and `getByText` matched two nodes per block.
+						     max-sm:sr-only keeps it announced on a phone, where the blocks are
+						     too narrow to print it. -->
 						<span
-							class="hidden px-1 text-center text-[0.7rem] font-medium tracking-wider uppercase sm:block"
+							class="max-sm:sr-only px-1 text-center text-[0.7rem] font-medium tracking-wider uppercase"
 						>
 							{place_label(p.place)}
 						</span>
-						<span class="sr-only">{place_label(p.place)}</span>
 					</div>
 				</div>
 			{/each}

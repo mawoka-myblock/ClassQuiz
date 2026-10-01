@@ -4,6 +4,59 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### A game survives someone closing their laptop
+
+- **There was no socket `disconnect` handler at all.** A closed tab stayed in the set
+  that "everyone answered" is counted against, so once one person left, the question
+  could never end early again and the host sat through every full timer for the rest of
+  the game. That is the worst thing that can happen to a game running in a room.
+  Disconnecting now drops the player from the count and re-checks whether the question
+  can close — deliberately *not* the same as leaving: the rejoin key stays, so a
+  backgrounded phone can still come back, which is the whole reason this could not just
+  call `leave_game`.
+- **A player who reloaded vanished from the host's lobby for good.** The host filters its
+  list on `player_left` and only ever adds on `player_joined`, and `rejoin_game` told
+  nobody. It does now.
+- **A refused answer was silent.** The server emits `question_not_active` when an answer
+  arrives after the reveal or past the timer; nothing in the frontend listened. The
+  screen locks in the moment a tile is tapped, so a refused answer still read "Answer
+  locked in" and the player found out only from a +0 on the results — which looks like a
+  bug rather than a wrong answer. It now says "That one did not count".
+- Fixed a listener leak next to it: the player's question component is recreated per
+  question (`{#key unique}`) and its `everyone_answered` subscription was never released,
+  so one copy accumulated per question, each holding a destroyed component's state alive.
+
+### Two things that handed out more than they should
+
+- **Any signed-in user could download any quiz's answer key.** `GET /eximport/excel/{id}`
+  fetched the user and discarded it, filtering on the quiz id alone — and a quiz id is
+  not secret: it is in the view-page URL and every Explore row. The view page already
+  sets `show_answers = is_owner` and only offers Download to an owner, so this was a hole
+  in a boundary the product had already drawn, not an open question. Owner-scoped now,
+  404 rather than 403 to match the rest of the app.
+- **`captcha_enabled` defaulted to `True` on `/quiz/start`**, which only looked harmless
+  because the single caller sends `'False'`. Any other caller opened a game demanding a
+  captcha the join page cannot render and the server cannot verify. It defaults off, and
+  it is refused outright when no provider key is configured — so a game that demands an
+  uncheckable captcha cannot be created.
+- `check_captcha` was worse than the "returns True with no secret" it was filed as: every
+  `settings.hcaptcha_key` read was on config.py's *uncalled* `lru_cache` wrapper, so it
+  raised `AttributeError` out of `join_game`. Fixed, and it now fails closed with a
+  logged reason instead of falling through.
+
+### Tidying
+
+- Removed upstream's results-export route, which sat in the module body as a bare string
+  literal that read like a docstring. Uncommenting it could never have worked: it
+  referenced three names that do not exist in the module. Kept as a comment recording the
+  intended shape, with a pointer to the export that does work.
+- The podium printed each place label twice — a visible span plus an `sr-only` copy — so
+  a screen reader read it twice at desktop width. One element with `max-sm:sr-only`.
+- `anon-game.e2e.ts` had been red since the Kahoot round sequencing landed earlier today:
+  it clicked "Next Question" straight after "Show results" and hung on the Scoreboard
+  step. The sequence is now a shared helper (`clearScoreboardStep`,
+  `advancePastResults`, `advanceToFinalResults`) rather than repeated per spec.
+
 ### Uploads: real limits, and no file manager
 
 - **Uploads had no server-side size limit.** The route passed `size = 0` into storage and

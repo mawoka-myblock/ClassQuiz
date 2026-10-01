@@ -174,6 +174,15 @@ async def rejoin_game(sid: str, data: dict):
         game_data.to_player_data(),
         room=sid,
     )
+    # The host filters its player list on `player_left` and only ever adds on
+    # `player_joined`, so without this a player who reloaded -- or whose phone dropped
+    # and came back -- was gone from the host's lobby for the rest of the game even
+    # though the server still had them.
+    await sio.emit(
+        "player_joined",
+        {"username": data.username, "sid": sid},
+        room=f"admin:{data.game_pin}",
+    )
     # A reload mid-question used to leave the player on a waiting screen until the next
     # question. Send the one that is up.
     if (
@@ -638,7 +647,17 @@ async def leave_game(sid: str, _data: dict | None = None):
     await sio.emit("player_left", {"username": username}, room=f"admin:{game_pin}")
     await sio.emit("left_game", room=sid)
 
-    # If everyone still here has already answered, the question can end now.
+    await end_question_if_everyone_answered(game_pin)
+
+
+async def end_question_if_everyone_answered(game_pin: str) -> None:
+    """Close the current question if nobody who is still here owes an answer.
+
+    "Everyone answered" is measured against `scard` of the players set, so whenever the
+    set shrinks the comparison has to be made again -- otherwise the question stays open
+    on a count that includes somebody who has gone, and the host waits out the full
+    timer. Called from leave_game and from disconnect.
+    """
     raw = await redis.get(f"game:{game_pin}")
     if raw is None:
         return
@@ -651,6 +670,43 @@ async def leave_game(sid: str, _data: dict | None = None):
         game_data.question_show = False
         await game_data.save(game_pin)
         await sio.emit("everyone_answered", {}, room=game_pin)
+
+
+@sio.event
+async def disconnect(sid: str, reason: str | None = None):
+    """A socket went away without saying so: a closed tab, a sleeping phone, dead wifi.
+
+    `reason` is taken even though it is unused: python-socketio calls disconnect handlers
+    with (sid, reason) and falls back to (sid,) only by catching TypeError from the call.
+    A one-argument handler therefore relies on that fallback -- and any TypeError raised
+    *inside* the body would be caught the same way and the handler run a second time.
+
+    There was no handler at all, so the player stayed in the set "everyone answered" is
+    counted against and the question could never end early again -- for the rest of the
+    game the host sat through every full timer because of one person who had left.
+
+    This is deliberately *not* leave_game. A disconnect is usually temporary, and the
+    rejoin path (rejoin_game) is gated on `game_session:{pin}:players:{username}` still
+    holding this sid, so deleting it here would turn every backgrounded phone into a
+    player who cannot get back in. The nickname stays claimed and the key stays put; only
+    the membership of the count is dropped, and rejoin_game adds it back.
+    """
+    session: dict = await get_session(sid, sio)
+    username = session.get("username")
+    game_pin = session.get("game_pin")
+    if not username or not game_pin:
+        # A host, a remote, or a socket that never joined a game.
+        return
+    # If this player has already rejoined on a newer socket, that socket owns them now
+    # and this late disconnect must not touch the count.
+    if await redis.get(f"game_session:{game_pin}:players:{username}") != sid:
+        return
+    await redis.srem(
+        f"game_session:{game_pin}:players",
+        GamePlayer(username=username, sid=sid).model_dump_json(),
+    )
+    await sio.emit("player_left", {"username": username}, room=f"admin:{game_pin}")
+    await end_question_if_everyone_answered(game_pin)
 
 
 @sio.event

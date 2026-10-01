@@ -103,3 +103,34 @@ export async function expectNoHorizontalOverflow(page: Page) {
 	);
 	expect(overflow, 'page scrolls horizontally').toBeLessThanOrEqual(0);
 }
+
+/**
+ * Clears the host's standings step, if it is showing.
+ *
+ * A round is three host steps, not two: the answers, then the standings, then move on
+ * (`show_scoreboard_step` in `lib/play/admin/controls.svelte`, added to match how Kahoot
+ * sequences a round). It sits before "Next Question" *and* before "Get final results",
+ * so every spec that drives a host through a results screen has to pass it. Specs
+ * written before that step hung on a screen offering "Scoreboard".
+ *
+ * Conditional rather than assumed: a slide, a hide-results question and a question
+ * whose results have not arrived yet have no standings moment.
+ */
+export async function clearScoreboardStep(page: Page) {
+	const scoreboard = page.getByRole('button', { name: 'Scoreboard' });
+	if (await scoreboard.isVisible().catch(() => false)) {
+		await scoreboard.click();
+	}
+}
+
+/** Standings, then the next question. */
+export async function advancePastResults(page: Page) {
+	await clearScoreboardStep(page);
+	await page.getByRole('button', { name: /Next Question/ }).click();
+}
+
+/** Standings, then the podium. */
+export async function advanceToFinalResults(page: Page) {
+	await clearScoreboardStep(page);
+	await page.getByRole('button', { name: /final results/i }).click();
+}

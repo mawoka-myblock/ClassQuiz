@@ -510,9 +510,31 @@ class TestPlayQuiz:
 
     @pytest.mark.asyncio
     async def test_check_captcha_enabled(self, test_client: TestClient):  # noqa : F811
+        """A game has no captcha unless one was asked for AND a provider is configured.
+
+        `captcha_enabled` defaulted to True on /quiz/start, which only looked harmless
+        because the one caller sends 'False' explicitly. Any other caller opened a game
+        demanding a captcha the join page cannot render (no sitekey) and the server
+        cannot verify (no secret) -- and `check_captcha` did not even fail open there, it
+        raised AttributeError, because `settings` is config.py's lru_cached function and
+        every read in it was on the uncalled wrapper. This test asserted the True.
+        """
         res = test_client.get(f"/api/v1/quiz/play/check_captcha/{ValueStorage.game_pin}")
         assert res.status_code == 200
-        assert res.json()["enabled"] is True
+        # The game above was started without the parameter.
+        assert res.json()["enabled"] is False
+
+        # Asking for one anyway still gets a game without it, because this suite's
+        # settings configure neither hcaptcha nor recaptcha. Storing it would be storing
+        # a check nothing could ever satisfy.
+        started = test_client.post(
+            f"/api/v1/quiz/start/{ValueStorage.quiz_id}?game_mode=kahoot&captcha_enabled=true",
+            cookies=ValueStorage.cookies,
+        )
+        assert started.status_code == 200
+        res = test_client.get(f"/api/v1/quiz/play/check_captcha/{started.json()['game_pin']}")
+        assert res.status_code == 200
+        assert res.json()["enabled"] is False
 
         res = test_client.get("/api/v1/quiz/play/check_captcha/dsadsadas")
         assert res.status_code == 404
@@ -985,6 +1007,54 @@ class TestExImport:
             "/api/v1/eximport/", files={"file": ValueStorage.exported_quiz_data}, cookies=ValueStorage.cookies
         )
         assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_excel_export_is_the_owner_only(self, test_client: TestClient):  # noqa : F811
+        """The spreadsheet carries the answer key, so it follows the same line as the UI.
+
+        The route fetched the user and discarded it (`_: User`), filtering on the quiz id
+        alone -- so any signed-in person could download any quiz's correct answers by id,
+        and a quiz id is not secret: it is in the view-page URL and every Explore row.
+        The view page already sets `show_answers = is_owner` and only offers Download to
+        an owner, so this was a hole in a boundary the product had already drawn.
+        """
+        # Own quiz: unchanged.
+        resp = test_client.get(f"/api/v1/eximport/excel/{ValueStorage.quiz_id}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 200
+        assert resp.headers["content-type"].startswith("application/vnd.openxmlformats")
+
+        # A quiz this user does not own. Anonymous is the cheapest one to make here, and
+        # it is the case the old filter got wrong: user_id was ignored entirely.
+        start = test_client.post("/api/v1/editor/start?edit=false")
+        assert start.status_code == 200
+        finish = test_client.post(
+            f"/api/v1/editor/finish?edit_id={start.json()['token']}",
+            json={
+                "public": False,
+                "title": "Not yours",
+                "description": "d",
+                "questions": [
+                    {
+                        "question": "Q?",
+                        "time": "20",
+                        "type": "ABCD",
+                        "answers": [{"answer": "a", "right": True}, {"answer": "b", "right": False}],
+                    }
+                ],
+            },
+        )
+        assert finish.status_code == 200
+        other_id = finish.json()["id"]
+
+        resp = test_client.get(f"/api/v1/eximport/excel/{other_id}", cookies=ValueStorage.cookies)
+        # 404 rather than 403, matching _find_own_quiz: someone else's quiz answers
+        # exactly like one that does not exist.
+        assert resp.status_code == 404
+
+    @pytest.mark.asyncio
+    async def test_excel_export_needs_a_login(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.get(f"/api/v1/eximport/excel/{ValueStorage.quiz_id}")
+        assert resp.status_code == 401
 
 
 class TestDeleteStuff:

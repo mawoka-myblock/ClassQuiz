@@ -47,7 +47,14 @@ Also fixed along the way:
 - **The login page followed any `returnTo`**, including `https://elsewhere`, which is an open redirect right after a password prompt. `safeReturnTo` (unit-tested) now only allows paths on this site.
 
 Found, not fixed:
-- `join_game` calls `check_captcha(...)` without `await`, so the coroutine is always truthy and the check never refuses anyone. Captcha is off in this deployment, so it has no effect today. Fix it before anybody turns captcha back on.
+- ~~`join_game` calls `check_captcha(...)` without `await`~~ — **fixed 2026-10-01**, and it
+  was worse than filed. The `await` was added earlier; the remaining bug was that every
+  `settings.hcaptcha_key` read inside `check_captcha` was on config.py's *uncalled*
+  `lru_cache` wrapper, so it raised `AttributeError` out of `join_game` rather than
+  passing anyone. It now fails closed with a logged reason when no provider key is set,
+  and `captcha_enabled` (which defaulted to **True** on `/quiz/start`) defaults off and
+  is refused outright without a key — so a game demanding an uncheckable captcha cannot
+  be opened.
 - The editor's yup schema caps a quiz at 50 questions, but its message says 32. The server has no cap (500 questions tested fine).
 - **Host events race on the stored game** (found 2026-09-29 writing the exit tests). python-socketio runs each event in its own task, and `start_game`, `set_question_number` and `get_question_results` all read `game:{pin}`, change one field and write the whole thing back. Sent back to back, `set_question_number` can read the game before `start_game` has saved it and then write `started=False` back over it. The host UI can't do this -- it offers "next" only after the server's `start_game` arrives -- so it is a protocol-level gap, not a live bug. A crafted or scripted host could hit it. The fix is per-field storage (`HSET`) or a `WATCH` transaction like `record_answer_once`. The socket specs wait for `start_game` before showing a question for this reason.
 
@@ -179,3 +186,5 @@ once into `e2e/.tools`. Logs, the HTML report, and traces of failed tests go to
 | `account` | Register, log in, dashboard, claim, Explore, saved results. |
 | `game-reload` | Player and host reloads mid-game. |
 | `responsive` | The overflow sweep at three widths, and the theme toggle. |
+| `disconnect` | A closed tab stops blocking the question; a reload keeps the player on the host's list. |
+| `uploads` | The editor's picker: the size rule, an oversized file, a type the server refuses, and a real upload. |
