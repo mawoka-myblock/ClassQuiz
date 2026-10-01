@@ -6,11 +6,11 @@ Internal Kahoot-style quiz tool, forked from the open-source **ClassQuiz** proje
 
 - **Scope**: internal tool for now. Don't over-invest in things only public/multi-tenant products need (billing, heavy scalability, public docs) unless asked — but don't actively break the ability to widen scope later either.
 - **Stack** (inherited from ClassQuiz, see repo root for details): FastAPI + python-socketio backend (`frogquiz/`), SvelteKit 2/Svelte 5 + TypeScript frontend (`frontend/`), Postgres, Redis, Meilisearch, Alembic migrations.
-- **Redesign direction**: a frog-themed visual identity built with **shadcn-svelte** (see below). Done: the theme foundation, login, My Quizzes (`/my-quizzes`, which `/dashboard` now redirects to), the view page, the editor, and all four game surfaces (lobby, host question, per-question results, podium). Not done: the account, docs, explore, search and results-history routes, which still look like upstream.
+- **Redesign direction**: a frog-themed visual identity built with **shadcn-svelte** (see below). Done: the theme foundation, login, register, My Account, My Quizzes (`/my-quizzes`, which `/dashboard` now redirects to), the view page, the editor (rebuilt as one column of question cards, 2026-10-01), the join screen, and all four game surfaces (lobby, host question, per-question results, podium). `/explore` works and is headed Discover but its cards are still upstream's. The docs and results-history routes are hidden rather than redesigned. A full visual pass of every route at 390/834/1440 in both themes is in [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
 ## Redesign: shadcn-svelte
 
-Config lives in `frontend/components.json`: style `vega`, base colour `zinc`, theme `green` (this is what makes `--primary` the frog green), Lucide icons, Inter. Components land in `frontend/src/lib/components/ui/`, the `cn` helper in `frontend/src/lib/utils.ts`.
+Config lives in `frontend/components.json`: style `vega`, base colour `zinc`, Lucide icons, Inter. **`--primary` is zinc, not green** — the preset's `green` theme is not in `app.css` and `components.json` carries no `theme` key, so every primary control is black in light mode and near-white in dark. That was checked and kept on 2026-10-01 (MVP.md D17); the doc used to claim the opposite. Components land in `frontend/src/lib/components/ui/`, the `cn` helper in `frontend/src/lib/utils.ts`.
 
 - **Adding components**: `node ./node_modules/shadcn-svelte/dist/index.mjs add <name> -y -o` from `frontend/`. The `-y -o` flags matter — without them the CLI opens a TUI that cannot be driven from a piped stdin, and it will hang.
 - **There is no shadcn-svelte MCP server.** The `shadcn-svelte` CLI has no `mcp` command, and the generic shadcn (React) MCP cannot read this registry: it requests an index at `/registry/registry.json` (shadcn-svelte serves `index.json`), and its item schema requires `files[].path` where shadcn-svelte emits `target`. Don't re-litigate this — use the CLI. For docs and usage examples, the Context7 MCP covers shadcn-svelte.
@@ -56,6 +56,14 @@ Beyond the three in "Things that keep coming back", these have each shipped:
 - **A screen that is not inside `fq-stage` has no vertical rhythm at all.** The host
   question screen was the only game surface missing it, which is why its content sat
   flush against the top of the projector with the bottom half empty.
+- **Keying an `{#each}` by index reuses the component that sat at that index.** The
+  editor column did, and its cards hold a CKEditor instance that keeps its own copy of
+  the text — so deleting question 2 left the open card showing question 2's text over
+  question 3's answers. Questions have no id, so identity is minted in `editor.svelte`
+  with a `WeakMap`.
+- **A button inside a `<form>` with no `type` submits it.** The editor is one form, so
+  an `AlertDialog.Trigger` on the delete icon saved the quiz and left for the view page
+  instead of asking.
 
 ### Responsive baseline
 

@@ -193,7 +193,7 @@ Owner column: **G** Gonçalo, **F** François, **G+F** both.
 | D4 | Results history and Analytics: hide, together with the Save results button | Hide all three. **G (2026-09-29): hide all three** | ☑ hide | ☐ |
 | D5 | Download: keep (it is the only backup/export) and restyle, or hide | Keep `.cqa` only if D6 keeps Import; otherwise hide. **G (2026-09-28): keep and restyle; (2026-09-29, after D6): Excel only**, `.cqa` hidden until Import returns | ☑ keep, Excel | ☐ |
 | D6 | Import: expose in MVP or hide | Decide after the three test imports in §3. **G (2026-09-29): hide**, with its doc page | ☑ hide | ☐ |
-| D7 | Editor redesign: continuous Google Forms-style list replaces the rail | Yes, but after everything in 4.1–4.3 ships | ☑ | ☐ |
+| D7 | Editor redesign: continuous Google Forms-style list replaces the rail | Yes, but after everything in 4.1–4.3 ships. **Done 2026-10-01** (§4.5), with one deviation: no drawer below `lg`. The column of cards is the navigation on a phone, as in Forms and Kahoot; an outline sits beside it from `lg` up | ☑ | ☐ |
 | D8 | Shared contact address to replace `francois.prevot@frog.co` in the ToS, `CONTACT.md` and `CONTRIBUTING.md` | Needs a real team channel. **G (2026-09-29): leave the placeholder for now**; does not block internal sharing | ☐ | ☐ |
 | D9 | User database / login architecture for V1 = the "account is what makes a quiz permanent" model in mvp-scope.md; Azure SSO after V1 | Confirm | ☑ | ☐ |
 | D10 | English-only (33 locale files removed) | Confirm. **G (2026-09-29): English-only for the MVP, but keep the i18n machinery** (i18next, `getLocalization`, the backend's language handling); more languages are an MVP2 item (§4.8) | ☑ | ☐ |
@@ -202,6 +202,8 @@ Owner column: **G** Gonçalo, **F** François, **G+F** both.
 | D13 | What "private" means: today anyone with the link can open a private quiz's view page (only the owner can start it) | **G (2026-09-29): relabel it "Unlisted"** — public = in Discover, unlisted = link only. No backend change | ☑ | ☐ |
 | D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt. **Done 2026-09-29**, see §4.5; the draft state is derived from the questions rather than stored | ☑ | ☐ |
 | D15 | Hide `/remote`, public profiles (`/user/[id]`), the avatar editor, and the Files library (`/edit/files`, `/dashboard/files`, `/edit/videos`) | **G (2026-09-29): hide all** | ☑ | ☐ |
+| D16 | Do players need the question and answer text on their own phone? Today they see shapes only, as Kahoot does — right in a room with a projector, wrong on a call | Needs a decision; it is a product choice, not a bug | ☐ | ☐ |
+| D17 | `--primary` is shadcn's zinc default, so every primary control is black. `CLAUDE.md` said theme `green` made it the frog green; it does not | **F (2026-10-01): stay zinc.** `CLAUDE.md` corrected instead | ☐ | ☑ |
 
 G's ticks above were given in Claude sessions on 2026-09-28 and 2026-09-29. D12 is already
 implemented on the view page, since it is a display choice and reversible in one line; say
@@ -224,6 +226,11 @@ because they may reorder everything else.
 - [ ] Delete a test account that owns a quiz and an uploaded image; confirm both are gone
 - [ ] Check `MAIL_*` is set on the production API (`DEPLOY.md` → Email)
 - [ ] Run `bash e2e/run.sh` locally and record the result here: ______
+- [ ] Confirm the `worker` container is running in production. The 30-day deletion the
+      anonymous copy promises is an arq cron (`frogquiz/worker/storage.py`, 03:00 daily);
+      nothing else enforces it, so without that container the promise is not kept
+- [x] Run the backend suite on clean infrastructure — 2026-10-01: 134 passed, 1 skipped
+- [ ] Close #16: the start-game modal was rebuilt and driven in a browser on 2026-10-01
 
 > **Running the e2e suite from a VS Code terminal:** with the project venv active,
 > `python` is the venv's own interpreter, which has no pipenv, and `run.sh` dies with
@@ -246,6 +253,14 @@ because they may reorder everything else.
 - [x] `/account/settings` becomes "My Account" (heading, tab title, navbar, command palette); remove the avatar and public-profile buttons
 
 ### 4.3 Close the gaps in the core flow
+
+**Landed 2026-10-01**, from the full visual audit (`docs/audit-2026-10-01.md`):
+
+- [x] After each question a player is told **Correct!** or **Not this time**, with an icon as well as the colour, then the points, their total and their place. It was a bare "+760", so scoring 0 read as a broken game. Nothing new crosses the socket
+- [x] The **podium builds up** — third, second, first, 1.4s apart — in gold, silver and bronze with a crown and confetti, and does none of that under `prefers-reduced-motion`
+- [x] The **join screen** is the landing page's PIN card rather than a floating label, an unlabelled box and a grey Submit
+- [x] The host's per-question **results scale for a projector**; they were set at laptop size behind a question screen set at 90px
+- [x] **Play** is no longer offered to a signed-in visitor on somebody else's unlisted quiz, which `quiz/start` answers with a 404
 
 - [x] **Exit the lobby** — host can cancel a game that hasn't started (end the game server-side, return to My Quizzes). New `end_game` socket event; players see "The host ended the game" and the PIN stops resolving
 - [x] **Exit mid-game** — host "End game" with a confirm; goes to the podium or back
@@ -284,7 +299,7 @@ Drafts first — they are small and help whichever editor we end up with.
 - [x] Only block **Start**, not **Save**. The editor **autosaves** to the server 2.5s after typing pauses, once the quiz has a title and a question (`POST /editor/save`, which keeps the edit session open; a new quiz's first save creates it and the URL becomes `/edit?quiz_id=`). Save on an unfinished quiz keeps it as a draft and says what is left; on a finished one it goes to the view page. Back saves first. **No draft column:** a quiz is a draft when a question is unfinished, worked out from its questions by one rule on both sides (`lib/editor/question_complete.ts` and `frogquiz/helpers/completeness.py`), so a flag can never disagree with the quiz. `quiz/start` refuses drafts with a 400 naming the questions; the view page and My Quizzes show a **Draft** badge and disable Play. The server already accepted incomplete quizzes, so `QuizInput` did not need relaxing. Pinned by `e2e/editor.e2e.ts` and `e2e/drafts.e2e.ts`
 - [x] Label/placeholder on the description field. It is now optional too: it was required, at least three characters, with nothing saying so
 - [x] Fix the question-cap message: the schema caps at 50 but said 32
-- [ ] **Redesign:** one scrolling column of question cards, each editing its question and answers in place, "+" between and after cards (Google Forms / Kahoot style), drag-to-reorder kept; the rail becomes an optional outline on wide screens and a drawer below `lg`
+- [x] **Redesign (2026-10-01):** one scrolling column — quiz setup, a card per question, then Add. The open card edits in place; the others stay as question text plus answer chips, which also keeps CKEditor to one instance instead of one per question. "+" between cards, duplicate, drag or arrow to reorder, delete behind a confirm. An outline sits beside the column from `lg` up; below that the column is the navigation, so there is no drawer (the deviation from D7, which assumed the rail had to survive). A new quiz shows title, description and "Add your first question", with the other four setup fields folded behind More settings. True / False was added as a preset: an ABCD question with its two answers already written. Pinned by `e2e/editor-column.e2e.ts`
 
 ### 4.6 Quality and security
 
@@ -295,6 +310,10 @@ Drafts first — they are small and help whichever editor we end up with.
 - [x] Decide whether "private" should mean private: `GET /quiz/get/public/{id}` serves any quiz by link today, so private currently means unlisted — relabelled **Unlisted** with a link icon and a one-line explanation in the editor (D13)
 - [x] Close issue #13 (deletion fixed by #14; email change deferred by agreement) — closed 2026-09-29, with #18
 - [ ] Add `svelte-check` to CI once the ~300 errors in our own code are down (the other ~820 are inside `bits-ui`'s types)
+- [x] Hidden routes 404 through the app's own error page (2026-10-01). They were guarded in `handle`, which runs before the router, so SvelteKit answered with its built-in fallback: bare "404 | Not found", no navbar, no way home, on exactly the sixteen URLs we hide. `lib/hidden_routes.ts` holds the list and `hooks.ts` reroutes them
+- [x] The editor no longer drops an edit typed in the first half-second after it opens (2026-10-01). The "nothing has changed yet" baseline was taken 500ms late and swallowed the change, so Save sent nothing and still went to the quiz page saying "Saved"
+- [x] Run the backend suite on clean infrastructure — 2026-10-01: **134 passed, 1 skipped**
+- [ ] Make `e2e/run.sh` run on Linux and macOS. It looks for `pg_ctl.exe`, `meilisearch-windows-amd64.exe`, `%APPDATA%\npm\pnpm` and pipenv, so the stack can only be stood up on the machine it was written for
 
 ### 4.7 Sign-off play test (the gate before sharing)
 
