@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 from pydantic import BaseModel
 
 from frogquiz.auth import get_current_user, get_current_user_optional
-from frogquiz.config import settings, storage, arq, ALLOWED_MIME_TYPES
+from frogquiz.config import settings, storage, arq, UPLOAD_LIMITS, MAX_UPLOAD_SIZE
 from frogquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem, PrivateStorageItem
 from frogquiz.helpers import check_image_string
 from frogquiz.storage.errors import DownloadingFailedError
@@ -117,6 +117,32 @@ async def download_file_head(file_name: str) -> Response:
     return resp
 
 
+class UploadLimits(BaseModel):
+    """What the editor's file picker is allowed to offer."""
+
+    # mime type -> largest file in bytes
+    per_type: dict[str, int]
+    # The smallest of those, which is the number to show a person: the picker does not
+    # know which type they are about to choose.
+    max_file_size: int
+    accepted_types: list[str]
+
+
+@router.get("/limits")
+async def get_upload_limits() -> UploadLimits:
+    """The upload rules, so the browser does not carry its own copy of them.
+
+    The editor used to hardcode a 10MB cap and its own list of four mime types in
+    `uploader.svelte`, neither of which matched the server. Reading them means a
+    change to `config.py` moves both.
+    """
+    return UploadLimits(
+        per_type=UPLOAD_LIMITS,
+        max_file_size=min(UPLOAD_LIMITS.values()),
+        accepted_types=list(UPLOAD_LIMITS),
+    )
+
+
 @router.post("/")
 async def upload_file(
     file: UploadFile = File(), user: User | None = Depends(get_current_user_optional)
@@ -125,12 +151,35 @@ async def upload_file(
     # anonymous host can use end to end (see routers/editor.py). Requiring a login
     # here made every upload from that flow fail silently in the UI -- there is no
     # per-user quota to check without a user, so anonymous uploads skip it.
-    if file.content_type not in ALLOWED_MIME_TYPES:
+    limit = UPLOAD_LIMITS.get(file.content_type)
+    if limit is None:
         raise HTTPException(status_code=422, detail="Unsupported")
-    if user is not None and user.storage_used > settings.free_storage_limit:
+    # The size, before anything is written. This route used to pass size=0 into storage
+    # and store 0 on the row, so nothing in the request path ever knew how big the file
+    # was: the only cap in the product was Uppy's, in the browser, and this endpoint
+    # takes anonymous uploads. `request_size_guard` in frogquiz/__init__.py rejects on
+    # Content-Length before the body is read; this is the check that cannot be lied to,
+    # because by now the bytes are counted.
+    #
+    # Starlette fills .size from the multipart parser. It is None only if the part
+    # carried no length, in which case fall back to measuring the spooled file.
+    file_size = file.size
+    if file_size is None:
+        file_size = file.file.seek(0, 2)
+        file.file.seek(0)
+    if file_size > limit:
+        raise HTTPException(
+            status_code=413,
+            detail=f"File is too large: {file_size} bytes, limit is {limit}",
+        )
+    if file_size == 0:
+        raise HTTPException(status_code=422, detail="File is empty")
+    # Checked against the file in hand, not just the account's running total, so the
+    # last upload before the quota cannot be an arbitrarily large one. The total is
+    # maintained by the calculate_hash worker job.
+    if user is not None and user.storage_used + file_size > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
-    file_size = 0
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),
@@ -156,18 +205,37 @@ async def upload_file(
 async def upload_raw_file(request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
+    mime_type = request.headers.get("Content-Type")
+    limit = UPLOAD_LIMITS.get(mime_type)
+    if limit is None:
+        raise HTTPException(status_code=422, detail="Unsupported")
     file_id = uuid4()
     data_file = SpooledTemporaryFile(max_size=1000)
+    # This one reads the body itself, so unlike the multipart route it can stop in the
+    # middle of a transfer rather than measuring the whole thing after the fact. It
+    # stored size=0 and had no cap at all, which on the S3 backend means the payload
+    # is then read into memory in one piece to be signed.
+    file_size = 0
     async for chunk in request.stream():
+        file_size += len(chunk)
+        if file_size > limit:
+            data_file.close()
+            raise HTTPException(status_code=413, detail=f"File is too large: limit is {limit} bytes")
         data_file.write(chunk)
+    if file_size == 0:
+        data_file.close()
+        raise HTTPException(status_code=422, detail="File is empty")
+    if user.storage_used + file_size > settings.free_storage_limit:
+        data_file.close()
+        raise HTTPException(status_code=409, detail="Storage limit reached")
     data_file.seek(0)
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),
-        mime_type=request.headers.get("Content-Type"),
+        mime_type=mime_type,
         hash=None,
         user=user,
-        size=0,
+        size=file_size,
         deleted_at=None,
         alt_text=None,
     )
@@ -176,7 +244,8 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
         file_name=file_id.hex,
         # skipcq: PYL-W0212
         file_data=data_file._file,
-        mime_type=request.headers.get("Content-Type"),
+        mime_type=mime_type,
+        size=file_size,
     )
     await file_obj.save()
     await arq.enqueue_job("calculate_hash", file_id.hex)

@@ -50,6 +50,16 @@ SPDX-License-Identifier: MPL-2.0
 
 	let selected_type: AvailableUploadTypes | null = $state(null);
 
+	// Used only until GET /api/v1/storage/limits answers, and if it never does. Keep them
+	// no larger than config.py's max_image_upload_size, so a failed fetch errs tight
+	// rather than letting through a file the server will reject after the upload.
+	const FALLBACK_MAX_FILE_SIZE = 8_000_000;
+	const FALLBACK_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+	// Shown under the picker, so the rule is visible before a file is chosen rather than
+	// only in an error after one is.
+	let max_file_size = $state(FALLBACK_MAX_FILE_SIZE);
+	const max_file_size_mb = $derived(Math.round(max_file_size / 1_000_000));
+
 	// eslint-disable-next-line no-unused-vars
 	enum AvailableUploadTypes {
 		// eslint-disable-next-line no-unused-vars
@@ -68,7 +78,21 @@ SPDX-License-Identifier: MPL-2.0
 	// never-mounted Dashboard in the instance and -- because ImageEditor was targeted at
 	// the Dashboard *class* -- attached the image editor to that dead one instead of the
 	// visible one. Install ImageEditor untargeted and let the visible Dashboard list it.
-	const uppy = new Uppy()
+	// `restrictions` is a Core option. It was being passed through the Dashboard's props
+	// instead -- and `restrictions` appears nowhere in @uppy/dashboard's types, so the
+	// picker has in fact never had a size cap or a type filter: it accepted an SVG and a
+	// 2GB file alike and left the server to answer. The earlier fix in this file (`props`
+	// rather than `properties`) was real but in the wrong place.
+	//
+	// These are starting values. `onMount` replaces them with the server's own numbers
+	// from GET /api/v1/storage/limits, so config.py is the only place they are written.
+	const uppy = new Uppy({
+		restrictions: {
+			maxFileSize: FALLBACK_MAX_FILE_SIZE,
+			maxNumberOfFiles: 1,
+			allowedFileTypes: FALLBACK_TYPES
+		}
+	})
 		.use(DropTarget, {
 			target: document.body
 		})
@@ -81,22 +105,17 @@ SPDX-License-Identifier: MPL-2.0
 		.use(XHRUpload, {
 			endpoint: `/api/v1/storage/`
 		});
-	// @uppy/svelte v4's Dashboard prop for the plugin's options is `props` -- this was
-	// passed as `properties`, which the component ignores, so none of these restrictions
-	// were ever applied. `inline: true` is the component's own default.
+	// @uppy/svelte v4's Dashboard prop for the plugin's options is `props`, not
+	// `properties`. `inline: true` is the component's own default. Restrictions are not
+	// a Dashboard option and live on the Uppy instance above.
 	const dashboard_options = {
-		plugins: ['ImageEditor'],
-		restrictions: {
-			maxFileSize: 10_490_000,
-			maxNumberOfFiles: 1,
-			// Matches ALLOWED_MIME_TYPES in frogquiz/config.py. 'image/*' let SVGs through
-			// the picker only for the server to answer 422.
-			allowedFileTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp']
-		}
+		plugins: ['ImageEditor']
 	};
 	// Read eagerly rather than inside the `complete` callback: that fires from Uppy, not
 	// from the component, and `$t` is a store read that wants component context.
 	const upload_failed_msg = $derived($t('uploader.upload_failed'));
+	const too_large_msg = $derived($t('uploader.too_large', { size: max_file_size_mb }));
+	const quota_msg = $derived($t('uploader.quota_reached'));
 	let image_id: string | undefined;
 	uppy.on('upload', () => {
 		// Don't let an id from an earlier attempt stand in for this one.
@@ -104,6 +123,16 @@ SPDX-License-Identifier: MPL-2.0
 	});
 	uppy.on('upload-success', (file, response) => {
 		image_id = (response.body as { id?: string } | undefined)?.id;
+	});
+	// Uppy's own error text for a failed XHR is the status line, which tells a person
+	// nothing. The two refusals they can actually act on get their own words.
+	uppy.on('upload-error', (file, error, response) => {
+		const status = response?.status;
+		if (status === 413) {
+			uppy.info(too_large_msg, 'error', 8000);
+		} else if (status === 409) {
+			uppy.info(quota_msg, 'error', 8000);
+		}
 	});
 	// A failed upload used to look exactly like a successful one: `complete` wrote
 	// `undefined` into the quiz and closed the modal either way, which is why a 401 from
@@ -140,6 +169,28 @@ SPDX-License-Identifier: MPL-2.0
 			data.questions[selected_question].image = e.newValue;
 			selected_type = null;
 		});
+	});
+
+	// The limits come from the server so there is one copy of them. A person finding out
+	// their file is too big from Uppy, before it uploads, is the whole point: the server
+	// answers 413 either way, but only after they have waited for the transfer.
+	onMount(async () => {
+		try {
+			const res = await fetch('/api/v1/storage/limits');
+			if (!res.ok) return;
+			const limits: { max_file_size: number; accepted_types: string[] } = await res.json();
+			if (!limits.max_file_size || !limits.accepted_types?.length) return;
+			uppy.setOptions({
+				restrictions: {
+					maxFileSize: limits.max_file_size,
+					maxNumberOfFiles: 1,
+					allowedFileTypes: limits.accepted_types
+				}
+			});
+			max_file_size = limits.max_file_size;
+		} catch {
+			// Keep the fallbacks. An unreachable API is about to fail the upload anyway.
+		}
 	});
 
 	const upload_video = async () => {
@@ -231,6 +282,10 @@ SPDX-License-Identifier: MPL-2.0
 				<div>
 					<SvelteDashboard {uppy} props={dashboard_options} />
 				</div>
+				<!-- State the rule before a file is picked, not only in the error after. -->
+				<p class="text-muted-foreground mt-3 text-center text-sm">
+					{$t('uploader.size_hint', { size: max_file_size_mb })}
+				</p>
 			</div>
 		{:else if selected_type === AvailableUploadTypes.Video}
 			<div

@@ -10,6 +10,15 @@
 	reverse_proxy /rapidoc* localhost:8000
 	reverse_proxy /openapi.json localhost:8000
 	reverse_proxy /socket.io* localhost:8000
+
+	# Stop an oversized upload at the edge, before it reaches the API at all. The API
+	# rejects on Content-Length too and then on the counted bytes, but by then Starlette
+	# has spooled the body to a temp file. Keep this above the per-file ceiling in
+	# frogquiz/config.py (max_image_upload_size) with room for the multipart framing.
+	@upload path /api/v1/storage/*
+	request_body @upload {
+		max_size 10MB
+	}
 }
 
 192.168.100.127:8081 {
@@ -19,4 +28,13 @@
 	reverse_proxy /rapidoc* localhost:8000
 	reverse_proxy /openapi.json localhost:8000
 	reverse_proxy /socket.io* localhost:8000
+
+	# Stop an oversized upload at the edge, before it reaches the API at all. The API
+	# rejects on Content-Length too and then on the counted bytes, but by then Starlette
+	# has spooled the body to a temp file. Keep this above the per-file ceiling in
+	# frogquiz/config.py (max_image_upload_size) with room for the multipart framing.
+	@upload path /api/v1/storage/*
+	request_body @upload {
+		max_size 10MB
+	}
 }

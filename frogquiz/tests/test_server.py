@@ -8,7 +8,7 @@ import uuid
 
 import pytest
 from redis import Redis
-from frogquiz.config import settings
+from frogquiz.config import settings, UPLOAD_LIMITS
 from frogquiz.tests import test_user_email, test_user_password, example_quiztivity
 from frogquiz.tests import test_client, example_quiz, ValueStorage  # noqa : F401
 from fastapi.testclient import TestClient
@@ -584,15 +584,125 @@ class TestStorage:
         ValueStorage.file_id = data["id"]
 
     @pytest.mark.asyncio
+    async def test_upload_file_records_its_size(self, test_client: TestClient):  # noqa : F811
+        """The row carries the real byte count, not 0.
+
+        The route used to pass size=0 into storage and save 0, so nothing in the request
+        path knew how big the file was and the per-account quota could only ever be
+        reconciled afterwards by the worker.
+        """
+        body = b"a" * 4096
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("img.png", body, "image/png")},
+        )
+        assert resp.status_code == 200
+        # The response is the stored row, so this is the saved value, not the request's.
+        assert resp.json()["size"] == len(body)
+
+    @pytest.mark.asyncio
+    async def test_upload_file_too_large_is_refused(self, test_client: TestClient):  # noqa : F811
+        oversize = b"a" * (UPLOAD_LIMITS["image/png"] + 1)
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("big.png", oversize, "image/png")},
+        )
+        # One byte over, so the Content-Length guard's slack does not catch it: this is
+        # the route's own check on the counted bytes.
+        assert resp.status_code == 413
+
+    @pytest.mark.asyncio
+    async def test_oversized_body_is_refused_before_it_is_parsed(self, test_client: TestClient):  # noqa : F811
+        """Comfortably over the ceiling, so the middleware answers rather than the route.
+
+        It matters which one answers. Starlette spools a multipart part past 1MB to a temp
+        file, so without the Content-Length check a 2GB upload is 2GB written to disk
+        before any of our code runs.
+        """
+        way_over = b"a" * (UPLOAD_LIMITS["image/png"] + 256 * 1024)
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("huge.png", way_over, "image/png")},
+        )
+        assert resp.status_code == 413
+        assert "too large" in resp.json()["detail"].lower()
+
+    @pytest.mark.asyncio
+    async def test_upload_file_at_the_limit_is_accepted(self, test_client: TestClient):  # noqa : F811
+        """The boundary is inclusive, so the limit is a limit and not limit-minus-one."""
+        exact = b"a" * UPLOAD_LIMITS["image/png"]
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("exact.png", exact, "image/png")},
+        )
+        assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_upload_empty_file_is_refused(self, test_client: TestClient):  # noqa : F811
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("empty.png", b"", "image/png")},
+        )
+        assert resp.status_code == 422
+
+    @pytest.mark.asyncio
+    async def test_upload_limits_are_published(self, test_client: TestClient):  # noqa : F811
+        """The editor reads these rather than carrying its own copy."""
+        resp = test_client.get("/api/v1/storage/limits")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["per_type"] == UPLOAD_LIMITS
+        assert data["max_file_size"] == min(UPLOAD_LIMITS.values())
+        assert set(data["accepted_types"]) == set(UPLOAD_LIMITS)
+        # Video upload is off for the MVP: /edit/videos is hidden and the editor passes
+        # video_upload={false}, so accepting video/mp4 would be an upload path with no UI.
+        assert "video/mp4" not in data["accepted_types"]
+        # SVG is a script-injection vector and is never accepted.
+        assert "image/svg+xml" not in data["accepted_types"]
+
+    @pytest.mark.asyncio
     async def test_upload_raw_file(self, test_client: TestClient):  # noqa : F811
         resp = test_client.request(
             "POST",
             "/api/v1/storage/raw",
             data=b"data!",
-            headers={"Content-Type": "image/svg+xml"},
+            headers={"Content-Type": "image/png"},
             cookies=ValueStorage.cookies,
         )
         assert resp.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_upload_raw_file_rejects_unaccepted_type(self, test_client: TestClient):  # noqa : F811
+        """This endpoint used to take any Content-Type, SVG included.
+
+        The multipart route refused what was not in the allow-list while /raw next to it
+        accepted anything, which made the allow-list advisory.
+        """
+        resp = test_client.request(
+            "POST",
+            "/api/v1/storage/raw",
+            data=b"<svg onload=alert(1)>",
+            headers={"Content-Type": "image/svg+xml"},
+            cookies=ValueStorage.cookies,
+        )
+        assert resp.status_code == 422
+
+    @pytest.mark.asyncio
+    async def test_upload_raw_file_stops_mid_stream(self, test_client: TestClient):  # noqa : F811
+        """Unlike the multipart route this one reads the body itself, so it can stop."""
+        resp = test_client.request(
+            "POST",
+            "/api/v1/storage/raw",
+            data=b"a" * (UPLOAD_LIMITS["image/png"] + 1),
+            headers={"Content-Type": "image/png"},
+            cookies=ValueStorage.cookies,
+        )
+        assert resp.status_code == 413
 
     @pytest.mark.asyncio
     async def test_get_file_info(self, test_client: TestClient):  # noqa : F811
@@ -604,7 +714,9 @@ class TestStorage:
         assert resp.status_code == 404
         resp = test_client.get(f"/api/v1/storage/meta/{ValueStorage.file_id}", cookies=ValueStorage.cookies)
         data = resp.json()
-        assert data["size"] == 0
+        # The bytes test_upload_file sent. This asserted 0, which was the upload route
+        # storing size=0 on every row -- the assertion was pinning the bug in place.
+        assert data["size"] == len(b"png_content")
         assert data["imported"] is False
         assert data["alt_text"] is None
         assert data["filename"] is None

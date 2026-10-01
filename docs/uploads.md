@@ -1,0 +1,121 @@
+<!--
+SPDX-FileCopyrightText: 2026 frogQuiz contributors
+
+SPDX-License-Identifier: MPL-2.0
+-->
+
+# Uploads: what we accept, how big, and why there is no file manager
+
+Decided 2026-10-01. The short version: **a quiz owns its images, nobody manages a media
+library, and every upload has a ceiling the server enforces.**
+
+## No file manager
+
+Upstream shipped one — `/edit/files` and `/dashboard/files`, backed by
+`GET /api/v1/storage/list`, plus a "Library" tab and a Pixabay search in the editor's
+upload dialog. For a team quiz tool that is a second thing to learn and a second place
+for state to rot: you pick an image for a question, and that is the whole job.
+
+So the posture is **a picture belongs to the question it is on**. All four entry points
+are off:
+
+| Surface | How it is off |
+| --- | --- |
+| `/edit/files`, `/dashboard/files` | `DISABLED_ROUTES` in `frontend/src/lib/hidden_routes.ts` |
+| Library tab in the upload dialog | `library_enabled={false}` at every `uploader.svelte` call site |
+| Pixabay tab | `pixabay_enabled={false}` at every call site, and `pixabay_api_key` is unset |
+| Video upload (`/edit/videos`) | `DISABLED_ROUTES`, `video_upload={false}`, and `enable_video_upload: bool = False` |
+
+Nothing is deleted — `GET /api/v1/storage/list` and `lib/files/dashboard.svelte` are
+still there — so this is four lines to reverse if the team ever wants a library. See
+[`mvp-scope.md`](mvp-scope.md) for the general hide-don't-delete rule.
+
+The one thing a person still needs is a way to remove an image they no longer want.
+`DELETE /api/v1/storage/meta/{file_id}` does it per file and is owner-filtered, and
+`DELETE /api/v1/users/me` takes a leaver's files with it. Replacing a question's image
+simply points the question at a new one; the old row is then unreferenced. **There is no
+UI for either today** — see the open item in [`../TODO.md`](../TODO.md).
+
+## What is accepted
+
+`upload_limits()` in `frogquiz/config.py` is the single table. "Is this type allowed" and
+"how big may it be" are the same lookup, so they cannot disagree.
+
+| Type | Ceiling | Setting |
+| --- | --- | --- |
+| `image/png`, `image/jpeg`, `image/gif`, `image/webp` | 8 MB | `max_image_upload_size` |
+| `video/mp4` | 25 MB, **and off** | `max_video_upload_size`, `enable_video_upload` |
+| Per account, all files | 256 MiB | `free_storage_limit` |
+
+`image/svg+xml` is not accepted and should not be: an SVG is a script-injection vector
+and nothing in a quiz needs one.
+
+**Why 8 MB.** Roughly a 4000x3000 JPEG at quality 85 — more than a question image ever
+needs on a projector, and the editor runs Uppy's Compressor at quality 0.6 before it
+uploads anyway. Kahoot allows 50 MB for a question image and 5 MB for a cover
+([their docs](https://support.kahoot.com/hc/en-us/articles/115002815387-Kahoot-images-How-to-use-images-and-GIFs));
+we are an internal tool on free-tier storage, so tighter is the right trade. Raise
+`max_image_upload_size` if somebody has a real case, and raise the Caddy `max_size`
+with it.
+
+**Why 256 MiB per account**, down from upstream's ~1.07 GB: thirty quizzes with a cover
+and a question image each is a few megabytes. The old number was sized for a public SaaS
+with paid tiers behind it. One env var puts it back.
+
+## How it is enforced
+
+Three layers, because each catches what the others cannot:
+
+1. **Caddy**, `request_body @upload { max_size 10MB }` scoped to `/api/v1/storage/*` in
+   both `Caddyfile` and `Caddyfile-docker`. Stops it at the edge. Scoped with a matcher
+   so a large quiz JSON save is unaffected. Keep it above `max_image_upload_size`.
+2. **`request_size_guard`** in `frogquiz/__init__.py` — rejects on `Content-Length`
+   before the body is read. This is the one that matters for cost: Starlette spools a
+   multipart part past 1 MB to a temp file, so without it a 2 GB upload is 2 GB written
+   to disk before any of our code runs. It allows 64 KiB of slack for the multipart
+   framing, so it is deliberately loose; the route is the precise check.
+3. **The routes themselves** — `POST /api/v1/storage/` checks the counted bytes
+   (`UploadFile.size`, falling back to seeking the spooled file), and
+   `POST /api/v1/storage/raw` counts chunks as it streams and aborts mid-transfer. Both
+   also check the account quota *including the file in hand*, so the last upload before
+   the quota cannot be an arbitrarily large one. 413 for too large, 422 for an
+   unaccepted type or an empty file, 409 for the quota.
+
+The browser gets the same numbers from **`GET /api/v1/storage/limits`**, which
+`uploader.svelte` fetches on mount and feeds to Uppy's `restrictions`. That is a
+convenience, not a control: it tells someone their file is too big before they wait for
+the transfer. `config.py` is the only place the numbers are written.
+
+## What this fixed
+
+Worth recording, because none of it was visible from the UI:
+
+- **There was no server-side size limit at all.** The route passed `size = 0` into
+  storage and saved `0` on the row, so nothing in the request path ever knew how big a
+  file was. The only cap in the product was Uppy's, in the browser, and
+  `POST /api/v1/storage/` accepts anonymous uploads — one `curl -F` with a 2 GB file
+  filled the volume. On the S3 backend it is worse: `s3_storage.py` reads the whole
+  payload into memory in one piece to compute its signature.
+- **The browser cap was not applied either.** `restrictions` is an Uppy **Core** option.
+  It was being passed through the Dashboard plugin's props, and `restrictions` appears
+  nowhere in `@uppy/dashboard`'s types, so the picker had neither a size cap nor a type
+  filter: it would accept an SVG. An earlier fix in that file (`props` rather than
+  `properties`) was a real bug correctly identified and corrected in the wrong place.
+- **The quota could not bite.** It was `used > limit`, so an account at zero bytes could
+  upload a file of any size; and `used` is maintained by the `calculate_hash` arq job,
+  so with the `worker` container down it stays at zero forever and the check never
+  fires. It is now `used + this_file > limit`, and the row carries the real size at
+  insert rather than waiting for the worker.
+- **`POST /storage/raw` took any `Content-Type`,** SVG included, while the multipart
+  route next to it enforced an allow-list — which made the allow-list advisory. It now
+  uses the same table.
+- **`video/mp4` was accepted with no UI in front of it**: `/edit/videos` is hidden and
+  the editor passes `video_upload={false}`, so the only thing the allowance bought was
+  an unbounded upload path. Behind `enable_video_upload`, off, with its own ceiling for
+  whenever it is turned on.
+
+Covered by `TestStorage` in `frogquiz/tests/test_server.py` (the boundary both ways, the
+empty file, the published limits, the middleware, the unaccepted type on `/raw`, the
+mid-stream abort, and that the row records its real size) and by
+`frontend/src/lib/editor/upload_limits.test.ts`, which asserts the browser's fallbacks
+are never looser than `config.py`.

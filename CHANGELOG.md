@@ -4,6 +4,38 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Uploads: real limits, and no file manager
+
+- **Uploads had no server-side size limit.** The route passed `size = 0` into storage and
+  saved `0` on the row, so nothing in the request path ever knew how big a file was; the
+  only cap in the product was Uppy's, in the browser, and `POST /api/v1/storage/` takes
+  anonymous uploads. One `curl -F` with a 2 GB file filled the volume. Images are capped
+  at 8 MB (`max_image_upload_size`), enforced in three places: Caddy's `request_body` on
+  `/api/v1/storage/*`, a `Content-Length` check before the body is read, and the route's
+  own check on the counted bytes.
+- **The browser cap was not applied either.** `restrictions` is an Uppy *Core* option and
+  was being passed through the Dashboard plugin, where it appears nowhere in the types —
+  so the picker had neither a size cap nor a type filter and would accept an SVG. It is
+  on the Uppy instance now, and the numbers come from a new `GET /api/v1/storage/limits`
+  so `config.py` is the only place they are written.
+- **The per-account quota could not bite**: it was `used > limit`, so an account at zero
+  bytes could upload a file of any size, and `used` is maintained by the `calculate_hash`
+  worker job, so with the worker down it stayed at zero forever. It is now
+  `used + this_file > limit`, and the row records its real size at insert. The quota
+  itself drops from ~1.07 GB to 256 MiB — upstream's number was sized for a public SaaS.
+- `POST /storage/raw` accepted any `Content-Type`, SVG included, while the route beside it
+  enforced an allow-list. Both use one table now, and `/raw` aborts mid-stream rather than
+  measuring after the fact.
+- `video/mp4` was accepted by the server while `/edit/videos` was hidden and the editor
+  passed `video_upload={false}` — an upload path with no UI in front of it. Behind
+  `enable_video_upload`, off, with its own ceiling for when it is turned on.
+- Two refusals now say something a person can act on: too large, and storage full.
+- No file manager, on purpose: a picture belongs to the question it is on. `/edit/files`,
+  `/dashboard/files`, the Library tab and Pixabay stay hidden. Written up with every
+  number and how to change it in [`docs/uploads.md`](docs/uploads.md).
+- `e2e/run.sh` takes `E2E_VENV` to point at a virtualenv directly, for a machine that has
+  the dependencies but not pipenv.
+
 ### One motion scale, measured rather than asserted
 
 - Motion comes off one scale now. The tree had fifteen different durations and almost no easing: five durations (120 / 200 / 320 / 500 / 750ms, shortest for a control, longest for the podium build) and four curves, declared once in `app.css`. Svelte's JS transitions never see a CSS variable, so the same numbers exist in `src/lib/motion.ts`; `motion.test.ts` asserts the two copies are equal, because two copies of one scale drift the moment nobody is looking.

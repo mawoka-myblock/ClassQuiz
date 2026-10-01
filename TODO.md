@@ -10,7 +10,7 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 115 unit · 102 e2e · 134 backend (1 skipped)
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 121 unit · 113 e2e · 142 backend (1 skipped)
 
 ---
 
@@ -32,6 +32,7 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 | 12 | **Game surfaces fit a phone.** The podium's action panel covered the podium at 390px; it is a bottom row below `sm`. Lobby → question → results → podium asserted at phone width | `lib/play/admin/`, `routes/admin`, `e2e/podium.e2e.ts` |
 | 13 | **Corners come off one scale.** Four sites rendered a 4px corner because a bare `rounded` resolves to Tailwind's own `--radius`, not ours; cards disagreed by 5.6px; the view page nested equal radii; the host's answer row drew itself two ways | `src/app.css`, 10 components, `src/lib/a11y/radius-scale.test.ts` |
 | 14 | **One motion scale.** Fifteen ad-hoc durations and almost no easing became five durations and four curves, declared once in `app.css` and mirrored in `lib/motion.ts` for Svelte's JS transitions, which never see a CSS variable. Three bars animated `width`, which lays the page out every frame; they animate `transform` now. Reduced motion clamps the whole scale to 1ms | `src/app.css`, `lib/motion.ts`, `lib/a11y/motion.test.ts`, `e2e/motion.e2e.ts` |
+| 15 | **Uploads have limits, and there is still no file manager.** There was no server-side size cap at all (`size = 0` went into storage, the only limit was Uppy's in the browser, and the endpoint takes anonymous uploads) — and the browser's cap was not applied either, because `restrictions` is an Uppy *Core* option and was passed to the Dashboard plugin. 8MB per image, enforced at Caddy, on `Content-Length`, and on the counted bytes; the quota counts the file in hand; `/raw` aborts mid-stream; `video/mp4` behind a flag | `frogquiz/config.py`, `routers/storage.py`, `frogquiz/__init__.py`, `Caddyfile*`, `lib/editor/uploader.svelte`, [`docs/uploads.md`](docs/uploads.md) |
 
 ## Open — before sharing
 
@@ -51,24 +52,13 @@ See [`docs/feature-inventory.md`](docs/feature-inventory.md) for the whole surfa
 - [ ] **`/eximport/excel/{quiz_id}` has no owner filter**: any signed-in user can download any quiz by id, answers included. Consistent with "unlisted, not private", worth a decision rather than a silence
 - [ ] `check_captcha` returns `True` when no captcha secret is set. Inert while `captcha_enabled` is hard-coded off
 - [ ] `routers/results.py:62-84` — a route whose whole function body is inside a string literal
-- [ ] **Uploads have no server-side size limit.** `routers/storage.py` passes `file_size = 0` into
-      storage and never measures the request. The ~10MB cap is Uppy's, client-side only, so
-      `POST /api/v1/storage/` takes a file of any size from an unauthenticated caller. The local
-      backend fills the volume; the S3 backend reads the whole payload into memory to sign it
-      (`s3_storage.py:155`). The per-user quota (~1.07GB) cannot catch it either: `calculate_hash`
-      measures the file *after* it is written, the check is `used > limit` so a user at zero can
-      upload anything once, and anonymous uploads are charged to nobody. Fix is a `file.size` check
-      in the route against a `config.py` setting the Uppy restriction also reads
-- [ ] **`video/mp4` is server-allowed but client-disabled.** In `ALLOWED_MIME_TYPES`, but
-      `video_upload={false}` at the only call site and `/edit/videos` is hidden. Either drop it from
-      the list or accept unbounded anonymous mp4. Kahoot's own ceilings for comparison: 50MB per
-      question image, 5MB per cover, 200MB per video, 50MB per audio file
 
 ## Open — quality
 
 - [ ] `svelte-check` in CI, once the ~300 errors in our own code are down (another ~820 are inside `bits-ui`)
 - [ ] The input tier on hidden routes (`/quiztivity`, `/edit/files`, controllers, Pixabay) still draws form fields at three different radii. An `fq-field` utility would fold in the un-themed `bg-gray-500` / `focus:ring-blue-500` drift at the same time
 - [ ] `lib/components/ui/button/button.svelte` has two off-ladder steps (8px and 10px) from upstream. Defensible, but they are the last two
+- [ ] **No UI for deleting an uploaded image.** `DELETE /api/v1/storage/meta/{file_id}` exists and is owner-filtered, and replacing a question's image orphans the old row, but nothing in the app lets someone reclaim their own 256 MiB. The quota is now enforced per upload, so this is what a person hits when it fills. The media library that would have shown it is deliberately hidden (see [`docs/uploads.md`](docs/uploads.md)) — this wants a smaller answer, not that page back
 - [ ] Tailwind scans the repo's Markdown, so the word "rounded" in `CLAUDE.md` emits three dead CSS rules. Harmless; noted so nobody re-chases it
 
 ## After V1

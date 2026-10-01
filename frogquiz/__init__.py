@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: MPL-2.0
 
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from socketio import ASGIApp
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 import logging
 
-from frogquiz.config import settings
+from frogquiz.config import settings, MAX_UPLOAD_SIZE
 from frogquiz.db import database
 
 from frogquiz.oauth import rememberme_middleware
@@ -81,6 +82,33 @@ async def shutdown() -> None:
 @app.middleware("http")
 async def auth_middleware_wrapper(request: Request, call_next):
     return await rememberme_middleware(request, call_next)
+
+
+# Largest body any upload route will accept, plus room for the multipart framing around
+# it (boundaries, headers, the filename).
+_UPLOAD_ENVELOPE_SLACK = 64 * 1024
+
+
+@app.middleware("http")
+async def request_size_guard(request: Request, call_next):
+    """Refuse an oversized upload on its Content-Length, before the body is read.
+
+    The route's own check is the authoritative one, but it only runs once FastAPI has
+    parsed the multipart body -- and Starlette spools a part past 1MB to a temp file, so
+    a 2GB upload is 2GB written to disk before any Python of ours sees it. This costs one
+    header lookup and makes the common case cheap. It is not the whole defence: a client
+    can omit Content-Length or lie about it, which is what the route check is for, and
+    the Caddyfile caps the body at the edge for the case where neither has run yet.
+    """
+    if request.method == "POST" and request.url.path.startswith("/api/v1/storage"):
+        declared = request.headers.get("content-length")
+        if declared is not None and declared.isdigit():
+            if int(declared) > MAX_UPLOAD_SIZE + _UPLOAD_ENVELOPE_SLACK:
+                return JSONResponse(
+                    status_code=413,
+                    content={"detail": f"File is too large: limit is {MAX_UPLOAD_SIZE} bytes"},
+                )
+    return await call_next(request)
 
 
 app.include_router(

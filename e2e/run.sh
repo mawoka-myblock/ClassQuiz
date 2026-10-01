@@ -17,7 +17,8 @@
 #   Frontend     - vite dev on 3000, proxied to the API.
 #   Browser      - Playwright driving an already-installed browser: Edge on Windows,
 #                  Chromium elsewhere. Override with E2E_BROWSER=chrome|msedge|chromium,
-#                  or point E2E_CHROME at an executable.
+#                  or point E2E_CHROME at an executable. E2E_VENV points at a
+#                  virtualenv when pipenv is not installed.
 #
 # Usage:  bash e2e/run.sh [playwright args...]
 #         bash e2e/run.sh e2e/anon-game.e2e.ts        # one spec
@@ -73,8 +74,15 @@ PG_BIN="$(find_pg_bin || true)"
 [ -n "$PG_BIN" ] && { [ -x "$PG_BIN/pg_ctl" ] || [ -x "$PG_BIN/pg_ctl.exe" ]; } \
   || die "Postgres binaries not found (install Postgres, or put its bin/ on PATH)"
 
-VENV_RAW="$(cd "$ROOT" && python -m pipenv --venv 2>/dev/null || python3 -m pipenv --venv 2>/dev/null)" \
-  || die "no pipenv venv; run 'python -m pipenv sync --dev' first"
+# E2E_VENV points straight at a virtualenv, for an environment where the dependencies
+# are installed but pipenv itself is not -- a fresh container, or a venv made by hand.
+# Without it the only way to find the interpreter was to ask pipenv.
+if [ -n "${E2E_VENV:-}" ]; then
+  VENV_RAW="$E2E_VENV"
+else
+  VENV_RAW="$(cd "$ROOT" && python -m pipenv --venv 2>/dev/null || python3 -m pipenv --venv 2>/dev/null)" \
+    || die "no pipenv venv; run 'python -m pipenv sync --dev' first, or set E2E_VENV"
+fi
 VENV="$(cygpath -u "$VENV_RAW" 2>/dev/null || printf '%s' "$VENV_RAW")"
 PY="$VENV/Scripts/python.exe"; [ -x "$PY" ] || PY="$VENV/bin/python"
 [ -x "$PY" ] || die "no python in $VENV"
