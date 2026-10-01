@@ -21,9 +21,15 @@ SPDX-License-Identifier: MPL-2.0
 	interface Props {
 		// import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat"
 		text?: string;
+		/**
+		 * Accessible name for the editable. CKEditor labels every instance "Rich Text
+		 * Editor", so with the quiz title and every question's text on one page they were
+		 * indistinguishable to a screen reader -- and to anything else driving the page.
+		 */
+		label?: string;
 	}
 
-	let { text = $bindable('') }: Props = $props();
+	let { text = $bindable(''), label = '' }: Props = $props();
 
 	let html_el = $state();
 
@@ -86,6 +92,9 @@ SPDX-License-Identifier: MPL-2.0
 		})
 			.then((newEditor) => {
 				editor = newEditor;
+				if (label) {
+					newEditor.ui.getEditableElement()?.setAttribute('aria-label', label);
+				}
 				editor.setData(text);
 				editor.model.document.on('change:data', () => {
 					triggerChange();

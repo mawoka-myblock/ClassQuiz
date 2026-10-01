@@ -13,6 +13,8 @@ SPDX-License-Identifier: MPL-2.0
 	import Globe from '@lucide/svelte/icons/globe';
 	import Link2 from '@lucide/svelte/icons/link-2';
 	import X from '@lucide/svelte/icons/x';
+	import ChevronDown from '@lucide/svelte/icons/chevron-down';
+	import ChevronUp from '@lucide/svelte/icons/chevron-up';
 	import { htmlToPlainText } from '$lib/sanitize';
 	import { TITLE_MAX_LENGTH, DESCRIPTION_MAX_LENGTH } from '$lib/yupSchemas';
 	import { cn } from '$lib/utils';
@@ -30,10 +32,19 @@ SPDX-License-Identifier: MPL-2.0
 	let { edit_id = $bindable(), data = $bindable() }: Props = $props();
 
 	let custom_bg_color = $state(Boolean(data.background_color));
+	// An <input type="color"> rejects an empty value and logs a format warning for it on
+	// every editor load, so the swatch always holds a real colour and the checkbox decides
+	// whether the quiz keeps it.
+	let bg_color_value = $state(data.background_color || '#d6edc9');
 
 	$effect(() => {
-		data.background_color = custom_bg_color ? data.background_color : undefined;
+		data.background_color = custom_bg_color ? bg_color_value : undefined;
 	});
+
+	// Everything past title and description is decoration. A new quiz opened on six
+	// fields, four of them optional, before a single question was in sight; they fold
+	// away now and the questions sit directly under this card.
+	let more_open = $state(false);
 
 	// Length was only ever enforced at Save, so a long paste blew up the title box and
 	// the editor header (see editor.svelte) long before the author got any feedback.
@@ -42,8 +53,8 @@ SPDX-License-Identifier: MPL-2.0
 	let description_length = $derived(data.description.length);
 </script>
 
-<div class="mx-auto w-full max-w-3xl">
-	<div class="border-border bg-card flex flex-col gap-8 rounded-xl border p-6 shadow-sm">
+<div class="w-full">
+	<div class="border-border bg-card flex flex-col gap-6 rounded-xl border p-6 shadow-sm">
 		<div class="flex flex-col gap-2">
 			<span class="text-muted-foreground text-sm font-medium">{$t('words.title')}</span>
 			<!-- The title is a rich-text field, and with no content it rendered as a label
@@ -56,7 +67,7 @@ SPDX-License-Identifier: MPL-2.0
 				<div
 					class="[&_[contenteditable]]:min-h-11 [&_[contenteditable]]:w-full [&_[contenteditable]]:text-left"
 				>
-					<c.default bind:text={data.title} />
+					<c.default bind:text={data.title} label={$t('editor.quiz_title')} />
 				</div>
 			{/await}
 			<span
@@ -103,6 +114,26 @@ SPDX-License-Identifier: MPL-2.0
 			{/if}
 		</label>
 
+		<div>
+			<Button
+				type="button"
+				variant="ghost"
+				size="sm"
+				class="text-muted-foreground -ml-2"
+				aria-expanded={more_open}
+				onclick={() => (more_open = !more_open)}
+			>
+				{#if more_open}
+					<ChevronUp />
+					{$t('editor.fewer_settings')}
+				{:else}
+					<ChevronDown />
+					{$t('editor.more_settings')}
+				{/if}
+			</Button>
+		</div>
+
+		{#if more_open}
 		<div class="flex flex-col gap-2">
 			<span class="text-muted-foreground text-sm font-medium">{$t('words.cover_image')}</span>
 			{#if data.cover_image != undefined && data.cover_image !== ''}
@@ -181,7 +212,7 @@ SPDX-License-Identifier: MPL-2.0
 					type="color"
 					class="border-input min-h-11 w-16 cursor-pointer rounded-md border p-1 disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={!custom_bg_color}
-					bind:value={data.background_color}
+					bind:value={bg_color_value}
 				/>
 			</div>
 		</div>
@@ -222,5 +253,6 @@ SPDX-License-Identifier: MPL-2.0
 				{/await}
 			{/if}
 		</div>
+		{/if}
 	</div>
 </div>

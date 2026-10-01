@@ -4,6 +4,17 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### The editor is one column of question cards (MVP.md D7)
+
+- The editor is now a single scrolling column: quiz setup, then a card per question, then Add. Every question in the quiz is on the page at once, the one you are working on opens in place, and the rest stay as a line of question text with its answers. This is how Google Forms and Kahoot both do it, and it replaces the left rail plus one-question canvas.
+- A new quiz shows its title, description and "Add your first question". Cover image, visibility, background colour and background image fold away behind More settings: a new quiz used to open on six fields, four of them decoration, with no question in sight.
+- Questions can be added between two others with the + that appears in the gap, duplicated, deleted, dragged by the grip, and moved with the arrows in the card footer. Deleting asks first, because the editor autosaves and there is no undo.
+- Added True / False to the question types: an ABCD question that arrives with True and False already written and True marked correct. No new backend type, no new play, scoring or export path.
+- The quiz title and each question's text now have real accessible names ("Quiz title", "Question text"). CKEditor labels every instance "Rich Text Editor", which told a screen reader nothing once more than one was on the page.
+- Removed `editor/card.svelte`, `editor/sidebar.svelte` and `editor/question-strip.svelte`, which the column replaces.
+- Fixed an `<input type="color">` that was handed an empty value, which logged a format warning on every editor load.
+- Added `e2e/editor-column.e2e.ts`: one card open at a time, insert in the middle, True/False, duplicate, move, delete, and the phone layout.
+
 ### Hosting is a first-class choice on the landing page, and three plural strings printed their key
 
 - Added `docs/audit-2026-10-01.md`: the full assessment — every route probed against the running app and classified, all three suites run, every page screenshotted at 390/834/1440 in both themes plus the live game end to end, the findings, and where each item on the shared to-do list actually stands.

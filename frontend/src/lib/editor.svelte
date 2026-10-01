@@ -10,10 +10,9 @@ SPDX-License-Identifier: MPL-2.0
 	import { goto, replaceState } from '$app/navigation';
 	import { dataSchema } from '$lib/yupSchemas';
 	import type { EditorData } from './quiz_types';
-	import Sidebar from '$lib/editor/sidebar.svelte';
-	import QuestionStrip from '$lib/editor/question-strip.svelte';
 	import SettingsCard from '$lib/editor/settings-card.svelte';
-	import QuizCard from '$lib/editor/card.svelte';
+	import QuestionCard from '$lib/editor/question-card.svelte';
+	import { moveItem, selectionAfterMove } from '$lib/editor/reorder';
 	import AddNewQuestionPopup from '$lib/editor/AddNewQuestionPopup.svelte';
 	import Spinner from './Spinner.svelte';
 	import { getLocalization } from '$lib/i18n';
@@ -41,14 +40,17 @@ SPDX-License-Identifier: MPL-2.0
 	}
 
 	let { data = $bindable(), quiz_id }: Props = $props();
-	let selected_question = $state(-1);
-	// The rail collapses to a slim strip at lg and up; below that the horizontal
-	// QuestionStrip carries the same navigation. Neither ever leaves the layout.
-	let rail_collapsed = $state(false);
-	// The canvas gets its own add control, so adding a question does not mean going
-	// back to the rail first. Own state and own dialog instance, matching how the rail
-	// and the mobile strip each hold theirs.
+	// The editor is one scrolling column of cards (MVP.md D7): quiz setup, then a card
+	// per question, then the add control. `selected_question` is now which card is open
+	// for editing rather than which one the canvas is showing -- the others stay on
+	// screen, collapsed. -1 means no question is open, not "show the settings instead".
+	let selected_question = $state(0);
 	let add_open = $state(false);
+	// Where a new question goes. The "+" rows between cards insert in place; the button
+	// at the end appends.
+	let add_at = $state<number | null>(null);
+	let dragging_from = $state<number | null>(null);
+	let drag_over = $state<number | null>(null);
 
 	// Nothing is marked missing until the first Save (see validation.svelte.ts). The flag
 	// lives in a module, so it would otherwise carry over from the last quiz edited.
@@ -84,6 +86,65 @@ SPDX-License-Identifier: MPL-2.0
 	);
 	// One list for everyone now: the account's quizzes signed in, this browser's signed out.
 	const back_href = '/my-quizzes';
+
+	// --- the column's own operations ---------------------------------------------
+	// Cards are keyed on the question object, not on its position. Keyed by index, Svelte
+	// reuses the component that sat at that index when the list changes -- and the card
+	// holds a CKEditor instance, which keeps its own copy of the text. Deleting question 2
+	// then left the card showing question 2's text over question 3's answers. Questions
+	// carry no id of their own (the server never sent one), so identity is minted here and
+	// lives only as long as the object does.
+	let next_card_key = 0;
+	const card_keys = new WeakMap<object, number>();
+	const keyOf = (question: object): number => {
+		let key = card_keys.get(question);
+		if (key === undefined) {
+			key = next_card_key++;
+			card_keys.set(question, key);
+		}
+		return key;
+	};
+
+	const focusCard = (index: number) => {
+		selected_question = index;
+	};
+	// 'nearest' after a move, so the card you just nudged stays where your eye is instead
+	// of the whole column jumping; 'start' when the outline jumps you somewhere new.
+	const scrollToCard = (index: number, block: ScrollLogicalPosition = 'nearest') => {
+		requestAnimationFrame(() =>
+			document
+				.querySelector(`[data-question-index="${index}"]`)
+				?.scrollIntoView({ behavior: 'smooth', block })
+		);
+	};
+	const moveQuestion = (from: number, to: number) => {
+		if (to < 0 || to >= data.questions.length || from === to) return;
+		data.questions = moveItem(data.questions, from, to);
+		selected_question = selectionAfterMove(selected_question, from, to);
+		scrollToCard(selected_question);
+	};
+	const deleteQuestion = (index: number) => {
+		data.questions = data.questions.filter((_, i) => i !== index);
+		// Stay on the question that took its place, or on the new last one.
+		selected_question = Math.min(index, data.questions.length - 1);
+	};
+	// Duplicating is the single biggest time-saver when a quiz is twelve variations of
+	// the same shape, and both Kahoot and Forms have it. structuredClone so the copy does
+	// not share the original's answers array.
+	const duplicateQuestion = (index: number) => {
+		const copy = structuredClone($state.snapshot(data.questions[index]));
+		data.questions = [
+			...data.questions.slice(0, index + 1),
+			copy,
+			...data.questions.slice(index + 1)
+		];
+		selected_question = index + 1;
+		scrollToCard(index + 1);
+	};
+	const openAdd = (at: number | null) => {
+		add_at = at;
+		add_open = true;
+	};
 	let edit_id: string = $state();
 
 	// --- Autosave (MVP.md D14) ---------------------------------------------------------
@@ -248,6 +309,25 @@ SPDX-License-Identifier: MPL-2.0
 	};
 </script>
 
+{#snippet insert_here(index: number)}
+	<!-- A hairline that becomes a button on hover or focus. Forms and Kahoot both let you
+	     add in the middle rather than adding at the end and then moving it up nine times. -->
+	<div class="group/insert relative -my-1 flex h-6 items-center justify-center">
+		<span
+			class="bg-border absolute inset-x-8 h-px opacity-0 transition group-hover/insert:opacity-100"
+		></span>
+		<button
+			type="button"
+			class="border-border bg-background text-muted-foreground hover:text-foreground focus-visible:ring-ring relative inline-flex size-6 items-center justify-center rounded-full border opacity-0 transition group-hover/insert:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:outline-none"
+			aria-label={$t('editor.add_question_here')}
+			title={$t('editor.add_question_here')}
+			onclick={() => openAdd(index)}
+		>
+			<Plus class="size-3.5" />
+		</button>
+	</div>
+{/snippet}
+
 <svelte:window onbeforeunload={confirmUnload} />
 {#await getEditID()}
 	<Spinner />
@@ -257,8 +337,7 @@ SPDX-License-Identifier: MPL-2.0
 		     scrollbar on every editor session. w-full is the width we actually want.
 		     h-dvh rather than h-screen: 100vh is the wrong number on a phone, where
 		     the browser chrome is counted in and the toolbar ends up off-screen. -->
-		<div class="flex h-dvh w-full overflow-hidden">
-			<Sidebar bind:data bind:selected_question bind:collapsed={rail_collapsed} />
+		<div class="flex h-dvh w-full flex-col overflow-hidden">
 			<div class="flex min-w-0 flex-1 flex-col">
 				<header
 					class="border-border bg-background flex h-14 shrink-0 items-center gap-2 border-b px-3 sm:gap-3 sm:px-4"
@@ -363,26 +442,124 @@ SPDX-License-Identifier: MPL-2.0
 				     was, so on a wide screen the settings form ran to 900px of label and
 				     field with a lake ofdead space between them. Cap it and centre it, the
 				     way any document editor does. -->
-				<QuestionStrip bind:data bind:selected_question />
-				<div class="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
-					<div class="mx-auto w-full max-w-2xl">
-						{#if selected_question === -1}
-							<SettingsCard bind:data bind:edit_id />
-						{:else}
-							<QuizCard bind:data bind:selected_question bind:edit_id />
-						{/if}
-						<!-- Sits at the end of the canvas column, in the measure, the way
-						     a document editor puts "add" where the content ends. It is the
-						     scroll container's last child so it is always reachable. -->
-						<Button
+				<div class="flex min-h-0 flex-1">
+					<!-- The outline is a convenience on a wide screen, not the navigation:
+					     the column itself is the navigation, which is why there is no drawer
+					     to open on a phone and nothing is hidden behind a tap. -->
+					<nav
+						class="border-border hidden w-60 shrink-0 overflow-y-auto border-r px-3 py-6 lg:block"
+						aria-label={$t('editor.outline')}
+					>
+						<p class="text-muted-foreground px-2 pb-2 text-xs font-medium tracking-wide uppercase">
+							{$t('editor.outline')}
+						</p>
+						<button
 							type="button"
-							variant="outline"
-							class="border-border/70 text-muted-foreground hover:text-foreground mt-6 h-14 w-full border-dashed"
-							onclick={() => (add_open = true)}
+							class="hover:bg-muted w-full truncate rounded-md px-2 py-1.5 text-left text-sm"
+							onclick={() => {
+								focusCard(-1);
+								document
+									.querySelector('[data-setup-card]')
+									?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							}}
 						>
-							<Plus />
-							{$t('editor.add_new_question')}
-						</Button>
+							{$t('editor.quiz_setup')}
+						</button>
+						<ol class="mt-1 flex flex-col">
+							{#each data.questions as question, i (i)}
+								<li>
+									<button
+										type="button"
+										class="hover:bg-muted flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm {selected_question ===
+										i
+											? 'bg-muted font-medium'
+											: ''}"
+										onclick={() => {
+											focusCard(i);
+											scrollToCard(i, 'start');
+										}}
+									>
+										<span class="text-muted-foreground shrink-0 tabular-nums">{i + 1}</span>
+										<span class="min-w-0 flex-1 truncate">
+											{htmlToPlainText(question.question ?? '').trim() || $t('editor.no_title')}
+										</span>
+										{#if editorValidation.shown && !isQuestionComplete(question)}
+											<span class="bg-destructive size-1.5 shrink-0 rounded-full"></span>
+										{/if}
+									</button>
+								</li>
+							{/each}
+						</ol>
+					</nav>
+
+					<div class="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
+						<!-- One column, capped to a measure. Everything in the quiz is on this
+						     page in order: setup, then a card per question, then add. -->
+						<div
+							class="mx-auto flex w-full max-w-2xl flex-col gap-3"
+							role="list"
+							aria-label={$t('editor.outline')}
+						>
+							<div data-setup-card>
+								<SettingsCard bind:data bind:edit_id />
+							</div>
+
+							{#each data.questions as question, i (keyOf(question))}
+								{#if i > 0}
+									{@render insert_here(i)}
+								{/if}
+								<QuestionCard
+									bind:data
+									bind:edit_id
+									index={i}
+									total={data.questions.length}
+									focused={selected_question === i}
+									dragging={dragging_from === i}
+									onselect={focusCard}
+									onmove={moveQuestion}
+									ondelete={deleteQuestion}
+									onduplicate={duplicateQuestion}
+									ondragstart={(from) => (dragging_from = from)}
+									ondragenter={(over) => (drag_over = over)}
+									ondragend={() => {
+										if (dragging_from !== null && drag_over !== null) {
+											moveQuestion(dragging_from, drag_over);
+										}
+										dragging_from = null;
+										drag_over = null;
+									}}
+								/>
+							{/each}
+
+							{#if data.questions.length === 0}
+								<!-- A new quiz: the first question is the next thing to do, so it is
+								     the one thing on offer, not a toolbar button above six optional
+								     fields. -->
+								<button
+									type="button"
+									class="border-border/70 hover:border-primary/50 hover:bg-muted/50 focus-visible:ring-ring flex flex-col items-center gap-1 rounded-xl border border-dashed px-6 py-10 text-center transition focus-visible:ring-2 focus-visible:outline-none"
+									onclick={() => openAdd(null)}
+								>
+									<span class="flex items-center gap-2 font-medium">
+										<Plus class="size-4" />
+										{$t('editor.first_question')}
+									</span>
+									<span class="text-muted-foreground text-sm">
+										{$t('editor.first_question_hint')}
+									</span>
+								</button>
+							{:else}
+								<Button
+									type="button"
+									variant="outline"
+									class="border-border/70 text-muted-foreground hover:text-foreground mt-1 h-14 w-full border-dashed"
+									onclick={() => openAdd(null)}
+								>
+									<Plus />
+									{$t('editor.add_new_question')}
+								</Button>
+							{/if}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -392,6 +569,7 @@ SPDX-License-Identifier: MPL-2.0
 		bind:questions={data.questions}
 		bind:open={add_open}
 		bind:selected_question
+		at={add_at}
 	/>
 {:catch error}
 	<div class="flex min-h-dvh items-center justify-center px-6">

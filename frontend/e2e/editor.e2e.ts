@@ -11,13 +11,22 @@ import { closeAll, connect, finalResults, joinAll, next, showQuestion } from './
 
 test.afterEach(closeAll);
 
-const titleBox = (page: Page) => page.getByRole('textbox', { name: /Rich Text Editor/ });
+// The editor is one column, so the quiz's title and every question's text are on the
+// page at once. They used to share CKEditor's stock "Rich Text Editor" label, which told
+// a screen reader -- and a test -- nothing about which field it had hold of.
+const titleBox = (page: Page) => page.getByRole('textbox', { name: 'Quiz title' });
+const questionBox = (page: Page) => page.getByRole('textbox', { name: 'Question text' });
 const saveButton = (page: Page) => page.getByRole('button', { name: 'Save' });
+const cards = (page: Page) => page.locator('[data-question-card]');
 
 async function addQuestion(page: Page, kind: RegExp, title: string, answers: [string, boolean][]) {
-	await page.getByRole('button', { name: 'Add new question' }).first().click();
+	await page
+		.getByRole('button', { name: /Add new question|Add your first question/ })
+		.first()
+		.click();
 	await page.getByRole('button', { name: kind }).click();
-	await titleBox(page).fill(title);
+	// Only the open card holds a rich-text field; the others are collapsed to plain text.
+	await questionBox(page).fill(title);
 	for (let i = 0; i < answers.length; i++)
 		await page.getByRole('button', { name: 'Add an answer' }).click();
 	const inputs = page.getByRole('textbox', { name: 'Enter an answer' });
@@ -56,7 +65,7 @@ test('build a quiz by hand, save it, and play it', async ({ page, request }) => 
 		['Lizard', false],
 		['Salamander', true]
 	]);
-	await expect(page.getByText('2 questions').first()).toBeVisible();
+	await expect(cards(page)).toHaveCount(2);
 	await saveButton(page).click();
 	await page.waitForURL(/\/view\//);
 	const id = page.url().split('/view/')[1];
@@ -185,10 +194,10 @@ test('the editor saves on its own, and a reload reopens the saved quiz', async (
 	]);
 
 	await page.reload();
-	await expect(titleBox(page).first()).toContainText('Autosaved', { timeout: 20_000 });
+	await expect(titleBox(page)).toContainText('Autosaved', { timeout: 20_000 });
 
 	// A later edit is saved too: an update, not a second quiz.
-	await page.getByRole('textbox', { name: 'Description' }).first().fill('Changed later');
+	await page.getByRole('textbox', { name: 'Description' }).fill('Changed later');
 	await expect
 		.poll(
 			async () =>
@@ -237,8 +246,8 @@ test('an existing anonymous quiz can be reopened, edited and saved', async ({ pa
 	const id = page.url().split('/view/')[1];
 
 	await page.goto(`/edit?quiz_id=${id}`);
-	await expect(titleBox(page).first()).toContainText('Before', { timeout: 20_000 });
-	await page.getByRole('textbox', { name: 'Description' }).first().fill('Edited description');
+	await expect(titleBox(page)).toContainText('Before', { timeout: 20_000 });
+	await page.getByRole('textbox', { name: 'Description' }).fill('Edited description');
 	await saveButton(page).click();
 	await page.waitForURL(/\/view\//);
 	const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();

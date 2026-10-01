@@ -17,12 +17,15 @@ SPDX-License-Identifier: MPL-2.0
 		questions: Question[];
 		open: boolean;
 		selected_question: number;
+		/** Insert before this index. null appends, which is what the end button does. */
+		at?: number | null;
 	}
 
 	let {
 		questions = $bindable(),
 		open = $bindable(),
-		selected_question = $bindable()
+		selected_question = $bindable(),
+		at = null
 	}: Props = $props();
 
 	const { t } = getLocalization();
@@ -49,6 +52,18 @@ SPDX-License-Identifier: MPL-2.0
 			description: $t('editor.check_choice_description'),
 			answers: [],
 			type: QuizQuestionType.CHECK
+		},
+		// True/False is not a type of its own anywhere: it is an ABCD question that
+		// arrives with its two answers already written. Kahoot offers the same preset,
+		// and it needs no play, scoring or export path that ABCD does not already have.
+		{
+			name: $t('words.true_false'),
+			description: $t('editor.true_false_description'),
+			answers: [
+				{ answer: $t('words.true'), right: true },
+				{ answer: $t('words.false'), right: false }
+			],
+			type: QuizQuestionType.ABCD
 		}
 	];
 
@@ -58,10 +73,17 @@ SPDX-License-Identifier: MPL-2.0
 			time: '20',
 			question: '',
 			image: undefined,
-			answers: question_types[index].answers
+			// A fresh copy: the preset's answers are a template, not shared state.
+			answers: question_types[index].answers.map((a) => ({ ...a }))
 		};
-		questions = [...questions, { ...empty_question }];
-		selected_question = questions.length - 1;
+		const position = at === null ? questions.length : Math.max(0, Math.min(at, questions.length));
+		questions = [
+			...questions.slice(0, position),
+			{ ...empty_question },
+			...questions.slice(position)
+		];
+		// The new question is the one you are about to write, so it opens.
+		selected_question = position;
 		open = false;
 	};
 </script>
@@ -87,7 +109,7 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 
 		<div class="flex flex-col gap-2">
-			{#each question_types as qt, i (qt.type)}
+			{#each question_types as qt, i (qt.name)}
 				<button
 					type="button"
 					class="border-border hover:border-primary/50 hover:bg-muted focus-visible:ring-ring rounded-lg border p-4 text-left transition focus-visible:ring-2 focus-visible:outline-none"

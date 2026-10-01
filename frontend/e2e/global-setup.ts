@@ -22,7 +22,7 @@ const ROUTES = [
 
 export default async function globalSetup(config: FullConfig) {
 	const { baseURL, channel } = config.projects[0].use;
-	const browser = await chromium.launch({ channel });
+	const browser = await chromium.launch({ channel, executablePath: process.env.PW_CHROME });
 	const page = await browser.newPage({ baseURL });
 	for (const route of ROUTES) {
 		await page.goto(route, { timeout: 120_000 }).catch(() => undefined);
