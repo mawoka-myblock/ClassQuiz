@@ -6,7 +6,7 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Hosting is a first-class choice on the landing page, and three plural strings printed their key
 
-- Added `docs/audit-2026-10-01.md`: the full gap audit and visual inspection — all three test suites run, every route screenshotted at 390/834/1440 in both themes, the bugs that pass found, and the ordered list of what is left before sharing.
+- Added `docs/audit-2026-10-01.md`: the full assessment — every route probed against the running app and classified, all three suites run, every page screenshotted at 390/834/1440 in both themes plus the live game end to end, the findings, and where each item on the shared to-do list actually stands.
 
 - The landing page's three muted text links under the PIN box became two secondary buttons, Create a quiz and Go to your quizzes, under a "Running the quiz?" divider, with a line saying no account is needed and that browser quizzes are deleted after 30 days. Making a quiz now reads at the same level as logging in, which is what it is: it needs no account.
 - The navbar shows a Create a quiz button beside Log in for signed-out visitors, on desktop and in the mobile menu.
