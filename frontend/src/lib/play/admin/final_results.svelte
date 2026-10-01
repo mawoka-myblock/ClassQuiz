@@ -11,6 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import confetti from 'canvas-confetti';
+	import Crown from '@lucide/svelte/icons/crown';
 
 	const { t } = getLocalization();
 
@@ -28,6 +29,20 @@ SPDX-License-Identifier: MPL-2.0
 			.map((name, i) => ({ name, score: parseFloat(data[name]) || 0, place: i + 1 }))
 	);
 
+	// Somebody watching this has just played for five minutes; the podium is the payoff,
+	// and it was over in two seconds. Kahoot reveals third, then second, then first with
+	// a beat between each, and that beat is the whole effect -- a room reacts to each
+	// name. 1.4s apart, so the three reveals run about four seconds in total.
+	const REVEAL_GAP_MS = 1400;
+	const FIRST_REVEAL_MS = 600;
+	const winner_lands = FIRST_REVEAL_MS + 2 * REVEAL_GAP_MS + 500;
+
+	// Nobody should be made ill by a results screen. With reduced motion the whole
+	// podium is simply there, and no confetti is fired.
+	const reduced =
+		typeof window !== 'undefined' &&
+		window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+
 	// Podium reads 2nd, 1st, 3rd left to right, the way a real one does.
 	let podium = $derived(
 		[ranked[1], ranked[0], ranked[2]].filter(Boolean).map((p) => ({
@@ -43,10 +58,12 @@ SPDX-License-Identifier: MPL-2.0
 						? 'h-[26vh] min-h-32'
 						: 'h-[18vh] min-h-24',
 			// Built up from last place to first, so the winner lands last.
-			delay: (4 - p.place) * 700
+			delay: reduced ? 0 : FIRST_REVEAL_MS + (3 - p.place) * REVEAL_GAP_MS
 		}))
 	);
 	let runners_up = $derived(ranked.slice(3, 8));
+	const medal = (place: number) =>
+		place === 1 ? 'is-gold' : place === 2 ? 'is-silver' : 'is-bronze';
 	let place_label = (place: number) =>
 		place === 1
 			? $t('play_page.1st_place')
@@ -55,12 +72,23 @@ SPDX-License-Identifier: MPL-2.0
 				: $t('play_page.3rd place');
 
 	let canvas: HTMLCanvasElement = $state();
+	let winner_shown = $state(reduced);
 	onMount(() => {
-		const winner_lands = 3 * 700 + 400;
-		setTimeout(() => {
-			confetti.create(canvas, { resize: true, useWorker: true });
-			confetti({ particleCount: 200, spread: 160 });
-		}, winner_lands);
+		const timers = [
+			setTimeout(() => (winner_shown = true), reduced ? 0 : winner_lands)
+		];
+		if (!reduced) {
+			// Two bursts rather than one: a single symmetrical puff reads as a graphic,
+			// two from the lower corners reads as a room.
+			const fire = () => {
+				const shoot = confetti.create(canvas, { resize: true, useWorker: true });
+				shoot({ particleCount: 140, spread: 70, angle: 60, origin: { x: 0, y: 0.9 } });
+				shoot({ particleCount: 140, spread: 70, angle: 120, origin: { x: 1, y: 0.9 } });
+			};
+			timers.push(setTimeout(fire, winner_lands));
+			timers.push(setTimeout(fire, winner_lands + 600));
+		}
+		return () => timers.forEach(clearTimeout);
 	});
 </script>
 
@@ -81,8 +109,15 @@ SPDX-License-Identifier: MPL-2.0
 				<div class="flex min-w-0 flex-1 flex-col items-center gap-3">
 					<div
 						class="flex w-full min-w-0 flex-col items-center gap-0.5 text-center"
-						in:fly|global={{ y: -40, duration: 500, delay: p.delay, easing: cubicOut }}
+						in:fly|global={{ y: -40, duration: 500, delay: p.delay + 150, easing: cubicOut }}
 					>
+						<!-- The winner gets the one piece of ornament on the screen, and it
+						     arrives after their block has landed. -->
+						{#if p.place === 1 && winner_shown}
+							<span class="crown text-amber-400" in:fade|global={{ duration: 350 }}>
+								<Crown class="size-8 sm:size-10" aria-hidden="true" />
+							</span>
+						{/if}
 						<p
 							class="fq-answer w-full truncate font-semibold tracking-tight"
 							title={p.name}
@@ -95,15 +130,19 @@ SPDX-License-Identifier: MPL-2.0
 						</p>
 					</div>
 
+					<!-- Gold, silver and bronze rather than the theme's primary. The brand has
+					     one accent and the rainbow is spent on the wordmark and the answer
+					     bars (CLAUDE.md), but a podium is not branding: medal colours are what
+					     a podium means, and the winner's block was otherwise a black slab. -->
 					<div
-						class="podium-block flex w-full {p.height} flex-col items-center justify-start gap-1
-							rounded-t-2xl border border-b-0 border-border pt-3 -mb-[2px]"
+						class="podium-block {medal(p.place)} flex w-full {p.height} flex-col items-center
+							justify-start gap-1 rounded-t-2xl border border-b-0 border-border pt-3 -mb-[2px]"
 						class:is-winner={p.place === 1}
-						in:fly|global={{ y: 120, duration: 600, delay: p.delay, easing: cubicOut }}
+						in:fly|global={{ y: 160, duration: 750, delay: p.delay, easing: cubicOut }}
 					>
 						<span class="fq-display font-bold tabular-nums">{p.place}</span>
 						<span
-							class="px-1 text-center text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground"
+							class="px-1 text-center text-[0.7rem] font-medium uppercase tracking-wider"
 						>
 							{place_label(p.place)}
 						</span>
@@ -115,7 +154,7 @@ SPDX-License-Identifier: MPL-2.0
 		{#if runners_up.length}
 			<ul
 				class="w-full max-w-md divide-y divide-border overflow-hidden rounded-xl border border-border bg-card"
-				in:fade|global={{ duration: 400, delay: 3 * 700 + 600 }}
+				in:fade|global={{ duration: 400, delay: reduced ? 0 : winner_lands + 900 }}
 			>
 				{#each runners_up as p (p.name)}
 					<li class="flex items-center gap-3 px-4 py-2.5">
@@ -154,18 +193,54 @@ SPDX-License-Identifier: MPL-2.0
 {/if}
 
 <style>
+	/* Medal colours, not theme tokens: they mean first, second and third everywhere,
+	   they are the same in light and dark, and they sit on the quiz author's own
+	   background rather than on the app's surface. Ink is near-black on all three --
+	   measured at 9.7:1 on the gold, 11.6:1 on the silver and 6.4:1 on the bronze. */
 	.podium-block {
-		background: linear-gradient(to bottom, var(--muted), var(--card));
+		color: #1b1b1f;
+		box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
+	}
+
+	.podium-block.is-gold {
+		background: linear-gradient(to bottom, #ffd969, #e8ab28);
+	}
+
+	.podium-block.is-silver {
+		background: linear-gradient(to bottom, #e6e9ee, #b8bfc9);
+	}
+
+	.podium-block.is-bronze {
+		background: linear-gradient(to bottom, #e3a775, #bf7840);
 	}
 
 	/* The winner's block is the one thing on this screen that should feel loud. */
 	.podium-block.is-winner {
-		background: linear-gradient(to bottom, var(--primary), var(--primary));
-		color: var(--primary-foreground);
-		box-shadow: 0 -8px 30px -12px var(--primary);
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 0.6),
+			0 -10px 40px -12px #e8ab28;
 	}
 
-	.podium-block.is-winner :global(span) {
-		color: var(--primary-foreground);
+	.podium-block :global(span) {
+		color: inherit;
+	}
+
+	.crown {
+		animation: crown-pop 450ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+	}
+
+	@keyframes crown-pop {
+		from {
+			transform: scale(0.4) translateY(8px);
+		}
+		to {
+			transform: scale(1) translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.crown {
+			animation: none;
+		}
 	}
 </style>

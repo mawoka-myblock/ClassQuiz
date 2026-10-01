@@ -371,16 +371,22 @@ SPDX-License-Identifier: MPL-2.0
 				</section>
 			{/if}
 		{:else}
-			<div
-				class="border-primary/40 bg-primary/10 mt-6 flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center"
-			>
-				<TriangleAlert class="text-primary size-5 shrink-0" aria-hidden="true" />
-				<p class="min-w-0 flex-1 text-sm">{$t('my_quizzes.signed_out_notice')}</p>
-				<Button href="/account/register" variant="outline" size="sm" class="shrink-0">
-					<UserPlus />
-					{$t('my_quizzes.create_account')}
-				</Button>
-			</div>
+			<!-- With quizzes in the browser this is a caution about them. With none it was
+			     a caution about nothing, stacked on an empty state saying much the same, so
+			     the empty state carries the sentence instead (MVP.md section 4.2 wants the
+			     copy on this page either way). -->
+			{#if browser_quizzes !== null && browser_quizzes.length > 0}
+				<div
+					class="border-primary/40 bg-primary/10 mt-6 flex flex-col gap-3 rounded-xl border p-4 sm:flex-row sm:items-center"
+				>
+					<TriangleAlert class="text-primary size-5 shrink-0" aria-hidden="true" />
+					<p class="min-w-0 flex-1 text-sm">{$t('my_quizzes.signed_out_notice')}</p>
+					<Button href="/account/register" variant="outline" size="sm" class="shrink-0">
+						<UserPlus />
+						{$t('my_quizzes.create_account')}
+					</Button>
+				</div>
+			{/if}
 
 			{#if browser_quizzes === null}
 				<div class="text-muted-foreground mt-16 flex justify-center">
@@ -392,6 +398,9 @@ SPDX-License-Identifier: MPL-2.0
 				>
 					<p class="text-muted-foreground max-w-sm text-balance">
 						{$t('my_quizzes.empty_signed_out')}
+					</p>
+					<p class="text-muted-foreground max-w-md text-sm text-balance">
+						{$t('my_quizzes.signed_out_notice')}
 					</p>
 					<Button href="/create">
 						<Plus />

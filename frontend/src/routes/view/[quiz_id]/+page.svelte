@@ -85,8 +85,10 @@ SPDX-License-Identifier: MPL-2.0
 	const visitor_order = (answers: { answer: string }[]) =>
 		[...answers].sort((a, b) => a.answer.localeCompare(b.answer));
 
-	// Anyone signed in can host a public quiz; signed out, only its anonymous creator.
-	const can_start = $derived(logged_in || owns_anonymously);
+	// What the server actually allows (routers/quiz.py, start_quiz): its own creator, or
+	// anyone signed in if the quiz is public. Offering Play on somebody else's unlisted
+	// quiz gave a signed-in visitor a button that answered "quiz not found".
+	const can_start = $derived(owns_anonymously || (logged_in && (quiz.public || owns_on_account)));
 
 	// A draft is a quiz with at least one unfinished question -- the same rule the
 	// server uses (frogquiz/helpers/completeness.py) to refuse POST /quiz/start.
@@ -440,6 +442,10 @@ SPDX-License-Identifier: MPL-2.0
 					{can_start
 						? $t('view_quiz_page.download_signed_out_hint')
 						: $t('view_quiz_page.start_signed_out_hint')}
+				</p>
+			{:else if !can_start && !is_draft}
+				<p id="signed-out-hint" class="text-muted-foreground -mt-2 px-6 text-sm">
+					{$t('view_quiz_page.unlisted_not_yours')}
 				</p>
 			{/if}
 		</Card.Root>

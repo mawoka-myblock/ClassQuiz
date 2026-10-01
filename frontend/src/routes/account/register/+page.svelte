@@ -258,14 +258,10 @@ SPDX-License-Identifier: MPL-2.0
 					{/if}
 				</div>
 
-				<div class="flex items-center justify-between gap-4">
-					<a
-						href="/account/reset-password"
-						class="text-muted-foreground hover:text-foreground text-sm underline-offset-4 transition-colors hover:underline"
-					>
-						{$t('register_page.forgot_password?')}
-					</a>
-
+				<!-- "Forgot password?" was offered on the registration form, which is for
+				     people who have no password yet. It lives on the login page, where it is
+				     the thing you reach for. -->
+				<div class="flex items-center justify-end gap-4">
 					<Button type="submit" disabled={!$isValid || $isSubmitting}>
 						{#if $isSubmitting}
 							<LoaderCircle class="size-4 animate-spin" aria-hidden="true" />

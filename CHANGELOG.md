@@ -4,6 +4,21 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### A podium worth waiting for, a join screen worth looking at, and the copy findings
+
+- The podium builds up: third place rises, then second, then first, about 1.4s apart, with a crown on the winner and confetti from both lower corners. It used to put all three up in two seconds. Light goes out of the way of anyone who asks for reduced motion: the whole podium is simply there, and no confetti is fired.
+- The blocks are gold, silver and bronze instead of the theme's near-black primary, which made the winner's block a dark slab. Medal colours are what a podium means; they are not a third brand accent.
+- Rebuilt the `/play` join screen on the landing page's PIN card: the wordmark, a labelled field with the "enter the PIN from the host's screen" line, and one full-width primary button. It was a floating label, an unlabelled box and a grey Submit on an empty page — and it is the first screen every player sees.
+- The host's per-question results and standings are set for a projector at last: at 1920 the question, the answer labels, the counts and the standings scale up instead of staying at laptop size.
+- Play is no longer offered to a signed-in visitor on somebody else's unlisted quiz, which the server answers with "quiz not found". The page says why, and points at Practice.
+- The navbar's Register link was shown only when registration was *disabled* — inherited inverted from upstream, so the only sign-up link appeared exactly when signing up was off.
+- `/explore` is headed Discover, which is what the navbar has called it since the merge.
+- Removed "Forgot password?" from the registration form, which is for people who have no password yet.
+- The browser-data warning on My Quizzes now appears when there are quizzes to warn about; with none, the empty state carries the sentence instead of stacking two panels.
+- Sessions in My Account: the column and badge read "This session" rather than "This session?".
+- Deleted upstream's landing-page copy from `en.json` — donations, a German server hosted by netcup, self-hosting, "Multilingual", a community that funds development — along with `landing/landing-promo.svelte`, the dead component that was its only consumer. None of it was reachable, and all of it was false about this product.
+- The podium's side buttons are outlined, so "Request result download" reads as a control rather than a line of text on the white podium, and the hidden export anchor is out of the accessibility tree.
+
 ### Players are told whether they were right, and hidden pages have a way home
 
 - After each question a player now sees Correct! or Not this time, with a tick or a cross as well as the colour, then the points gained, their total and their place. It used to show "+760" and nothing else, so scoring 0 read as a broken game rather than a wrong answer. Nothing new crosses the socket: the right/wrong flag and the standings were already in what the server sends.

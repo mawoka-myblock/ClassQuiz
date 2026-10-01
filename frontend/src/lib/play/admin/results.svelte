@@ -65,7 +65,6 @@ SPDX-License-Identifier: MPL-2.0
 			if (isNaN(data[i])) {
 				data[i] = 0;
 			}
-			console.log(score_by_username[i], '1');
 			data[i] = (score_by_username[i] ?? 0) + data[i];
 		}
 		for (const i of new_data) {
@@ -97,11 +96,13 @@ SPDX-License-Identifier: MPL-2.0
 	     in dark mode bg-card made it near-black with equally dark text, unreadable
 	     regardless of what colour the game background happened to be. -->
 	<div
-		class="w-full max-w-2xl overflow-hidden rounded-2xl border border-neutral-200 bg-white text-neutral-900 shadow-sm"
+		class="w-full max-w-2xl overflow-hidden rounded-2xl border border-neutral-200 bg-white text-neutral-900 shadow-sm lg:max-w-4xl"
 	>
 		{#if [QuizQuestionType.ABCD, QuizQuestionType.VOTING, QuizQuestionType.TEXT].includes(question.type)}
 			<section class="flex flex-col gap-[var(--fq-space-group)] p-6 sm:p-8">
-				<h2 class="text-center text-lg font-semibold tracking-tight text-balance">
+				<!-- This screen is read from the back of a room, not from a laptop: the question
+				     screen before it sets its type at ~90px and this one was still at 18px. -->
+				<h2 class="text-center text-lg font-semibold tracking-tight text-balance lg:text-3xl">
 					{@html sanitizeTitleHtml(question.question)}
 				</h2>
 				<VotingResults data={new_data} {question} />
@@ -109,15 +110,15 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 
 		<section class="border-t border-neutral-200">
-			<table class="w-full text-left text-base">
+			<table class="w-full text-left text-base lg:text-2xl">
 				<thead
-					class="bg-neutral-100 text-xs font-medium uppercase tracking-wider text-neutral-500"
+					class="bg-neutral-100 text-xs font-medium uppercase tracking-wider text-neutral-500 lg:text-sm"
 				>
 					<tr>
-						<th class="px-6 py-3">{$t('words.name')}</th>
-						<th class="px-6 py-3 text-right">{$t('words.point', { count: 2 })}</th>
+						<th class="px-6 py-3 lg:py-4">{$t('words.name')}</th>
+						<th class="px-6 py-3 text-right lg:py-4">{$t('words.point', { count: 2 })}</th>
 						{#if show_new_score_clicked}
-							<th in:fly|global={{ x: 80 }} class="px-6 py-3 text-right">
+							<th in:fly|global={{ x: 80 }} class="px-6 py-3 text-right lg:py-4">
 								{$t('play_page.points_added')}
 							</th>
 						{/if}
@@ -126,12 +127,12 @@ SPDX-License-Identifier: MPL-2.0
 				<tbody class="divide-y divide-neutral-200">
 					{#each top_players as player (player)}
 						<tr animate:flip={{ duration: 400 }}>
-							<td class="px-6 py-3 font-medium">{player}</td>
-							<td class="px-6 py-3 text-right tabular-nums">{data[player]}</td>
+							<td class="px-6 py-3 font-medium lg:py-4">{player}</td>
+							<td class="px-6 py-3 text-right tabular-nums lg:py-4">{data[player]}</td>
 							{#if show_new_score_clicked}
 								<td
 									in:fly|global={{ x: 80 }}
-									class="px-6 py-3 text-right font-medium tabular-nums"
+									class="px-6 py-3 text-right font-medium tabular-nums lg:py-4"
 									class:text-neutral-500={!score_by_username[player]}
 								>
 									+{score_by_username[player] ?? '0'}

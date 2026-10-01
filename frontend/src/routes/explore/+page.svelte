@@ -46,14 +46,16 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <svelte:head>
-	<title>frogQuiz - {$t('words.explore')}</title>
+	<title>frogQuiz - {$t('words.discover')}</title>
 </svelte:head>
 
 <!-- fq-section, not fq-stage: fq-stage is min-height:100dvh plus justify-center, which
      is the projector composition. This is a list that can be any length. -->
 <div class="fq-section px-4 py-10 sm:px-6">
 	<div class="w-full max-w-5xl">
-		<h1 class="text-2xl font-semibold tracking-tight">{$t('words.explore')}</h1>
+		<!-- The navbar calls this Discover; the page called itself Explore. The URL stays
+		     /explore (MVP.md section 2) -- it is the label that had drifted. -->
+		<h1 class="text-2xl font-semibold tracking-tight">{$t('words.discover')}</h1>
 
 		<form class="mt-4 flex gap-2" onsubmit={submit}>
 			<Input

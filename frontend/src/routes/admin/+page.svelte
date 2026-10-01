@@ -265,16 +265,20 @@ SPDX-License-Identifier: MPL-2.0
 				     stuck on the podium with nowhere to go once a game ended. -->
 				<!-- /my-quizzes for everyone: it lists account quizzes when signed in and
 				     this browser's quizzes when not (D1 in MVP.md). -->
-				<GrayButton href="/my-quizzes" flex={true}>
+				<!-- Outline, not secondary: the podium is a white screen and the secondary
+				     token is near-white on it, so "Request result download" read as a line of
+				     text rather than a control. -->
+				<GrayButton href="/my-quizzes" flex={true} variant="outline">
 					<ArrowLeft class="size-4" aria-hidden="true" />
 					{$t('words.back')}
 				</GrayButton>
 				{#if export_token === undefined}
-					<GrayButton onclick={request_answer_export}
+					<GrayButton variant="outline" onclick={request_answer_export}
 						>{$t('admin_page.request_export_results')}</GrayButton
 					>
 				{:else}
 					<GrayButton
+						variant="outline"
 						target="_blank"
 						href="/api/v1/quiz/export_data/{export_token}?ts={new Date().getTime()}&game_pin={game_pin}"
 						>{$t('admin_page.download_export_results')}</GrayButton
@@ -328,5 +332,7 @@ SPDX-License-Identifier: MPL-2.0
 	target="_blank"
 	bind:this={dataexport_download_a}
 	download=""
+	tabindex="-1"
+	aria-hidden="true"
 	class="absolute size-px overflow-hidden whitespace-nowrap opacity-0">Download</a
 >

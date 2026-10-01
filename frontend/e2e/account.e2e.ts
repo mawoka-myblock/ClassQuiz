@@ -228,3 +228,29 @@ test.describe('regressions', () => {
 		await ctx.close();
 	});
 });
+
+// routers/quiz.py start_quiz only lets a signed-in visitor host a quiz that is public.
+// The view page offered Play regardless, so hosting somebody else's unlisted quiz got a
+// button that answered "quiz not found".
+test('Play is not offered on somebody else’s unlisted quiz', async ({ browser, request }) => {
+	const owner = await signedInContext(browser, request);
+	const unlisted = await saveQuiz(owner.context.request, quiz(`Unlisted ${Date.now()}`));
+	const open = await saveQuiz(owner.context.request, {
+		...quiz(`Public ${Date.now()}`),
+		public: true
+	});
+
+	const other = await signedInContext(browser, request);
+	await other.page.goto(`/view/${unlisted.body.id}`);
+	await expect(other.page.getByRole('button', { name: 'Play', exact: true })).toBeDisabled();
+	await expect(other.page.getByText('only the person who made it can host it')).toBeVisible();
+
+	await other.page.goto(`/view/${open.body.id}`);
+	await expect(other.page.getByRole('button', { name: 'Play', exact: true })).toBeEnabled();
+
+	// Its owner can still host it.
+	await owner.page.goto(`/view/${unlisted.body.id}`);
+	await expect(owner.page.getByRole('button', { name: 'Play', exact: true })).toBeEnabled();
+	await owner.context.close();
+	await other.context.close();
+});

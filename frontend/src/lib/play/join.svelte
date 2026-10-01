@@ -11,7 +11,10 @@ SPDX-License-Identifier: MPL-2.0
 	import { browser } from '$app/environment';
 	import { getLocalization } from '$lib/i18n';
 	import Cookies from 'js-cookie';
-	import BrownButton from '$lib/components/buttons/brown.svelte';
+	import Wordmark from '$lib/components/Wordmark.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import { hcaptcha_site_key, recaptcha_key } from '$lib/config';
 
 	const { t } = getLocalization();
@@ -48,11 +51,6 @@ SPDX-License-Identifier: MPL-2.0
 	// it a player could type past the server's cap and only find out by having the
 	// join rejected, with nothing shown on this screen to say why.
 	const MAX_CUSTOM_FIELD_LENGTH = 200;
-
-	// The three inputs on this screen are identical apart from their bindings, and
-	// were three hand-copied class lists that had already drifted.
-	const input_class =
-		'border-input bg-background text-foreground w-full min-w-0 self-center border text-center ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all';
 
 	let hcaptchaSitekey = hcaptcha_site_key;
 
@@ -227,83 +225,101 @@ SPDX-License-Identifier: MPL-2.0
 
 <!-- fq-stage, not min-h-screen: 100vh counts browser chrome that is not there on a
      phone, which is where every player is, and pushed the submit button below the
-     fold. The measure is capped so the column does not stretch on a laptop, and each
-     input is a real labelled control rather than an <h1> floating above a box. -->
+     fold.
+     This screen is the first thing every player sees, and it was a floating label, an
+     unlabelled box and a grey Submit on an empty page -- while the landing page next
+     door already did the same job in a card. Same card here: the mark, so you can see
+     you are in the right place, one field, and one full-width primary action. -->
 <div class="fq-stage">
-	{#if game_pin === '' || game_pin.length < 6}
-		<!-- No submit handler of its own: the sixth digit advances it. Without this,
-		     Enter did a native submit and reloaded the page. -->
-		<form class="flex w-full max-w-xs flex-col gap-4" onsubmit={(e) => e.preventDefault()}>
-			<div class="flex flex-col gap-1.5">
-				<label class="text-center text-lg" for="game-pin">{$t('words.game_pin')}</label>
-				<input
+	<div class="flex w-full max-w-sm flex-col items-center gap-6">
+		<Wordmark size={44} />
+
+		{#if game_pin === '' || game_pin.length < 6}
+			<!-- No submit handler of its own: the sixth digit advances it. Without this,
+			     Enter did a native submit and reloaded the page. -->
+			<form
+				class="border-border/70 bg-card w-full rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
+				onsubmit={(e) => e.preventDefault()}
+			>
+				<Label for="game-pin" class="text-sm font-medium">{$t('words.game_pin')}</Label>
+				<p class="text-muted-foreground mt-1.5 text-sm">
+					{$t('index_page.join_prompt')}
+				</p>
+				<Input
 					id="game-pin"
-					class={input_class}
 					bind:value={game_pin}
-					maxlength="6"
+					maxlength={6}
 					inputmode="numeric"
 					pattern="[0-9]*"
 					autocomplete="one-time-code"
+					placeholder="000000"
+					class="mt-4 h-12 text-center font-mono text-xl tracking-[0.35em]"
 					autofocus
 				/>
-			</div>
-			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
-
-			<div class="flex justify-center">
-				<BrownButton disabled={game_pin.length < 6}>{$t('words.submit')}</BrownButton>
-			</div>
-		</form>
-	{:else}
-		<form onsubmit={setUsername} class="flex w-full max-w-xs flex-col gap-4">
-			<div class="flex flex-col gap-1.5">
-				<label class="text-center text-lg" for="join-username">{$t('words.username')}</label
-				>
+				{#if error_message}
+					<p class="text-destructive mt-3 text-sm text-balance" role="alert">
+						{error_message}
+					</p>
+				{/if}
+				<Button type="submit" size="lg" class="mt-4 h-12 w-full" disabled={game_pin.length < 6}>
+					{$t('words.submit')}
+				</Button>
+			</form>
+		{:else}
+			<form
+				onsubmit={setUsername}
+				class="border-border/70 bg-card w-full rounded-2xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
+			>
+				<Label for="join-username" class="text-sm font-medium">{$t('words.username')}</Label>
+				<p id="join-username-hint" class="text-muted-foreground mt-1.5 text-sm">
+					{$t('play_page.nickname_hint', { count: MIN_NICKNAME })}
+				</p>
 				<!-- autocomplete="nickname", not the browser default of guessing: with no
 				     token at all Chrome and Safari read this as an account field and
 				     offered the player's saved email address for what is a game nickname
 				     shown to the whole room. -->
-				<input
+				<Input
 					id="join-username"
-					class={input_class}
 					bind:value={username}
-					maxlength="17"
+					maxlength={17}
 					autocomplete="nickname"
 					aria-describedby="join-username-hint"
+					class="mt-4 h-12 text-center text-lg"
 				/>
-				<p id="join-username-hint" class="text-muted-foreground text-center text-sm">
-					{$t('play_page.nickname_hint', { count: MIN_NICKNAME })}
-				</p>
-			</div>
-			{#if custom_field}
-				<div class="flex flex-col gap-1.5">
-					<!-- The label text is whatever the host typed when starting the game,
-					     so it is tied to the input with for/id rather than left as a
-					     heading that happens to sit above it. -->
-					<label class="text-center text-lg text-balance" for="join-custom-field">
+
+				{#if custom_field}
+					<!-- The label text is whatever the host typed when starting the game, so it
+					     is tied to the input with for/id rather than left as a heading that
+					     happens to sit above it. -->
+					<Label for="join-custom-field" class="mt-5 block text-sm font-medium text-balance">
 						{custom_field}
-					</label>
-					<input
+					</Label>
+					<Input
 						id="join-custom-field"
-						class={input_class}
 						bind:value={custom_field_value}
 						maxlength={MAX_CUSTOM_FIELD_LENGTH}
 						autocomplete="off"
+						class="mt-2 h-12 text-center"
 					/>
-				</div>
-			{/if}
+				{/if}
 
-			<div class="flex justify-center">
-				<BrownButton disabled={username.trim().length < MIN_NICKNAME} onclick={setUsername}
-					>{$t('words.submit')}</BrownButton
+				{#if error_message}
+					<p class="text-destructive mt-3 text-sm text-balance" role="alert">
+						{error_message}
+					</p>
+				{/if}
+				<Button
+					type="submit"
+					size="lg"
+					class="mt-4 h-12 w-full"
+					disabled={username.trim().length < MIN_NICKNAME}
+					onclick={setUsername}
 				>
-			</div>
-		</form>
-	{/if}
-	{#if error_message}
-		<p class="text-destructive max-w-xs text-center text-sm text-balance" role="alert">
-			{error_message}
-		</p>
-	{/if}
+					{$t('words.submit')}
+				</Button>
+			</form>
+		{/if}
+	</div>
 </div>
 <div
 	id="hcaptcha"
