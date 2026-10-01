@@ -6,6 +6,8 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Hosting is a first-class choice on the landing page, and three plural strings printed their key
 
+- Added `docs/audit-2026-10-01.md`: the full gap audit and visual inspection — all three test suites run, every route screenshotted at 390/834/1440 in both themes, the bugs that pass found, and the ordered list of what is left before sharing.
+
 - The landing page's three muted text links under the PIN box became two secondary buttons, Create a quiz and Go to your quizzes, under a "Running the quiz?" divider, with a line saying no account is needed and that browser quizzes are deleted after 30 days. Making a quiz now reads at the same level as logging in, which is what it is: it needs no account.
 - The navbar shows a Create a quiz button beside Log in for signed-out visitors, on desktop and in the mobile menu.
 - Fixed three places that asked i18next for a `*_plural` key, which has not existed since i18next v20: the host lobby's player count and the host's per-question results both printed `play_page.players_waiting_plural` on the projector, and every quiz card on My Quizzes printed `words.question_plural` instead of "Questions". The `_one` / `_other` keys they should have used were already in `en.json`.
