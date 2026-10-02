@@ -94,7 +94,9 @@ on, the question — and that is exactly the reasoning that produced a wrong att
 - [ ] **`game-reload.e2e.ts › a player can reload twice and still be in the game`** failed
       once, in the 127-test run on 2 Oct (124 passed). It waits for an answer button after
       two reloads and did not get one. It passed in the three full runs before that, and
-      the spec is untouched this session.
+      the spec is untouched this session. **Re-run straight after: 3/3 clean in isolation**
+      (12/12 counting the rest of that file), so it is not reproducible on demand — the
+      same profile as the `editor.e2e.ts` item below.
 
 - [ ] **`editor.e2e.ts › build a quiz by hand, save it, and play it` failed once**, in the
       first of four full-suite runs on 2 Oct (118/119; the second was 119/119). `final_results`

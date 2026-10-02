@@ -109,13 +109,16 @@ test('a player goes from the join screen to the podium and out, all on a phone',
 		await expectNoHorizontalOverflow(phone);
 	});
 
-	await test.step('and there is a way out that actually leaves', async () => {
-		await phone.getByRole('button', { name: 'Leave game' }).click();
-		await phone.getByRole('alertdialog').getByRole('button', { name: 'Leave game' }).click();
-		// Back where they started, ready to join another game.
-		await expect(phone.getByRole('textbox', { name: 'Game PIN' })).toBeVisible({
-			timeout: 15_000
-		});
+	await test.step('and the way out is Home, because the game is over', async () => {
+		// `/play` swaps the control by state: "Leave game" behind a confirm while you are
+		// joined and between questions, and plain "Home" once the final results are in --
+		// there is nothing left to leave by then. Asserting "Leave game" here hung until
+		// the test timed out, three runs out of three, against correct behaviour.
+		await expect(phone.getByRole('button', { name: 'Leave game' })).toHaveCount(0);
+		const home = phone.getByRole('link', { name: 'Home' });
+		await expect(home).toHaveAttribute('href', '/');
+		await home.click();
+		await phone.waitForURL(/\/$/, { timeout: 15_000 });
 		await expectNoHorizontalOverflow(phone);
 	});
 
