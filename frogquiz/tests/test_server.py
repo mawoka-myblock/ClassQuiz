@@ -705,6 +705,29 @@ class TestStorage:
         return sig + chunk(b"IHDR", ihdr) + chunk(b"IDAT", idat) + chunk(b"IEND", b"")
 
     @pytest.mark.asyncio
+    async def test_a_quiz_with_too_many_questions_is_refused(self, test_client: TestClient):  # noqa : F811
+        """No cap meant a 5000-question quiz saved -- a 698KiB blob, and the live-game state
+        in Redis for every game on it. 101 is refused; 100 is accepted."""
+        q = {
+            "question": "Q?",
+            "time": "20",
+            "type": "ABCD",
+            "answers": [{"answer": "a", "right": True}, {"answer": "b", "right": False}],
+        }
+        start = test_client.post("/api/v1/editor/start?edit=false")
+        over = test_client.post(
+            f"/api/v1/editor/finish?edit_id={start.json()['token']}",
+            json={"public": False, "title": "Too many", "description": "d", "questions": [q] * 101},
+        )
+        assert over.status_code == 422
+        start = test_client.post("/api/v1/editor/start?edit=false")
+        at_cap = test_client.post(
+            f"/api/v1/editor/finish?edit_id={start.json()['token']}",
+            json={"public": False, "title": "At the cap", "description": "d", "questions": [q] * 100},
+        )
+        assert at_cap.status_code == 200
+
+    @pytest.mark.asyncio
     async def test_oversized_pixels_are_refused(self, test_client: TestClient):  # noqa : F811
         """A pixel bomb is 413, not stored, even though it is well under the byte cap.
 

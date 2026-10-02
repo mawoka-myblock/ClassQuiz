@@ -197,6 +197,11 @@ MAX_QUESTION_SECONDS = 999
 # questions are scored by concatenating option indices ("02"), which is only
 # unambiguous while every index is one digit.
 MAX_ANSWERS_PER_QUESTION = 10
+# A quiz with no upper bound on questions was accepted at any size: 5000 questions is a
+# 698KiB JSON blob, and it becomes the PlayGame state held in Redis for every live game on
+# it, plus thousands of cards for the editor to render. 100 is far more than an internal
+# quiz needs -- Kahoot's own are rarely over 50 -- and bounds both. One constant to raise.
+MAX_QUESTIONS_PER_QUIZ = 100
 
 # Text bounds, added 2026-10-02 after a deliberate attempt to break the app with hostile
 # input. There were none: `ormar.Text()` is unbounded, and a 5000-character title saved
@@ -240,6 +245,8 @@ class QuizInput(BaseModel):
         # A quiz with no questions saved and then started a live game with nothing in it.
         if len(questions) == 0:
             raise ValueError("A quiz needs at least one question")
+        if len(questions) > MAX_QUESTIONS_PER_QUIZ:
+            raise ValueError(f"A quiz can have at most {MAX_QUESTIONS_PER_QUIZ} questions")
         for i, q in enumerate(questions, start=1):
             # The game does int(float(time)) when scoring, so a non-numeric timer used to
             # save fine and then make every correct answer to that question score nothing.

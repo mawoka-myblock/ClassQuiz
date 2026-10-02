@@ -95,6 +95,28 @@ an inert rather than broken-looking Submit while you type, sits in the upper thi
 laptop instead of floating mid-void, and no longer lets a long quiz title swamp the "You're
 in" confirmation.
 
+**Hostile input — the app was attacked on purpose, not just exercised.** Three passes, each
+a real finding closed with a test that fails against the old code:
+
+- **Unbounded text.** `ormar.Text()` had no length limit, so a 5000-character title saved
+  intact, and a 272-character word with no spaces overflowed the player's lobby by 6611 px
+  and the host's screen by 7736 px. Now bounded (title 100, description 500, question 250,
+  answer 100, measured on visible text), with `wrap-anywhere` at every render site because
+  a quiz saved before the bounds is never revalidated.
+- **A decompression bomb.** A 20000×20000 PNG of one colour is under 400 KiB — inside the
+  5 MB byte cap — and ~1.6 GB as a bitmap in every browser that draws it. The server never
+  decodes an image, so the clients (phones, projector) are what fall over. Now rejected by
+  a header-only dimension read (no decode, no dependency) at 8000 px per side.
+- **Quiz shape, and editor/server drift.** No cap on questions (5000 accepted → now 100),
+  and the editor was looser than the server on answers (16 vs 10), question length (299 vs
+  250) and the timer (unbounded vs 999) — so a user could build a quiz the server then
+  refused. All seven shared limits are pinned editor == server by a test that reads both.
+
+What held up: the nickname bound (50, control chars stripped), the server's timer bounds,
+and the answer/timer grids at phone and projector width. One known gap is written down in
+`docs/uploads.md`: the uploader's own browser still decodes a true square bomb in Uppy's
+Compressor before the server sees it, hanging only the uploader's own tab — a follow-up.
+
 Everything else is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---

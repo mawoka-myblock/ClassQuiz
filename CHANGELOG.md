@@ -4,6 +4,33 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### More hostile input: quiz shape, and editor/server drift
+
+Kept attacking the shapes a vanilla test never tries, and found that the editor and the
+server disagreed about what a quiz may contain — every disagreement in the direction that
+bites: the editor let a user build something the server then refused with a 422 on save.
+
+- **No cap on questions per quiz.** The server accepted a **5000-question** quiz (a 698 KiB
+  JSON blob, and the live-game state held in Redis for every game on it). Capped at
+  **100** (`MAX_QUESTIONS_PER_QUIZ`) — far more than an internal quiz needs, enough to
+  bound the resource. 5000 → 200 before, 422 after; 100 still saves.
+- **Answers: editor 16, server 10.** The server's 10 is a hard ceiling, not a style
+  choice — scoring concatenates one-digit option indices (`"02"`), which is ambiguous past
+  nine. The editor's `.max(16)` let a user add 11–16 answers and then fail to save. Aligned
+  to 10.
+- **Question title: editor 299, server 250.** Same drift; aligned to 250.
+- **Timer: editor unbounded, server 1–999.** The editor's number input was already 1–999,
+  but its schema let a scripted or pasted value through to a 422. Bounded in the schema too.
+
+The seven shared limits (four text, three shape) are now pinned editor == server by
+`text_limits.test.ts`, which reads both files — because this drift *is* the bug class, and
+a test that reads one side cannot catch it. A backend test covers the question cap at its
+inclusive boundary (101 refused, 100 accepted).
+
+What held up under attack, worth recording: the server's timer bounds (1000, 0, negative,
+0.5 all refused), the 10-answer grid (no overflow at 390 or 1440), and the 999-second
+timer in its 120 px circle. The nickname and text bounds from the previous pass also held.
+
 ### A decompression bomb, caught at the header
 
 Carrying on breaking the app: a byte cap is not a pixel cap. A 20000×20000 PNG of one

@@ -21,6 +21,12 @@ export const DESCRIPTION_MAX_LENGTH = 500;
 // and MAX_ANSWER_LENGTH in frogquiz/db/models.py -- keep the four numbers in step.
 export const QUESTION_MAX_LENGTH = 250;
 export const ANSWER_MAX_LENGTH = 100;
+// Mirror frogquiz/db/models.py: MAX_ANSWERS_PER_QUESTION (scoring concatenates one-digit
+// option indices, so 10 is a hard ceiling, not a style choice) and MAX_QUESTIONS_PER_QUIZ.
+// Keep the four numbers in step; text_limits.test.ts checks the text ones and now these.
+export const MAX_ANSWERS_PER_QUESTION = 10;
+export const MAX_QUESTIONS_PER_QUIZ = 100;
+export const MAX_QUESTION_SECONDS = 999;
 
 export const ABCDQuestionSchema = yup
 	.array()
@@ -38,7 +44,7 @@ export const ABCDQuestionSchema = yup
 		})
 	)
 	.min(2, 'You need at least 2 answers')
-	.max(16, "You can't have more than 16 answers");
+	.max(MAX_ANSWERS_PER_QUESTION, `You can't have more than ${MAX_ANSWERS_PER_QUESTION} answers`);
 
 export const VotingQuestionSchema = yup
 	.array()
@@ -49,7 +55,7 @@ export const VotingQuestionSchema = yup
 		})
 	)
 	.min(2, 'You need at least 2 answers')
-	.max(16, "You can't have more than 16 answers");
+	.max(MAX_ANSWERS_PER_QUESTION, `You can't have more than ${MAX_ANSWERS_PER_QUESTION} answers`);
 
 export const RangeQuestionSchema = yup.object({
 	min: yup.number(),
@@ -67,7 +73,7 @@ export const TextQuestionSchema = yup
 		})
 	)
 	.min(1, 'You need at least 1 answer')
-	.max(16, "You can't have more than 16 answers");
+	.max(MAX_ANSWERS_PER_QUESTION, `You can't have more than ${MAX_ANSWERS_PER_QUESTION} answers`);
 
 export const dataSchema = yup.object({
 	public: yup.boolean().required(),
@@ -111,10 +117,17 @@ export const dataSchema = yup.object({
 					)
 					.test(
 						'max-length',
-						'The question-title has to be shorter than 299 characters',
-						(value) => htmlToPlainText(value ?? '').length <= 299
+						`The question-title has to be shorter than ${QUESTION_MAX_LENGTH} characters`,
+						(value) => htmlToPlainText(value ?? '').length <= QUESTION_MAX_LENGTH
 					),
-				time: yup.number().required().positive('The time has to be positive'),
+				time: yup
+					.number()
+					.required()
+					.positive('The time has to be positive')
+					.max(
+						MAX_QUESTION_SECONDS,
+						`The time can be at most ${MAX_QUESTION_SECONDS} seconds`
+					),
 				image: yup.string().nullable().lowercase(),
 				answers: yup.lazy((v) => {
 					if (Array.isArray(v)) {
@@ -136,5 +149,5 @@ export const dataSchema = yup.object({
 			})
 		)
 		.min(1, 'You need at least one question')
-		.max(50, "You can't have more than 50 questions")
+		.max(MAX_QUESTIONS_PER_QUIZ, `You can't have more than ${MAX_QUESTIONS_PER_QUIZ} questions`)
 });

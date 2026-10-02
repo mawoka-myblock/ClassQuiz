@@ -10,7 +10,7 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 127 e2e · 147 backend (1 skipped)
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 136 unit · 132 e2e · 163 backend (1 skipped)
 · **Last full green run:** 2 Oct — e2e **127/127** in 10.0m, backend **147 passed** (1 skipped),
 unit 126 passed, `flake8 .` 0, `eslint .` 0 errors
 
@@ -85,11 +85,20 @@ string literal. Rows 16–18 above. That doc is still the map of the whole surfa
       `frogquiz/oauth/` stays config-gated and unwired.
 - [x] **Mail test recipient**: `francois.prevot@hotmail.com`. Steps in `DEPLOY.md`.
 
-## Open — two unexplained e2e failures, same symptom
+## Open — three unexplained e2e failures, same symptom
 
-**Do not assume one cause.** They share a shape — the player does not get, or cannot act
-on, the question — and that is exactly the reasoning that produced a wrong attribution on
-2 Oct. Recorded together so the pattern is visible, not so it is explained.
+**Do not assume one cause.** They share a shape — a live-game step stalls: the player does
+not get the question, or the host cannot advance — and that is exactly the reasoning that
+produced a wrong attribution on 2 Oct. Recorded together so the pattern is visible, not so
+it is explained. Three occurrences now, all in full-suite runs under parallel load, none
+reproducible in isolation. That is itself a weak signal (concurrency/resource pressure in
+the socket flow when many specs share one API), but weak is not proven — the honest state
+is still "flaky, cause unknown". If it reaches a fourth, root-cause it rather than note it.
+
+- [ ] **`journey-returning-host.e2e.ts › ... runs it again`** stalled on 2 Oct in
+      `advanceToFinalResults`, waiting 60 s for the "final results" button. It passed 3/3
+      in isolation earlier the same day and is untouched by that run's changes (quiz-shape
+      caps, which it does not exercise). Same stall-class as the two below.
 
 - [ ] **`game-reload.e2e.ts › a player can reload twice and still be in the game`** failed
       once, in the 127-test run on 2 Oct (124 passed). It waits for an answer button after
