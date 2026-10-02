@@ -148,3 +148,43 @@ export async function advanceToFinalResults(page: Page) {
 	await clearScoreboardStep(page);
 	await page.getByRole('button', { name: /final results/i }).click();
 }
+
+// ---- Driving the editor ----------------------------------------------------
+// Lifted out of editor.e2e.ts on 2026-10-02 so the journey specs build a quiz the way a
+// person does, through the editor, rather than posting one to the API.
+
+export const titleBox = (page: Page) => page.getByRole('textbox', { name: 'Quiz title' });
+export const questionBox = (page: Page) => page.getByRole('textbox', { name: 'Question text' });
+export const saveQuizButton = (page: Page) => page.getByRole('button', { name: 'Save' });
+export const cards = (page: Page) => page.locator('[data-question-card]');
+
+export async function addQuestion(
+	page: Page,
+	kind: RegExp,
+	title: string,
+	answers: [string, boolean][]
+) {
+	await page
+		.getByRole('button', { name: /Add new question|Add your first question/ })
+		.first()
+		.click();
+	await page.getByRole('button', { name: kind }).click();
+	// Only the open card holds a rich-text field; the others are collapsed to plain text.
+	await questionBox(page).fill(title);
+	for (let i = 0; i < answers.length; i++)
+		await page.getByRole('button', { name: 'Add an answer' }).click();
+	const inputs = page.getByRole('textbox', { name: 'Enter an answer' });
+	for (const [i, [text, right]] of answers.entries()) {
+		await inputs.nth(i).fill(text);
+		if (right)
+			await page
+				.getByRole('button', { name: `Mark as correct: ${text}`, exact: true })
+				.click();
+	}
+}
+
+export async function startNewQuiz(page: Page, title: string) {
+	await page.goto('/create');
+	await titleBox(page).fill(title);
+	await page.getByRole('textbox', { name: 'Description' }).fill('Made in the editor');
+}

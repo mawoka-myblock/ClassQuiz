@@ -39,6 +39,7 @@ TOOLS="$ROOT/e2e/.tools"
 PG_PORT="${PG_PORT:-5433}"
 REDIS_PORT=6380
 MEILI_PORT=7701
+MAIL_PORT_LOCAL=2526
 API_PORT=8010
 WEB_PORT=3000
 
@@ -138,7 +139,7 @@ wait_http() { # url, name
   die "$2 did not come up; see $DATA/$2.log"
 }
 
-for p in $PG_PORT $REDIS_PORT $MEILI_PORT $API_PORT $WEB_PORT; do
+for p in $PG_PORT $REDIS_PORT $MEILI_PORT $MAIL_PORT_LOCAL $API_PORT $WEB_PORT; do
   port_busy "$p" && die "port $p is already in use (a previous run with KEEP_UP=1?)"
 done
 
@@ -191,10 +192,22 @@ fi
   --no-analytics --env development >"$DATA/meili.log" 2>&1 & PIDS+=($!)
 wait_http "http://127.0.0.1:$MEILI_PORT/health" meili
 
+# ---- Mail sink -------------------------------------------------------------------
+# Without a relay, `mail_configured` is false and /forgot-password answers 503, so the
+# password-recovery journey could not be tested at all. This writes every message to
+# $DATA/mail/*.eml for a spec to read. See e2e/mailsink.py.
+log "starting the mail sink on $MAIL_PORT_LOCAL"
+rm -rf "$DATA/mail"
+"$PY" "$ROOT/e2e/mailsink.py" "$DATA/mail" $MAIL_PORT_LOCAL >"$DATA/mail.log" 2>&1 & PIDS+=($!)
+
 # ---- API -------------------------------------------------------------------------
 set -a; . "$ROOT/e2e/e2e.env"; set +a
 export DB_URL="postgresql://postgres@127.0.0.1:$PG_PORT/frogquiz"
 export STORAGE_PATH="$DATA/storage"
+# Points the app at the sink above. MAIL_USERNAME and MAIL_PASSWORD stay empty, which
+# is what makes the backend skip AUTH; MAIL_SECURITY=none keeps it off STARTTLS.
+export MAIL_SERVER=127.0.0.1
+export MAIL_PORT=$MAIL_PORT_LOCAL
 # Stand-in for python-magic, whose Windows DLL crashes on import. See e2e/shims/magic.py.
 # Everywhere else the real libmagic works, and the shim would only hide a difference.
 [ "$OS" = "windows" ] && export PYTHONPATH="$ROOT/e2e/shims${PYTHONPATH:+:$PYTHONPATH}"

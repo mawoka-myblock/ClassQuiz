@@ -6,7 +6,16 @@
 // then checking what actually reached the server and that it plays.
 
 import { expect, test, type Page } from '@playwright/test';
-import { ANON_KEY, PHONE, expectNoHorizontalOverflow } from './helpers';
+import {
+	addQuestion,
+	ANON_KEY,
+	cards,
+	expectNoHorizontalOverflow,
+	PHONE,
+	saveQuizButton,
+	startNewQuiz,
+	titleBox
+} from './helpers';
 import { closeAll, connect, finalResults, joinAll, next, showQuestion, startGame } from './sockets';
 
 test.afterEach(closeAll);
@@ -14,37 +23,6 @@ test.afterEach(closeAll);
 // The editor is one column, so the quiz's title and every question's text are on the
 // page at once. They used to share CKEditor's stock "Rich Text Editor" label, which told
 // a screen reader -- and a test -- nothing about which field it had hold of.
-const titleBox = (page: Page) => page.getByRole('textbox', { name: 'Quiz title' });
-const questionBox = (page: Page) => page.getByRole('textbox', { name: 'Question text' });
-const saveButton = (page: Page) => page.getByRole('button', { name: 'Save' });
-const cards = (page: Page) => page.locator('[data-question-card]');
-
-async function addQuestion(page: Page, kind: RegExp, title: string, answers: [string, boolean][]) {
-	await page
-		.getByRole('button', { name: /Add new question|Add your first question/ })
-		.first()
-		.click();
-	await page.getByRole('button', { name: kind }).click();
-	// Only the open card holds a rich-text field; the others are collapsed to plain text.
-	await questionBox(page).fill(title);
-	for (let i = 0; i < answers.length; i++)
-		await page.getByRole('button', { name: 'Add an answer' }).click();
-	const inputs = page.getByRole('textbox', { name: 'Enter an answer' });
-	for (const [i, [text, right]] of answers.entries()) {
-		await inputs.nth(i).fill(text);
-		if (right)
-			await page
-				.getByRole('button', { name: `Mark as correct: ${text}`, exact: true })
-				.click();
-	}
-}
-
-async function startNewQuiz(page: Page, title: string) {
-	await page.goto('/create');
-	await titleBox(page).fill(title);
-	await page.getByRole('textbox', { name: 'Description' }).fill('Made in the editor');
-}
-
 async function anonSecret(page: Page, id: string) {
 	return page.evaluate(
 		([k, i]) => JSON.parse(localStorage.getItem(k) ?? '{}')[i],
@@ -66,7 +44,7 @@ test('build a quiz by hand, save it, and play it', async ({ page, request }) => 
 		['Salamander', true]
 	]);
 	await expect(cards(page)).toHaveCount(2);
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await page.waitForURL(/\/view\//);
 	const id = page.url().split('/view/')[1];
 	await expect(page.getByText("This quiz isn't saved to an account")).toBeVisible();
@@ -146,7 +124,7 @@ test('nothing is marked red before Save, and Save with no questions says what is
 
 	await page.goto('/create');
 	await titleBox(page).fill(`Empty ${Date.now()}`);
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await expect(
 		page.getByText('Give the quiz a title and at least one question to save it')
 	).toBeVisible();
@@ -162,7 +140,7 @@ test('an unfinished quiz saves as a draft, and Save shows what is left', async (
 		['One', false],
 		['Two', false]
 	]);
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await expect(
 		page.getByText('Saved as a draft. 1 question needs finishing before it can be played')
 	).toBeVisible();
@@ -179,7 +157,7 @@ test('an unfinished quiz saves as a draft, and Save shows what is left', async (
 	// Finishing it clears the message, and Save then goes to the quiz.
 	await page.getByRole('button', { name: 'Mark as correct: Two', exact: true }).click();
 	await expect(page.getByText(/Saved as a draft/)).toHaveCount(0);
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await page.waitForURL(new RegExp(`/view/${id}$`));
 });
 
@@ -228,7 +206,7 @@ test('the timer field cannot produce a timer the game cannot run', async ({ page
 	const timer = page.getByRole('spinbutton', { name: /Time in seconds/ });
 	for (const bad of ['0', '-5']) {
 		await timer.fill(bad);
-		await saveButton(page).click();
+		await saveQuizButton(page).click();
 		// Save is always pressable now (D14); an unusable timer keeps the quiz a draft, and
 		// the server refuses to store one.
 		await page.waitForTimeout(1000);
@@ -251,14 +229,14 @@ test('an existing anonymous quiz can be reopened, edited and saved', async ({ pa
 		['A', true],
 		['B', false]
 	]);
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await page.waitForURL(/\/view\//);
 	const id = page.url().split('/view/')[1];
 
 	await page.goto(`/edit?quiz_id=${id}`);
 	await expect(titleBox(page)).toContainText('Before', { timeout: 20_000 });
 	await page.getByRole('textbox', { name: 'Description' }).fill('Edited description');
-	await saveButton(page).click();
+	await saveQuizButton(page).click();
 	await page.waitForURL(/\/view\//);
 	const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();
 	expect(stored.description).toBe('Edited description');
@@ -279,7 +257,7 @@ test.describe('regressions', () => {
 			['One', false],
 			['Two', false]
 		]);
-		await saveButton(page).click();
+		await saveQuizButton(page).click();
 		// It is kept as a draft and says why, rather than saving an unplayable quiz silently.
 		await expect(page.getByText(/1 question needs finishing/)).toBeVisible();
 		expect(page.url()).not.toMatch(/\/view\//);
@@ -294,14 +272,14 @@ test.describe('regressions', () => {
 			['A', true],
 			['B', false]
 		]);
-		await saveButton(page).click();
+		await saveQuizButton(page).click();
 		await page.waitForURL(/\/view\//);
 		const id = page.url().split('/view/')[1];
 
 		await page.goto(`/edit?quiz_id=${id}`);
 		// No settling wait on purpose: type as soon as the field exists.
 		await page.getByRole('textbox', { name: 'Description' }).fill('Typed immediately');
-		await saveButton(page).click();
+		await saveQuizButton(page).click();
 		await page.waitForURL(new RegExp(`/view/${id}$`));
 		const stored = await (await request.get(`/api/v1/quiz/get/public/${id}`)).json();
 		expect(stored.description).toBe('Typed immediately');
