@@ -51,8 +51,14 @@ test('a teammate finds a colleague’s quiz, runs it, and never sees the answers
 	});
 
 	await test.step('the page does not hand them the answer key', async () => {
-		// D12: correct answers are the owner's view only.
-		await expect(mate.page.getByText('Lisbon')).toHaveCount(0);
+		// D12 hides WHICH answer is right, not the answers themselves -- a visitor is meant
+		// to see what the quiz asks, in a shuffled order, so they can decide whether to
+		// play it. The first version of this test asserted the answer text was absent
+		// entirely, and failed against correct behaviour.
+		await expect(mate.page.getByText('Lisbon')).toBeVisible();
+		// The marker is a ring plus a tick carrying an sr-only "Correct". That label is
+		// the thing a visitor must never get.
+		await expect(mate.page.getByText('Correct', { exact: true })).toHaveCount(0);
 		// D18: nor as a spreadsheet. Both halves, because hiding a button is not a guard.
 		await expect(mate.page.getByRole('button', { name: 'Download' })).toHaveCount(0);
 		const id = new URL(viewUrl).pathname.split('/view/')[1];
@@ -60,6 +66,13 @@ test('a teammate finds a colleague’s quiz, runs it, and never sees the answers
 		expect(res.status(), 'a teammate downloaded the answer key').toBe(404);
 		// Editing is the owner's too.
 		await expect(mate.page.getByRole('link', { name: 'Edit' })).toHaveCount(0);
+	});
+
+	await test.step('the owner, on the same page, does see which answer is right', async () => {
+		// The other half of D12. Without this, the assertion above would pass just as well
+		// if the marker had been deleted for everybody.
+		await owner.page.goto(viewUrl);
+		await expect(owner.page.getByText('Correct', { exact: true }).first()).toBeVisible();
 	});
 
 	await test.step('but they can run it, which is the point of sharing', async () => {

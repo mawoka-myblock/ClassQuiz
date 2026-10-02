@@ -114,10 +114,10 @@ test('a new colleague makes a quiz and runs it for two people, with no account',
 	});
 
 	await test.step('and they land back where their quizzes are', async () => {
-		await page
-			.getByRole('button', { name: /Back|My Quizzes|Finish/i })
-			.first()
-			.click();
+		// A link, not a button -- game-exits.e2e.ts pins the same control.
+		const back = page.getByRole('link', { name: 'Back' });
+		await expect(back).toHaveAttribute('href', '/my-quizzes');
+		await back.click();
 		await page.waitForURL(/\/my-quizzes/);
 		// The quiz they just made is still there afterwards, in this browser.
 		await expect(page.getByText(title)).toBeVisible();

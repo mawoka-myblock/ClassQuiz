@@ -4,6 +4,59 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### User journeys, and a mail relay for the e2e stack
+
+The suite was organised by mechanism — sockets, editor, uploads, exits — and thorough at
+it. A journey test fails for a different reason: not "this control is wrong" but "you
+cannot get from here to there". Three now exist, each narrated with `test.step` so a
+failure names the step:
+
+- **`journey-recovery`** — sign up, forget the password, request a reset, **read the real
+  email**, follow the link, set a new one; the old password is refused and the link is
+  dead the second time.
+- **`journey-first-game`** — land on `/`, Create with no account, write two questions
+  (one of them CHECK), save, host, two phones join, play both, podium, Back to My
+  Quizzes with the quiz still listed.
+- **`journey-teammate`** — owner publishes, a teammate finds it in Discover, cannot read
+  which answer is right (D12) or download the sheet (D18), but can run it. D12 and D18
+  contradicted each other for a day and were tested in separate files; here they are
+  asserted on the same page, as one person meets them.
+
+The unlock is **`e2e/mailsink.py`**: a ~90-line asyncio SMTP server, no new dependency,
+writing every message to `e2e/.data/mail/*.eml`. Until now `/forgot-password` answered
+503 in e2e because `mail_configured` was false with no relay, so password recovery — a
+must-do in `MVP.md` before sharing — could not be tested at all. Hand-rolled rather than
+aiosmtpd because the backend sends through plain `smtplib` with no STARTTLS and no AUTH
+when the credentials are blank, so EHLO/MAIL/RCPT/DATA/QUIT is the whole surface needed.
+
+That buys the parts that actually break in production: the Jinja templates render, and
+the reset link is built from `ROOT_ADDRESS` rather than the API's own host. On a split
+Netlify/Oracle deploy those are different hostnames, and getting it wrong sends every
+user to a host serving no page. It does **not** prove a real provider accepts the mail;
+that stays on the manual checklist in `DEPLOY.md`.
+
+`editor.e2e.ts`'s private UI helpers moved to `helpers.ts`, so a journey builds a quiz
+through the editor like a person instead of posting one to the API. `saveButton` became
+`saveQuizButton`.
+
+**Every first-run failure was mine, not the product's** — worth recording, because each
+looked like a finding:
+
+- **A visitor is meant to see the answers.** D12 hides *which* one is right, not the
+  options: a visitor needs to see what a quiz asks to decide whether to play it. The test
+  now asserts the `sr-only` "Correct" label is absent for a visitor **and present for the
+  owner on the same page**, so it cannot pass by the marker being deleted for everybody.
+- **The podium's exit is a link, not a button**; log out is a navbar link to
+  `/api/v1/users/logout`, rendered twice (desktop and mobile sheet).
+- **The reset email is base64.** `MIMEText(..., 'utf-8')` encodes that way, so a regex
+  over the raw `.eml` finds nothing in a message that does contain the link.
+- **SMTP is CRLF**, so splitting MIME parts on `\n\n` returned empty bodies.
+
+Two assertions exist because that decoding forced the question: the link must appear in
+**both** the plain and HTML parts, and the two must agree. A `multipart/alternative`
+whose plain half has no link is broken for anyone reading mail as text, and nothing else
+in the suite would notice.
+
 ### Every decision in MVP.md §4.0 is now signed
 
 François signed D1 and D3–D15 on 2026-10-02 after asking for each to be explained, having
