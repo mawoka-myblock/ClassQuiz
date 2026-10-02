@@ -252,7 +252,6 @@ SPDX-License-Identifier: MPL-2.0
 					inputmode="numeric"
 					pattern="[0-9]*"
 					autocomplete="one-time-code"
-					placeholder="000000"
 					class="mt-4 h-12 text-center font-mono text-xl tracking-[0.35em]"
 					autofocus
 				/>
@@ -261,7 +260,12 @@ SPDX-License-Identifier: MPL-2.0
 						{error_message}
 					</p>
 				{/if}
-				<Button type="submit" size="lg" class="mt-4 h-12 w-full" disabled={game_pin.length < 6}>
+				<Button
+					type="submit"
+					size="lg"
+					class="mt-4 h-12 w-full disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100"
+					disabled={game_pin.length < 6}
+				>
 					{$t('words.submit')}
 				</Button>
 			</form>
@@ -270,7 +274,8 @@ SPDX-License-Identifier: MPL-2.0
 				onsubmit={setUsername}
 				class="border-border/70 bg-card w-full rounded-xl border p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.25)]"
 			>
-				<Label for="join-username" class="text-sm font-medium">{$t('words.username')}</Label>
+				<Label for="join-username" class="text-sm font-medium">{$t('words.username')}</Label
+				>
 				<p id="join-username-hint" class="text-muted-foreground mt-1.5 text-sm">
 					{$t('play_page.nickname_hint', { count: MIN_NICKNAME })}
 				</p>
@@ -291,7 +296,10 @@ SPDX-License-Identifier: MPL-2.0
 					<!-- The label text is whatever the host typed when starting the game, so it
 					     is tied to the input with for/id rather than left as a heading that
 					     happens to sit above it. -->
-					<Label for="join-custom-field" class="mt-5 block text-sm font-medium text-balance">
+					<Label
+						for="join-custom-field"
+						class="mt-5 block text-sm font-medium text-balance"
+					>
 						{custom_field}
 					</Label>
 					<Input
@@ -311,7 +319,7 @@ SPDX-License-Identifier: MPL-2.0
 				<Button
 					type="submit"
 					size="lg"
-					class="mt-4 h-12 w-full"
+					class="mt-4 h-12 w-full disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100"
 					disabled={username.trim().length < MIN_NICKNAME}
 					onclick={setUsername}
 				>

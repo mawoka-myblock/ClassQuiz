@@ -187,28 +187,30 @@ Owner column: **G** Gonçalo, **F** François, **G+F** both.
 
 | # | Decision | Recommendation | G | F |
 | - | --- | --- | - | - |
-| D1 | `/my-quizzes` is the surviving URL, and `/dashboard` redirects to it (reverses #18's direction) | Yes — the name matches the label | ☑ | ☐ |
-| D2 | Question types in MVP: ABCD only, or ABCD + CHECK | ABCD + CHECK. CHECK works and scores all-or-nothing. **G (2026-09-29): ABCD + CHECK**; the other five are hidden from the type picker | ☑ | ☐ |
-| D3 | Practice mode: hide or redesign | Hide the link on the view page. **G (2026-09-28): keep and redesign** | ☑ keep | ☐ |
-| D4 | Results history and Analytics: hide, together with the Save results button | Hide all three. **G (2026-09-29): hide all three** | ☑ hide | ☐ |
-| D5 | Download: keep (it is the only backup/export) and restyle, or hide | Keep `.cqa` only if D6 keeps Import; otherwise hide. **G (2026-09-28): keep and restyle; (2026-09-29, after D6): Excel only**, `.cqa` hidden until Import returns | ☑ keep, Excel | ☐ |
-| D6 | Import: expose in MVP or hide | Decide after the three test imports in §3. **G (2026-09-29): hide**, with its doc page | ☑ hide | ☐ |
-| D7 | Editor redesign: continuous Google Forms-style list replaces the rail | Yes, but after everything in 4.1–4.3 ships. **Done 2026-10-01** (§4.5), with one deviation: no drawer below `lg`. The column of cards is the navigation on a phone, as in Forms and Kahoot; an outline sits beside it from `lg` up | ☑ | ☐ |
+| D1 | `/my-quizzes` is the surviving URL, and `/dashboard` redirects to it (reverses #18's direction) | Yes — the name matches the label | ☑ | ☑ |
+| D2 | Question types in MVP: ABCD only, or ABCD + CHECK | ABCD + CHECK. CHECK works and scores all-or-nothing. **G (2026-09-29): ABCD + CHECK**; the other five are hidden from the type picker. **F (2026-10-02): "override: like Kahoot"** — checked against Kahoot's live docs, this is already where we are. Kahoot's free plan is Quiz (single-answer) + True/False; multi-select is paid and scores all-or-nothing, exactly as our CHECK does. So ABCD + CHECK + the True/False preset matches Kahoot's whole relevant set and **nothing changed**. CHECK was *not* removed: Kahoot has it, the paywall is meaningless to us, and dropping a live feature is a joint call. Two knowing divergences: Kahoot makes True/False its own type rather than a preset, and caps free Quiz at 4 answers | ☑ | ☑ |
+| D3 | Practice mode: hide or redesign | Hide the link on the view page. **G (2026-09-28): keep and redesign** | ☑ keep | ☑ |
+| D4 | Results history and Analytics: hide, together with the Save results button | Hide all three. **G (2026-09-29): hide all three** | ☑ hide | ☑ |
+| D5 | Download: keep (it is the only backup/export) and restyle, or hide | Keep `.cqa` only if D6 keeps Import; otherwise hide. **G (2026-09-28): keep and restyle; (2026-09-29, after D6): Excel only**, `.cqa` hidden until Import returns | ☑ keep, Excel | ☑ |
+| D6 | Import: expose in MVP or hide | Decide after the three test imports in §3. **G (2026-09-29): hide**, with its doc page | ☑ hide | ☑ |
+| D7 | Editor redesign: continuous Google Forms-style list replaces the rail | Yes, but after everything in 4.1–4.3 ships. **Done 2026-10-01** (§4.5), with one deviation: no drawer below `lg`. The column of cards is the navigation on a phone, as in Forms and Kahoot; an outline sits beside it from `lg` up | ☑ | ☑ |
 | D8 | Shared contact address to replace `francois.prevot@frog.co` in the ToS, `CONTACT.md` and `CONTRIBUTING.md` | Needs a real team channel. **G (2026-09-29): leave the placeholder for now**; does not block internal sharing. **F (2026-10-02): the placeholder is fine** — closed, revisit only if frogQuiz goes outside the team | ☑ | ☑ |
 | D9 | User database / login architecture for V1 = the "account is what makes a quiz permanent" model in mvp-scope.md; Azure SSO after V1 | Confirm. **F (2026-10-02): confirmed** — an account is what makes a quiz permanent, and no SSO yet. `frogquiz/oauth/` stays config-gated and unwired | ☑ | ☑ |
-| D10 | English-only (33 locale files removed) | Confirm. **G (2026-09-29): English-only for the MVP, but keep the i18n machinery** (i18next, `getLocalization`, the backend's language handling); more languages are an MVP2 item (§4.8) | ☑ | ☐ |
-| D11 | WebAuthn and ratings endpoints: flag-gate, or accept as live | Flag-gate like QuizTivity. Done 2026-09-29: `ENABLE_WEBAUTHN` gates adding a key (listing, deleting and signing in with an existing key still work, as with TOTP); `ENABLE_RATINGS` gates rating | ☑ | ☐ |
-| D12 | View page shows the answer key (correct answers, ORDER sequence, TEXT answers, RANGE bounds) to the quiz's owner only | Yes — a visitor may play it later. Presentation only: the public API still returns the answers | ☑ | ☐ |
-| D13 | What "private" means: today anyone with the link can open a private quiz's view page (only the owner can start it) | **G (2026-09-29): relabel it "Unlisted"** — public = in Discover, unlisted = link only. No backend change | ☑ | ☐ |
-| D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt. **Done 2026-09-29**, see §4.5; the draft state is derived from the questions rather than stored | ☑ | ☐ |
-| D15 | Hide `/remote`, public profiles (`/user/[id]`), the avatar editor, and the Files library (`/edit/files`, `/dashboard/files`, `/edit/videos`) | **G (2026-09-29): hide all** | ☑ | ☐ |
-| D16 | Do players need the question and answer text on their own phone? Today they see shapes only, as Kahoot does — right in a room with a projector, wrong on a call | Needs a decision; it is a product choice, not a bug | ☐ | ☐ |
+| D10 | English-only (33 locale files removed) | Confirm. **G (2026-09-29): English-only for the MVP, but keep the i18n machinery** (i18next, `getLocalization`, the backend's language handling); more languages are an MVP2 item (§4.8) | ☑ | ☑ |
+| D11 | WebAuthn and ratings endpoints: flag-gate, or accept as live | Flag-gate like QuizTivity. Done 2026-09-29: `ENABLE_WEBAUTHN` gates adding a key (listing, deleting and signing in with an existing key still work, as with TOTP); `ENABLE_RATINGS` gates rating | ☑ | ☑ |
+| D12 | View page shows the answer key (correct answers, ORDER sequence, TEXT answers, RANGE bounds) to the quiz's owner only | Yes — a visitor may play it later. Presentation only: the public API still returns the answers | ☑ | ☑ |
+| D13 | What "private" means: today anyone with the link can open a private quiz's view page (only the owner can start it) | **G (2026-09-29): relabel it "Unlisted"** — public = in Discover, unlisted = link only. No backend change | ☑ | ☑ |
+| D14 | Editor drafts | **G (2026-09-29): autosave to the server.** A half-built quiz saves as a draft, shows a Draft badge on My Quizzes, and can't be started until complete (enforced in `quiz/start`). Red rings and alerts only after the first Save or Start attempt. **Done 2026-09-29**, see §4.5; the draft state is derived from the questions rather than stored | ☑ | ☑ |
+| D15 | Hide `/remote`, public profiles (`/user/[id]`), the avatar editor, and the Files library (`/edit/files`, `/dashboard/files`, `/edit/videos`) | **G (2026-09-29): hide all** | ☑ | ☑ |
+| D16 | Do players need the question and answer text on their own phone? Today they see shapes only, as Kahoot does — right in a room with a projector, wrong on a call | **F (2026-10-02): "make it like Kahoot"** — and Kahoot does not force the choice: it ships a free host-side setting, *Show questions & answers on participants' devices*, off by default. So does the start modal now. Both render paths already existed (upstream's "Normal" / "Old-School" modes); the modal was hardcoding one. Per game, not remembered | ☐ | ☑ |
 | D17 | `--primary` is shadcn's zinc default, so every primary control is black. `CLAUDE.md` said theme `green` made it the frog green; it does not | **F (2026-10-01): stay zinc.** `CLAUDE.md` corrected instead | ☐ | ☑ |
 | D18 | Does a non-owner get the answer key? The view page hid the correct answers from a non-owner (`show_answers = is_owner`) while the Download button beside it, gated only on `disabled={!logged_in}`, handed over a spreadsheet containing them | **F (2026-10-02): lock results to the owner.** `GET /eximport/excel/{id}` is scoped to `user_id`, 404 for anybody else; the button is behind `{#if is_owner}`. Sharing a quiz is still Discover, Play and the view page | ☐ | ☑ |
 
-G's ticks above were given in Claude sessions on 2026-09-28 and 2026-09-29. D12 is already
-implemented on the view page, since it is a display choice and reversible in one line; say
-so if you disagree, François.
+G's ticks above were given in Claude sessions on 2026-09-28 and 2026-09-29.
+**François signed D1 and D3–D15 on 2026-10-02** ("I agree with all the decisions"), after
+asking for each to be explained; D2 and D16 he answered with "like Kahoot" the same day,
+and D18 is his. Every decision in this table is now agreed by both, except D17, which is
+his alone and needs no second signature.
 
 On 2026-09-29 Gonçalo asked for the MVP to be finished that day without waiting on
 François's sign-off, including hiding Docs and GitHub. Everything hidden since is

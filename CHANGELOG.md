@@ -4,6 +4,45 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Every decision in MVP.md §4.0 is now signed
+
+François signed D1 and D3–D15 on 2026-10-02 after asking for each to be explained, having
+already answered D2 and D16 with "like Kahoot" and taken D8, D9, D17 and D18. Nothing in
+that table is waiting on anybody. D2 and D16 now record what "like Kahoot" turned out to
+mean, with the research behind each, rather than just a tick.
+
+### Two fixes on the join screen
+
+Found by shooting `/play` against a live stack rather than reading the markup.
+
+- **The PIN box no longer pre-fills something that looks like a PIN.** `placeholder="000000"`
+  in a mono face at `0.35em` tracking is indistinguishable from a typed value — most
+  visibly on the error state, which said "No game with that PIN" directly above what
+  looked like a PIN. The placeholder is gone and the hint carries the count instead:
+  "Enter the 6-digit PIN from the host's screen." Same change on the landing page's PIN
+  card, which had the same placeholder.
+- **A Submit that is not ready reads as inert rather than broken.** shadcn's
+  `disabled:opacity-50` over a near-black primary lands on a flat mid-grey with pale text,
+  and that is what a player looks at for the whole time they are typing. It is
+  `bg-muted` / `text-muted-foreground` at full opacity now — a pairing `theme-tokens.test.ts`
+  already holds to AA in both themes. Scoped to the two join forms and the landing card
+  rather than changed on the shared Button, which every surface uses.
+
+`frontend/e2e/join.e2e.ts` covers both, and both were confirmed to fail against the old
+markup (`rgb(24,24,27)` for the disabled button, and a placeholder matching `/\d/`).
+
+Two things that test got wrong first, worth knowing before writing another like it:
+
+- **A rejected PIN clears the field**, so a bad PIN is not a route to the enabled button —
+  the first version asserted the button stays enabled after an error and failed against
+  correct code. It reaches the enabled state through a real game's nickname step instead.
+- **`getComputedStyle` returns `oklch(...)` verbatim** for a token defined in oklch, so
+  parsing numbers out of that string yields lightness and chroma, not channels. Colours
+  are painted to a 1×1 canvas and read back as sRGB. And because the button carries
+  `transition-all`, the background has to be polled until it settles: read once, it
+  returns a colour partway between the two tokens — the test first failed on
+  `rgb(236,236,237)`, which is neither, and looked like an app bug.
+
 ### Green, with one failure on record
 
 Two full e2e runs on 2 Oct: **118/119 then 119/119** (8.9 min). Backend 146 passed /

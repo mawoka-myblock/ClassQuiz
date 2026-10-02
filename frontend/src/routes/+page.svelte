@@ -83,10 +83,14 @@ SPDX-License-Identifier: MPL-2.0
 						maxlength={6}
 						inputmode="numeric"
 						autocomplete="off"
-						placeholder="000000"
 						class="h-11 text-center font-mono text-lg tracking-[0.35em]"
 					/>
-					<Button type="submit" size="lg" disabled={!ready} class="h-11 px-5">
+					<Button
+						type="submit"
+						size="lg"
+						disabled={!ready}
+						class="h-11 px-5 disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100"
+					>
 						{$t('words.join')}
 					</Button>
 				</div>

@@ -4,7 +4,7 @@
             "description": "The free Kahoot alternative. Host interactive quizzes right from your browser.",
             "title": "Home"
         },
-        "join_prompt": "Enter the PIN from the host’s screen.",
+        "join_prompt": "Enter the 6-digit PIN from the host’s screen.",
         "hosting": "Running the quiz?",
         "host_cta": "Go to your quizzes",
         "create_anon": "Create a quiz without an account",
