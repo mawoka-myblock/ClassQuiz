@@ -11,7 +11,7 @@ this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
 **Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 119 e2e · 147 backend (1 skipped)
-· **Last full green run:** 2 Oct — e2e **119/119** in 8.9m, backend 146 passed, unit 126 passed,
+· **Last full green run:** 2 Oct — e2e **119/119** in 8.9m, backend **147 passed**, unit 126 passed,
 `flake8 .` 0, `eslint .` 0 errors, production build OK
 
 ---
