@@ -88,21 +88,22 @@ class Settings(BaseSettings):
     # only cap in the product was Uppy's, in the browser, so POST /api/v1/storage/
     # took a file of any size from an unauthenticated caller. See upload_limits().
     #
-    # 8MB is roughly a 4000x3000 JPEG at quality 85 -- more than a question image
-    # ever needs on a projector, and the editor compresses before it uploads anyway.
-    # Kahoot allows 50MB per question image and 5MB per cover; we are an internal
-    # tool on free-tier storage, so a tighter number is the right trade.
-    max_image_upload_size: int = 8_000_000
+    # 5MB covers a photo straight off a phone (a 12-megapixel JPEG is usually 3-5MB)
+    # and is far more than a question image needs on a projector; the editor
+    # compresses before it uploads anyway. Kahoot's own per-file ceiling is 5MB for a
+    # cover image, so this is not a tighter rule than people are used to.
+    max_image_upload_size: int = 5_000_000
     # Only reachable with enable_video_upload on. 25MB is about 30 seconds of 1080p.
     max_video_upload_size: int = 25_000_000
     # Video upload is off: /edit/videos is hidden for the MVP and the editor passes
     # video_upload={false}, so leaving video/mp4 accepted only left an unbounded
     # upload path with no UI in front of it. Flip this and unhide the route together.
     enable_video_upload: bool = False
-    # 256MiB per account, down from upstream's ~1.07GB. Thirty quizzes with a cover
-    # and a question image each is a few MB; the old number was sized for a public
-    # SaaS with paid tiers behind it, not a team on a free database.
-    free_storage_limit: int = 268_435_456
+    # 1GiB per account. A quiz with a cover and an image on every question is a few
+    # MB, so this is dozens of quizzes per person: the ceiling exists to stop one
+    # account filling the volume, not to ration normal use. Raising it is one number,
+    # but check the host's own disk first -- the VM's block volume is the real limit.
+    free_storage_limit: int = 1_073_741_824
     pixabay_api_key: str | None = None
     mods: list[str] = []
     registration_disabled: bool = False

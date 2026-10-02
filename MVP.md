@@ -162,9 +162,9 @@ has a single Sign in anyway.
   `lib/editor/uploader.svelte` → `POST /api/v1/storage/`, which works for anonymous
   users too. The uploader's Library, Video and Pixabay tabs are already hidden.
 - **What hiding it costs:** nobody can rename or bulk-delete uploads. The per-user quota
-  is about 1 GB (`free_storage_limit`), so nobody will hit it through normal use.
-  Deleting a quiz removes its **question** images, but not its cover or background
-  image. Deleting an account removes all of that user's files.
+  is 1 GiB (`free_storage_limit`), so nobody will hit it through normal use. Deleting a
+  quiz now frees every image it owned, cover and background included, and gives the
+  bytes back (2026-10-02); deleting an account removes all of that user's files.
 - **Conclusion:** safe to hide. Media stays managed inside the quiz, as proposed.
 
 - [x] Hide `/edit/files`, `/dashboard/files` and `/edit/videos`, and remove the dashboard's Files button (2026-09-29, D15)

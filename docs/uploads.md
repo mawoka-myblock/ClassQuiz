@@ -78,9 +78,9 @@ clamped at zero rather than raising on the `minimum=0` column, and a second dele
 release can never apply twice. The decrement itself is verified against a live stack:
 
 ```
-billed:   {"limit":268435456,"limit_reached":false,"used":4096}
+billed:   {"limit":1073741824,"limit_reached":false,"used":4096}
 delete:   200
-released: {"limit":268435456,"limit_reached":false,"used":0}
+released: {"limit":1073741824,"limit_reached":false,"used":0}
 ```
 
 Run it with `KEEP_UP=1 bash e2e/run.sh --list`, then register and log in a user, upload a
@@ -97,30 +97,38 @@ restarted. Compare the process start time against the file mtime.
 
 | Type | Ceiling | Setting |
 | --- | --- | --- |
-| `image/png`, `image/jpeg`, `image/gif`, `image/webp` | 8 MB | `max_image_upload_size` |
+| `image/png`, `image/jpeg`, `image/gif`, `image/webp` | 5 MB | `max_image_upload_size` |
 | `video/mp4` | 25 MB, **and off** | `max_video_upload_size`, `enable_video_upload` |
-| Per account, all files | 256 MiB | `free_storage_limit` |
+| Per account, all files | 1 GiB | `free_storage_limit` |
 
 `image/svg+xml` is not accepted and should not be: an SVG is a script-injection vector
 and nothing in a quiz needs one.
 
-**Why 8 MB.** Roughly a 4000x3000 JPEG at quality 85 — more than a question image ever
-needs on a projector, and the editor runs Uppy's Compressor at quality 0.6 before it
-uploads anyway. Kahoot allows 50 MB for a question image and 5 MB for a cover
-([their docs](https://support.kahoot.com/hc/en-us/articles/115002815387-Kahoot-images-How-to-use-images-and-GIFs));
-we are an internal tool on free-tier storage, so tighter is the right trade. Raise
-`max_image_upload_size` if somebody has a real case, and raise the Caddy `max_size`
-with it.
+Turning video on takes a third change nobody expects: Caddy's `max_size` is 6 MB, so a
+25 MB video would be refused at the edge before the API ever sees it. Flip
+`enable_video_upload`, unhide `/edit/videos`, **and** raise `max_size` above
+`max_video_upload_size`.
 
-**Why 256 MiB per account**, down from upstream's ~1.07 GB: thirty quizzes with a cover
-and a question image each is a few megabytes. The old number was sized for a public SaaS
-with paid tiers behind it. One env var puts it back.
+**Why 5 MB.** It covers a photo straight off a phone — a 12-megapixel JPEG is usually
+3–5 MB — which is far more than a question image needs on a projector, and the editor
+runs Uppy's Compressor at quality 0.6 before it uploads anyway. Kahoot allows 50 MB for
+a question image but only 5 MB for a cover
+([their docs](https://support.kahoot.com/hc/en-us/articles/115002815387-Kahoot-images-How-to-use-images-and-GIFs)),
+so this is not a tighter rule than people are used to. Raise `max_image_upload_size` if
+somebody has a real case, and raise the Caddy `max_size` with it.
+
+**Why 1 GiB per account.** A quiz with a cover and an image on every question is a few
+megabytes, so this is dozens of quizzes per person: the ceiling is there to stop one
+account filling the volume, not to ration normal use. It was 256 MiB for a day, which
+was sized for a free Postgres row count rather than for the disk the files actually sit
+on. Before raising it further, check the host's own volume — on the Oracle Always Free
+VM the block volume is the real limit, not this number.
 
 ## How it is enforced
 
 Three layers, because each catches what the others cannot:
 
-1. **Caddy**, `request_body @upload { max_size 10MB }` scoped to `/api/v1/storage/*` in
+1. **Caddy**, `request_body @upload { max_size 6MB }` scoped to `/api/v1/storage/*` in
    both `Caddyfile` and `Caddyfile-docker`. Stops it at the edge. Scoped with a matcher
    so a large quiz JSON save is unaffected. Keep it above `max_image_upload_size`.
 2. **`request_size_guard`** in `frogquiz/__init__.py` — rejects on `Content-Length`

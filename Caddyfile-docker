@@ -14,6 +14,6 @@
 	# frogquiz/config.py (max_image_upload_size) with room for the multipart framing.
 	@upload path /api/v1/storage/*
 	request_body @upload {
-		max_size 10MB
+		max_size 6MB
 	}
 }

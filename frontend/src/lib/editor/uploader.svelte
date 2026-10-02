@@ -53,7 +53,7 @@ SPDX-License-Identifier: MPL-2.0
 	// Used only until GET /api/v1/storage/limits answers, and if it never does. Keep them
 	// no larger than config.py's max_image_upload_size, so a failed fetch errs tight
 	// rather than letting through a file the server will reject after the upload.
-	const FALLBACK_MAX_FILE_SIZE = 8_000_000;
+	const FALLBACK_MAX_FILE_SIZE = 5_000_000;
 	const FALLBACK_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 	// Shown under the picker, so the rule is visible before a file is chosen rather than
 	// only in an error after one is.

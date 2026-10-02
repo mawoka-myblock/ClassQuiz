@@ -4,6 +4,20 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Upload limits retuned
+
+- Per-file image ceiling is **5 MB**, down from 8 MB (`max_image_upload_size`). All three
+  enforcement layers follow it: Caddy's `request_body` cap on `/api/v1/storage/*` is 6 MB
+  (framing headroom), and the `Content-Length` guard and the counted-bytes check read the
+  setting, so there is still one place the number is written.
+- Per-account quota is **1 GiB**, up from 256 MiB (`free_storage_limit`). The old number
+  was sized against a free Postgres plan rather than the disk the files sit on.
+- The browser's fallback (`FALLBACK_MAX_FILE_SIZE`, used only until
+  `GET /api/v1/storage/limits` answers) moved to 5 MB with it. The hint under the picker
+  and every test read the server's number, so no copy or assertion was hardcoded.
+- `MVP.md` no longer says deleting a quiz leaves its cover and background image behind —
+  that was fixed on 1 Oct and the line was stale.
+
 ### Everything green
 
 - Full suite verified end to end on 2 Oct: **e2e 115/115 in 8.5 minutes**, backend 146
