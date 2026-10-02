@@ -63,7 +63,9 @@ test('somebody comes back, finds their quiz, changes it and runs it again', asyn
 
 	await test.step('they open it, change it, and the change sticks', async () => {
 		await page.goto(`/edit?quiz_id=${saved.body.id}`);
-		await expect(titleBox(page)).toHaveValue(originalTitle, { timeout: 20_000 });
+		// The title is a CKEditor contenteditable, not an input, so toHaveValue throws
+		// "Not an input element" rather than failing on the value.
+		await expect(titleBox(page)).toHaveText(originalTitle, { timeout: 20_000 });
 		await page
 			.getByRole('textbox', { name: 'Description' })
 			.first()

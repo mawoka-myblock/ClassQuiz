@@ -85,10 +85,19 @@ string literal. Rows 16–18 above. That doc is still the map of the whole surfa
       `frogquiz/oauth/` stays config-gated and unwired.
 - [x] **Mail test recipient**: `francois.prevot@hotmail.com`. Steps in `DEPLOY.md`.
 
-## Open — one unexplained e2e failure
+## Open — two unexplained e2e failures, same symptom
+
+**Do not assume one cause.** They share a shape — the player does not get, or cannot act
+on, the question — and that is exactly the reasoning that produced a wrong attribution on
+2 Oct. Recorded together so the pattern is visible, not so it is explained.
+
+- [ ] **`game-reload.e2e.ts › a player can reload twice and still be in the game`** failed
+      once, in the 127-test run on 2 Oct (124 passed). It waits for an answer button after
+      two reloads and did not get one. It passed in the three full runs before that, and
+      the spec is untouched this session.
 
 - [ ] **`editor.e2e.ts › build a quiz by hand, save it, and play it` failed once**, in the
-      first of two full-suite runs on 2 Oct (118/119; the second was 119/119). `final_results`
+      first of four full-suite runs on 2 Oct (118/119; the second was 119/119). `final_results`
       came back with no key for question `0`.
       I attributed it to the fire-and-forget `start_game` race and said the fix closed it.
       **That was wrong**: measured afterwards, the *unfixed* spec passed 10/10 in isolation.

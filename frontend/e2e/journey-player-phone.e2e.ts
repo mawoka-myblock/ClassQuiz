@@ -67,9 +67,15 @@ test('a player goes from the join screen to the podium and out, all on a phone',
 			.getByRole('button', { name: /Next Question/ })
 			.first()
 			.click();
-		await phone.getByRole('button', { name: 'Lisbon' }).click();
-		// Shapes-only by default, so the confirmation is all they get until results.
-		await expect(phone.getByText(/Answer locked in/i)).toBeVisible();
+		const lisbon = phone.getByRole('button', { name: 'Lisbon' });
+		await lisbon.click();
+		// The tiles stay up with their pick held until the timer ends -- "Answer locked
+		// in" is the screen *after* that, not the acknowledgement of the tap. Kahoot does
+		// the same. Asserting the copy here failed against correct behaviour; the page
+		// snapshot showed the timer still at 10 with the tile [disabled] [pressed].
+		await expect(lisbon).toBeDisabled();
+		await expect(lisbon).toHaveAttribute('aria-pressed', 'true');
+		await expect(phone.getByRole('button', { name: 'Porto' })).toBeDisabled();
 		await expectNoHorizontalOverflow(phone);
 
 		await rival.page.getByRole('button', { name: 'Porto' }).click();
@@ -85,8 +91,9 @@ test('a player goes from the join screen to the podium and out, all on a phone',
 
 	await test.step('they wait through the standings and answer the second', async () => {
 		await advancePastResults(page);
-		await phone.getByRole('button', { name: 'Gecko' }).click();
-		await expect(phone.getByText(/Answer locked in/i)).toBeVisible();
+		const gecko = phone.getByRole('button', { name: 'Gecko' });
+		await gecko.click();
+		await expect(gecko).toHaveAttribute('aria-pressed', 'true');
 		await rival.page.getByRole('button', { name: 'Tree frog' }).click();
 		await page
 			.getByRole('button', { name: /Show results/ })
