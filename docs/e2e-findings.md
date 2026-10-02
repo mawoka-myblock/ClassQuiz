@@ -60,6 +60,27 @@ Found, not fixed:
 
   **This paragraph used to end "the socket specs wait for `start_game` before showing a question for this reason". They did not** -- all ten `start_game` emits in `live-socket.e2e.ts` were fire-and-forget. That is what made *an answer after the host showed the results is refused* flaky: when `current_question` is the field lost to the race, `submit_answer` sees the wrong index, answers `question_not_active` and never emits `player_answer`, so the test failed on its **first** assertion. Measured 2 failures in 10 runs in isolation, which also disproves the earlier note that it only failed under full-suite load. `startGame()` in `e2e/sockets.ts` now waits for the echo, and the test passes 12/12. The server-side race is still there and still worth the `WATCH` transaction; the specs simply no longer provoke it. (Checked whether the new `disconnect` handler contributed: 8/10 with it, 9/10 without -- a one-run difference at n=10, i.e. noise, and it failed with the handler disabled too.)
 
+  **Two specs outside `live-socket.e2e.ts` were still fire-and-forget** and that sweep did
+  not reach them: `editor.e2e.ts:103` and `account.e2e.ts:169`. Both `await startGame(host)`
+  now. `live-socket.e2e.ts:217` keeps its raw emit deliberately -- there an *attacker*
+  emits `start_game` and the test asserts nothing happens.
+
+  **A second failure of *build a quiz by hand, save it, and play it*, 2026-10-02, is
+  unexplained.** It failed once in a full-suite run (118/119) with
+  `TypeError: Cannot read properties of undefined (reading 'find')`, i.e. `final_results`
+  came back with no key for question `0`. That looks exactly like this race, so it was
+  attributed to it -- wrongly: measured afterwards, the **unfixed** spec passed 10 out of
+  10 in isolation. So the `startGame` conversion above is a correctness tidy-up, not a
+  proven fix for that failure, and the cause is still open. Note this is the opposite
+  profile to the flake above, which failed 2 in 10 *in isolation*; do not assume the two
+  share a cause just because they share a symptom.
+
+  What made it hard to read is a harness defect worth knowing about: `next()` resolves a
+  falsy payload to `{}` rather than `null`, so `finalResults`' own
+  `expect(r).not.toBeNull()` passes on an empty result and the real failure surfaces one
+  line later as an opaque `TypeError`. The spec now asserts which question keys came back,
+  and prints the payload, before indexing it.
+
 Severity is for an internal quiz tool used live in a room: **High** means a real game
 gives wrong scores, loses answers, or can be taken over by a player. **Medium** breaks
 a flow that has an obvious workaround. **Low** is cosmetic or an edge nobody will hit

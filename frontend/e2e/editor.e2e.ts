@@ -114,6 +114,16 @@ test('build a quiz by hand, save it, and play it', async ({ page, request }) => 
 	partial.emit('submit_answer', { question_index: 1, answer: '0' });
 	await new Promise((r) => setTimeout(r, 300));
 	const results = await finalResults(host);
+	// Asserted before indexing, because `next()` resolves a falsy payload to `{}` rather
+	// than null -- so `finalResults`' own not.toBeNull() guard passes on an empty result
+	// and the failure lands one line below as "Cannot read properties of undefined
+	// (reading 'find')". That is what this test reported in a full-suite run on 2026-10-02,
+	// and the opaque message is why the cause is still unknown. Next time it should say
+	// which questions came back.
+	expect(
+		Object.keys(results).sort(),
+		`final_results payload: ${JSON.stringify(results)}`
+	).toEqual(['0', '1']);
 	const row = (q: string, u: string) => results[q].find((r) => r.username === u)!;
 	expect(row('0', 'exactset').right).toBe(true);
 	expect(row('0', 'halfset').right).toBe(false);

@@ -4,12 +4,26 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
-### The start_game race was in two more specs
+### One e2e failure, cause still unproven
 
-The full suite came back 118 passed / 1 failed. The failure was
-*editor.e2e.ts > build a quiz by hand, save it, and play it*, and it is the same
-fire-and-forget `start_game` race fixed earlier this session — in two specs that sweep
-missed, so `docs/e2e-findings.md` saying "now they do [wait]" was not yet true.
+The full suite came back 118 passed / 1 failed:
+*editor.e2e.ts > build a quiz by hand, save it, and play it*. I attributed it to the
+fire-and-forget `start_game` race fixed earlier this session, then measured it: **the
+unfixed spec passed 10 out of 10 runs in isolation**, so that attribution is not
+supported and the cause is still unknown. The failure has been seen once, under
+full-suite load.
+
+The two `startGame` conversions below are kept anyway — awaiting the server's
+acknowledgement is strictly better than not, and it is what every other spec does — but
+they are a correctness tidy-up, not a proven fix. `docs/e2e-findings.md` was also still
+claiming every spec waits for `start_game`, which was not true.
+
+What the measurement did establish is a harness defect that cost the diagnosis:
+`next()` resolves a falsy payload to `{}` instead of `null`, so `finalResults`' own
+`expect(r).not.toBeNull()` passes on an empty result and the failure surfaces one line
+later as `TypeError: Cannot read properties of undefined (reading 'find')`. The spec now
+asserts which question keys came back before indexing them, so a recurrence names the
+payload instead of hiding it.
 
 - `host.emit('start_game', {})` returns immediately. When `set_question_number` reaches
   the server first, the question never goes active, both answers are refused, and
