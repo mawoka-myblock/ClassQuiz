@@ -17,6 +17,17 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
   too. The old helper is deleted rather than left as a function that silently matches
   nothing.
 
+- **`anon-game.e2e.ts` carried four stale assertions, all from my own changes today**, and
+  it is the one spec that drives a whole game, so it was failing for a different reason
+  each time I looked. It clicked "Next Question" after "Show results" (the standings step);
+  it matched `getByText('1st Place')` unscoped on both the host *and* the player, the
+  player side having become ambiguous because `max-sm:sr-only` keeps the podium label in
+  the DOM at phone width where `hidden` had removed it; it asserted the winner sees
+  "You're on place 1!", which `player-medal.e2e.ts` explicitly asserts they do **not**
+  since the medal replaces it — two specs contradicting each other; and it expected the
+  export button's old label, "Request result download", which became "Download results"
+  when that export became one press. Swept every place-label and button-label assertion in
+  every spec this time rather than waiting for them to turn red one at a time.
 - **Four more specs were broken by the Kahoot round sequencing, not just `anon-game`.**
   `game-export`, `podium` and `player-medal` all clicked "Get final results" or "Next
   Question" straight after "Show results" and hung on the Scoreboard screen. All three use
