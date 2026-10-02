@@ -115,6 +115,10 @@ SPDX-License-Identifier: MPL-2.0
 	// from the component, and `$t` is a store read that wants component context.
 	const upload_failed_msg = $derived($t('uploader.upload_failed'));
 	const too_large_msg = $derived($t('uploader.too_large', { size: max_file_size_mb }));
+	// A 413 has two causes now -- too many bytes, or too many pixels (a small file that
+	// is enormous when drawn). They need different advice: shrinking the file does not
+	// help a 50-megapixel image that is already under the byte cap.
+	const too_large_pixels_msg = $derived($t('uploader.too_large_pixels'));
 	const quota_msg = $derived($t('uploader.quota_reached'));
 	let image_id: string | undefined;
 	uppy.on('upload', () => {
@@ -127,9 +131,24 @@ SPDX-License-Identifier: MPL-2.0
 	// Uppy's own error text for a failed XHR is the status line, which tells a person
 	// nothing. The two refusals they can actually act on get their own words.
 	uppy.on('upload-error', (file, error, response) => {
-		const status = response?.status;
+		// @uppy/xhr-upload wraps a non-2xx as a NetworkError carrying the XHR, which it
+		// passes here as `response`. So `response.status` is the HTTP status, but the body
+		// is on `response.responseText` (a string), not `response.body` -- that only exists
+		// on the success path. Reading `.body` here is why the pixel/byte branch below was
+		// silently always taking the byte branch.
+		const xhr = response as { status?: number; responseText?: string } | undefined;
+		const status = xhr?.status;
+		let detail = '';
+		try {
+			detail = (JSON.parse(xhr?.responseText ?? '{}') as { detail?: string }).detail ?? '';
+		} catch {
+			// A non-JSON body (a proxy error page, say) just leaves detail empty.
+		}
 		if (status === 413) {
-			uppy.info(too_large_msg, 'error', 8000);
+			// Two 413s: too many bytes, or too many pixels. The server says which in its
+			// detail, and they need different advice -- shrinking a 50-megapixel file that
+			// is already under the byte cap does nothing.
+			uppy.info(/pixel/i.test(detail) ? too_large_pixels_msg : too_large_msg, 'error', 8000);
 		} else if (status === 409) {
 			uppy.info(quota_msg, 'error', 8000);
 		}

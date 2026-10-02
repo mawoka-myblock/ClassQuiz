@@ -100,9 +100,23 @@ restarted. Compare the process start time against the file mtime.
 | `image/png`, `image/jpeg`, `image/gif`, `image/webp` | 5 MB | `max_image_upload_size` |
 | `video/mp4` | 25 MB, **and off** | `max_video_upload_size`, `enable_video_upload` |
 | Per account, all files | 1 GiB | `free_storage_limit` |
+| Per image, each side | 8000 px | `max_image_dimension` |
 
 `image/svg+xml` is not accepted and should not be: an SVG is a script-injection vector
 and nothing in a quiz needs one.
+
+**The pixel cap is not the byte cap.** A 20000×20000 PNG of one solid colour is under
+400 KiB on disk — inside the 5 MB limit — and about 1.6 GB as a bitmap in every browser
+that draws it: every player's phone, and the projector. The server never decodes an image
+(there is no Pillow; the worker only hashes bytes), so the clients are what fall over. The
+upload routes read the dimensions from the file's header — no decode, see
+`frogquiz/image_dimensions.py` — and refuse anything over `max_image_dimension` on either
+side with a 413. 8000 clears a 48-megapixel phone photo and sits at the 8192 texture limit
+a lot of mobile GPUs still have; Kahoot caps question images at 5000×5000, so this could
+be tighter. One known gap: the uploader's own browser still decodes a true bomb in Uppy's
+Compressor before the server ever sees it, so the person who uploads one can still hang
+their own tab. That harms only them, not the room, and a client-side header check before
+Compressor runs would close it — a clean follow-up, not done here.
 
 Turning video on takes a third change nobody expects: Caddy's `max_size` is 6 MB, so a
 25 MB video would be refused at the edge before the API ever sees it. Flip

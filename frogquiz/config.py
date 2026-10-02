@@ -93,6 +93,15 @@ class Settings(BaseSettings):
     # compresses before it uploads anyway. Kahoot's own per-file ceiling is 5MB for a
     # cover image, so this is not a tighter rule than people are used to.
     max_image_upload_size: int = 5_000_000
+    # The byte cap is not a pixel cap. A 20000x20000 PNG of one solid colour compresses
+    # to under 400KiB -- inside the 5MB limit -- and becomes a ~1.6GB bitmap in every
+    # browser that renders it: every player's phone in the room, and the projector. The
+    # server never decodes an image (no Pillow; the worker only hashes bytes), so it is
+    # the clients that fall over. 8000 per side blocks that while clearing a 48-megapixel
+    # phone photo; it is also at the 8192 texture limit a lot of mobile GPUs still have,
+    # above which an image can render blank. Kahoot caps question images at 5000x5000, so
+    # tightening this is reasonable -- it is one number.
+    max_image_dimension: int = 8000
     # Only reachable with enable_video_upload on. 25MB is about 30 seconds of 1080p.
     max_video_upload_size: int = 25_000_000
     # Video upload is off: /edit/videos is hidden for the MVP and the editor passes

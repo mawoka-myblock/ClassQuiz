@@ -500,6 +500,7 @@
         "upload_failed": "The upload did not go through. Please try again.",
         "size_hint": "PNG, JPEG, GIF or WebP, up to {{size}} MB.",
         "too_large": "That file is larger than {{size}} MB. Try a smaller one.",
+        "too_large_pixels": "That image's pixel dimensions are too big. Try a smaller or less detailed picture.",
         "quota_reached": "Your storage is full. Delete an image from one of your quizzes to free some up.",
         "select_upload_type": "Select the Upload Type",
         "upload_a_video": "Upload a Video",

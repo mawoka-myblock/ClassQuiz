@@ -4,6 +4,45 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### A decompression bomb, caught at the header
+
+Carrying on breaking the app: a byte cap is not a pixel cap. A 20000×20000 PNG of one
+colour is **under 400 KiB** on disk — inside the 5 MB limit — and about **1.6 GB** as a
+bitmap in every browser that draws it. Proven end to end: with the check removed the
+server accepts and stores it (200); with it in place the same file is 413. The attack is
+one person's upload breaking the screen for the whole room — every player's phone and the
+projector.
+
+- **`frogquiz/image_dimensions.py`**: dimensions read from the header bytes, no decode and
+  no dependency — the point is never to allocate the attacker's raster. Verified
+  field-by-field against Pillow for PNG, GIF, baseline and progressive JPEG, and all three
+  WebP layouts (VP8, VP8L, VP8X).
+- Both upload routes (`POST /` and `/raw`) reject over `max_image_dimension` (8000 per
+  side) with a 413, reading from the already-spooled bytes so nothing is re-read. 8000
+  clears a 48-megapixel phone photo and sits at the 8192 texture limit many mobile GPUs
+  have; Kahoot caps at 5000×5000, so this could be tighter — it is one env var.
+- The server **never** decodes an image (no Pillow; the worker only hashes), so this is
+  the clients' defence, which is the right place for it: they are the ones that fall over.
+
+While wiring the editor's error message, found that the 413 branch of the uploader's
+`upload-error` handler has been **dead code**: `@uppy/xhr-upload` wraps a non-2xx as a
+`NetworkError` carrying the XHR, so the body is on `response.responseText`, not
+`response.body` — which the handler read. Both 413 reasons (bytes, pixels) now parse the
+real detail and show advice that fits: shrinking a file does nothing for a 50-megapixel
+image already under the byte cap. The byte branch was never exercised before because that
+case is caught client-side and never reaches the server.
+
+Known gap, written down in `docs/uploads.md` rather than hidden: the uploader's own
+browser still decodes a true square bomb in Uppy's Compressor before the server sees it,
+so the person who uploads one can hang their own tab. That harms only them, not the room;
+a client-side header check before Compressor runs would close it, as a follow-up.
+
+Tests: `tests/test_image_dimensions.py` (12) cross-checks the parser against a real
+encoder and a built bomb; three integration tests in `test_server.py` cover both routes
+and the inclusive boundary; `e2e/uploads.e2e.ts` gains a browser test that an over-cap
+image is refused with the dimension message, using a 9000×8 strip so the test browser
+decodes it without allocating a real bomb.
+
 ### Hostile text: four ways to wreck a screen, closed
 
 Every spec in the suite used "Lisbon" and "ana", so none of them proved anything about a

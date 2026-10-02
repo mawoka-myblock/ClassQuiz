@@ -14,6 +14,7 @@
 // The server side is covered by TestStorage in frogquiz/tests/test_server.py.
 
 import { expect, test } from '@playwright/test';
+import zlib from 'node:zlib';
 import { mc, saveQuiz, rememberAnonQuiz } from './helpers';
 
 /** The ceiling the server publishes, so this spec does not hardcode a second copy. */
@@ -21,6 +22,35 @@ async function serverLimit(request): Promise<number> {
 	const res = await request.get('/api/v1/storage/limits');
 	expect(res.status()).toBe(200);
 	return (await res.json()).max_file_size as number;
+}
+
+/** A valid single-colour PNG of a given size, built with zlib so the bytes stay small.
+ *  Used to get an image past Uppy's byte cap and the client-side Compressor while being
+ *  over the server's pixel cap. */
+function pngOfSize(width: number, height: number): Buffer {
+	const chunk = (type: string, data: Buffer) => {
+		const len = Buffer.alloc(4);
+		len.writeUInt32BE(data.length, 0);
+		const tag = Buffer.from(type, 'ascii');
+		const body = Buffer.concat([tag, data]);
+		const c = Buffer.alloc(4);
+		c.writeUInt32BE(zlib.crc32(body) >>> 0, 0);
+		return Buffer.concat([len, body, c]);
+	};
+	const ihdr = Buffer.alloc(13);
+	ihdr.writeUInt32BE(width, 0);
+	ihdr.writeUInt32BE(height, 4);
+	ihdr[8] = 8; // bit depth
+	ihdr[9] = 2; // colour type: truecolour
+	const row = Buffer.concat([Buffer.from([0]), Buffer.alloc(width * 3, 0)]);
+	const raw = Buffer.concat(Array.from({ length: height }, () => row));
+	const sig = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+	return Buffer.concat([
+		sig,
+		chunk('IHDR', ihdr),
+		chunk('IDAT', zlib.deflateSync(raw)),
+		chunk('IEND', Buffer.alloc(0))
+	]);
 }
 
 /** Opens a saved quiz's editor with its first question's media picker showing. */
@@ -67,11 +97,14 @@ test('an oversized file is refused in the browser, before it uploads', async ({
 		if (r.method() === 'POST' && r.url().includes('/api/v1/storage/')) posted = true;
 	});
 
-	await page.locator('.uppy-Dashboard-input').first().setInputFiles({
-		name: 'huge.png',
-		mimeType: 'image/png',
-		buffer: Buffer.alloc(limit + 1024)
-	});
+	await page
+		.locator('.uppy-Dashboard-input')
+		.first()
+		.setInputFiles({
+			name: 'huge.png',
+			mimeType: 'image/png',
+			buffer: Buffer.alloc(limit + 1024)
+		});
 
 	// Uppy's own restriction error. Its wording is Uppy's, so match loosely on the part
 	// that is stable across versions.
@@ -83,11 +116,14 @@ test('an oversized file is refused in the browser, before it uploads', async ({
 
 test('a type the server will not take is refused in the browser too', async ({ page, request }) => {
 	await openPicker(page, request);
-	await page.locator('.uppy-Dashboard-input').first().setInputFiles({
-		name: 'x.svg',
-		mimeType: 'image/svg+xml',
-		buffer: Buffer.from('<svg onload=alert(1)/>')
-	});
+	await page
+		.locator('.uppy-Dashboard-input')
+		.first()
+		.setInputFiles({
+			name: 'x.svg',
+			mimeType: 'image/svg+xml',
+			buffer: Buffer.from('<svg onload=alert(1)/>')
+		});
 	// SVG is a script-injection vector and is absent from upload_limits() on purpose.
 	await expect(page.getByText(/you can only upload|not an allowed file type/i)).toBeVisible({
 		timeout: 10_000
@@ -109,7 +145,9 @@ test('a file within the limit is accepted and attached', async ({ page, request 
 	const upload = page.getByRole('button', { name: /Upload 1 file/i });
 	await expect(upload).toBeVisible({ timeout: 10_000 });
 	const [res] = await Promise.all([
-		page.waitForResponse((r) => r.url().includes('/api/v1/storage/') && r.request().method() === 'POST'),
+		page.waitForResponse(
+			(r) => r.url().includes('/api/v1/storage/') && r.request().method() === 'POST'
+		),
 		upload.click()
 	]);
 	expect(res.status()).toBe(200);
@@ -119,4 +157,49 @@ test('a file within the limit is accepted and attached', async ({ page, request 
 	// The dialog closes only on an upload that produced an id, so this is the signal
 	// that the image is on the question.
 	await expect(page.locator('.uppy-Dashboard-inner').first()).toBeHidden({ timeout: 15_000 });
+});
+
+test('an image over the pixel cap is refused, with advice about dimensions not bytes', async ({
+	page,
+	request
+}) => {
+	// A decompression bomb: a 20000x20000 PNG of one colour is under the byte cap but a
+	// ~1.6GB bitmap in every browser that renders it -- every player's phone and the
+	// projector. The server rejects it on dimensions (see TestStorage); this checks the
+	// editor turns that 413 into advice a person can act on, which is different from the
+	// byte-size 413's advice: shrinking the file does not help.
+	//
+	// The test image is a 9000x8 strip, not a true square bomb: it is over the 8000 cap
+	// in one dimension but only 72k pixels, so Uppy's client-side Compressor decodes it in
+	// the test browser without allocating the raster the real bomb would.
+	await openPicker(page, request);
+	const limit = await serverLimit(request);
+
+	const strip = pngOfSize(9000, 8);
+	expect(
+		strip.length,
+		'the strip must be under the byte cap, or this tests the wrong 413'
+	).toBeLessThan(limit);
+
+	await page
+		.locator('.uppy-Dashboard-input')
+		.first()
+		.setInputFiles({ name: 'wide.png', mimeType: 'image/png', buffer: strip });
+	const upload = page.getByRole('button', { name: /Upload 1 file/i });
+	await expect(upload).toBeVisible({ timeout: 10_000 });
+
+	const [res] = await Promise.all([
+		page.waitForResponse(
+			(r) => r.url().includes('/api/v1/storage/') && r.request().method() === 'POST'
+		),
+		upload.click()
+	]);
+	// It was sent -- Uppy cannot know the dimensions -- and the server refused it.
+	expect(res.status()).toBe(413);
+	expect((await res.json()).detail).toMatch(/pixel/i);
+
+	// And the editor explains the real problem rather than showing the byte-size message.
+	await expect(page.getByText(/pixel dimensions are too big/i)).toBeVisible({ timeout: 10_000 });
+	// The dialog stays open so another file can be chosen.
+	await expect(page.locator('.uppy-Dashboard-inner').first()).toBeVisible();
 });

@@ -687,6 +687,64 @@ class TestStorage:
         # SVG is a script-injection vector and is never accepted.
         assert "image/svg+xml" not in data["accepted_types"]
 
+    @staticmethod
+    def _bomb_png(width: int, height: int) -> bytes:
+        """A PNG of one colour: tiny on disk, enormous in pixels. The decompression bomb a
+        byte cap does not catch -- 20000x20000 is under 400KiB but ~1.6GB as a bitmap."""
+        import struct
+        import zlib
+
+        def chunk(tag: bytes, body: bytes) -> bytes:
+            return struct.pack(">I", len(body)) + tag + body + struct.pack(">I", zlib.crc32(tag + body) & 0xFFFFFFFF)
+
+        ihdr = struct.pack(">IIBBBBB", width, height, 8, 0, 0, 0, 0)
+        co = zlib.compressobj(9)
+        row = b"\x00" + b"\x00" * width
+        idat = b"".join(co.compress(row) for _ in range(height)) + co.flush()
+        sig = b"\x89PNG\r\n\x1a\n"
+        return sig + chunk(b"IHDR", ihdr) + chunk(b"IDAT", idat) + chunk(b"IEND", b"")
+
+    @pytest.mark.asyncio
+    async def test_oversized_pixels_are_refused(self, test_client: TestClient):  # noqa : F811
+        """A pixel bomb is 413, not stored, even though it is well under the byte cap.
+
+        The server never decodes an image, so this protects the browsers -- every player's
+        phone -- that would. The dimension is read from the header; see
+        test_image_dimensions.py for the parser.
+        """
+        bomb = TestStorage._bomb_png(20000, 20000)
+        assert len(bomb) < 5_000_000  # under max_image_upload_size: the whole point
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("bomb.png", bomb, "image/png")},
+        )
+        assert resp.status_code == 413
+        assert "pixels" in resp.json()["detail"].lower()
+
+    @pytest.mark.asyncio
+    async def test_oversized_pixels_are_refused_on_the_raw_route_too(self, test_client: TestClient):  # noqa : F811
+        bomb = TestStorage._bomb_png(20000, 20000)
+        resp = test_client.request(
+            "POST",
+            "/api/v1/storage/raw",
+            data=bomb,
+            headers={"Content-Type": "image/png"},
+            cookies=ValueStorage.cookies,
+        )
+        assert resp.status_code == 413
+
+    @pytest.mark.asyncio
+    async def test_an_image_at_the_dimension_cap_is_accepted(self, test_client: TestClient):  # noqa : F811
+        """The boundary is inclusive, so a legitimate large image is not collateral."""
+        edge = TestStorage._bomb_png(8000, 10)
+        resp = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("edge.png", edge, "image/png")},
+        )
+        assert resp.status_code == 200
+
     @pytest.mark.asyncio
     async def test_upload_raw_file(self, test_client: TestClient):  # noqa : F811
         resp = test_client.request(

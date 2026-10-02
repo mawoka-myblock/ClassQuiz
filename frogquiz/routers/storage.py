@@ -11,6 +11,7 @@ from pydantic import BaseModel
 
 from frogquiz.auth import get_current_user, get_current_user_optional
 from frogquiz.config import settings, storage, arq, UPLOAD_LIMITS
+from frogquiz.image_dimensions import image_dimensions, HEADER_BYTES
 from frogquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem, PrivateStorageItem
 from frogquiz.helpers import check_image_string
 from frogquiz.storage.errors import DownloadingFailedError
@@ -166,6 +167,26 @@ async def get_upload_limits() -> UploadLimits:
     )
 
 
+def _reject_oversized_pixels(header: bytes) -> None:
+    """413 if the image is larger than max_image_dimension on either side.
+
+    Unreadable headers pass: the format allow-list already gates what may be stored, the
+    worker hashes rather than decodes, and the editor only ever sends the four image types
+    this parser knows. The goal is to stop the pathological raster, not to be a second
+    content-type gate.
+    """
+    dims = image_dimensions(header)
+    if dims is None:
+        return
+    cap = settings.max_image_dimension
+    width, height = dims
+    if width > cap or height > cap:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Image is too large: {width}x{height} pixels, limit is {cap}x{cap}",
+        )
+
+
 @router.post("/")
 async def upload_file(
     file: UploadFile = File(), user: User | None = Depends(get_current_user_optional)
@@ -197,6 +218,12 @@ async def upload_file(
         )
     if file_size == 0:
         raise HTTPException(status_code=422, detail="File is empty")
+    # Pixels, not just bytes: a 20000x20000 PNG of one colour is under the byte cap and a
+    # ~1.6GB bitmap in every browser that renders it. Read from the spooled file and seek
+    # back, so nothing is re-read and nothing is decoded.
+    header = file.file.read(HEADER_BYTES)
+    file.file.seek(0)
+    _reject_oversized_pixels(header)
     # Checked against the file in hand, not just the account's running total, so the
     # last upload before the quota cannot be an arbitrarily large one. The total is
     # maintained by the calculate_hash worker job.
@@ -248,6 +275,14 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     if file_size == 0:
         data_file.close()
         raise HTTPException(status_code=422, detail="File is empty")
+    data_file.seek(0)
+    header = data_file.read(HEADER_BYTES)
+    data_file.seek(0)
+    try:
+        _reject_oversized_pixels(header)
+    except HTTPException:
+        data_file.close()
+        raise
     if user.storage_used + file_size > settings.free_storage_limit:
         data_file.close()
         raise HTTPException(status_code=409, detail="Storage limit reached")
