@@ -7,7 +7,14 @@
 // about two seconds, in the theme's near-black primary.
 
 import { expect, test } from '@playwright/test';
-import { mc, saveQuiz, rememberAnonQuiz, hostFromViewPage, gotoPlayHydrated } from './helpers';
+import {
+	advanceToFinalResults,
+	gotoPlayHydrated,
+	hostFromViewPage,
+	mc,
+	rememberAnonQuiz,
+	saveQuiz
+} from './helpers';
 
 test('the podium reveals third, then second, then first', async ({ browser, request }) => {
 	test.setTimeout(5 * 60_000);
@@ -60,7 +67,7 @@ test('the podium reveals third, then second, then first', async ({ browser, requ
 	await host.waitForTimeout(6500);
 	await host.getByRole('button', { name: /Show results/ }).first().click();
 	await host.waitForTimeout(1200);
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	await advanceToFinalResults(host);
 
 	// Svelte keeps a delayed `in:` transition's element in the DOM at opacity 0, so the
 	// reveal is measured rather than asserted on presence.

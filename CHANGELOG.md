@@ -6,6 +6,13 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Deleting an image actually frees the space
 
+- **Four more specs were broken by the Kahoot round sequencing, not just `anon-game`.**
+  `game-export`, `podium` and `player-medal` all clicked "Get final results" or "Next
+  Question" straight after "Show results" and hung on the Scoreboard screen. All three use
+  the shared helpers now. `game-reload`'s "whatever screen the host came back on" regex
+  also gained `Scoreboard`: it passes today only because the reload lands mid-question, so
+  it was one timing change from a confusing failure. Audited every spec that mentions
+  "Show results" rather than fixing them as they turned red.
 - The host podium says "1st Place" twice by design — once on the gold block, once in the
   standings row for the winner — so `anon-game.e2e.ts`'s bare `getByText('1st Place')` was
   a strict-mode violation rather than a check. Scoped to `.podium-block.is-gold`, with a

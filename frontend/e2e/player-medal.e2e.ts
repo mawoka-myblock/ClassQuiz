@@ -7,7 +7,15 @@
 // appear together, because the medal already says the place.
 
 import { test, expect } from '@playwright/test';
-import { mc, saveQuiz, rememberAnonQuiz, hostFromViewPage, gotoPlayHydrated } from './helpers';
+import {
+	advancePastResults,
+	advanceToFinalResults,
+	gotoPlayHydrated,
+	hostFromViewPage,
+	mc,
+	rememberAnonQuiz,
+	saveQuiz
+} from './helpers';
 test('a player who placed gets a medal, and nobody gets both', async ({ browser, request }) => {
 	test.setTimeout(6 * 60_000);
 	const saved = await saveQuiz(request, { title: 'Frog Anatomy', description: 'two',
@@ -40,13 +48,13 @@ test('a player who placed gets a medal, and nobody gets both', async ({ browser,
 	await host.waitForTimeout(1600);
 
 	// through question 2 to the podium, for the medal
-	await host.getByRole('button', { name: /Next Question/ }).first().click();
+	await advancePastResults(host);
 	await host.waitForTimeout(1200);
 	for (const m of made) { await m.p.getByRole('button', { name: new RegExp(`^${m.a2}$`) }).first().click().catch(() => undefined); await m.p.waitForTimeout(220); }
 	await host.waitForTimeout(6500);
 	await host.getByRole('button', { name: /Show results/ }).first().click();
 	await host.waitForTimeout(1400);
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	await advanceToFinalResults(host);
 	await host.waitForTimeout(6000);
 	const winnerBar = made[0].p.locator('.fixed.bottom-0');
 	await expect(winnerBar.getByText('1st Place')).toBeVisible();

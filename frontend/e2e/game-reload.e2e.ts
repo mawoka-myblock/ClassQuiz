@@ -68,7 +68,13 @@ test('the host can reload mid-game and carry on', async ({ page, request, browse
 	await player.page.getByRole('button', { name: 'Yes' }).click();
 	await page.reload();
 	// Whatever screen it comes back on, the host must be able to move the game on.
-	const next = page.getByRole('button', { name: /Next Question|Show results|Start game/ });
+	// Scoreboard is in the list because the standings are now a host step of their own,
+	// so a reload timed just after the answers can legitimately come back on it. This
+	// passes today only because the reload lands mid-question; without it the test is one
+	// timing change away from a confusing failure.
+	const next = page.getByRole('button', {
+		name: /Next Question|Show results|Scoreboard|Start game/
+	});
 	await expect(next.first()).toBeVisible({ timeout: 15_000 });
 	test.info().annotations.push({
 		type: 'host came back on',

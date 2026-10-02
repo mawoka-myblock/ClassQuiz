@@ -7,7 +7,14 @@
 // to spend it -- with the button renaming itself in between.
 
 import { test, expect } from '@playwright/test';
-import { mc, saveQuiz, rememberAnonQuiz, hostFromViewPage, gotoPlayHydrated } from './helpers';
+import {
+	advanceToFinalResults,
+	gotoPlayHydrated,
+	hostFromViewPage,
+	mc,
+	rememberAnonQuiz,
+	saveQuiz
+} from './helpers';
 test('the host downloads the game\u2019s answers in one press', async ({ browser, request }) => {
 	test.setTimeout(5 * 60_000);
 	const saved = await saveQuiz(request, { title: 'Export', description: 'one',
@@ -31,7 +38,9 @@ test('the host downloads the game\u2019s answers in one press', async ({ browser
 	await host.waitForTimeout(6500);
 	await host.getByRole('button', { name: /Show results/ }).first().click();
 	await host.waitForTimeout(1200);
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	// The standings sit between the answers and the podium now, so this is three host
+	// steps rather than two. See clearScoreboardStep in helpers.
+	await advanceToFinalResults(host);
 	await host.waitForTimeout(5500);
 	// One press: the token is minted over the socket and the download starts on arrival.
 	const download = host.waitForEvent('download', { timeout: 20_000 });
