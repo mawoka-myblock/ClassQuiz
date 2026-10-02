@@ -197,11 +197,13 @@ MAX_QUESTION_SECONDS = 999
 # questions are scored by concatenating option indices ("02"), which is only
 # unambiguous while every index is one digit.
 MAX_ANSWERS_PER_QUESTION = 10
-# A quiz with no upper bound on questions was accepted at any size: 5000 questions is a
-# 698KiB JSON blob, and it becomes the PlayGame state held in Redis for every live game on
-# it, plus thousands of cards for the editor to render. 100 is far more than an internal
-# quiz needs -- Kahoot's own are rarely over 50 -- and bounds both. One constant to raise.
-MAX_QUESTIONS_PER_QUIZ = 100
+# A DoS ceiling, not a product limit. With no bound a quiz JSON could be arbitrarily large
+# -- a million questions is ~140MB parsed into memory on save and held as PlayGame state in
+# Redis per live game. 1000 bounds that at ~140KB while staying well clear of real use:
+# api-edge.e2e.ts deliberately proves a 500-question quiz saves and starts, and the editor
+# caps its own at 50 (yupSchemas.ts) for UX, so this is not the user-facing limit and the
+# two are meant to differ. Was briefly 100, which wrongly broke those 200/500 scale tests.
+MAX_QUESTIONS_PER_QUIZ = 1000
 
 # Text bounds, added 2026-10-02 after a deliberate attempt to break the app with hostile
 # input. There were none: `ormar.Text()` is unbounded, and a 5000-character title saved

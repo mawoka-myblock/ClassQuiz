@@ -706,8 +706,9 @@ class TestStorage:
 
     @pytest.mark.asyncio
     async def test_a_quiz_with_too_many_questions_is_refused(self, test_client: TestClient):  # noqa : F811
-        """No cap meant a 5000-question quiz saved -- a 698KiB blob, and the live-game state
-        in Redis for every game on it. 101 is refused; 100 is accepted."""
+        """A DoS ceiling, not a product limit: with no bound a quiz JSON could be arbitrarily
+        large. 1000 is the cap (api-edge.e2e.ts proves 500 still saves and starts), so 1001
+        is refused. 5000 used to be accepted."""
         q = {
             "question": "Q?",
             "time": "20",
@@ -717,15 +718,9 @@ class TestStorage:
         start = test_client.post("/api/v1/editor/start?edit=false")
         over = test_client.post(
             f"/api/v1/editor/finish?edit_id={start.json()['token']}",
-            json={"public": False, "title": "Too many", "description": "d", "questions": [q] * 101},
+            json={"public": False, "title": "Too many", "description": "d", "questions": [q] * 1001},
         )
         assert over.status_code == 422
-        start = test_client.post("/api/v1/editor/start?edit=false")
-        at_cap = test_client.post(
-            f"/api/v1/editor/finish?edit_id={start.json()['token']}",
-            json={"public": False, "title": "At the cap", "description": "d", "questions": [q] * 100},
-        )
-        assert at_cap.status_code == 200
 
     @pytest.mark.asyncio
     async def test_oversized_pixels_are_refused(self, test_client: TestClient):  # noqa : F811

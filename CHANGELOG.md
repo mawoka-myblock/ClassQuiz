@@ -10,10 +10,14 @@ Kept attacking the shapes a vanilla test never tries, and found that the editor 
 server disagreed about what a quiz may contain — every disagreement in the direction that
 bites: the editor let a user build something the server then refused with a 422 on save.
 
-- **No cap on questions per quiz.** The server accepted a **5000-question** quiz (a 698 KiB
-  JSON blob, and the live-game state held in Redis for every game on it). Capped at
-  **100** (`MAX_QUESTIONS_PER_QUIZ`) — far more than an internal quiz needs, enough to
-  bound the resource. 5000 → 200 before, 422 after; 100 still saves.
+- **No cap on questions per quiz.** With no bound a quiz JSON could be arbitrarily large
+  — a million questions is ~140 MB parsed on save and held as game state in Redis. Capped
+  at **1000** (`MAX_QUESTIONS_PER_QUIZ`), a DoS ceiling of ~140 KB, not a product limit:
+  `api-edge.e2e.ts` deliberately proves a 500-question quiz saves and starts, and the
+  editor caps its own at 50 for UX, so the two are meant to differ and are not pinned
+  together. 5000 → 200 before, 422 after; 500 and 1000 still save. (First set to 100,
+  which broke those 200/500 scale tests — the same over-reach as restricting a tested
+  feature; corrected before the suite confirmed.)
 - **Answers: editor 16, server 10.** The server's 10 is a hard ceiling, not a style
   choice — scoring concatenates one-digit option indices (`"02"`), which is ambiguous past
   nine. The editor's `.max(16)` let a user add 11–16 answers and then fail to save. Aligned
@@ -22,10 +26,11 @@ bites: the editor let a user build something the server then refused with a 422 
 - **Timer: editor unbounded, server 1–999.** The editor's number input was already 1–999,
   but its schema let a scripted or pasted value through to a 422. Bounded in the schema too.
 
-The seven shared limits (four text, three shape) are now pinned editor == server by
-`text_limits.test.ts`, which reads both files — because this drift *is* the bug class, and
-a test that reads one side cannot catch it. A backend test covers the question cap at its
-inclusive boundary (101 refused, 100 accepted).
+The six shared limits (four text, two shape — answers and timer) are now pinned
+editor == server by `text_limits.test.ts`, which reads both files, because this drift *is*
+the bug class and a one-sided test cannot catch it. The question count is intentionally
+not pinned (editor 50, server 1000). A backend test covers the question ceiling (1001
+refused), and the existing `api-edge.e2e.ts` scale tests cover the accept side (200, 500).
 
 What held up under attack, worth recording: the server's timer bounds (1000, 0, negative,
 0.5 all refused), the 10-answer grid (no overflow at 390 or 1440), and the 999-second

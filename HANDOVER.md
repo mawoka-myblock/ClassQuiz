@@ -107,10 +107,11 @@ a real finding closed with a test that fails against the old code:
   5 MB byte cap — and ~1.6 GB as a bitmap in every browser that draws it. The server never
   decodes an image, so the clients (phones, projector) are what fall over. Now rejected by
   a header-only dimension read (no decode, no dependency) at 8000 px per side.
-- **Quiz shape, and editor/server drift.** No cap on questions (5000 accepted → now 100),
-  and the editor was looser than the server on answers (16 vs 10), question length (299 vs
-  250) and the timer (unbounded vs 999) — so a user could build a quiz the server then
-  refused. All seven shared limits are pinned editor == server by a test that reads both.
+- **Quiz shape, and editor/server drift.** Questions had no bound (5000 accepted → now a
+  1000 DoS ceiling, with the tested 200/500 scale contract preserved), and the editor was
+  looser than the server on answers (16 vs 10), question length (299 vs 250) and the timer
+  (unbounded vs 999) — so a user could build a quiz the server then refused. The six
+  correctness limits are pinned editor == server by a test that reads both.
 
 What held up: the nickname bound (50, control chars stripped), the server's timer bounds,
 and the answer/timer grids at phone and projector width. One known gap is written down in

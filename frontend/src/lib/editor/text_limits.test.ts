@@ -37,9 +37,10 @@ describe('text limits', () => {
 		['ANSWER_MAX_LENGTH', 'MAX_ANSWER_LENGTH'],
 		// The editor was looser than the server on answers (16 vs 10), the question title
 		// (299 vs 250) and the timer (unbounded vs 999), so a quiz the editor accepted
-		// 422'd on save. These pin editor == server so that cannot come back.
+		// 422'd on save. These pin editor == server so that cannot come back. The question
+		// COUNT is deliberately not here: the editor caps at 50 for UX, the server at 1000
+		// as a DoS ceiling, and they are meant to differ.
 		['MAX_ANSWERS_PER_QUESTION', 'MAX_ANSWERS_PER_QUESTION'],
-		['MAX_QUESTIONS_PER_QUIZ', 'MAX_QUESTIONS_PER_QUIZ'],
 		['MAX_QUESTION_SECONDS', 'MAX_QUESTION_SECONDS']
 	])('%s matches the server’s %s', (client, server) => {
 		expect(clientLimit(client)).toBe(serverLimit(server));

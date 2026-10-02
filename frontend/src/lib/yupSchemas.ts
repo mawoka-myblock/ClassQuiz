@@ -21,11 +21,12 @@ export const DESCRIPTION_MAX_LENGTH = 500;
 // and MAX_ANSWER_LENGTH in frogquiz/db/models.py -- keep the four numbers in step.
 export const QUESTION_MAX_LENGTH = 250;
 export const ANSWER_MAX_LENGTH = 100;
-// Mirror frogquiz/db/models.py: MAX_ANSWERS_PER_QUESTION (scoring concatenates one-digit
-// option indices, so 10 is a hard ceiling, not a style choice) and MAX_QUESTIONS_PER_QUIZ.
-// Keep the four numbers in step; text_limits.test.ts checks the text ones and now these.
+// Mirror frogquiz/db/models.py. MAX_ANSWERS_PER_QUESTION is a hard ceiling (scoring
+// concatenates one-digit option indices) and MAX_QUESTION_SECONDS is the server's timer
+// bound; both must match the server or the editor lets through a quiz that 422s on save.
+// The question COUNT is deliberately not shared: the editor caps at 50 for UX while the
+// server allows 1000 as a DoS ceiling -- those are meant to differ, so they are not pinned.
 export const MAX_ANSWERS_PER_QUESTION = 10;
-export const MAX_QUESTIONS_PER_QUIZ = 100;
 export const MAX_QUESTION_SECONDS = 999;
 
 export const ABCDQuestionSchema = yup
@@ -149,5 +150,5 @@ export const dataSchema = yup.object({
 			})
 		)
 		.min(1, 'You need at least one question')
-		.max(MAX_QUESTIONS_PER_QUIZ, `You can't have more than ${MAX_QUESTIONS_PER_QUIZ} questions`)
+		.max(50, "You can't have more than 50 questions")
 });
