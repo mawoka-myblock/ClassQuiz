@@ -55,7 +55,12 @@ SPDX-License-Identifier: MPL-2.0
 	</div>
 
 	<div class="flex flex-col items-center gap-3 text-center">
-		<h1 class="max-w-[18ch] text-balance text-4xl font-bold tracking-tight sm:text-5xl">
+		<!-- Sized down from text-4xl/5xl on 2026-10-02. A player's first need here is the
+		     confirmation that they are in; the quiz title is context. At the old size a
+		     real title like "Q4 Security Awareness Refresher" ran to three lines on a
+		     phone and pushed "You're in" into the corner of the screen it was meant to
+		     own. Still the largest thing on the page, no longer the loudest. -->
+		<h1 class="max-w-[18ch] text-balance text-2xl font-bold tracking-tight sm:text-4xl">
 			{title}
 		</h1>
 		{#if description}

@@ -9,7 +9,11 @@
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 case "$(uname -s)" in MINGW* | MSYS* | CYGWIN*) OS=windows ;; *) OS=unix ;; esac
 
-for port in 6380 7701 8010 3000; do
+# 2526 is the mail sink (e2e/mailsink.py, MAIL_PORT_LOCAL in run.sh). It was added to
+# run.sh on 2026-10-02 and not here, so a KEEP_UP stack left it listening and the next
+# run died on "port 2526 is already in use" before a single test ran. Keep the two lists
+# in step.
+for port in 6380 7701 8010 3000 2526; do
   if [ "$OS" = windows ]; then
     for pid in $(netstat -ano | awk -v p=":$port" '$2 ~ p"$" && $4 == "LISTENING" {print $5}' | sort -u); do
       taskkill //F //T //PID "$pid" >/dev/null 2>&1 && echo "stopped :$port (pid $pid)"

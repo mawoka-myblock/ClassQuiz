@@ -230,7 +230,12 @@ SPDX-License-Identifier: MPL-2.0
      unlabelled box and a grey Submit on an empty page -- while the landing page next
      door already did the same job in a card. Same card here: the mark, so you can see
      you are in the right place, one field, and one full-width primary action. -->
-<div class="fq-stage">
+<!-- fq-stage centres on both axes, which is right for the game surfaces a room reads and
+     wrong for a form: at 1440x900 the card floated with roughly 40% of the viewport empty
+     above it and read as a page that had failed to load. Centred on a phone, where it is
+     correct and where every player actually is; biased upward from `sm` so a host testing
+     on a laptop sees a form rather than a void. fq-stage itself is untouched. -->
+<div class="fq-stage sm:justify-start sm:pt-[14vh]">
 	<div class="flex w-full max-w-sm flex-col items-center gap-6">
 		<Wordmark size={44} />
 

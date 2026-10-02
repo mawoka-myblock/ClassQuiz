@@ -4,6 +4,37 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### `e2e/stop.sh` did not know about the mail sink
+
+Half a change, found the way they always are: the next full suite died on "port 2526 is
+already in use" before a single test ran. `run.sh` gained the mail sink on 2 Oct and
+`stop.sh`'s port list did not, so a `KEEP_UP=1` stack left it listening and nothing could
+start afterwards. Both lists now carry it, with a comment saying to keep them in step.
+
+### The last two join-screen items, and a handover
+
+Both were flagged as taste rather than defect and left for a decision; François called for
+them on 2 Oct.
+
+- **The join card no longer floats in the middle of a laptop viewport.** `fq-stage` centres
+  on both axes, which is right for the game surfaces a room reads and wrong for a form: at
+  1440x900 the card sat with about 40% of the viewport empty above it and read as a page
+  that had failed to load. It is biased upward from `sm` and **unchanged on a phone**,
+  where it was already right and where every player actually is. Measured: the card's top
+  moved from 41% down the viewport to 22% at 1440, and stayed at 41% at 390.
+  `fq-stage` itself is untouched, so no game surface moved.
+- **A long quiz title no longer swamps the lobby.** It was `text-4xl`/`5xl`, which made it
+  the loudest thing on the screen — louder than "You're in, ana", which is what a player
+  is actually looking for. "Q4 Security Awareness Refresher" ran to three lines on a phone.
+  Now `text-2xl`/`4xl`: measured 36px → 24px, three lines → two. Still the largest element,
+  no longer the first one you read.
+
+Both verified in a browser at 390 and 1440, with no horizontal overflow at either.
+
+`HANDOVER.md` is new: the branch for François and Gonçalo, leading with the three things
+that have a deadline (the Oracle VM before 31 October, proving mail on the deployed site,
+and confirming the `worker` container runs) and linking everything else.
+
 ### Everything green, verified at the end
 
 | Suite | Result |
