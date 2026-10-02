@@ -91,7 +91,7 @@ SPDX-License-Identifier: MPL-2.0
 				<!-- This screen is read from the back of a room, not from a laptop: the question
 				     screen before it sets its type at ~90px and this one was still at 18px. -->
 				<h2
-					class="text-center text-lg font-semibold tracking-tight text-balance lg:text-3xl"
+					class="text-center text-lg font-semibold tracking-tight text-balance wrap-anywhere lg:text-3xl"
 				>
 					{@html sanitizeTitleHtml(question.question)}
 				</h2>

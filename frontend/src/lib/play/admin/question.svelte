@@ -53,7 +53,8 @@ SPDX-License-Identifier: MPL-2.0
      empty. -->
 <div class="fq-stage">
 	<div class="fq-section">
-		<h1 class="fq-display max-w-[22ch] text-center font-bold text-balance">
+		<!-- wrap-anywhere so one long word cannot push the layout sideways: a 272-character title with no spaces in it overflowed by thousands of pixels on 2026-10-02. QuizInput caps the length now, but quizzes saved before that are not revalidated. -->
+		<h1 class="fq-display max-w-[22ch] text-center font-bold text-balance wrap-anywhere">
 			{@html sanitizeTitleHtml(quiz_data.questions[selected_question].question)}
 		</h1>
 		<div class="flex items-center gap-10">
@@ -105,7 +106,8 @@ SPDX-License-Identifier: MPL-2.0
 			<div class="grid grid-cols-2 gap-2 w-full p-4">
 				{#each quiz_data.questions[selected_question].answers as answer}
 					<div class="rounded-2xl h-fit flex border border-neutral-200 bg-white">
-						<span class="fq-answer text-center px-2 py-4 w-full text-black"
+						<span
+							class="fq-answer text-center px-2 py-4 w-full text-black wrap-anywhere"
 							>{answer.answer}</span
 						>
 						<span class="pl-4 w-10"></span>
@@ -119,4 +121,3 @@ SPDX-License-Identifier: MPL-2.0
 		{/if}
 	{/if}
 </div>
-

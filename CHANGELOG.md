@@ -4,6 +4,51 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Hostile text: four ways to wreck a screen, closed
+
+Every spec in the suite used "Lisbon" and "ana", so none of them proved anything about a
+real room. Attacking the running app found this, measured against the code as it was:
+
+| Attack | Before |
+| --- | --- |
+| 272-character title with no spaces | Player lobby overflowed **6611px** at 390 |
+| Same text as a question and an answer | Host screen overflowed **7736px** at 1440 |
+| 5000-character title | **Accepted and stored intact** |
+| 50-character nickname with no spaces | Player lobby overflowed 6px at 390 |
+
+**The root cause is worse than the symptoms.** `ormar.Text()` is unbounded, so the server
+enforced no text limit of any kind — while `yupSchemas.ts` had carried
+`TITLE_MAX_LENGTH = 100` and `DESCRIPTION_MAX_LENGTH = 500` all along. The editor has been
+claiming limits the server never checked, so anything that skipped the editor (the API
+directly, a Kahoot import, a scripted client) could store anything at all. One person
+typing a long word breaks the screen for everyone in the room.
+
+Two independent defences, because they protect against different things:
+
+- **Bounds on `QuizInput`**: title 100, description 500, question 250, answer 100, matching
+  what the editor already claimed. Title and question are measured on **visible** text via
+  `bleach`, because they arrive as editor HTML — counting the raw string would spend the
+  budget on tags nobody typed and make the same sentence pass or fail depending on whether
+  a word in it is bold. They sit on `QuizInput` rather than `QuizQuestion`, following that
+  model's existing reasoning: a quiz already in the database stays *loadable*, merely
+  unsaveable until fixed.
+- **`wrap-anywhere` at six render sites**, because a quiz saved before today is never
+  revalidated, so the CSS is what actually protects a room from existing content. The
+  player's question heading carried `break-normal`, which forbids breaking inside a word —
+  exactly backwards. The podium and scoreboard needed nothing: they already truncate with
+  `min-w-0`, which is why only the lobby broke.
+
+The nickname bound was already correct at 50 server-side with control characters stripped.
+What was missing was the CSS on the two places a player-supplied name is rendered: the
+player's own "You're in, …" and the host's lobby chips.
+
+New tests. `src/lib/editor/text_limits.test.ts` (7) reads both files and pins the four
+client numbers against the four server numbers, since that drift *is* the bug.
+`e2e/hostile-text.e2e.ts` (4) reproduces each break: 5000 characters refused in all four
+fields, a realistic quiz still saves, already-stored unbreakable text cannot push a layout
+sideways, and four hostile nicknames at once (combining marks, CJK, emoji, long token)
+cannot wreck the host's player list.
+
 ### `e2e/stop.sh` did not know about the mail sink
 
 Half a change, found the way they always are: the next full suite died on "port 2526 is

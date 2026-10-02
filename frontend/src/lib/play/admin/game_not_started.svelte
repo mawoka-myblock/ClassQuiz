@@ -138,7 +138,12 @@ SPDX-License-Identifier: MPL-2.0
 								motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95"
 							in:fly|global={{ y: 8, duration: 220 }}
 						>
-							<span class="group-hover:line-through">{player.username}</span>
+							<!-- Wraps inside the pill rather than stretching it past the projector: the
+						     list is flex-wrap, so a chip that is wider than the screen overflows
+						     the page instead of going to the next line. -->
+							<span class="block max-w-[20ch] wrap-anywhere group-hover:line-through"
+								>{player.username}</span
+							>
 						</button>
 					</li>
 				{/each}

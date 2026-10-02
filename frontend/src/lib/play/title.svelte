@@ -39,7 +39,12 @@ SPDX-License-Identifier: MPL-2.0
 			>
 				<Check class="text-foreground/70 size-7" />
 			</span>
-			<p class="text-lg font-semibold tracking-tight">
+			<!-- The one player-supplied string on this screen, so the one that can be
+			     hostile. The server bounds a nickname at 50 characters, which is still
+			     wider than a phone when none of them is a space: measured 6px of
+			     horizontal overflow at 390 before this. The podium and scoreboard were
+			     already safe because they truncate. -->
+			<p class="max-w-[22ch] text-lg font-semibold tracking-tight wrap-anywhere">
 				{$t('play_page.youre_in', { username })}
 			</p>
 		{/if}
@@ -60,11 +65,15 @@ SPDX-License-Identifier: MPL-2.0
 		     real title like "Q4 Security Awareness Refresher" ran to three lines on a
 		     phone and pushed "You're in" into the corner of the screen it was meant to
 		     own. Still the largest thing on the page, no longer the loudest. -->
-		<h1 class="max-w-[18ch] text-balance text-2xl font-bold tracking-tight sm:text-4xl">
+		<h1
+			class="max-w-[18ch] text-balance text-2xl font-bold tracking-tight wrap-anywhere sm:text-4xl"
+		>
 			{title}
 		</h1>
 		{#if description}
-			<p class="text-muted-foreground max-w-[36ch] text-balance text-base sm:text-lg">
+			<p
+				class="text-muted-foreground max-w-[36ch] text-balance text-base wrap-anywhere sm:text-lg"
+			>
 				{description}
 			</p>
 		{/if}

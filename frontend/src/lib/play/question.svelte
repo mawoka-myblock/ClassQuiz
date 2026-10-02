@@ -188,7 +188,7 @@ SPDX-License-Identifier: MPL-2.0
 			style="height: {question.image ? '33.333333' : '16.666667'}%"
 		>
 			<h1
-				class="lg:text-2xl text-lg text-center text-black dark:text-white mt-2 break-normal mb-2"
+				class="lg:text-2xl text-lg text-center text-black dark:text-white mt-2 wrap-anywhere mb-2"
 			>
 				{@html sanitizeTitleHtml(question.question)}
 			</h1>

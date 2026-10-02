@@ -7,6 +7,7 @@ SPDX-License-Identifier: MPL-2.0
 
 <script lang="ts">
 	import { ANSWER_COLORS } from '$lib/play/answer_colors';
+	import { ANSWER_MAX_LENGTH } from '$lib/yupSchemas';
 	import AnswerShape from '$lib/play/kahoot_mode_assets/AnswerShape.svelte';
 
 	import type { Answer, EditorData } from '../quiz_types';
@@ -100,6 +101,7 @@ SPDX-License-Identifier: MPL-2.0
 				<textarea
 					bind:value={answer.answer}
 					rows="1"
+					maxlength={ANSWER_MAX_LENGTH}
 					class="min-w-0 flex-1 resize-none overflow-hidden bg-transparent text-lg font-medium wrap-anywhere outline-none placeholder:opacity-60"
 					style="color: {ink}"
 					placeholder={$t('editor.enter_answer')}

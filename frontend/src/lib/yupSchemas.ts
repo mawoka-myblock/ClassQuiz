@@ -14,13 +14,27 @@ import { htmlToPlainText } from './sanitize';
 // counters share this exact number instead of a second hardcoded copy.
 export const TITLE_MAX_LENGTH = 100;
 export const DESCRIPTION_MAX_LENGTH = 500;
+// Question text is rich text like the title, so it is measured the same way. Answers are
+// plain. Both are new on 2026-10-02: the editor bounded the title and description and
+// nothing bounded these, so a question or answer of any length could be typed, saved and
+// then rendered to a whole room. The matching server-side bounds are MAX_QUESTION_LENGTH
+// and MAX_ANSWER_LENGTH in frogquiz/db/models.py -- keep the four numbers in step.
+export const QUESTION_MAX_LENGTH = 250;
+export const ANSWER_MAX_LENGTH = 100;
 
 export const ABCDQuestionSchema = yup
 	.array()
 	.of(
 		yup.object({
 			right: yup.boolean().required(),
-			answer: yup.string().trim().required('You need an answer')
+			answer: yup
+				.string()
+				.trim()
+				.required('You need an answer')
+				.max(
+					ANSWER_MAX_LENGTH,
+					`An answer has to be shorter than ${ANSWER_MAX_LENGTH} characters`
+				)
 		})
 	)
 	.min(2, 'You need at least 2 answers')

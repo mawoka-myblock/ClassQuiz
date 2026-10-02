@@ -6,6 +6,7 @@ from __future__ import annotations
 
 
 import hashlib
+import html
 import os
 import uuid
 from datetime import datetime
@@ -13,6 +14,7 @@ from typing import Optional, Self
 from frogquiz.config import redis
 import json
 
+import bleach
 import ormar
 from ormar import ReferentialAction
 from pydantic import (
@@ -196,6 +198,33 @@ MAX_QUESTION_SECONDS = 999
 # unambiguous while every index is one digit.
 MAX_ANSWERS_PER_QUESTION = 10
 
+# Text bounds, added 2026-10-02 after a deliberate attempt to break the app with hostile
+# input. There were none: `ormar.Text()` is unbounded, and a 5000-character title saved
+# and stored intact. Rendering is where it hurts, not storage -- a 272-character title
+# with no spaces in it overflowed the player's lobby by 6611px at 390, and the same text
+# as a question and an answer overflowed the host's screen by 7736px at 1440. One person
+# typing that into a quiz breaks the screen for the whole room.
+#
+# The numbers are ours and deliberately generous: a quiz that reads well on a projector
+# is far shorter than any of these, and they exist to stop the pathological case rather
+# than to style anyone's writing. The CSS was hardened in the same change, so an already
+# stored long value cannot break a layout either -- these two defences are independent on
+# purpose, because quizzes saved before today are not revalidated.
+MAX_TITLE_LENGTH = 100
+MAX_DESCRIPTION_LENGTH = 500
+MAX_QUESTION_LENGTH = 250
+MAX_ANSWER_LENGTH = 100
+
+
+def _visible_length(value: str) -> int:
+    """How long a rich-text value reads, ignoring the markup around it.
+
+    Titles and question text come from the editor as HTML (`<p>What is <b>2</b>?</p>`),
+    so counting the raw string would spend a user's budget on tags they never typed, and
+    would let the same visible text pass or fail depending on its formatting.
+    """
+    return len(html.unescape(bleach.clean(value, tags=[], strip=True)).strip())
+
 
 class QuizInput(BaseModel):
     public: bool | None = False
@@ -222,7 +251,28 @@ class QuizInput(BaseModel):
                 raise ValueError(f"Question {i}: the time must be between 1 and {MAX_QUESTION_SECONDS} seconds")
             if isinstance(q.answers, list) and len(q.answers) > MAX_ANSWERS_PER_QUESTION:
                 raise ValueError(f"Question {i}: at most {MAX_ANSWERS_PER_QUESTION} answers")
+            if _visible_length(q.question) > MAX_QUESTION_LENGTH:
+                raise ValueError(f"Question {i}: the question must be at most {MAX_QUESTION_LENGTH} characters")
+            if isinstance(q.answers, list):
+                for a, answer in enumerate(q.answers, start=1):
+                    text = getattr(answer, "answer", None)
+                    # RANGE answers carry bounds rather than text, and a SLIDE's answer is
+                    # a string body; neither is rendered as an answer tile.
+                    if isinstance(text, str) and _visible_length(text) > MAX_ANSWER_LENGTH:
+                        raise ValueError(f"Question {i}, answer {a}: must be at most {MAX_ANSWER_LENGTH} characters")
         return questions
+
+    @field_validator("title")
+    def title_fits_a_screen(cls, v: str) -> str:
+        if _visible_length(v) > MAX_TITLE_LENGTH:
+            raise ValueError(f"The title must be at most {MAX_TITLE_LENGTH} characters")
+        return v
+
+    @field_validator("description")
+    def description_fits_a_screen(cls, v: str) -> str:
+        if _visible_length(v) > MAX_DESCRIPTION_LENGTH:
+            raise ValueError(f"The description must be at most {MAX_DESCRIPTION_LENGTH} characters")
+        return v
 
 
 class Quiz(ormar.Model):
