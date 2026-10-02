@@ -10,7 +10,14 @@
 // one element animating sixty times a second is composited rather than laid out.
 
 import { expect, test } from '@playwright/test';
-import { mc, saveQuiz, rememberAnonQuiz, hostFromViewPage, gotoPlayHydrated } from './helpers';
+import {
+	advanceToFinalResults,
+	gotoPlayHydrated,
+	hostFromViewPage,
+	mc,
+	rememberAnonQuiz,
+	saveQuiz
+} from './helpers';
 
 const QUIZ = {
 	title: 'Motion',
@@ -84,9 +91,8 @@ test('the podium is held back, then released', async ({ browser, request }) => {
 	await host.waitForTimeout(6500);
 	await host.getByRole('button', { name: /Show results/ }).first().click();
 	await host.waitForTimeout(1200);
-	await host.getByRole('button', { name: 'Scoreboard' }).click();
-	await host.waitForTimeout(600);
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	// advanceToFinalResults clears the standings step itself, so this is one call now.
+	await advanceToFinalResults(host);
 
 	const opacity = () =>
 		host.locator('.podium-block.is-gold').evaluate((el) => Number(getComputedStyle(el).opacity));
@@ -111,9 +117,8 @@ test('asking for less motion makes the podium instant', async ({ browser, reques
 	await host.waitForTimeout(6500);
 	await host.getByRole('button', { name: /Show results/ }).first().click();
 	await host.waitForTimeout(1200);
-	await host.getByRole('button', { name: 'Scoreboard' }).click();
-	await host.waitForTimeout(600);
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	// advanceToFinalResults clears the standings step itself, so this is one call now.
+	await advanceToFinalResults(host);
 
 	// No build-up, no delay: everything is simply there. Svelte's transitions are
 	// JavaScript and never see the media query, so this is `dur()` doing its job.

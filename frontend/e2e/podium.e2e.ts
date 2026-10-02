@@ -9,6 +9,7 @@
 import { expect, test } from '@playwright/test';
 import {
 	advanceToFinalResults,
+	clearScoreboardStep,
 	gotoPlayHydrated,
 	hostFromViewPage,
 	mc,
@@ -155,7 +156,13 @@ test('the game surfaces fit a phone, from the lobby to the podium', async ({
 		'the player feedback card'
 	).toBeLessThanOrEqual(0);
 
-	await host.getByRole('button', { name: 'Get final results' }).click();
+	// The standings are a game surface too, and a new one -- this test is named for
+	// covering all of them, so it checks that screen at 390 rather than passing through it.
+	await clearScoreboardStep(host);
+	await host.waitForTimeout(700);
+	expect(await overflow(), 'scoreboard').toBeLessThanOrEqual(0);
+
+	await advanceToFinalResults(host);
 	await host.waitForTimeout(5000);
 	expect(await overflow(), 'podium').toBeLessThanOrEqual(0);
 	await expect(host.locator('.podium-block.is-gold')).toBeVisible();
