@@ -59,11 +59,25 @@ export async function rememberAnonQuiz(page: Page, id: string, secret: string) {
 }
 
 /** From the quiz view page, through the start modal, into the host lobby. Returns the PIN. */
-export async function hostFromViewPage(page: Page, quizId: string): Promise<string> {
+export async function hostFromViewPage(
+	page: Page,
+	quizId: string,
+	opts: { showOnDevices?: boolean } = {}
+): Promise<string> {
 	await page.goto(`/view/${quizId}`);
 	await page.getByRole('button', { name: 'Play', exact: true }).click();
 	const dialog = page.getByRole('dialog', { name: 'Start Game' });
 	await expect(dialog).toBeVisible();
+	if (opts.showOnDevices) {
+		// Kahoot's "Show questions & answers on participants' devices" (MVP.md D16). Off
+		// by default, so a test that wants it has to say so.
+		const toggle = dialog.getByRole('switch', {
+			name: "Show questions and answers on players' devices"
+		});
+		await expect(toggle).toHaveAttribute('aria-checked', 'false');
+		await toggle.click();
+		await expect(toggle).toHaveAttribute('aria-checked', 'true');
+	}
 	await dialog.getByRole('button', { name: 'Start Game' }).click();
 	await page.waitForURL(/\/admin\?/);
 	const pin = new URL(page.url()).searchParams.get('pin');

@@ -5,3 +5,7 @@
 max-line-length = 120
 extend-ignore = E203
 exclude = ./migrations/versions/,./frontend/node_modules/,./frontend/.svelte-kit/,
+          ./e2e/.venv/,./.venv/,
+# The venvs are here so a local `flake8 .` says what CI's does. CI installs its
+# dependencies outside the tree, so it never saw them; a venv made in-tree for
+# E2E_VENV adds tens of thousands of errors from other people's packages.

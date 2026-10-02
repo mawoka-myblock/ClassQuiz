@@ -52,6 +52,22 @@ async def test_local():
     await storage_tester(storage)
 
 
+@pytest.mark.asyncio
+async def test_local_creates_its_directory(tmp_path):
+    """A STORAGE_PATH that does not exist yet is created, not a 500 on first upload.
+
+    `LocalStorage.upload` is a bare open(..., "wb"), so without this every upload failed
+    with FileNotFoundError and nothing in the response said why. Docker masked it (the
+    bind mount makes the path); a bare-VM install or a fresh test box did not.
+    """
+    missing = tmp_path / "not" / "there" / "yet"
+    assert not missing.exists()
+    storage: Storage = Storage(backend="local", storage_path=str(missing))
+    assert missing.is_dir()
+    # And it is usable, not merely present.
+    await storage_tester(storage)
+
+
 @pytest.mark.skip(
     reason=(
         "Depends on play.min.io, a public MinIO demo server this suite does not "

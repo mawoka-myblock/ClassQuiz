@@ -21,4 +21,8 @@ target/
 
 # Local end-to-end run (e2e/run.sh): throwaway service data and downloaded binaries
 e2e/.data*/
+# A virtualenv made in-tree for e2e/run.sh's E2E_VENV. Untracked, or `git add -A`
+# commits a few hundred MB of wheels.
+e2e/.venv/
+.venv/
 e2e/.tools/

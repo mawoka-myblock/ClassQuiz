@@ -352,7 +352,7 @@
         "answers_submitted_one": "{{count}} answer submitted",
         "answers_submitted_other": "{{count}} answers submitted",
         "request_export_results": "Request result download",
-        "requesting_export_results": "Preparing the file\u2026",
+        "requesting_export_results": "Preparing the file…",
         "download_export_results": "Download results",
         "export_results": "Export results"
     },
@@ -656,7 +656,9 @@
         "start_game": "Start Game",
         "randomize_answers": "Randomize answers",
         "start_failed": "Failed to start the game. Please try again.",
-        "start_failed_signed_out": "Could not start the game. Your session may have expired, or the quiz no longer exists."
+        "start_failed_signed_out": "Could not start the game. Your session may have expired, or the quiz no longer exists.",
+        "show_on_devices": "Show questions and answers on players' devices",
+        "show_on_devices_hint": "Off, players see four coloured shapes and read the question from your screen. Turn it on when nobody is looking at a shared screen, like on a call."
     },
     "quiztivity": {
         "editor": {

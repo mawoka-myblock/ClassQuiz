@@ -31,6 +31,13 @@ SPDX-License-Identifier: MPL-2.0
 	// feature itself, and its whole wire path, is untouched.
 	let custom_field_enabled = $state(false);
 	let randomized_answers = $state(false);
+	// Kahoot's own "Show questions & answers on participants' devices", which is free on
+	// every Kahoot plan and off by default. Off, the phone shows four coloured shapes and
+	// the question lives on the shared screen; on, the phone carries the question text,
+	// its image and the answer text too. That is the difference between a room with a
+	// projector and a video call, which is why it is the host's choice per game and not a
+	// product decision (MVP.md D16).
+	let show_on_devices = $state(false);
 	let error = $state<string | null>(null);
 	// Set when the failure looks like "you are not signed in" rather than a real
 	// error, so the message can offer a way back rather than just saying no.
@@ -52,9 +59,10 @@ SPDX-License-Identifier: MPL-2.0
 	// server does not bound the prompt itself, hence the client-side cap.
 	const MAX_CUSTOM_FIELD_LENGTH = 200;
 
-	// Mode picker (Normal / Old-School) was cut: Old-School was never used, and Normal
-	// is now the only option. The API still accepts game_mode=normal, so it can come
-	// back without a backend change if that's ever wanted.
+	// `game_mode` is what carries the switch above. Both render paths already existed and
+	// both work -- upstream exposed them as two game modes, a choice made before the game
+	// started and labelled "Normal" and "Old-School", which told a host nothing about what
+	// it did. Same wire value, named after its effect.
 	const start_game = async (id: string) => {
 		loading = true;
 		error = null;
@@ -67,7 +75,7 @@ SPDX-License-Identifier: MPL-2.0
 		// value; a `#` made everything after it a fragment, so the server never saw it.
 		const params = new URLSearchParams({
 			captcha_enabled: 'False',
-			game_mode: 'kahoot',
+			game_mode: show_on_devices ? 'normal' : 'kahoot',
 			custom_field,
 			cqcs_enabled: 'False',
 			randomize_answers: randomized_answers ? 'True' : 'False'
@@ -138,6 +146,8 @@ SPDX-License-Identifier: MPL-2.0
 		// from this same dashboard without a reload.
 		custom_field_enabled = false;
 		custom_field = '';
+		randomized_answers = false;
+		show_on_devices = false;
 	};
 </script>
 
@@ -177,6 +187,20 @@ SPDX-License-Identifier: MPL-2.0
 		<div class="flex items-center gap-3">
 			<Switch id="randomize-answers" bind:checked={randomized_answers} />
 			<Label for="randomize-answers">{$t('start_game.randomize_answers')}</Label>
+		</div>
+
+		<div class="grid gap-1.5">
+			<div class="flex items-center gap-3">
+				<Switch
+					id="show-on-devices"
+					bind:checked={show_on_devices}
+					aria-describedby="show-on-devices-hint"
+				/>
+				<Label for="show-on-devices">{$t('start_game.show_on_devices')}</Label>
+			</div>
+			<p id="show-on-devices-hint" class="text-muted-foreground pl-14 text-sm">
+				{$t('start_game.show_on_devices_hint')}
+			</p>
 		</div>
 
 		{#if error}

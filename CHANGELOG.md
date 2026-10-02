@@ -4,6 +4,63 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### The host decides what the phone shows (D16)
+
+- The start-game modal has a switch, **"Show questions and answers on players' devices"**,
+  off by default. Off, a player sees four coloured shapes and reads the question off the
+  host's screen; on, their phone carries the question text, its image and the answer text.
+  It is per game and not remembered, so turning it on for a call does not follow you into
+  the next room with a projector.
+- This is Kahoot's own behaviour: shapes by default, plus a setting of the same name that
+  is free on every Kahoot plan. François chose "make it like Kahoot" on 2026-10-02.
+- Almost nothing had to be built. Both render paths in `lib/play/question.svelte` already
+  existed and worked, and `ReturnQuestion` already put the question text and image on the
+  wire — upstream exposed the choice as two game modes picked before the game started and
+  labelled "Normal" and "Old-School", which told a host nothing about what they did. The
+  modal was simply hardcoding `game_mode: 'kahoot'`. Same wire value, named after its
+  effect and moved to where the host is already making decisions.
+- `frontend/e2e/player-screen.e2e.ts` (3 tests) drives a real game at phone width and
+  asserts on **visible** text, not the accessible name: the answer is the tile's
+  `aria-label` in both modes, which is right for a screen reader and is how the other
+  specs click answers, so a role-based locator finds the tile in shapes mode too and would
+  prove nothing. The third test pins that the switch does not persist between games.
+
+### An upload directory that does not exist is created
+
+- `LocalStorage` never created its `base_path`, and `upload` is a bare `open(..., "wb")` —
+  so a `STORAGE_PATH` pointing at a directory that is not there yet meant **every image
+  upload answered 500** with a `FileNotFoundError` in the log and nothing in the response
+  saying why. Docker masked it, because the bind mount in `docker-compose.yml` creates the
+  path; a bare-VM install (the "Deploying to any Linux VM" path in `DEPLOY.md`), a typo, or
+  a fresh test box all hit it. I lost a backend-suite run to exactly this.
+- Created eagerly in `__init__` and fatal if it cannot be: the class is only built when the
+  backend is `local`, the wrapper already raises on bad config at construction, and an app
+  that cannot write uploads should say so at startup rather than once per person who adds a
+  picture.
+
+### Oracle's Always Free ARM allowance was halved
+
+- `DEPLOY.md` told anyone deploying to create a 4 OCPU / 24 GB `VM.Standard.A1.Flex` and
+  called it "the whole Always Free ARM allowance". Oracle now states that allowance as
+  **1,500 OCPU hours and 9,000 GB hours a month, or 2 OCPUs and 12 GB** — half what the
+  file said, with no announcement. An over-allowance tenancy does not get trimmed to fit:
+  every A1 instance in it is disabled and then deleted after 30 days.
+- Corrected to 2/12, with a pointer to Oracle's own page rather than asking anyone to
+  trust the file, a note that Always Free is home-region-only, and a warning that Oracle
+  reclaims idle instances (all three of CPU p95, network and memory under 20% over seven
+  days — which a quiz tool used once a week meets). Hetzner's price corrected too: the
+  CX22 at "about EUR 4" is now a CX23 at EUR 5.49 plus EUR 0.50 for the IPv4.
+- Full analysis, with a dated checklist, is **issue #22**.
+
+### Repo hygiene
+
+- `e2e/.venv/` and `.venv/` are gitignored. `e2e/run.sh` documents `E2E_VENV` for an
+  in-tree virtualenv, and nothing stopped `git add -A` from committing a few hundred MB of
+  wheels.
+- The same two paths are excluded in `.flake8`, so a local `flake8 .` reports what CI's
+  does. CI installs outside the tree and never saw them; an in-tree venv added about 64,000
+  errors from other people's packages.
+
 ### Results are the owner's (D18)
 
 - `GET /api/v1/eximport/excel/{quiz_id}` is scoped to the signed-in user's own quizzes and
