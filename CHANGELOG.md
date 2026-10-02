@@ -143,9 +143,13 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 - Fixed a `tike_taken` typo in the results page's prop type, which was one of the
   `svelte-check` errors. The field is never read there, so it only misdeclared the shape
   the server sends (`time_taken`).
-- Corrected the `svelte-check` note in `TODO.md`: measured 670 errors, **339 in our own
-  code and 331 under `node_modules`**. It had said ~300 ours against ~820 in `bits-ui`,
-  which made the dependency look like the bulk of the problem; it is about half.
+- Corrected the `svelte-check` note in `TODO.md` — and then had to correct the
+  correction. The real figures, from a **single** run: 1054 errors, **229 ours, 825 under
+  `node_modules`**. My first pass read 339/331 from two *separate* `svelte-check`
+  invocations, so the two counts never described the same run, and I reported that our
+  share was half the problem rather than a fifth. The note I "fixed" (~300 ours, ~820 in
+  `bits-ui`) had been right all along. Ours also cluster: the top five files are 81 of the
+  229, and three of those are editor parts for question types the MVP does not offer.
 - Verified the production build still succeeds after the day's changes (37s), which is
   one of the "Done when" gates on issue #3.
 

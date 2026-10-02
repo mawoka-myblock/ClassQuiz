@@ -89,7 +89,19 @@ above. That doc is still the map of the whole surface.
 
 ## Open — quality
 
-- [ ] `svelte-check` in CI. Measured 1 Oct: **670 errors, 339 of them in our own code** and 331 under `node_modules` (`npx svelte-check --output machine | grep -c '^[0-9]* ERROR'`, then the same filtered on `node_modules`). The previous note here said ~300 ours and ~820 in `bits-ui`, which made the dependency look like the bulk of it; it is roughly half, so ours is the work
+- [ ] `svelte-check` in CI. Measured in a single run, 2 Oct: **1054 errors, 229 in our own
+      code and 825 under `node_modules`** (mostly `bits-ui`). Reproduce with
+      `npx svelte-check --output machine > out.txt`, then count `^[0-9]* ERROR` lines in
+      that one file, with and without `node_modules` — the first attempt at this used two
+      separate `svelte-check` runs and reported 339/331, which made our share look like
+      half the problem instead of a fifth. The original note here (~300 ours, ~820 in
+      `bits-ui`) was right.
+      Ours cluster hard, so this is less open-ended than 229 suggests: `play/question.svelte`
+      (20), `editor/RangeSelectorEditorPart` (18), `editor/OrderEditorPart` (16),
+      `account/login` (15), `editor/ABCDEditorPart` (12) — the top five are 81 of them, and
+      three of those five are editor parts for question types the MVP does not offer
+      (RANGE, ORDER, VOTING are not in the editor's allowlist), so they are gated code that
+      could be excluded rather than fixed
 - [ ] The input tier on hidden routes (`/quiztivity`, `/edit/files`, controllers, Pixabay) still draws form fields at three different radii. An `fq-field` utility would fold in the un-themed `bg-gray-500` / `focus:ring-blue-500` drift at the same time
 - [ ] `lib/components/ui/button/button.svelte` has two off-ladder steps (8px and 10px) from upstream. Defensible, but they are the last two
 - [ ] Tailwind scans the repo's Markdown, so the word "rounded" in `CLAUDE.md` emits three dead CSS rules. Harmless; noted so nobody re-chases it
