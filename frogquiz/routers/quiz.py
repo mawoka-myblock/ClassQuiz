@@ -12,7 +12,12 @@ from random import randint
 
 import ormar.exceptions
 
-from frogquiz.helpers import collect_quiz_image_keys, generate_spreadsheet, handle_import_from_excel
+from frogquiz.helpers import (
+    extract_image_ids_from_quiz,
+    generate_spreadsheet,
+    handle_import_from_excel,
+    release_quiz_images,
+)
 from fastapi import APIRouter, Depends, HTTPException, Header, Request, UploadFile, File
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
@@ -316,11 +321,13 @@ async def delete_quiz(
 
     if quiz is None:
         return JSONResponse(status_code=404, content={"detail": "quiz not found"})
-    pics_to_delete = collect_quiz_image_keys(quiz)
-    if len(pics_to_delete) != 0:
-        await storage.delete(pics_to_delete)
+    # Captured before the delete, released after: while the quiz row exists every one of
+    # its images still counts as referenced, and the reference count is the whole point.
+    image_ids = extract_image_ids_from_quiz(quiz)
     meilisearch.index(settings.meilisearch_index).delete_document(str(quiz.id))
-    return await quiz.delete()
+    deleted = await quiz.delete()
+    await release_quiz_images(image_ids)
+    return deleted
 
 
 @router.get("/export_data/{export_token}", response_class=StreamingResponse)

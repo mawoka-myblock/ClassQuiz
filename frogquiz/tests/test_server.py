@@ -767,6 +767,60 @@ class TestStorage:
         assert again.status_code == 404
 
     @pytest.mark.asyncio
+    async def test_deleting_a_quiz_frees_its_images(self, test_client: TestClient):  # noqa : F811
+        """Deleting a quiz took its images with it only for upstream's old key form.
+
+        Both delete paths went through `collect_quiz_image_keys`, whose regex was
+        `^.*/(.{36}--.{36})$`. A modern upload stores the bare StorageItem UUID that
+        `POST /api/v1/storage/` returns -- no slash, no `--` -- so it matched nothing:
+        deleting a quiz, or sweeping an expired anonymous one, left every image in storage
+        for good and still charged to the owner's quota. Unreachable as a complaint until
+        the quota was enforced.
+        """
+        up = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("on-a-quiz.png", b"q" * 1024, "image/png")},
+        )
+        assert up.status_code == 200
+        image_id = up.json()["id"]
+
+        start = test_client.post("/api/v1/editor/start?edit=false", cookies=ValueStorage.cookies)
+        assert start.status_code == 200
+        finish = test_client.post(
+            f"/api/v1/editor/finish?edit_id={start.json()['token']}",
+            cookies=ValueStorage.cookies,
+            json={
+                "public": False,
+                "title": "Has an image",
+                "description": "d",
+                "cover_image": image_id,
+                "questions": [
+                    {
+                        "question": "Q?",
+                        "time": "20",
+                        "type": "ABCD",
+                        "image": image_id,
+                        "answers": [{"answer": "a", "right": True}, {"answer": "b", "right": False}],
+                    }
+                ],
+            },
+        )
+        assert finish.status_code == 200
+        quiz_id = finish.json()["id"]
+
+        # Still referenced, so still there.
+        assert test_client.get(f"/api/v1/storage/meta/{image_id}", cookies=ValueStorage.cookies).status_code == 200
+
+        gone = test_client.delete(f"/api/v1/quiz/delete/{quiz_id}", cookies=ValueStorage.cookies)
+        assert gone.status_code == 200
+
+        # Nothing references it now, so it is soft-deleted and the meta lookup 404s --
+        # it filters on deleted_at=None. Before the fix this stayed 200 forever.
+        after = test_client.get(f"/api/v1/storage/meta/{image_id}", cookies=ValueStorage.cookies)
+        assert after.status_code == 404
+
+    @pytest.mark.asyncio
     async def test_get_file_info(self, test_client: TestClient):  # noqa : F811
         resp = test_client.get("/api/v1/storage/meta/dsadsaasdas", cookies=ValueStorage.cookies)
         assert resp.status_code == 422

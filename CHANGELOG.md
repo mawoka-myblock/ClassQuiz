@@ -6,6 +6,17 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Deleting an image actually frees the space
 
+- **Deleting a quiz never freed its images, and nor did the 30-day anonymous sweep.** Both
+  went through `collect_quiz_image_keys`, whose regex `^.*/(.{36}--.{36})$` only ever
+  described upstream's old double-key form. A modern upload stores the bare `StorageItem`
+  UUID — no slash, no `--` — so it matched nothing and every image of every deleted quiz
+  stayed in storage for good, still charged to its owner's quota. For expired anonymous
+  quizzes that is unbounded growth from people who never come back. One shared,
+  reference-counted `release_quiz_images` now serves all three paths (quiz delete, the
+  sweep, and an image taken off a question), and it covers cover and background images
+  too. The old helper is deleted rather than left as a function that silently matches
+  nothing.
+
 - **Four more specs were broken by the Kahoot round sequencing, not just `anon-game`.**
   `game-export`, `podium` and `player-medal` all clicked "Get final results" or "Next
   Question" straight after "Show results" and hung on the Scoreboard screen. All three use

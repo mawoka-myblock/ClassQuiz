@@ -15,7 +15,11 @@ from frogquiz.config import redis, storage
 from tempfile import SpooledTemporaryFile
 
 from frogquiz.db.models import StorageItem, Quiz, User
-from frogquiz.helpers import collect_quiz_image_keys, extract_image_ids_from_quiz
+from frogquiz.helpers import (
+    delete_storage_item_if_unreferenced,
+    extract_image_ids_from_quiz,
+    release_quiz_images,
+)
 from frogquiz.storage.errors import DeletionFailedError
 from thumbhash import image_to_thumbhash
 
@@ -87,50 +91,13 @@ async def clean_expired_anonymous_quizzes(ctx):
     print("Cleaning expired anonymous quizzes up")
     expired = await Quiz.objects.filter(user_id=None, expire_at__lt=datetime.now()).all()
     for quiz in expired:
-        pics_to_delete = collect_quiz_image_keys(quiz)
-        if pics_to_delete:
-            try:
-                await storage.delete(pics_to_delete)
-            except DeletionFailedError:
-                print("Deletion Error", pics_to_delete)
+        # Ids first, delete, then release: see release_quiz_images. This used to go
+        # through collect_quiz_image_keys, whose regex only matched upstream's old
+        # double-key form, so a modern upload was never freed and an expired anonymous
+        # quiz left its images in storage for good.
+        image_ids = extract_image_ids_from_quiz(quiz)
         await quiz.delete()
-
-
-async def _delete_if_unreferenced(item: StorageItem) -> None:
-    """Delete a storage item once nothing points at it, and give back its bytes.
-
-    Images are many-to-many with quizzes (and quiztivities), so the same upload can be on
-    two quizzes -- a duplicated quiz shares them. Deleting on the first unlink would pull
-    the picture out from under the other one, so the references are counted first.
-
-    Soft-deletes the row (`deleted_at`) the way the delete endpoint does, rather than
-    dropping it, so an id that is still written into some other quiz's JSON resolves to a
-    404 instead of a dangling foreign key.
-    """
-    await item.load_all(follow=True)
-    still_used = len(item.quizzes or []) + len(item.quiztivities or [])
-    if still_used > 0:
-        return
-    if item.deleted_at is not None:
-        return
-    storage_path = item.storage_path or item.id.hex
-    try:
-        await storage.delete([storage_path])
-    except DeletionFailedError:
-        # The row is the thing the quota is computed from, so a file that refuses to go
-        # should not keep the bytes charged to the owner. Log and carry on.
-        print("Deletion Error", storage_path)
-    item.deleted_at = datetime.now()
-    await item.update()
-    if item.user is None or item.size <= 0:
-        return
-    user = await User.objects.get_or_none(id=item.user.id)
-    if user is None:
-        return
-    # Clamped: every row uploaded before sizes were measured stores 0, and the column
-    # declares minimum=0.
-    user.storage_used = max(0, user.storage_used - item.size)
-    await user.update()
+        await release_quiz_images(image_ids)
 
 
 # skipcq: PYL-W0613
@@ -164,7 +131,7 @@ async def quiz_update(ctx, old_quiz: Quiz, quiz_id: uuid.UUID):
             # forever -- `storage_used` is only ever incremented. The editor's own X on a
             # question image is how people "manage the file that's there", so it has to
             # be what reclaims the space, not a media library we deliberately do not have.
-            await _delete_if_unreferenced(item)
+            await delete_storage_item_if_unreferenced(item)
     for image in added_images:
         if "--" not in image:
             item = await StorageItem.objects.get_or_none(id=uuid.UUID(image))

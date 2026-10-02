@@ -14,12 +14,13 @@ from fastapi import HTTPException
 from openpyxl import load_workbook
 
 
-from frogquiz.db.models import Quiz, User, QuizQuestion, ABCDQuizAnswer
+from frogquiz.db.models import Quiz, User, QuizQuestion, ABCDQuizAnswer, StorageItem
 import xlsxwriter
 from aiohttp import ClientSession
 from io import BytesIO
 from PIL import Image
-from frogquiz.config import meilisearch, settings, LOGGER
+from frogquiz.config import meilisearch, settings, storage, LOGGER
+from frogquiz.storage.errors import DeletionFailedError
 from frogquiz.helpers.hashcash import check as hc_check
 
 settings = settings()
@@ -295,24 +296,84 @@ def extract_image_ids_from_quiz(quiz: Quiz) -> list[str | uuid.UUID]:
     return quiz_images
 
 
-_QUIZ_IMAGE_KEY_REGEX = re.compile("^.*/(.{36}--.{36})$")
+async def delete_storage_item_if_unreferenced(item: StorageItem) -> None:
+    """Delete one upload once nothing points at it, and give back its owner's bytes.
 
+    Images are many-to-many with quizzes (and quiztivities), so the same upload can sit on
+    two quizzes -- duplicating a quiz shares them. Deleting on the first unlink would pull
+    the picture out from under the other one, so references are counted first.
 
-def collect_quiz_image_keys(quiz: Quiz) -> list[str]:
-    """Storage keys for the images a quiz's questions own.
-
-    Both the delete endpoint and the expired-anonymous-quiz sweep need these, and
-    each used to carry its own copy of the regex and the imgur exclusion. Only
-    question images are returned, not `cover_image`/`background_image`: neither
-    caller has ever deleted those, and widening what a delete removes is not a
-    change to make in passing.
+    Soft-deleted (`deleted_at`) the way `DELETE /storage/meta/{id}` is, rather than
+    dropped, so an id still written into some other quiz's JSON resolves to a 404 instead
+    of a dangling reference.
     """
-    keys = []
-    for question in quiz.questions:
-        image = question.get("image")
-        if image is None or str(image).startswith("https://i.imgur.com/"):
+    # Only the three relations this needs. `load_all(follow=True)` walks them recursively
+    # -- item -> user -> that user's quizzes -> ... -- and pydantic then rejects the
+    # result with 63 validation errors, because the nested Quiz objects are models where
+    # the parent expects ids. `list_images` in routers/storage.py already reads these two
+    # the narrow way.
+    loaded = await StorageItem.objects.select_related(
+        [StorageItem.quizzes, StorageItem.quiztivities, StorageItem.user]
+    ).get_or_none(id=item.id)
+    if loaded is None:
+        return
+    item = loaded
+    if len(item.quizzes or []) + len(item.quiztivities or []) > 0:
+        return
+    if item.deleted_at is not None:
+        return
+    try:
+        await storage.delete([item.storage_path or item.id.hex])
+    except DeletionFailedError:
+        # The row drives the quota, so a file that refuses to go must not keep the bytes
+        # charged to its owner.
+        LOGGER.warning("could not delete stored file for %s", item.id)
+    item.deleted_at = datetime.now()
+    await item.update()
+    if item.user is None or item.size <= 0:
+        return
+    owner = await User.objects.get_or_none(id=item.user.id)
+    if owner is None:
+        return
+    # Clamped: rows uploaded before sizes were measured store 0, and the column declares
+    # minimum=0, so an unclamped subtraction would raise rather than no-op.
+    owner.storage_used = max(0, owner.storage_used - item.size)
+    await owner.update()
+
+
+async def release_quiz_images(image_ids: list[str | uuid.UUID]) -> None:
+    """Free the images a now-deleted quiz was using.
+
+    Call it *after* the quiz row is gone, with ids captured before: the reference count is
+    the whole point, and while the quiz still exists every one of its images looks used.
+
+    This replaces `collect_quiz_image_keys`, now deleted, and that helper was the bug. It
+    matched `^.*/(.{36}--.{36})$`, which only ever described upstream's old double-key
+    form -- a modern upload stores the bare `StorageItem` UUID that
+    `POST /api/v1/storage/` returns, which has no slash and no `--`. So it matched nothing,
+    and deleting a quiz (or sweeping an expired anonymous one) left every image in storage
+    for good, still charged against the owner's quota. Unreachable as a complaint until the
+    quota was enforced; now it is how someone runs out of space with no way back.
+
+    Unlike that helper this also covers `cover_image` and `background_image`. Leaving them
+    behind was defensible while nothing was ever freed; it is not once a deleted quiz is
+    meant to give its space back.
+    """
+    for image in image_ids:
+        text = str(image)
+        if "--" in text:
+            # Upstream's legacy key: a file with no StorageItem row behind it.
+            try:
+                await storage.delete([text])
+            except DeletionFailedError:
+                LOGGER.warning("could not delete legacy stored file %s", text)
             continue
-        match = _QUIZ_IMAGE_KEY_REGEX.match(str(image))
-        if match is not None:
-            keys.append(match.group(1))
-    return keys
+        try:
+            item_id = uuid.UUID(text)
+        except ValueError:
+            # An external URL (upstream allowed imgur links). Nothing of ours to free.
+            continue
+        item = await StorageItem.objects.get_or_none(id=item_id)
+        if item is None:
+            continue
+        await delete_storage_item_if_unreferenced(item)

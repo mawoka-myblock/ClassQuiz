@@ -52,6 +52,17 @@ actually free anything:
   picture out from under the other one. Soft-deleted (`deleted_at`) the way the endpoint
   does, so an id still written into some other quiz's JSON resolves to a 404 rather than a
   dangling reference.
+- **Deleting a quiz did not free its images either, and nor did the 30-day anonymous
+  sweep.** Both went through `collect_quiz_image_keys`, whose regex was
+  `^.*/(.{36}--.{36})$` — a shape that only ever described upstream's old double-key
+  form. A modern upload stores the bare `StorageItem` UUID that `POST /api/v1/storage/`
+  returns, with no slash and no `--`, so the regex **matched nothing**: every image of
+  every deleted quiz stayed in storage permanently, still charged to its owner. For
+  anonymous quizzes that is unbounded growth from people who never come back. Both paths
+  now use `release_quiz_images`, which also covers `cover_image` and `background_image`
+  (the old helper deliberately skipped them, defensible while nothing was freed at all).
+  `collect_quiz_image_keys` is deleted rather than left as a function that silently
+  matches nothing.
 - The orphan path runs in the worker, so it needs the `worker` container (already an open
   item in [`../TODO.md`](../TODO.md)). The explicit delete runs in the request path and does
   not.
