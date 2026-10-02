@@ -173,6 +173,27 @@ To run without mail at all, leave the block blank and set
 the API says so with a 503 rather than pretending, and the app logs a warning at
 startup.
 
+### Testing it for real
+
+The mail path cannot be proved by the test suite: the suite registers
+`*@example.com` addresses and never reads an inbox. Somebody has to run it once
+against a live relay.
+
+Use **francois.prevot@hotmail.com** as the test recipient (François, 2026-10-02) --
+an external address on a provider that is strict about SPF and DKIM, which is the
+point: a relay misconfiguration that an internal address would wave through gets
+caught here.
+
+Three things to check, in this order:
+
+1. Register a new account with that address. The confirmation mail should arrive,
+   the link in it should open the real site (`ROOT_ADDRESS`, not the API host), and
+   the account should come out verified.
+2. Request a password reset for it. The mail should arrive and the link should let a
+   new password be set.
+3. Check the spam folder on both. Landing in spam is a pass for the code and a fail
+   for the deployment, and it is the most likely outcome on a fresh sender domain.
+
 ## Managed Postgres (Neon)
 
 The `db` container can be swapped for Neon when the app host has no persistent disk.

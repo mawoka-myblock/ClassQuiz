@@ -5,7 +5,6 @@
 
 
 import asyncio
-import re
 import uuid
 from datetime import datetime
 from typing import BinaryIO, Any

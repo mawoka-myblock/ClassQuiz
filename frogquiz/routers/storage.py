@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse, RedirectResponse
 from pydantic import BaseModel
 
 from frogquiz.auth import get_current_user, get_current_user_optional
-from frogquiz.config import settings, storage, arq, UPLOAD_LIMITS, MAX_UPLOAD_SIZE
+from frogquiz.config import settings, storage, arq, UPLOAD_LIMITS
 from frogquiz.db.models import User, StorageItem, PublicStorageItem, UpdateStorageItem, PrivateStorageItem
 from frogquiz.helpers import check_image_string
 from frogquiz.storage.errors import DownloadingFailedError

@@ -197,6 +197,7 @@ meilisearch = MeiliSearch.Client(settings().meilisearch_url)
 
 ALLOWED_TAGS_FOR_QUIZ = ["b", "strong", "i", "em", "small", "mark", "del", "sub", "sup"]
 
+
 def upload_limits() -> dict[str, int]:
     """Accepted upload types, mapped to the largest file allowed for each.
 

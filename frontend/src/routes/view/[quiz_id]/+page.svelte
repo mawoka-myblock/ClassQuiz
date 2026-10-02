@@ -357,16 +357,22 @@ SPDX-License-Identifier: MPL-2.0
 					<Repeat />
 					{$t('words.practice')}
 				</Button>
-				<Button
-					variant="outline"
-					size="lg"
-					disabled={!logged_in}
-					onclick={() => (download_id = quiz.id)}
-					aria-describedby={logged_in ? undefined : 'signed-out-hint'}
-				>
-					<Download />
-					{$t('words.download')}
-				</Button>
+				<!-- Owner only: the spreadsheet carries the answer key, and `show_answers`
+				     above already hides it from a non-owner on screen. Still disabled while
+				     signed out, because the endpoint needs a session -- an anonymous owner
+				     holds the quiz in this browser, not in an account. -->
+				{#if is_owner}
+					<Button
+						variant="outline"
+						size="lg"
+						disabled={!logged_in}
+						onclick={() => (download_id = quiz.id)}
+						aria-describedby={logged_in ? undefined : 'signed-out-hint'}
+					>
+						<Download />
+						{$t('words.download')}
+					</Button>
+				{/if}
 				{#if quiz.imported_from_kahoot && quiz.kahoot_id}
 					<Button
 						href="https://create.kahoot.it/details/{quiz.kahoot_id}"

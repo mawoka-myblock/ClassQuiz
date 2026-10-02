@@ -8,12 +8,9 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import VotingResults from './voting_results.svelte';
 	import { onMount } from 'svelte';
-	import { getLocalization } from '$lib/i18n';
 	import type { Question } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { sanitizeTitleHtml } from '$lib/sanitize';
-
-	const { t } = getLocalization();
 
 	interface Props {
 		data: any;
@@ -93,12 +90,13 @@ SPDX-License-Identifier: MPL-2.0
 			<section class="flex flex-col gap-[var(--fq-space-group)] p-6 sm:p-8">
 				<!-- This screen is read from the back of a room, not from a laptop: the question
 				     screen before it sets its type at ~90px and this one was still at 18px. -->
-				<h2 class="text-center text-lg font-semibold tracking-tight text-balance lg:text-3xl">
+				<h2
+					class="text-center text-lg font-semibold tracking-tight text-balance lg:text-3xl"
+				>
 					{@html sanitizeTitleHtml(question.question)}
 				</h2>
 				<VotingResults data={new_data} {question} />
 			</section>
 		{/if}
-
 	</div>
 </div>

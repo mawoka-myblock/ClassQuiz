@@ -23,7 +23,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import ValidationError, BaseModel
 
 from frogquiz.auth import get_current_user, get_current_user_optional, verify_anon_secret
-from frogquiz.config import redis, settings, storage, meilisearch
+from frogquiz.config import redis, settings, meilisearch
 from frogquiz.db.models import Quiz, User, PlayGame, GameInLobby, QuizQuestion, QuizQuestionType
 from frogquiz.helpers.box_controller import generate_code
 from frogquiz.helpers.completeness import unfinished_questions

@@ -4,6 +4,53 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Results are the owner's (D18)
+
+- `GET /api/v1/eximport/excel/{quiz_id}` is scoped to the signed-in user's own quizzes and
+  404s (not 403) for anybody else's, so it says nothing about whether the id exists. The
+  Download button on the view page is behind `{#if is_owner}`.
+- The spreadsheet contains the answer key, and the same page already hid the correct
+  answers from a non-owner (`show_answers = is_owner`), so any signed-in teammate could
+  read the answers to a quiz they were about to play. François closed it on 2026-10-02.
+- Pinned from both sides: `test_excel_export_is_owner_only` on the route, and a new
+  `practice.e2e.ts` case asserting the button is absent for a non-owner **and** that the
+  endpoint refuses them. The existing download test now saves its quiz through the
+  signed-in context, so it owns what it downloads.
+
+### Four lint failures I had shipped
+
+Backend and frontend lint were both red on `main`, from my own earlier commits this
+session. CI runs `flake8` (not black) and `eslint`, and both were failing:
+
+- `frogquiz/config.py` — `upload_limits()` had one blank line before it, not two (E302).
+- `frogquiz/helpers/__init__.py` — `import re`, left behind when `_QUIZ_IMAGE_KEY_REGEX`
+  was deleted.
+- `frogquiz/routers/quiz.py` — `storage`, unused since image deletion moved into the
+  reference-counting helper.
+- `frogquiz/routers/storage.py` — `MAX_UPLOAD_SIZE`, which belongs to the middleware; the
+  route checks `UPLOAD_LIMITS` per type.
+- `src/routes/admin/+page.svelte` — `export_token` was assigned from the socket and never
+  read; the download href uses the payload directly.
+- `src/lib/play/admin/results.svelte` — `getLocalization` and its `t`, unused since the
+  strings there were replaced.
+
+`flake8 .` is now 0 across the repo and `eslint .` is 0 errors (108 pre-existing warnings
+remain, all `{@html}` and unkeyed `{#each}` in untouched files).
+
+### Mail testing has a recipient
+
+- `francois.prevot@hotmail.com`, François's call on 2026-10-02. External and strict about
+  SPF/DKIM, which is the point: a relay misconfiguration an internal address would wave
+  through gets caught. Steps in `DEPLOY.md` under "Testing it for real".
+
+### Decisions recorded
+
+- **D8** contact address: the `francois.prevot@frog.co` placeholder stands (F, 2 Oct).
+- **D9** login architecture: an account is what makes a quiz permanent, no SSO yet (F, 2
+  Oct). `frogquiz/oauth/` stays config-gated and unwired.
+- **#16, #17 and #19 closed** on François's say-so, each with a comment recording the
+  evidence rather than a bare close.
+
 ### Upload limits retuned
 
 - Per-file image ceiling is **5 MB**, down from 8 MB (`max_image_upload_size`). All three

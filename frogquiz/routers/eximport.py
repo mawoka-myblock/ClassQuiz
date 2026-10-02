@@ -190,24 +190,21 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
 
 @router.get("/excel/{quiz_id}")
 async def export_quiz_as_excel(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
-    """Any signed-in person can download any quiz as a spreadsheet, answer key included.
+    """The owner only. The spreadsheet contains the answer key.
 
-    That is deliberate, and it is not Claude's to change. The view page offers Download to
-    every signed-in visitor (`disabled={!logged_in}`, not `{#if is_owner}` -- that guards
-    Edit), and CLAUDE.md keeps the search bar specifically for "finding/sharing quizzes
-    made by other people on the team". So a teammate pulling your quiz into Excel is a
-    feature here, not a leak.
+    This used to be any signed-in user, which is what the view page offered. It sat badly
+    beside the same page's `show_answers = is_owner`: the screen hid the correct answers
+    from a non-owner while this handed them over as a file, so anybody on the team could
+    read the answers to a quiz they were about to play. Francois closed it to the owner on
+    2026-10-02 (MVP.md D18).
 
-    It does sit oddly beside the same page setting `show_answers = is_owner` -- the screen
-    hides the answer key from a non-owner while this hands it over as a file. Which of the
-    two is wrong is a product decision for Francois and Goncalo; see TODO.md. An earlier
-    pass narrowed this to the owner on the assumption the UI already did, which was a
-    misreading, and it broke `practice.e2e.ts`'s download test.
+    404 rather than 403 for somebody else's quiz, matching `quiz/start`: a stranger learns
+    nothing about whether the id exists.
 
-    The `user` parameter is unused on purpose: the dependency is what requires a login.
+    Sharing a quiz with the team is still Discover, Play and the view page. What is gone is
+    reading the answer key of a quiz you do not own.
     """
-    # skipcq: PYL-W0613
-    quiz: Quiz | None = await Quiz.objects.get_or_none(id=quiz_id)
+    quiz: Quiz | None = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
     if quiz is None:
         raise HTTPException(status_code=404, detail="Quiz not found")
     storage = io.BytesIO()

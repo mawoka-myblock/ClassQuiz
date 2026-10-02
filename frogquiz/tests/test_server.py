@@ -1103,26 +1103,22 @@ class TestExImport:
         assert resp.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_excel_export_is_any_signed_in_user(self, test_client: TestClient):  # noqa : F811
-        """Deliberately not owner-scoped, and pinned here so it is not "fixed" again.
+    async def test_excel_export_is_owner_only(self, test_client: TestClient):  # noqa : F811
+        """The owner gets the sheet; anybody else gets a 404.
 
-        The view page offers Download to every signed-in visitor (`disabled={!logged_in}`;
-        the `{#if is_owner}` beside it guards Edit), and CLAUDE.md keeps the search bar
-        for "finding/sharing quizzes made by other people on the team" -- so a teammate
-        pulling someone else's quiz into Excel is the feature.
+        The spreadsheet contains the answer key, and the view page already hides the
+        answers from a non-owner on screen (`show_answers = is_owner`). It used to be any
+        signed-in user, so a teammate could read the answers to a quiz they were about to
+        play. Closed on 2026-10-02 (MVP.md D18).
 
-        It does sit oddly beside the same page's `show_answers = is_owner`, which hides
-        the answer key on screen from a non-owner. That inconsistency is a decision for
-        Francois and Goncalo (TODO.md), not something to settle by narrowing the endpoint:
-        an earlier pass did exactly that, on a misreading of the markup, and broke the
-        download test in practice.e2e.ts.
+        404 and not 403, matching `quiz/start`, so the response says nothing about whether
+        the id exists.
         """
         resp = test_client.get(f"/api/v1/eximport/excel/{ValueStorage.quiz_id}", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
         assert resp.headers["content-type"].startswith("application/vnd.openxmlformats")
 
-        # A quiz this user does not own, downloaded anyway. This is the assertion that
-        # catches a well-meant "security fix" to this route.
+        # A quiz this user does not own. Saved with no cookies, so it belongs to nobody.
         start = test_client.post("/api/v1/editor/start?edit=false")
         assert start.status_code == 200
         finish = test_client.post(
@@ -1142,10 +1138,8 @@ class TestExImport:
             },
         )
         assert finish.status_code == 200
-        resp = test_client.get(
-            f"/api/v1/eximport/excel/{finish.json()['id']}", cookies=ValueStorage.cookies
-        )
-        assert resp.status_code == 200
+        resp = test_client.get(f"/api/v1/eximport/excel/{finish.json()['id']}", cookies=ValueStorage.cookies)
+        assert resp.status_code == 404
 
     @pytest.mark.asyncio
     async def test_excel_export_needs_a_login(self, test_client: TestClient):  # noqa : F811

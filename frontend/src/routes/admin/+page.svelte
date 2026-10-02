@@ -113,7 +113,6 @@ SPDX-License-Identifier: MPL-2.0
 	let success = $state(false);
 	let dataexport_download_a = $state();
 	let warnToLeave = true;
-	let export_token = $state(undefined);
 
 	const socket_game_controls: SocketGameControls = new SocketGameControls(socket);
 	let game_state: GameState = $state(new GameState(game_token));
@@ -181,7 +180,7 @@ SPDX-License-Identifier: MPL-2.0
 		// The token is minted over the socket and spent by the download, so the click has
 		// to wait for it. Starting the download here is what turns two presses into one.
 		warnToLeave = false;
-		export_token = int_data;
+		// The token is never held in state: the href below is the only thing that uses it.
 		if (dataexport_download_a) {
 			dataexport_download_a.href = `/api/v1/quiz/export_data/${int_data}?ts=${Date.now()}&game_pin=${game_pin}`;
 			dataexport_download_a.click();
@@ -285,7 +284,12 @@ SPDX-License-Identifier: MPL-2.0
 				<!-- Outline, not secondary: the podium is a white screen and the secondary
 				     token is near-white on it, so "Request result download" read as a line of
 				     text rather than a control. -->
-				<GrayButton href="/my-quizzes" flex={true} variant="outline" class="flex-1 min-w-0 sm:w-full">
+				<GrayButton
+					href="/my-quizzes"
+					flex={true}
+					variant="outline"
+					class="flex-1 min-w-0 sm:w-full"
+				>
 					<ArrowLeft class="size-4" aria-hidden="true" />
 					{$t('words.back')}
 				</GrayButton>
