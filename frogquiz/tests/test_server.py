@@ -133,9 +133,9 @@ class TestUsers:
             json={"email": email, "password": test_user_password, "username": uuid.uuid4().hex[:12]},
         )
         assert created.status_code == 200
-        first_key = test_client.get(
-            f"/api/v1/internal/testing/user/{email}?secret_key={settings().secret_key}"
-        ).json()["verify_key"]
+        first_key = test_client.get(f"/api/v1/internal/testing/user/{email}?secret_key={settings().secret_key}").json()[
+            "verify_key"
+        ]
 
         # The same link, clicked more than once: every visit after the first still
         # says "verified", not "expired".
@@ -143,9 +143,12 @@ class TestUsers:
             resp = test_client.get(f"/api/v1/users/verify/{first_key}", follow_redirects=False)
             assert resp.status_code in (302, 307)
             assert resp.headers["location"] == "/account/login?verified=true"
-        assert test_client.get(
-            f"/api/v1/internal/testing/user/{email}?secret_key={settings().secret_key}"
-        ).json()["verified"] is True
+        assert (
+            test_client.get(f"/api/v1/internal/testing/user/{email}?secret_key={settings().secret_key}").json()[
+                "verified"
+            ]
+            is True
+        )
 
         # A second, unverified user whose confirmation mail is replaced by a resend:
         # the old link stops working, the new one verifies.
@@ -155,14 +158,14 @@ class TestUsers:
             json={"email": email2, "password": test_user_password, "username": uuid.uuid4().hex[:12]},
         )
         assert created2.status_code == 200
-        old_key = test_client.get(
-            f"/api/v1/internal/testing/user/{email2}?secret_key={settings().secret_key}"
-        ).json()["verify_key"]
+        old_key = test_client.get(f"/api/v1/internal/testing/user/{email2}?secret_key={settings().secret_key}").json()[
+            "verify_key"
+        ]
         resend = test_client.post("/api/v1/users/resend-verification", json={"email": email2})
         assert resend.status_code == 200
-        new_key = test_client.get(
-            f"/api/v1/internal/testing/user/{email2}?secret_key={settings().secret_key}"
-        ).json()["verify_key"]
+        new_key = test_client.get(f"/api/v1/internal/testing/user/{email2}?secret_key={settings().secret_key}").json()[
+            "verify_key"
+        ]
         assert new_key != old_key
 
         dead = test_client.get(f"/api/v1/users/verify/{old_key}", follow_redirects=False)
@@ -1088,9 +1091,7 @@ class TestQuizivity:
         # request proves the object survived the unauthenticated attempt.
         resp = test_client.delete(f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}")
         assert resp.status_code == 401
-        resp = test_client.get(
-            f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}", cookies=ValueStorage.cookies
-        )
+        resp = test_client.get(f"/api/v1/quiztivity/{ValueStorage.quiztivity_id}", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
 
     @pytest.mark.asyncio

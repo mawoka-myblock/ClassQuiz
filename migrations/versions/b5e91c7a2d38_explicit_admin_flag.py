@@ -41,12 +41,10 @@ def upgrade() -> None:
     )
     # Exactly what get_admin_user used to compute, frozen into a column. Scoped to a
     # single id so a tie on created_at cannot promote two accounts.
-    op.execute(
-        """
+    op.execute("""
         UPDATE users SET is_admin = true
         WHERE id = (SELECT id FROM users ORDER BY created_at ASC LIMIT 1)
-        """
-    )
+        """)
 
 
 def downgrade() -> None:

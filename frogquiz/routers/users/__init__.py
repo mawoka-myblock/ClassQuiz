@@ -443,8 +443,7 @@ async def delete_user_account(
     # what is used below.
     public_quiz_ids = [str(quiz.id) for quiz in await Quiz.objects.filter(user_id=user, public=True).all()]
     storage_names = [
-        item.storage_path or item.id.hex
-        for item in await StorageItem.objects.filter(user=user, deleted_at=None).all()
+        item.storage_path or item.id.hex for item in await StorageItem.objects.filter(user=user, deleted_at=None).all()
     ]
     api_keys = [row.key for row in await ApiKey.objects.filter(user=user).all()]
 
@@ -509,9 +508,7 @@ async def delete_user_account(
 async def get_own_avatar(user: User = Depends(get_current_user)):
     # See routers/avatar.py: a patched Content-Type left text/plain in place as a
     # second header and every avatar rendered as a broken image.
-    return Response(
-        content=gzip.decompress(base64.b64decode(user.avatar)), media_type="image/svg+xml"
-    )
+    return Response(content=gzip.decompress(base64.b64decode(user.avatar)), media_type="image/svg+xml")
 
 
 @router.get("/avatar/{user_id}")
@@ -519,9 +516,7 @@ async def get_other_avatar(user_id: uuid.UUID):
     user = await User.objects.filter(id=user_id).get_or_none()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return Response(
-        content=gzip.decompress(base64.b64decode(user.avatar)), media_type="image/svg+xml"
-    )
+    return Response(content=gzip.decompress(base64.b64decode(user.avatar)), media_type="image/svg+xml")
 
 
 class InternalAuthData(BaseModel):

@@ -71,9 +71,7 @@ oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/api/v1/users/token/coo
 # all -- get_current_user_optional needs to actually reach its body and
 # return None for a fully anonymous caller, not have the dependency itself
 # raise first.
-oauth2_scheme_optional = OAuth2PasswordBearerWithCookie(
-    tokenUrl="/api/v1/users/token/cookie", auto_error=False
-)
+oauth2_scheme_optional = OAuth2PasswordBearerWithCookie(tokenUrl="/api/v1/users/token/cookie", auto_error=False)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

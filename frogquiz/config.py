@@ -121,6 +121,7 @@ class Settings(BaseSettings):
     def mail_configured(self) -> bool:
         """Whether there is enough here to reach a mail server at all."""
         return bool(self.mail_server and self.mail_address)
+
     # Physical-buzzer hardware and the QuizTivity page builder are not used by the
     # team. Their entry points were taken out of the UI in PR #5, but the API
     # routers stayed registered and callable. Off by default; flip to re-enable.

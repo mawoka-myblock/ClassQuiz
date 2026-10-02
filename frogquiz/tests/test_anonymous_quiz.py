@@ -136,23 +136,17 @@ class TestAnonymousQuiz:
         # Still there after both refusals.
         assert test_client.get(f"/api/v1/quiz/get/public/{throwaway_id}").status_code == 200
 
-        resp = test_client.delete(
-            f"/api/v1/quiz/delete/{throwaway_id}", headers={"X-Anon-Secret": throwaway_secret}
-        )
+        resp = test_client.delete(f"/api/v1/quiz/delete/{throwaway_id}", headers={"X-Anon-Secret": throwaway_secret})
         assert resp.status_code == 200
         assert test_client.get(f"/api/v1/quiz/get/public/{throwaway_id}").status_code == 404
 
         # And the secret does not work twice.
-        resp = test_client.delete(
-            f"/api/v1/quiz/delete/{throwaway_id}", headers={"X-Anon-Secret": throwaway_secret}
-        )
+        resp = test_client.delete(f"/api/v1/quiz/delete/{throwaway_id}", headers={"X-Anon-Secret": throwaway_secret})
         assert resp.status_code == 404
 
     @pytest.mark.asyncio
     async def test_claim_requires_login(self, test_client: TestClient):  # noqa: F811
-        resp = test_client.post(
-            f"/api/v1/quiz/claim/{AnonState.quiz_id}", headers={"X-Anon-Secret": AnonState.secret}
-        )
+        resp = test_client.post(f"/api/v1/quiz/claim/{AnonState.quiz_id}", headers={"X-Anon-Secret": AnonState.secret})
         assert resp.status_code == 401
 
     @pytest.mark.asyncio
