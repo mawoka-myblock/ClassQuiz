@@ -727,6 +727,46 @@ class TestStorage:
         assert resp.status_code == 413
 
     @pytest.mark.asyncio
+    async def test_deleting_a_file_releases_its_bytes(self, test_client: TestClient):  # noqa : F811
+        """Deleting gives the quota back, and never drives it negative.
+
+        `storage_used` was only ever incremented -- by the calculate_hash worker job, once
+        per upload -- and nothing anywhere decremented it: not this endpoint, not the
+        quiz-update job that unlinks a replaced image, not account deletion. The figure
+        was a lifetime upload counter, and the quota built on it a lifetime cap: swap a
+        cover image enough times and you are locked out for good with nothing to reclaim.
+        Harmless while the quota went unenforced, which it no longer is.
+
+        The release is clamped at zero, and this is the case that needs it: the worker is
+        not running in the suite, so nothing has billed these uploads and `used` is 0
+        while the row's `size` is 2048. An unclamped subtraction would go negative and the
+        column declares `minimum=0`, so it would raise rather than no-op. The decrement
+        against a billed account cannot be asserted here -- no test in this suite can
+        reach the database (the TestClient runs its own event loop), and a write route
+        for it would be test-only code in a production app. It is verified against a live
+        stack instead; see docs/uploads.md.
+        """
+        up = test_client.post(
+            "/api/v1/storage/",
+            cookies=ValueStorage.cookies,
+            files={"file": ("reclaim.png", b"z" * 2048, "image/png")},
+        )
+        assert up.status_code == 200
+        assert up.json()["size"] == 2048
+
+        gone = test_client.delete(f"/api/v1/storage/meta/{up.json()['id']}", cookies=ValueStorage.cookies)
+        assert gone.status_code == 200
+
+        limit = test_client.get("/api/v1/storage/limit", cookies=ValueStorage.cookies)
+        assert limit.status_code == 200
+        assert limit.json()["used"] >= 0
+        assert limit.json()["limit_reached"] is False
+
+        # Deleting twice is a 404, so a release can never be applied to one row twice.
+        again = test_client.delete(f"/api/v1/storage/meta/{up.json()['id']}", cookies=ValueStorage.cookies)
+        assert again.status_code == 404
+
+    @pytest.mark.asyncio
     async def test_get_file_info(self, test_client: TestClient):  # noqa : F811
         resp = test_client.get("/api/v1/storage/meta/dsadsaasdas", cookies=ValueStorage.cookies)
         assert resp.status_code == 422

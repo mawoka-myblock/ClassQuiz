@@ -4,6 +4,27 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Deleting an image actually frees the space
+
+- **`storage_used` was only ever incremented.** The `calculate_hash` worker job added each
+  upload's size and nothing anywhere subtracted it — not the delete endpoint, not the
+  quiz-update job that unlinks a replaced image, not account deletion. The figure was a
+  lifetime upload counter rather than usage, so the quota built on it was a lifetime cap:
+  swap a cover image enough times and you are locked out for good with nothing to reclaim.
+  Harmless while the quota went unenforced — which, as of earlier today, it no longer is,
+  so this was a lockout the enforcement created.
+- `DELETE /api/v1/storage/meta/{file_id}` now releases the file's bytes, clamped at zero
+  because the column declares `minimum=0` and every row predating the size fix stores 0.
+- Taking an image off a question used to only unlink the relation, leaving the file in
+  storage for good. It now deletes the orphan once nothing points at it and gives back its
+  bytes — reference-counted first, because images are many-to-many with quizzes and a
+  duplicated quiz shares them. The editor's own X is the whole affordance; still no media
+  library.
+- Verified end to end on a live stack (4096 bytes billed, deleted, back to 0). It silently
+  reported no decrement at all until the API was restarted — `run.sh` starts uvicorn
+  without `--reload`, exactly the trap `docs/e2e-findings.md` warns about. Written up in
+  `docs/uploads.md` with the commands.
+
 ### A game survives someone closing their laptop
 
 - **There was no socket `disconnect` handler at all.** A closed tab stayed in the set

@@ -30,11 +30,54 @@ Nothing is deleted — `GET /api/v1/storage/list` and `lib/files/dashboard.svelt
 still there — so this is four lines to reverse if the team ever wants a library. See
 [`mvp-scope.md`](mvp-scope.md) for the general hide-don't-delete rule.
 
-The one thing a person still needs is a way to remove an image they no longer want.
-`DELETE /api/v1/storage/meta/{file_id}` does it per file and is owner-filtered, and
-`DELETE /api/v1/users/me` takes a leaver's files with it. Replacing a question's image
-simply points the question at a new one; the old row is then unreferenced. **There is no
-UI for either today** — see the open item in [`../TODO.md`](../TODO.md).
+### Removing an image, and getting the space back
+
+The editor's own X on a question image is how a person manages the file that's there —
+that is the whole affordance, and it is enough. What was missing is that it did not
+actually free anything:
+
+- **`storage_used` was only ever incremented.** The `calculate_hash` worker job added each
+  upload's size and *nothing anywhere subtracted it* — not the delete endpoint, not the
+  quiz-update job, not account deletion. So the number was a lifetime upload counter, not
+  usage, and the quota built on it was a lifetime cap. Swap a cover image enough times and
+  you are locked out for good with nothing to reclaim. Harmless while the quota went
+  unenforced; a real lockout once it was.
+- `DELETE /api/v1/storage/meta/{file_id}` now releases the file's bytes
+  (`release_storage_quota` in `routers/storage.py`), clamped at zero because the column
+  declares `minimum=0` and every row predating the size fix stores 0.
+- Taking an image off a question used to only *unlink* the relation, leaving the file in
+  storage for good. `quiz_update` in `worker/storage.py` now deletes it once nothing points
+  at it and gives back its bytes. Reference-counted first: images are many-to-many with
+  quizzes, so a duplicated quiz shares them and deleting on the first unlink would pull the
+  picture out from under the other one. Soft-deleted (`deleted_at`) the way the endpoint
+  does, so an id still written into some other quiz's JSON resolves to a 404 rather than a
+  dangling reference.
+- The orphan path runs in the worker, so it needs the `worker` container (already an open
+  item in [`../TODO.md`](../TODO.md)). The explicit delete runs in the request path and does
+  not.
+
+`DELETE /api/v1/users/me` takes a leaver's files with it.
+
+**How the decrement is verified.** No test in this suite can reach the database — the
+`TestClient` runs its own event loop, which is why the one attempt at
+`User.objects.get(...)` failed with "attached to a different loop" — and a write route to
+bill a user would be test-only code in a production app. So `test_deleting_a_file_releases_its_bytes`
+covers the reachable half: the row records its size, the delete answers 200, the release is
+clamped at zero rather than raising on the `minimum=0` column, and a second delete 404s so a
+release can never apply twice. The decrement itself is verified against a live stack:
+
+```
+billed:   {"limit":268435456,"limit_reached":false,"used":4096}
+delete:   200
+released: {"limit":268435456,"limit_reached":false,"used":0}
+```
+
+Run it with `KEEP_UP=1 bash e2e/run.sh --list`, then register and log in a user, upload a
+file, add its size to `users.storage_used` by hand (that is the worker's job and the worker
+is not running), delete it and read `GET /api/v1/storage/limit` either side. **Restart the
+API first if you have just edited `frogquiz/`** — `run.sh` starts uvicorn without
+`--reload`, and this check silently reported no decrement at all until the stack was
+restarted. Compare the process start time against the file mtime.
 
 ## What is accepted
 

@@ -21,6 +21,29 @@ settings = settings()
 router = APIRouter()
 
 
+async def release_storage_quota(user: User | None, size: int) -> None:
+    """Give a user back the bytes a deleted file was using.
+
+    `storage_used` was only ever incremented -- by the calculate_hash worker job, once
+    per upload -- and nothing anywhere decremented it: not this delete endpoint, not the
+    quiz-update job that unlinks a replaced image, not account deletion. So the figure
+    was a lifetime upload counter, not usage, and the quota built on it was a lifetime
+    cap. Swap a cover image enough times and you are locked out for good with no way to
+    reclaim anything, which only became reachable once the quota was actually enforced.
+
+    Clamped at zero because the column declares `minimum=0`: a double release on a row
+    whose size was never measured (every row predating the size fix stores 0) would
+    otherwise raise rather than no-op.
+    """
+    if user is None or size <= 0:
+        return
+    fresh = await User.objects.get_or_none(id=user.id)
+    if fresh is None:
+        return
+    fresh.storage_used = max(0, fresh.storage_used - size)
+    await fresh.update()
+
+
 def headers_from_storage_item(item: StorageItem) -> dict[str, str]:
     base_headers = {"Content-Type": item.mime_type}
     if item.hash is not None:
@@ -271,6 +294,7 @@ async def mark_file_as_deleted(file_id: UUID, user: User = Depends(get_current_u
     await storage.delete(storage_path)
     file_data.deleted_at = datetime.now()
     await file_data.update()
+    await release_storage_quota(user, file_data.size)
     return
 
 

@@ -10,7 +10,7 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 115 e2e · 144 backend (1 skipped)
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 115 e2e · 145 backend (1 skipped)
 
 ---
 
@@ -36,6 +36,7 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 | 16 | **A game survives someone closing their laptop.** There was no socket `disconnect` handler, so a closed tab stayed in the count "everyone answered" is measured against and the host sat through every full timer for the rest of the game. Disconnect drops the player from the count but keeps the rejoin key, so a backgrounded phone can still return; `rejoin_game` re-announces them, which it never did | `socket_server/__init__.py`, `e2e/disconnect.e2e.ts` |
 | 17 | **A refused answer says so.** `question_not_active` had no listener anywhere, so an answer the server threw away still read "Answer locked in". Fixed with the listener leak beside it — the component is recreated per question and never released its subscription | `lib/play/question.svelte`, `lib/play/refusal.test.ts` |
 | 18 | **Two over-wide permissions closed.** Any signed-in user could download any quiz's answer key by id; and `captcha_enabled` defaulted to *true* on `/quiz/start`, where `check_captcha` then raised `AttributeError` out of `join_game` because `settings` was config.py's uncalled `lru_cache` wrapper | `routers/eximport.py`, `routers/quiz.py`, `socket_server/helpers.py` |
+| 19 | **Deleting an image gives the space back.** `storage_used` was only ever incremented — by the worker, once per upload — and nothing anywhere subtracted it, so it was a lifetime upload counter and the quota a lifetime cap. Enforcing the quota turned that into a real lockout. The delete endpoint releases the bytes, and taking an image off a question now deletes the orphan once nothing references it instead of merely unlinking it | `routers/storage.py`, `worker/storage.py`, [`docs/uploads.md`](docs/uploads.md) |
 
 ## Open — before sharing
 
@@ -69,7 +70,6 @@ above. That doc is still the map of the whole surface.
 - [ ] `svelte-check` in CI. Measured 1 Oct: **670 errors, 339 of them in our own code** and 331 under `node_modules` (`npx svelte-check --output machine | grep -c '^[0-9]* ERROR'`, then the same filtered on `node_modules`). The previous note here said ~300 ours and ~820 in `bits-ui`, which made the dependency look like the bulk of it; it is roughly half, so ours is the work
 - [ ] The input tier on hidden routes (`/quiztivity`, `/edit/files`, controllers, Pixabay) still draws form fields at three different radii. An `fq-field` utility would fold in the un-themed `bg-gray-500` / `focus:ring-blue-500` drift at the same time
 - [ ] `lib/components/ui/button/button.svelte` has two off-ladder steps (8px and 10px) from upstream. Defensible, but they are the last two
-- [ ] **No UI for deleting an uploaded image.** `DELETE /api/v1/storage/meta/{file_id}` exists and is owner-filtered, and replacing a question's image orphans the old row, but nothing in the app lets someone reclaim their own 256 MiB. The quota is now enforced per upload, so this is what a person hits when it fills. The media library that would have shown it is deliberately hidden (see [`docs/uploads.md`](docs/uploads.md)) — this wants a smaller answer, not that page back
 - [ ] Tailwind scans the repo's Markdown, so the word "rounded" in `CLAUDE.md` emits three dead CSS rules. Harmless; noted so nobody re-chases it
 
 ## After V1
