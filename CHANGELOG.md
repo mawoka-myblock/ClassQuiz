@@ -4,6 +4,15 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Green, with one failure on record
+
+Two full e2e runs on 2 Oct: **118/119 then 119/119** (8.9 min). Backend 146 passed /
+1 skipped, unit 126 passed, `flake8 .` 0, `eslint .` 0 errors. The suite is 119 tests now,
+up from 115.
+
+The second run passing does **not** close the first run's failure: that is 1 occurrence in
+2 runs of an intermittent fault, not a fix. It stays open in `TODO.md`.
+
 ### One e2e failure, cause still unproven
 
 The full suite came back 118 passed / 1 failed:

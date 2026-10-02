@@ -10,8 +10,9 @@ Where the work actually stands. [`MVP.md`](MVP.md) is the plan and holds the dec
 this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
-**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 115 e2e · 146 backend (1 skipped)
-· **Last full green run:** 2 Oct — e2e 115/115 in 8.5m, backend 146 passed, unit 126 passed, production build OK
+**Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 119 e2e · 147 backend (1 skipped)
+· **Last full green run:** 2 Oct — e2e **119/119** in 8.9m, backend 146 passed, unit 126 passed,
+`flake8 .` 0, `eslint .` 0 errors, production build OK
 
 ---
 
@@ -83,6 +84,22 @@ string literal. Rows 16–18 above. That doc is still the map of the whole surfa
 - [x] **D9 login architecture**: an account is what makes a quiz permanent; no SSO yet.
       `frogquiz/oauth/` stays config-gated and unwired.
 - [x] **Mail test recipient**: `francois.prevot@hotmail.com`. Steps in `DEPLOY.md`.
+
+## Open — one unexplained e2e failure
+
+- [ ] **`editor.e2e.ts › build a quiz by hand, save it, and play it` failed once**, in the
+      first of two full-suite runs on 2 Oct (118/119; the second was 119/119). `final_results`
+      came back with no key for question `0`.
+      I attributed it to the fire-and-forget `start_game` race and said the fix closed it.
+      **That was wrong**: measured afterwards, the *unfixed* spec passed 10/10 in isolation.
+      So: 1 occurrence in 2 full runs, cause unknown, and the opposite profile to the
+      earlier flake (which failed 2 in 10 *in isolation*) — do not assume one cause.
+      The spec now asserts which question keys came back, and prints the payload, so a
+      recurrence is readable rather than an opaque `TypeError`. Leave this open until it
+      either recurs with that message or goes twenty full runs without appearing.
+      Related harness defect, worth fixing on its own: `next()` in `e2e/sockets.ts`
+      resolves a falsy payload to `{}` instead of `null`, which is why `finalResults`'
+      own `not.toBeNull()` guard could not catch an empty result.
 
 ## Open — quality
 
