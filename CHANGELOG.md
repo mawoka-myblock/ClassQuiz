@@ -4,6 +4,16 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Everything green
+
+- Full suite verified end to end on 2 Oct: **e2e 115/115 in 8.5 minutes**, backend 146
+  passed (1 skipped), unit 126 passed, production build OK. The previous full run was 10
+  failed / 105 passed in 29 minutes — the time difference is almost entirely failing tests
+  burning their five-minute timeouts.
+- All ten of those failures were self-inflicted and are now fixed: six specs broken by the
+  Kahoot round sequencing and the podium redesign, one by an Excel permission change that
+  was itself reverted, and the socket "flake" that turned out to have a real cause.
+
 ### The flaky socket test had a root cause
 
 - *an answer after the host showed the results is refused* was written off as a flake —

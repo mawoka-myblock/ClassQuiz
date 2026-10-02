@@ -11,6 +11,7 @@ this file is the running state, updated as things land.
 Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-01.md).
 
 **Branch:** `ccr-370df3e4-c44t1l` · **Suites:** 126 unit · 115 e2e · 146 backend (1 skipped)
+· **Last full green run:** 2 Oct — e2e 115/115 in 8.5m, backend 146 passed, unit 126 passed, production build OK
 
 ---
 
