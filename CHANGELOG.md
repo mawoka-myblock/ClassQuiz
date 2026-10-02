@@ -4,6 +4,29 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### The flaky socket test had a root cause
+
+- *an answer after the host showed the results is refused* was written off as a flake —
+  by me, as "passes 3/3 in isolation". Measured properly it fails **2 in 10 in
+  isolation**, so that was wrong, and it was failing on its *first* assertion, not the
+  one the test is named for.
+- Cause: every `start_game` emit in `live-socket.e2e.ts` was fire-and-forget, so
+  `set_question_number` could read `game:{pin}` before `start_game` had saved and write
+  the whole object back over it. When `current_question` is the field lost,
+  `submit_answer` sees the wrong index, answers `question_not_active` and never emits
+  `player_answer`. `docs/e2e-findings.md` described this race and claimed the specs
+  waited for `start_game` "for this reason" — they did not; that claim is corrected.
+- `startGame()` in `e2e/sockets.ts` waits for the echo, and all nine legitimate call
+  sites use it. The tenth is left raw on purpose: it is an attacker who should *not* be
+  able to start the game, so waiting for an echo would be wrong. **12/12 now**, and the
+  whole spec is 21/21.
+- The underlying server-side race is untouched and still wants an `HSET` or a `WATCH`
+  transaction; the specs just no longer provoke it.
+- Also checked whether the new `disconnect` handler contributed: 8/10 with it, 9/10
+  without. A one-run difference at n=10 is noise, and it fails with the handler disabled,
+  so the flake predates it — but n=10 cannot clear the handler either, which is why the
+  numbers are recorded rather than a verdict.
+
 ### Deleting an image actually frees the space
 
 - **Deleting a quiz never freed its images, and nor did the 30-day anonymous sweep.** Both

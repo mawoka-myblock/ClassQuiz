@@ -17,7 +17,8 @@ import {
 	joinAll,
 	next,
 	record,
-	showQuestion
+	showQuestion,
+	startGame
 } from './sockets';
 
 const QUIZ = {
@@ -59,7 +60,7 @@ test.describe('crowd', () => {
 			await expect.poll(() => joinedOnHost.length).toBe(50);
 
 			const started = players.map((p) => next(p, 'start_game'));
-			host.emit('start_game', {});
+			await startGame(host);
 			expect((await Promise.all(started)).every(Boolean)).toBe(true);
 
 			await showQuestion(host, 0);
@@ -124,7 +125,7 @@ test.describe('joining', () => {
 	test('nobody can join once the game has started', async ({ request }) => {
 		const { host, pin } = await hostGame(request, QUIZ);
 		await joinAll(pin, ['early']);
-		host.emit('start_game', {});
+		await startGame(host);
 		await new Promise((r) => setTimeout(r, 300));
 		expect((await join(pin, 'latecomer')).outcome).toBe('game_already_started');
 	});
@@ -136,7 +137,7 @@ test.describe('answering', () => {
 		// A second player keeps the question open: with one, the first answer is
 		// "everyone answered", and the retry is refused as question_not_active instead.
 		const [p] = await joinAll(pin, ['twice', 'bystander']);
-		host.emit('start_game', {});
+		await startGame(host);
 		await showQuestion(host, 0);
 		p.emit('submit_answer', { question_index: 0, answer: 'Porto' });
 		const again = next(p, 'already_replied');
@@ -151,7 +152,7 @@ test.describe('answering', () => {
 	test('an answer to a question that is not showing is refused', async ({ request }) => {
 		const { host, pin } = await hostGame(request, QUIZ);
 		const [p] = await joinAll(pin, ['ahead']);
-		host.emit('start_game', {});
+		await startGame(host);
 		await showQuestion(host, 0);
 		const refused = next(p, 'question_not_active');
 		p.emit('submit_answer', { question_index: 1, answer: 'yes' });
@@ -164,7 +165,7 @@ test.describe('answering', () => {
 		}) => {
 			const { host, pin } = await hostGame(request, QUIZ);
 			const [p] = await joinAll(pin, ['slowpoke']);
-			host.emit('start_game', {});
+			await startGame(host);
 			await showQuestion(host, 1); // 2 s timer
 			await new Promise((r) => setTimeout(r, 4000));
 			p.emit('submit_answer', { question_index: 1, answer: 'yes' });
@@ -182,7 +183,7 @@ test.describe('answering', () => {
 		test('an answer after the host showed the results is refused', async ({ request }) => {
 			const { host, pin } = await hostGame(request, QUIZ);
 			const [a, b] = await joinAll(pin, ['prompt', 'peeker']);
-			host.emit('start_game', {});
+			await startGame(host);
 			await showQuestion(host, 0);
 			const recorded = next(host, 'player_answer');
 			a.emit('submit_answer', { question_index: 0, answer: 'Lisbon' });
@@ -262,7 +263,7 @@ test.describe('host control', () => {
 		const b = await hostGame(request, QUIZ);
 		const [pa] = await joinAll(a.pin, ['in_a']);
 		await joinAll(b.pin, ['in_b']);
-		a.host.emit('start_game', {});
+		await startGame(a.host);
 		await showQuestion(a.host, 0);
 		const leak = next(b.host, 'everyone_answered', 1500);
 		pa.emit('submit_answer', { question_index: 0, answer: 'Lisbon' });
@@ -307,7 +308,7 @@ test.describe('leaving', () => {
 		// sent back to back, the two handlers race on the stored game (see
 		// docs/e2e-findings.md) and the question can save over `started`.
 		const started = next(p, 'start_game');
-		host.emit('start_game', {});
+		await startGame(host);
 		await started;
 		await showQuestion(host, 0);
 		const ended = next(p, 'game_ended', 1500);
@@ -346,7 +347,7 @@ test.describe('leaving', () => {
 		const { host, pin } = await hostGame(request, QUIZ);
 		const [a, b] = await joinAll(pin, ['answers', 'walks-off']);
 		const started = next(a, 'start_game');
-		host.emit('start_game', {});
+		await startGame(host);
 		await started;
 		await showQuestion(host, 0);
 		const nobodyYet = next(host, 'everyone_answered', 800);
