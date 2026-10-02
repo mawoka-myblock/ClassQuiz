@@ -4,6 +4,33 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### Everything green, verified at the end
+
+| Suite | Result |
+| --- | --- |
+| e2e | **127 passed**, 10.0 min |
+| Backend | **147 passed**, 1 skipped |
+| Unit | **126 passed** |
+| `flake8 .` | 0 |
+| `eslint .` | 0 errors (108 warnings, all pre-existing) |
+
+Measured after the last change, not carried forward from an earlier run.
+
+The six journeys are the headline, and what they found is the honest part: **every
+first-run failure was my own assumption, not a product bug** — nine of them. Wrong copy,
+wrong role (link vs button), wrong moment (before a transition settles), wrong encoding
+(base64, CRLF, oklch), wrong element type (contenteditable vs input), wrong state (podium
+vs lobby). The app was right every time, which is the useful result: a journey encodes
+what a *user* expects, and where that disagreed with the app, the app won. The table is in
+[`docs/session-2026-10-02.md`](docs/session-2026-10-02.md), and each spec carries a
+comment naming the assumption and the truth.
+
+Two e2e failures remain unexplained and are recorded **without** a shared cause being
+claimed: `editor.e2e.ts › build a quiz by hand` and `game-reload.e2e.ts › a player can
+reload twice`, one occurrence each in five full runs, both passing in isolation (3/3 and
+10/10). They share a symptom — the player does not get the question — and that is exactly
+the reasoning that produced a retracted attribution earlier in the session.
+
 ### User journeys, and a mail relay for the e2e stack
 
 The suite was organised by mechanism — sockets, editor, uploads, exits — and thorough at
