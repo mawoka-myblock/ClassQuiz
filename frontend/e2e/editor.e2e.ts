@@ -7,7 +7,7 @@
 
 import { expect, test, type Page } from '@playwright/test';
 import { ANON_KEY, PHONE, expectNoHorizontalOverflow } from './helpers';
-import { closeAll, connect, finalResults, joinAll, next, showQuestion } from './sockets';
+import { closeAll, connect, finalResults, joinAll, next, showQuestion, startGame } from './sockets';
 
 test.afterEach(closeAll);
 
@@ -100,7 +100,7 @@ test('build a quiz by hand, save it, and play it', async ({ page, request }) => 
 	host.emit('register_as_admin', { game_pin, game_id });
 	expect(await registered).not.toBeNull();
 	const [right, partial] = await joinAll(String(game_pin), ['exactset', 'halfset']);
-	host.emit('start_game', {});
+	await startGame(host);
 	await showQuestion(host, 0);
 	// Spaced out on purpose: simultaneous answers hit the lost-update race that
 	// live-socket.e2e.ts records, and this test is about scoring, not that.

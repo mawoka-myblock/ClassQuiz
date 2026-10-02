@@ -4,6 +4,27 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ## Unreleased
 
+### The start_game race was in two more specs
+
+The full suite came back 118 passed / 1 failed. The failure was
+*editor.e2e.ts > build a quiz by hand, save it, and play it*, and it is the same
+fire-and-forget `start_game` race fixed earlier this session — in two specs that sweep
+missed, so `docs/e2e-findings.md` saying "now they do [wait]" was not yet true.
+
+- `host.emit('start_game', {})` returns immediately. When `set_question_number` reaches
+  the server first, the question never goes active, both answers are refused, and
+  `finalResults` comes back with no rows for question `0` — hence
+  `TypeError: Cannot read properties of undefined (reading 'find')` rather than a
+  readable assertion failure.
+- `editor.e2e.ts:103` (the one that failed) and `account.e2e.ts:169` (same pattern, had
+  not lost the race yet) both `await startGame(host)` now.
+- `live-socket.e2e.ts:217` keeps its raw emit on purpose: there an **attacker** emits
+  `start_game` and the test asserts nothing happens. Converting it would have deleted a
+  real security assertion.
+
+Not a flake and not caused by that day's changes: the spec starts its game over the API
+and never touches the start modal.
+
 ### The host decides what the phone shows (D16)
 
 - The start-game modal has a switch, **"Show questions and answers on players' devices"**,

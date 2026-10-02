@@ -8,7 +8,15 @@
 import { expect, test, type Page } from '@playwright/test';
 import { PASSWORD, apiLogin, registerUser, signedInContext } from './accounts';
 import { expectNoHorizontalOverflow, mc, rememberAnonQuiz, saveQuiz } from './helpers';
-import { closeAll, finalResults, hostGame, joinAll, next, showQuestion } from './sockets';
+import {
+	closeAll,
+	finalResults,
+	hostGame,
+	joinAll,
+	next,
+	showQuestion,
+	startGame
+} from './sockets';
 
 const quiz = (title: string, extra: Record<string, unknown> = {}) => ({
 	title,
@@ -166,7 +174,7 @@ test('saving results still works, but the results page is hidden', async ({ brow
 	const title = `Results ${Date.now()}`;
 	const { host, pin } = await hostGame(owner.context.request, quiz(title));
 	const [p] = await joinAll(pin, ['scorer']);
-	host.emit('start_game', {});
+	await startGame(host);
 	await showQuestion(host, 0);
 	p.emit('submit_answer', { question_index: 0, answer: 'Lisbon' });
 	await new Promise((r) => setTimeout(r, 300));
