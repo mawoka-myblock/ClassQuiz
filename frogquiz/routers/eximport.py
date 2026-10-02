@@ -190,23 +190,24 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
 
 @router.get("/excel/{quiz_id}")
 async def export_quiz_as_excel(quiz_id: uuid.UUID, user: User = Depends(get_current_user)):
-    """The owner's own quiz as a spreadsheet, answer key included.
+    """Any signed-in person can download any quiz as a spreadsheet, answer key included.
 
-    The user was fetched and then discarded (`_: User`), so the filter was on the id
-    alone: any signed-in person could download any quiz by id, correct answers and all.
-    The product already draws this line everywhere else -- the view page sets
-    `show_answers = is_owner` and only shows the Download button to an owner -- so this
-    was a hole in an existing boundary rather than an open question. A quiz id is not
-    secret: it is in the view-page URL and in every Explore listing.
+    That is deliberate, and it is not Claude's to change. The view page offers Download to
+    every signed-in visitor (`disabled={!logged_in}`, not `{#if is_owner}` -- that guards
+    Edit), and CLAUDE.md keeps the search bar specifically for "finding/sharing quizzes
+    made by other people on the team". So a teammate pulling your quiz into Excel is a
+    feature here, not a leak.
 
-    404, not 403, to match `_find_own_quiz` in routers/quiz.py: someone else's quiz
-    answers exactly like one that does not exist.
+    It does sit oddly beside the same page setting `show_answers = is_owner` -- the screen
+    hides the answer key from a non-owner while this hands it over as a file. Which of the
+    two is wrong is a product decision for Francois and Goncalo; see TODO.md. An earlier
+    pass narrowed this to the owner on the assumption the UI already did, which was a
+    misreading, and it broke `practice.e2e.ts`'s download test.
 
-    Account owners only. An anonymous owner proves ownership with a header, and the
-    download is a plain `<a href>` that cannot send one -- which is why the UI disables
-    it for them. Bringing that back means a short-lived token, as the results export does.
+    The `user` parameter is unused on purpose: the dependency is what requires a login.
     """
-    quiz: Quiz | None = await Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)
+    # skipcq: PYL-W0613
+    quiz: Quiz | None = await Quiz.objects.get_or_none(id=quiz_id)
     if quiz is None:
         raise HTTPException(status_code=404, detail="Quiz not found")
     storage = io.BytesIO()

@@ -1103,29 +1103,33 @@ class TestExImport:
         assert resp.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_excel_export_is_the_owner_only(self, test_client: TestClient):  # noqa : F811
-        """The spreadsheet carries the answer key, so it follows the same line as the UI.
+    async def test_excel_export_is_any_signed_in_user(self, test_client: TestClient):  # noqa : F811
+        """Deliberately not owner-scoped, and pinned here so it is not "fixed" again.
 
-        The route fetched the user and discarded it (`_: User`), filtering on the quiz id
-        alone -- so any signed-in person could download any quiz's correct answers by id,
-        and a quiz id is not secret: it is in the view-page URL and every Explore row.
-        The view page already sets `show_answers = is_owner` and only offers Download to
-        an owner, so this was a hole in a boundary the product had already drawn.
+        The view page offers Download to every signed-in visitor (`disabled={!logged_in}`;
+        the `{#if is_owner}` beside it guards Edit), and CLAUDE.md keeps the search bar
+        for "finding/sharing quizzes made by other people on the team" -- so a teammate
+        pulling someone else's quiz into Excel is the feature.
+
+        It does sit oddly beside the same page's `show_answers = is_owner`, which hides
+        the answer key on screen from a non-owner. That inconsistency is a decision for
+        Francois and Goncalo (TODO.md), not something to settle by narrowing the endpoint:
+        an earlier pass did exactly that, on a misreading of the markup, and broke the
+        download test in practice.e2e.ts.
         """
-        # Own quiz: unchanged.
         resp = test_client.get(f"/api/v1/eximport/excel/{ValueStorage.quiz_id}", cookies=ValueStorage.cookies)
         assert resp.status_code == 200
         assert resp.headers["content-type"].startswith("application/vnd.openxmlformats")
 
-        # A quiz this user does not own. Anonymous is the cheapest one to make here, and
-        # it is the case the old filter got wrong: user_id was ignored entirely.
+        # A quiz this user does not own, downloaded anyway. This is the assertion that
+        # catches a well-meant "security fix" to this route.
         start = test_client.post("/api/v1/editor/start?edit=false")
         assert start.status_code == 200
         finish = test_client.post(
             f"/api/v1/editor/finish?edit_id={start.json()['token']}",
             json={
                 "public": False,
-                "title": "Not yours",
+                "title": "Somebody else's",
                 "description": "d",
                 "questions": [
                     {
@@ -1138,12 +1142,10 @@ class TestExImport:
             },
         )
         assert finish.status_code == 200
-        other_id = finish.json()["id"]
-
-        resp = test_client.get(f"/api/v1/eximport/excel/{other_id}", cookies=ValueStorage.cookies)
-        # 404 rather than 403, matching _find_own_quiz: someone else's quiz answers
-        # exactly like one that does not exist.
-        assert resp.status_code == 404
+        resp = test_client.get(
+            f"/api/v1/eximport/excel/{finish.json()['id']}", cookies=ValueStorage.cookies
+        )
+        assert resp.status_code == 200
 
     @pytest.mark.asyncio
     async def test_excel_export_needs_a_login(self, test_client: TestClient):  # noqa : F811

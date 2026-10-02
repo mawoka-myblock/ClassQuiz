@@ -35,7 +35,7 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 | 15 | **Uploads have limits, and there is still no file manager.** There was no server-side size cap at all (`size = 0` went into storage, the only limit was Uppy's in the browser, and the endpoint takes anonymous uploads) — and the browser's cap was not applied either, because `restrictions` is an Uppy *Core* option and was passed to the Dashboard plugin. 8MB per image, enforced at Caddy, on `Content-Length`, and on the counted bytes; the quota counts the file in hand; `/raw` aborts mid-stream; `video/mp4` behind a flag | `frogquiz/config.py`, `routers/storage.py`, `frogquiz/__init__.py`, `Caddyfile*`, `lib/editor/uploader.svelte`, [`docs/uploads.md`](docs/uploads.md) |
 | 16 | **A game survives someone closing their laptop.** There was no socket `disconnect` handler, so a closed tab stayed in the count "everyone answered" is measured against and the host sat through every full timer for the rest of the game. Disconnect drops the player from the count but keeps the rejoin key, so a backgrounded phone can still return; `rejoin_game` re-announces them, which it never did | `socket_server/__init__.py`, `e2e/disconnect.e2e.ts` |
 | 17 | **A refused answer says so.** `question_not_active` had no listener anywhere, so an answer the server threw away still read "Answer locked in". Fixed with the listener leak beside it — the component is recreated per question and never released its subscription | `lib/play/question.svelte`, `lib/play/refusal.test.ts` |
-| 18 | **Two over-wide permissions closed.** Any signed-in user could download any quiz's answer key by id; and `captcha_enabled` defaulted to *true* on `/quiz/start`, where `check_captcha` then raised `AttributeError` out of `join_game` because `settings` was config.py's uncalled `lru_cache` wrapper | `routers/eximport.py`, `routers/quiz.py`, `socket_server/helpers.py` |
+| 18 | **One over-wide permission closed, one reverted.** `captcha_enabled` defaulted to *true* on `/quiz/start`, where `check_captcha` then raised `AttributeError` out of `join_game` because `settings` was config.py's uncalled `lru_cache` wrapper — fixed, defaults off, refused without a provider key. The Excel owner filter was **reverted**: any signed-in user downloading any quiz is the advertised behaviour, not a hole. See the decision below | `routers/quiz.py`, `socket_server/helpers.py`, `routers/eximport.py` |
 | 19 | **Deleting an image gives the space back.** `storage_used` was only ever incremented — by the worker, once per upload — and nothing anywhere subtracted it, so it was a lifetime upload counter and the quota a lifetime cap. Enforcing the quota turned that into a real lockout. The delete endpoint releases the bytes, and taking an image off a question now deletes the orphan once nothing references it instead of merely unlinking it | `routers/storage.py`, `worker/storage.py`, [`docs/uploads.md`](docs/uploads.md) |
 | 20 | **Deleting a quiz frees its images.** Both delete paths matched image keys with a regex that only described upstream's old double-key form, so for every modern upload it matched nothing: a deleted quiz, and every expired anonymous quiz, left its images in storage permanently and still charged to the owner. One reference-counted helper now serves all three paths | `frogquiz/helpers/__init__.py`, `routers/quiz.py`, `worker/storage.py` |
 
@@ -65,6 +65,26 @@ The five findings from [`docs/feature-inventory.md`](docs/feature-inventory.md) 
 the silent refused answer, the missing socket `disconnect` handler, the unfiltered Excel
 export, `check_captcha`, and the route that lived inside a string literal. Rows 16–18
 above. That doc is still the map of the whole surface.
+
+## Decision needed — François + Gonçalo
+
+- [ ] **Does a non-owner get the answer key?** The view page contradicts itself, and I
+      should not pick: it sets `show_answers = is_owner`, so a non-owner never sees the
+      correct answers on screen — but the Download button beside it is gated only on
+      `disabled={!logged_in}`, and the spreadsheet it fetches contains the answer key. So
+      any signed-in teammate can read the answers of any quiz, just not on the page.
+      Both readings are defensible for an internal tool: CLAUDE.md keeps the search bar
+      for "finding/sharing quizzes made by other people on the team", which argues the
+      download is the feature; and hiding answers on screen argues the opposite.
+      - **Keep it open** (status quo): nothing to do. It matters the moment somebody
+        hosts a quiz a player could have downloaded beforehand.
+      - **Owner only**: `Quiz.objects.get_or_none(id=quiz_id, user_id=user.id)` in
+        `routers/eximport.py`, plus `{#if is_owner}` around the Download button, plus
+        updating `practice.e2e.ts`'s download test to own the quiz it saves.
+      I narrowed the endpoint on 1 Oct on a misreading of that markup — I had taken the
+      `{#if is_owner}` guarding **Edit** for one guarding Download — and it broke the
+      `practice` download test. Reverted, and the current behaviour is now pinned by
+      `test_excel_export_is_any_signed_in_user` so nobody closes it again by accident.
 
 ## Open — quality
 

@@ -73,12 +73,17 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Two things that handed out more than they should
 
-- **Any signed-in user could download any quiz's answer key.** `GET /eximport/excel/{id}`
-  fetched the user and discarded it, filtering on the quiz id alone — and a quiz id is
-  not secret: it is in the view-page URL and every Explore row. The view page already
-  sets `show_answers = is_owner` and only offers Download to an owner, so this was a hole
-  in a boundary the product had already drawn, not an open question. Owner-scoped now,
-  404 rather than 403 to match the rest of the app.
+- **The Excel owner filter was reverted.** I had narrowed `GET /eximport/excel/{id}` to
+  the quiz's owner, reporting it as a hole in a boundary the UI already drew. That was a
+  misreading: the `{#if is_owner}` on the view page guards **Edit**, while Download is
+  gated only on `disabled={!logged_in}`. So any signed-in visitor downloading any quiz is
+  the advertised behaviour — and CLAUDE.md keeps the search bar precisely for "sharing
+  quizzes made by other people on the team". Narrowing it broke `practice.e2e.ts`'s
+  download test, which was right to fail. The endpoint is back to requiring a login and
+  nothing more, the behaviour is pinned by a test so it is not "fixed" again, and the
+  genuine inconsistency it sits on — the page hides answers from a non-owner while the
+  spreadsheet hands them over — is written up in `TODO.md` as a François/Gonçalo
+  decision rather than settled by me.
 - **`captcha_enabled` defaulted to `True` on `/quiz/start`**, which only looked harmless
   because the single caller sends `'False'`. Any other caller opened a game demanding a
   captcha the join page cannot render and the server cannot verify. It defaults off, and
