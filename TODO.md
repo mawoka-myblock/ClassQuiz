@@ -44,7 +44,18 @@ Audit that produced most of it: [`docs/audit-2026-10-01.md`](docs/audit-2026-10-
 - [ ] **Confirm the `worker` container runs in production**, or the 30-day deletion the anonymous copy promises is not kept
 - [ ] **François signs D1–D15**, or says which to put back. Everything hidden is reversible in one edit
 - [ ] **D16**: do players need the question text on their own phone? Right in a room, wrong on a call
-- [ ] **Close #16** — the start-game modal was rebuilt and driven in a browser
+- [ ] **Close #16, #17, #19** — all three verified done on 1 Oct, left open because closing a
+      teammate's issue is not Claude's call. Evidence, so it is a ten-second check:
+      **#16** start-game modal — `lib/dashboard/start_game.svelte` is a shadcn `Dialog.Root`
+      and is driven in a browser by `editor.e2e.ts`.
+      **#17** view page — redesigned on shadcn primitives, and `CLAUDE.md` lists it done.
+      **#19** visual pass at 390/834/1440 — `e2e/responsive.e2e.ts` asserts no horizontal
+      overflow at exactly those three widths on every public and signed-in page, and
+      `podium.e2e.ts` walks the whole game at 390. Both run in the suite.
+- [ ] **#3 Part A** — two more boxes are now true: *Player disconnect / rejoin* (row 16) and
+      *Image upload* (row 15). The rest of Part A is either a hidden feature (video,
+      `/import`, `/remote`, `/quiztivity`, `/moderation`, `/results`) or needs the deployed
+      site. Part B's keep/cut decisions are recorded in [`docs/mvp-scope.md`](docs/mvp-scope.md)
 
 ## Found in the feature sweep — all cleared
 
@@ -55,7 +66,7 @@ above. That doc is still the map of the whole surface.
 
 ## Open — quality
 
-- [ ] `svelte-check` in CI, once the ~300 errors in our own code are down (another ~820 are inside `bits-ui`)
+- [ ] `svelte-check` in CI. Measured 1 Oct: **670 errors, 339 of them in our own code** and 331 under `node_modules` (`npx svelte-check --output machine | grep -c '^[0-9]* ERROR'`, then the same filtered on `node_modules`). The previous note here said ~300 ours and ~820 in `bits-ui`, which made the dependency look like the bulk of it; it is roughly half, so ours is the work
 - [ ] The input tier on hidden routes (`/quiztivity`, `/edit/files`, controllers, Pixabay) still draws form fields at three different radii. An `fq-field` utility would fold in the un-themed `bg-gray-500` / `focus:ring-blue-500` drift at the same time
 - [ ] `lib/components/ui/button/button.svelte` has two off-ladder steps (8px and 10px) from upstream. Defensible, but they are the last two
 - [ ] **No UI for deleting an uploaded image.** `DELETE /api/v1/storage/meta/{file_id}` exists and is owner-filtered, and replacing a question's image orphans the old row, but nothing in the app lets someone reclaim their own 256 MiB. The quota is now enforced per upload, so this is what a person hits when it fills. The media library that would have shown it is deliberately hidden (see [`docs/uploads.md`](docs/uploads.md)) — this wants a smaller answer, not that page back

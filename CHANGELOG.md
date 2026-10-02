@@ -46,6 +46,15 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Tidying
 
+- Fixed a `tike_taken` typo in the results page's prop type, which was one of the
+  `svelte-check` errors. The field is never read there, so it only misdeclared the shape
+  the server sends (`time_taken`).
+- Corrected the `svelte-check` note in `TODO.md`: measured 670 errors, **339 in our own
+  code and 331 under `node_modules`**. It had said ~300 ours against ~820 in `bits-ui`,
+  which made the dependency look like the bulk of the problem; it is about half.
+- Verified the production build still succeeds after the day's changes (37s), which is
+  one of the "Done when" gates on issue #3.
+
 - Removed upstream's results-export route, which sat in the module body as a bare string
   literal that read like a docstring. Uncommenting it could never have worked: it
   referenced three names that do not exist in the module. Kept as a comment recording the

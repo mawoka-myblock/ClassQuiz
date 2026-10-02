@@ -20,7 +20,7 @@ SPDX-License-Identifier: MPL-2.0
 			username: string;
 			answer: string;
 			right: boolean;
-			tike_taken: number;
+			time_taken: number;
 			score: number;
 		}[][];
 	}
