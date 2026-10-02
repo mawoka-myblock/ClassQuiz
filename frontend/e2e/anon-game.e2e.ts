@@ -88,8 +88,11 @@ async function playGame(
 	await page.waitForTimeout(resultsDwellMs);
 
 	await advanceToFinalResults(page);
+	// Scoped to the podium block, not the page. The host screen legitimately says
+	// "1st Place" twice -- once on the gold block and once in the standings row for the
+	// winner -- so a bare getByText is a strict-mode violation rather than a real check.
 	await expect(ana.getByText('1st Place')).toBeVisible();
-	await expect(page.getByText('1st Place')).toBeVisible();
+	await expect(page.locator('.podium-block.is-gold').getByText('1st Place')).toBeVisible();
 
 	// Players' podiums are rendered from the server's totals, so they are the reference.
 	const truth: Record<string, number> = {};

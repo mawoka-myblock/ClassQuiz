@@ -6,6 +6,12 @@ All notable changes made during Claude-assisted work on frogQuiz are logged here
 
 ### Deleting an image actually frees the space
 
+- The host podium says "1st Place" twice by design — once on the gold block, once in the
+  standings row for the winner — so `anon-game.e2e.ts`'s bare `getByText('1st Place')` was
+  a strict-mode violation rather than a check. Scoped to `.podium-block.is-gold`, with a
+  note saying why. This was the last of the breakage from today's podium and
+  round-sequencing changes.
+
 - **`storage_used` was only ever incremented.** The `calculate_hash` worker job added each
   upload's size and nothing anywhere subtracted it — not the delete endpoint, not the
   quiz-update job that unlinks a replaced image, not account deletion. The figure was a
