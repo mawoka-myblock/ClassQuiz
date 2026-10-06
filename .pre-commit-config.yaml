@@ -16,7 +16,7 @@ repos:
 #      - id: check-added-large-files
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.5.1
+    rev: 26.10.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -29,7 +29,7 @@ repos:
           - "prettier-plugin-svelte@latest"
           - "prettier@latest"
   - repo: https://github.com/pycqa/flake8
-    rev: 7.3.0
+    rev: 7.4.1
     hooks:
       - id: flake8
         # flake8 is passed in all tracked python files
