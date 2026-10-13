@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-import json
 import uuid
 
 from fastapi import APIRouter, HTTPException
@@ -111,8 +110,7 @@ async def get_live_game_data(
         if not res:
             break
         else:
-            res = [json.loads(a) for a in res]
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate_json(a) for a in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     total_questions = len(game.questions)
@@ -171,8 +169,7 @@ async def get_game_session(game_pin: str, api_key: str | None = None, game_id: u
         if not res:
             break
         else:
-            res = [json.loads(a) for a in res]
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate_json(a) for a in res])
             data.answers.append(ga_1)
     players = await redis.smembers(f"game_session:{game_pin}:players")
     player_list = []
