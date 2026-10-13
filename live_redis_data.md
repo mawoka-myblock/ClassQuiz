@@ -8,24 +8,23 @@ SPDX-License-Identifier: MPL-2.0
 
 Contains only the sid (socket.io session-id) of {PLAYER_NAME}
 
-## game_session:{GAME_PIN}:{QUESTION_INDEX} [string]
+## game_session:{GAME_PIN}:{QUESTION_INDEX} [list]
 
-Stores the answer per question which the players submitted
+Stores the answers per question which the players submitted, in the order they were submitted.
+Each answer is appended with `RPUSH`, so concurrent submissions don't overwrite each other.
 
-model: _AnswerDataList
+model: AnswerData (one per entry)
 
-example-data:
+example-entry:
 
 ```json
-[
-    {
-        "username": "Mawoka",
-        "answer": "a",
-        "right": false,
-        "time_taken": 4994.246999999999,
-        "score": 0
-    }
-]
+{
+    "username": "Mawoka",
+    "answer": "a",
+    "right": false,
+    "time_taken": 4994.246999999999,
+    "score": 0
+}
 ```
 
 ## game:{GAME_PIN} [string]

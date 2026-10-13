@@ -6,8 +6,6 @@
 import json
 from datetime import datetime
 
-from pydantic import ValidationError
-
 from classquiz.config import redis
 from classquiz.db.models import PlayGame, GameResults
 
@@ -17,11 +15,8 @@ async def save_quiz_to_storage(game_pin: str):
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     answers = []
     for i in range(len(game.questions)):
-        redis_res = await redis.get(f"game_session:{game_pin}:{i}")
-        try:
-            answers.append(json.loads(redis_res))
-        except (ValidationError, TypeError):
-            answers.append([])
+        redis_res = await redis.lrange(f"game_session:{game_pin}:{i}", 0, -1)
+        answers.append([json.loads(a) for a in redis_res])
     player_scores = await redis.hgetall(f"game_session:{game_pin}:player_scores")
     custom_field_data = await redis.hgetall(f"game:{game_pin}:players:custom_fields")
     q_return = []

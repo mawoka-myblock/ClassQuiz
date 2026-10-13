@@ -58,11 +58,10 @@ async def submit_answer_fn(data_answer: int, game_pin: str, player_id: str, now:
         time_taken=abs(diff),
         score=score,
     )
-    answers = await redis.get(f"game_session:{game_pin}:{game.current_question}")
-    answers = await set_answer(answers, game_pin=game_pin, data=answer_data, q_index=game.current_question)
+    answer_count = await set_answer(game_pin=game_pin, q_index=game.current_question, data=answer_data)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     await sio.emit("player_answer", {})
-    if len(answers) == player_count:
+    if answer_count == player_count:
         game.question_show = False
         await game.save(game_pin)
         await sio.emit("everyone_answered", {})
