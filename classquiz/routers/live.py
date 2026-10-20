@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-import json
 import uuid
 
 from fastapi import APIRouter, HTTPException
@@ -107,12 +106,11 @@ async def get_live_game_data(
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     data = GameSession.model_validate_json(data_redis_res)
     for i in range(0, len(game.questions)):
-        res = await redis.get(f"game_session:{game_pin}:{i}")
-        if res is None:
+        res = await redis.lrange(f"game_session:{game_pin}:{i}", 0, -1)
+        if not res:
             break
         else:
-            res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate_json(a) for a in res])
             data.answers.append(ga_1)
     player_count = await redis.scard(f"game_session:{game_pin}:players")
     total_questions = len(game.questions)
@@ -167,12 +165,11 @@ async def get_game_session(game_pin: str, api_key: str | None = None, game_id: u
     if game.user_id != user_id and data.game_id != str(game_id):
         raise HTTPException(status_code=404, detail="Game not found or API key not found")
     for i in range(0, len(game.questions)):
-        res = await redis.get(f"game_session:{game_pin}:{i}")
-        if res is None:
+        res = await redis.lrange(f"game_session:{game_pin}:{i}", 0, -1)
+        if not res:
             break
         else:
-            res = json.loads(res)
-            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate(i) for i in res])
+            ga_1 = GameAnswer1(id=i, answers=[GameAnswer2.model_validate_json(a) for a in res])
             data.answers.append(ga_1)
     players = await redis.smembers(f"game_session:{game_pin}:players")
     player_list = []
@@ -268,10 +265,9 @@ async def voting_results(game_pin: str, api_key: str, as_array: bool = False):
     game = PlayGame.model_validate_json(redis_res)
     if game.questions[game.current_question].type != QuizQuestionType.VOTING:
         return
-    answer_data = await redis.get(f"game_session:{game_pin}:{game.current_question}")
-    if answer_data is None:
+    answer_list = await AnswerDataList.get_redis_or_empty(game_pin, game.current_question)
+    if len(answer_list) == 0:
         return
-    answer_list = AnswerDataList.model_validate_json(answer_data)
     answer_dict = {}
     for answer in game.questions[game.current_question].answers:
         answer_dict[answer.answer] = 0

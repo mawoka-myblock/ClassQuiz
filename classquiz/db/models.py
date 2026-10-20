@@ -341,11 +341,8 @@ class AnswerDataList(RootModel):
 
     @classmethod
     async def get_redis_or_empty(self, game_pin: str, question_number: str) -> Self:
-        redis_res = await redis.get(f"game_session:{game_pin}:{question_number}")
-        if redis_res is None:
-            return self([])
-        else:
-            return self.model_validate_json(redis_res)
+        redis_res = await redis.lrange(f"game_session:{game_pin}:{question_number}", 0, -1)
+        return self([AnswerData.model_validate_json(a) for a in redis_res])
 
 
 class GameInLobby(BaseModel):

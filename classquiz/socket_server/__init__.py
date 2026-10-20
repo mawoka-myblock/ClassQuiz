@@ -59,11 +59,11 @@ fernet = Fernet(get_fernet_key())
 async def generate_final_results(game_data: PlayGame, game_pin: str) -> dict:
     results = {}
     for i in range(len(game_data.questions)):
-        redis_res = await redis.get(f"game_session:{game_pin}:{i}")
-        if redis_res is None:
+        redis_res = await redis.lrange(f"game_session:{game_pin}:{i}", 0, -1)
+        if not redis_res:
             continue
         else:
-            results[str(i)] = json.loads(redis_res)
+            results[str(i)] = [json.loads(a) for a in redis_res]
     return results
 
 
@@ -73,18 +73,12 @@ def calculate_score(z: float, t: int) -> int:
     return int(res * 1000)
 
 
-async def set_answer(answers, game_pin: str, q_index: int, data: AnswerData) -> AnswerDataList:
-    if answers is None:
-        answers = AnswerDataList([data])
-    else:
-        answers = AnswerDataList.model_validate_json(answers)
-        answers.append(data)
-    await redis.set(
-        f"game_session:{game_pin}:{q_index}",
-        answers.model_dump_json(),
-        ex=7200,
-    )
-    return answers
+async def set_answer(game_pin: str, q_index: int, data: AnswerData) -> int:
+    # Appending is atomic, so concurrent submissions can't overwrite each other
+    key = f"game_session:{game_pin}:{q_index}"
+    answer_count = await redis.rpush(key, data.model_dump_json())
+    await redis.expire(key, 7200)
+    return answer_count
 
 
 @sio.event
@@ -322,16 +316,10 @@ async def submit_answer(sid: str, data: dict):
         time_taken=abs(diff) - latency,
         score=score,
     )
-    answers = await redis.get(f"game_session:{session['game_pin']}:{data.question_index}")
-    answers = await set_answer(
-        answers,
-        game_pin=session["game_pin"],
-        data=answer_data,
-        q_index=int(float(data.question_index)),
-    )
+    answer_count = await set_answer(game_pin=session["game_pin"], q_index=question_index, data=answer_data)
     player_count = await redis.scard(f"game_session:{session['game_pin']}:players")
     await sio.emit("player_answer", {})
-    if len(answers) == player_count:
+    if answer_count == player_count:
         game_data = await PlayGame.get_from_redis(session["game_pin"])
         game_data.question_show = False
         await game_data.save(session["game_pin"])
