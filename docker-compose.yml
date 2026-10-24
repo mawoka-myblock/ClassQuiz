@@ -17,9 +17,7 @@ services:
       REDIS_URL: redis://redis:6379/0?decode_responses=True
       API_URL: http://api:8000
   api:
-    # image: ghcr.io/mawoka-myblock/classquiz-backend:master
-    build:
-      context: .
+    image: ghcr.io/mawoka-myblock/classquiz-backend:master
     restart: &restart always
     depends_on: &depends
       - db
@@ -94,9 +92,7 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
   proxy:
-    # image: ghcr.io/mawoka-myblock/classquiz-caddy:master
-    build:
-      dockerfile: Dockerfile.caddy
+    image: ghcr.io/mawoka-myblock/classquiz-caddy:master
     restart: always
     ports:
       - "8000:8080" # The 8000 can be changed.
