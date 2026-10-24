@@ -5,9 +5,10 @@
 import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
-	const quiz_res = await fetch('/api/v1/quiz/list?page_size=100');
+	// const base_url = process?.env?.API_URL ?? '';
+	const quiz_res = await fetch(`/api/v1/quiz/list?page_size=100`);
 	const quizzes = await quiz_res.json();
-	const quiztivity_res = await fetch('/api/v1/quiztivity/');
+	const quiztivity_res = await fetch(`/api/v1/quiztivity/`);
 	const quiztivities = await quiztivity_res.json();
 	return {
 		quizzes,

@@ -1,7 +1,86 @@
-# SPDX-FileCopyrightText: 2023 Marlon W (Mawoka)
+# SPDX-FileCopyrightText: 2026 Marlon W (Mawoka)
 #
 # SPDX-License-Identifier: MPL-2.0
+
+[project]
+name = "classquiz"
+license-files = ["LICENSE", "*.license"]
+version = "0.0.1"
+requires-python = "~=3.14"
+dependencies = [
+    "uvicorn",
+    "python-socketio",
+    "passlib",
+    "python-jose",
+    "alembic",
+    "email-validator",
+    "python-multipart",
+    "redis",
+    "aiohttp",
+    "gunicorn",
+    "qrcode",
+    "jinja2",
+    "argon2-cffi",
+    "sentry-sdk",
+    "aiofiles",
+    "meilisearch",
+    "bleach",
+    "bidict",
+    "xlsxwriter",
+    "authlib",
+    "httpx",
+    "itsdangerous",
+    "py-avataaars-no-png",
+    "cryptography",
+    "pyotp",
+    "minio",
+    "xxhash",
+    "arq",
+    "thumbhash-python",
+    "python-magic",
+    "openpyxl",
+    "starlette",
+    "pyopenssl",
+    "python-dotenv",
+    "webauthn==1.*",
+    "pypng",
+    "ormar",
+    "pydantic",
+    "pydantic-settings",
+    "asyncpg",
+    "psycopg",
+    "fastapi",
+]
+
+[dependency-groups]
+dev = [
+    "coverage",
+    "pytest",
+    "pytest-asyncio",
+    "flake8",
+    "black",
+    "pytest-dependency",
+    "pytest-order",
+    "pre-commit",
+    "python-socketio[client]",
+]
 
 [tool.black]
 line-length = 120
 target-version = ["py310"]
+
+[tool.uv]
+package = false
+default-groups = "all"
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
+
+[tool.run-script]
+format = "black ."
+lint = "flake8 classquiz"
+test = "coverage run -m pytest --lf -v --asyncio-mode=strict classquiz/tests"
+worker = "arq classquiz.worker.WorkerSettings"
+run = "uvicorn classquiz:app --reload"

@@ -3,12 +3,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-import databases
+from ormar import DatabaseConnection
 import sqlalchemy
 
 from classquiz.config import settings
 
 settings = settings()
 
-database = databases.Database(settings.db_url)
+database = DatabaseConnection(settings.db_url)
 metadata = sqlalchemy.MetaData()

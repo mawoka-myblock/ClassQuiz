@@ -33,25 +33,11 @@ services:
     network_mode: "host"
     privileged: true
     restart: unless-stopped
-  minio:
-    image: docker.io/minio/minio
-    environment:
-      MINIO_ROOT_USER: classquiz
-      MINIO_ROOT_PASSWORD: classquiz
-      MINIO_ADDRESS: ":9000"
-      MINIO_CONSOLE_ADDRESS: ":9001"
-    volumes:
-      - minio:/data
-    ports:
-      - 9000:9000
-      - 9001:9001
-    restart: unless-stopped
-    command: minio server /data
   redis:
-    image: redis:alpine
+    image: valkey/valkey:alpine
     restart: always
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "valkey-cli", "ping"]
     ports:
       - 6379:6379
 volumes:
