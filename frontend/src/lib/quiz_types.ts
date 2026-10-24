@@ -11,9 +11,9 @@ export enum ElementTypes {
 }
 
 export interface QuizData {
-	title: string;
-	description: string;
 	quiz_id: string;
+	description: string;
+	title: string;
 	questions: Question[];
 	game_id: string;
 	game_pin: string;
@@ -27,6 +27,39 @@ export interface QuizData {
 	views: number;
 }
 
+export interface PlayGame extends Omit<QuizData, 'likes' | 'dislikes' | 'plays' | 'views'> {
+	user_id: string;
+	captcha_enabled: boolean;
+	game_mode?: string;
+	current_question: number;
+	custom_field?: string;
+	question_show: boolean;
+}
+
+export interface SetQuestionNumber {
+	question_index: number;
+	question: ReturnQuestion;
+}
+
+export interface ReturnQuestion extends Omit<Question, 'answers'> {
+	answers: ABCDAnswerWithoutSolution[] | RangeQuizAnswerWithoutSolution | VotingAnswer[];
+}
+
+export interface PlayGamePlayer {
+	description: string;
+	title: string;
+	game_id: string;
+	game_pin: string;
+	started: boolean;
+	captcha_enabled: boolean;
+	cover_image?: string;
+	game_mode?: string;
+	current_question: number;
+	background_color?: string;
+	background_image?: string;
+	custom_field?: string;
+	question_show: boolean;
+}
 export enum QuizQuestionType {
 	ABCD = 'ABCD', // eslint-disable-line no-unused-vars
 	RANGE = 'RANGE', // eslint-disable-line no-unused-vars
@@ -44,6 +77,8 @@ export interface RangeQuizAnswer {
 	max_correct: number;
 }
 
+export type RangeQuizAnswerWithoutSolution = Omit<RangeQuizAnswer, 'min_correct' | 'max_correctz'>;
+
 export interface TextQuizAnswer {
 	answer: string;
 	case_sensitive: boolean;
@@ -56,22 +91,37 @@ export interface OrderQuizAnswer {
 }
 
 export interface Question {
-	time: string;
 	question: string;
+	time: string;
 	type?: QuizQuestionType;
-	image?: string;
 	answers: Answers;
+	image?: string;
 	hide_results?: boolean;
 }
 
 export type Answers =
-	Answer[] | RangeQuizAnswer | VotingAnswer[] | string | TextQuizAnswer[] | OrderQuizAnswer[];
+	| Answer[]
+	| RangeQuizAnswer
+	| VotingAnswer[]
+	| string
+	| TextQuizAnswer[]
+	| OrderQuizAnswer[];
 
 export interface Answer {
 	right: boolean;
 	answer: string;
 	color?: string;
 }
+
+export interface AnswerReturnData {
+	right: boolean;
+	answer: string;
+	username: string;
+	time_taken: number;
+	score: number;
+}
+
+export type ABCDAnswerWithoutSolution = Omit<Answer, 'right'>;
 
 export interface VotingAnswer {
 	answer: string;

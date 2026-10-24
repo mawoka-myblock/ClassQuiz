@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import type { Player, PlayerAnswer } from '$lib/admin.ts';
-import type { QuizData } from '$lib/quiz_types';
+import type { PlayGame } from '$lib/quiz_types';
 
 /**
  * Interface that include all the game states for the admin page.
@@ -20,7 +20,7 @@ export interface IGameState {
 	shown_question_now: number;
 	final_results: Array<null> | Array<Array<PlayerAnswer>>;
 	game_started: boolean;
-	quiz_data: QuizData;
+	quiz_data: PlayGame;
 	control_visible: boolean;
 
 	constructor(game_id: string);

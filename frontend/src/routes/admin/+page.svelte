@@ -17,7 +17,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { page } from '$app/state';
 	import { SocketGameControls } from '$lib/play/admin/socket_game_controls.ts';
 	import type { IGameState } from '$lib/play/admin/game_state.ts';
-	import { QuizQuestionType, type QuizData } from '$lib/quiz_types';
+	import { QuizQuestionType, type PlayGame, type QuizData } from '$lib/quiz_types';
 	import type { Player, PlayerAnswer } from '$lib/admin';
 	import { tinykeys } from '$lib/tinykeys';
 
@@ -45,7 +45,7 @@ SPDX-License-Identifier: MPL-2.0
 		public shown_question_now: number;
 		public final_results: Array<null> | Array<Array<PlayerAnswer>>;
 		public game_started: boolean;
-		public quiz_data: QuizData;
+		public quiz_data: PlayGame;
 		public control_visible: boolean;
 
 		constructor(game_id: string) {
@@ -106,7 +106,7 @@ SPDX-License-Identifier: MPL-2.0
 	let success = $state(false);
 	let dataexport_download_a = $state();
 	let warnToLeave = true;
-	let export_token = $state(undefined);
+	let export_token: string|undefined = $state(undefined);
 
 	const socket_game_controls: SocketGameControls = new SocketGameControls(socket);
 	let game_state: GameState = $state(new GameState(game_token));
@@ -133,12 +133,12 @@ SPDX-License-Identifier: MPL-2.0
 		const session_id = d.session_id;
 	});
 
-	socket.on('registered_as_admin', (data) => {
-		game_state.quiz_data = JSON.parse(data['game']);
+	socket.on('registered_as_admin', (data: {game_id: string, game: PlayGame}) => {
+		game_state.quiz_data = data['game'];
 		console.log(game_state.quiz_data);
 		success = true;
 	});
-	socket.on('player_joined', (int_data) => {
+	socket.on('player_joined', (int_data: Player) => {
 		game_state.players = [...game_state.players, int_data];
 	});
 	socket.on('already_registered_as_admin', () => {
@@ -151,7 +151,7 @@ SPDX-License-Identifier: MPL-2.0
 		game_state.game_started = true;
 	});
 
-	socket.on('control_visibility', (data) => {
+	socket.on('control_visibility', (data: {visible: boolean}) => {
 		game_state.control_visible = data.visible;
 	});
 
@@ -164,7 +164,7 @@ SPDX-License-Identifier: MPL-2.0
         }
         question_results = int_data;
     });*/
-	socket.on('export_token', (int_data) => {
+	socket.on('export_token', (int_data: string) => {
 		warnToLeave = false;
 		export_token = int_data;
 
@@ -177,7 +177,7 @@ SPDX-License-Identifier: MPL-2.0
 		results_saved = true;
 	});
 
-	const confirmUnload = () => {
+	const confirmUnload = (event) => {
 		if (warnToLeave) {
 			event.preventDefault();
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment

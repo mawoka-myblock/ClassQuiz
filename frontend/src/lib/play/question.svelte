@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import type { Question } from '$lib/quiz_types';
+	import type { ReturnQuestion } from '$lib/quiz_types';
 	import { QuizQuestionType } from '$lib/quiz_types';
 	import { socket } from '$lib/socket';
 	import Spinner from '../Spinner.svelte';
@@ -20,7 +20,7 @@ SPDX-License-Identifier: MPL-2.0
 	const { t } = getLocalization();
 
 	interface Props {
-		question: Question;
+		question: ReturnQuestion;
 		game_mode: any;
 		question_index: string | number;
 		solution: any;
