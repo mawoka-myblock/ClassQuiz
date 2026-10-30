@@ -1,0 +1,490 @@
+{
+    "index_page": {
+        "slogan": "Avoimen lähdekoodin visailualusta!",
+        "meta": {
+            "description": "ClassQuiz on ilmainen, avoimen lähdekoodin visailusovellus opiskelijoiden osallistavaan opetukseen",
+            "title": "Koti"
+        },
+        "stats": "ClassQuizissä on jo {{user_count}} käyttäjää ja {{quiz_count}} visaa.",
+        "see_what_true_and_false": "Tarkista mikä meni oikein tai väärin",
+        "see_how_many_true_and_false": "Tarkista montako meni oikein tai väärin",
+        "create_or_import": "Luo tai tuo",
+        "see_all_quizzes": "Näe kaikki visasi",
+        "teachers_site": "Opettajan sivu",
+        "students_site": "Opiskelijan sivu",
+        "no_tracking": "Ei seurantaa",
+        "self_hostable": "Itsehostattava",
+        "german_server": "Saksalainen palvelin",
+        "user_friendly": "Käyttäjäystävällinen",
+        "completely_free": "Täysin ilmainen",
+        "quiz_results_downloadable": "Visatulokset voidaan ladata",
+        "multilingual": "Monikielinen",
+        "dark_mode": "Tumma tila",
+        "get_a_quiz": "1. Hanki visa",
+        "create_a_quiz_from_scratch": "Luo visa alusta alkaen editorilla, ja sisällytä kuvia ja muuta",
+        "find_or_explore": "Etsi (tai selaa) muiden tekemiä tai tuomia visoja",
+        "play_quiz": "2. Visaile",
+        "select_answer": "Valitse vastaus",
+        "choose_answer_wisely": "Valitse vastauksesi tarkkaan",
+        "view_results": "Katsele tuloksia",
+        "check_if_chosen_wisely": "Tarkista valitsitko hyvin",
+        "list_winners": "Listaa voittajat",
+        "get_ranking_and_winners": "Hanki paremmuusjärjestys ja näe voittajat",
+        "why_classquiz": "Miksi ClassQuiz?",
+        "no_tracking_content": "Toisissa palveluissa käytetään seurantaa ja tietojasi lähetetään kolmansille osapuolille, mutta ClassQuizissä ei.",
+        "self_hostable_content": "Voit hostata ClassQuiziä itse, jolloin tietosi pysyvät omassa hallussasi!",
+        "user_friendly_content": "ClassQuizin tarkoituksena on olla yksinkertainen, jotta kuka tahansa voi käyttää sitä.",
+        "completely_free_content": "ClassQuiz on täysin maksuton (käyttäjälle), ilman toistuvia maksuja tai ärsyttävää Päivitä-sivuille ohjaamista. Lahjoitukset ovat erittäin tervetulleita.",
+        "quiz_results_downloadable_content": "Visailutulokset voidaan viedä helposti Excel-laskentataulukkoon. (En tiennyt että muissa palveluissa tämä ei onnistu)",
+        "multilingual_content": "ClassQuiz on saatavilla englanniksi, ranskaksi, saksaksi, italiaksi, norjaksi, turkiksi ja osaksi indonesiaksi ja katalaaniksi.",
+        "dark_mode_content": "Yksi tärkeimmistä ominaisuuksista mitä verkkosivulla voi olla!",
+        "german_server_content": "ClassQuizin palvelimet sijaitsevat Saksassa ja ovat Netcupin hostaamia.",
+        "download_quizzes": "Lataa visoja",
+        "download_quizzes_content": "Visoja voidaan ladata yksittäisenä tiedostona ja tuoda sovellukseen milloin vain. Tämä mahdollistaa visojen siirtämisen muihin ClassQuiz ympäristöihin.",
+        "community_driven": "Yhteisön kehittämä",
+        "community_driven_content": "ClassQuiz on riippuvainen yhteisöstään rahoituksen, ideoiden testaamisen, ominaisuuspyyntöjen, käännösten ja kaiken muunkin osalta! Voit itsekin olla osa ClassQuiz-yhteisöä!",
+        "how_does_classquiz_work": "Miten ClassQuiz edes toimii?",
+        "no_player_limit": "Ei pelaajamäärän rajoitusta",
+        "no_player_limit_content": "ClassQuizillä ei ole keinotekoista pelaajamäärän rajoitusta. Teoriassa, yli 1000 pelaajaa voi pelata samaa visaa, mutta testaamista tehdään korkeintaan 300 pelaajan visoilla.",
+        "import_quiz_from_kahoot_and_edit": "Tuo visoja Kahoot!-palvelusta ja muokkaa niitä ClassQuizissä"
+    },
+    "overview_page": {
+        "created_at": "Tehty",
+        "question_count": "Kysymysten lukumäärä",
+        "no_quizzes": "Paina Luo-painiketta, tai tuo visa aloittaaksesi."
+    },
+    "edit_page": {
+        "success_update_title": "Visa päivitetty.",
+        "success_update_body": "Visaisinkaan ei nähnyt tämän tulevan."
+    },
+    "create_page": {
+        "success": {
+            "title": "Visa luotu.",
+            "body": "Peli alkakoon."
+        }
+    },
+    "register_page": {
+        "greeting": "Hauska tavata!",
+        "create_account": "Luo tili",
+        "forgot_password?": "Unohditko salasanasi?",
+        "already_have_account?": "Onko sinulla jo tili?"
+    },
+    "login_page": {
+        "welcome_back": "Tervetuloa takaisin.",
+        "login_or_create_account": "Kirjaudu sisään tai luo tili",
+        "already_have_account": "Eikö sinulla ole tilä?",
+        "email_or_username": "Sähköposti tai käyttäjänimi",
+        "modal": {
+            "success": {
+                "success_check_mail": "Kirjauduttu sisään. Tarkista sähköpostisi.",
+                "success": "Kirjauduttu sisään.",
+                "description": {
+                    "success_check_mail": "Tarkista sähköpostisi. Löydät sieltä kirjautumislinkin.",
+                    "success": "Kirjauduttu sisään."
+                }
+            },
+            "error": {
+                "wrong_creds": "Väärä sähköposti tai salasana.",
+                "unexpected": "Odottamaton virhe!",
+                "description": {
+                    "wrong_creds": "Varmista, että salasanasi ja sähköpostiosoitteesi ovat oikein.",
+                    "unexpected": "Tapahtui vanha kunnon odottamaton virhe!"
+                }
+            }
+        },
+        "use_backup_code": "Käytä varakoodia"
+    },
+    "words": {
+        "question": "Kysymys",
+        "answer": "Vastaus",
+        "stats": "Tilastot",
+        "features": "Ominaisuudet",
+        "login": "Kirjaudu sisään",
+        "email": "Sähköpostiosoite",
+        "username": "Käyttäjänimi",
+        "password": "Salasana",
+        "play": "Pelaa",
+        "edit": "Muokkaa",
+        "delete": "Poista",
+        "public": "Julkinen",
+        "start": "Aloita",
+        "create": "Luo",
+        "import": "Tuo",
+        "logout": "Kirjaudu ulos",
+        "title": "Otsikko",
+        "url": "URL",
+        "submit": "Lähetä",
+        "connect": "Yhdistä",
+        "pin": "PIN",
+        "kick": "Potkaise ulos",
+        "register": "Rekisteröidy",
+        "docs": "Dokumentaatio",
+        "close": "Sulje",
+        "save": "Tallenna",
+        "description": "Kuvaus",
+        "image": "Kuva",
+        "settings": "Asetukset",
+        "repeat_password": "Kirjoita salasana uudelleen",
+        "overview": "Yleiskatsaus",
+        "report": "Ilmoita",
+        "explore": "Selaa",
+        "search": "Etsi",
+        "screenshot": "Näyttökuva",
+        "screenshot_plural": "Näyttökuvat",
+        "browser": "Selain",
+        "view": "Katso",
+        "view_plural": "Katselukertaa",
+        "correct": "Oikein",
+        "result": "Tulos",
+        "result_plural": "Tulokset",
+        "count": "Lukumäärä",
+        "range": "Numerot",
+        "multiple_choice": "Monivalinta",
+        "private": "Yksityinen",
+        "dashboard": "Hallintapaneeli",
+        "question_plural": "Kysymykset",
+        "game_pin": "Pelin PIN",
+        "other": "muu",
+        "other_plural": "muut",
+        "donating": "lahjoittaminen",
+        "find": "Löydä",
+        "practice": "Harjoittele",
+        "error": "Virhe",
+        "voting": "Äänestäminen",
+        "download": "Lataa",
+        "continue": "Jatka",
+        "backup_code": "Varakoodi",
+        "totp": "TOTP",
+        "text": "Teksti",
+        "order": "Järjestys",
+        "results": "Tulokset",
+        "note": "Kommentti",
+        "player_plural": "Pelaajat",
+        "version": "Versio",
+        "never": "Ei koskaan",
+        "unknown": "Tuntematon",
+        "update": "Päivitys",
+        "score": "Pistetilanne",
+        "slide": "Dia",
+        "name": "Nimi",
+        "point": "Piste",
+        "point_plural": "Pisteet",
+        "back": "Takaisin",
+        "finish": "Viimeistele",
+        "normal": "Tavallinen",
+        "selected": "Valittu",
+        "select": "Valitse",
+        "quiz": "Visa",
+        "quiztivity": "Quiztiviteetti",
+        "next": "Seuraava",
+        "check_choice": "Tarkista vaihtoehto",
+        "video": "Video",
+        "library": "Kirjasto",
+        "progress": "Edistyminen",
+        "speed": "Nopeus",
+        "upload": "Lataa palveluun",
+        "files_library": "Tiedostot",
+        "answer_plural": "Vastaukset",
+        "yes": "Kyllä",
+        "no": "Ei",
+        "analytics": "Analytiikka",
+        "rating": "Arvostelu",
+        "like": "Tykkää",
+        "like_plural": "Tykkäykset",
+        "dislike": "En tykkää",
+        "dislike_plural": "Ei-tykkäykset",
+        "play_plural": "Pelauskerrat",
+        "info": "Info",
+        "player": "Pelaaja"
+    },
+    "editor": {
+        "time_in_seconds": "Aika sekunteina",
+        "right_or_true?": "Eikö?",
+        "add_new_answer": "Lisää uusi vastaus",
+        "add_new_question": "Lisää uusi kysymys",
+        "delete_question": "Poista kysymys",
+        "delete_answer": "Poista vastaus",
+        "not_all_links_imgur_links": "Kaikki linkit eivät ole Imgur-linkkejä!",
+        "no_title": "Ei otsikkoa...",
+        "empty": "Tyhjä...",
+        "bg_image": "Taustakuva",
+        "slide": {
+            "headline": "Pääotsikko",
+            "headline_description": "Lihavoitu teksti pääotsikoille",
+            "text": "Teksti",
+            "text_description": "Pienempikokoinen pidempi teksti",
+            "rectangle": "Nelikulmio",
+            "rectangle_description": "Vain nelikulmio"
+        },
+        "abcd_description": "Vain yksi vastaus voi olla valittuna",
+        "voting_description": "Vastaukset eivät anna pisteitä",
+        "check_choice_description": "Kaikki oikeat vastaukset tulee valita pisteiden saamiseksi",
+        "order_description": "Vastaukset voidaan tuoda oikeaan järjestykseen",
+        "text_description": "Pelaajat voivat syöttää tekstiä",
+        "range_description": "Numeroita voidaan valita liukusäätimellä",
+        "need_more_help": "Tarvitsetko lisää apua?",
+        "visit_docs": "Katso dokumentaatiota.",
+        "enter_answer": "Syötä vastaus",
+        "enable_reorder": "Ota uudelleenjärjestämistila käyttöön",
+        "disable_reorder": "Ota uudelleenjärjestämistila pois käytöstä",
+        "advanced_settings": "Edistyneet asetukset",
+        "hide_question_results": "Piilota kysymyksen vastaukset?"
+    },
+    "import_page": {
+        "need_help": "Tarvitsetko apua?",
+        "visit_docs": "Katso dokumentaatiota",
+        "a_kahoot_quiz": "Kahoot! -visa",
+        "url_should_look_like_this": "URL:n tulisi näyttää tältä: https://create.kahoot.it/details/...",
+        "side_import_kahoot": "Tältä puolelta voit tuoda visoja Kahoot!-palvelusta.",
+        "classquiz_quiz": "ClassQuiz-visa",
+        "upload_file_ending": "Lataa tiedosto .cqa - tai .xlsx -päätteellä",
+        "this_side_classquiz": "Tältä puolelta voit tuoda visoja, jotka on viety ClassQuizistä.",
+        "this_side_classquiz_excel": "Voit myös ladata excel-tiedostoja, jos olet täyttänyt seuraavan mallipohjan. Jos on jo olemassa visa samalla otsikolla, kysymykset lisätään olemassa olevan visan loppuun.",
+        "download_template_here": "Lataa mallipohja"
+    },
+    "admin_page": {
+        "already_registered_as_admin": "Tälle pelille on jo rekisteröitynyt ylläpitäjä.",
+        "start_game": "Aloita peli",
+        "time_left": "Aikaa jäljellä",
+        "get_results": "Katso tulokset",
+        "get_results_and_stop_time": "Katso tulokset ja pysäytä aika",
+        "get_final_results": "Katso lopulliset tulokset",
+        "show_next_question": "Näytä seuraava kysymys",
+        "start_by_showing_first_question": "Aloita näyttämällä ensimmäinen kysymys.",
+        "no_answers": "Ei vastauksia!",
+        "stop_time": "Pysäytä aika",
+        "save_results": "Tallenna tulokset",
+        "next_question": "Seuraava kysymys ({{question}})",
+        "show_results": "Näytä tulokset",
+        "stop_time_and_solutions": "Pysäytä aika ja näytä oikeat vastaukset",
+        "enter_answer_into_field": "Syötä vastauksesi syöttökenttään!",
+        "answers_submitted": "{{answer_count}} Vastaukset lähetetty",
+        "request_export_results": "Pyydä tulosten lataamista",
+        "download_export_results": "Lataa tulokset",
+        "export_results": "Vie tulokset"
+    },
+    "password_reset_page": {
+        "reset_password": "Nollaa salasana"
+    },
+    "settings_page": {
+        "old_password": "Entinen salasana",
+        "new_password": "Uusi salasana",
+        "repeat_password": "Kirjoita salasana uudelleen",
+        "change_password_submit": "Vaihda salasana!",
+        "last_seen": "Viimeksi nähty",
+        "check_location": "Tarkista sijainti",
+        "delete_this_session": "Poista tämä istunto",
+        "this_session?": "Tämä istunto?",
+        "change_avatar": "Vaihda profiilikuva",
+        "security_settings": "Turvallisuusasetukset",
+        "add_api_key": "Lisää API-avain"
+    },
+    "explore_page": {
+        "made_by": "Tekijä",
+        "imported_by": "Tuoja"
+    },
+    "search_page": {
+        "at_least_3_characters": "Syötä vähintään 3 merkkiä...",
+        "nothing_here": "Täältä ei löydy mitään..."
+    },
+    "play_page": {
+        "end_sentence": "Siinä kaikki! Visa päättyi.",
+        "1st_place": "1. sija",
+        "2nd_place": "2. sija",
+        "3rd place": "3. sija",
+        "with_out_of": "{{correct_questions}}/{{total_question_count}} kysymystä oikein",
+        "final_result_rank": "{{place}}: {{username}}, pisteet: {{points}}",
+        "your_score": "Pisteesi: {{score}}",
+        "join_description": "Liity osoitteesta {{url}} ja syötä {{pin}}.",
+        "join_by_entering_code": "Liity syöttämällä seuraava koodi",
+        "points_added": "Pisteitä lisätty",
+        "your_place": "Olet sijalla {{place}}!",
+        "players_waiting": "{{count}} pelaaja odottaa",
+        "players_waiting_plural": "{{count}} pelaajaa odottaa"
+    },
+    "editor_page": {
+        "add_an_answer": "Lisää vastaus",
+        "right_click_to_delete": "Klikkaa hiiren oikealla näppäimellä poistaaksesi!"
+    },
+    "dashboard": {
+        "search_for_own_quizzes": "Etsi omia visojasi",
+        "views_n_plays": "Katselukerrat ja pelauskerrat",
+        "info_analytics": "Pelauskerrat näyttää kuinka usein visa aloitettiin (sinä mukaan lukien), ja katselukerrat näyttää kuinka usein Katso-sivulla vierailtiin, joten mukaan lasketaan myös botit (sori siitä).",
+        "commandpalette_notice": "Paina <kbd>Ctrl</kbd>+<kbd>k</kbd> tai <kbd>Meta</kbd>+<kbd>k</kbd> avataksesi komentopaletin",
+        "create_quiz": "Luo uusi visa"
+    },
+    "footer": {
+        "self_ads": "Tehty ❤️:llä. Tekijä: {{mawoka_link}}, apuna {{others_link}}.",
+        "more_details_here": "Lisätietoja täällä",
+        "donate": "Jos tämä ohjelmisto oli sinulle hyödyllinen, ole kiltti ja harkitse {{donate_link}}."
+    },
+    "error_page": {
+        "404_text": "Sivu jota katsoit on poissa tai sitä ei koskaan ollutkaan. Kuka tietää?",
+        "unknown_error_text": "Tuota ei pitäisi tapahtua. Se on varmaan mun syytä eikä sun, tai sitten sulla on maaginen kyky hajottaa asioita..."
+    },
+    "uploader": {
+        "add_image": "Lisää mediaa",
+        "select_upload_type": "Valitse latauksen tyyppi",
+        "upload_a_video": "Lataa video",
+        "upload_video_popup_notice": "Pop-up ikkuna on auki; vilkaise sitä nähdäksesi lisätietoja",
+        "upload_video": "Lataa Video",
+        "visit_pixabay": "Vieraile Pixabayssa",
+        "images_by_pixabay": "Kuvat Pixabaysta",
+        "search_english_only": "Etsiminen toimii vain englanniksi",
+        "next_page": "Seuraava sivu",
+        "previous_page": "Edellinen sivu"
+    },
+    "avatar_settings": {
+        "skin_color": "Ihonväri",
+        "top_type": "Yläosa",
+        "hair_color": "Hiusten väri",
+        "facial_hair_type": "Kasvojen karvoitus",
+        "facial_hair_color": "Kasvojen karvoituksen väri",
+        "mouth_type": "Suu",
+        "eyebrow_type": "Kulmakarvat",
+        "accessories_type": "Lasit",
+        "hat_color": "Hatun väri",
+        "clothe_type": "Vaatteet",
+        "clothe_color": "Vaatteiden väri",
+        "clothe_graphic_type": "Grafiikka",
+        "thats_you": "Tässä olet sinä!",
+        "start_over": "Aloita alusta",
+        "go_back": "Mene takaisin"
+    },
+    "results_page": {
+        "no_results_so_far": "Ei tallennettuja tuloksia...",
+        "quiz_title": "Visan otsikko",
+        "date_played": "Pelattu",
+        "player_count": "Pelaajien lukumäärä",
+        "general_overview": {
+            "sentence": "Visa: \"<b>{{title}}</b>\", joka pelattiin <b>{{date}}</b>. Pelaajien määrä: <b>{{player_count}}</b> pelaajaa. Pelaajien pisteiden keskiarvo: <b>{{average_score}}</b>."
+        }
+    },
+    "result_page": {
+        "player_name": "Pelaajan nimi",
+        "custom_field": "Mukautettava kenttä",
+        "average_score": "Pisteiden keskiarvo: {{average_score}}",
+        "correct_answer": "{{count}} oikea vastaus",
+        "correct_answer_plural": "{{count}} oikeaa vastausta",
+        "time_taken": "Aikaa kulunut",
+        "player_score": "Pelaajan pisteet",
+        "player_correct_questions": "Oikeita vastauksia"
+    },
+    "controllers": {
+        "add_new_controller": "Lisää uusi ohjaaja",
+        "player_name": "Pelaajan nimi",
+        "first_seen": "Nähty ensi kertaa",
+        "last_seen": "Nähty viimeksi",
+        "controller_name": "Ohjaajan nimi",
+        "version_overview": "Uusin saatavilla oleva versio on {{newest_version}} ja asennettu versio on {{current_version}}.",
+        "already_latest_version": "Sinulla on jo uusin versio asennettuna",
+        "cancel_update": "Peru päivitys!",
+        "update_from_to": "Päivitä versiosta: {{current_version}} versioon: {{newest_version}}"
+    },
+    "navbar": {
+        "donate": "Lahjoita"
+    },
+    "security_settings": {
+        "backup_code": "Varakoodi",
+        "get_backup_code": "Hanki varakoodi",
+        "activate_2fa": "Lisää kaksivaiheinen tunnistautuminen",
+        "2fa_activated": "Kaksivaiheinen tunnistautuminen aktivoitu",
+        "2fa_deactivated": "Kaksivaiheinen tunnistautuminen deaktivoitu",
+        "webauthn": "Webauthn",
+        "webauthn_available": "Webauthn on saatavilla",
+        "webauthn_unavailable": "Webauthn ei ole saatavilla",
+        "add_security_key": "Lisää turvallisuusavain",
+        "totp": "TOTP",
+        "totp_available": "TOTP on saatavilla",
+        "totp_unavailable": "TOTP ei ole saatavilla",
+        "disable_totp": "Poista TOTP käytöstä",
+        "enable_totp": "Ota TOTP käyttöön",
+        "backup_codes": {
+            "your_backup_code": "Varakoodisi",
+            "save_somewhere_save": "Tallenna tämä turvalliseen paikkaan!",
+            "download_code": "Lataa koodi"
+        },
+        "totp_setup": {
+            "scan_to_set_up": "Skannaa tämä QR-koodi asettaaksesi koodin",
+            "enter_as_secret_if_no_see_code": "Syötä tämä salaisuutena jos et pysty skannaamaan QR-koodia",
+            "totp_setup": "TOTP-käyttöönotto",
+            "do_not_forget_backup_code": "Älä unohda tallentaa palautuskoodiasi!"
+        }
+    },
+    "view_quiz_page": {
+        "made_by": "Tekijä",
+        "view_on_kahoot": "Katso alkuperäinen"
+    },
+    "start_game": {
+        "captcha_message": "Jos se on päällä, Googlen ReCaptcha latautuu pelaajien selaimessa. Laita päälle ainoastaan tositarpeen tullen, sillä tarvitset JOKAISEN pelaajan suostumuksen captchan lataamiseen.",
+        "normal_mode_description": "Kysymys ja vastaus näytetään vain ylläpitäjän näytöllä. Pelaajille näkyy vain värilliset symbolit, jotka ovat samat kuin ylläpitäjän näytöllä.",
+        "old_school_mode": "Vanhanaikainen",
+        "old_school_mode_description": "Kysymykset ja kuvat näytetään kummankin ylläpitäjän näytöllä ja pelaajien näytöillä",
+        "start_game": "Aloita Peli"
+    },
+    "quiztivity": {
+        "editor": {
+            "select_page_type": "Valitse sivun tyyppi",
+            "move_left": "Siirry vasemmalle",
+            "move_right": "Siirry oikealle",
+            "title_placeholder": "Syötä otsikko tähän",
+            "add_new": "Lisää uusi",
+            "delete": "Poista",
+            "open_shares_menu": "Avaa Shares -valikko",
+            "shares": {
+                "add_new_share": "Lisää uusi Share",
+                "expires_on": "Vanhenee {{date}}",
+                "never_expires": "Ei vanhene"
+            }
+        },
+        "memory": {
+            "editor": {
+                "add_card": "Lisää kortti",
+                "upload_image": "Lataa kuva",
+                "add_pair": "Lisää pari"
+            }
+        },
+        "play": {
+            "memory": {
+                "try_count": "Yritysten lukumäärä: {{try_count}}"
+            }
+        },
+        "share_expired": "Share vanhentunut"
+    },
+    "components": {
+        "popover": {
+            "copied_to_clipboard": "Kopioitu leikepöydälle!"
+        }
+    },
+    "public_user_page": {
+        "joined_on": "Liittynyt {{date}}",
+        "no_original_quizzes": "Tällä käyttäjällä ei ole alkuperäisiä visoja",
+        "user_not_found": "Käyttäjää ei löytynyt"
+    },
+    "file_dashboard": {
+        "not_available": "Ei saatavilla",
+        "missing": "PUUTTUU!",
+        "unset": "Poista käytöstä",
+        "size": "Koko: {{size}} MiB",
+        "caption": "Kuvateksti: {{caption}}",
+        "filename": "Tiedostonimi: {{filename}}",
+        "uploaded": "Ladattu: {{date}}",
+        "imported": "Tuotu: {{yes_or_no}}",
+        "edit_details": "Muokkaa tietoja",
+        "delete_image": "Poista kuva",
+        "edit_the_image": "Muokkaa kuvaa",
+        "filename_word": "Tiedostonimi",
+        "alt_text": "Vaihtoehtoinen (kuva)teksti",
+        "storage_usage": "Olet käyttänyt {{used}}/{{total}} MiB tallennustilaa. Se on {{percent}}% tallennustilastasi."
+    },
+    "video_uploader": {
+        "time_elapsed": "Aikaa mennyt",
+        "time_remaining": "Aikaa jäljellä:"
+    },
+    "downloader": {
+        "select_download_type": "Valitse lataustyyppi",
+        "own_format": "Oma formaatti",
+        "excel_format": "Excelformaatti",
+        "help": "Oma formaatti (.cqa) sisältää myös kuvia ja tukee kaikkia kysymystyyppejä, missä Excelformaatti tukee vain äänestyksiä ja monivalintakysymyksiä."
+    }
+}
