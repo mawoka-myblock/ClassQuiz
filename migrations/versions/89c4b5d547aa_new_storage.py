@@ -90,7 +90,7 @@ def upgrade() -> None:
     settings = settings()
     conn = op.get_bind()
     session = Session(bind=conn)
-    all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
+    all_cover_images = session.execute(text("SELECT cover_image, id from quiz where cover_image is not null;"))
     stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for cover_image, id in all_cover_images:
         try:
@@ -99,7 +99,9 @@ def upgrade() -> None:
         except AttributeError:
             continue
 
-    all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
+    all_background_images = session.execute(
+        text("SELECT background_image, id from quiz where background_image is not null;")
+    )
     stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for bg_image, id in all_background_images:
         try:
@@ -109,7 +111,7 @@ def upgrade() -> None:
             continue
     s = text("UPDATE quiz SET questions = :q WHERE id=:i;")
 
-    all_questions = session.execute("SELECT questions, id from quiz;")
+    all_questions = session.execute(text("SELECT questions, id from quiz;"))
     question_image_regex = rf"{settings.root_address}/api/v1/storage/download/(?=.{{36}}--.{{36}})"
     for question, id in all_questions:
         question_as_json = json.dumps(question)
@@ -125,7 +127,7 @@ def upgrade() -> None:
     op.add_column("users", sa.Column("storage_used", sa.BigInteger(), nullable=True))
     conn = op.get_bind()
     session = Session(bind=conn)
-    session.execute("UPDATE users SET storage_used=0 WHERE storage_used is NULL")
+    session.execute(text("UPDATE users SET storage_used=0 WHERE storage_used is NULL"))
     op.alter_column("users", "storage_used", nullable=False)
 
 
@@ -144,21 +146,23 @@ def downgrade() -> None:
     settings = settings()
     conn = op.get_bind()
     session = Session(bind=conn)
-    all_cover_images = session.execute("SELECT cover_image, id from quiz where cover_image is not null;")
+    all_cover_images = session.execute(text("SELECT cover_image, id from quiz where cover_image is not null;"))
     stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for cover_image, id in all_cover_images:
         new_cover_image = f"{settings.root_address}/api/v1/storage/download/{cover_image}"
         # print(new_cover_image, id)
         session.execute(stmt, {"n": new_cover_image, "i": id})
 
-    all_background_images = session.execute("SELECT background_image, id from quiz where background_image is not null;")
+    all_background_images = session.execute(
+        text("SELECT background_image, id from quiz where background_image is not null;")
+    )
     stmt = text("UPDATE quiz SET cover_image = :n WHERE id=:i;")
     for bg_image, id in all_background_images:
         new_bg_image = f"{settings.root_address}/api/v1/storage/download/{bg_image}"
         # print(new_cover_image, id)
         session.execute(stmt, {"n": new_bg_image, "i": id})
 
-    all_questions = session.execute("SELECT questions, id from quiz;")
+    all_questions = session.execute(text("SELECT questions, id from quiz;"))
     stmt = text("UPDATE quiz SET questions = :r WHERE id=:i;")
     question_image_regex = r"(?=.{36}--.{36})"
     for question, id in all_questions:
