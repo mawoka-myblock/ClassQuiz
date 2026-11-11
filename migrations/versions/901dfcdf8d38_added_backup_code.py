@@ -29,7 +29,7 @@ def upgrade() -> None:
     op.add_column("users", sa.Column("backup_code", sa.String(length=64), nullable=True))
     conn = op.get_bind()
     session = Session(bind=conn)
-    res = session.execute("SELECT id from users;")
+    res = session.execute(sa.text("SELECT id from users;"))
     for row in res:
         user_id = str(row).strip(",.'()")
         session.execute(
