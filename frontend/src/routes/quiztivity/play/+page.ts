@@ -4,12 +4,13 @@
 
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { is_id } from '$lib/ids';
 import type { Data } from '$lib/quiztivity/types';
 
 export const load = (async ({ url, fetch }) => {
 	const id = url.searchParams.get('id');
 	const share = url.searchParams.get('share') === 'true';
-	if (!id) {
+	if (!is_id(id)) {
 		error(400, 'id missing');
 	}
 	let resp: Response;

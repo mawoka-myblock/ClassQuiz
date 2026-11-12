@@ -4,6 +4,7 @@
 
 import { redirect, error } from '@sveltejs/kit';
 import { signedIn } from '$lib/stores';
+import { is_id } from '$lib/ids';
 
 export async function load({ url, parent }) {
 	const quiz_id = url.searchParams.get('quiz_id');
@@ -16,7 +17,7 @@ export async function load({ url, parent }) {
 		signedIn.set(true);
 	}
 
-	if (quiz_id === null) {
+	if (!is_id(quiz_id)) {
 		error(404);
 	}
 	return {
