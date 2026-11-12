@@ -4,6 +4,7 @@
 
 
 import asyncio
+import html
 import uuid
 from datetime import datetime
 from typing import BinaryIO, Any
@@ -17,7 +18,9 @@ import xlsxwriter
 from aiohttp import ClientSession
 from io import BytesIO
 from PIL import Image
-from classquiz.config import meilisearch, settings, LOGGER
+import bleach
+
+from classquiz.config import meilisearch, settings, LOGGER, ALLOWED_TAGS_FOR_QUIZ
 from classquiz.helpers.hashcash import check as hc_check
 
 settings = settings()
@@ -116,6 +119,37 @@ async def generate_spreadsheet(
     return storage
 
 
+def clean_quiz_html(text: Any) -> Any:
+    """Titles, descriptions and questions may only contain a few inline tags (rendered as HTML)."""
+    if not isinstance(text, str):
+        return text
+    return bleach.clean(text, tags=ALLOWED_TAGS_FOR_QUIZ, strip=True)
+
+
+def clean_answer_text(text: Any) -> Any:
+    """Same as the editor: cleaned like rich text, then unescaped (answers are rendered as text)."""
+    if not isinstance(text, str):
+        return text
+    return html.unescape(clean_quiz_html(text))
+
+
+def sanitize_quiz_dict(quiz: dict) -> dict:
+    """Apply the editor's sanitization (routers/editor.py finish_edit) to a quiz from an import."""
+    quiz["title"] = clean_quiz_html(quiz.get("title"))
+    quiz["description"] = clean_quiz_html(quiz.get("description"))
+    for question in quiz.get("questions") or []:
+        if not isinstance(question, dict):
+            continue
+        question["question"] = clean_quiz_html(question.get("question"))
+        answers = question.get("answers")
+        if not isinstance(answers, list):
+            continue
+        for answer in answers:
+            if isinstance(answer, dict) and isinstance(answer.get("answer"), str):
+                answer["answer"] = clean_answer_text(answer["answer"])
+    return quiz
+
+
 async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     try:
         wb = load_workbook(filename=data)
@@ -131,6 +165,8 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         raise HTTPException(status_code=400, detail="Title missing")
     if description is None:
         raise HTTPException(status_code=400, detail="Description missing")
+    title = clean_quiz_html(str(title))
+    description = clean_quiz_html(str(description))
     if not 3 <= len(description) <= 500:
         raise HTTPException(status_code=400, detail="Description doesn't have the correct length")
     if not 3 <= len(title) <= 500:
@@ -139,7 +175,7 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
     for i, row in enumerate(ws.iter_rows(min_row=14, min_col=2, max_row=100, max_col=8, values_only=True)):
         if row[0] is None:
             continue
-        question = str(row[0])
+        question = clean_quiz_html(str(row[0]))
         if len(question) > 300:
             raise HTTPException(status_code=400, detail=f"Question {i + 1} is longer than 300")
         try:
@@ -164,7 +200,9 @@ async def handle_import_from_excel(data: BinaryIO, user: User) -> Quiz:
         for a, answer in enumerate(answers):
             if answer is None:
                 continue
-            answers_list.append(ABCDQuizAnswer(answer=str(answer), right=str(a + 1) in correct_answers))
+            answers_list.append(
+                ABCDQuizAnswer(answer=clean_answer_text(str(answer)), right=str(a + 1) in correct_answers)
+            )
 
         existing_question: dict | None = None
         if existing_quiz is not None:
