@@ -5,6 +5,8 @@ from base64 import b64encode
 from datetime import datetime, timedelta
 from tempfile import SpooledTemporaryFile
 
+import magic
+
 from fastapi import APIRouter, HTTPException, UploadFile, File, Depends, Request, Response
 from fastapi.responses import StreamingResponse, RedirectResponse
 from pydantic import BaseModel
@@ -21,8 +23,30 @@ settings = settings()
 router = APIRouter()
 
 
+# Uploads are served from the same origin as the app. These headers stop a
+# browser from running a file as a page (sniffing, scripts, forms), also for
+# files stored before uploads were checked.
+UNTRUSTED_FILE_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "Content-Security-Policy": "default-src 'none'; img-src 'self' data:; media-src 'self'; sandbox",
+}
+
+
+def is_image_or_video(head: bytes) -> bool:
+    """Check the real content, not the type the uploader claims.
+
+    Only rejects files that aren't images or videos at all (HTML, SVG, JSON,
+    text, ...). Image/video subtypes aren't compared with the claimed type,
+    because the video page labels every upload video/mp4 (also .mov/.m4v).
+    """
+    detected = magic.from_buffer(head, mime=True)
+    return detected.startswith(("image/", "video/")) and detected != "image/svg+xml"
+
+
 def headers_from_storage_item(item: StorageItem) -> dict[str, str]:
-    base_headers = {"Content-Type": item.mime_type}
+    base_headers = {"Content-Type": item.mime_type, **UNTRUSTED_FILE_HEADERS}
+    if item.mime_type not in ALLOWED_MIME_TYPES:
+        base_headers["Content-Disposition"] = "attachment"
     if item.hash is not None:
         base_headers["X-Hash"] = item.hash.hex()
     if item.thumbhash is not None:
@@ -64,7 +88,7 @@ async def download_file(file_name: str):
     media_type = "image/*"
     if item is not None:
         media_type = item.mime_type
-    headers = {"Cache-Control": "public, immutable, max-age=31536000"}
+    headers = {"Cache-Control": "public, immutable, max-age=31536000", **UNTRUSTED_FILE_HEADERS}
     if item is not None:
         headers = {**headers, **headers_from_storage_item(item)}
 
@@ -123,6 +147,10 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
         raise HTTPException(status_code=422, detail="Unsupported")
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
+    head = file.file.read(2048)
+    file.file.seek(0)
+    if not is_image_or_video(head):
+        raise HTTPException(status_code=422, detail="Unsupported")
     file_id = uuid4()
     file_size = 0
     file_obj = StorageItem(
@@ -148,6 +176,9 @@ async def upload_file(file: UploadFile = File(), user: User = Depends(get_curren
 
 @router.post("/raw")
 async def upload_raw_file(request: Request, user: User = Depends(get_current_user)) -> PublicStorageItem:
+    # Same rules as the multipart upload above: the stored type is what the file is served as.
+    if request.headers.get("Content-Type") not in ALLOWED_MIME_TYPES:
+        raise HTTPException(status_code=422, detail="Unsupported")
     if user.storage_used > settings.free_storage_limit:
         raise HTTPException(status_code=409, detail="Storage limit reached")
     file_id = uuid4()
@@ -155,6 +186,10 @@ async def upload_raw_file(request: Request, user: User = Depends(get_current_use
     async for chunk in request.stream():
         data_file.write(chunk)
     data_file.seek(0)
+    head = data_file.read(2048)
+    data_file.seek(0)
+    if not is_image_or_video(head):
+        raise HTTPException(status_code=422, detail="Unsupported")
     file_obj = StorageItem(
         id=file_id,
         uploaded_at=datetime.now(),

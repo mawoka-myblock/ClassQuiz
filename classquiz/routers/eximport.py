@@ -15,7 +15,7 @@ from aiohttp import ClientSession
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from classquiz.auth import get_current_user
-from classquiz.config import storage, settings, arq
+from classquiz.config import storage, settings, arq, ALLOWED_MIME_TYPES
 from classquiz.db.models import Quiz, User, StorageItem, QuizQuestionType, QuizQuestion
 import gzip
 import urllib.parse
@@ -104,6 +104,9 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
         mime_type = magic.from_buffer(img_data.read(2048), mime=True)
         img_data.seek(0)
         print(mime_type)
+        if mime_type not in ALLOWED_MIME_TYPES:
+            # Never store an imported file with an active type (HTML, SVG, ...).
+            mime_type = "application/octet-stream"
         index = int(index.decode("utf-8"))
         file_id = uuid.uuid4()
         file_obj = StorageItem(
