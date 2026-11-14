@@ -22,6 +22,8 @@ import gzip
 import urllib.parse
 import magic
 
+from classquiz.db.models import clean_quiz_colors
+
 router = APIRouter()
 settings = settings()
 quiz_delimiter = b"\xc7\xc7\xc7\x00"
@@ -91,6 +93,7 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
     [split_data, images] = data.split(quiz_delimiter)
     decompressed_quiz = gzip.decompress(split_data)
     quiz_dict = json.loads(decompressed_quiz.decode("utf-8"))
+    clean_quiz_colors(quiz_dict)
     image_splits = images.split(image_delimiter)
     quiz_id = uuid.uuid4()
     image_urls = {}

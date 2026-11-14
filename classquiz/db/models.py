@@ -5,6 +5,7 @@ from __future__ import annotations
 
 
 import os
+import re
 import uuid
 from datetime import datetime
 from typing import Optional, Self
@@ -109,10 +110,48 @@ class UserSession(ormar.Model):
     )
 
 
+# Colours are put into style="..." attributes by the frontend. Only accept what
+# the editor's colour picker produces, so a value can't add other CSS
+# (tracking images, position: fixed overlays, ...). Invalid values become None
+# (the default colour) instead of failing, so stored quizzes still load.
+HEX_COLOR = re.compile(r"#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})")
+
+
+def hex_color_or_none(value: object) -> str | None:
+    if isinstance(value, str) and HEX_COLOR.fullmatch(value.strip()):
+        return value.strip()
+    return None
+
+
+def css_safe_image_or_none(value: object) -> str | None:
+    """Background images end up in url('...'); refuse anything that could leave it."""
+    if not isinstance(value, str) or any(c in value for c in "'\"()\\; "):
+        return None
+    return value
+
+
+def clean_quiz_colors(quiz: dict) -> dict:
+    """Clean colour and background fields of a quiz dict from an import (.cqa file)."""
+    quiz["background_color"] = hex_color_or_none(quiz.get("background_color"))
+    quiz["background_image"] = css_safe_image_or_none(quiz.get("background_image"))
+    for question in quiz.get("questions") or []:
+        answers = question.get("answers") if isinstance(question, dict) else None
+        if isinstance(answers, list):
+            for answer in answers:
+                if isinstance(answer, dict) and "color" in answer:
+                    answer["color"] = hex_color_or_none(answer["color"])
+    return quiz
+
+
 class ABCDQuizAnswer(BaseModel):
     right: bool
     answer: str
     color: str | None = None
+
+    @field_validator("color", mode="before")
+    @classmethod
+    def valid_color(cls, v: object) -> str | None:
+        return hex_color_or_none(v)
 
 
 class RangeQuizAnswer(BaseModel):
@@ -126,6 +165,11 @@ class VotingQuizAnswer(BaseModel):
     answer: str
     image: str | None = None
     color: str | None = None
+
+    @field_validator("color", mode="before")
+    @classmethod
+    def valid_color(cls, v: object) -> str | None:
+        return hex_color_or_none(v)
 
 
 class QuizQuestionType(str, Enum):
@@ -178,6 +222,11 @@ class QuizInput(BaseModel):
     background_color: str | None = None
     questions: list[QuizQuestion]
     background_image: str | None = None
+
+    @field_validator("background_color", mode="before")
+    @classmethod
+    def valid_background_color(cls, v: object) -> str | None:
+        return hex_color_or_none(v)
 
 
 class Quiz(ormar.Model):
@@ -251,6 +300,18 @@ class PlayGame(BaseModel):
     background_image: str | None = None
     custom_field: str | None = None
     question_show: bool = False
+
+    # This is what the host and player screens put into style="...": quizzes
+    # stored before colours were validated are cleaned here too.
+    @field_validator("background_color", mode="before")
+    @classmethod
+    def valid_background_color(cls, v: object) -> str | None:
+        return hex_color_or_none(v)
+
+    @field_validator("background_image", mode="before")
+    @classmethod
+    def valid_background_image(cls, v: object) -> str | None:
+        return css_safe_image_or_none(v)
 
     @classmethod
     async def get_from_redis(self, game_pin: str) -> Self:
