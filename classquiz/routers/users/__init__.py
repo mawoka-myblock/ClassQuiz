@@ -205,14 +205,22 @@ async def reset_password_with_token(reset_password: ResetPassword, response: Res
     return {"message": "Password updated successfully"}
 
 
-@router.get(
-    "/sessions/list",
-    response_model=list[UserSession],
-    response_model_exclude={"user", "session_key", "quizs"},
-)
+class PublicUserSession(BaseModel):
+    """A session as shown in the account settings. Never includes the session key."""
+
+    id: uuid.UUID
+    created_at: datetime | None = None
+    last_seen: datetime | None = None
+    ip_address: str | None = None
+    user_agent: str | None = None
+
+
+# response_model_exclude on a list applies to the list, not to its items, so the
+# old exclude={"session_key", ...} returned every session key. Use an explicit model.
+@router.get("/sessions/list", response_model=list[PublicUserSession])
 async def list_sessions(user: User = Depends(get_current_user)):
     sessions = await UserSession.objects.filter(user=user).all()
-    return [session.model_dump() for session in sessions]
+    return [PublicUserSession.model_validate(session, from_attributes=True) for session in sessions]
 
 
 @router.delete("/sessions/{session_id}")
