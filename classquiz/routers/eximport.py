@@ -17,6 +17,7 @@ from fastapi.responses import StreamingResponse
 from classquiz.auth import get_current_user
 from classquiz.config import storage, settings, arq
 from classquiz.db.models import Quiz, User, StorageItem, QuizQuestionType, QuizQuestion
+from classquiz.helpers import sanitize_quiz_dict
 import gzip
 import urllib.parse
 import magic
@@ -129,6 +130,8 @@ async def import_quiz(file: UploadFile = File(), user: User = Depends(get_curren
             question["image"] = image_urls[question["image"]]
     if quiz_dict["cover_image"] is not None:
         quiz_dict["cover_image"] = image_urls[-1]
+    # The file is user-supplied: clean it exactly like a quiz saved in the editor.
+    sanitize_quiz_dict(quiz_dict)
     quiz = Quiz.model_validate(quiz_dict)
     quiz.user_id = user.id
     quiz.imported_from_kahoot = None
