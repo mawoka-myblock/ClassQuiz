@@ -4,9 +4,13 @@
 
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { is_id } from '$lib/ids';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
 	const { quiz_id } = params;
+	if (!is_id(quiz_id)) {
+		error(404);
+	}
 	const res = await fetch(`${process.env.API_URL}/api/v1/quiz/get/public/${quiz_id}`);
 	const { email } = await parent();
 	if (res.status === 404 || res.status === 400) {

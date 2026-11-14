@@ -9,6 +9,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Spinner from '$lib/Spinner.svelte';
 	import TitleScreen from '$lib/practice/title_screen.svelte';
 	import Question from '$lib/practice/question.svelte';
+	import { is_id } from '$lib/ids';
 
 	let quiz: QuizData = $state();
 	let unique = $state({});
@@ -16,7 +17,11 @@ SPDX-License-Identifier: MPL-2.0
 	let selected_question = $state(-1);
 
 	const get_quiz = async () => {
-		const res = await fetch(`/api/v1/quiz/get/public/${page.url.searchParams.get('quiz_id')}`);
+		const quiz_id = page.url.searchParams.get('quiz_id');
+		if (!is_id(quiz_id)) {
+			throw 404;
+		}
+		const res = await fetch(`/api/v1/quiz/get/public/${quiz_id}`);
 		if (!res.ok) {
 			throw res.status;
 		}
