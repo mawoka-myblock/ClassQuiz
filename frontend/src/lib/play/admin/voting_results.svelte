@@ -71,7 +71,7 @@ SPDX-License-Identifier: MPL-2.0
 						class:line-through={!answer_correct[i] &&
 							question.type !== QuizQuestionType.VOTING}
 					>
-						{@html answer}
+						{answer}
 					</p>
 				</div>
 			{/each}
