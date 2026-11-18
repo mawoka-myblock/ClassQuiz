@@ -29,7 +29,13 @@ SPDX-License-Identifier: MPL-2.0
 		});
 
 	const speed_extraction_regex = /speed=(\d+\.\d+)x(?![\s\S]*speed=\d+\.\d+x)/;
-	let last_time_elapsed = 0;
+
+	const time_remaining = (time_elapsed: number, progress: number): string => {
+		if (progress <= 0) {
+			return '-';
+		}
+		return `${(time_elapsed / progress - time_elapsed).toFixed(2)}s`;
+	};
 
 	// eslint-disable-next-line no-unused-vars
 	enum Status {
@@ -56,21 +62,22 @@ SPDX-License-Identifier: MPL-2.0
 			return;
 		}
 		status = Status.Compressing;
+		const compression_started = Date.now();
 		const ffmpeg = new FFmpeg();
 		const file = file_input.files[0];
 		original_file_size_in_mi = file.size / 1_048_576;
 		ffmpeg.on('log', ({ message }) => {
+			// Most log lines carry no speed; keep the last one that did.
 			const speed_match = message.match(speed_extraction_regex);
-			stats.speed = speed_match ? parseFloat(speed_match[1]) : 0;
+			if (speed_match) {
+				stats.speed = parseFloat(speed_match[1]);
+			}
 		});
 		ffmpeg.on('progress', (p) => {
-			if (stats.progress >= 1) {
-				stats.time_elapsed = last_time_elapsed;
-				return;
-			}
-			stats.time_elapsed = p.time ?? 0;
-			last_time_elapsed = stats.time_elapsed;
-			stats.progress = p.ratio ?? 0;
+			// ffmpeg.wasm: only accurate if input and output have the same length,
+			// so keep it between 0 and 1.
+			stats.progress = Math.min(Math.max(p.progress ?? 0, 0), 1);
+			stats.time_elapsed = (Date.now() - compression_started) / 1000;
 		});
 		await ffmpeg.load({
 			// log: true,
@@ -149,7 +156,7 @@ SPDX-License-Identifier: MPL-2.0
 	<input type="file" bind:this={file_input} class="m-auto" accept="video/mp4" />
 	<div class="mt-auto flex justify-center">
 		{#if status === Status.Compressing || status === Status.CompressDone}
-			<table>
+			<table class="border-separate border-spacing-x-4 text-center">
 				<thead>
 					<tr>
 						<th>{$t('words.speed')}</th>
@@ -162,18 +169,13 @@ SPDX-License-Identifier: MPL-2.0
 					<tr>
 						<td>{stats.speed}</td>
 						<td>{Math.round(stats.progress * 100)}%</td>
-						<td>{upload_stats.time_elapsed.toFixed(2)}s</td>
-						<td
-							>{(
-								stats.time_elapsed / stats.progress -
-								upload_stats.time_elapsed
-							).toFixed(2)}s</td
-						>
+						<td>{stats.time_elapsed.toFixed(2)}s</td>
+						<td>{time_remaining(stats.time_elapsed, stats.progress)}</td>
 					</tr></tbody
 				>
 			</table>
 		{:else if status === Status.Uploading}
-			<table>
+			<table class="border-separate border-spacing-x-4 text-center">
 				<thead>
 					<tr>
 						<th>{$t('words.progress')}</th>
@@ -184,12 +186,8 @@ SPDX-License-Identifier: MPL-2.0
 				<tbody>
 					<tr>
 						<td>{Math.round(upload_stats.progress * 100)}%</td>
-						<td>{stats.time_elapsed.toFixed(2)}s</td>
-						<td
-							>{(stats.time_elapsed / stats.progress - stats.time_elapsed).toFixed(
-								2
-							)}s</td
-						>
+						<td>{upload_stats.time_elapsed.toFixed(2)}s</td>
+						<td>{time_remaining(upload_stats.time_elapsed, upload_stats.progress)}</td>
 					</tr>
 				</tbody>
 			</table>
