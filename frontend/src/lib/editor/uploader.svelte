@@ -99,14 +99,18 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	onMount(() => {
-		window.addEventListener('storage', (e) => {
-			if (e.key !== 'video_upload_id') {
+		// Only a question's uploader takes videos. An empty value is another tab clearing
+		// the entry.
+		const take_uploaded_video = (e: StorageEvent) => {
+			if (e.key !== 'video_upload_id' || !e.newValue || !video_upload) {
 				return;
 			}
 			localStorage.removeItem('video_upload_id');
 			data.questions[selected_question].image = e.newValue;
 			selected_type = null;
-		});
+		};
+		window.addEventListener('storage', take_uploaded_video);
+		return () => window.removeEventListener('storage', take_uploaded_video);
 	});
 
 	const upload_video = async () => {
