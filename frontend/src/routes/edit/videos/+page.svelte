@@ -131,7 +131,8 @@ SPDX-License-Identifier: MPL-2.0
 				'-crf',
 				'20',
 				'-vf',
-				'scale=1080:-2',
+				// At most 1080 pixels wide, never enlarged. x264 needs an even width.
+				"scale=w='trunc(min(1080,iw)/2)*2':h=-2",
 				output_name
 			]);
 			if (exit_code !== 0) {
