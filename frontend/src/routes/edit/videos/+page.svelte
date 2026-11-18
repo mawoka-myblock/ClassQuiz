@@ -73,6 +73,18 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	};
 
+	// Another file needs its own compression. Without this, "Upload" would still send the
+	// previous one.
+	const file_changed = () => {
+		error_message = undefined;
+		if (status === Status.CompressDone) {
+			file_data = undefined;
+			file_size_in_mi = undefined;
+			stats = { progress: 0, time_elapsed: 0, speed: 0 };
+			status = Status.Idle;
+		}
+	};
+
 	const compress_video = async () => {
 		if (status !== Status.Idle) {
 			return;
@@ -212,7 +224,14 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div class="w-screen h-screen m-auto flex flex-col dark:bg-gray-700 p-2 bg-white">
-	<input type="file" bind:this={file_input} class="m-auto" accept="video/mp4" />
+	<input
+		type="file"
+		bind:this={file_input}
+		class="m-auto"
+		accept="video/mp4"
+		onchange={file_changed}
+		disabled={status === Status.Compressing || status === Status.Uploading}
+	/>
 	<div class="mt-auto flex justify-center">
 		{#if status === Status.Compressing || status === Status.CompressDone}
 			<table class="border-separate border-spacing-x-4 text-center">
