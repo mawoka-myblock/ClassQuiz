@@ -7,6 +7,9 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { FFmpeg } from '@ffmpeg/ffmpeg';
 	import { fetchFile } from '@ffmpeg/util';
+	// Served by this site. Without these, the library fetches its core from unpkg.com.
+	import core_url from '@ffmpeg/core?url';
+	import wasm_url from '@ffmpeg/core/wasm?url';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { navbarVisible } from '$lib/stores.svelte.ts';
 	import { getLocalization } from '$lib/i18n';
@@ -119,9 +122,7 @@ SPDX-License-Identifier: MPL-2.0
 			stats.time_elapsed = (Date.now() - compression_started) / 1000;
 		});
 		try {
-			await ffmpeg.load({
-				// log: true,
-			});
+			await ffmpeg.load({ coreURL: core_url, wasmURL: wasm_url });
 			await ffmpeg.writeFile(input_name, await fetchFile(file));
 			const exit_code = await ffmpeg.exec([
 				'-i',
