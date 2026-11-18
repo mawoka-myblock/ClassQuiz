@@ -56,15 +56,42 @@ SPDX-License-Identifier: MPL-2.0
 	let file_size_in_mi: undefined | number = $state(undefined);
 	let original_file_size_in_mi: undefined | number = undefined;
 	let file_data: undefined | Blob = undefined;
+	let error_message: undefined | string = $state(undefined);
+
+	// Fixed names inside ffmpeg's own file system, so a file called "out.mp4" can't clash.
+	const input_name = 'input.mp4';
+	const output_name = 'output.mp4';
+
+	// The server refuses an upload when the storage is full, but it answers before the whole
+	// file has arrived, and with a big file the browser often can't read that answer.
+	const storage_is_full = async (): Promise<boolean> => {
+		try {
+			const response = await fetch('/api/v1/storage/limit');
+			return response.ok && (await response.json()).limit_reached === true;
+		} catch {
+			return false;
+		}
+	};
 
 	const compress_video = async () => {
 		if (status !== Status.Idle) {
 			return;
 		}
+		const file = file_input.files?.[0];
+		if (!file) {
+			error_message = $t('video_uploader.choose_file');
+			return;
+		}
+		error_message = undefined;
 		status = Status.Compressing;
+		// Compressing can take minutes, so don't start if the upload would be refused anyway.
+		if (await storage_is_full()) {
+			status = Status.Idle;
+			error_message = $t('video_uploader.storage_full');
+			return;
+		}
 		const compression_started = Date.now();
 		const ffmpeg = new FFmpeg();
-		const file = file_input.files[0];
 		original_file_size_in_mi = file.size / 1_048_576;
 		ffmpeg.on('log', ({ message }) => {
 			// Most log lines carry no speed; keep the last one that did.
@@ -79,30 +106,48 @@ SPDX-License-Identifier: MPL-2.0
 			stats.progress = Math.min(Math.max(p.progress ?? 0, 0), 1);
 			stats.time_elapsed = (Date.now() - compression_started) / 1000;
 		});
-		await ffmpeg.load({
-			// log: true,
-		});
-		await ffmpeg.writeFile(file.name, await fetchFile(file));
-		await ffmpeg.exec([
-			'-i',
-			file.name,
-			'-vcodec',
-			'libx264',
-			'-crf',
-			'20',
-			'-vf',
-			'scale=1080:-2',
-			'out.mp4'
-		]);
-		const data = await ffmpeg.readFile('out.mp4');
-		file_size_in_mi = data.length / 1_048_576;
-		file_data = new Blob([data]);
-		status = Status.CompressDone;
-		stats.progress = 1;
+		try {
+			await ffmpeg.load({
+				// log: true,
+			});
+			await ffmpeg.writeFile(input_name, await fetchFile(file));
+			const exit_code = await ffmpeg.exec([
+				'-i',
+				input_name,
+				'-vcodec',
+				'libx264',
+				'-crf',
+				'20',
+				'-vf',
+				'scale=1080:-2',
+				output_name
+			]);
+			if (exit_code !== 0) {
+				throw new Error(`ffmpeg exited with code ${exit_code}`);
+			}
+			const data = await ffmpeg.readFile(output_name);
+			file_size_in_mi = data.length / 1_048_576;
+			file_data = new Blob([data]);
+			status = Status.CompressDone;
+			stats.progress = 1;
+		} catch (e) {
+			console.error('Video compression failed', e);
+			stats = { progress: 0, time_elapsed: 0, speed: 0 };
+			status = Status.Idle;
+			error_message = $t('video_uploader.compression_failed');
+		} finally {
+			ffmpeg.terminate();
+		}
 	};
 
 	const upload_video = async () => {
+		if (status !== Status.CompressDone || !file_data) {
+			return;
+		}
+		error_message = undefined;
 		status = Status.Uploading;
+		upload_stats.progress = 0;
+		upload_stats.time_elapsed = 0;
 		upload_stats.upload_started = new Date();
 		/*        const progressTrackingStream = new TransformStream({
             transform(chunk, controller) {
@@ -126,7 +171,7 @@ SPDX-License-Identifier: MPL-2.0
                 });
                 const json = await response.json()*/
 		const xhr = new XMLHttpRequest();
-		const success = await new Promise((resolve) => {
+		const response: { status: number; body: string } = await new Promise((resolve) => {
 			xhr.upload.addEventListener('progress', (event) => {
 				if (event.lengthComputable) {
 					upload_stats.progress = event.loaded / event.total;
@@ -134,19 +179,33 @@ SPDX-License-Identifier: MPL-2.0
 				}
 			});
 			xhr.addEventListener('loadend', () => {
-				resolve({
-					success: xhr.readyState === 4 && xhr.status === 200,
-					body: xhr.responseText
-				});
+				resolve({ status: xhr.status, body: xhr.responseText });
 			});
 			xhr.open('POST', '/api/v1/storage/raw', true);
 			xhr.setRequestHeader('Content-Type', 'video/mp4');
 			xhr.send(file_data);
 		});
-		console.log('success:', success);
-		const json = JSON.parse(success.body);
-		localStorage.setItem('video_upload_id', json.id);
-		console.log(json, 'done');
+		let video_id: undefined | string = undefined;
+		if (response.status === 200) {
+			try {
+				video_id = JSON.parse(response.body).id;
+			} catch {
+				video_id = undefined;
+			}
+		}
+		if (!video_id) {
+			// Without an id there is nothing to attach; stay here so the user can try again.
+			if (response.status === 413) {
+				error_message = $t('video_uploader.too_large');
+			} else if (response.status === 409 || (await storage_is_full())) {
+				error_message = $t('video_uploader.storage_full');
+			} else {
+				error_message = $t('video_uploader.upload_failed');
+			}
+			status = Status.CompressDone;
+			return;
+		}
+		localStorage.setItem('video_upload_id', video_id);
 		status = Status.Done;
 		window.close();
 	};
@@ -193,6 +252,11 @@ SPDX-License-Identifier: MPL-2.0
 			</table>
 		{/if}
 	</div>
+	{#if error_message}
+		<p class="mt-2 text-center font-semibold text-red-600 dark:text-red-300" role="alert">
+			{error_message}
+		</p>
+	{/if}
 	<div class="flex relative my-2">
 		<div class="w-full">
 			<BrownButton disabled={status !== Status.CompressDone} onclick={upload_video}>
