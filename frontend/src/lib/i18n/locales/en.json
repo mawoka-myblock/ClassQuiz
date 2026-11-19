@@ -479,7 +479,12 @@
     },
     "video_uploader": {
         "time_elapsed": "Time elapsed",
-        "time_remaining": "Time remaining"
+        "time_remaining": "Time remaining",
+        "choose_file": "Choose a video first.",
+        "compression_failed": "The video could not be compressed. Try another file.",
+        "storage_full": "Your storage is full. Delete files you no longer need and try again.",
+        "too_large": "The compressed video is too large to upload.",
+        "upload_failed": "The upload failed. Try again."
     },
     "downloader": {
         "select_download_type": "Select download type",
