@@ -8,7 +8,13 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { socket } from '$lib/socket';
 	import JoinGame from '$lib/play/join.svelte';
-	import type { Answer, Question as QuestionType } from '$lib/quiz_types';
+	import type {
+		Answer,
+		AnswerReturnData,
+		PlayGamePlayer,
+		Question as QuestionType,
+		SetQuestionNumber
+	} from '$lib/quiz_types';
 	import ShowTitle from '$lib/play/title.svelte';
 	import Question from '$lib/play/question.svelte';
 	import { navbarVisible } from '$lib/stores.svelte.ts';
@@ -44,16 +50,16 @@ SPDX-License-Identifier: MPL-2.0
 	let question_index = $state('');
 	let unique = $state({});
 	navbarVisible.visible = false;
-	let answer_results: Array<Answer> = $state();
-	let gameData = $state();
-	let solution: QuestionType = $state();
+	let answer_results: Array<AnswerReturnData> | undefined = $state();
+	let gameData: undefined | PlayGamePlayer = $state();
+	let solution: QuestionType | undefined = $state();
 	let username = $state('');
 	let scores = $state({});
 	let gameMeta: GameMeta = $state({
 		started: false
 	});
 
-	let question: Question = $state();
+	let question: QuestionType | undefined = $state();
 
 	let preventReload = true;
 
@@ -93,15 +99,15 @@ SPDX-License-Identifier: MPL-2.0
 	});
 
 	// Socket-events
-	socket.on('joined_game', (data) => {
+	socket.on('joined_game', (data: PlayGamePlayer) => {
 		gameData = data;
 		// eslint-disable-next-line no-undef
-		plausible('Joined Game', { props: { game_id: gameData.game_id } });
+		plausible('Joined Game', { props: { game_id: gameData?.game_id } });
 		Cookies.set('joined_game', JSON.stringify({ sid: socket.id, username, game_pin }), {
 			expires: 3600
 		});
 	});
-	socket.on('rejoined_game', (data) => {
+	socket.on('rejoined_game', (data: PlayGamePlayer) => {
 		gameData = data;
 		if (data.started) {
 			gameMeta.started = true;
@@ -117,7 +123,7 @@ SPDX-License-Identifier: MPL-2.0
 		}
 	});
 
-	socket.on('set_question_number', (data) => {
+	socket.on('set_question_number', (data: SetQuestionNumber) => {
 		solution = undefined;
 		restart();
 		question = data.question;
@@ -129,7 +135,7 @@ SPDX-License-Identifier: MPL-2.0
 		gameMeta.started = true;
 	});
 
-	socket.on('question_results', (data) => {
+	socket.on('question_results', (data: AnswerReturnData[]) => {
 		restart();
 		answer_results = data;
 	});
@@ -151,7 +157,7 @@ SPDX-License-Identifier: MPL-2.0
 		Cookies.remove('joined_game');
 	});
 
-	socket.on('solutions', (data) => {
+	socket.on('solutions', (data: QuestionType) => {
 		solution = data;
 	});
 

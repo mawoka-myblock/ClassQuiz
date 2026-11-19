@@ -55,6 +55,7 @@ export const getWinnersSorted = (
 
 export interface Player {
 	username: string;
+	sid: string;
 }
 
 export interface PlayerAnswer {

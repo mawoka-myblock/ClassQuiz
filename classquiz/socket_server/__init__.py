@@ -88,34 +88,35 @@ async def rejoin_game(sid: str, data: dict):
         await sio.emit("game_not_found", room=sid)
         return
     try:
-        data = RejoinGameData(**data)
+        d = RejoinGameData(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
-    redis_sid_key = f"game_session:{data.game_pin}:players:{data.username}"
+        return
+    redis_sid_key = f"game_session:{d.game_pin}:players:{d.username}"
     old_sid = await redis.get(redis_sid_key)
-    if old_sid != data.old_sid:
+    if old_sid != d.old_sid:
         return
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
     await sio.emit("time_sync", encrypted_datetime, room=sid)
     await redis.set(redis_sid_key, sid)
     await redis.srem(
-        f"game_session:{data.game_pin}:players",
-        GamePlayer(username=data.username, sid=data.old_sid).model_dump_json(),
+        f"game_session:{d.game_pin}:players",
+        GamePlayer(username=d.username, sid=d.old_sid).model_dump_json(),
     )
     await redis.sadd(
-        f"game_session:{data.game_pin}:players",
-        GamePlayer(username=data.username, sid=sid).model_dump_json(),
+        f"game_session:{d.game_pin}:players",
+        GamePlayer(username=d.username, sid=sid).model_dump_json(),
     )
     game_data = PlayGame.model_validate_json(redis_res)
     session = {
-        "game_pin": data.game_pin,
-        "username": data.username,
+        "game_pin": d.game_pin,
+        "username": d.username,
         "sid_custom": sid,
         "admin": False,
     }
     await save_session(sid, sio, session)
-    await sio.enter_room(sid, data.game_pin)
+    await sio.enter_room(sid, d.game_pin)
     await sio.emit(
         "rejoined_game",
         game_data.to_player_data(),
@@ -130,7 +131,7 @@ async def join_game(sid: str, data: dict):
         await sio.emit("game_not_found", room=sid)
         return
     try:
-        data = JoinGameData(**data)
+        d = JoinGameData(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
@@ -140,18 +141,18 @@ async def join_game(sid: str, data: dict):
         await sio.emit("game_already_started", room=sid)
         return
     # +++ START checking captcha +++
-    if game_data.captcha_enabled:
-        captcha_res = check_captcha(data.captcha)
+    if game_data.captcha_enabled and d.captcha is not None:
+        captcha_res = check_captcha(d.captcha)
         if not captcha_res:
             return
     # --- END checking captcha ---
-    if await redis.get(f"game_session:{data.game_pin}:players:{data.username}") is not None:
+    if await redis.get(f"game_session:{d.game_pin}:players:{d.username}") is not None:
         await sio.emit("username_already_exists", room=sid)
         return
 
     session = {
-        "game_pin": data.game_pin,
-        "username": data.username,
+        "game_pin": d.game_pin,
+        "username": d.username,
         "sid_custom": sid,
         "admin": False,
     }
@@ -161,28 +162,28 @@ async def join_game(sid: str, data: dict):
         game_data.to_player_data(),
         room=sid,
     )
-    await redis.set(f"game_session:{data.game_pin}:players:{data.username}", sid, ex=7200)
-    await GamePlayer(username=data.username, sid=sid).to_player_stack(data.game_pin)
+    await redis.set(f"game_session:{d.game_pin}:players:{d.username}", sid, ex=7200)
+    await GamePlayer(username=d.username, sid=sid).to_player_stack(d.game_pin)
 
-    if data.custom_field == "":
-        data.custom_field = None
-    if data.custom_field is not None:
+    if d.custom_field == "":
+        d.custom_field = None
+    if d.custom_field is not None:
         await redis.hset(
-            f"game:{data.game_pin}:players:custom_fields",
-            data.username,
-            data.custom_field,
+            f"game:{d.game_pin}:players:custom_fields",
+            d.username,
+            d.custom_field,
         )
 
     await sio.emit(
         "player_joined",
-        {"username": data.username, "sid": sid},
-        room=f"admin:{data.game_pin}",
+        {"username": d.username, "sid": sid},
+        room=f"admin:{d.game_pin}",
     )
     # +++ Time-Sync +++
     encrypted_datetime = fernet.encrypt(datetime.now().isoformat().encode("utf-8")).decode("utf-8")
     await sio.emit("time_sync", encrypted_datetime, room=sid)
     # --- Time-Sync ---
-    await sio.enter_room(sid, data.game_pin)
+    await sio.enter_room(sid, d.game_pin)
 
 
 @sio.event
@@ -200,26 +201,27 @@ async def start_game(sid: str, _data: dict):
 @sio.event
 async def register_as_admin(sid: str, data: dict):
     try:
-        data = RegisterAsAdminData(**data)
+        d = RegisterAsAdminData(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
         return
-    game_pin = data.game_pin
-    game_id = data.game_id
+    game_pin = d.game_pin
+    game_id = d.game_id
     if await redis.get(f"game_session:{game_pin}") is not None:
         await sio.emit("already_registered_as_admin", room=sid)
         return
     await GameSession(admin=sid, game_id=game_id, answers=[]).save(game_pin)
+    game_data = await PlayGame.get_from_redis(game_pin)
     await sio.emit(
         "registered_as_admin",
-        {"game_id": game_id, "game": await redis.get(f"game:{game_pin}")},
+        {"game_id": game_id, "game": game_data},
         room=sid,
     )
     session = {"game_pin": game_pin, "admin": True, "remote": False}
     await save_session(sid, sio, session)
     await sio.enter_room(sid, game_pin)
-    await sio.enter_room(sid, f"admin:{data.game_pin}")
+    await sio.enter_room(sid, f"admin:{d.game_pin}")
 
 
 @sio.event
@@ -277,14 +279,14 @@ async def set_question_number(sid: str, data: str):
 async def submit_answer(sid: str, data: dict):
     now = datetime.now()
     try:
-        data = SubmitAnswerData(**data)
+        d = SubmitAnswerData(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
         return
-    data.answer = str(data.answer)
+    d.answer = str(d.answer)
     session = await get_session(sid, sio)
-    question_index = int(float(data.question_index))
+    question_index = int(float(d.question_index))
     game_data = await PlayGame.get_from_redis(session["game_pin"])
 
     if question_index != game_data.current_question:
@@ -296,7 +298,7 @@ async def submit_answer(sid: str, data: dict):
         await sio.emit("already_replied", room=sid)
         return
 
-    answer_right, answer = check_answer(game_data, data)
+    answer_right, answer = check_answer(game_data, d)
     latency = int(float(session["ping"]))
     time_q_started = datetime.fromisoformat(await redis.get(f"game:{session['game_pin']}:current_time"))
     diff = (time_q_started - now).total_seconds() * 1000  # - timedelta(milliseconds=latency)
@@ -375,7 +377,7 @@ async def echo_time_sync(sid: str, data: str):
 @sio.event
 async def kick_player(sid: str, data: dict):
     try:
-        data = KickPlayerInput(**data)
+        d = KickPlayerInput(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
@@ -385,10 +387,10 @@ async def kick_player(sid: str, data: dict):
     if not session["admin"]:
         return
 
-    player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{data.username}")
+    player_sid = await redis.get(f"game_session:{session['game_pin']}:players:{d.username}")
     await redis.srem(
         f"game_session:{session['game_pin']}:players",
-        GamePlayer(username=data.username, sid=player_sid).model_dump_json(),
+        GamePlayer(username=d.username, sid=player_sid).model_dump_json(),
     )
     await sio.leave_room(player_sid, session["game_pin"])
     await sio.emit("kick", room=player_sid)
@@ -402,24 +404,24 @@ class _RegisterAsRemoteInput(BaseModel):
 @sio.event
 async def register_as_remote(sid: str, data: dict):
     try:
-        data = _RegisterAsRemoteInput(**data)
+        d = _RegisterAsRemoteInput(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
         return
     await sio.emit(
         "registered_as_admin",
-        {"game_id": data.game_id, "game": await redis.get(f"game:{data.game_pin}")},
+        {"game_id": d.game_id, "game": await redis.get(f"game:{d.game_pin}")},
         room=sid,
     )
-    await sio.emit("control_visibility", {"visible": False}, room=f"admin:{data.game_pin}")
+    await sio.emit("control_visibility", {"visible": False}, room=f"admin:{d.game_pin}")
     session = await get_session(sid, sio)
-    session["game_pin"] = data.game_pin
+    session["game_pin"] = d.game_pin
     session["admin"] = True
     session["remote"] = True
     await save_session(sid, sio, session)
-    await sio.enter_room(sid, data.game_pin)
-    await sio.enter_room(sid, f"admin:{data.game_pin}")
+    await sio.enter_room(sid, d.game_pin)
+    await sio.enter_room(sid, f"admin:{d.game_pin}")
 
 
 class _SetControlVisibilityInput(BaseModel):
@@ -429,7 +431,7 @@ class _SetControlVisibilityInput(BaseModel):
 @sio.event
 async def set_control_visibility(sid: str, data: dict):
     try:
-        data = _SetControlVisibilityInput(**data)
+        d = _SetControlVisibilityInput(**data)
     except ValidationError as e:
         await sio.emit("error", room=sid)
         print(e)
@@ -437,7 +439,7 @@ async def set_control_visibility(sid: str, data: dict):
     session: dict = await get_session(sid, sio)
     await sio.emit(
         "control_visibility",
-        {"visible": data.visible},
+        {"visible": d.visible},
         room=f"admin:{session['game_pin']}",
     )
 

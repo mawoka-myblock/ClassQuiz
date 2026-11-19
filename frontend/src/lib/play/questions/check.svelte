@@ -5,7 +5,7 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
-	import type { Question } from '$lib/quiz_types';
+	import type { ABCDAnswerWithoutSolution, QuizQuestionType, ReturnQuestion } from '$lib/quiz_types';
 	import { get_foreground_color } from '$lib/helpers';
 	import { kahoot_icons } from '$lib/play/kahoot_mode_assets/kahoot_icons';
 	import CircularTimer from '$lib/play/circular_progress.svelte';
@@ -13,7 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
 
 	interface Props {
-		question: Question;
+		question: Omit<ReturnQuestion, 'answers'|"type"> & { answers: ABCDAnswerWithoutSolution[]; type: QuizQuestionType.CHECK };
 		selected_answer?: string;
 		game_mode: any;
 		timer_res: any;

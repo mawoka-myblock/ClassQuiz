@@ -314,9 +314,9 @@ class PlayGame(BaseModel):
         return css_safe_image_or_none(v)
 
     @classmethod
-    async def get_from_redis(self, game_pin: str) -> Self:
+    async def get_from_redis(cls, game_pin: str) -> Self:
         redis_data: str = await redis.get(f"game:{game_pin}")
-        data = self.model_validate_json(redis_data)
+        data = cls.model_validate_json(redis_data)
         return data
 
     async def save(self, game_pin: str, ex: int = 7200):
