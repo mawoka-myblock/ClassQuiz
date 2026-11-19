@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026
+//
 // SPDX-License-Identifier: MPL-2.0
 
 // IDs from the page address are pasted into API paths. Anything that isn't an
