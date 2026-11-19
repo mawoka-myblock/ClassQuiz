@@ -389,7 +389,7 @@
         "player_count": "Número de jugadors",
         "date_played": "Data de la partida",
         "general_overview": {
-            "sentence": "El qüestionari \"{{title}}\", que es va jugar el dia {{date}}, tenia {{player_count}} jugadors amb una puntuació mitjana de {{average_score}}."
+            "sentence": "El qüestionari \"<b>{{title}}</b>\", que es va jugar el dia <b>{{date}}</b>, tenia <b>{{player_count}}</b> jugadors amb una puntuació mitjana de <b>{{average_score}}</b>."
         }
     },
     "security_settings": {
