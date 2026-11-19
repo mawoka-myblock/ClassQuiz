@@ -215,7 +215,7 @@ async def register_as_admin(sid: str, data: dict):
     game_data = await PlayGame.get_from_redis(game_pin)
     await sio.emit(
         "registered_as_admin",
-        {"game_id": game_id, "game": game_data},
+        {"game_id": game_id, "game": game_data.model_dump()},
         room=sid,
     )
     session = {"game_pin": game_pin, "admin": True, "remote": False}
