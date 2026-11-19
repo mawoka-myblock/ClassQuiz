@@ -215,7 +215,7 @@ async def register_as_admin(sid: str, data: dict):
     game_data = await PlayGame.get_from_redis(game_pin)
     await sio.emit(
         "registered_as_admin",
-        {"game_id": game_id, "game": game_data.model_dump()},
+        {"game_id": game_id, "game": game_data.model_dump(mode="json")},
         room=sid,
     )
     session = {"game_pin": game_pin, "admin": True, "remote": False}
@@ -234,7 +234,7 @@ async def get_question_results(sid: str, data: dict):
     game_data = await PlayGame.get_from_redis(game_pin)
     game_data.question_show = False
     await game_data.save(game_pin)
-    await sio.emit("question_results", answer_data_list.model_dump(), room=game_pin)
+    await sio.emit("question_results", answer_data_list.model_dump(mode="json"), room=game_pin)
 
 
 @sio.event
@@ -269,7 +269,7 @@ async def set_question_number(sid: str, data: str):
         "set_question_number",
         {
             "question_index": int(float(data)),
-            "question": ReturnQuestion(**temp_return).model_dump(),
+            "question": ReturnQuestion(**temp_return).model_dump(mode="json"),
         },
         room=game_pin,
     )
@@ -358,7 +358,7 @@ async def show_solutions(sid: str, _data: dict):
         return
     await sio.emit(
         "solutions",
-        game_data.questions[game_data.current_question].model_dump(),
+        game_data.questions[game_data.current_question].model_dump(mode="json"),
         room=session["game_pin"],
     )
 
@@ -459,4 +459,4 @@ async def connect(sid: str, _environ, _auth):
     print("Connection opened with handler")
     sio_session = {"session_id": session_id}
     await sio.save_session(sid, sio_session)
-    await sio.emit("session_id", ConnectSessionIdEvent(session_id=session_id).dict())
+    await sio.emit("session_id", ConnectSessionIdEvent(session_id=session_id).model_dump(mode="json"))
