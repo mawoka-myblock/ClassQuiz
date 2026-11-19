@@ -58,7 +58,8 @@ SPDX-License-Identifier: MPL-2.0
 			};
 		}
 		// BalloonEditor.builtinPlugins = [Strikethrough]
-		Editor.create(html_el, {
+		Editor.create({
+			root: { element: html_el },
 			licenseKey: 'GPL',
 			// plugins: [Strikethrough],
 			config: {
@@ -93,7 +94,7 @@ SPDX-License-Identifier: MPL-2.0
 	<div
 		bind:this={html_el}
 		contenteditable="true"
-		class="rounded-lg border-gray-500 border text-center w-fit h-fit resize-none dark:bg-gray-500 min-w-[5rem] dark:text-white"
+		class="rounded-lg border-gray-500 border text-center w-fit h-fit resize-none dark:[--ck-editor-editable-background:var(--color-gray-500)] min-w-[5rem] dark:text-white"
 	></div>
 </div>
 
