@@ -362,7 +362,7 @@
         "player_count": "Número de jugadores",
         "no_results_so_far": "No hay resultados guardados hasta ahora...",
         "general_overview": {
-            "sentence": "La prueba \"{{title}}\", el cual tuvo jugadores en {{date}} tenía {{player_count}} jugadores con una puntuación media de {{average_score}}."
+            "sentence": "La prueba \"<b>{{title}}</b>\", el cual tuvo jugadores en <b>{{date}}</b> tenía <b>{{player_count}}</b> jugadores con una puntuación media de <b>{{average_score}}</b>."
         }
     },
     "result_page": {
