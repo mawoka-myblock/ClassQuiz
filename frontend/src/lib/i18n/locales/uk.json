@@ -303,7 +303,7 @@
         "player_count": "Кількість гравців",
         "date_played": "Дата гри",
         "general_overview": {
-            "sentence": "У вікторині \"{{title}}\", яка проходила {{date}}, брали участь {{player_count}} гравців із середнім балом {{average_score}}."
+            "sentence": "У вікторині «<b>{{title}}</b>», яка проходила <b>{{date}}</b>, брали участь <b>{{player_count}}</b> гравців із середнім балом <b>{{average_score}}</b>."
         }
     },
     "security_settings": {
